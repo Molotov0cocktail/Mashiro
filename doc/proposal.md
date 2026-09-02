@@ -1,13 +1,13 @@
 # Mashiro 产品与阶段 Proposal
 
-> 当前状态：F1 CANDIDATE IMPLEMENTED / EXECUTOR VERIFICATION GREEN / MANDATORY-FRESH REVIEW PENDING
+> 当前状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 当前更新：2026-09-03。下方原始 2026-09-02 规划快照保留决策与失败历史；其中“未授权／未初始化”等现场描述不再代表当前状态。
 
 ## 2026-09-03 F1 候选事实
 
 - 已实现的范围仅为本地助手身份生命周期：创建、切换、重命名、设为主要助手、归档和 SQLite 重启恢复；Provider、对话、记忆、事项、提醒和发布能力没有随 F1 引入。
-- renderer 维持不可信；preload 只暴露六个窄助手方法，main 以严格 Zod schema 验证输入，窗口保持 sandbox/context isolation，运行数据位于仓库外。
-- clean 依赖恢复、10 个测试文件／16 个测试、静态检查、构建和真实 Electron `44.1.1` 两 PID 重启持久化已由 Executor 验证。最终产品 verdict 仍只能由全新 Reviewer 给出。
+- renderer 维持不可信；preload 只暴露六个窄助手方法，main 以严格 Zod schema 验证输入与输出，畸形 trusted result/throw 只会成为脱敏 `INTERNAL_ERROR`；启动失败仅输出固定事件名，窗口保持 sandbox/context isolation，运行数据位于仓库外。
+- Repair 后的 clean 依赖恢复与完整 `verify` 已通过；本轮 mandatory-fresh Candidate Reviewer 独立复核 10 个测试文件／18 个测试、静态检查、构建及真实 Electron `44.1.1` 两 PID 重启持久化，并对精确 HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4` 给出 `PASS`。若 closing 产生文档提交，该新 HEAD 仍须 mandatory-fresh Final Reviewer 复核。
 - task 002 的 `node:sqlite` 结论仍严格限定于既有资格范围；`PACKAGED`、安装器、迁移、多实例、崩溃恢复和发布仍为 **NOT RUN**。Provider task 003 仍为 **DEFERRED / NOT RUN**，没有读取凭据或个人数据。
 - Toolhelp32 `-003` 辅助审计的历史失败保持 deferred/non-blocking，没有重跑，也没有创建 `-004`。全部 Attempt-1～5 路线与失败证据保留在编排报告中。
 

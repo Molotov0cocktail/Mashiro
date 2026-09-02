@@ -1,7 +1,7 @@
 # 003 真实 Provider 能力资格验证
 
 > 当前状态：DEFERRED / NOT RUN / NON-BLOCKING FOR F1
-> 2026-09-03 注：F1 continuation 只授权本地助手身份与 SQLite 生命周期，不授权 Provider endpoint、credential、预算或个人数据。没有 Provider 调用，也没有把本任务变成 F1 前置门禁。
+> 2026-09-03 注：F1 mandatory-fresh Candidate Reviewer 已对本地助手身份与 SQLite 生命周期的精确 HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4` 给出 `PASS`；该结论不授权 Provider endpoint、credential、预算或个人数据。没有 Provider 调用，也没有把本任务变成 F1 前置门禁。
 
 ## 当前边界
 

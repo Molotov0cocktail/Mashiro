@@ -1,16 +1,16 @@
 # 001 Mashiro 工程基线与最小闭环
 
-> 状态：F1 CANDIDATE IMPLEMENTED / EXECUTOR VERIFICATION GREEN / MANDATORY-FRESH REVIEW PENDING
+> 状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 2026-09-03 当前事实优先；下方保留原始 DRAFT/未授权基线作为历史，不代表候选现状。
 
 ## CURRENT CANDIDATE
 
-- `D:\Mashiro` 已是 `main` Git 工作树；基线 HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1` 之后的已知 Attempt-2～5 partial 构成当前 F1 candidate changeset。candidate 已由 Executor 显式盘点并提交；本文件不冒充 Reviewer PASS。
+- `D:\Mashiro` 已是 `main` Git 工作树；基线 HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1` 之后的 Attempt-1～5 合同、partial、tooling 与候选历史均保留。mandatory-fresh Candidate Reviewer 已对 HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4`（tree `41afc7bf9c4db1c4a98c93f3c0c0bc3ea27a7451`）给出 `PASS`。
 - Electron＋TypeScript＋React 基线、精确 manifest/lockfile、main/preload/renderer、助手 service/repository/schema、SQLite、六通道 IPC、data-root、中文 AssistantPanel 和真实 Electron harness 均已建立。
-- `npm run test:focused` 与 `npm test`：10 个测试文件、16 个测试通过；typecheck/lint/format/build 通过。clean `npm ci` 后显式 `npm exec install-electron`，再运行完整 `npm run verify` 通过。
-- 最近完整 harness：Electron `44.1.1`、内嵌 Node `24.19.0`、SQLite `3.53.3`，seed/verify 两个不同 browser PID，重启后同一 stable ID、名称、primary/current/archive 状态和 revision 7。
-- remotes 保持 `github`/`gitee` 的已冻结 URL；Executor 没有 push。后续必须 fresh Reviewer →（如需）Repair/Re-review → Closer →（若 closing commit）fresh Final Reviewer，最终只推送明确 reviewed HEAD。
-- task 002 的限定 Reviewer PASS 不扩展为 `PACKAGED`；Provider task 003、真实凭据/个人数据、安装器、迁移、Release、部署均未运行。Toolhelp32 `-003` 历史失败保留、deferred、non-blocking，未创建 `-004`。
+- `npm run test:focused` 与 `npm test`：10 个测试文件、18 个测试通过；typecheck/lint/format/build 通过。Repair 后 clean `npm ci`、显式 `npm exec install-electron` 与完整 `npm run verify` 通过；本轮 Reviewer 独立复核 package/lock、依赖树、产物与完整 `verify` 一致。
+- 本轮 Reviewer 的独立完整 harness：Electron `44.1.1`、内嵌 Node `24.19.0`、SQLite `3.53.3`，browser PID `506244 → 506388`，重启后同一 stable ID、名称、primary/current/archive 状态和 revision 7。
+- remotes 保持 `github`/`gitee` 的已冻结 URL；至 Candidate Reviewer PASS HEAD 没有 push。Closer 仅形成 docs/evidence closing commit；该新 HEAD 必须经新的 mandatory-fresh Final Reviewer `PASS` 后，才可无 force 推送两个远程。
+- 首轮 Candidate Reviewer 对 `62bc84a14f901e5b283e73572a04930abd7188df` 给出 `REPAIR`；F1/F2 的启动日志与 IPC 输出边界由提交 `458661c7cd78ab4a703ab855d90c2db63deb4fe9` 修复，证据提交 `90335af96bf95e531ddadc4f3f19259a75c18ee4` 后由另一名 mandatory-fresh Reviewer `PASS`。真实失败与修复史未改写；task 002 的限定 Reviewer PASS 不扩展为 `PACKAGED`；Provider task 003、真实凭据/个人数据、安装器、迁移、多实例、崩溃恢复、Release、部署均未运行。Toolhelp32 `-003` 历史失败保留、deferred、non-blocking，未重跑且未创建 `-004`。
 
 ## HISTORICAL INITIALIZATION CONTRACT（2026-09-02，保留）
 

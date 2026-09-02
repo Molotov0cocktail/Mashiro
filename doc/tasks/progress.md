@@ -1,17 +1,17 @@
 # progress.md — 当前状态
 
-> 当前阶段：F1 IMPLEMENTED CANDIDATE / EXECUTOR VERIFICATION GREEN / MANDATORY-FRESH REVIEW PENDING
+> 当前阶段：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 当前更新：2026-09-03。下方旧“未初始化／未授权”内容作为 2026-09-02 历史接管快照保留，不是当前行动边界。
 
 ## 当前接管摘要
 
-- PROGRAM：`MASHIRO-CONTINUOUS-DEVELOPMENT`；route `foundation-f1-electron-sqlite-v1`；Attempt-5 采用 Zod-free shared channel module 修复 sandbox preload 的外部 `require("zod")` first bad state。
-- Git baseline：`main`、HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1`、tree `f086cc7da02bcc0d0009982a3b6bdd2201fbb241`；当前 changeset 是已知 Attempt-2～5 partial 与 v3.1 skill migration，不是未知用户改动。remotes 已配置；candidate 尚未 push。
-- 产品：本地助手 create/switch/rename/set-primary/archive，stable UUID，strict Zod trusted validation，六窄 IPC，sandbox preload，SQLite v1/事务/guard，仓库外 data root，中文 React panel。
-- 验证：10 个 test files／16 tests；focused/full/typecheck/lint/format/build 全部 exit 0。clean `npm ci` exit 0、package/lock hash 不变；显式 `npm exec install-electron` exit 0；随后完整 `npm run verify` exit 0。
-- 最新 clean-verify Electron：runId `5ca3051a-1577-42c9-bf90-8031169f9377`；browser PID `483360` 与 `498460`；Electron `44.1.1`、Node `24.19.0`、SQLite `3.53.3`；restart snapshot 相同，revision 7，一个 archived `Mashiro` 与一个 active/primary/current `雪`。
-- foundation validator `ok=true`；原 AGENTS 五项结构 warning 已通过本次结构化文档更新修复并需在 candidate 上复跑。secret/generated/runtime-data/writer-residual 检查与最终 Git diff 均已完成；candidate 已由 Executor 显式 staging 并提交。
-- 下一动作：mandatory-fresh Reviewer 独立复核精确 candidate HEAD。Executor 不判 PASS、不 push；Reviewer verdict 决定 Repair/Replan/Closer。
+- PROGRAM：`MASHIRO-CONTINUOUS-DEVELOPMENT`；route `foundation-f1-electron-sqlite-v1`。Attempt-5 采用 Zod-free shared channel module 修复 sandbox preload；首轮 Reviewer 的启动日志泄露与 IPC 输出未验证 finding 经 Repair Round-1 关闭，第二轮 mandatory-fresh Reviewer 给出单一 `PASS`。
+- Git baseline：`main`、HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1`、tree `f086cc7da02bcc0d0009982a3b6bdd2201fbb241`；reviewed candidate HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4`、tree `41afc7bf9c4db1c4a98c93f3c0c0bc3ea27a7451`。Attempt-1～5 与 Repair 的真实历史均保留；remotes 已配置，尚未 push。
+- 产品：本地助手 create/switch/rename/set-primary/archive，stable UUID，strict Zod trusted input/output validation，六窄 IPC，sandbox preload，SQLite v1/事务/guard，仓库外 data root，中文 React panel；启动失败与畸形 IPC 输出均只产生稳定脱敏边界。
+- 验证：10 个 test files／18 tests；focused/full/typecheck/lint/format/build 全部 exit 0。Repair 后 clean `npm ci`、显式 `npm exec install-electron` 与完整 `npm run verify` 均 exit 0；本轮 Reviewer 独立复核依赖树、产物与完整 `verify` 一致。
+- 本轮 Reviewer 独立完整 `verify` Electron：browser PID `506244 → 506388`；Electron `44.1.1`、Node `24.19.0`、SQLite `3.53.3`；restart snapshot 相同，revision 7。无效 trusted-root 启动 exit 1 且 stderr 精确为 `MASHIRO_STARTUP_FAILURE`。
+- foundation validator `ok=true`, `errors=[]`, `warnings=[]`；secret/generated/runtime-data/writer-residual 检查与 `git diff --check` 均通过。package/lock/preload hashes与 Repair 后证据一致。
+- 下一动作：Closer 仅提交准确 docs/evidence；随后新的 mandatory-fresh Final Reviewer 审核 closing HEAD。只有 Final Reviewer 明确 `PASS` 的精确 HEAD 才可无 force 推送 `github/main` 与 `gitee/main`。
 
 ## 保持的延期与 NOT RUN
 

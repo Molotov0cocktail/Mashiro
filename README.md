@@ -18,4 +18,4 @@ F1 不包含 Provider、对话、记忆、事项、提醒、安装器、PACKAGED
 
 ## F1 候选状态
 
-当前实现已完成 Executor 验证，尚待 mandatory-fresh Reviewer 作出唯一 verdict。聚焦/全量测试、类型检查、lint、格式、构建、clean `npm ci`＋显式 Electron 恢复和两个不同真实 Electron PID 的关闭/重启持久化均已通过；`PACKAGED` 与发布链路仍为 **NOT RUN**，任何 push 只允许针对 Reviewer 明确审核的最终 HEAD。
+mandatory-fresh Candidate Reviewer 已对精确 HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4`（tree `41afc7bf9c4db1c4a98c93f3c0c0bc3ea27a7451`）给出 F1 `PASS`；聚焦/全量验证为 10 个测试文件／18 个测试，独立完整 `verify` 的真实 Electron PID 为 `506244 → 506388`。当前 closing 仅更新文档/证据；若形成 closing commit，仍须新的 mandatory-fresh Final Reviewer 审核该精确 HEAD 后，才可无 force 推送到 `github/main` 与 `gitee/main`。`PACKAGED`、发布和部署链路继续为 **NOT RUN**。

@@ -1,14 +1,14 @@
 # Mashiro 近期详细设计草案
 
-> 当前状态：F1 IMPLEMENTED CANDIDATE / EXECUTOR GREEN / FRESH REVIEW PENDING
+> 当前状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 当前更新：2026-09-03。下方设计与集中决议记录完整保留；旧的授权、Git 和“尚未实现”描述仅是 2026-09-02 历史现场。
 
 ## 当前实现与验证增量
 
 - 精确直接依赖现为 React `19.2.8`、React DOM `19.2.8`、Zod `4.5.4`；Electron `44.1.1`、electron-vite `5.0.0`、Vite `7.3.6`、TypeScript `5.9.3`、Vitest `4.1.11` 等开发依赖均由 lockfile 精确固定。
 - 助手持久字段仅含 F1 所需 ID、名称、创建/更新/归档时间和版本；singleton state 保存 primary/current ID 与 state revision。永久删除未实现，archive 受 trigger 与事务 invariant 保护。
-- IPC 只有 `assistant:list/create/switch/rename/set-primary/archive`；preload 不加载 Zod，main 对所有 unknown 输入执行 strict `safeParse`，错误返回随机 correlation ID 且不泄露底层 SQLite/stack。
-- 测试覆盖 strict unknown/protocol/UUID/name、SQL 字符串、stale/concurrent、primary/archive、事务 rollback、schema guard、不可用路径、E2E root/marker、CSP/navigation/popup/permission、React 文本转义和真实两 PID restart。
+- IPC 只有 `assistant:list/create/switch/rename/set-primary/archive`；preload 不加载 Zod，main 对所有 unknown 输入与 trusted 输出执行 strict runtime schema 验证，畸形输出或 throw 返回新的随机 correlation ID 和脱敏 `INTERNAL_ERROR`，不泄露底层 SQLite/path/stack。启动失败同样只输出固定事件名。
+- 10 个测试文件／18 个测试覆盖 strict unknown/protocol/UUID/name、结果 schema、malformed trusted output、SQL 字符串、stale/concurrent、primary/archive、事务 rollback、schema guard、不可用路径、脱敏启动失败、E2E root/marker、CSP/navigation/popup/permission、React 文本转义和真实两 PID restart；本轮 mandatory-fresh Candidate Reviewer 已独立验证并 `PASS`。
 - `npm ci` 不会自动安装 Electron 二进制；锁定包提供的 `npm exec install-electron` 是 clean restore 的显式第二步。随后 `npm run verify` 已通过。
 - 不改变 task 002 的限定资格；task 003、Provider/记忆/事项/提醒、`PACKAGED`、发布和所有真实个人数据仍未运行。
 

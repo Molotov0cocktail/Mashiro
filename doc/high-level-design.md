@@ -1,14 +1,14 @@
 # Mashiro 高层设计
 
-> 当前状态：F1 CANDIDATE IMPLEMENTED / EXECUTOR VERIFICATION GREEN / REVIEW PENDING
+> 当前状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 当前更新：2026-09-03。下方 2026-09-02 设计保留为长期方向；未在 F1 中实现的模块仍不是现有架构事实。
 
 ## 当前 F1 架构落点
 
 - 当前实际链路是 React renderer → contextBridge preload → 六个 typed assistant IPC handler → trusted AssistantService/Repository → Electron main 的 `node:sqlite`。
-- preload 的运行时依赖图只有 Electron 与无 Zod 的本地通道常量；Zod schema 留在 trusted contract/main 验证路径。窗口固定 `contextIsolation=true`、`sandbox=true`、`nodeIntegration=false`、`webSecurity=true`，并拒绝新窗、导航和权限请求。
+- preload 的运行时依赖图只有 Electron 与无 Zod 的本地通道常量；Zod strict input/output/result schema 留在 trusted contract/main 验证路径，畸形输出不会跨 IPC。窗口固定 `contextIsolation=true`、`sandbox=true`、`nodeIntegration=false`、`webSecurity=true`，并拒绝新窗、导航和权限请求；启动失败日志只含固定脱敏事件名。
 - SQLite schema/version/trigger guard、参数化语句、`BEGIN IMMEDIATE` 事务、stable UUID、assistant/state revision 和 primary/current active invariants 已实现并有 adversarial、stale/concurrent、rollback、corrupt/newer schema 测试。
-- E2E 数据根必须是带 runId 所有权标记的 canonical OS-temp 子目录；开发数据位于 appData 的 `Mashiro Development`。真实 Electron seed/verify 使用不同 PID 并证明相同持久化快照。
+- E2E 数据根必须是带 runId 所有权标记的 canonical OS-temp 子目录；开发数据位于 appData 的 `Mashiro Development`。真实 Electron seed/verify 使用不同 PID 并证明相同持久化快照；本轮 Candidate Reviewer 的独立完整 `verify` 使用 PID `506244 → 506388`，并对 reviewed HEAD 给出 `PASS`。
 - Provider、memory、item、reminder、worker、托盘、安装/更新/迁移和 `PACKAGED` 仍不属于当前实现。
 
 ## 历史高层设计（2026-09-02，保留）

@@ -1,11 +1,11 @@
 # 002 Electron 内嵌 `node:sqlite` 资格验证
 
 > 状态：COMPLETED / QUALIFIED / INDEPENDENT REVIEW PASS（限定范围不变）
-> 2026-09-03 注：F1 候选已在同一 Electron `44.1.1`／内嵌 Node `24.19.0`／SQLite `3.53.3` 主进程边界上实现并通过独立两 PID 生命周期 harness。该产品验证不修改、重跑或扩大本任务的历史资格结论。
+> 2026-09-03 注：F1 reviewed candidate 已在同一 Electron `44.1.1`／内嵌 Node `24.19.0`／SQLite `3.53.3` 主进程边界上实现；mandatory-fresh Candidate Reviewer 对精确 HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4` 给出 `PASS`。该产品验证不修改、重跑或扩大本任务的历史资格结论。
 
 ## F1 使用边界
 
-- 当前 F1 使用 `node:sqlite` 完成助手 schema、事务 rollback、版本/trigger guard 和关闭重启恢复；这些证据归 F1 candidate，不回写为本任务 002 的新资格范围。
+- 当前 F1 使用 `node:sqlite` 完成助手 schema、事务 rollback、版本/trigger guard 和关闭重启恢复；10 个测试文件／18 个测试及两 PID 生命周期证据归 F1 reviewed candidate，不回写为本任务 002 的新资格范围。
 - `PACKAGED`、安装器、自定义安装目录、升级/卸载、迁移、多实例、崩溃恢复和更大负载继续为 **NOT RUN**。
 - 本任务原始失败、repair、ACL 和独立 Reviewer 证据全部保留；没有重跑 Toolhelp32 `-003` 辅助审计，也没有创建 `-004`。
 

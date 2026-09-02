@@ -2,7 +2,7 @@
 
 ## Project overview
 
-- Mashiro is a Windows 11, single-user, local-first desktop assistant. The current F1 candidate is limited to stable local assistant identities and their SQLite-backed create, switch, rename, primary, archive, and restart lifecycle.
+- Mashiro is a Windows 11, single-user, local-first desktop assistant. The current reviewed F1 candidate is limited to stable local assistant identities and their SQLite-backed create, switch, rename, primary, archive, and restart lifecycle.
 - Product language is Chinese; identifiers, APIs, commands, and configuration use English.
 - Provider, conversation, memory, item, reminder, installer, updater, migration, packaged distribution, Release, and deployment capability require separate tasks.
 
@@ -22,9 +22,9 @@
 
 - Use exact dependency versions and the committed npm lockfile. Do not use force, legacy-peer-deps, alternate registries, mirrors, or disabled TLS.
 - Clean recovery is `npm ci`, then `npm exec install-electron`, then `npm run verify`; the Electron package exposes the installer as a bin and does not run it as an npm lifecycle script.
-- Required verification is focused/full tests, typecheck, lint, format, build, the two-PID Electron lifecycle harness, dependency-tree checks, foundation validation, and secret/generated/residual scans.
+- Required verification is focused/full tests, typecheck, lint, format, build, the two-PID Electron lifecycle harness, dependency-tree checks, foundation validation, and secret/generated/residual scans; the Candidate Reviewer PASS evidence records 10 test files / 18 tests and two fresh Electron PIDs.
 - Preserve the historical Toolhelp32 `-003` auxiliary audit as failed, deferred, and non-blocking; do not rerun it or create `-004`.
-- Only a mandatory-fresh Reviewer may issue the F1 verdict. Only an explicitly reviewed final HEAD may be pushed to `github/main` and `gitee/main`.
+- Candidate Reviewer PASS applies only to reviewed HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4`. Any docs-only closing commit requires mandatory-fresh Final Reviewer PASS before that exact final HEAD may be pushed to `github/main` and `gitee/main`.
 
 ## Environment and Git
 
