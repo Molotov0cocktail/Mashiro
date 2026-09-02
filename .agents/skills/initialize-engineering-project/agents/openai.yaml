@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engineering Project Bootstrap"
+  short_description: "Initialize a testable, documented project foundation."
+  default_prompt: "Use $initialize-engineering-project to initialize this empty folder from my product requirements and local environment."

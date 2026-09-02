@@ -1,0 +1,4 @@
+interface:
+  display_name: "Autonomous Engineering Orchestrator"
+  short_description: "Continuously route engineering work through planning, exploration, execution, review, replan, close, and the next milestone."
+  default_prompt: "Use $orchestrate-engineering-task to run the appropriate engineering workflow. When the user requests Prompter, full delegation, or continuous development, preserve durable authorizations, resolve engineering uncertainty through agents and route changes, and stop only at a real user gate or a coherent reviewed checkpoint."
