@@ -1,0 +1,88 @@
+:root {
+  color: #f7f4ff;
+  background: #15131c;
+  font-family: Inter, 'Microsoft YaHei', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #30264a 0, #15131c 48%);
+}
+
+main {
+  width: min(880px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 56px 0;
+}
+
+.eyebrow {
+  color: #c7afff;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.panel,
+.assistant-card {
+  border: 1px solid #514568;
+  border-radius: 18px;
+  background: rgb(28 24 38 / 88%);
+}
+
+.panel {
+  margin-top: 28px;
+  padding: 24px;
+}
+
+form,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+input,
+button {
+  border: 1px solid #665879;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: inherit;
+  background: #211c2c;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.assistant-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.assistant-card {
+  padding: 16px;
+}
+
+.assistant-card h3 {
+  margin-top: 0;
+}
+
+.badges {
+  color: #c7afff;
+}
+
+[role='alert'] {
+  color: #ffb4b4;
+}

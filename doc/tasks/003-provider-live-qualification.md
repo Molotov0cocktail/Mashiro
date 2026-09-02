@@ -1,5 +1,16 @@
 # 003 真实 Provider 能力资格验证
 
+> 当前状态：DEFERRED / NOT RUN / NON-BLOCKING FOR F1
+> 2026-09-03 注：F1 continuation 只授权本地助手身份与 SQLite 生命周期，不授权 Provider endpoint、credential、预算或个人数据。没有 Provider 调用，也没有把本任务变成 F1 前置门禁。
+
+## 当前边界
+
+- 本任务仍需未来独立授权的精确 endpoint、协议、模型、预算和纯合成发送范围；当前缺少这些输入是预期 deferred 状态，不是 F1 产品 BLOCKED。
+- F1 没有创建 Provider client/scaffolding、没有读取凭据或真实个人数据，也没有用本地 mock 冒充 `LIVE_VERIFIED`。
+- 下方原始任务契约完整保留；其 `WAITING FOR SEPARATE AUTHORIZATION` 只约束未来执行本任务 003，不回滚已获授权的 F1 本地实现。
+
+## 历史 Provider 资格合同（原文保留）
+
 > 状态：DRAFT / DEFERRED / WAITING FOR SEPARATE AUTHORIZATION  
 > 任务性质：一次只验证一个明确接收端点；不是全部Provider接入计划。
 

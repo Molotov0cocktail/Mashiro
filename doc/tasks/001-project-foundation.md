@@ -1,5 +1,19 @@
 # 001 Mashiro 工程基线与最小闭环
 
+> 状态：F1 CANDIDATE IMPLEMENTED / EXECUTOR VERIFICATION GREEN / MANDATORY-FRESH REVIEW PENDING
+> 2026-09-03 当前事实优先；下方保留原始 DRAFT/未授权基线作为历史，不代表候选现状。
+
+## CURRENT CANDIDATE
+
+- `D:\Mashiro` 已是 `main` Git 工作树；基线 HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1` 之后的已知 Attempt-2～5 partial 构成当前 F1 candidate changeset。index 会在 Executor 显式盘点后形成 candidate commit；本文件不冒充 Reviewer PASS。
+- Electron＋TypeScript＋React 基线、精确 manifest/lockfile、main/preload/renderer、助手 service/repository/schema、SQLite、六通道 IPC、data-root、中文 AssistantPanel 和真实 Electron harness 均已建立。
+- `npm run test:focused` 与 `npm test`：10 个测试文件、16 个测试通过；typecheck/lint/format/build 通过。clean `npm ci` 后显式 `npm exec install-electron`，再运行完整 `npm run verify` 通过。
+- 最近完整 harness：Electron `44.1.1`、内嵌 Node `24.19.0`、SQLite `3.53.3`，seed/verify 两个不同 browser PID，重启后同一 stable ID、名称、primary/current/archive 状态和 revision 7。
+- remotes 保持 `github`/`gitee` 的已冻结 URL；Executor 没有 push。后续必须 fresh Reviewer →（如需）Repair/Re-review → Closer →（若 closing commit）fresh Final Reviewer，最终只推送明确 reviewed HEAD。
+- task 002 的限定 Reviewer PASS 不扩展为 `PACKAGED`；Provider task 003、真实凭据/个人数据、安装器、迁移、Release、部署均未运行。Toolhelp32 `-003` 历史失败保留、deferred、non-blocking，未创建 `-004`。
+
+## HISTORICAL INITIALIZATION CONTRACT（2026-09-02，保留）
+
 > 状态：DRAFT / F1 TARGET ACCEPTED / INITIALIZATION NOT AUTHORIZED  
 > 本文件记录已选择的初始化闭环与待冻结范围，不是执行工作令。
 

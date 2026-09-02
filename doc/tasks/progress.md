@@ -1,5 +1,26 @@
 # progress.md — 当前状态
 
+> 当前阶段：F1 IMPLEMENTED CANDIDATE / EXECUTOR VERIFICATION GREEN / MANDATORY-FRESH REVIEW PENDING
+> 当前更新：2026-09-03。下方旧“未初始化／未授权”内容作为 2026-09-02 历史接管快照保留，不是当前行动边界。
+
+## 当前接管摘要
+
+- PROGRAM：`MASHIRO-CONTINUOUS-DEVELOPMENT`；route `foundation-f1-electron-sqlite-v1`；Attempt-5 采用 Zod-free shared channel module 修复 sandbox preload 的外部 `require("zod")` first bad state。
+- Git baseline：`main`、HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1`、tree `f086cc7da02bcc0d0009982a3b6bdd2201fbb241`；当前 changeset 是已知 Attempt-2～5 partial 与 v3.1 skill migration，不是未知用户改动。remotes 已配置；candidate 尚未 push。
+- 产品：本地助手 create/switch/rename/set-primary/archive，stable UUID，strict Zod trusted validation，六窄 IPC，sandbox preload，SQLite v1/事务/guard，仓库外 data root，中文 React panel。
+- 验证：10 个 test files／16 tests；focused/full/typecheck/lint/format/build 全部 exit 0。clean `npm ci` exit 0、package/lock hash 不变；显式 `npm exec install-electron` exit 0；随后完整 `npm run verify` exit 0。
+- 最新 clean-verify Electron：runId `5ca3051a-1577-42c9-bf90-8031169f9377`；browser PID `483360` 与 `498460`；Electron `44.1.1`、Node `24.19.0`、SQLite `3.53.3`；restart snapshot 相同，revision 7，一个 archived `Mashiro` 与一个 active/primary/current `雪`。
+- foundation validator `ok=true`；原 AGENTS 五项结构 warning 已通过本次结构化文档更新修复并需在 candidate 上复跑。secret/generated/runtime-data/writer-residual 检查、最终 Git diff 和 candidate commit 仍由本 Executor 收口。
+- 下一动作：显式 staging → candidate commit → mandatory-fresh Reviewer。Executor 不判 PASS、不 push；Reviewer verdict 决定 Repair/Replan/Closer。
+
+## 保持的延期与 NOT RUN
+
+- task 002 维持限定 `QUALIFIED / REVIEW PASS`；`PACKAGED`、安装器、迁移、多实例、崩溃恢复仍 **NOT RUN**。
+- task 003 Provider 保持 **DEFERRED / NOT RUN / NON-BLOCKING**；没有 endpoint、credential、预算、调用或个人数据读取。
+- Toolhelp32 `-003` 辅助审计保持 historical failed/deferred/non-blocking；未重跑，未创建 `-004`。Attempt-1～5 的 route failure 与 writer rollback/repair 证据均保留。
+
+## 历史接管快照（2026-09-02，保留）
+
 > 本文件只记录当前事实，不表示工程已初始化。
 
 ## 接管摘要

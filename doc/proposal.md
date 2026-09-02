@@ -1,5 +1,18 @@
 # Mashiro 产品与阶段 Proposal
 
+> 当前状态：F1 CANDIDATE IMPLEMENTED / EXECUTOR VERIFICATION GREEN / MANDATORY-FRESH REVIEW PENDING
+> 当前更新：2026-09-03。下方原始 2026-09-02 规划快照保留决策与失败历史；其中“未授权／未初始化”等现场描述不再代表当前状态。
+
+## 2026-09-03 F1 候选事实
+
+- 已实现的范围仅为本地助手身份生命周期：创建、切换、重命名、设为主要助手、归档和 SQLite 重启恢复；Provider、对话、记忆、事项、提醒和发布能力没有随 F1 引入。
+- renderer 维持不可信；preload 只暴露六个窄助手方法，main 以严格 Zod schema 验证输入，窗口保持 sandbox/context isolation，运行数据位于仓库外。
+- clean 依赖恢复、10 个测试文件／16 个测试、静态检查、构建和真实 Electron `44.1.1` 两 PID 重启持久化已由 Executor 验证。最终产品 verdict 仍只能由全新 Reviewer 给出。
+- task 002 的 `node:sqlite` 结论仍严格限定于既有资格范围；`PACKAGED`、安装器、迁移、多实例、崩溃恢复和发布仍为 **NOT RUN**。Provider task 003 仍为 **DEFERRED / NOT RUN**，没有读取凭据或个人数据。
+- Toolhelp32 `-003` 辅助审计的历史失败保持 deferred/non-blocking，没有重跑，也没有创建 `-004`。全部 Attempt-1～5 路线与失败证据保留在编排报告中。
+
+## 历史规划快照（2026-09-02，保留）
+
 > 状态：DRAFT（规划文档草案，等待用户评审）  
 > 更新日期：2026-09-02  
 > 本文说明产品目标与阶段范围，不表示工程初始化、依赖安装、实验或产品开发已获授权。  

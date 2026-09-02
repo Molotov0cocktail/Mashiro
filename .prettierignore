@@ -1,0 +1,8 @@
+node_modules
+out
+coverage
+test-results
+.npm-cache
+package-lock.json
+.agents
+doc
