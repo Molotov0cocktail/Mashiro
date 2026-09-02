@@ -1,9 +1,36 @@
+import { randomUUID } from 'node:crypto'
 import type { AssistantService } from '../assistant/assistant-service.js'
-import { assistantChannels } from '../../shared/assistant-contract.js'
+import {
+  assistantChannels,
+  assistantResultSchema,
+  type AssistantResult
+} from '../../shared/assistant-contract.js'
 
 interface IpcMainLike {
-  handle(channel: string, listener: (_event: unknown, input: unknown) => unknown): void
+  handle(channel: string, listener: (_event: unknown, input: unknown) => AssistantResult): void
   removeHandler(channel: string): void
+}
+
+function internalError(): AssistantResult {
+  return assistantResultSchema.parse({
+    ok: false,
+    error: {
+      code: 'INTERNAL_ERROR',
+      message: 'Assistant service failed',
+      correlationId: randomUUID(),
+      retryable: false
+    }
+  })
+}
+
+function validateOutput(operation: () => unknown): AssistantResult {
+  try {
+    const parsed = assistantResultSchema.safeParse(operation())
+    if (parsed.success) return parsed.data
+  } catch {
+    // Trusted implementation details never cross the IPC boundary.
+  }
+  return internalError()
 }
 
 export function registerAssistantIpc(ipcMain: IpcMainLike, service: AssistantService): () => void {
@@ -16,7 +43,7 @@ export function registerAssistantIpc(ipcMain: IpcMainLike, service: AssistantSer
     [assistantChannels.archive]: (input: unknown) => service.archive(input)
   }
   for (const [channel, handler] of Object.entries(handlers)) {
-    ipcMain.handle(channel, (_event, input) => handler(input))
+    ipcMain.handle(channel, (_event, input) => validateOutput(() => handler(input)))
   }
   return () => {
     for (const channel of Object.keys(handlers)) ipcMain.removeHandler(channel)

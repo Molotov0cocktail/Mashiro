@@ -33,44 +33,62 @@ export const setPrimaryInputSchema = z.strictObject({
 })
 export const archiveInputSchema = setPrimaryInputSchema
 
-export type ErrorCode =
-  | 'INVALID_INPUT'
-  | 'NOT_FOUND'
-  | 'STALE_WRITE'
-  | 'ASSISTANT_ARCHIVED'
-  | 'PRIMARY_ARCHIVE_FORBIDDEN'
-  | 'STORAGE_UNAVAILABLE'
-  | 'STORAGE_INCONSISTENT'
-  | 'INTERNAL_ERROR'
+export const errorCodeSchema = z.enum([
+  'INVALID_INPUT',
+  'NOT_FOUND',
+  'STALE_WRITE',
+  'ASSISTANT_ARCHIVED',
+  'PRIMARY_ARCHIVE_FORBIDDEN',
+  'STORAGE_UNAVAILABLE',
+  'STORAGE_INCONSISTENT',
+  'INTERNAL_ERROR'
+])
 
-export interface AssistantDto {
-  id: string
-  displayName: string
-  isArchived: boolean
-  createdAt: string
-  updatedAt: string
-  archivedAt: string | null
-  version: number
-}
+const assistantTimestamp = z.iso.datetime({ offset: true })
 
-export interface AssistantSnapshot {
-  assistants: AssistantDto[]
-  currentAssistantId: string | null
-  primaryAssistantId: string | null
-  stateRevision: number
-}
+export const assistantDtoSchema = z.strictObject({
+  id: assistantId,
+  displayName: z.string(),
+  isArchived: z.boolean(),
+  createdAt: assistantTimestamp,
+  updatedAt: assistantTimestamp,
+  archivedAt: assistantTimestamp.nullable(),
+  version: assistantVersion
+})
 
-export type AssistantResult =
-  | { ok: true; data: AssistantSnapshot }
-  | {
-      ok: false
-      error: {
-        code: ErrorCode
-        message: string
-        correlationId: string
-        retryable: false
-      }
-    }
+export const assistantSnapshotSchema = z.strictObject({
+  assistants: z.array(assistantDtoSchema),
+  currentAssistantId: assistantId.nullable(),
+  primaryAssistantId: assistantId.nullable(),
+  stateRevision
+})
+
+export const assistantSuccessResultSchema = z.strictObject({
+  ok: z.literal(true),
+  data: assistantSnapshotSchema
+})
+
+export const assistantStableErrorSchema = z.strictObject({
+  code: errorCodeSchema,
+  message: z.string().min(1).max(160),
+  correlationId: assistantId,
+  retryable: z.literal(false)
+})
+
+export const assistantErrorResultSchema = z.strictObject({
+  ok: z.literal(false),
+  error: assistantStableErrorSchema
+})
+
+export const assistantResultSchema = z.discriminatedUnion('ok', [
+  assistantSuccessResultSchema,
+  assistantErrorResultSchema
+])
+
+export type ErrorCode = z.infer<typeof errorCodeSchema>
+export type AssistantDto = z.infer<typeof assistantDtoSchema>
+export type AssistantSnapshot = z.infer<typeof assistantSnapshotSchema>
+export type AssistantResult = z.infer<typeof assistantResultSchema>
 
 export type ListInput = z.infer<typeof listInputSchema>
 export type CreateInput = z.infer<typeof createInputSchema>

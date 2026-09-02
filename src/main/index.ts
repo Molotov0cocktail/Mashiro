@@ -26,8 +26,8 @@ app.on('before-quit', () => {
 
 app.on('window-all-closed', () => app.quit())
 
-void start().catch((error: unknown) => {
-  console.error('Mashiro failed to start', error)
+void start().catch(() => {
+  console.error('MASHIRO_STARTUP_FAILURE')
   process.exitCode = 1
   app.exit(1)
 })
