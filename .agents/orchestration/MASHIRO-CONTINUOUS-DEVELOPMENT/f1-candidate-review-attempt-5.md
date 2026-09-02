@@ -17,9 +17,9 @@ VERDICT = REPAIR
 - branch为`main`。
 - HEAD和tree精确匹配上述候选。
 - index为空。
-- worktree唯一变化是未跟踪的  
+- worktree唯一变化是未跟踪的
   `.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/f1-executor-report-attempt-5.md`
-- 该报告SHA-256为  
+- 该报告SHA-256为
   `13347161f08c8072b5664a50d122cff5f708242a71028112501eb32162c1412d`
 - baseline到HEAD共三个提交：
   - `d72daf9472ce385780eaf319615744ffee547245`
@@ -67,11 +67,11 @@ VERDICT = REPAIR
 
 依赖与产物：
 
-- `package.json` SHA-256  
+- `package.json` SHA-256
   `c6393c...`
-- `package-lock.json` SHA-256  
+- `package-lock.json` SHA-256
   `7d4ac4...`
-- preload artifact SHA-256  
+- preload artifact SHA-256
   `d326a028a3dc4826e2cdd047860ee4685878cb51fce81b7e4bee6dbc797827a9`
 - lockfileVersion为3，共334个package records。
 - 没有非官方resolved URL。
