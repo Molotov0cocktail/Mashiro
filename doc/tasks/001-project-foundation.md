@@ -5,7 +5,7 @@
 
 ## CURRENT CANDIDATE
 
-- `D:\Mashiro` 已是 `main` Git 工作树；基线 HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1` 之后的已知 Attempt-2～5 partial 构成当前 F1 candidate changeset。index 会在 Executor 显式盘点后形成 candidate commit；本文件不冒充 Reviewer PASS。
+- `D:\Mashiro` 已是 `main` Git 工作树；基线 HEAD `92a6dd9ccd086192f5f1213ab4030bc5b0a2c3a1` 之后的已知 Attempt-2～5 partial 构成当前 F1 candidate changeset。candidate 已由 Executor 显式盘点并提交；本文件不冒充 Reviewer PASS。
 - Electron＋TypeScript＋React 基线、精确 manifest/lockfile、main/preload/renderer、助手 service/repository/schema、SQLite、六通道 IPC、data-root、中文 AssistantPanel 和真实 Electron harness 均已建立。
 - `npm run test:focused` 与 `npm test`：10 个测试文件、16 个测试通过；typecheck/lint/format/build 通过。clean `npm ci` 后显式 `npm exec install-electron`，再运行完整 `npm run verify` 通过。
 - 最近完整 harness：Electron `44.1.1`、内嵌 Node `24.19.0`、SQLite `3.53.3`，seed/verify 两个不同 browser PID，重启后同一 stable ID、名称、primary/current/archive 状态和 revision 7。
