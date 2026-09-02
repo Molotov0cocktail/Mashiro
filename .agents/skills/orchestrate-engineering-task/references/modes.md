@@ -99,6 +99,31 @@ SYSTEM_LEVEL_CHANGE
 
 相同 first bad state 在同一路线重复两次，或同一路线累计三次失败实现/修复循环时，必须执行本模式。两条实质不同路线均失败后，再启动独立架构评估；只要存在有价值的新证据或合理替代路线，不设全局尝试次数和任务总时限。
 
+### Tooling Recovery / Content-Addressed Write
+
+当失败发生在编辑器、sandbox helper、补丁应用器或进程启动器，而不是产品代码、测试 oracle 或依赖语义时，使用本模式。工具失败不能被误报为产品失败或用户门禁。
+
+恢复顺序：
+
+1. 证明失败发生在目标读取/写入之前，或精确核验目标 preimage 未变化；
+2. 不再无证据地重复同一 helper；新 Agent 调用同一 helper 仅是复现，不是替代路线；
+3. 由全新高推理 Tooling Diagnostician 选择机制上不同的安全写入路线；
+4. 优先使用内容寻址的定向 writer：PowerShell/.NET、Node 或 Python 均可，由当前环境可用性决定；
+5. writer 只能接收固定目标、preimage hash、确定性变换、期望匹配次数和明确 postcondition；
+6. 先写同目录临时文件，复核编码/换行、hash 与 diff，再做原子替换或带备份的可回滚替换；
+7. 写后立即重新读取、计算 postimage hash、审阅 Git diff，并清理仅由本次创建的临时物；
+8. 成功后恢复原产品合同，不把 tooling spike 当作产品候选或 PASS。
+
+禁止使用未校验的 `echo > file`、宽泛 here-string 覆盖、整目录同步、Delete+Add 规避 preimage、模糊正则替换或任何会吞掉未知用户改动的方式。
+
+结论只能是：
+
+- `CONTINUE`：已有安全替代写入路线并通过最小 guarded probe；
+- `REPLAN`：需要更换写入机制、执行上下文或隔离方式；
+- `PLATFORM_CHECKPOINT`：至少一个补丁式路径和一个机制不同的内容寻址写入路径均被直接证据证明不可用，且不存在能保持范围、回滚和证据完整性的其他当前平台路径。
+
+`PLATFORM_CHECKPOINT` 不能仅依据“项目惯例偏好 apply_patch”、单个 helper 名称、一次跨上下文复现或尚未实际尝试的替代机制。
+
 ### Security / Migration / Stage Audit
 
 使用全新、独立的高推理上下文；覆盖敌手输入、失败原子性、恢复、数据不变量、权限、隐私扫描和真实运行条件。只在高风险边界或阶段 Exit Gate 使用，不对每个探索实验机械套用完整审计。
@@ -130,6 +155,8 @@ SYSTEM_LEVEL_CHANGE
 - 相同命令只在存在瞬时故障证据时机械重试一次。
 - 每次失败必须记录 `ROUTE_ID`、尝试编号、first bad state、证据增量和下一假设。
 - 同一失败无证据增量地重复两次，必须换诊断方式或路线。
+- 对工具层失败，替换 Agent 但继续调用同一 helper 只计作跨上下文复现；达到阈值后必须换编辑/执行机制，而不是直接等待平台自行恢复。
+- 平台检查点前必须记录已尝试的机制上不同路线、各自 first bad state，以及为什么剩余路线无法满足原子性、回滚、目标 allowlist 或证据要求。
 - 非产品核心的附加审计失败可由高推理 Reviewer/Planner降级为已知风险或后续任务，不能自动冻结整个项目。
 
 ## 风险分级

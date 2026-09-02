@@ -78,6 +78,10 @@ INIT
       ├─ 路线已知 → CONTRACT_READY
       └─ 路线未知 → EXPLORER_RUNNING → PLANNER_RUNNING
   → EXECUTOR_RUNNING
+      ├─ PRODUCT/TEST FAILURE → REVIEWER_RUNNING 或 REPLAN
+      └─ TOOLING FAILURE → TOOLING_RECOVERY
+                            ├─ SAFE_ROUTE_READY → EXECUTOR_RUNNING
+                            └─ ALL_SAFE_ROUTES_UNAVAILABLE → PLATFORM_CHECKPOINT
   → REVIEWER_RUNNING
       ├─ PASS → CLOSER_RUNNING → CHECKPOINT
       │          ├─ CONTINUE → MILESTONE_SELECTION
@@ -137,6 +141,30 @@ Explorer 的目标是产生可判定证据，不是完成产品。Prompter 将�
 
 Executor 可按合同修改、测试、安装依赖、提交和执行已授权外部动作，但不能自行宣告 `PASS`。Prompter只检查报告结构、HEAD、路线和证据引用是否完整；不替 Reviewer裁决。
 
+### 3.5 Tooling Recovery
+
+Executor 遇到 `apply_patch`、sandbox helper、文件编辑器、进程启动器或其他平台工具失败时，Prompter先判断它是否发生在产品逻辑运行前。若目标 hash、Git 状态和测试语义均未变化，则按工具路线处理，而不是启动产品 Reviewer或返回用户。
+
+Prompter必须：
+
+1. 保留当前 HEAD、index、工作区和全部 partial state；
+2. 终止已达到重复阈值的工具上下文，启动全新高推理 Tooling Diagnostician；
+3. 要求其至少比较当前 helper 与一个机制上不同的受控替代写入路线；
+4. 需要写入探针时，启动一个窄范围 File Writer Executor，保持产品文件单写者；
+5. 使用 `references/role-contracts.md` 的内容寻址写入合同：固定目标、preimage hash、确定性变换、匹配次数、临时文件、原子/可回滚替换、postimage hash 和最小 diff；
+6. guarded probe 成功后，把原产品合同和工具路线 delta 原样交给新的或当前唯一 Executor，继续原里程碑；
+7. 只有实际证据表明当前平台所有安全写入路径都无法保持范围、原子性、回滚和证据完整性时，才允许 `PLATFORM_CHECKPOINT`。
+
+以下不构成平台检查点：
+
+- `apply_patch` helper 一次或多次 setup-refresh 失败；
+- 新 Agent 仍调用同一 helper 并复现相同错误；
+- 某份旧合同把一个编辑工具写成唯一合法路径；
+- 尚未尝试内容寻址 writer；
+- 仅因替代路线不是首选风格或需要生成一个有界脚本。
+
+Prompter本身仍不写文件；它通过 Tooling Diagnostician 与 File Writer Executor完成恢复。
+
 ### 4. Reviewer
 
 使用高推理模型。中风险及以上宜使用独立上下文；高风险和阶段 Exit Gate 必须全新上下文。输入包含原始 Contract、Executor 原始报告、尝试账本和当前目标，要求独立读取 Git/代码/测试。
@@ -164,7 +192,7 @@ Prompter拒绝接受复合 verdict，例如 `BLOCKED / REPLAN REQUIRED`。要求
 启动全新高推理 Diagnostician/Architect，读取原始证据与尝试账本，选择：
 
 1. 保留路线但修正根因；
-2. 替换依赖、API、进程模型、数据结构或测试方法；
+2. 替换依赖、API、进程模型、数据结构、测试方法或失效的编辑/执行工具；
 3. 先做更小的 Explorer spike；
 4. 将非必要附加审计降为后续风险；
 5. 缩小当前里程碑但仍交付真实产品价值；
@@ -193,7 +221,7 @@ Closer 后启动 Continuation Planner。它应：
 - 若继续，直接输出下一 Execution Contract 的输入并回到 Planner；
 - 若停止，生成可由新 Prompter直接接管的 continuation package。
 
-Prompter 不应因为“一个任务做完”“一个报告生成”“一个技术路线失败”而停止。可以自行选择停止的合理情形仅为：真实 USER GATE、没有未阻塞的高价值任务、平台/上下文限制将明显损害可靠性，或已达到用户目标所需的阶段性产品检查点。
+Prompter 不应因为“一个任务做完”“一个报告生成”“一个技术路线失败”而停止。可以自行选择停止的合理情形仅为：真实 USER GATE、没有未阻塞的高价值任务、已用直接证据证明所有当前安全执行/写入路线均不可用且继续会损害可靠性，或已达到用户目标所需的阶段性产品检查点。单个 helper 或单种编辑机制失效不满足该条件。
 
 ## 失败、重试与挂起
 
@@ -203,6 +231,8 @@ Prompter 不应因为“一个任务做完”“一个报告生成”“一个�
 - 每次尝试记录：`ROUTE_ID`、attempt、假设、变化、first bad state、证据增量、资源/外部调用和结论。
 - Agent长时间无输出时，Prompter可唤醒检查；确认无进展或无法响应后终止该 Agent，并由新的 Agent从持久报告和 Git继续。
 - 不允许同一失败在没有新假设、新观测点或新路线的情况下反复运行。
+- 工具层 first bad state 跨两个上下文复现后，下一动作默认是改变工具机制，而不是继续换 Agent 调用同一 helper，也不是等待未知时长。
+- 内容寻址 writer 属于工程链自主工具；满足固定目标、preimage、变换计数、临时文件、原子/回滚、postimage 和 diff 证据时，无需用户额外批准。
 
 ## Git、网络、付费调用与凭据
 

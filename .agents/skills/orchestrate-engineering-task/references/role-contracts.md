@@ -62,10 +62,12 @@ CLEANUP / RESIDUALS
 3. 行为变化先建立甄别性红态或合同批准的其它 oracle。
 4. 做最小但完整的实现，运行 TEST PLAN，不删除、跳过或放宽测试换绿灯。
 5. 失败时记录 first bad state 和证据增量；相同失败达到路线切换条件时停止本路线并返回 REPLAN 输入。
-6. 审阅 baseline..HEAD 和工作区，检查秘密、生成物、残留和范围。
-7. 按 EXTERNAL ACTION POLICY 形成候选提交；只有合同明确允许时 push 候选分支。不得自行宣告 PASS。
-8. 付费调用已授权时可按合同执行；记录端点、模型、请求数和可得 usage，不记录 Key 或完整敏感正文。
-9. 返回完整 FINAL EVIDENCE。
+6. 编辑工具失败但目标未变化时，先按合同的 Tooling Recovery 规则换机制；`apply_patch` 是首选而非唯一合法路径。未经内容寻址替代路线评估，不得输出 `PLATFORM_CHECKPOINT`。
+7. 使用受控替代 writer 时，必须固定目标 allowlist、preimage hash、确定性变换和匹配次数，采用临时文件＋原子/可回滚替换，并提交 postimage hash 与最小 diff。
+8. 审阅 baseline..HEAD 和工作区，检查秘密、生成物、残留和范围。
+9. 按 EXTERNAL ACTION POLICY 形成候选提交；只有合同明确允许时 push 候选分支。不得自行宣告 PASS。
+10. 付费调用已授权时可按合同执行；记录端点、模型、请求数和可得 usage，不记录 Key 或完整敏感正文。
+11. 返回完整 FINAL EVIDENCE。
 
 <原样附上 Execution Contract>
 <原样附上当前尝试账本>
@@ -93,6 +95,67 @@ STOP / REPLAN / USER-GATE
 ```
 
 不要只写“全绿”；保留实际命令、退出码、关键计数和失败尝试。报告不能替代 Reviewer 复验。`RECOMMENDED VERDICT INPUT` 只是实现者建议，不是正式 verdict。
+
+## Tooling Recovery prompt
+
+```markdown
+你是全新高推理 Tooling Diagnostician。当前失败发生在编辑/执行工具层，不得把它当作产品 acceptance、用户门禁或等待平台自行恢复的理由。
+
+1. 读取原产品合同、失败报告、当前 Git/工作区、目标文件及工具限制；区分 helper 失败与目标文件/ACL/产品代码失败。
+2. 证明是否存在部分写入；核验 HEAD、index、目标 preimage SHA-256 和完整 partial-state inventory。
+3. 不再重复已经跨上下文复现的同一 helper 路线。
+4. 至少比较一个机制上不同的安全写入路径，默认候选为内容寻址的 PowerShell/.NET、Node 或 Python writer。
+5. 选择的路线必须满足：固定目标、preimage hash、确定性变换、期望匹配次数、编码/换行保持、同目录临时文件、原子替换或备份回滚、postimage hash、最小 Git diff、临时物清理。
+6. 输出一个窄范围 File Writer Execution Contract；成功探针后恢复原产品 Executor，不自行宣告产品 PASS。
+7. 只有所有当前可用安全路径都由直接证据证明不可用时，才可建议 PLATFORM_CHECKPOINT。
+
+输出：
+TOOL FAILURE CLASSIFICATION
+CURRENT STATE / PREIMAGE EVIDENCE
+ROUTES COMPARED
+SELECTED WRITE ROUTE
+FILE WRITER EXECUTION CONTRACT
+ROLLBACK / RESIDUAL RULES
+CONTINUE | REPLAN | PLATFORM_CHECKPOINT
+```
+
+## Content-Addressed File Writer Contract
+
+```text
+ROLE = File Writer Executor
+PROJECT_ROOT
+TARGET_ALLOWLIST
+TARGET
+PREIMAGE_SHA256
+TRANSFORM_TYPE = exact-replacement | structured-edit | generated-postimage
+TRANSFORM_SPEC
+EXPECTED_MATCH_COUNT
+ENCODING / BOM / NEWLINE POLICY
+TEMP_FILE_POLICY = sibling unique temp, create-new
+BACKUP_POLICY
+REPLACE_POLICY = atomic when available; otherwise verified backup + replace + rollback
+POSTCONDITIONS
+EXPECTED_OR_ALLOWED_DIFF
+POSTIMAGE_SHA256 = fixed | report-after-verified-write
+GIT / STATUS GUARDS
+ROLLBACK CONDITIONS
+TEMP / BACKUP CLEANUP CONDITIONS
+FINAL EVIDENCE
+```
+
+执行规则：
+
+1. 写前核验 canonical target、allowlist、preimage hash、Git HEAD/index/status 和单写者。
+2. 变换必须只命中 `EXPECTED_MATCH_COUNT`；为 0 或超出即停止，目标保持不变。
+3. 不直接覆盖目标。先生成同目录唯一临时文件，完整 fsync/close 后复核内容、编码、换行和 hash。
+4. 优先使用同卷原子替换；若平台 API 不支持，先创建内容寻址备份，再执行可验证替换。任何失败立即恢复并复核原 hash。
+5. 写后重新读取目标，计算 postimage hash，检查最小 diff、类型/语法或合同指定 oracle。
+6. 只有 postcondition 全部成立后才清理临时文件；备份按合同保留或在下一安全检查点删除。
+7. 禁止宽泛 shell 重定向、模糊正则、整树复制、Delete+Add 绕过 preimage、未知路径写入或吞并并发用户改动。
+8. 返回工具命令/脚本 hash、退出码、pre/post hash、diff、回滚状态和残留。
+```
+
+这种 writer 是受控工程工具，不是安全降级。它的安全性来自内容寻址、范围、原子/回滚和可复核证据，而不是特定工具名称。
 
 ## Reviewer prompt
 
@@ -162,8 +225,9 @@ FINAL EVIDENCE
 2. 按 route 和 first bad state 重建失败链，区分产品、实现、依赖、测试夹具、环境和外部服务。
 3. 判断现有失败是否直接击中产品 acceptance；附加审计不得自动成为主线硬门禁。
 4. 至少比较当前路线与一个实质不同替代路线；必要时先输出最小 Explorer 合同。
-5. 不设置任务总时限；依据重复失败、证据无增量和路线价值作决定。
-6. 只有产品语义、个人数据、不可逆动作或缺失外部权限确实不可替代时才形成 USER GATE。
+5. 若 first bad state 属于编辑器/helper/进程启动器，替换 Agent 后调用同一工具不算实质不同路线；必须评估内容寻址 writer 或等价的机制变化。
+6. 不设置任务总时限；依据重复失败、证据无增量和路线价值作决定。
+7. 只有产品语义、个人数据、不可逆动作或缺失外部权限确实不可替代时才形成 USER GATE。
 
 输出：
 FAILED ROUTE SUMMARY
@@ -241,3 +305,4 @@ CONTINUE | STOP_CHECKPOINT | USER_GATE
 5. 用户的持续授权必须原样传递。已授权 push、付费调用和凭据请求不再逐次升级。
 6. 真实个人数据、不可逆动作、系统级修改及未授权 Release/部署仍必须按用户门禁处理。
 7. 工程不确定性、实现路线、测试工具和依赖选择不得伪装成用户门禁。
+8. 任何合同把某个编辑工具写成唯一通道时，若该工具自身失效，Prompter应生成 tooling delta，而不是把旧工具偏好永久冻结为平台阻塞；前提是替代路线满足内容寻址、范围、原子/回滚和证据要求。
