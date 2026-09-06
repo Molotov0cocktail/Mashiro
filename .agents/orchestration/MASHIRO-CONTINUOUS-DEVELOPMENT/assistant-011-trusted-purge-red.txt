@@ -1,0 +1,38 @@
+Exit code: 1
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/retention-service.test.ts (7 tests | 1 failed | 6 skipped) 145ms
+   × purging an assistant removes its profile body and protocol snapshot as well as hiding its identity 144ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/retention-service.test.ts > purging an assistant removes its profile body and protocol snapshot as well as hiding its identity
+AssertionError: expected { …(2) } to deeply equal { persona: '', avatar_key: 'mashiro' }
+
+- Expected
++ Received
+
+  {
+-   "avatar_key": "mashiro",
+-   "persona": "",
++   "avatar_key": "violet",
++   "persona": "PURGE_PROFILE_2e05221c-3d0f-4e11-8712-11a3d3255838",
+  }
+
+ ❯ tests/integration/retention-service.test.ts:35:99
+     33|   if(!result.ok||!result.data.jobId)throw Error('purge fixture')
+     34|   expect(await f.settle(result.data.jobId)).toMatchObject({state:'COMP…
+     35|   expect(f.store.database.prepare('SELECT persona,avatar_key FROM assi…
+       |                                                                                                   ^
+     36|   expect(f.store.database.prepare('SELECT * FROM protocol_segments WHE…
+     37|   const snapshot=f.assistants.list({protocolVersion:1})
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  04:08:43
+   Duration  662ms (transform 166ms, setup 126ms, import 236ms, tests 145ms, environment 0ms)
+

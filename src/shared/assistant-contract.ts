@@ -6,6 +6,20 @@ const protocolVersion = z.literal(1)
 const stateRevision = z.number().int().nonnegative()
 const assistantVersion = z.number().int().positive()
 const assistantId = z.string().uuid()
+export const avatarKeys = ['mashiro', 'moon', 'leaf', 'spark', 'wave', 'violet'] as const
+export type AvatarKey = (typeof avatarKeys)[number]
+export const assistantPersonaLimit = 4000
+const avatarKey = z.enum(avatarKeys)
+const persona = z.string().max(assistantPersonaLimit * 2)
+const persistedPersona = persona.refine(
+  (value) =>
+    [...value].length <= assistantPersonaLimit &&
+    value === value.normalize('NFC') &&
+    [...value].every((c) => {
+      const cp = c.codePointAt(0)!
+      return (cp >= 32 && cp !== 127) || cp === 9 || cp === 10
+    })
+)
 
 export const listInputSchema = z.strictObject({ protocolVersion })
 export const createInputSchema = z.strictObject({
@@ -23,6 +37,8 @@ export const renameInputSchema = z.strictObject({
   protocolVersion,
   assistantId,
   displayName: z.string(),
+  persona: persona.optional(),
+  avatarKey: avatarKey.optional(),
   expectedAssistantVersion: assistantVersion,
   expectedStateRevision: stateRevision
 })
@@ -50,6 +66,8 @@ const assistantTimestamp = z.iso.datetime({ offset: true })
 export const assistantDtoSchema = z.strictObject({
   id: assistantId,
   displayName: z.string(),
+  persona: persistedPersona,
+  avatarKey,
   isArchived: z.boolean(),
   createdAt: assistantTimestamp,
   updatedAt: assistantTimestamp,

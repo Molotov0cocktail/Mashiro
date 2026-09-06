@@ -143,7 +143,10 @@ describe('persistent timeline trusted boundary', () => {
     const id = item.ids[0]!
     await send(item.service, id, 'normal-only')
     await send(item.service, id, 'temporary-saved', 'temporary')
-    expect(requests[1]!.messages).toEqual([{ role: 'user', content: 'temporary-saved' }])
+    expect(requests[1]!.messages).toEqual([
+      expect.objectContaining({ role: 'system' }),
+      { role: 'user', content: 'temporary-saved' }
+    ])
     expect(read(item.service, id).messages).toHaveLength(2)
     const input = { protocolVersion: 1, assistantId: id }
     expect(item.service.saveTemporary(input).ok).toBe(true)
@@ -236,7 +239,7 @@ describe('persistent timeline trusted boundary', () => {
         .messages.filter((message) => message.role === 'assistant')
         .map((message) => message.status)
     ).toEqual(states)
-    expect(requests.map((request) => request.messages.length)).toEqual([1, 1, 1, 1])
+    expect(requests.map((request) => request.messages.length)).toEqual([2, 2, 2, 2])
     expect(read(item.service, id).messages[1]!.content).toBe('partial-1')
   })
 
@@ -392,7 +395,7 @@ describe('persistent timeline trusted boundary', () => {
     for (let index = 0; index < 20; index++)
       await send(item.service, id, ('normal-' + index).padEnd(2000, 'x'))
     const request = requests.at(-1)!
-    expect(request.messages.length).toBe(31)
+    expect(request.messages.length).toBe(32)
     expect(
       request.messages.reduce((sum, message) => sum + message.content.length, 0)
     ).toBeLessThanOrEqual(64000)

@@ -16,6 +16,8 @@
 
 ## 待决与工程路线
 
+root已基于010实际items表和当前main生命周期形成[源码准备方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-actual-plan.md)。这是011并行期间的只读准备，未实现提醒、未预占schema；012从011最终实际HEAD接续。reminder_012_notification_spike（实际gpt-5.6-sol/high）已在独立OS-temp合成环境完成Electron44.1.1原生通知事件与身份配置路线验证，仅写自己的实验文件，未改011产品或日常系统设置；[实验结果](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-spike.md)已SUPPORTED（开发态main事件）：A4 Electron44.1.1 PID132972、show后22ms收到show；close调用后6.483秒无close事件，未验点击/冷启动，通知中心残留UNKNOWN。四合成根及进程已清理，无快捷方式/注册表/设置改动；前三次仅Node模式/模块启动失败，最终正确移除ELECTRON_RUN_AS_NODE后进入browser。不能代替最终安装制品验收。
+
 REM-002补发、合并和过期具体默认值仍DEFERRED。2026-09-07已询问：推荐24小时内补发、同事项只取最新、多事项合并系统通知并可展开列表，超过窗口仅列为过期待处理，完成/取消不补发，窗口可调整或关闭；尚待答复，不是已批准默认。不得把尚未答复的数值写成产品默认。可以先实现明确时间提醒、运行生命周期、可测试的策略接口及不依赖默认值的状态恢复。关闭窗口驻留托盘、登录启动可选及明确退出无保证已CONFIRMED，不重复索要批准。
 
 状态和发送身份由SQLite权威管理，计时器只是唤醒信号；唤醒时检查当前时间、事项/提醒版本与取消状态，不为每个提醒长期持有唯一内存计时器。Windows通知、休眠事件和登录注册采用最小适配层便于故障注入；具体API、表及精确依赖由工程链选择。系统通知展示与本地COMMIT无法跨系统原子化，必须定义可核查的中断状态和重复抑制边界，不承诺无法证明的exactly-once用户可见性。

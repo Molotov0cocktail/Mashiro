@@ -1,0 +1,10 @@
+Exit code: 0
+
+ RUN  v4.1.11 D:/Mashiro
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  05:13:38
+   Duration  1.38s (transform 80ms, setup 126ms, import 148ms, tests 282ms, environment 680ms)
+

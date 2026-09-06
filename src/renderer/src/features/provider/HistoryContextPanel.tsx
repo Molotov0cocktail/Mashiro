@@ -608,7 +608,12 @@ export function HistoryContextPanel({
         </p>
       </fieldset>
 
-      <section className="history-permissions" aria-label="历史权限">
+      <section
+        id="history-permissions"
+        className="history-permissions"
+        aria-label="历史权限"
+        tabIndex={-1}
+      >
         <h3>历史权限</h3>
         <p className="scope-note">
           助手读取自己的正常历史，与向实际 Provider 地址发送历史，是两个独立权限。

@@ -132,6 +132,7 @@ function messageShape(message) {
 }
 
 let summary
+let succeeded = false
 try {
   await runStartupFailureProbe()
   const seed = await runPhase('seed')
@@ -149,11 +150,35 @@ try {
   ) {
     throw new Error('Qualified Electron/Node versions changed')
   }
+  if (
+    !seed.profileUi?.editedViaDom ||
+    !verify.profileUi?.restoredViaDom ||
+    seed.profileUi.navigationTargets.length !== 4 ||
+    verify.profileUi.navigationTargets.length !== 4
+  )
+    throw new Error('Profile editor or real configuration navigation failed')
+  if (
+    seed.transportAfterExplicit.requests.some(
+      (r) =>
+        r.messages[0]?.role !== 'system' ||
+        !r.messages[0].content.includes('"persona":"E2E_PROFILE_BEFORE"')
+    ) ||
+    !verify.transportAfterExplicit.requests[0]?.messages[0]?.content.includes(
+      '"persona":"E2E_PROFILE"'
+    )
+  )
+    throw new Error('Profile missing from normal, temporary, tool or restored request')
   if (JSON.stringify(seed.assistant) !== JSON.stringify(verify.assistant))
     throw new Error('Restart assistant snapshot changed')
   const active = verify.assistant.assistants.filter((item) => !item.isArchived)
   const archived = verify.assistant.assistants.filter((item) => item.isArchived)
-  if (active.length !== 1 || archived.length !== 1 || active[0].displayName !== '雪')
+  if (
+    active.length !== 1 ||
+    archived.length !== 1 ||
+    active[0].displayName !== '雪' ||
+    active[0].persona !== 'E2E_PROFILE' ||
+    active[0].avatarKey !== 'moon'
+  )
     throw new Error('Lifecycle snapshot is incomplete')
   if (
     verify.assistant.primaryAssistantId !== active[0].id ||
@@ -289,7 +314,9 @@ try {
   if (verifyProtocol.filter((message) => message.role === 'tool').length !== 1)
     throw new Error('Closed tool result was lost during context replay')
   const verifyMessages = verifyProtocol
-    .filter((message) => message.role !== 'tool' && message.content !== '')
+    .filter(
+      (message) => message.role !== 'system' && message.role !== 'tool' && message.content !== ''
+    )
     .map((message) => message.content)
   if (
     JSON.stringify(verifyMessages) !==
@@ -381,6 +408,7 @@ try {
     node: verify.node,
     sqlite: verify.sqlite,
     snapshot: verify.assistant,
+    profileUi: { seed: seed.profileUi, restored: verify.profileUi },
     provider: verify.provider,
     timeline: verify.timelineAfterSend,
     temporaryConversationReset: true,
@@ -409,6 +437,10 @@ try {
     join(projectRoot, 'test-results', 'items-ui.png')
   )
   copyFileSync(
+    join(testRoot, 'results', 'profile-ui.png'),
+    join(projectRoot, 'test-results', 'profile-ui.png')
+  )
+  copyFileSync(
     join(testRoot, 'results', 'memory-ui.png'),
     join(projectRoot, 'test-results', 'memory-ui.png')
   )
@@ -425,8 +457,14 @@ try {
     JSON.stringify(summary, null, 2)
   )
   console.log(JSON.stringify(summary, null, 2))
+  succeeded = true
 } finally {
   const marker = JSON.parse(readFileSync(join(testRoot, '.mashiro-f1-e2e.json'), 'utf8'))
-  if (marker.runId === runId && realpathSync.native(testRoot) === canonicalRoot)
-    rmSync(testRoot, { recursive: true })
+  if (marker.runId === runId && realpathSync.native(testRoot) === canonicalRoot) {
+    if (succeeded) rmSync(testRoot, { recursive: true })
+    else
+      console.error(
+        JSON.stringify({ outcome: 'E2E_FAILURE_RETAINED', runId, syntheticRoot: canonicalRoot })
+      )
+  }
 }

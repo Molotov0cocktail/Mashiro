@@ -105,7 +105,8 @@ export function MemoryPanel({
   refreshKey,
   pendingCommands,
   retentionChange,
-  onPrepareRetention
+  onPrepareRetention,
+  configurationFocusNonce
 }: {
   assistantId: string
   assistantName: string
@@ -119,6 +120,7 @@ export function MemoryPanel({
     target: RetentionIntent['target'],
     intent?: RetentionPreview['intent']
   ) => void
+  configurationFocusNonce?: number | null
 }): React.JSX.Element {
   const [records, setRecords] = useState<MemoryRecord[]>([])
   const [nextCursor, setNextCursor] = useState<number | null>(null)
@@ -138,6 +140,22 @@ export function MemoryPanel({
   >({})
   const [permissionLoading, setPermissionLoading] = useState(false)
   const [permissionError, setPermissionError] = useState('')
+
+  useEffect(() => {
+    if (
+      configurationFocusNonce == null ||
+      permissionLoading ||
+      !permissions.global ||
+      !permissions.assistant
+    ) {
+      return
+    }
+    const element = document.getElementById('memory-permissions')
+    if (!element) return
+    element.focus()
+    element.scrollIntoView?.({ block: 'start' })
+  }, [configurationFocusNonce, permissionLoading, permissions])
+
   const [action, setAction] = useState<'remember' | 'correct'>('remember')
   const [editTarget, setEditTarget] = useState<MemoryRecord | null>(null)
   const [title, setTitle] = useState('')
@@ -641,7 +659,12 @@ export function MemoryPanel({
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
 
-      <section className="memory-permissions" aria-label="记忆授权">
+      <section
+        id="memory-permissions"
+        className="memory-permissions"
+        aria-label="记忆授权"
+        tabIndex={-1}
+      >
         <div>
           <h2>助手与实际接收方授权</h2>
           <p className="scope-note">全局用户记忆和本助手私有记忆分别授权；新授权默认关闭。</p>

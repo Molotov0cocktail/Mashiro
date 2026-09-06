@@ -2,7 +2,7 @@ import type { DatabaseSync } from 'node:sqlite'
 import { migrateRetention, verifyRetention } from '../retention/retention-schema.js'
 import { migrateItems, verifyItems } from '../item/item-schema.js'
 
-export const schemaVersion = 8
+export const schemaVersion = 9
 
 const requiredTables = [
   'assistants',
@@ -85,6 +85,53 @@ function verifyV1Objects(database: DatabaseSync): void {
     if (!schemaObjectExists(database, 'trigger', trigger)) {
       throw new StorageInconsistentError('Storage guard missing before upgrade')
     }
+  }
+}
+
+function verifyAssistantProfile(database: DatabaseSync): void {
+  const columns = database.prepare('PRAGMA table_info(assistants)').all()
+  for (const [name, defaultValue] of [
+    ['persona', "''"],
+    ['avatar_key', "'mashiro'"]
+  ]) {
+    if (
+      !columns.some(
+        (c) =>
+          c.name === name && c.type === 'TEXT' && c.notnull === 1 && c.dflt_value === defaultValue
+      )
+    )
+      throw new StorageInconsistentError('Assistant profile schema incomplete')
+  }
+  if (
+    database.prepare('PRAGMA integrity_check').get()!.integrity_check !== 'ok' ||
+    database.prepare('PRAGMA foreign_key_check').all().length
+  )
+    throw new StorageInconsistentError('Assistant profile integrity failed')
+  database.exec('SAVEPOINT assistant_profile_probe')
+  try {
+    const id = 'profile-schema-probe-' + Date.now()
+    database
+      .prepare('INSERT INTO assistants(id,display_name,created_at,updated_at) VALUES(?,?,?,?)')
+      .run(id, 'profile probe', '2026-09-07T00:00:00.000Z', '2026-09-07T00:00:00.000Z')
+    const defaults = database
+      .prepare('SELECT persona,avatar_key FROM assistants WHERE id=?')
+      .get(id)!
+    if (defaults.persona !== '' || defaults.avatar_key !== 'mashiro')
+      throw new StorageInconsistentError('Assistant profile defaults invalid')
+    for (const [column, value] of [
+      ['persona', 'x'.repeat(4001)],
+      ['avatar_key', 'invalid-avatar']
+    ]) {
+      let rejected = false
+      try {
+        database.prepare('UPDATE assistants SET ' + column + '=? WHERE id=?').run(value!, id)
+      } catch {
+        rejected = true
+      }
+      if (!rejected) throw new StorageInconsistentError('Assistant profile constraint missing')
+    }
+  } finally {
+    database.exec('ROLLBACK TO assistant_profile_probe; RELEASE assistant_profile_probe')
   }
 }
 
@@ -282,6 +329,28 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
       throw new StorageInconsistentError('Storage table missing before item upgrade')
   migrateItems(database)
   verifyItems(database)
+  for (const trigger of requiredTriggers)
+    if (!schemaObjectExists(database, 'trigger', trigger))
+      throw new StorageInconsistentError('Storage guard missing before profile upgrade')
+  if (Number(database.prepare('PRAGMA user_version').get()!.user_version) === 8) {
+    if (
+      database.prepare('PRAGMA integrity_check').get()!.integrity_check !== 'ok' ||
+      database.prepare('PRAGMA foreign_key_check').all().length
+    )
+      throw new StorageInconsistentError('Storage integrity failed before profile upgrade')
+    database.exec('BEGIN IMMEDIATE')
+    try {
+      database.exec(`ALTER TABLE assistants ADD COLUMN persona TEXT NOT NULL DEFAULT '' CHECK(length(persona)<=4000);
+        ALTER TABLE assistants ADD COLUMN avatar_key TEXT NOT NULL DEFAULT 'mashiro' CHECK(avatar_key IN ('mashiro','moon','leaf','spark','wave','violet'));
+        PRAGMA user_version=9;`)
+      verifyAssistantProfile(database)
+      database.exec('COMMIT')
+    } catch (error) {
+      database.exec('ROLLBACK')
+      throw error
+    }
+  }
+  verifyAssistantProfile(database)
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )

@@ -6,7 +6,10 @@ import type {
   RetentionIntent,
   RetentionPreview
 } from '../../shared/retention-contract'
-import { AssistantPanel } from './features/assistants/AssistantPanel'
+import {
+  AssistantPanel,
+  type AssistantConfigurationTarget
+} from './features/assistants/AssistantPanel'
 import { ItemPanel } from './features/items/ItemPanel'
 import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
@@ -21,6 +24,12 @@ type PreparedRetention = {
   nonce: number
 }
 
+type ConfigurationFocus = {
+  assistantId: string
+  target: AssistantConfigurationTarget
+  nonce: number
+}
+
 export function App(): React.JSX.Element {
   const [assistantSnapshot, setAssistantSnapshot] = useState<AssistantSnapshot | null>(null)
   const [historyTarget, setHistoryTarget] = useState<{
@@ -30,6 +39,7 @@ export function App(): React.JSX.Element {
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
   const [activeView, setActiveView] = useState<'chat' | 'items' | 'memory' | 'retention'>('chat')
+  const [configurationFocus, setConfigurationFocus] = useState<ConfigurationFocus | null>(null)
   const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)
   const [itemRefreshKey, setItemRefreshKey] = useState(0)
   const [itemRecoveryTarget, setItemRecoveryTarget] = useState<{
@@ -105,11 +115,6 @@ export function App(): React.JSX.Element {
     [assistantSnapshot]
   )
 
-  const openMemory = useCallback(() => {
-    setMemoryRefreshKey((value) => value + 1)
-    setActiveView('memory')
-  }, [])
-
   const receiveMemoryChange = useCallback(() => {
     setMemoryRefreshKey((value) => value + 1)
   }, [])
@@ -134,6 +139,70 @@ export function App(): React.JSX.Element {
       setActiveView('items')
     },
     []
+  )
+
+  const openAssistantConfiguration = useCallback(
+    async (assistantId: string, target: AssistantConfigurationTarget): Promise<boolean> => {
+      if (!assistantSnapshot) return false
+      setNavigationError('')
+      const governance = governanceEpoch.current
+      const requestVersion = ++assistantRequestVersion.current
+      let nextSnapshot = assistantSnapshot
+      if (assistantSnapshot.currentAssistantId !== assistantId) {
+        try {
+          const result = await window.mashiro.assistants.switch({
+            protocolVersion: 1,
+            assistantId,
+            expectedStateRevision: assistantSnapshot.stateRevision
+          })
+          if (
+            governance !== governanceEpoch.current ||
+            requestVersion !== assistantRequestVersion.current
+          ) {
+            return true
+          }
+          if (!result.ok) {
+            setNavigationError(result.error.message)
+            return false
+          }
+          nextSnapshot = result.data
+          setAssistantSnapshot(result.data)
+          if (result.data.currentAssistantId) {
+            setLastGovernanceAssistantId(result.data.currentAssistantId)
+          }
+        } catch {
+          if (
+            governance !== governanceEpoch.current ||
+            requestVersion !== assistantRequestVersion.current
+          ) {
+            return true
+          }
+          setNavigationError('无法切换到目标助手，当前页面状态已保留。')
+          return false
+        }
+      }
+      if (nextSnapshot.currentAssistantId !== assistantId) {
+        setNavigationError('目标助手状态已变化，请刷新后重试。')
+        return false
+      }
+
+      if (target === 'memory') {
+        setMemoryRefreshKey((value) => value + 1)
+        setActiveView('memory')
+      } else if (target === 'items') {
+        setItemRefreshKey((value) => value + 1)
+        setActiveView('items')
+      } else {
+        setActiveView('chat')
+      }
+      setConfigurationFocus((current) => ({
+        assistantId,
+        target,
+        nonce: (current?.nonce ?? 0) + 1
+      }))
+      return true
+    },
+    [assistantSnapshot]
   )
 
   const openItemConversation = useCallback(
@@ -341,6 +410,15 @@ export function App(): React.JSX.Element {
     []
   )
 
+  const selectPrimaryView = useCallback((view: 'chat' | 'items' | 'memory' | 'retention'): void => {
+    assistantRequestVersion.current += 1
+    setConfigurationFocus(null)
+    setNavigationError('')
+    if (view === 'items') setItemRefreshKey((value) => value + 1)
+    if (view === 'memory') setMemoryRefreshKey((value) => value + 1)
+    setActiveView(view)
+  }, [])
+
   return (
     <main>
       <header>
@@ -354,7 +432,7 @@ export function App(): React.JSX.Element {
           type="button"
           role="tab"
           aria-selected={activeView === 'chat'}
-          onClick={() => setActiveView('chat')}
+          onClick={() => selectPrimaryView('chat')}
         >
           对话
         </button>
@@ -362,7 +440,7 @@ export function App(): React.JSX.Element {
           type="button"
           role="tab"
           aria-selected={activeView === 'items'}
-          onClick={() => openItems()}
+          onClick={() => selectPrimaryView('items')}
         >
           事项
         </button>
@@ -370,7 +448,7 @@ export function App(): React.JSX.Element {
           type="button"
           role="tab"
           aria-selected={activeView === 'memory'}
-          onClick={openMemory}
+          onClick={() => selectPrimaryView('memory')}
         >
           记忆与事件
         </button>
@@ -378,7 +456,7 @@ export function App(): React.JSX.Element {
           type="button"
           role="tab"
           aria-selected={activeView === 'retention'}
-          onClick={() => setActiveView('retention')}
+          onClick={() => selectPrimaryView('retention')}
         >
           保留与清理
         </button>
@@ -390,6 +468,7 @@ export function App(): React.JSX.Element {
           api={window.mashiro.assistants}
           onSnapshot={receiveAssistantSnapshot}
           externalSnapshot={assistantSnapshot}
+          onOpenConfiguration={openAssistantConfiguration}
         />
       </details>
       {navigationError ? <p role="alert">{navigationError}</p> : null}
@@ -409,6 +488,16 @@ export function App(): React.JSX.Element {
           onLocateMemorySource={locateMemorySource}
           retentionChange={retentionChange}
           onPrepareRetention={prepareRetention}
+          configurationFocus={
+            configurationFocus &&
+            (configurationFocus.target === 'provider' || configurationFocus.target === 'history')
+              ? {
+                  assistantId: configurationFocus.assistantId,
+                  target: configurationFocus.target,
+                  nonce: configurationFocus.nonce
+                }
+              : null
+          }
         />
       </section>
       <section hidden={activeView !== 'items'} aria-label="事项页面">
@@ -434,6 +523,9 @@ export function App(): React.JSX.Element {
           onOpenConversation={openItemConversation}
           onPermissionsChanged={receiveItemPermissions}
           onItemVersionChanged={receiveItemVersion}
+          configurationFocusNonce={
+            configurationFocus?.target === 'items' ? configurationFocus.nonce : null
+          }
         />
       </section>
       <section hidden={activeView !== 'memory'} aria-label="记忆与事件页面">
@@ -451,6 +543,9 @@ export function App(): React.JSX.Element {
           pendingCommands={pendingMemoryCommands}
           retentionChange={retentionChange}
           onPrepareRetention={prepareRetention}
+          configurationFocusNonce={
+            configurationFocus?.target === 'memory' ? configurationFocus.nonce : null
+          }
         />
       </section>
       <section hidden={activeView !== 'retention'} aria-label="保留与清理页面">

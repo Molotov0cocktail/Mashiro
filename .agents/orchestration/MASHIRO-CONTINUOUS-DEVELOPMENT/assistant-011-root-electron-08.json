@@ -1,0 +1,515 @@
+{
+  "runId": "c73ad8c2-82c4-48d4-9133-a7af5bb6f1e3",
+  "startupFailureSanitized": true,
+  "pids": [
+    135516,
+    135832
+  ],
+  "electron": "44.1.1",
+  "node": "24.19.0",
+  "sqlite": "3.53.3",
+  "snapshot": {
+    "assistants": [
+      {
+        "id": "71e6db3e-d569-4da1-9fbc-31f54094562e",
+        "displayName": "Mashiro",
+        "persona": "",
+        "avatarKey": "mashiro",
+        "isArchived": true,
+        "createdAt": "2026-09-06T21:15:25.312Z",
+        "updatedAt": "2026-09-06T21:15:25.342Z",
+        "archivedAt": "2026-09-06T21:15:25.342Z",
+        "version": 2
+      },
+      {
+        "id": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+        "displayName": "雪",
+        "persona": "E2E_PROFILE",
+        "avatarKey": "moon",
+        "isArchived": false,
+        "createdAt": "2026-09-06T21:15:25.319Z",
+        "updatedAt": "2026-09-06T21:15:25.891Z",
+        "archivedAt": null,
+        "version": 4
+      }
+    ],
+    "currentAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+    "primaryAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+    "stateRevision": 10
+  },
+  "profileUi": {
+    "seed": {
+      "editedViaDom": true,
+      "restoredViaDom": false,
+      "navigationTargets": [
+        "provider-connection-settings",
+        "history-permissions",
+        "memory-permissions",
+        "item-permissions"
+      ],
+      "persona": "E2E_PROFILE",
+      "avatarKey": "moon"
+    },
+    "restored": {
+      "editedViaDom": false,
+      "restoredViaDom": true,
+      "navigationTargets": [
+        "provider-connection-settings",
+        "history-permissions",
+        "memory-permissions",
+        "item-permissions"
+      ],
+      "persona": "E2E_PROFILE",
+      "avatarKey": "moon"
+    }
+  },
+  "provider": {
+    "connections": [
+      {
+        "id": "53ef0724-5b50-4c28-ad11-718df3adac2f",
+        "displayName": "BigModel synthetic",
+        "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+        "enabled": true,
+        "hasCredential": true,
+        "credentialPersistence": "persistent",
+        "createdAt": "2026-09-06T21:15:25.588Z",
+        "updatedAt": "2026-09-06T21:15:25.595Z",
+        "version": 2
+      }
+    ],
+    "bindings": [
+      {
+        "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+        "connectionId": "53ef0724-5b50-4c28-ad11-718df3adac2f",
+        "model": "GLM-5.3-FLASH",
+        "updatedAt": "2026-09-06T21:15:25.601Z",
+        "version": 1
+      }
+    ]
+  },
+  "timeline": {
+    "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+    "mode": "normal",
+    "messages": [
+      {
+        "id": "a79571dc-ffed-4283-b898-908629340bd2",
+        "requestId": "35ffafb6-c3be-42e7-95dc-121f37c92e2b",
+        "role": "user",
+        "content": "E2E_NORMAL_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:25.614Z",
+        "saved": true
+      },
+      {
+        "id": "42408743-e224-4d12-937a-b91486201c5b",
+        "requestId": "35ffafb6-c3be-42e7-95dc-121f37c92e2b",
+        "role": "assistant",
+        "content": "E2E_NORMAL_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:25.614Z",
+        "saved": true
+      },
+      {
+        "id": "7ab2b431-acbe-4ba0-9006-ad349e12a59d",
+        "requestId": "6217c2f4-ef4a-414b-b601-a9df52d0f9f7",
+        "role": "user",
+        "content": "E2E_SAVED_TEMP_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:25.625Z",
+        "saved": true
+      },
+      {
+        "id": "89700d56-1d88-42be-8bf3-1ab4bd1794de",
+        "requestId": "6217c2f4-ef4a-414b-b601-a9df52d0f9f7",
+        "role": "assistant",
+        "content": "E2E_SAVED_TEMP_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:25.625Z",
+        "saved": true
+      },
+      {
+        "id": "d20ed9d0-8be7-42c5-bd7f-d8357e05fa1d",
+        "requestId": "540a8ad0-5035-4075-bf69-1171dd610ec2",
+        "role": "user",
+        "content": "E2E_TOOL_NORMAL",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:25.634Z",
+        "saved": true
+      },
+      {
+        "id": "f45b4abf-6d82-4391-91aa-e2ab1650ffd7",
+        "requestId": "540a8ad0-5035-4075-bf69-1171dd610ec2",
+        "role": "assistant",
+        "content": "E2E_TOOL_REPLY",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:25.634Z",
+        "saved": true
+      },
+      {
+        "id": "9e14e2ee-ae20-42de-a3ce-4f2e30cb983a",
+        "requestId": "774ed3b3-68e6-43a9-bf8b-bd1bc9be86d8",
+        "role": "user",
+        "content": "E2E_PENDING_NORMAL",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:25.775Z",
+        "saved": true
+      },
+      {
+        "id": "01efc3bd-a604-4667-abc8-e97501720e6a",
+        "requestId": "774ed3b3-68e6-43a9-bf8b-bd1bc9be86d8",
+        "role": "assistant",
+        "content": "E2E_PARTIAL_NORMAL",
+        "status": "interrupted",
+        "createdAt": "2026-09-06T21:15:25.775Z",
+        "saved": true
+      },
+      {
+        "id": "10fb24e4-b707-4410-a265-981ed2750227",
+        "requestId": "d336ce3b-1155-4ed7-aa40-4b99b84cf264",
+        "role": "user",
+        "content": "E2E_VERIFY_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:27.238Z",
+        "saved": true
+      },
+      {
+        "id": "ab58ac5d-f961-48c1-85dd-af71e32cefae",
+        "requestId": "d336ce3b-1155-4ed7-aa40-4b99b84cf264",
+        "role": "assistant",
+        "content": "E2E_VERIFY_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T21:15:27.238Z",
+        "saved": true
+      }
+    ],
+    "hasMore": false
+  },
+  "temporaryConversationReset": true,
+  "persistentCredentialProtected": true,
+  "historyPermission": {
+    "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+    "connectionId": "53ef0724-5b50-4c28-ad11-718df3adac2f",
+    "endpointFingerprint": "8822708c61ba1a72d8dd01ddee8a44d15dc6f63a1dcd5049fba9c24f62f6122d",
+    "endpointDisplay": "https://open.bigmodel.cn/api/paas/v4",
+    "readHistory": true,
+    "sendHistory": true,
+    "version": 1
+  },
+  "historyQueryVerified": true,
+  "items": {
+    "query": {
+      "items": [
+        {
+          "id": "a35ae316-cfa7-446c-8182-d92c218e1a49",
+          "version": 1,
+          "content": {
+            "kind": "waiting",
+            "title": "E2E_ITEM_waiting",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+          "originProposalId": null,
+          "createdAt": "2026-09-06T21:15:25.819Z",
+          "updatedAt": "2026-09-06T21:15:25.819Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "f4a6c6a7-9584-4b65-8f2d-d513ec5a50b0",
+          "version": 1,
+          "content": {
+            "kind": "commitment",
+            "title": "E2E_ITEM_commitment",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+          "originProposalId": null,
+          "createdAt": "2026-09-06T21:15:25.815Z",
+          "updatedAt": "2026-09-06T21:15:25.815Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "c1d4b37b-d23c-4653-994d-259fe4ee9e12",
+          "version": 1,
+          "content": {
+            "kind": "task",
+            "title": "E2E_ITEM_task",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+          "originProposalId": null,
+          "createdAt": "2026-09-06T21:15:25.810Z",
+          "updatedAt": "2026-09-06T21:15:25.810Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "73e3f8a7-3905-4c51-af80-6d0365cbb3fa",
+          "version": 1,
+          "content": {
+            "kind": "project",
+            "title": "E2E_ITEM_project",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+          "originProposalId": null,
+          "createdAt": "2026-09-06T21:15:25.803Z",
+          "updatedAt": "2026-09-06T21:15:25.803Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "bed75a35-1aa2-4eba-9938-f1ffacba7a14",
+          "version": 1,
+          "content": {
+            "kind": "goal",
+            "title": "E2E_ITEM_goal",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+          "originProposalId": null,
+          "createdAt": "2026-09-06T21:15:25.798Z",
+          "updatedAt": "2026-09-06T21:15:25.798Z",
+          "sources": [],
+          "sourceUnavailable": false
+        }
+      ],
+      "proposals": [],
+      "nextCursor": null,
+      "formalCount": 5
+    },
+    "operations": [
+      {
+        "operationId": "4f079ded-edb8-415f-93da-c6e64aedd028",
+        "objectId": "bed75a35-1aa2-4eba-9938-f1ffacba7a14",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "83541bfc-f1e4-4b4b-867b-e4954b0b6212",
+        "objectId": "73e3f8a7-3905-4c51-af80-6d0365cbb3fa",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "47b60aaf-8cf4-4d5a-9b91-cead9c1d4e8c",
+        "objectId": "c1d4b37b-d23c-4653-994d-259fe4ee9e12",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "be43fd88-53fa-48a2-b6b6-23b13fa18cb4",
+        "objectId": "f4a6c6a7-9584-4b65-8f2d-d513ec5a50b0",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "a5cc49c8-6533-4356-9b7c-725f3c4e2828",
+        "objectId": "a35ae316-cfa7-446c-8182-d92c218e1a49",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      }
+    ]
+  },
+  "itemsUi": {
+    "enteredViaDom": true,
+    "formalCount": 6,
+    "receiptCount": 1,
+    "objectVersion": 1
+  },
+  "itemsFiveKindRestartVerified": true,
+  "memory": {
+    "query": {
+      "records": [
+        {
+          "id": "9412b562-b846-48a1-a12b-2e17c2fd7015",
+          "objectVersion": 2,
+          "kind": "user",
+          "scope": "global",
+          "ownerAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+          "title": "E2E_MEMORY",
+          "markdown": "E2E_MEMORY_CORRECTED",
+          "nature": "user-statement",
+          "event": null,
+          "state": "active",
+          "retention": "persistent",
+          "createdAt": "2026-09-06T21:15:25.705Z",
+          "updatedAt": "2026-09-06T21:15:25.717Z",
+          "sources": [
+            {
+              "type": "manual",
+              "id": "2d9c00f1-84ff-481a-9643-13e71f3710e1",
+              "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+              "version": 1
+            },
+            {
+              "type": "manual",
+              "id": "f522acda-c1ef-4043-a66c-90836feab3f9",
+              "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+              "version": 1
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    },
+    "inspect": {
+      "record": {
+        "id": "9412b562-b846-48a1-a12b-2e17c2fd7015",
+        "objectVersion": 2,
+        "kind": "user",
+        "scope": "global",
+        "ownerAssistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+        "title": "E2E_MEMORY",
+        "markdown": "E2E_MEMORY_CORRECTED",
+        "nature": "user-statement",
+        "event": null,
+        "state": "active",
+        "retention": "persistent",
+        "createdAt": "2026-09-06T21:15:25.705Z",
+        "updatedAt": "2026-09-06T21:15:25.717Z",
+        "sources": [
+          {
+            "type": "manual",
+            "id": "2d9c00f1-84ff-481a-9643-13e71f3710e1",
+            "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+            "version": 1
+          },
+          {
+            "type": "manual",
+            "id": "f522acda-c1ef-4043-a66c-90836feab3f9",
+            "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+            "version": 1
+          }
+        ]
+      },
+      "changes": [
+        {
+          "operationId": "f522acda-c1ef-4043-a66c-90836feab3f9",
+          "action": "correct",
+          "objectVersion": 2,
+          "createdAt": "2026-09-06T21:15:25.717Z",
+          "actor": "user"
+        },
+        {
+          "operationId": "2d9c00f1-84ff-481a-9643-13e71f3710e1",
+          "action": "remember",
+          "objectVersion": 1,
+          "createdAt": "2026-09-06T21:15:25.705Z",
+          "actor": "user"
+        }
+      ],
+      "receipts": [
+        {
+          "operationId": "f522acda-c1ef-4043-a66c-90836feab3f9",
+          "objectId": "9412b562-b846-48a1-a12b-2e17c2fd7015",
+          "objectVersion": 2,
+          "state": "SUCCEEDED",
+          "summary": "记忆已保存并立即生效",
+          "confirmationId": null
+        },
+        {
+          "operationId": "2d9c00f1-84ff-481a-9643-13e71f3710e1",
+          "objectId": "9412b562-b846-48a1-a12b-2e17c2fd7015",
+          "objectVersion": 1,
+          "state": "SUCCEEDED",
+          "summary": "记忆已保存并立即生效",
+          "confirmationId": null
+        }
+      ],
+      "providedToRequests": [],
+      "cleanupPending": false,
+      "organizationPending": true
+    },
+    "permissions": {
+      "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+      "scope": "global",
+      "version": 1,
+      "read": true,
+      "write": true,
+      "writeInferences": false,
+      "receive": true,
+      "endpointDisplay": "https://open.bigmodel.cn/api/paas/v4",
+      "endpointFingerprint": "8822708c61ba1a72d8dd01ddee8a44d15dc6f63a1dcd5049fba9c24f62f6122d"
+    },
+    "temporaryRejected": true
+  },
+  "memoryUi": {
+    "enteredViaDom": true,
+    "objectsAdded": 1,
+    "receiptCount": 1,
+    "objectId": "b4c21006-4443-4a15-b73c-bf9c645daf27",
+    "objectVersion": 1
+  },
+  "memoryIpcLifecycleVerified": true,
+  "retention": {
+    "priorJobId": "81ae5334-9f03-4962-b8cf-a8eef1015ffa",
+    "jobId": "d968415a-7d72-4cf0-9946-0ce77067b751",
+    "assistantId": "658ebade-95ee-4c8a-9cf4-0f49bbdec238",
+    "state": "COMPLETED"
+  },
+  "retentionThreeZoneCleanupRestartVerified": true,
+  "toolOperationRecovered": true,
+  "temporaryToolProtocolNotPersisted": true,
+  "toolOperationId": "e168ae2d-a1da-439e-8918-8cd75a1ee1fd",
+  "selectedContextVerified": true,
+  "recoveryTransportCalls": 0,
+  "explicitSendTransportCalls": 1,
+  "chat": {
+    "requestId": "d336ce3b-1155-4ed7-aa40-4b99b84cf264",
+    "assistantId": "2a714144-62d4-47b0-a685-fdbc42c7a4ef",
+    "status": "completed",
+    "text": "E2E_VERIFY_ASSISTANT",
+    "usage": {
+      "promptTokens": 2,
+      "completionTokens": 1,
+      "totalTokens": 3
+    }
+  }
+}

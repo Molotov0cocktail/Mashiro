@@ -1,0 +1,12 @@
+Command: npx vitest run tests/integration/assistant-011-review-independent.test.ts tests/integration/assistant-profile.test.ts tests/integration/retention-service.test.ts tests/unit/assistant-contract.test.ts --maxWorkers=1
+Tool chunk: 7ea0fb
+Exit code: 0
+Original tool output:
+
+ RUN  v4.1.11 D:/Mashiro
+
+
+ Test Files  4 passed (4)
+      Tests  19 passed (19)
+   Start at  04:26:17
+   Duration  4.21s (transform 315ms, setup 436ms, import 657ms, tests 2.51s, environment 0ms)

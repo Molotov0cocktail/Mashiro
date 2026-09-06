@@ -109,7 +109,7 @@ describe('ProviderService', () => {
     )
     expect(one.ok && one.data.usage?.totalTokens).toBe(5)
     expect(two.ok).toBe(true)
-    expect(requests[1]!.messages.map((message) => message.content)).toEqual([
+    expect(requests[1]!.messages.slice(1).map((message) => message.content)).toEqual([
       'first',
       'reply-1',
       'second'
@@ -444,7 +444,7 @@ describe('ProviderService', () => {
       () => undefined
     )
     expect(second.ok).toBe(true)
-    expect(seenMessages[1]).toEqual(['fresh'])
+    expect(seenMessages[1]).toEqual([expect.stringContaining('配置数据：'), 'fresh'])
     const cleared = service.clearChat({
       protocolVersion: 1,
       assistantId: item.assistantId
@@ -460,7 +460,7 @@ describe('ProviderService', () => {
       },
       () => undefined
     )
-    expect(seenMessages[2]).toEqual(['after clear'])
+    expect(seenMessages[2]).toEqual([expect.stringContaining('配置数据：'), 'after clear'])
     service.close()
   })
   it('clears memory without a binding and while the bound connection is disabled', async () => {
@@ -525,7 +525,10 @@ describe('ProviderService', () => {
       },
       () => undefined
     )
-    expect(seenMessages).toEqual([['old user'], ['new user']])
+    expect(seenMessages).toEqual([
+      [expect.stringContaining('配置数据：'), 'old user'],
+      [expect.stringContaining('配置数据：'), 'new user']
+    ])
     service.close()
   })
 })

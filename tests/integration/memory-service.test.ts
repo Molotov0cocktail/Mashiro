@@ -617,7 +617,11 @@ describe('real trusted conversation tool mutation', () => {
     )
     expect(continued).toMatchObject({ ok: true, data: { status: 'completed' } })
     expect(JSON.stringify(captured[count]!.messages)).not.toContain('合成茶')
-    expect(captured[count]!.messages).toHaveLength(1)
+    expect(captured[count]!.messages).toHaveLength(2)
+    expect(captured[count]!.messages[0]).toMatchObject({
+      role: 'system',
+      content: expect.stringContaining('配置数据：')
+    })
     const newMemory = f.mutate(remember('独立待删除记忆'))
     if (!newMemory.ok) throw Error('new memory')
     removalTargetId = newMemory.data.objectId

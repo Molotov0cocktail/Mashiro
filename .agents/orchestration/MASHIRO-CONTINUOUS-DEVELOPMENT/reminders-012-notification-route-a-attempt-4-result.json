@@ -1,0 +1,37 @@
+{
+  "route": "A-unpackaged-temp-app-directory-explicitly-unset-run-as-node-no-shortcut-or-registry-attempt-4",
+  "runId": "b2135f2a564b44ceb40201df5d4e6918",
+  "spikeRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\Mashiro-Notification-Spike-012-b2135f2a564b44ceb40201df5d4e6918",
+  "appUserModelId": "io.mashiro.synthetic.notification-spike.012.b2135f2a564b44ceb40201df5d4e6918",
+  "electronPath": "D:\\Mashiro\\node_modules\\electron\\dist\\electron.exe",
+  "electronSha256": "11246B242F4FB967283B6D50D5800FA30E7C3F43D47353A6D20FC8D6AC07B87F",
+  "probeSourceSha256": "1C49876F43B285DE601359FE55E67CCA82B79A3709B8E1C87AC81F0E4F69B369",
+  "os": "Microsoft Windows NT 10.0.26200.0",
+  "powershell": "7.6.5",
+  "pid": 132972,
+  "exitCode": 0,
+  "timedOut": false,
+  "launcherError": null,
+  "eventNames": [
+    "pre-require",
+    "ready",
+    "activation-handler-registered",
+    "is-supported",
+    "show-invoked",
+    "show",
+    "close-requested",
+    "quit-requested",
+    "before-quit",
+    "will-quit",
+    "quit"
+  ],
+  "residualProcessesBeforeCleanup": [],
+  "shortcutCreated": false,
+  "childRunAsNodeHandling": "Start-Process -Environment explicit unset",
+  "registryChanged": false,
+  "existingShortcutModified": false,
+  "cleanup": {
+    "spikeRootRemoved": true,
+    "residualProcessesAfterCleanup": []
+  }
+}

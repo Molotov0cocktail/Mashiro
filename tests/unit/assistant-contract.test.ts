@@ -38,6 +38,8 @@ describe('assistant input contracts', () => {
     const assistant = {
       id: '00000000-0000-4000-8000-000000000001',
       displayName: 'Mashiro',
+      persona: '',
+      avatarKey: 'mashiro',
       isArchived: false,
       createdAt: timestamp,
       updatedAt: timestamp,

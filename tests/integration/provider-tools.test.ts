@@ -241,7 +241,7 @@ describe('007 actual trusted tool conversation', () => {
     checked.exec('DROP TABLE tool_operations')
     checked.close()
     const upgraded = new SqliteStore(f.db)
-    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 8 })
+    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 9 })
     expect(upgraded.database.prepare('SELECT * FROM timeline_messages').all()).toEqual(before)
     upgraded.close()
   })
@@ -676,12 +676,12 @@ describe('007 actual trusted tool conversation', () => {
     expect(result.ok).toBe(true)
     expect(clock).toHaveBeenCalledTimes(1)
     expect(transport).toHaveBeenCalledTimes(2)
-    expect(requests[1]!.messages[1]).toMatchObject({
+    expect(requests[1]!.messages[2]).toMatchObject({
       role: 'assistant',
       reasoning_content: 'private-reasoning',
       tool_calls: [clockCall]
     })
-    expect(JSON.parse(requests[1]!.messages[2]!.content).utc).toBe('2026-09-06T01:02:03.000Z')
+    expect(JSON.parse(requests[1]!.messages[3]!.content).utc).toBe('2026-09-06T01:02:03.000Z')
     expect(JSON.stringify(events)).not.toContain('private-reasoning')
     const ops = f.service.tools({ protocolVersion: 1, assistantId: f.assistantId, mode: 'normal' })
     expect(ops.ok && ops.data.operations[0]!.state).toBe('SUCCEEDED')

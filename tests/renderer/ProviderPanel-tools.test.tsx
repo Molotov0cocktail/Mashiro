@@ -30,6 +30,8 @@ function assistants(currentAssistantId = assistantA): AssistantSnapshot {
     assistants: [assistantA, assistantB].map((id, index) => ({
       id,
       displayName: index === 0 ? 'Alpha' : 'Beta',
+      persona: '',
+      avatarKey: 'mashiro',
       isArchived: false,
       createdAt: '2026-09-06T00:00:0' + index + '.000Z',
       updatedAt: '2026-09-06T00:00:0' + index + '.000Z',

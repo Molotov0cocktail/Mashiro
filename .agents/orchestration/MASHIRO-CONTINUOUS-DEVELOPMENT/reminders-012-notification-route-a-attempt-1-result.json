@@ -1,0 +1,26 @@
+{
+  "route": "A-unpackaged-setAppUserModelId-no-shortcut-or-registry",
+  "runId": "6d3d65186f61461887094fe528bc3137",
+  "spikeRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\Mashiro-Notification-Spike-012-6d3d65186f61461887094fe528bc3137",
+  "appUserModelId": "io.mashiro.synthetic.notification-spike.012.6d3d65186f61461887094fe528bc3137",
+  "electronPath": "D:\\Mashiro\\node_modules\\electron\\dist\\electron.exe",
+  "electronSha256": "11246B242F4FB967283B6D50D5800FA30E7C3F43D47353A6D20FC8D6AC07B87F",
+  "probeSourceSha256": "94B08A9F78F3E495E10C9B714072D0699CAC22A5D0B083EC054A123A2C0C95FD",
+  "os": "Microsoft Windows NT 10.0.26200.0",
+  "powershell": "7.6.5",
+  "pid": 129848,
+  "exitCode": 70,
+  "timedOut": false,
+  "launcherError": null,
+  "eventNames": [
+    "uncaughtException"
+  ],
+  "residualProcessesBeforeCleanup": [],
+  "shortcutCreated": false,
+  "registryChanged": false,
+  "existingShortcutModified": false,
+  "cleanup": {
+    "spikeRootRemoved": true,
+    "residualProcessesAfterCleanup": []
+  }
+}

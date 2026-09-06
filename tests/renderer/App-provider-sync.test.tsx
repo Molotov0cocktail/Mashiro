@@ -18,6 +18,8 @@ function assistants(currentAssistantId: string, revision: number): AssistantSnap
       {
         id: assistantA,
         displayName: 'Alpha',
+        persona: '',
+        avatarKey: 'mashiro',
         isArchived: false,
         createdAt: '2026-09-06T00:00:00.000Z',
         updatedAt: '2026-09-06T00:00:00.000Z',
@@ -27,6 +29,8 @@ function assistants(currentAssistantId: string, revision: number): AssistantSnap
       {
         id: assistantB,
         displayName: 'Beta',
+        persona: '',
+        avatarKey: 'mashiro',
         isArchived: false,
         createdAt: '2026-09-06T00:00:01.000Z',
         updatedAt: '2026-09-06T00:00:01.000Z',

@@ -1,0 +1,11 @@
+Command: node node_modules/vitest/vitest.mjs run tests/renderer/assistant-011-review-fences.test.tsx tests/renderer/AssistantPanel-profile.test.tsx tests/renderer/App-assistant-navigation.test.tsx --maxWorkers=1
+Exit code: 0
+
+ RUN  v4.1.11 D:/Mashiro
+
+
+ Test Files  3 passed (3)
+      Tests  11 passed (11)
+   Start at  05:15:54
+   Duration  5.01s (transform 251ms, setup 339ms, import 528ms, tests 1.64s, environment 2.05s)
+

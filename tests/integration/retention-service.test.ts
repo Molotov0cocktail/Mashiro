@@ -20,6 +20,68 @@ afterEach(() => {
     .forEach((close) => close())
   roots.splice(0).forEach((root) => rmSync(root, { recursive: true, force: true }))
 })
+
+it('purging an assistant removes its profile body and protocol snapshot as well as hiding its identity', async () => {
+  const f = setup()
+  const [a, b] = f.ids as [string, string, string]
+  const marker = 'PURGE_PROFILE_' + randomUUID()
+  expect(
+    f.assistants.rename({
+      protocolVersion: 1,
+      assistantId: a,
+      displayName: '合成配置',
+      persona: marker,
+      avatarKey: 'violet',
+      expectedAssistantVersion: 1,
+      expectedStateRevision: 3
+    })
+  ).toMatchObject({ ok: true })
+  const round = f.round(a)
+  f.store.database
+    .prepare(
+      "INSERT INTO protocol_segments(id,assistant_id,request_id,endpoint_fingerprint,model,adapter_version,status,messages_json,created_at) VALUES(?,?,?,?,?,?,'closed',?,?)"
+    )
+    .run(
+      randomUUID(),
+      a,
+      round.requestId,
+      fp,
+      'GLM-5.3-FLASH',
+      'glm-5.3-flash-tools-v1',
+      JSON.stringify([
+        { role: 'system', content: marker },
+        { role: 'user', content: '合成' }
+      ]),
+      new Date().toISOString()
+    )
+  const preview = await f.preview('purge-assistant', {
+    type: 'assistant',
+    replacementAssistantId: b
+  })
+  const result = await f.confirm(preview)
+  if (!result.ok || !result.data.jobId) throw Error('purge fixture')
+  expect(await f.settle(result.data.jobId)).toMatchObject({ state: 'COMPLETED' })
+  expect(
+    f.store.database.prepare('SELECT persona,avatar_key FROM assistants WHERE id=?').get(a)
+  ).toEqual({ persona: '', avatar_key: 'mashiro' })
+  expect(
+    f.store.database.prepare('SELECT * FROM protocol_segments WHERE assistant_id=?').all()
+  ).toEqual([])
+  const snapshot = f.assistants.list({ protocolVersion: 1 })
+  expect(JSON.stringify(snapshot)).not.toContain(marker)
+  if (!snapshot.ok) throw Error('snapshot')
+  expect(
+    f.assistants.rename({
+      protocolVersion: 1,
+      assistantId: a,
+      displayName: '恢复旧配置',
+      persona: marker,
+      expectedAssistantVersion: 3,
+      expectedStateRevision: snapshot.data.stateRevision
+    })
+  ).toMatchObject({ ok: false, error: { code: 'NOT_FOUND' } })
+})
+
 const fp = 'test-endpoint'
 function setup(fault?: (phase: string) => void) {
   const root = mkdtempSync(join(tmpdir(), 'mashiro-retention-'))

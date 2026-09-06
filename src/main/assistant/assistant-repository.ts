@@ -1,10 +1,12 @@
 import { randomUUID } from 'node:crypto'
-import type { AssistantDto, AssistantSnapshot } from '../../shared/assistant-contract.js'
+import type { AvatarKey, AssistantDto, AssistantSnapshot } from '../../shared/assistant-contract.js'
 import { SqliteStore } from '../data/sqlite.js'
 
 type AssistantRow = {
   id: string
   display_name: string
+  persona: string
+  avatar_key: AvatarKey
   created_at: string
   updated_at: string
   archived_at: string | null
@@ -36,13 +38,15 @@ export class AssistantRepository {
   snapshot(): AssistantSnapshot {
     const rows = this.store.database
       .prepare(
-        'SELECT id, display_name, created_at, updated_at, archived_at, version FROM assistants WHERE id NOT IN (SELECT id FROM assistant_tombstones) ORDER BY created_at, id'
+        'SELECT id, display_name, persona, avatar_key, created_at, updated_at, archived_at, version FROM assistants WHERE id NOT IN (SELECT id FROM assistant_tombstones) ORDER BY created_at, id'
       )
       .all() as unknown as AssistantRow[]
     const state = this.state()
     const assistants = rows.map<AssistantDto>((row) => ({
       id: row.id,
       displayName: row.display_name,
+      persona: row.persona,
+      avatarKey: row.avatar_key,
       isArchived: row.archived_at !== null,
       createdAt: row.created_at,
       updatedAt: row.updated_at,
@@ -108,17 +112,25 @@ export class AssistantRepository {
     assistantId: string,
     displayName: string,
     expectedAssistantVersion: number,
-    expectedStateRevision: number
+    expectedStateRevision: number,
+    persona?: string,
+    avatarKey?: AvatarKey
   ): AssistantSnapshot {
     return this.store.transaction(() => {
       this.requireRevision(expectedStateRevision)
-      this.requireVersion(assistantId, expectedAssistantVersion)
+      const current = this.requireVersion(assistantId, expectedAssistantVersion)
       const now = new Date().toISOString()
       this.store.database
         .prepare(
-          'UPDATE assistants SET display_name = ?, updated_at = ?, version = version + 1 WHERE id = ?'
+          'UPDATE assistants SET display_name = ?, persona = ?, avatar_key = ?, updated_at = ?, version = version + 1 WHERE id = ?'
         )
-        .run(displayName, now, assistantId)
+        .run(
+          displayName,
+          persona ?? current.persona,
+          avatarKey ?? current.avatar_key,
+          now,
+          assistantId
+        )
       this.bumpStateRevision()
       return this.snapshot()
     })
@@ -197,7 +209,7 @@ export class AssistantRepository {
   private row(assistantId: string): AssistantRow | undefined {
     return this.store.database
       .prepare(
-        'SELECT id, display_name, created_at, updated_at, archived_at, version FROM assistants WHERE id = ? AND id NOT IN (SELECT id FROM assistant_tombstones)'
+        'SELECT id, display_name, persona, avatar_key, created_at, updated_at, archived_at, version FROM assistants WHERE id = ? AND id NOT IN (SELECT id FROM assistant_tombstones)'
       )
       .get(assistantId) as AssistantRow | undefined
   }

@@ -1,0 +1,133 @@
+{
+  "task": "011-ui",
+  "role": "renderer executor",
+  "actualModel": "gpt-5.6-sol",
+  "reasoningEffort": "high",
+  "productBaseline": "ab11110a45c6ddb65bd114547225dd4e329bba11",
+  "coordinationHead": "4c044f9c269fa90ed7e9677a4603601268e343eb",
+  "generatedAt": "2026-09-07",
+  "status": "repaired-and-frozen-for-integration",
+  "repair": "Ignore same-or-older external assistant snapshot revisions as parent echoes; accept strictly newer revisions with existing request and operation fencing.",
+  "files": [
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "4EF758E1CB7F9746D4379C387650CE20FF6775BB7371D8805821D15DC1AB9AE9"
+    },
+    {
+      "path": "src/renderer/src/features/assistants/AssistantAvatar.tsx",
+      "sha256": "292777EF5366A26757CB8E8892359F6A02109BD726B3F90F71F7FBC7010F5C9E"
+    },
+    {
+      "path": "src/renderer/src/features/assistants/AssistantPanel.tsx",
+      "sha256": "0A28DA0143E7961525E682A56A0D2247027AE8A3548A386D934094B4B80B516A"
+    },
+    {
+      "path": "src/renderer/src/features/items/ItemPanel.tsx",
+      "sha256": "860902DF6E2EFF4C1F75700EA06302CA9DF929E9C3F96EE4703980EAC934E569"
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "360EB2CF4D3F776A86A84F08927BA40359F8EDEF526AEA9032783CE4F4B74A20"
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "sha256": "B6CC446F239186E804E464826C1A51B23E7A80A9C6A3BD0201E92B1F9E8E20A8"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "sha256": "EAAF468FA48D25EEAAA49F551D2D91ECB8DF687A717C96160FD0CAE5174B7FA0"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "FC61292E93B1884C1FA24A604D89BE4118219405636D0BACD7F11F20A7BF0DBE"
+    },
+    {
+      "path": "tests/renderer/App-assistant-navigation.test.tsx",
+      "sha256": "B4A6DA6464C787DAB9B1494C72A964F7CC2EA97245CD9124342ACA3E59ADC68D"
+    },
+    {
+      "path": "tests/renderer/App-items-sync.test.tsx",
+      "sha256": "DE202B814912E8F73523FB96C5CC06C7DA4D73E69D22F2997562E124AC5C4D8D"
+    },
+    {
+      "path": "tests/renderer/App-provider-sync.test.tsx",
+      "sha256": "1CEA7331578FE762D13786BBCE2DF1CEE50E128926A86A663E517CD72175B2F2"
+    },
+    {
+      "path": "tests/renderer/App-retention-fence.test.tsx",
+      "sha256": "3C7F4CD1539E4EEC6800206498FD43872381DF09B898E0BF9DF3DD3D1F16B37F"
+    },
+    {
+      "path": "tests/renderer/App-retention-registry.test.tsx",
+      "sha256": "450A2488AD0A26371DC9B626EB18B54C3E21B166758C427C3187F55AE5485E25"
+    },
+    {
+      "path": "tests/renderer/AssistantPanel-profile.test.tsx",
+      "sha256": "AB25884D7AE504D822401DFE6A396F4AD86D4FBF6070D00DEF8FBB84F78AE6B5"
+    },
+    {
+      "path": "tests/renderer/AssistantPanel-retention.test.tsx",
+      "sha256": "6B8DFA784CFD83AC2FC80ED1CACE9D85CA150131C095F5587DB796DB764BA6AF"
+    },
+    {
+      "path": "tests/renderer/AssistantPanel-security.test.tsx",
+      "sha256": "6C84B3BCAAF7EFF7412BEE1DE53D8DB7D558512AD2AC50D9BE6E1A3F8ABC7FB6"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-history-context.test.tsx",
+      "sha256": "1603831925643726A535194C93E8061696E77324FA31B754A750608E34FED7CC"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-late-response.test.tsx",
+      "sha256": "905E40B4D96DBED0EA0E3DD8F42BB563150BE18156E0F3A73D65F4DBDD93F758"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-retention.test.tsx",
+      "sha256": "14FF15815685EBCE8B480BD59B27ACAA169569A4E4041C439721B8CEE799B117"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-security.test.tsx",
+      "sha256": "B5A937AF5BF38E8F4D39857F18DD72FCC357012A1D4CEA7C75869BC5F86F2E29"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-timeline.test.tsx",
+      "sha256": "9F408B557C38C6358845CAB634BC8C10623A912E4C6B9C5DB0717B19C42D799F"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-tools.test.tsx",
+      "sha256": "9C83797933C396EE98985282CAB775AC1D7370A14254B1BE4CACA97E196265D0"
+    },
+    {
+      "path": "tests/renderer/RetentionPanel.test.tsx",
+      "sha256": "F15AE284D741BE54F16B7D0692F485740181E4A2CA5164D25226A08F70176B3A"
+    }
+  ],
+  "verification": [
+    {
+      "command": "npm exec vitest -- run tests/renderer",
+      "exitCode": 0,
+      "result": "19 files, 93 tests passed after temporary oracle removal"
+    },
+    {
+      "command": "npm exec tsc -- -p tsconfig.web.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm exec eslint -- 'src/renderer' 'tests/renderer' --max-warnings=0",
+      "exitCode": 0
+    },
+    {
+      "command": "npm exec prettier -- --check 'src/renderer' 'tests/renderer'",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check -- src/renderer tests/renderer",
+      "exitCode": 0
+    },
+    {
+      "command": "temporary root parent-echo oracle",
+      "exitCode": 0,
+      "result": "1 file, 3 tests passed by root before byte-for-byte archival and active-test removal"
+    }
+  ]
+}

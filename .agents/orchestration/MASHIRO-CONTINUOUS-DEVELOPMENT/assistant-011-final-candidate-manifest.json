@@ -1,0 +1,426 @@
+{
+  "baseline": "4c044f9c269fa90ed7e9677a4603601268e343eb",
+  "scope": "011 product and evidence; proportionate task/progress and 012 notification-route preparation",
+  "excluded": [
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/distribution-notices-preflight-v1.md",
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/distribution-notices-v1.mjs"
+  ],
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-live-product.md",
+      "sha256": "5ddf556af6e59d1105fee623a52ef9527eeaff8d4f11363893bd2df996d6c29d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-live-product.mjs",
+      "sha256": "c86f087240922cc664b2eb7130cba031a119e828145556abee793f27430ad5d1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-live-run-1.json",
+      "sha256": "3176dd024d3c670f07bc176de4e1e3dc7f0e04888d0140a8ad7b07f72c16dac4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-live-run-2.json",
+      "sha256": "87175fdb259427f5705388b569a5bf2b2606ff0d920a7eebf10ab8b007f59f70"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-review-fences.test.tsx.txt",
+      "sha256": "71069310564b8912a7e01120c88b72357b4d1b732c0bbc94fc0208f94e40765f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-review-independent.test.ts.txt",
+      "sha256": "7737ecd07c8128a6a6f5f2394d8370ac9dd13a6f0776cb944b6e6f0a4c5e4ecd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-review-trusted-run.txt",
+      "sha256": "84aae461489f80e781f4e7eb5d43a6ba9cd9d2ed610475491c404c9b52c33499"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-review-trusted-stage.md",
+      "sha256": "7861e829fe2234da19eabecec0e8de40e88c7376c93a40a06c82ef39e5af7e73"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-review-ui-focused.txt",
+      "sha256": "54ef5577830218cea077c0ccfe387b92ecc6bf0c1e0f58ffba6e7f13d0f07842"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-build-01.txt",
+      "sha256": "196ecfc5f8c45d09791674e58be60bf543b1e375c6088689ef806e09ee3f27ad"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-electron-01.txt",
+      "sha256": "f3d8f0ef23bad0be2f319c9ad80744a876dbc1e2a520342bb3c68811409cc6cd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-electron-02.txt",
+      "sha256": "80291b9674faf00478e1a5b313edb34b988f4ecab70db0d5145f41e91a7003a6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-electron-08.json",
+      "sha256": "e95875d46b31d7ec72486db65687752b61e906d46176082a8979623e10befb6d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-final-verification.md",
+      "sha256": "2208c014848f7bc61f6980e041c1c468acf8a1c7675725b71d54e5891ffdeb9c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-findings.md",
+      "sha256": "02e688a7f7f93339b95432b26e4e4bf62e66b57d86bbc95b750761274bcec37b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-format-check-01.txt",
+      "sha256": "eeef8f1fe204866b4b4cce1f4b31e14c51f91a41d0f10abe415f05ae51be3ff1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-full-01.txt",
+      "sha256": "67bca03ef793579703121ac4cf4ed6cad5ce80bae56cb6d134ce030536eb618a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-full-02.txt",
+      "sha256": "e895722d5b8e4cac0d2d271e9e9a66e5b29f6d2f384d8acaa146163f970d3b7b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-parent-echo-green.txt",
+      "sha256": "d4f49683e52bd69f838258dbcd3e1516e39e01542f751a85026b7cf073408cad"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-parent-echo-red.md",
+      "sha256": "90af95c5f038be6f0de9f2463f11dc214132ecbc88655710a9b1df70144d1255"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-parent-echo.test.tsx.txt",
+      "sha256": "b9ddb1ed862acc75778040ee264385d9a089349f5a3e4f0a4c7c4e9be2a25df0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-static-post-repair.txt",
+      "sha256": "154baebd2b1b1448e22d298def45b486d6b9c93dd261705b013e817f4a3669a9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-typecheck-01.txt",
+      "sha256": "f4842de794457d66ee087c2e916891cb0195be63915602b8aa8d62ada0c6d3fd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-electron-06.json",
+      "sha256": "a23c2fa480a060d83245bfa1eca5d88c784049c99162a479bbe9c33dc960fcf1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-electron-07.json",
+      "sha256": "12e3eea63c2ecde5d76ffbab9ddf48977b6232553cb046c776ff1adca338c02d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-electron-failures.json",
+      "sha256": "56d68774bbf1be0fbaf4392c5d50209c14df96838f7ae4cf083555cce75f8226"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-final-manifest.json",
+      "sha256": "83a627689f8d8be2cba5ed4b2a1ec6e98272f06e10ba7f63d8bc91aae7e635c9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-integration-handoff.md",
+      "sha256": "cf3748d2d6f985e2927a1a64e52acfa112ffa456ade9328cea129676c7df2ad2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-profile-focused.txt",
+      "sha256": "c9fef830e1d60401bcfdb2ca0e277cfa64f3ab4fc7436fb6db2e40380a0c36db"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-purge-green.txt",
+      "sha256": "242e7dab1f87dd182f4b9cd8864237b71d97c8b20d2a30c50c70cbb1414b6a01"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-purge-red.txt",
+      "sha256": "e66976d2198a90b97400f1d24eb8227cdec86ff3977e58b247a84b470c995c67"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-stage-manifest.json",
+      "sha256": "cefc6e77c4fa482f1ed5c8e1617a426154cea049db3cdad6329c2bd4b34b2282"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-stage.md",
+      "sha256": "9feee0f5e704c7b950af170d1e0b80544756d74d54cd9714c92ca0940e4f33a4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-unit-integration.txt",
+      "sha256": "f117707125f8f0e291f302d1bedafb7416006f5e08c0784055b2f77beb96ca75"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-ui-stage-manifest.json",
+      "sha256": "08deca64c104ae8fc2359b8996d6ea35369f6f7207f1e004537235aaf3a8c769"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-ui-stage.md",
+      "sha256": "3cc69e116ba04d639637931ca49c08fe7ae0753f334611a2265fd1b4ee3541ff"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-actual-plan.md",
+      "sha256": "2f430023f08901ff772c7ff0ad7d64d93a62c2191ca132e11a6aac58c7b61263"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-probe.cjs",
+      "sha256": "1c49876f43b285de601359fe55e67cca82b79a3709b8e1c87ac81f0e4f69b369"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-1-events.jsonl",
+      "sha256": "c31ac8a665bbaeb68e364a2762741c214076800fa1b79710bdb3347c9a94dc11"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-1-result.json",
+      "sha256": "cfe3a76a0681360205b77b455c6268bda5611ef385494ce09c8e5c41785c7908"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-1-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-2-events.jsonl",
+      "sha256": "acb9d931cca049a7fa086921f6ecb92d4a133abb28583deb76f863078445c1bb"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-2-result.json",
+      "sha256": "24300c210a3d0a0394a60c42874395f8e9cde960f2923654d9de8415869377c8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-2-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-3-events.jsonl",
+      "sha256": "e7e9899420f1ea9f22c47d3fb390e0418cef59eacf889fea00129eb1f49ea72c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-3-result.json",
+      "sha256": "4e27c3aacd5275036a6de68ff99544345b178c024f62dec39ab91b57b6ac9a4b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-3-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-4-events.jsonl",
+      "sha256": "2615dc92d7cc408c7193a464c4f32bf34854882b30c86c403245514aae3ba2d0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-4-result.json",
+      "sha256": "465892b5d1cb6ca613eacc40f0e79ddb474c3e5aaf2c9a8e125efd4411edc7ad"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-route-a-attempt-4-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-run.ps1",
+      "sha256": "0bc99057d591bf2e7cf67f972e24bfbecc3b990342b51d0ce2ed6e2ff8c32e6e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-spike.md",
+      "sha256": "2a3be76c17dec9ff29b6062c059799eb00e486800ca3e9a2cd7d345c648412e1"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "c09606862b952cd11fe6538b716ffb7aeb2352971de9af15661be585923c0dee"
+    },
+    {
+      "path": "doc/tasks/010-items-and-proposals.md",
+      "sha256": "dc505bee05f8bbf1b5214212ddbaf6376b91f06550b783db6e66a16821a865d8"
+    },
+    {
+      "path": "doc/tasks/011-assistant-basic-configuration.md",
+      "sha256": "fb06b4b7448a04b3f0e0cfb583cc9867ea984fdf079a4a7f9ba2a9fc9e2d107e"
+    },
+    {
+      "path": "doc/tasks/012-deterministic-reminders.md",
+      "sha256": "959df7b2fa9a539fbdfcc5e344e7ae8059ddc8483531fd76b4cbfb13877e96c4"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "sha256": "813218bddeec6ca6dc787d767ee68a20e39328b93919ed2deacc0b910345d8b5"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "sha256": "3f501674e4cc791af1d541ca8a9286dff918f821f6b802c40fc3fe1f108e5457"
+    },
+    {
+      "path": "scripts/electron-f1-harness.mjs",
+      "sha256": "3e48324fe454a7c54b8807e94085f87ebe94dbdbbaa23bc96af1638e885e4c1d"
+    },
+    {
+      "path": "src/main/assistant/assistant-repository.ts",
+      "sha256": "7b08a6a1e2392b868382fdc80471708550676434fd1e251e8443f0faf487cc41"
+    },
+    {
+      "path": "src/main/assistant/assistant-service.ts",
+      "sha256": "4ad089e494e6920fe858516f4623795597610d836283a15cf195f37e1814e5bc"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "7be15cd04eb47d97c4589227f3a0ba718cf1733e9fdb91a7065cb93eb66fa543"
+    },
+    {
+      "path": "src/main/provider/provider-repository.ts",
+      "sha256": "9807bdb68cd9ae585a3b4d6d1f097002de21b2610f3e6dff516ca836c72a39ad"
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "sha256": "8f35825ae53fc0906041efe665380c557c921397fb23ccc99aeb43e529f04bfa"
+    },
+    {
+      "path": "src/main/retention/retention-service.ts",
+      "sha256": "a965e368a1e7086db4d08412ae9b211dca2f5ebcaf2c1ff66f0b4b2fc9913ef7"
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "sha256": "2fb97bacd780852dce70d4efc430dabffc8351ac123c69450bac1361299b0f56"
+    },
+    {
+      "path": "src/main/testing/e2e-profile-scripts.ts",
+      "sha256": "9ea660564fe927bbe532c27d2041e2cd30e6b8ccaa98838038b4cec7460311fe"
+    },
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "4ef758e1cb7f9746d4379c387650ce20ff6775bb7371d8805821d15dc1ab9ae9"
+    },
+    {
+      "path": "src/renderer/src/features/assistants/AssistantAvatar.tsx",
+      "sha256": "292777ef5366a26757cb8e8892359f6a02109bd726b3f90f71f7fbc7010f5c9e"
+    },
+    {
+      "path": "src/renderer/src/features/assistants/AssistantPanel.tsx",
+      "sha256": "0a28da0143e7961525e682a56a0d2247027ae8a3548a386d934094b4b80b516a"
+    },
+    {
+      "path": "src/renderer/src/features/items/ItemPanel.tsx",
+      "sha256": "860902df6e2eff4c1f75700ea06302ca9df929e9c3f96ee4703980eac934e569"
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "360eb2cf4d3f776a86a84f08927ba40359f8edef526aea9032783ce4f4b74a20"
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "sha256": "b6cc446f239186e804e464826c1a51b23e7a80a9c6a3bd0201e92b1f9e8e20a8"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "sha256": "eaaf468fa48d25eeaaa49f551d2d91ecb8df687a717c96160fd0cae5174b7fa0"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "fc61292e93b1884c1fa24a604d89be4118219405636d0bacd7f11f20a7bf0dbe"
+    },
+    {
+      "path": "src/shared/assistant-contract.ts",
+      "sha256": "42c9def405928b370e015d71f166514e7d84b36a1da48942e8e5f46fa3ac0f82"
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "sha256": "0e45769145d216c2132aed2aaca081440d6686f83e70fb25f21eb6c99f4e1c81"
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "sha256": "42d6c34f7f292f63daaa3052b4bc0853d9b9b48938c99bb46b65019f04d6053d"
+    },
+    {
+      "path": "tests/integration/memory-service.test.ts",
+      "sha256": "efa6dbf077058f33453bf252f4e3066db93048d0ef61e7d7b5a0ec304989af3f"
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "sha256": "df51ddb612d8fca2ab3f2c3649d7c3cdc9369af4cb5e571cf354b12bb317997f"
+    },
+    {
+      "path": "tests/integration/provider-service.test.ts",
+      "sha256": "2f1d8e21fb860a80358f336527360645c926fb3c6fed4870f8c592e75df14bac"
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "da19c6c9cae8c06c29f99305b77c4cd97ed1ac9913ebdf1cf56f0106924c1afe"
+    },
+    {
+      "path": "tests/integration/retention-legacy-fixture.ts",
+      "sha256": "7960055b686eba7f597c55404b2f792944ff647e4297c4a9a41444b0f3c94c75"
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "sha256": "72adf6967e176740ef9ce15c746a885e695f6b0e2912bc739094bf721a9f2387"
+    },
+    {
+      "path": "tests/integration/retention-service.test.ts",
+      "sha256": "3e572913e9a31b198832a2dd78a263023a562304d5163f480da3167817ad2176"
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "sha256": "5cdcd538f2f7e8bd49306c875a3dd803e2dd9b141d2b8edda96fef596022edfd"
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "sha256": "dd2214f66ee9e7e3d52b5d43e3fd21f18667191c0773b1e9be0218604b51e094"
+    },
+    {
+      "path": "tests/integration/timeline-service.test.ts",
+      "sha256": "0ea7ec0909ddda84bd7368d6dbe2994cb9ffc242cc453dc0fe0032715851b010"
+    },
+    {
+      "path": "tests/renderer/App-assistant-navigation.test.tsx",
+      "sha256": "b4a6da6464c787dab9b1494c72a964f7cc2ea97245cd9124342aca3e59adc68d"
+    },
+    {
+      "path": "tests/renderer/App-items-sync.test.tsx",
+      "sha256": "de202b814912e8f73523fb96c5cc06c7da4d73e69d22f2997562e124ac5c4d8d"
+    },
+    {
+      "path": "tests/renderer/App-provider-sync.test.tsx",
+      "sha256": "1cea7331578fe762d13786bbce2df1cee50e128926a86a663e517cd72175b2f2"
+    },
+    {
+      "path": "tests/renderer/App-retention-fence.test.tsx",
+      "sha256": "3c7f4cd1539e4eec6800206498fd43872381df09b898e0bf9df3dd3d1f16b37f"
+    },
+    {
+      "path": "tests/renderer/App-retention-registry.test.tsx",
+      "sha256": "450a2488ad0a26371dc9b626eb18b54c3e21b166758c427c3187f55ae5485e25"
+    },
+    {
+      "path": "tests/renderer/AssistantPanel-profile.test.tsx",
+      "sha256": "ab25884d7ae504d822401dfe6a396f4ad86d4fbf6070d00def8fbb84f78ae6b5"
+    },
+    {
+      "path": "tests/renderer/AssistantPanel-retention.test.tsx",
+      "sha256": "6b8dfa784cfd83ac2fc80ed1cace9d85ca150131c095f5587db796db764ba6af"
+    },
+    {
+      "path": "tests/renderer/AssistantPanel-security.test.tsx",
+      "sha256": "6c84b3bcaaf7eff7412bee1de53d8db7d558512ad2ac50d9be6e1a3f8abc7fb6"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-history-context.test.tsx",
+      "sha256": "1603831925643726a535194c93e8061696e77324fa31b754a750608e34fed7cc"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-late-response.test.tsx",
+      "sha256": "905e40b4d96dbed0ea0e3dd8f42bb563150be18156e0f3a73d65f4dbdd93f758"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-retention.test.tsx",
+      "sha256": "14ff15815685ebce8b480bd59b27acaa169569a4e4041c439721b8cee799b117"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-security.test.tsx",
+      "sha256": "b5a937af5bf38e8f4d39857f18dd72fcc357012a1d4cea7c75869bc5f86f2e29"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-timeline.test.tsx",
+      "sha256": "9f408b557c38c6358845cab634bc8c10623a912e4c6b9c5db0717b19c42d799f"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-tools.test.tsx",
+      "sha256": "9c83797933c396ee98985282cab775ac1d7370a14254b1be4caca97e196265d0"
+    },
+    {
+      "path": "tests/renderer/RetentionPanel.test.tsx",
+      "sha256": "f15ae284d741be54f16b7d0692f485740181e4a2ca5164d25226a08f70176b3a"
+    },
+    {
+      "path": "tests/unit/assistant-contract.test.ts",
+      "sha256": "9aec9520d9ac7ee8a9b82f336d44ae3a42c3e53becbc74d386acddbb05a45f0b"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+Command: npx vitest run tests/unit tests/integration --maxWorkers=1
+Exit code: 0
+
+ RUN  v4.1.11 D:/Mashiro
+
+
+ Test Files  35 passed (35)
+      Tests  227 passed (227)
+   Start at  04:14:05
+   Duration  46.28s (transform 767ms, setup 3.69s, import 3.28s, tests 33.97s, environment 2ms)
+

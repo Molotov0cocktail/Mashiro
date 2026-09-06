@@ -48,7 +48,7 @@ describe('provider schema compatibility', () => {
     const database = new DatabaseSync(path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(8)
+    ).toBe(9)
     database.close()
   })
   it('creates current storage and preserves assistant identities across restart', () => {
@@ -66,7 +66,7 @@ describe('provider schema compatibility', () => {
     const database = new DatabaseSync(path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(8)
+    ).toBe(9)
     expect(
       database
         .prepare(

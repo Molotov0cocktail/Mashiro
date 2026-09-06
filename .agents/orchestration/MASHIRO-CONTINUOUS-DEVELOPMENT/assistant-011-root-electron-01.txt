@@ -1,0 +1,9 @@
+file:///D:/Mashiro/scripts/electron-f1-harness.mjs:141
+    throw new Error('Electron stage ' + failure.stage + ' failed: ' + failure.code)
+          ^
+
+Error: Electron stage seed-profile-ui failed: FAILED
+    at file:///D:/Mashiro/scripts/electron-f1-harness.mjs:141:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.18.0

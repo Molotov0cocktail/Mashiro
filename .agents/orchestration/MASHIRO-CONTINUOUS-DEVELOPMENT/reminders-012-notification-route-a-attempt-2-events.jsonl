@@ -1,0 +1,1 @@
+{"at":"2026-09-06T20:41:58.159Z","event":"uncaughtException","pid":130140,"name":"Error","message":"Cannot find module 'electron'\nRequire stack:\n- C:\\Users\\30910\\AppData\\Local\\Temp\\Mashiro-Notification-Spike-012-a19a6ceed72b4d8ca857b0ab19a33271\\main.cjs"}

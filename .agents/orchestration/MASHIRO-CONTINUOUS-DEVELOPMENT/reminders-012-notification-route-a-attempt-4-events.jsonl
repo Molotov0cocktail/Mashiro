@@ -1,0 +1,11 @@
+{"at":"2026-09-06T20:49:27.467Z","event":"pre-require","pid":132972,"electronRunAsNodePresent":false,"electronRunAsNodeIsOne":false,"electronVersionPresent":true,"electronVersion":"44.1.1","processType":"browser","defaultApp":true}
+{"at":"2026-09-06T20:49:27.684Z","event":"ready","pid":132972,"platform":"win32","arch":"x64","osRelease":"10.0.26200","electron":"44.1.1","chrome":"152.0.7977.65","node":"24.19.0","appUserModelId":"io.mashiro.synthetic.notification-spike.012.b2135f2a564b44ceb40201df5d4e6918","userData":"C:\\Users\\30910\\AppData\\Local\\Temp\\Mashiro-Notification-Spike-012-b2135f2a564b44ceb40201df5d4e6918\\user-data","sessionData":"C:\\Users\\30910\\AppData\\Local\\Temp\\Mashiro-Notification-Spike-012-b2135f2a564b44ceb40201df5d4e6918\\session-data","handleActivationAvailable":true}
+{"at":"2026-09-06T20:49:27.685Z","event":"activation-handler-registered","pid":132972}
+{"at":"2026-09-06T20:49:27.695Z","event":"is-supported","pid":132972,"supported":true}
+{"at":"2026-09-06T20:49:27.696Z","event":"show-invoked","pid":132972}
+{"at":"2026-09-06T20:49:27.718Z","event":"show","pid":132972}
+{"at":"2026-09-06T20:49:29.222Z","event":"close-requested","pid":132972,"mechanism":"notification.close()"}
+{"at":"2026-09-06T20:49:35.705Z","event":"quit-requested","pid":132972,"reason":"observation-timeout","exitCode":5}
+{"at":"2026-09-06T20:49:35.706Z","event":"before-quit","pid":132972}
+{"at":"2026-09-06T20:49:35.706Z","event":"will-quit","pid":132972}
+{"at":"2026-09-06T20:49:35.707Z","event":"quit","pid":132972,"exitCode":0}

@@ -1,4 +1,5 @@
 import { app, type BrowserWindow } from 'electron'
+import { seedProfileUiScript, verifyProfileUiScript } from './e2e-profile-scripts.js'
 import { seedItemsScript, restoreItemsScript, verifyItemsUiScript } from './e2e-item-scripts.js'
 import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -138,7 +139,7 @@ const seedScript = `
   const second = result.data.assistants.find((item) => item.id !== firstId)
   result = await api.switch({ protocolVersion: 1, assistantId: second.id, expectedStateRevision: 2 })
   if (!result.ok) throw new Error(result.error.code)
-  result = await api.rename({ protocolVersion: 1, assistantId: second.id, displayName: '雪', expectedAssistantVersion: 1, expectedStateRevision: 3 })
+  result = await api.rename({ protocolVersion: 1, assistantId: second.id, displayName: '雪', persona: 'E2E_PROFILE_BEFORE', avatarKey: 'leaf', expectedAssistantVersion: 1, expectedStateRevision: 3 })
   if (!result.ok) throw new Error(result.error.code)
   result = await api.setPrimary({ protocolVersion: 1, assistantId: second.id, expectedAssistantVersion: 2, expectedStateRevision: 4 })
   if (!result.ok) throw new Error(result.error.code)
@@ -462,6 +463,7 @@ const verifySendScript = `
 `
 
 type SeedEvidence = {
+  profileUi: unknown
   items: unknown
   retention: unknown
   memory: unknown
@@ -478,6 +480,7 @@ type SeedEvidence = {
   pendingPartial: string
 }
 type VerifyEvidence = {
+  profileUi: unknown
   items: unknown
   itemsUi: unknown
   memoryUi: {
@@ -517,6 +520,37 @@ export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Pr
           return execute(window, seedItemsScript)
         })()
       }
+      stage = 'seed-renderer-refresh'
+      await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(() => reject(Error('renderer-refresh-timeout')), 10000)
+        window.webContents.once('did-finish-load', () => {
+          clearTimeout(timer)
+          resolve()
+        })
+        window.webContents.reload()
+      })
+      stage = 'seed-profile-ui'
+      const profile = await execute<{
+        assistant: AssistantSnapshot
+        profileUi: unknown
+        profileFailure?: { phase: string; code: string }
+      }>(window, seedProfileUiScript)
+      if (profile.profileFailure) {
+        writeFileSync(
+          join(dataRoot.resultsDirectory, dataRoot.phase + '-profile-failure.json'),
+          JSON.stringify(profile.profileFailure, null, 2),
+          { flag: 'wx' }
+        )
+        writeFileSync(
+          join(dataRoot.resultsDirectory, dataRoot.phase + '-profile-failure.png'),
+          (await window.webContents.capturePage()).toPNG(),
+          { flag: 'wx' }
+        )
+        stage =
+          'seed-profile-ui-' + profile.profileFailure.phase + '-' + profile.profileFailure.code
+        throw Error('E2E')
+      }
+      evidence = { ...evidence, ...profile }
     } else {
       stage = 'restore-core'
       const restored = await execute<
@@ -559,9 +593,42 @@ export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Pr
         (await window.webContents.capturePage()).toPNG(),
         { flag: 'wx' }
       )
+      stage = 'verify-profile-ui'
+      const profile = await execute<{
+        profileUi: unknown
+        profileFailure?: { phase: string; code: string }
+      }>(window, verifyProfileUiScript)
+      if (profile.profileFailure) {
+        writeFileSync(
+          join(dataRoot.resultsDirectory, dataRoot.phase + '-profile-failure.json'),
+          JSON.stringify(profile.profileFailure, null, 2),
+          { flag: 'wx' }
+        )
+        writeFileSync(
+          join(dataRoot.resultsDirectory, dataRoot.phase + '-profile-failure.png'),
+          (await window.webContents.capturePage()).toPNG(),
+          { flag: 'wx' }
+        )
+        stage =
+          'verify-profile-ui-' + profile.profileFailure.phase + '-' + profile.profileFailure.code
+        throw Error('E2E')
+      }
+      writeFileSync(
+        join(dataRoot.resultsDirectory, 'profile-ui.png'),
+        (await window.webContents.capturePage()).toPNG(),
+        { flag: 'wx' }
+      )
       stage = 'memory-ui'
       const memoryUi = await execute<VerifyEvidence['memoryUi']>(window, verifyMemoryUiScript)
-      evidence = { ...restored, transportBeforeExplicit, ...sent, memoryUi, items, itemsUi }
+      evidence = {
+        ...restored,
+        transportBeforeExplicit,
+        ...sent,
+        memoryUi,
+        items,
+        itemsUi,
+        ...profile
+      }
     }
   } catch {
     evidence = { failure: { stage, code: 'FAILED' } }

@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import type { ZodType } from 'zod'
 import {
   archiveInputSchema,
+  assistantPersonaLimit,
   createInputSchema,
   listInputSchema,
   renameInputSchema,
@@ -26,6 +27,19 @@ function normalizeDisplayName(value: string): string {
   if (length < 1 || length > 80) {
     throw new InvalidAssistantInputError('Assistant names must contain 1 to 80 characters')
   }
+  return normalized
+}
+
+function normalizePersona(value: string): string {
+  const normalized = value.normalize('NFC').replace(/\r\n?/g, '\n')
+  if (
+    [...normalized].length > assistantPersonaLimit ||
+    [...normalized].some((c) => {
+      const cp = c.codePointAt(0)!
+      return (cp < 32 && cp !== 9 && cp !== 10) || cp === 127
+    })
+  )
+    throw new InvalidAssistantInputError('Invalid assistant persona')
   return normalized
 }
 
@@ -89,7 +103,9 @@ export class AssistantService {
         value.assistantId,
         normalizeDisplayName(value.displayName),
         value.expectedAssistantVersion,
-        value.expectedStateRevision
+        value.expectedStateRevision,
+        value.persona === undefined ? undefined : normalizePersona(value.persona),
+        value.avatarKey
       )
     )
   }

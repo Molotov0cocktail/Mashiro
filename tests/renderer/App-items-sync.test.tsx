@@ -25,6 +25,8 @@ function assistants(
       {
         id: itemAssistantA,
         displayName: 'Alpha',
+        persona: '',
+        avatarKey: 'mashiro',
         isArchived: false,
         createdAt: '2026-09-07T00:00:00.000Z',
         updatedAt: '2026-09-07T00:00:00.000Z',
@@ -34,6 +36,8 @@ function assistants(
       {
         id: itemAssistantB,
         displayName: 'Beta',
+        persona: '',
+        avatarKey: 'mashiro',
         isArchived: betaArchived,
         createdAt: '2026-09-07T00:00:01.000Z',
         updatedAt: '2026-09-07T00:00:01.000Z',

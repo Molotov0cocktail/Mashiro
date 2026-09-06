@@ -1,7 +1,7 @@
 # 010 统一事项、提案与对话执行
 
 - TASK = 010；状态 = TASK_DONE / FINAL PASS；PROGRAM ACTIVE。
-- 编号核对未占用。008已独立FINAL PASS，009手动核心已审产品为`d6cd1fa4a27ccb418ffc3ff04503366acb133e2e`，两个main已实查同步，当前正式产品任务为本010，唯一入口为[progress](progress.md)，总需求见[项目总清单](program-docs-to-release.md)。[009](009-retention-and-cleanup.md)承接生命周期；本任务承接Q7、F01–F03/F07及对应业务权限。
+- 编号核对未占用。008已独立FINAL PASS，009手动核心已审产品为`d6cd1fa4a27ccb418ffc3ff04503366acb133e2e`，两个main已实查同步，本010最终成果已交付，当前正式产品任务为011，唯一入口为[progress](progress.md)，总需求见[项目总清单](program-docs-to-release.md)。[009](009-retention-and-cleanup.md)承接生命周期；本任务承接Q7、F01–F03/F07及对应业务权限。
 - 原文：proposal §3.4–3.5；high-level-design §5/13；detailed-design §7.3/8、ITEM-001–004及EXEC决议。独立Astra阅读所得[领域预案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-next-design.md)是实施输入，尚不是源码审计或冻结接口。
 
 ## 用户闭环
@@ -41,7 +41,7 @@ RET-007保留策略已问待答，REM-002提醒默认仍待具体决议；不阻
 - 回答失败但已提交可核查，事务故障注入无半接受/重复正式项；删除/批量未确认零执行，确认前目标变化拒绝。
 - 独立Astra审核高风险持久化、权限、业务副作用及实际入口；合理静态/完整回归和Electron证据后提交、双远程非force同步，更新覆盖并自动继续Q8/Q9/Q10/整体验收/实际发布。
 
-## 当前独立复核
+## 历史独立复核过程
 
 2026-09-07作者冻结50files/292tests和两PID122888/117380；renderer17/80及root独立恢复oracle红→绿。随后[独立REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-repair-1.md)两反例确认：Provider修改把目标自身旧版本作为新依赖，下一轮不可读；64来源上限静默丢第65条。trusted已承接修复，保留完整来源依赖及原子拒绝边界；Reviewer重跑原反例后再结论。两条来源oracle随后原样通过；独立审核继续发现提案identity对同原文不同引用范围可绕过、非日期实质新条件被误杀，以及正式事项保留例外吞掉传递来源撤回（已用公开memory/retention链复现）。identity两侧也已独立转绿；retained传递撤回和状态变更继承例外已作者修复待独立复验。[追加报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-repair-additional.md)另确认正式事项字段修改/选入对话缺口，现prepare_item_update同ID/version完整候选→本地确认的可信路径及真实增量已通过，UI入口及完整差异已冻结（17files/84tests），review_010_final已复开原样反例与新差异独立复验；trusted正在统一最终build/Electron与manifest02。程序仍ACTIVE，010未完成。
 

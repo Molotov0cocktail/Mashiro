@@ -23,6 +23,8 @@ function snapshot(
             {
               id: removedId,
               displayName: removedName,
+              persona: '',
+              avatarKey: 'mashiro' as const,
               isArchived: false,
               createdAt: '2026-09-06T00:00:00.000Z',
               updatedAt: '2026-09-06T00:00:00.000Z',
@@ -34,6 +36,8 @@ function snapshot(
       {
         id: retainedId,
         displayName: '保留助手',
+        persona: '',
+        avatarKey: 'mashiro' as const,
         isArchived: false,
         createdAt: '2026-09-06T00:00:00.000Z',
         updatedAt: '2026-09-06T00:00:00.000Z',
@@ -73,7 +77,7 @@ describe('AssistantPanel retention fences', () => {
     } as AssistantApi
     const view = render(<AssistantPanel api={api} externalSnapshot={snapshot(1)} />)
 
-    const rename = await screen.findByRole('textbox', { name: '重命名 已删除私密身份' })
+    const rename = await screen.findByRole('textbox', { name: '名称 已删除私密身份' })
     fireEvent.change(rename, { target: { value: '未保存私密草稿' } })
     view.rerender(<AssistantPanel api={api} externalSnapshot={snapshot(3, false)} />)
     await waitFor(() => expect(screen.queryByText('已删除私密身份')).not.toBeInTheDocument())
@@ -85,14 +89,14 @@ describe('AssistantPanel retention fences', () => {
     expect(screen.queryByText('已删除私密身份')).not.toBeInTheDocument()
 
     view.rerender(<AssistantPanel api={api} externalSnapshot={snapshot(4, true, '重新建立身份')} />)
-    expect(await screen.findByRole('textbox', { name: '重命名 重新建立身份' })).toHaveValue(
+    expect(await screen.findByRole('textbox', { name: '名称 重新建立身份' })).toHaveValue(
       '重新建立身份'
     )
   })
 
   it.each([
     ['create', '创建助手'],
-    ['rename', '保存名称'],
+    ['rename', '保存基础配置'],
     ['switch', '设为当前'],
     ['setPrimary', '设为主要'],
     ['archive', '归档']

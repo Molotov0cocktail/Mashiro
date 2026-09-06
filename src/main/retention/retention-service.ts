@@ -1097,7 +1097,7 @@ export class RetentionService {
     const now = new Date().toISOString()
     this.store.database
       .prepare(
-        "UPDATE assistants SET display_name='已删除助手',archived_at=?,updated_at=?,version=version+1 WHERE id=?"
+        "UPDATE assistants SET display_name='已删除助手',persona='',avatar_key='mashiro',archived_at=?,updated_at=?,version=version+1 WHERE id=?"
       )
       .run(now, now, id)
     for (const table of [

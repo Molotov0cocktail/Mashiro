@@ -19,6 +19,8 @@ const snapshot: AssistantSnapshot = {
     {
       id: assistantId,
       displayName: '日常助手',
+      persona: '',
+      avatarKey: 'mashiro',
       isArchived: false,
       createdAt: '2026-09-06T00:00:00.000Z',
       updatedAt: '2026-09-06T00:00:00.000Z',

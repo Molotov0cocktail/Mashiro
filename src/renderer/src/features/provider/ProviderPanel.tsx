@@ -26,6 +26,7 @@ import type {
   ToolOperation,
   ToolScope
 } from '../../../../shared/tool-contract'
+import { AssistantAvatar, avatarLabel } from '../assistants/AssistantAvatar'
 import { HistoryContextPanel } from './HistoryContextPanel'
 import { ToolExecutionPanel } from './ToolExecutionPanel'
 
@@ -116,7 +117,8 @@ export function ProviderPanel({
   onOpenItems,
   onLocateMemorySource,
   retentionChange,
-  onPrepareRetention
+  onPrepareRetention,
+  configurationFocus
 }: {
   assistantSnapshot: AssistantSnapshot | null
   api: ProviderApi
@@ -145,6 +147,11 @@ export function ProviderPanel({
     target: RetentionIntent['target'],
     intent?: RetentionPreview['intent']
   ) => void
+  configurationFocus?: {
+    assistantId: string
+    target: 'provider' | 'history'
+    nonce: number
+  } | null
 }): React.JSX.Element {
   const [snapshot, setSnapshot] = useState<ProviderSnapshot | null>(null)
   const [selectedId, setSelectedId] = useState('')
@@ -210,6 +217,54 @@ export function ProviderPanel({
     (item) => item.id === currentAssistantId
   )
   const mode = modeByAssistant[currentAssistantId] ?? 'normal'
+  const configurationFocusAssistantId = configurationFocus?.assistantId
+  const configurationFocusTarget = configurationFocus?.target
+  const configurationFocusNonce = configurationFocus?.nonce
+  const handledConfigurationFocus = useRef('')
+
+  useEffect(() => {
+    if (
+      !configurationFocusAssistantId ||
+      configurationFocusAssistantId !== currentAssistantId ||
+      !configurationFocusTarget ||
+      configurationFocusNonce == null
+    ) {
+      return
+    }
+    const focusKey = `${configurationFocusAssistantId}:${configurationFocusNonce}`
+    if (handledConfigurationFocus.current === focusKey) return
+    handledConfigurationFocus.current = focusKey
+    let focusTimer: number | undefined
+    const focusTarget = (): void => {
+      const targetId =
+        configurationFocusTarget === 'provider'
+          ? 'provider-connection-settings'
+          : 'history-permissions'
+      const element = document.getElementById(targetId)
+      if (!element) return
+      if (element instanceof HTMLDetailsElement) element.open = true
+      element.focus()
+      element.scrollIntoView?.({ block: 'start' })
+    }
+    const timer = window.setTimeout(() => {
+      if (configurationFocusTarget === 'history') {
+        setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
+        focusTimer = window.setTimeout(focusTarget, 0)
+      } else {
+        focusTarget()
+      }
+    }, 0)
+    return () => {
+      window.clearTimeout(timer)
+      if (focusTimer !== undefined) window.clearTimeout(focusTimer)
+    }
+  }, [
+    configurationFocusAssistantId,
+    configurationFocusNonce,
+    configurationFocusTarget,
+    currentAssistantId
+  ])
+
   const currentKey = timelineKey(currentAssistantId, mode)
   const selected = snapshot?.connections.find((item) => item.id === selectedId)
   const binding = snapshot?.bindings.find((item) => item.assistantId === currentAssistantId)
@@ -1080,7 +1135,12 @@ export function ProviderPanel({
       {settingsError ? <p role="alert">{settingsError}</p> : null}
 
       <div className="provider-grid">
-        <details className="provider-settings-shell" open>
+        <details
+          id="provider-connection-settings"
+          className="provider-settings-shell"
+          tabIndex={-1}
+          open
+        >
           <summary>连接设置</summary>
           <form
             className="provider-settings"
@@ -1199,7 +1259,16 @@ export function ProviderPanel({
         </details>
 
         <div className="temporary-chat">
-          <h2>{mode === 'normal' ? '正常时间线' : '本次运行的严格临时会话'}</h2>
+          <div className="chat-assistant-heading">
+            {currentAssistant ? (
+              <AssistantAvatar
+                avatarKey={currentAssistant.avatarKey}
+                size="large"
+                label={`${currentAssistant.displayName}的聊天形象：${avatarLabel(currentAssistant.avatarKey)}`}
+              />
+            ) : null}
+            <h2>{mode === 'normal' ? '正常时间线' : '本次运行的严格临时会话'}</h2>
+          </div>
           <label>
             当前助手
             <select value={currentAssistantId} disabled>
@@ -1208,6 +1277,9 @@ export function ProviderPanel({
               </option>
             </select>
           </label>
+          <p className="scope-note">
+            当前助手的名称和人设会随正常及严格临时请求发送给下方显示的实际接收方；人设不会授予历史、记忆、事项或工具权限。
+          </p>
           <fieldset className="mode-switch">
             <legend>交流模式</legend>
             <label className="inline-check">

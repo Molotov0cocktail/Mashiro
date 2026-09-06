@@ -18,6 +18,8 @@ function snapshot(revision: number, present = true): AssistantSnapshot {
           {
             id: assistantId,
             displayName: '不应复活的助手',
+            persona: '',
+            avatarKey: 'mashiro',
             isArchived: false,
             createdAt: '2026-09-06T00:00:00.000Z',
             updatedAt: '2026-09-06T00:00:00.000Z',

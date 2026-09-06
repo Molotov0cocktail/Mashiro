@@ -114,15 +114,16 @@ it('selects old complete rounds in chronological order without reading other rec
   const rows = messages(item)
   const requestIds = [rows[4]!.requestId, rows[0]!.requestId]
   expect((await item.send('selected', { kind: 'selected', requestIds })).ok).toBe(true)
-  expect(item.transport.mock.calls.at(-1)![0].messages.map((row) => row.content)).toEqual([
-    'round-0',
-    'reply',
-    'round-2',
-    'reply',
-    'selected'
-  ])
+  expect(
+    item.transport.mock.calls
+      .at(-1)![0]
+      .messages.slice(1)
+      .map((row) => row.content)
+  ).toEqual(['round-0', 'reply', 'round-2', 'reply', 'selected'])
   expect((await item.send('none', { kind: 'none' })).ok).toBe(true)
-  expect(item.transport.mock.calls.at(-1)![0].messages).toEqual([{ role: 'user', content: 'none' }])
+  expect(item.transport.mock.calls.at(-1)![0].messages.slice(1)).toEqual([
+    { role: 'user', content: 'none' }
+  ])
 })
 it('rejects duplicate, foreign, unknown, incomplete and over-budget selection before persistence or calls', async () => {
   const item = fixture()
@@ -284,7 +285,7 @@ it('does not inherit endpoint permission after edits and rejects stale target ap
     })
   ).toMatchObject({ ok: false, error: { code: 'STALE_WRITE' } })
   await item.send('after-endpoint')
-  expect(item.transport.mock.calls.at(-1)![0].messages).toEqual([
+  expect(item.transport.mock.calls.at(-1)![0].messages.slice(1)).toEqual([
     { role: 'user', content: 'after-endpoint' }
   ])
   item.service.bindAssistant({
@@ -430,7 +431,11 @@ it.each([
     },
     (event) => events.push(event.type)
   )
-  expect(captured.messages.map((row) => row.content)).toEqual(['history', 'reply', 'revoke'])
+  expect(captured.messages.slice(1).map((row) => row.content)).toEqual([
+    'history',
+    'reply',
+    'revoke'
+  ])
   permission(item, true, false)
   expect(captured.signal?.aborted).toBe(true)
   captured.onDelta?.('IGNORED_LATE_DELTA')
@@ -610,7 +615,7 @@ it('migrates populated v3 without inventing grants and preserves new permission 
   const store = new SqliteStore(item.path)
   expect(
     (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-  ).toBe(8)
+  ).toBe(9)
   expect(store.database.prepare('SELECT * FROM history_recipient_grants').all()).toHaveLength(0)
   expect(
     store.database
@@ -729,5 +734,7 @@ it('does not send any normal history before explicit recipient permission', asyn
   const item = fixture()
   await item.send('old-marker')
   expect((await item.send('next')).ok).toBe(true)
-  expect(item.transport.mock.calls.at(-1)![0].messages).toEqual([{ role: 'user', content: 'next' }])
+  expect(item.transport.mock.calls.at(-1)![0].messages.slice(1)).toEqual([
+    { role: 'user', content: 'next' }
+  ])
 })

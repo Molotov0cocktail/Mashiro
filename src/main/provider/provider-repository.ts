@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto'
+import type { AvatarKey } from '../../shared/assistant-contract.js'
 import type {
   ProviderBinding,
   ProviderConnection,
@@ -138,10 +139,28 @@ export class ProviderRepository {
   execution(assistantId: string): {
     connection: ProviderConnection
     binding: ProviderBinding
+    assistant: Readonly<{
+      id: string
+      displayName: string
+      persona: string
+      avatarKey: AvatarKey
+      version: number
+    }>
   } {
     const assistant = this.store.database
-      .prepare('SELECT archived_at FROM assistants WHERE id = ?')
-      .get(assistantId) as { archived_at: string | null } | undefined
+      .prepare(
+        'SELECT id,display_name,persona,avatar_key,version,archived_at FROM assistants WHERE id = ? AND id NOT IN(SELECT id FROM assistant_tombstones)'
+      )
+      .get(assistantId) as
+      | {
+          id: string
+          display_name: string
+          persona: string
+          avatar_key: AvatarKey
+          version: number
+          archived_at: string | null
+        }
+      | undefined
     if (!assistant) throw new ProviderDomainError('NOT_FOUND')
     if (assistant.archived_at !== null) throw new ProviderDomainError('ASSISTANT_ARCHIVED')
     const binding = this.bindingRow(assistantId)
@@ -151,7 +170,14 @@ export class ProviderRepository {
     if (connection.enabled !== 1) throw new ProviderDomainError('CONNECTION_DISABLED')
     return {
       connection: this.connectionDto(connection, new Set()),
-      binding: this.bindingDto(binding)
+      binding: this.bindingDto(binding),
+      assistant: Object.freeze({
+        id: assistant.id,
+        displayName: assistant.display_name,
+        persona: assistant.persona,
+        avatarKey: assistant.avatar_key,
+        version: assistant.version
+      })
     }
   }
 

@@ -1,0 +1,10 @@
+{"outcome":"E2E_FAILURE_RETAINED","runId":"e450a3ee-e636-4b00-8627-68411650c0b3","syntheticRoot":"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-Jx0yUh"}
+file:///D:/Mashiro/scripts/electron-f1-harness.mjs:142
+    throw new Error('Electron stage ' + failure.stage + ' failed: ' + failure.code)
+          ^
+
+Error: Electron stage seed-profile-ui-save-profile-ui-timeout failed: FAILED
+    at file:///D:/Mashiro/scripts/electron-f1-harness.mjs:142:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.18.0

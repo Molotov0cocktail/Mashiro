@@ -1,0 +1,184 @@
+// @vitest-environment jsdom
+import { useCallback, useState } from 'react'
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { AssistantPanel } from '../../src/renderer/src/features/assistants/AssistantPanel'
+import type {
+  AssistantApi,
+  AssistantDto,
+  AssistantSnapshot
+} from '../../src/shared/assistant-contract'
+
+const assistantA = '00000000-0000-4000-8000-000000000001'
+const assistantB = '00000000-0000-4000-8000-000000000002'
+
+function assistant(
+  id: string,
+  displayName: string,
+  overrides: Partial<AssistantDto> = {}
+): AssistantDto {
+  return {
+    id,
+    displayName,
+    persona: '',
+    avatarKey: 'mashiro',
+    isArchived: false,
+    createdAt: '2026-09-07T00:00:00.000Z',
+    updatedAt: '2026-09-07T00:00:00.000Z',
+    archivedAt: null,
+    version: 1,
+    ...overrides
+  }
+}
+
+function snapshot(
+  stateRevision: number,
+  assistants: AssistantDto[] = [assistant(assistantA, 'Alpha'), assistant(assistantB, 'Beta')]
+): AssistantSnapshot {
+  return {
+    assistants,
+    currentAssistantId: assistants.find((value) => !value.isArchived)?.id ?? null,
+    primaryAssistantId: assistants.find((value) => !value.isArchived)?.id ?? null,
+    stateRevision
+  }
+}
+
+function apiFor(initial: AssistantSnapshot): AssistantApi {
+  return {
+    list: vi.fn(async () => ({ ok: true as const, data: initial })),
+    create: vi.fn(),
+    switch: vi.fn(),
+    rename: vi.fn(),
+    setPrimary: vi.fn(),
+    archive: vi.fn()
+  } as AssistantApi
+}
+
+afterEach(cleanup)
+
+describe('AssistantPanel basic profile', () => {
+  it('keeps name, persona and built-in avatar in one CAS save and renders the trusted version', async () => {
+    const initial = snapshot(4)
+    const saved = snapshot(5, [
+      assistant(assistantA, 'Alpha 月', {
+        persona: '温和、简洁地回答 🌙',
+        avatarKey: 'moon',
+        version: 2
+      }),
+      assistant(assistantB, 'Beta')
+    ])
+    const api = apiFor(initial)
+    api.rename = vi.fn<AssistantApi['rename']>(async () => ({ ok: true as const, data: saved }))
+
+    render(<AssistantPanel api={api} />)
+    const card = await screen.findByRole('listitem', { name: '助手配置：Alpha' })
+    fireEvent.change(within(card).getByRole('textbox', { name: '名称 Alpha' }), {
+      target: { value: 'Alpha 月' }
+    })
+    fireEvent.change(within(card).getByRole('textbox', { name: '人设 Alpha' }), {
+      target: { value: '温和、简洁地回答 🌙' }
+    })
+    fireEvent.click(within(card).getByRole('radio', { name: '选择月光形象' }))
+    expect(within(card).getByText('10 / 4000 字符')).toBeInTheDocument()
+    fireEvent.click(within(card).getByRole('button', { name: '保存基础配置' }))
+
+    await waitFor(() =>
+      expect(api.rename).toHaveBeenCalledWith({
+        protocolVersion: 1,
+        assistantId: assistantA,
+        displayName: 'Alpha 月',
+        persona: '温和、简洁地回答 🌙',
+        avatarKey: 'moon',
+        expectedAssistantVersion: 1,
+        expectedStateRevision: 4
+      })
+    )
+    expect(await screen.findByText('已保存 Alpha 月 的基础配置（版本 2）')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Alpha 月的内置形象：月光' })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: '人设 Alpha 月' })).toHaveValue(
+      '温和、简洁地回答 🌙'
+    )
+  })
+
+  it('refreshes a stale trusted snapshot while preserving isolated A and B drafts', async () => {
+    const initial = snapshot(2)
+    const refreshed = snapshot(3, [
+      assistant(assistantA, 'Alpha remote', { persona: '远端版本', version: 2 }),
+      assistant(assistantB, 'Beta')
+    ])
+    const api = apiFor(initial)
+    api.rename = vi.fn<AssistantApi['rename']>(async () => ({
+      ok: false as const,
+      error: {
+        code: 'STALE_WRITE',
+        message: '版本冲突',
+        correlationId: 'stale-1',
+        retryable: false
+      }
+    }))
+    api.list = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, data: initial })
+      .mockResolvedValueOnce({ ok: true, data: refreshed })
+
+    function Parent() {
+      const [current, setCurrent] = useState<AssistantSnapshot | null>(null)
+      const receiveSnapshot = useCallback((value: AssistantSnapshot) => {
+        setCurrent({
+          ...value,
+          assistants: value.assistants.map((assistant) => ({ ...assistant }))
+        })
+      }, [])
+      return (
+        <>
+          <output data-testid="parent-state-revision">{current?.stateRevision ?? 'none'}</output>
+          <AssistantPanel api={api} externalSnapshot={current} onSnapshot={receiveSnapshot} />
+        </>
+      )
+    }
+
+    render(<Parent />)
+    const alpha = await screen.findByRole('listitem', { name: '助手配置：Alpha' })
+    const beta = screen.getByRole('listitem', { name: '助手配置：Beta' })
+    fireEvent.change(within(alpha).getByRole('textbox', { name: '人设 Alpha' }), {
+      target: { value: 'A 本地草稿' }
+    })
+    fireEvent.change(within(beta).getByRole('textbox', { name: '人设 Beta' }), {
+      target: { value: 'B 本地草稿' }
+    })
+    fireEvent.click(within(alpha).getByRole('button', { name: '保存基础配置' }))
+
+    await waitFor(() => expect(screen.getByTestId('parent-state-revision')).toHaveTextContent('3'))
+    await act(async () => {
+      await Promise.resolve()
+    })
+    expect(
+      screen.getByText('配置已在别处更新。已刷新可信版本并保留你的草稿，请比较后重新保存。')
+    ).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: '人设 Alpha remote' })).toHaveValue('A 本地草稿')
+    expect(screen.getByRole('textbox', { name: '人设 Beta' })).toHaveValue('B 本地草稿')
+    expect(api.list).toHaveBeenCalledTimes(2)
+  })
+
+  it('shows an archived profile as read-only and never exposes stale edit controls', async () => {
+    const archived = assistant(assistantA, 'Archived', {
+      persona: '只读人设内容',
+      avatarKey: 'violet',
+      isArchived: true,
+      archivedAt: '2026-09-07T01:00:00.000Z'
+    })
+    const api = apiFor({
+      assistants: [archived],
+      currentAssistantId: null,
+      primaryAssistantId: null,
+      stateRevision: 7
+    })
+
+    render(<AssistantPanel api={api} />)
+    const card = await screen.findByRole('listitem', { name: '助手配置：Archived' })
+    expect(within(card).getByRole('img', { name: 'Archived的内置形象：紫藤' })).toBeInTheDocument()
+    expect(within(card).getByText('人设摘要：只读人设内容')).toBeInTheDocument()
+    expect(within(card).queryByRole('textbox')).not.toBeInTheDocument()
+    expect(within(card).queryByRole('button')).not.toBeInTheDocument()
+  })
+})

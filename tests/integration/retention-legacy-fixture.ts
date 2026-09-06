@@ -2,6 +2,9 @@ import type { DatabaseSync } from 'node:sqlite'
 
 /** Only for constructing synthetic pre-v7 migration fixtures from a fresh current database. */
 export function removeRetentionFixture(database: DatabaseSync): void {
+  database.exec(
+    'ALTER TABLE assistants DROP COLUMN persona; ALTER TABLE assistants DROP COLUMN avatar_key'
+  )
   const guards = database
     .prepare(
       "SELECT name,sql FROM sqlite_master WHERE type='trigger' AND name IN('assistant_state_primary_active','assistant_state_current_active')"

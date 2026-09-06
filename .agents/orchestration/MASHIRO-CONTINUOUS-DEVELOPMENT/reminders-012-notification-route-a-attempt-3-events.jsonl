@@ -1,0 +1,2 @@
+{"at":"2026-09-06T20:46:34.682Z","event":"pre-require","pid":132668,"electronRunAsNodePresent":true,"electronRunAsNodeIsOne":false,"electronVersionPresent":true,"electronVersion":"44.1.1","processType":null,"defaultApp":null}
+{"at":"2026-09-06T20:46:34.685Z","event":"uncaughtException","pid":132668,"name":"Error","message":"Cannot find module 'electron'\nRequire stack:\n- C:\\Users\\30910\\AppData\\Local\\Temp\\Mashiro-Notification-Spike-012-96e5d9186ee843cc994d463b26cb6e53\\main.cjs"}

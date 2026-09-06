@@ -1,0 +1,88 @@
+[
+  {
+    "attempt": "02",
+    "exitCode": 1,
+    "runId": "e450a3ee-e636-4b00-8627-68411650c0b3",
+    "pids": [
+      123168,
+      134236
+    ],
+    "failure": {
+      "stage": "seed-profile-ui-save-profile-ui-timeout",
+      "code": "FAILED"
+    },
+    "renameDiagnostics": null,
+    "profileDiagnostic": null
+  },
+  {
+    "attempt": "03",
+    "exitCode": 1,
+    "runId": "45cf2e2f-b52d-457d-8e03-ef3944722cec",
+    "pids": [
+      132772,
+      131724
+    ],
+    "failure": {
+      "stage": "seed-profile-ui-save-profile-ui-timeout",
+      "code": "FAILED"
+    },
+    "renameDiagnostics": null,
+    "profileDiagnostic": {
+      "phase": "save",
+      "code": "profile-ui-timeout",
+      "diagnostics": {
+        "beforeRevision": 9,
+        "beforeVersion": 3,
+        "saveConnected": true,
+        "personaDraftChanged": true,
+        "avatarDraftChanged": true,
+        "staleWriteNotice": false,
+        "unconfirmedNotice": false,
+        "savedNotice": false,
+        "afterRevision": 9,
+        "afterVersion": 3
+      }
+    }
+  },
+  {
+    "attempt": "04",
+    "exitCode": 1,
+    "runId": "d35935bd-bbbe-4960-99ed-ec7ac9bad7cf",
+    "pids": [
+      134148,
+      133172
+    ],
+    "failure": {
+      "stage": "seed-profile-ui-navigation-provider-connection-settings-profile-recipient",
+      "code": "FAILED"
+    },
+    "renameDiagnostics": [
+      {
+        "expectedRevision": 3,
+        "actualRevision": 3,
+        "outcome": "OK"
+      },
+      {
+        "expectedRevision": 9,
+        "actualRevision": 9,
+        "outcome": "OK"
+      }
+    ],
+    "profileDiagnostic": {
+      "phase": "navigation-provider-connection-settings",
+      "code": "profile-recipient",
+      "diagnostics": {
+        "beforeRevision": 9,
+        "beforeVersion": 3,
+        "saveConnected": true,
+        "personaDraftChanged": true,
+        "avatarDraftChanged": true,
+        "staleWriteNotice": false,
+        "unconfirmedNotice": false,
+        "savedNotice": false,
+        "afterRevision": 10,
+        "afterVersion": 4
+      }
+    }
+  }
+]

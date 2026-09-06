@@ -299,7 +299,8 @@ export function ItemPanel({
   pendingCommands,
   retentionChange,
   recoveryTarget,
-  archivedAssistantIds = []
+  archivedAssistantIds = [],
+  configurationFocusNonce
 }: {
   assistantId: string
   assistantName: string
@@ -323,6 +324,7 @@ export function ItemPanel({
   }) => void
   onPermissionsChanged?: (value: ItemPermissions) => void
   onItemVersionChanged?: (value: { assistantId: string; id: string; version: number }) => void
+  configurationFocusNonce?: number | null
 }): React.JSX.Element {
   const [localPendingCommands] = useState(() => new Map<string, string>())
   const commandRegistry = pendingCommands ?? localPendingCommands
@@ -349,6 +351,16 @@ export function ItemPanel({
   const [draft, setDraft] = useState<ItemContent>(blankContent)
   const [permissions, setPermissions] = useState<ItemPermissions | null>(null)
   const [permissionsBusy, setPermissionsBusy] = useState(false)
+
+  useEffect(() => {
+    if (configurationFocusNonce == null || permissionsBusy || !permissions) return
+    const element = document.getElementById('item-permissions')
+    if (!(element instanceof HTMLDetailsElement)) return
+    element.open = true
+    element.focus()
+    element.scrollIntoView?.({ block: 'start' })
+  }, [configurationFocusNonce, permissions, permissionsBusy])
+
   const [busyAction, setBusyAction] = useState('')
   const [settledProposalVersions, setSettledProposalVersions] = useState(() => new Set<string>())
   const [localRefresh, setLocalRefresh] = useState(0)
@@ -1097,7 +1109,7 @@ export function ItemPanel({
           待确认
         </button>
       </nav>
-      <details className="item-permissions">
+      <details id="item-permissions" className="item-permissions" tabIndex={-1}>
         <summary>事项权限与实际接收方</summary>
         {permissions ? (
           <div className="item-permission-grid">

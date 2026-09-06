@@ -25,6 +25,8 @@ function assistants(currentAssistantId: string): AssistantSnapshot {
       {
         id: assistantA,
         displayName: 'Alpha',
+        persona: '',
+        avatarKey: 'mashiro',
         isArchived: false,
         createdAt: '2026-09-06T00:00:00.000Z',
         updatedAt: '2026-09-06T00:00:00.000Z',
@@ -34,6 +36,8 @@ function assistants(currentAssistantId: string): AssistantSnapshot {
       {
         id: assistantB,
         displayName: 'Beta',
+        persona: '',
+        avatarKey: 'mashiro',
         isArchived: false,
         createdAt: '2026-09-06T00:00:01.000Z',
         updatedAt: '2026-09-06T00:00:01.000Z',
