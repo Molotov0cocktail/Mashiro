@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { HistoryContextPanel } from '../../src/renderer/src/features/provider/HistoryContextPanel'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type {
@@ -356,5 +357,90 @@ describe('ProviderPanel history, context and permissions', () => {
     expect(screen.getByText(/助手：失败/)).toBeInTheDocument()
     expect(screen.getByText('此条记录尚未形成可选的完整完成轮次。')).toBeInTheDocument()
     expect(screen.queryByRole('checkbox', { name: /选择此轮/ })).not.toBeInTheDocument()
+  })
+
+  it('preserves leading and trailing whitespace in literal history searches', async () => {
+    const query = vi.fn<TimelineApi['query']>().mockResolvedValue({
+      ok: true,
+      data: { assistantId: assistantA, messages: pair(requestOld, '旧结果'), nextCursor: null }
+    })
+    render(
+      <HistoryContextPanel
+        assistantId={assistantA}
+        mode="normal"
+        bindingKey="none"
+        timelineApi={timeline({ query })}
+        contextIntent={{ kind: 'recent' }}
+        selectedRequestIds={[]}
+        onContextIntentChange={() => undefined}
+        onSelectedRequestIdsChange={() => undefined}
+      />
+    )
+    await screen.findByText('旧结果')
+    fireEvent.change(screen.getByLabelText('搜索本助手历史'), {
+      target: { value: ' 空 格 ' }
+    })
+    fireEvent.click(screen.getByRole('button', { name: '搜索' }))
+    await waitFor(() => expect(query).toHaveBeenCalledTimes(2))
+    expect(query.mock.calls[1]![0].query).toBe(' 空 格 ')
+  })
+
+  it('keeps the last successful query, messages and cursor together across search, page and clear failures', async () => {
+    const query = vi.fn<TimelineApi['query']>().mockResolvedValue({
+      ok: true,
+      data: { assistantId: assistantA, messages: pair(requestOld, '旧结果'), nextCursor: 50 }
+    })
+    render(
+      <HistoryContextPanel
+        assistantId={assistantA}
+        mode="normal"
+        bindingKey="none"
+        timelineApi={timeline({ query })}
+        contextIntent={{ kind: 'recent' }}
+        selectedRequestIds={[]}
+        onContextIntentChange={() => undefined}
+        onSelectedRequestIdsChange={() => undefined}
+      />
+    )
+    await screen.findByText('旧结果')
+
+    query.mockResolvedValueOnce({
+      ok: false,
+      error: {
+        code: 'STORAGE_UNAVAILABLE',
+        message: 'search failed',
+        correlationId: '00000000-0000-4000-8000-000000000501',
+        retryable: true
+      }
+    })
+    fireEvent.change(screen.getByLabelText('搜索本助手历史'), {
+      target: { value: 'NEW_QUERY' }
+    })
+    fireEvent.click(screen.getByRole('button', { name: '搜索' }))
+    await screen.findByRole('alert')
+
+    query.mockRejectedValueOnce(new Error('page failed'))
+    fireEvent.click(screen.getByRole('button', { name: '加载更早' }))
+    await waitFor(() => expect(query).toHaveBeenCalledTimes(3))
+    expect(query.mock.calls[2]![0]).toMatchObject({ query: '', before: 50 })
+    expect(screen.getByText('旧结果')).toBeInTheDocument()
+
+    query.mockResolvedValueOnce({
+      ok: false,
+      error: {
+        code: 'STORAGE_UNAVAILABLE',
+        message: 'clear failed',
+        correlationId: '00000000-0000-4000-8000-000000000502',
+        retryable: true
+      }
+    })
+    fireEvent.click(screen.getByRole('button', { name: '清除搜索' }))
+    await waitFor(() => expect(query).toHaveBeenCalledTimes(4))
+    expect(query.mock.calls[3]![0]).toMatchObject({ query: '' })
+
+    fireEvent.click(screen.getByRole('button', { name: '加载更早' }))
+    await waitFor(() => expect(query).toHaveBeenCalledTimes(5))
+    expect(query.mock.calls[4]![0]).toMatchObject({ query: '', before: 50 })
+    expect(screen.getByText('旧结果')).toBeInTheDocument()
   })
 })

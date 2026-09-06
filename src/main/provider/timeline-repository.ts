@@ -27,17 +27,15 @@ export class TimelineRepository {
       ok: true,
       data: {
         assistantId,
-        messages: page
-          .reverse()
-          .map((row) => ({
-            id: row.id,
-            requestId: row.request_id,
-            role: row.role,
-            content: row.content,
-            status: row.status,
-            createdAt: row.created_at,
-            saved: true
-          })),
+        messages: page.reverse().map((row) => ({
+          id: row.id,
+          requestId: row.request_id,
+          role: row.role,
+          content: row.content,
+          status: row.status,
+          createdAt: row.created_at,
+          saved: true
+        })),
         nextCursor: rows.length > 100 ? rows[99]!.sequence : null
       }
     }

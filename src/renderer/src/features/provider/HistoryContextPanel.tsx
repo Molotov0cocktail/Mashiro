@@ -143,7 +143,6 @@ export function HistoryContextPanel({
         ...values,
         [targetAssistantId]: {
           ...(values[targetAssistantId] ?? emptyView),
-          query,
           loading: true,
           error: ''
         }
@@ -341,7 +340,7 @@ export function HistoryContextPanel({
           className="history-search"
           onSubmit={(event) => {
             event.preventDefault()
-            void loadHistory(assistantId, view.draft.trim())
+            void loadHistory(assistantId, view.draft)
           }}
         >
           <label>
