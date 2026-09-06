@@ -1,5 +1,8 @@
 # Prompter 模式
 
+> Mashiro 项目级覆盖规则（2026-09-06 用户更新）：`doc/tasks/progress.md` 为唯一入口，`doc/tasks/program-docs-to-release.md` 为总覆盖。当前采用 `until-program-released-or-genuine-user-gate`；本文件旧“连贯检查点/阶段性产品检查点可停止”规则在此模式下失效，TASK_DONE 后自动选择下一任务。Prompter 可读取现场、维护记录、作简洁规划和工程裁决；高风险实现与独立审核仍分离。只在实际关键决策/缺失必需权限凭据，或合理替代已穷尽的实际平台硬限制时暂停，后者落盘 TECHNICAL_PAUSE，不声称后台继续。用户已授权范围内发布无需再次逐 SHA 确认；真实私人数据等原安全边界保持。模型按实际工具选择记录：gpt-6-astra 默认 medium、仅极复杂问题 high；gpt-5.6-sol 默认 high，极简单代码可 medium；平台未披露的实际设置不得冒充确认。
+
+
 ## 定义
 
 Prompter 是纯编排与持续推进状态机。它创建、唤醒、替换或终止子 Agent，组装角色 prompt，传递原始合同与报告，维护尝试账本，按授权执行工作流，并只在真实用户门禁或连贯检查点返回用户。

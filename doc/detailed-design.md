@@ -1,6 +1,6 @@
 # Mashiro 近期详细设计草案
 
-> 当前状态：005 持续时间线候选完整验证通过，等待独立审核；当前验收以 [005](tasks/005-persistent-timeline.md) 为准。
+> 当前状态：005 持续时间线 FINAL REVIEW PASS，项目总任务 ACTIVE；当前验收以 [005](tasks/005-persistent-timeline.md) 为准。
 > 当前更新：2026-09-06。下方旧 F1 与草案状态按历史原文保留。
 
 ## 005 当前设计实现
@@ -12,7 +12,9 @@
 - 严格临时消息只在内存维护固定 session/message ID，绝不读取正常消息；当前临时会话最多 64 消息，合格上下文与输入上限 120,000 字符。显式保存事务按 assistant/source session/source message 去重，只有提交后标 saved；失败不改内存标志。保存后保持临时，后续消息仍不自动保存，运行中不允许保存。
 - 正常关闭同步保存已收 partial 并终结中断；启动把遗留 pending 标 interrupted，不执行自动 Provider 重发。正常终结存储不可用时返回诚实错误；关闭写失败保留应用运行并只发固定脱敏日志事件，避免未处理底层异常。
 - 新增两个窄 timeline IPC（read / save-temporary），输入输出 strict Zod，Provider 事件沿用严格 schema；六 assistant 通道不变，preload runtime 只导入 Electron 和无 Zod 通道常量。
-- 005 完整候选验证已通过（20 files / 80 tests 与真实双 PID 恢复），尚待全新独立审核；后续正文保留历史事实，不覆盖当前任务入口。
+- 005 最终独立审核 PASS 对应产品提交 `0aa2d9190b63c7b99d59f52808e16965fa6b417f`（20 files / 88 tests，适用真实双 PID 恢复证据）；报告见当前任务。后续正文保留历史事实，不覆盖当前任务入口。
+
+> 当前授权和后续任务覆盖以 [项目总清单](tasks/program-docs-to-release.md) 为准。2026-09-06 用户已更新开发、依赖、main 双远程推送、隔离安装/更新/卸载、版本/tag 与实际 Release 授权；集中决议中 ENG-006/007/009/010 的早期现场描述不重新形成门禁。AST-006、RET-007、REM-002 的产品待决语义仍保留，不能由工程默认替代。
 
 ## 004 历史设计实现
 

@@ -1,13 +1,15 @@
 # Mashiro 高层设计
 
-> 当前状态：005 每助手持续时间线有界修复已实现 / INDEPENDENT RE-REVIEW REQUIRED
+> 当前状态：005 FINAL REVIEW PASS；项目总任务 ACTIVE
 > 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md) 与 [005 任务](tasks/005-persistent-timeline.md)；下方 004 与 F1 状态均为历史记录。
 
 ## 当前架构增量
 
 当前链路为 `renderer → typed preload → strict Provider/timeline IPC → ProviderService → timeline/provider repository + vault + transport`。SQLite schema v3 保存每个助手的正常消息和真实状态；严格临时正文仅在主进程按助手隔离的有界 session 中，显式保存由 trusted 事务复制并按稳定来源消息 ID 去重。正常读取只返回最近 100 条，外发上下文只选当前助手最近 16 组已完成合格对话，并受 64,000 UTF-16 字符总输入预算限制。
 
-renderer 只展示消息、未发送草稿与用户意图。读取快照以捕获的 assistant/request/mode 合并在途可见正文，旧读取不能回退更新后的 partial 或终态；可信终态到达后取代本地覆盖。保存回执只按 trusted 返回的实际 saved 消息计算，未接纳输入不会被当作临时时间线消息。候选修复正在等待独立复审。
+renderer 只展示消息、未发送草稿与用户意图。读取快照以捕获的 assistant/request/mode 合并在途可见正文，旧读取不能回退更新后的 partial 或终态；可信终态到达后取代本地覆盖。保存回执只按 trusted 返回的实际 saved 消息计算，未接纳输入不会被当作临时时间线消息。修复已由独立 Reviewer 对产品提交 `0aa2d9190b63c7b99d59f52808e16965fa6b417f` 最终 PASS。
+
+> 当前授权和后续任务覆盖以 [项目总清单](tasks/program-docs-to-release.md) 为准；旧初始化授权与阶段非目标不限制已授权的后续开发和发布。
 
 ## 历史 004 Provider 文本架构
 
