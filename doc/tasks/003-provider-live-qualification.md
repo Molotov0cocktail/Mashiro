@@ -1,7 +1,9 @@
 # 003 真实 Provider 能力资格验证
 
-> 当前状态：AUTHORIZED / EXECUTED FOR TEXT BASELINE / REVIEW PENDING
+> 当前状态：TEXT BASELINE LIVE_VERIFIED / REVIEW CLOSED WITH 004；高级能力分别 NOT RUN
 > 当前更新：2026-09-06。以下结果只绑定精确端点、模型、Chat Completions 文本模式和本次适配实现；旧 DEFERRED 文本作为历史合同保留。
+
+最终审核依据：[004 最终 Reviewer PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-f5aa9880.md)，精确 main `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6`；[推送回执](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-push-close-f5aa9880.md) 记录已同步两远程。该 PASS 不扩大下列精确端点能力范围，也不代表本任务全部高级能力完成。当前任务入口：[progress](progress.md)。
 
 ## 2026-09-06 实际结果
 
@@ -14,10 +16,12 @@
 - 测试秘密只由运行期测试进程读取，没有写入产品数据、日志或版本控制；测试秘密源已清理。脱敏逐请求报告归档于 `../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-live-report.json`。
 
 ---
-> 当前状态：DEFERRED / NOT RUN / NON-BLOCKING FOR F1
+## 历史 F1 阶段边界（2026-09-03，只描述当时状态）
+
+> 历史状态：DEFERRED / NOT RUN / NON-BLOCKING FOR F1
 > 2026-09-03 注：F1 mandatory-fresh Candidate Reviewer 已对本地助手身份与 SQLite 生命周期的精确 HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4` 给出 `PASS`；该结论不授权 Provider endpoint、credential、预算或个人数据。没有 Provider 调用，也没有把本任务变成 F1 前置门禁。
 
-## 当前边界
+### 当时边界
 
 - 本任务仍需未来独立授权的精确 endpoint、协议、模型、预算和纯合成发送范围；当前缺少这些输入是预期 deferred 状态，不是 F1 产品 BLOCKED。
 - F1 没有创建 Provider client/scaffolding、没有读取凭据或真实个人数据，也没有用本地 mock 冒充 `LIVE_VERIFIED`。

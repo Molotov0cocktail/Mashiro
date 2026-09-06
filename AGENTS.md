@@ -1,4 +1,4 @@
-> Current authorization (2026-09-06): continuous development resumes from reviewed F1 and follows `doc/tasks/004-provider-text.md`. The F1 scope below is historical, not a permanent prohibition on Provider, new narrow IPC, dependencies, or additive versioned schema changes. Preserve the six assistant channels; new domain channels need strict trusted validation. The user has continuously authorized non-force pushes of independently reviewed final main HEADs to the two existing remotes and necessary synthetic paid Provider tests. No repeat per-SHA or per-call approval is required. Release, deployment and real personal-data access remain outside this authorization. Final review covers new behavior and final diff; docs-only closing changes require proportionate delta review, not repeated full product qualification.
+> Current authorization (2026-09-06): continuous development resumes from reviewed 004 and follows the current task linked by `doc/tasks/progress.md`. The F1 scope below is historical, not a permanent prohibition on Provider, new narrow IPC, dependencies, or additive versioned schema changes. Preserve the six assistant channels; new domain channels need strict trusted validation. The user has continuously authorized non-force pushes of independently reviewed final main HEADs to the two existing remotes and necessary synthetic paid Provider tests. No repeat per-SHA or per-call approval is required. Release, deployment and real personal-data access remain outside this authorization. Final review covers new behavior and final diff; docs-only closing changes require proportionate delta review, not repeated full product qualification.
 
 # Mashiro repository rules
 
@@ -11,7 +11,8 @@
 ## Authoritative sources
 
 - Product scope and design live in `doc/proposal.md`, `doc/high-level-design.md`, and `doc/detailed-design.md`.
-- Executable task state lives in `doc/tasks/001-project-foundation.md` and `doc/tasks/progress.md`; task 002 remains the limited Electron 44.1.1/node:sqlite qualification and task 003 remains deferred and NOT RUN.
+- `doc/tasks/progress.md` is the sole current continuation entry. Read it first, then the active task and relevant design; do not reread every historical report. Task 002 remains the limited Electron 44.1.1/node:sqlite qualification; task 003 has endpoint-specific ordinary/streaming text evidence and separately unrun advanced capabilities.
+- Keep one stable, tracked task file per implemented product slice. Update its checklist/evidence and progress at milestone starts, key results, route changes, handoffs, and before stopping. Prompter or a designated recorder coordinates the global entry; Executors return slice results. Archive essential sanitized reports in Git with relative links.
 - Orchestration route and failure evidence live under `.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/`.
 
 ## Stable architecture
@@ -26,7 +27,7 @@
 - Clean recovery is `npm ci`, then `npm exec install-electron`, then `npm run verify`; the Electron package exposes the installer as a bin and does not run it as an npm lifecycle script.
 - Required verification is focused/full tests, typecheck, lint, format, build, the two-PID Electron lifecycle harness, dependency-tree checks, foundation validation, and secret/generated/residual scans; the Candidate Reviewer PASS evidence records 10 test files / 18 tests and two fresh Electron PIDs.
 - Preserve the historical Toolhelp32 `-003` auxiliary audit as failed, deferred, and non-blocking; do not rerun it or create `-004`.
-- Candidate Reviewer PASS applies only to reviewed HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4`. Any docs-only closing commit requires mandatory-fresh Final Reviewer PASS before that exact final HEAD may be pushed to `github/main` and `gitee/main`.
+- Historical F1 Candidate PASS applies to `90335af96bf95e531ddadc4f3f19259a75c18ee4`; 004 final PASS applies to `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6`. New product differences require independent review. Later docs-only closing differences need proportionate fact/link/format review, not repeated product qualification. Record past reviewed commits and remote observations without self-referential report/commit loops; query live Git values.
 
 ## Environment and Git
 

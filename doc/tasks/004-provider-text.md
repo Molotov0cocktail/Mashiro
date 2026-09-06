@@ -1,8 +1,14 @@
 # 004 Provider 连接与严格临时文本交互
 
+> 当前状态（2026-09-06 补记）：FINAL REVIEW PASS / 双远程同步已观测。最近已审交付 `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6`；当前开发入口为 [progress](progress.md)，下一切片 [005](005-persistent-timeline.md)。
+
+最终独立 [Reviewer PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-f5aa9880.md)、[push-close](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-push-close-f5aa9880.md) 与 [continuation](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-continuation-f5aa9880.md) 已核对并归档。接管 Git 独立观测本地与两远程 main 均为上述 SHA，工作区干净。下面的等待审核语句是原有最终审核前执行快照，已由这三份最终事实闭合；不据此重新阻塞 004。
+
+## 历史执行快照（最终审核前，原始事实保留）
+
 > 2026-09-06：Provider 连接与严格临时文本实现与验证完成 / FINAL DOCS DELTA REVIEW REQUIRED，route `provider-text-v1`，attempt 1。
 
-## 执行结果
+### 执行结果
 
 - 已实现 SQLite v2 连接与助手绑定、Windows 安全凭据、严格临时会话、原生 Chat Completions/SSE transport、窄 IPC/preload 和中文 renderer。助手既有六通道与稳定身份保持不变。
 - 上下文按助手隔离并有界；退出即丢失。连接、绑定和受保护的持久 Key 可跨重启；临时 Key 只覆盖当前进程，旧持久 Key 若存在会在重启后恢复。用户可显式清空当前助手临时会话。
@@ -13,6 +19,8 @@
 历史独立报告归档为 [e39a5e5e REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-e39a5e5e.md) 与 [0ff92d5f docs-only REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-0ff92d5f.md)。测试 Key 已清理，产品不预置用户配置；没有新增 live 调用。下一建议切片是每助手持续时间线、对话保存与重启恢复。
 
 ---
+## 历史实施合同（004 开始时，保留）
+
 > 2026-09-06：AUTHORIZED / READY FOR IMPLEMENTATION，route `provider-text-v1`，attempt 1。
 
 ## 基线与现场
