@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { MemoryApi, MemoryPermissions, MemoryRecord } from '../../src/shared/memory-contract'
 import { MemoryPanel } from '../../src/renderer/src/features/memory/MemoryPanel'
@@ -107,6 +107,15 @@ describe('MemoryPanel', () => {
     fill()
     await screen.findByText(/写入回执未确认/)
     expect(pendingCommands.size).toBe(1)
+    const registryKey = [...pendingCommands.keys()][0]!
+    expect(registryKey).not.toContain('同一未确认记录')
+    expect(registryKey).not.toContain('同一未确认正文')
+    expect(JSON.parse(registryKey)).toMatchObject({
+      domain: 'memory-mutation',
+      assistantId,
+      targetId: null,
+      payloadSha256: expect.stringMatching(/^[0-9a-f]{64}$/)
+    })
     view.rerender(panel('after'))
     fill()
     await waitFor(() => expect(screen.getByLabelText('标题')).toHaveValue(''))
@@ -152,7 +161,7 @@ describe('MemoryPanel', () => {
     await screen.findByText('来源与变更')
     fireEvent.click(buttons[1]!)
     fireEvent.click(screen.getByRole('button', { name: '保存纠正版本' }))
-    expect(mutate).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(mutate).toHaveBeenCalledTimes(1))
     expect(mutate.mock.calls[0]![0].mutation).toMatchObject({
       targetId: b.id,
       expectedVersion: 7,
@@ -190,7 +199,9 @@ describe('MemoryPanel', () => {
     await screen.findByText('来源与变更')
     fireEvent.change(screen.getByLabelText('标题'), { target: { value: '只改标题' } })
     fireEvent.click(screen.getByRole('button', { name: '保存纠正版本' }))
-    expect(mutate.mock.calls[0]![0].mutation).toMatchObject({ event: event.event })
+    await waitFor(() =>
+      expect(mutate.mock.calls[0]![0].mutation).toMatchObject({ event: event.event })
+    )
   })
 
   it('keeps global and assistant grants separate and updates the exact CAS scope', async () => {
@@ -303,7 +314,8 @@ describe('MemoryPanel', () => {
     expect(await screen.findByText('已保存个人事件')).toBeInTheDocument()
   })
 
-  it('does not report pending deletion as completed and confirms the exact trusted card', async () => {
+  it('routes deletion to the complete retention preview with the exact object version', async () => {
+    const onPrepareRetention = vi.fn()
     const mutate = vi.fn(async () => ({
       ok: true as const,
       data: {
@@ -348,29 +360,19 @@ describe('MemoryPanel', () => {
           confirm
         })}
         onLocateRound={vi.fn()}
+        onPrepareRetention={onPrepareRetention}
       />
     )
     fireEvent.click(await screen.findByRole('button', { name: '查看与纠正' }))
     fireEvent.click(await screen.findByRole('button', { name: '删除此表示' }))
-    const confirmation = await screen.findByRole('region', { name: '记忆删除确认' })
-    expect(within(confirmation).getByText(/不会删除原对话或正式事项/)).toBeInTheDocument()
-    expect(within(confirmation).getByText(/此时尚未删除或撤回/)).toBeInTheDocument()
-    expect(within(confirmation).getByText(/受影响：1 条记忆或事件/)).toBeInTheDocument()
-    expect(within(confirmation).getByText(new RegExp(recordId))).toBeInTheDocument()
-    expect(
-      within(confirmation).getByRole('button', { name: '定位受影响来源轮次' })
-    ).toBeInTheDocument()
-    expect(screen.queryByText('已删除此表示')).not.toBeInTheDocument()
-    fireEvent.click(within(confirmation).getByRole('button', { name: '取消操作' }))
-    await waitFor(() =>
-      expect(confirm).toHaveBeenCalledWith({
-        protocolVersion: 1,
-        assistantId,
-        confirmationId,
-        accept: false
-      })
+    expect(onPrepareRetention).toHaveBeenCalledWith(
+      assistantId,
+      { type: 'memories', objects: [{ id: recordId, version: 2 }] },
+      'delete-representation'
     )
-    expect(await screen.findByText('已取消，未执行删除')).toBeInTheDocument()
+    expect(mutate).not.toHaveBeenCalled()
+    expect(confirm).not.toHaveBeenCalled()
+    expect(screen.getByText(/完整可信预览/)).toBeInTheDocument()
   })
 
   it('keeps provenance folded, distinguishes provided from used, jumps to the round, and previews external reload', async () => {
@@ -416,5 +418,77 @@ describe('MemoryPanel', () => {
     expect(within(preview).getByText('磁盘上的候选正文')).toBeInTheDocument()
     expect(within(preview).getByText(/无法作为可信当前正文显示/)).toBeInTheDocument()
     expect(within(preview).getByText(/frontmatter 不会扩大归属、来源或权限/)).toBeInTheDocument()
+  })
+
+  it('invalidates a pending external reload preview when cleanup changes the assistant', async () => {
+    let resolvePreview!: (value: Awaited<ReturnType<MemoryApi['previewReload']>>) => void
+    const previewReload = vi.fn<MemoryApi['previewReload']>(
+      () =>
+        new Promise((resolve) => {
+          resolvePreview = resolve
+        })
+    )
+    const query = vi
+      .fn<MemoryApi['query']>()
+      .mockResolvedValueOnce({
+        ok: true,
+        data: { records: [record()], nextCursor: null }
+      })
+      .mockResolvedValue({
+        ok: true,
+        data: { records: [], nextCursor: null }
+      })
+    const memory = api({
+      query,
+      inspect: vi.fn(async () => ({ ok: true as const, data: inspection() })),
+      previewReload
+    })
+    const view = render(
+      <MemoryPanel
+        assistantId={assistantId}
+        assistantName="Alpha"
+        api={memory}
+        onLocateRound={vi.fn()}
+      />
+    )
+    fireEvent.click(await screen.findByRole('button', { name: '查看与纠正' }))
+    fireEvent.click(await screen.findByRole('button', { name: '预览外部修改' }))
+    await waitFor(() => expect(previewReload).toHaveBeenCalledTimes(1))
+
+    view.rerender(
+      <MemoryPanel
+        assistantId={assistantId}
+        assistantName="Alpha"
+        api={memory}
+        onLocateRound={vi.fn()}
+        retentionChange={{
+          epoch: 8,
+          assistantIds: [assistantId],
+          memoryIds: [recordId],
+          requestIds: [],
+          reason: 'cleanup'
+        }}
+      />
+    )
+    await act(async () => {
+      resolvePreview({
+        ok: true,
+        data: {
+          previewId,
+          id: recordId,
+          expectedVersion: 2,
+          currentMarkdown: '不应恢复的当前正文',
+          candidateMarkdown: '不应恢复的磁盘正文',
+          warning: '迟到预览'
+        }
+      })
+      await Promise.resolve()
+    })
+
+    expect(screen.queryByRole('region', { name: '外部修改预览' })).not.toBeInTheDocument()
+    expect(screen.queryByText('不应恢复的当前正文')).not.toBeInTheDocument()
+    expect(screen.queryByText('不应恢复的磁盘正文')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('标题')).toHaveValue('')
+    expect(screen.getByLabelText('Markdown 正文')).toHaveValue('')
   })
 })

@@ -6,6 +6,8 @@ coverage/
 .npm-cache/
 test-results/
 *.log
+!.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-trusted-tests.log
+!.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-electron.log
 *.sqlite
 *.sqlite-*
 *.db

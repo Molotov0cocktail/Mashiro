@@ -1,4 +1,9 @@
 import { z } from 'zod'
+import { retentionPreviewInputSchema } from '../../shared/retention-contract.js'
+export const retentionToolSchema = retentionPreviewInputSchema.omit({
+  protocolVersion: true,
+  assistantId: true
+})
 import {
   memoryCreateToolSchema,
   memoryCorrectToolSchema,
@@ -34,7 +39,8 @@ export const toolCallSchema = z.strictObject({
       'search_memory',
       'write_memory',
       'correct_memory',
-      'request_memory_removal'
+      'request_memory_removal',
+      'request_retention_cleanup'
     ]),
     arguments: z.string().min(2).max(TOOL_LIMITS.arguments)
   })
@@ -126,7 +132,22 @@ export function toolDefinitions(scope: ToolScope) {
   if (scope === 'clock-and-history' || scope === 'clock-history-and-memory')
     definitions.push(history)
   if (scope === 'clock-and-memory' || scope === 'clock-history-and-memory')
-    return [...definitions, memorySearch, write, correct, removal]
+    return [
+      ...definitions,
+      memorySearch,
+      write,
+      correct,
+      removal,
+      {
+        type: 'function',
+        function: {
+          name: 'request_retention_cleanup',
+          description:
+            '仅准备本地用户治理预览，不执行清理。模型不得代替用户确认。来源、范围和当前版本由可信应用再次核验。',
+          parameters: z.toJSONSchema(retentionToolSchema)
+        }
+      }
+    ]
   return definitions
 }
 export class ToolProtocolError extends Error {
@@ -147,6 +168,7 @@ export function validateToolCalls(value: unknown): ToolCall[] {
     else if (call.function.name === 'write_memory') memoryCreateToolSchema.parse(args)
     else if (call.function.name === 'correct_memory') memoryCorrectToolSchema.parse(args)
     else if (call.function.name === 'request_memory_removal') memoryRemovalSchema.parse(args)
+    else if (call.function.name === 'request_retention_cleanup') retentionToolSchema.parse(args)
     else historyArgumentsSchema.parse(args)
   }
   return calls

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type {
   AssistantApi,
   AssistantDto,
@@ -21,53 +21,145 @@ export function AssistantPanel({
   onSnapshot?: (snapshot: AssistantSnapshot) => void
   externalSnapshot?: AssistantSnapshot | null
 }): React.JSX.Element {
-  const [snapshot, setSnapshot] = useState<AssistantSnapshot | null>(null)
+  const [snapshot, setSnapshot] = useState<AssistantSnapshot | null>(externalSnapshot ?? null)
   const [displayName, setDisplayName] = useState('')
   const [renameValues, setRenameValues] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const snapshotRef = useRef<AssistantSnapshot | null>(externalSnapshot ?? null)
+  const requestVersionRef = useRef(0)
+  const operationVersionRef = useRef(0)
+  const mountedRef = useRef(false)
 
   const acceptSnapshot = useCallback(
-    (value: AssistantSnapshot): void => {
+    (
+      value: AssistantSnapshot,
+      options: { expectedRequestVersion?: number; notify?: boolean } = {}
+    ): boolean => {
+      if (!mountedRef.current) return false
+      if (
+        options.expectedRequestVersion !== undefined &&
+        options.expectedRequestVersion !== requestVersionRef.current
+      ) {
+        return false
+      }
+      if (snapshotRef.current && value.stateRevision < snapshotRef.current.stateRevision) {
+        return false
+      }
+
+      snapshotRef.current = value
       setSnapshot(value)
-      onSnapshot?.(value)
+      setRenameValues((values) => {
+        const currentIds = new Set(value.assistants.map((assistant) => assistant.id))
+        const retained = Object.entries(values).filter(([assistantId]) =>
+          currentIds.has(assistantId)
+        )
+        return retained.length === Object.keys(values).length
+          ? values
+          : Object.fromEntries(retained)
+      })
+      if (options.notify !== false) onSnapshot?.(value)
+      return true
     },
     [onSnapshot]
   )
 
   useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+      requestVersionRef.current += 1
+      operationVersionRef.current += 1
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!externalSnapshot) return
+    if (snapshotRef.current && externalSnapshot.stateRevision < snapshotRef.current.stateRevision) {
+      return
+    }
+
+    const requestVersion = ++requestVersionRef.current
+    const operationVersion = ++operationVersionRef.current
     let active = true
     queueMicrotask(() => {
-      if (active && externalSnapshot) setSnapshot(externalSnapshot)
+      if (
+        !active ||
+        requestVersion !== requestVersionRef.current ||
+        operationVersion !== operationVersionRef.current
+      ) {
+        return
+      }
+      if (
+        acceptSnapshot(externalSnapshot, { expectedRequestVersion: requestVersion, notify: false })
+      ) {
+        setBusy(false)
+        setError(null)
+      }
     })
     return () => {
       active = false
     }
-  }, [externalSnapshot])
+  }, [acceptSnapshot, externalSnapshot])
 
   useEffect(() => {
     let active = true
-    void api.list().then((result) => {
-      if (!active) return
-      if (result.ok) acceptSnapshot(result.data)
-      else setError(errorText(result))
-    })
+    const requestVersion = requestVersionRef.current
+    void api
+      .list()
+      .then((result) => {
+        if (!active || requestVersion !== requestVersionRef.current) return
+        if (result.ok) {
+          acceptSnapshot(result.data, { expectedRequestVersion: requestVersion })
+        } else {
+          setError(errorText(result))
+        }
+      })
+      .catch(() => {
+        if (active && requestVersion === requestVersionRef.current) {
+          setError('助手服务暂时不可用')
+        }
+      })
     return () => {
       active = false
     }
   }, [api, acceptSnapshot])
 
   async function apply(operation: () => Promise<AssistantResult>): Promise<void> {
+    const requestVersion = requestVersionRef.current
+    const operationVersion = ++operationVersionRef.current
     setBusy(true)
     setError(null)
     try {
       const result = await operation()
-      if (result.ok) acceptSnapshot(result.data)
-      else setError(errorText(result))
+      if (
+        !mountedRef.current ||
+        requestVersion !== requestVersionRef.current ||
+        operationVersion !== operationVersionRef.current
+      ) {
+        return
+      }
+      if (result.ok) {
+        acceptSnapshot(result.data, { expectedRequestVersion: requestVersion })
+      } else {
+        setError(errorText(result))
+      }
     } catch {
-      setError('助手服务暂时不可用')
+      if (
+        mountedRef.current &&
+        requestVersion === requestVersionRef.current &&
+        operationVersion === operationVersionRef.current
+      ) {
+        setError('助手服务暂时不可用')
+      }
     } finally {
-      setBusy(false)
+      if (
+        mountedRef.current &&
+        requestVersion === requestVersionRef.current &&
+        operationVersion === operationVersionRef.current
+      ) {
+        setBusy(false)
+      }
     }
   }
 

@@ -36,7 +36,7 @@ export class AssistantRepository {
   snapshot(): AssistantSnapshot {
     const rows = this.store.database
       .prepare(
-        'SELECT id, display_name, created_at, updated_at, archived_at, version FROM assistants ORDER BY created_at, id'
+        'SELECT id, display_name, created_at, updated_at, archived_at, version FROM assistants WHERE id NOT IN (SELECT id FROM assistant_tombstones) ORDER BY created_at, id'
       )
       .all() as unknown as AssistantRow[]
     const state = this.state()
@@ -187,7 +187,7 @@ export class AssistantRepository {
   private row(assistantId: string): AssistantRow | undefined {
     return this.store.database
       .prepare(
-        'SELECT id, display_name, created_at, updated_at, archived_at, version FROM assistants WHERE id = ?'
+        'SELECT id, display_name, created_at, updated_at, archived_at, version FROM assistants WHERE id = ? AND id NOT IN (SELECT id FROM assistant_tombstones)'
       )
       .get(assistantId) as AssistantRow | undefined
   }

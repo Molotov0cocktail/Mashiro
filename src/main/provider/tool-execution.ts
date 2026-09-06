@@ -41,7 +41,7 @@ export interface ToolExecutionOptions {
   memory?: (
     call: import('./tool-protocol.js').ToolCall,
     operation: ToolOperation
-  ) => { body: string; summary: string }
+  ) => { body: string; summary: string } | Promise<{ body: string; summary: string }>
   emit: (operation: ToolOperation) => void
 }
 export async function executeToolChat(options: ToolExecutionOptions): Promise<TransportResult> {
@@ -148,7 +148,8 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
                 'search_memory',
                 'write_memory',
                 'correct_memory',
-                'request_memory_removal'
+                'request_memory_removal',
+                'request_retention_cleanup'
               ].includes(c.function.name) &&
                 !['clock-and-memory', 'clock-history-and-memory'].includes(scope))
           )
@@ -225,7 +226,7 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
               operation.summary = '当前 UTC 时间：' + now.toISOString()
             } else if (call.function.name !== 'search_conversation_history') {
               if (!options.memory) throw new ProviderDomainError('PERMISSION_DENIED')
-              const result = options.memory(call, operation)
+              const result = await options.memory(call, operation)
               body = result.body
               operation.summary = result.summary
             } else {

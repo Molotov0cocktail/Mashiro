@@ -1,3 +1,4 @@
+import { removeRetentionFixture } from './retention-legacy-fixture.js'
 import { SqliteStore } from '../../src/main/data/sqlite.js'
 import { registerTimelineIpc } from '../../src/main/ipc/register-timeline-ipc.js'
 import { DatabaseSync } from 'node:sqlite'
@@ -601,6 +602,7 @@ it('migrates populated v3 without inventing grants and preserves new permission 
   const before = messages(item)
   item.service.close()
   const db = new DatabaseSync(item.path)
+  removeRetentionFixture(db)
   db.exec(
     'DROP TABLE memory_pending; DROP TABLE memory_cleanup; DROP TABLE memory_previews; DROP TABLE memory_suppressions; DROP TABLE memory_index; DROP TABLE memory_recipients; DROP TABLE memory_permissions; DROP TABLE memory_dependencies; DROP TABLE memory_commands; DROP TABLE memory_versions; DROP TABLE memory_objects; DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; PRAGMA user_version=3'
   )
@@ -608,7 +610,7 @@ it('migrates populated v3 without inventing grants and preserves new permission 
   const store = new SqliteStore(item.path)
   expect(
     (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-  ).toBe(6)
+  ).toBe(7)
   expect(store.database.prepare('SELECT * FROM history_recipient_grants').all()).toHaveLength(0)
   expect(
     store.database
@@ -670,6 +672,7 @@ it('rolls back a failed v3 upgrade without losing history or advancing schema', 
   await item.send('preserve-v3')
   item.service.close()
   const db = new DatabaseSync(item.path)
+  removeRetentionFixture(db)
   db.exec(
     'DROP TABLE memory_pending; DROP TABLE memory_cleanup; DROP TABLE memory_previews; DROP TABLE memory_suppressions; DROP TABLE memory_index; DROP TABLE memory_recipients; DROP TABLE memory_permissions; DROP TABLE memory_dependencies; DROP TABLE memory_commands; DROP TABLE memory_versions; DROP TABLE memory_objects; DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; PRAGMA user_version=3'
   )

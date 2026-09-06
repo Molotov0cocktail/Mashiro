@@ -1,8 +1,22 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../shared/assistant-contract'
+import type {
+  RetentionChanged,
+  RetentionIntent,
+  RetentionPreview
+} from '../../shared/retention-contract'
 import { AssistantPanel } from './features/assistants/AssistantPanel'
 import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
+import { RetentionPanel } from './features/retention/RetentionPanel'
+
+type RetentionTarget = RetentionIntent['target']
+type PreparedRetention = {
+  assistantId: string
+  target: RetentionTarget
+  intent?: RetentionPreview['intent']
+  nonce: number
+}
 
 export function App(): React.JSX.Element {
   const [assistantSnapshot, setAssistantSnapshot] = useState<AssistantSnapshot | null>(null)
@@ -12,17 +26,29 @@ export function App(): React.JSX.Element {
     nonce: number
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
-  const [activeView, setActiveView] = useState<'chat' | 'memory'>('chat')
+  const [activeView, setActiveView] = useState<'chat' | 'memory' | 'retention'>('chat')
   const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)
   const [pendingMemoryCommands] = useState(() => new Map<string, string>())
+  const [retentionChange, setRetentionChange] = useState<RetentionChanged | null>(null)
+  const [retentionTarget, setRetentionTarget] = useState<PreparedRetention | null>(null)
+  const [lastGovernanceAssistantId, setLastGovernanceAssistantId] = useState('')
+  const governanceEpoch = useRef(0)
+  const assistantRequestVersion = useRef(0)
+
   const receiveAssistantSnapshot = useCallback((value: AssistantSnapshot) => {
-    setAssistantSnapshot(value)
+    assistantRequestVersion.current += 1
+    setAssistantSnapshot((current) =>
+      current && current.stateRevision > value.stateRevision ? current : value
+    )
+    if (value.currentAssistantId) setLastGovernanceAssistantId(value.currentAssistantId)
   }, [])
 
   const locateMemorySource = useCallback(
     async (source: { assistantId: string; id: string }): Promise<void> => {
       if (!assistantSnapshot) return
       setNavigationError('')
+      const governance = governanceEpoch.current
+      const requestVersion = ++assistantRequestVersion.current
       let nextSnapshot = assistantSnapshot
       if (source.assistantId !== assistantSnapshot.currentAssistantId) {
         try {
@@ -31,6 +57,11 @@ export function App(): React.JSX.Element {
             assistantId: source.assistantId,
             expectedStateRevision: assistantSnapshot.stateRevision
           })
+          if (
+            governance !== governanceEpoch.current ||
+            requestVersion !== assistantRequestVersion.current
+          )
+            return
           if (!result.ok) {
             setNavigationError(result.error.message)
             return
@@ -60,9 +91,72 @@ export function App(): React.JSX.Element {
     setMemoryRefreshKey((value) => value + 1)
     setActiveView('memory')
   }, [])
+
   const receiveMemoryChange = useCallback(() => {
     setMemoryRefreshKey((value) => value + 1)
   }, [])
+
+  const refreshAssistants = useCallback(async (): Promise<void> => {
+    const governance = governanceEpoch.current
+    const requestVersion = ++assistantRequestVersion.current
+    try {
+      const result = await window.mashiro.assistants.list({ protocolVersion: 1 })
+      if (
+        governance !== governanceEpoch.current ||
+        requestVersion !== assistantRequestVersion.current
+      )
+        return
+      if (result.ok) setAssistantSnapshot(result.data)
+    } catch {
+      setNavigationError('助手列表暂时无法刷新；数据治理状态仍以清理作业为准')
+    }
+  }, [])
+
+  useEffect(() => {
+    const retention = window.mashiro.retention
+    if (!retention) return
+    return retention.onChanged((event) => {
+      governanceEpoch.current = event.epoch
+      assistantRequestVersion.current += 1
+      setRetentionChange(event)
+      if (event.reason === 'job-status') return
+      setMemoryRefreshKey((value) => value + 1)
+      setLastGovernanceAssistantId((value) => event.assistantIds.at(-1) ?? value)
+      if (
+        historyTarget &&
+        (event.assistantIds.includes(historyTarget.assistantId) ||
+          event.requestIds.includes(historyTarget.requestId))
+      ) {
+        setHistoryTarget(null)
+      }
+      if (event.reason === 'cleanup' || event.reason === 'purge') {
+        for (const key of [...pendingMemoryCommands.keys()]) {
+          try {
+            const parsed = JSON.parse(key) as { domain?: unknown }
+            if (parsed.domain === 'memory-mutation') continue
+            pendingMemoryCommands.delete(key)
+          } catch {
+            pendingMemoryCommands.delete(key)
+          }
+        }
+      }
+      void refreshAssistants()
+    })
+  }, [historyTarget, pendingMemoryCommands, refreshAssistants])
+
+  const prepareRetention = useCallback(
+    (assistantId: string, target: RetentionTarget, intent?: RetentionPreview['intent']): void => {
+      setRetentionTarget((value) => ({
+        assistantId,
+        target,
+        intent,
+        nonce: (value?.nonce ?? 0) + 1
+      }))
+      setLastGovernanceAssistantId(assistantId)
+      setActiveView('retention')
+    },
+    []
+  )
 
   return (
     <main>
@@ -89,6 +183,14 @@ export function App(): React.JSX.Element {
         >
           记忆与事件
         </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeView === 'retention'}
+          onClick={() => setActiveView('retention')}
+        >
+          保留与清理
+        </button>
       </nav>
 
       <details className="assistant-settings">
@@ -110,6 +212,8 @@ export function App(): React.JSX.Element {
           historyTarget={historyTarget}
           onMemoryChanged={receiveMemoryChange}
           onLocateMemorySource={locateMemorySource}
+          retentionChange={retentionChange}
+          onPrepareRetention={prepareRetention}
         />
       </section>
       <section hidden={activeView !== 'memory'} aria-label="记忆与事件页面">
@@ -125,7 +229,25 @@ export function App(): React.JSX.Element {
           onLocateRound={locateMemorySource}
           refreshKey={memoryRefreshKey}
           pendingCommands={pendingMemoryCommands}
+          retentionChange={retentionChange}
+          onPrepareRetention={prepareRetention}
         />
+      </section>
+      <section hidden={activeView !== 'retention'} aria-label="保留与清理页面">
+        {window.mashiro.retention ? (
+          <RetentionPanel
+            api={window.mashiro.retention}
+            memoryApi={window.mashiro.memory}
+            assistantSnapshot={assistantSnapshot}
+            fallbackAssistantId={assistantSnapshot?.currentAssistantId ?? lastGovernanceAssistantId}
+            preparedTarget={retentionTarget}
+            changed={retentionChange}
+            pendingCommands={pendingMemoryCommands}
+            onRefreshAssistants={refreshAssistants}
+          />
+        ) : (
+          <p role="alert">本机保留与清理服务尚未就绪。</p>
+        )}
       </section>
     </main>
   )

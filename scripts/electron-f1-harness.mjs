@@ -192,6 +192,18 @@ try {
     !seed.memory.temporaryRejected
   )
     throw new Error('Memory IPC lifecycle, accepted receipt, source or permission recovery failed')
+  if (
+    !verify.memoryUi.enteredViaDom ||
+    verify.memoryUi.objectsAdded !== 1 ||
+    verify.memoryUi.receiptCount !== 1 ||
+    verify.memoryUi.objectVersion !== 1 ||
+    seed.retention.priorJobId !== verify.retention.priorJobId ||
+    seed.retention.movedVersion !== 4 ||
+    seed.retention.jobId !== verify.retention.jobId ||
+    seed.retention.assistantId !== verify.retention.assistantId ||
+    verify.retention.state !== 'COMPLETED'
+  )
+    throw new Error('Retention lifecycle and cleanup job did not survive restart')
   const before = seed.timelineBeforeClose.messages
   const restored = verify.timelineRestored.messages
   const expectedBefore = [
@@ -370,7 +382,10 @@ try {
     historyPermission: verify.historyPermission,
     historyQueryVerified: true,
     memory: verify.memory,
+    memoryUi: verify.memoryUi,
     memoryIpcLifecycleVerified: true,
+    retention: verify.retention,
+    retentionThreeZoneCleanupRestartVerified: true,
     toolOperationRecovered: true,
     temporaryToolProtocolNotPersisted: true,
     toolOperationId: verify.toolOperations[0].operationId,
@@ -381,8 +396,16 @@ try {
   }
   mkdirSync(join(projectRoot, 'test-results'), { recursive: true })
   copyFileSync(
+    join(testRoot, 'results', 'memory-ui.png'),
+    join(projectRoot, 'test-results', 'memory-ui.png')
+  )
+  copyFileSync(
     join(testRoot, 'results', 'provider-ui.png'),
     join(projectRoot, 'test-results', 'provider-ui.png')
+  )
+  copyFileSync(
+    join(testRoot, 'results', 'retention-ui.png'),
+    join(projectRoot, 'test-results', 'retention-ui.png')
   )
   writeFileSync(
     join(projectRoot, 'test-results', 'electron-f1.json'),

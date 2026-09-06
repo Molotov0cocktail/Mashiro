@@ -20,7 +20,7 @@ export class TimelineRepository {
       throw new ProviderDomainError('INVALID_INPUT')
     const rows = this.store.database
       .prepare(
-        'SELECT sequence,id,request_id,role,content,status,created_at FROM timeline_messages WHERE assistant_id=? AND sequence < ? AND instr(content,?)>0 AND (? IS NULL OR request_id=?) ORDER BY sequence DESC LIMIT 101'
+        'SELECT sequence,id,request_id,role,content,status,created_at FROM readable_timeline_messages WHERE assistant_id=? AND sequence < ? AND instr(content,?)>0 AND (? IS NULL OR request_id=?) ORDER BY sequence DESC LIMIT 101'
       )
       .all(
         assistantId,
@@ -55,7 +55,7 @@ export class TimelineRepository {
       : ''
     const rows = this.store.database
       .prepare(
-        "SELECT u.request_id,length(u.content)+length(a.content) AS chars,u.content AS utext,a.content AS atext FROM timeline_messages u JOIN timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed'" +
+        "SELECT u.request_id,length(u.content)+length(a.content) AS chars,u.content AS utext,a.content AS atext FROM readable_timeline_messages u JOIN readable_timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed'" +
           filter +
           ' ORDER BY a.sequence DESC LIMIT 16'
       )
@@ -85,7 +85,7 @@ export class TimelineRepository {
       : ''
     const rows = this.store.database
       .prepare(
-        "SELECT u.request_id,u.created_at,u.content AS user_text,a.content AS assistant_text FROM timeline_messages u JOIN timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed' AND (instr(u.content,?)>0 OR instr(a.content,?)>0)" +
+        "SELECT u.request_id,u.created_at,u.content AS user_text,a.content AS assistant_text FROM readable_timeline_messages u JOIN readable_timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed' AND (instr(u.content,?)>0 OR instr(a.content,?)>0)" +
           filter +
           ' ORDER BY a.sequence DESC LIMIT ?'
       )
@@ -118,7 +118,7 @@ export class TimelineRepository {
     const placeholders = requestIds.map(() => '?').join(',')
     const rows = this.store.database
       .prepare(
-        `SELECT u.request_id,u.content AS user_text,a.content AS assistant_text FROM timeline_messages u JOIN timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed' AND u.request_id IN (${placeholders}) ORDER BY a.sequence`
+        `SELECT u.request_id,u.content AS user_text,a.content AS assistant_text FROM readable_timeline_messages u JOIN readable_timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed' AND u.request_id IN (${placeholders}) ORDER BY a.sequence`
       )
       .all(assistantId, ...requestIds) as unknown as {
       request_id: string
@@ -147,7 +147,7 @@ export class TimelineRepository {
   read(assistantId: string): TimelineSnapshot {
     const rows = this.store.database
       .prepare(
-        'SELECT id, request_id, role, content, status, created_at FROM timeline_messages WHERE assistant_id = ? ORDER BY sequence DESC LIMIT 101'
+        'SELECT id, request_id, role, content, status, created_at FROM readable_timeline_messages WHERE assistant_id = ? ORDER BY sequence DESC LIMIT 101'
       )
       .all(assistantId) as unknown as Row[]
     return {
@@ -177,7 +177,7 @@ export class TimelineRepository {
   ): { role: 'user' | 'assistant'; content: string }[] {
     const rows = this.store.database
       .prepare(
-        "SELECT u.content AS user_text, a.content AS assistant_text FROM timeline_messages u JOIN timeline_messages a ON a.assistant_id = u.assistant_id AND a.request_id = u.request_id AND a.role = 'assistant' WHERE u.assistant_id = ? AND u.role = 'user' AND u.status = 'completed' AND a.status = 'completed' ORDER BY a.sequence DESC LIMIT 16"
+        "SELECT u.content AS user_text, a.content AS assistant_text FROM readable_timeline_messages u JOIN readable_timeline_messages a ON a.assistant_id = u.assistant_id AND a.request_id = u.request_id AND a.role = 'assistant' WHERE u.assistant_id = ? AND u.role = 'user' AND u.status = 'completed' AND a.status = 'completed' ORDER BY a.sequence DESC LIMIT 16"
       )
       .all(assistantId) as unknown as { user_text: string; assistant_text: string }[]
     let remaining = 64000 - inputLength
@@ -200,6 +200,14 @@ export class TimelineRepository {
         'INSERT INTO timeline_messages(id, assistant_id, request_id, role, content, status, created_at, source_session_id, source_message_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(assistant_id, source_session_id, source_message_id) DO NOTHING'
       )
       for (const message of messages) {
+        if (
+          this.store.database
+            .prepare(
+              'SELECT 1 FROM timeline_messages WHERE request_id=? AND assistant_id<>? LIMIT 1'
+            )
+            .get(message.requestId, assistantId)
+        )
+          throw new ProviderDomainError('INVALID_INPUT')
         statement.run(
           message.id,
           assistantId,

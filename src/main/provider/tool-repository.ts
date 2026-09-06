@@ -26,6 +26,19 @@ export class ToolRepository {
     { callId: string; arguments: string; record: ToolOperation; result?: string }
   >()
   constructor(private readonly store?: SqliteStore) {}
+  private retired(requestId: string): boolean {
+    return (
+      !!this.store &&
+      !!(
+        this.store.database
+          .prepare("SELECT 1 FROM content_tombstones WHERE kind='round' AND id=?")
+          .get(requestId) ||
+        this.store.database
+          .prepare('SELECT 1 FROM retention_original_trash WHERE request_id=?')
+          .get(requestId)
+      )
+    )
+  }
   recover(): void {
     if (!this.store) return
     this.store.transaction(() => {
@@ -53,6 +66,7 @@ export class ToolRepository {
     })
   }
   create(segment: ToolSegment): void {
+    if (this.retired(segment.requestId)) throw new ProviderDomainError('PERMISSION_DENIED')
     this.checkMessages(segment.messages)
     if (this.store)
       this.store.database
@@ -234,7 +248,7 @@ export class ToolRepository {
       ? (
           this.store.database
             .prepare(
-              'SELECT o.record_json FROM tool_operations o JOIN protocol_segments s ON s.id=o.segment_id WHERE s.assistant_id=? AND (? IS NULL OR s.request_id=?) ORDER BY o.rowid DESC LIMIT 384'
+              "SELECT o.record_json FROM tool_operations o JOIN protocol_segments s ON s.id=o.segment_id WHERE s.assistant_id=? AND s.request_id NOT IN(SELECT id FROM content_tombstones WHERE kind='round') AND s.request_id NOT IN(SELECT request_id FROM retention_original_trash) AND (? IS NULL OR s.request_id=?) ORDER BY o.rowid DESC LIMIT 384"
             )
             .all(assistantId, requestId ?? null, requestId ?? null) as unknown as {
             record_json: string
@@ -280,6 +294,7 @@ export class ToolRepository {
       .max(256)
     const expanded: ProtocolMessage[] = []
     for (const [index, requestId] of requestIds.entries()) {
+      if (this.retired(requestId)) throw new ProviderDomainError('PERMISSION_DENIED')
       let segment: ToolSegment | undefined,
         closed = false
       if (this.store) {

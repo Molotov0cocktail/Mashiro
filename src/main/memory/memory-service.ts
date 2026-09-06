@@ -192,7 +192,42 @@ export class MemoryService {
       throw new MemoryError('INTEGRITY')
     }
   }
+  private safeReceipt(value: unknown): MemoryReceipt {
+    const receipt = memoryReceiptSchema.parse(value)
+    if (!this.retired(receipt.objectId)) return receipt
+    return {
+      operationId: receipt.operationId,
+      objectId: receipt.objectId,
+      objectVersion: receipt.objectVersion,
+      state: receipt.state === 'PENDING_CONFIRMATION' ? 'CANCELLED_BEFORE_DISPATCH' : receipt.state,
+      confirmationId: null,
+      summary: '原操作身份已保留；正文副本已清理或正在清理'
+    }
+  }
+  private retired(id: string): boolean {
+    return !!this.store.database
+      .prepare("SELECT 1 FROM content_tombstones WHERE kind='memory' AND id=?")
+      .get(id)
+  }
   private visible(record: MemoryRecord): MemoryRecord {
+    if (this.retired(record.id))
+      return {
+        ...record,
+        title: '已清理内容',
+        markdown: '',
+        event: null,
+        sources: [],
+        state: 'suppressed'
+      }
+    const deletedSourceAssistantIds = this.closure(record.sources)
+      .filter((source) =>
+        this.store.database
+          .prepare('SELECT 1 FROM assistant_tombstones WHERE id=?')
+          .get(source.assistantId)
+      )
+      .map((source) => source.assistantId)
+    if (deletedSourceAssistantIds.length)
+      record = { ...record, deletedSourceAssistantIds: [...new Set(deletedSourceAssistantIds)] }
     if (
       record.state === 'suppressed' ||
       this.closure(record.sources).some((source) => this.withdrawn(source))
@@ -288,7 +323,9 @@ export class MemoryService {
           (value.kind !== 'all' && record.kind !== value.kind)
         )
           continue
-        if (!value.includeTrash && record.state === 'suppressed') continue
+        if (this.retired(record.id)) continue
+        if (!value.includeTrash && (record.state === 'suppressed' || record.retention === 'trash'))
+          continue
         const visible = this.visible(record)
         if (!value.includeTrash && visible.state === 'suppressed') continue
         // Rebuildable index never authorizes data: accepted file remains the final search oracle.
@@ -318,7 +355,7 @@ export class MemoryService {
       const matching = rows
         .map((row) => ({
           ...row,
-          receipt: JSON.parse(row.receipt_json) as MemoryReceipt,
+          receipt: this.safeReceipt(JSON.parse(row.receipt_json)),
           intent: JSON.parse(row.intent_json) as {
             mutation: MemoryMutation
             actor: 'user' | 'assistant'
@@ -358,7 +395,7 @@ export class MemoryService {
     const row = this.store.database
       .prepare('SELECT receipt_json FROM memory_commands WHERE id=? AND assistant_id=?')
       .get(operationId, assistantId) as { receipt_json: string | null } | undefined
-    return row?.receipt_json ? memoryReceiptSchema.parse(JSON.parse(row.receipt_json)) : undefined
+    return row?.receipt_json ? this.safeReceipt(JSON.parse(row.receipt_json)) : undefined
   }
   mutate(input: unknown) {
     return this.handle(memoryMutateInputSchema, input, (value) =>
@@ -375,6 +412,9 @@ export class MemoryService {
     const target = mutation.targetId
       ? this.owned(context.assistantId, mutation.targetId)
       : undefined
+    if (target && this.retired(target.id)) throw new MemoryError('PERMISSION_DENIED')
+    if (target && target.retention === 'trash' && 'markdown' in mutation)
+      throw new MemoryError('PERMISSION_DENIED')
     if (target && target.objectVersion !== mutation.expectedVersion)
       throw new MemoryError('STALE_WRITE')
     if (mutation.action === 'remember' && (target || mutation.expectedVersion !== null))
@@ -421,7 +461,7 @@ export class MemoryService {
     if (prior) {
       if (prior.arguments_hash !== argumentHash) throw new MemoryError('CONFLICT')
       if (prior.receipt_json && !(confirmed && prior.state === 'PENDING_CONFIRMATION'))
-        return JSON.parse(prior.receipt_json) as MemoryReceipt
+        return this.safeReceipt(JSON.parse(prior.receipt_json))
       if (!confirmed) throw new MemoryError('CONFLICT')
     }
     const target = this.checkMutation(context)
@@ -583,6 +623,12 @@ export class MemoryService {
           .prepare('INSERT INTO memory_objects VALUES(?,?,?)')
           .run(objectId, nextVersion, JSON.stringify(record))
       this.addDependencies('memory', objectId, nextVersion, sources)
+      if (target)
+        this.store.database
+          .prepare(
+            'INSERT INTO retained_source_edges SELECT object_id,?,source_type,source_id,source_version,source_assistant,recipients_json,epoch FROM retained_source_edges WHERE object_id=? AND object_version=?'
+          )
+          .run(nextVersion, objectId, target.objectVersion)
       if (context.execution && record.state === 'active')
         this.addDependencies('round', context.execution.requestId, 1, [
           {
@@ -863,6 +909,13 @@ export class MemoryService {
     return [...seen.values()]
   }
   addDependencies(type: string, id: string, version: number, sources: MemorySource[]): void {
+    if (
+      type === 'round' &&
+      this.store.database
+        .prepare('SELECT DISTINCT assistant_id FROM timeline_messages WHERE request_id=? LIMIT 2')
+        .all(id).length > 1
+    )
+      throw new MemoryError('PERMISSION_DENIED')
     for (const source of sources)
       this.store.database
         .prepare('INSERT OR IGNORE INTO memory_dependencies VALUES(?,?,?,?,?,?,?)')
@@ -891,6 +944,33 @@ export class MemoryService {
     let visits = 0
     const visit = (dependency: MemorySource): void => {
       if (this.withdrawn(dependency)) throw new MemoryError('PERMISSION_DENIED')
+      const retained = [...ancestors].some(([id, version]) => {
+        const edge = this.store.database
+          .prepare(
+            'SELECT recipients_json FROM retained_source_edges WHERE object_id=? AND object_version=? AND source_type=? AND source_id=? AND source_version=?'
+          )
+          .get(id, version, dependency.type, dependency.id, dependency.version) as
+          { recipients_json: string } | undefined
+        return (
+          !!edge &&
+          (JSON.parse(edge.recipients_json) as [string, string][]).some(
+            ([recipient, endpoint]) => recipient === assistantId && endpoint === fingerprint
+          )
+        )
+      })
+      const retired =
+        this.store.database
+          .prepare('SELECT 1 FROM content_tombstones WHERE kind=? AND id=?')
+          .get(dependency.type === 'user-round' ? 'round' : dependency.type, dependency.id) ||
+        ((dependency.type === 'round' || dependency.type === 'user-round') &&
+          this.store.database
+            .prepare('SELECT 1 FROM retention_original_trash WHERE request_id=?')
+            .get(dependency.id))
+      const deletedAssistant = this.store.database
+        .prepare('SELECT 1 FROM assistant_tombstones WHERE id=?')
+        .get(dependency.assistantId)
+      if ((retired || (deletedAssistant && dependency.type !== 'memory')) && !retained)
+        throw new MemoryError('PERMISSION_DENIED')
       const key = JSON.stringify([dependency.type, dependency.id, dependency.version])
       if (active.has(key)) return
       const contextKey = JSON.stringify([
@@ -899,14 +979,15 @@ export class MemoryService {
       ])
       if (completed.has(contextKey)) return
       if (++visits > 4096) throw new MemoryError('PERMISSION_DENIED')
-      if (dependency.type === 'memory') {
+      if (dependency.type === 'memory' && !retained) {
         const record = this.metadata(dependency.id)
         const obsoleteBackEdge =
           dependency.version < record.objectVersion &&
           ancestors.get(record.id) === record.objectVersion
         if (
           (record.objectVersion !== dependency.version && !obsoleteBackEdge) ||
-          record.state !== 'active'
+          record.state !== 'active' ||
+          record.retention === 'trash'
         )
           throw new MemoryError('PERMISSION_DENIED')
         if (record.scope === 'assistant' && record.ownerAssistantId !== assistantId)
@@ -915,7 +996,7 @@ export class MemoryService {
         if (!permission.read || !permission.receive) throw new MemoryError('PERMISSION_DENIED')
         this.body(record)
       }
-      if (dependency.type === 'round' || dependency.type === 'user-round') {
+      if ((dependency.type === 'round' || dependency.type === 'user-round') && !retained) {
         const grant = this.store.database
           .prepare('SELECT read_history FROM history_permissions WHERE assistant_id=?')
           .get(dependency.assistantId) as { read_history: number } | undefined
@@ -961,9 +1042,22 @@ export class MemoryService {
       !this.store.database
         .prepare("SELECT 1 FROM memory_dependencies WHERE source_type='memory' LIMIT 1")
         .get() &&
-      !this.store.database.prepare('SELECT 1 FROM memory_suppressions LIMIT 1').get()
+      !this.store.database.prepare('SELECT 1 FROM memory_suppressions LIMIT 1').get() &&
+      !this.store.database.prepare('SELECT 1 FROM content_tombstones LIMIT 1').get() &&
+      !this.store.database.prepare('SELECT 1 FROM assistant_tombstones LIMIT 1').get() &&
+      !this.store.database.prepare('SELECT 1 FROM retention_original_trash LIMIT 1').get()
     )
       return
+    if (
+      this.store.database
+        .prepare('SELECT 1 FROM retention_original_trash WHERE request_id=?')
+        .get(requestId) ||
+      this.store.database
+        .prepare("SELECT 1 FROM content_tombstones WHERE kind='round' AND id=?")
+        .get(requestId) ||
+      this.store.database.prepare('SELECT 1 FROM assistant_tombstones WHERE id=?').get(assistantId)
+    )
+      throw new MemoryError('PERMISSION_DENIED')
     const direct = { type: 'round' as const, id: requestId, assistantId, version: 1 }
     if (this.withdrawn(direct) || this.withdrawn({ ...direct, type: 'user-round' }))
       throw new MemoryError('PERMISSION_DENIED')
@@ -980,6 +1074,8 @@ export class MemoryService {
       const record = memoryRecordSchema.parse(JSON.parse(row.record_json))
       if (
         record.state !== 'active' ||
+        record.retention === 'trash' ||
+        this.retired(record.id) ||
         (record.scope === 'assistant' && record.ownerAssistantId !== execution.assistantId)
       )
         continue
@@ -1038,7 +1134,7 @@ export class MemoryService {
           })
         )
         if (row?.receipt_json && row.arguments_hash === argumentHash)
-          return memoryReceiptSchema.parse(JSON.parse(row.receipt_json))
+          return this.safeReceipt(JSON.parse(row.receipt_json))
         // Never classify an accepted preview or committed different command as unexecuted.
         provenNotApplied =
           !row || (row.state !== 'SUCCEEDED' && row.state !== 'PENDING_CONFIRMATION')
@@ -1061,6 +1157,8 @@ export class MemoryService {
         const record = memoryRecordSchema.parse(JSON.parse(row.record_json))
         if (
           record.state !== 'active' ||
+          record.retention === 'trash' ||
+          this.retired(record.id) ||
           this.closure(record.sources).some((source) => this.withdrawn(source))
         )
           continue

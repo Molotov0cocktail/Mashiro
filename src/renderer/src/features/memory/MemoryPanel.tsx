@@ -5,6 +5,11 @@ import type {
   MemoryReceipt,
   MemoryRecord
 } from '../../../../shared/memory-contract'
+import type {
+  RetentionChanged,
+  RetentionIntent,
+  RetentionPreview
+} from '../../../../shared/retention-contract'
 
 const protocolVersion = 1 as const
 
@@ -76,6 +81,18 @@ function newCommandId(): string {
   return crypto.randomUUID()
 }
 
+async function mutationRegistryKey(input: Parameters<MemoryApi['mutate']>[0]): Promise<string> {
+  const payload = new TextEncoder().encode(JSON.stringify(input.mutation))
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', payload))
+  const payloadSha256 = Array.from(digest, (byte) => byte.toString(16).padStart(2, '0')).join('')
+  return JSON.stringify({
+    domain: 'memory-mutation',
+    assistantId: input.assistantId,
+    targetId: input.mutation.targetId,
+    payloadSha256
+  })
+}
+
 function formatTime(value: string): string {
   return new Date(value).toLocaleString('zh-CN')
 }
@@ -86,7 +103,9 @@ export function MemoryPanel({
   api,
   onLocateRound,
   refreshKey,
-  pendingCommands
+  pendingCommands,
+  retentionChange,
+  onPrepareRetention
 }: {
   assistantId: string
   assistantName: string
@@ -94,6 +113,12 @@ export function MemoryPanel({
   onLocateRound: (source: RoundTarget) => Promise<void>
   refreshKey?: number
   pendingCommands?: Map<string, string>
+  retentionChange?: RetentionChanged | null
+  onPrepareRetention?: (
+    assistantId: string,
+    target: RetentionIntent['target'],
+    intent?: RetentionPreview['intent']
+  ) => void
 }): React.JSX.Element {
   const [records, setRecords] = useState<MemoryRecord[]>([])
   const [nextCursor, setNextCursor] = useState<number | null>(null)
@@ -131,6 +156,7 @@ export function MemoryPanel({
   const readVersion = useRef(0)
   const inspectVersion = useRef(0)
   const permissionVersion = useRef(0)
+  const governanceVersion = useRef(0)
   const lastRefreshKey = useRef(refreshKey)
   const lastAssistantId = useRef<string | undefined>(undefined)
 
@@ -259,6 +285,42 @@ export function MemoryPanel({
   ])
 
   useEffect(() => {
+    if (
+      !retentionChange ||
+      retentionChange.reason === 'job-status' ||
+      !retentionChange.assistantIds.includes(assistantId)
+    )
+      return
+    governanceVersion.current += 1
+    readVersion.current += 1
+    inspectVersion.current += 1
+    permissionVersion.current += 1
+    let active = true
+    queueMicrotask(() => {
+      if (!active) return
+      setPendingReceipt(null)
+      setReloadPreview(null)
+      setInspection(null)
+      setSelectedId('')
+      if (retentionChange.reason === 'cleanup' || retentionChange.reason === 'purge') {
+        setRecords([])
+        setEditTarget(null)
+        setAction('remember')
+        setTitle('')
+        setMarkdown('')
+        setNotice('已按新的清理确认丢弃受影响的编辑、预览和本机正文缓存。')
+      }
+      if (assistantId) {
+        void loadRecords()
+        void loadPermissions()
+      }
+    })
+    return () => {
+      active = false
+    }
+  }, [assistantId, loadPermissions, loadRecords, retentionChange])
+
+  useEffect(() => {
     if (refreshKey === undefined || lastRefreshKey.current === refreshKey) return
     lastRefreshKey.current = refreshKey
     if (!assistantId) return
@@ -276,72 +338,101 @@ export function MemoryPanel({
     }
   }, [action, assistantId, loadPermissions, loadRecords, refreshKey])
 
-  async function refreshAfterMutation(objectId: string): Promise<void> {
+  async function refreshAfterMutation(
+    objectId: string,
+    expectedGovernance = governanceVersion.current
+  ): Promise<void> {
     await loadRecords()
+    if (expectedGovernance !== governanceVersion.current) return
     setSelectedId(objectId)
     await loadInspection(objectId)
   }
 
-  async function mutateTracked(input: Parameters<MemoryApi['mutate']>[0]) {
+  async function mutateTracked(
+    input: Parameters<MemoryApi['mutate']>[0],
+    expectedGovernance = governanceVersion.current
+  ) {
     const registry = pendingCommands ?? localPendingCommands.current
-    const key = JSON.stringify({ assistantId: input.assistantId, mutation: input.mutation })
+    const key = await mutationRegistryKey(input)
+    if (expectedGovernance !== governanceVersion.current) {
+      throw new Error('Governance changed before dispatch')
+    }
     const existing = registry.get(key)
     if (!existing && registry.size >= 64) throw new Error('Pending operation limit')
     const commandId = existing ?? input.commandId
     registry.set(key, commandId)
     const result = await api.mutate({ ...input, commandId })
-    if (result.ok && registry.get(key) === commandId) registry.delete(key)
-    return result
+    return {
+      result,
+      release: (): void => {
+        if (
+          expectedGovernance === governanceVersion.current &&
+          result.ok &&
+          registry.get(key) === commandId
+        ) {
+          registry.delete(key)
+        }
+      }
+    }
   }
 
   async function submitWrite(): Promise<void> {
     if (!assistantId || !title.trim() || !markdown.trim()) return
     const target = action === 'correct' ? editTarget : null
     if (action === 'correct' && (!target || target.id !== selectedId)) return
+    const governance = governanceVersion.current
     setMutationBusy(true)
     setError('')
     setNotice('')
     setPendingReceipt(null)
     try {
-      const result = await mutateTracked({
-        protocolVersion,
-        assistantId,
-        commandId: newCommandId(),
-        mutation: {
-          action,
-          targetId: target?.id ?? null,
-          expectedVersion: target?.objectVersion ?? null,
-          kind,
-          scope: kind === 'relationship' || kind === 'continuity' ? 'assistant' : scope,
-          title: title.trim(),
-          markdown: markdown.trim(),
-          nature,
-          event:
-            kind === 'event'
-              ? {
-                  status: eventStatus,
-                  occurredAt:
-                    target?.event && occurredAt === localEventInput(target.event.occurredAt)
-                      ? target.event.occurredAt
-                      : occurredAt
-                        ? new Date(occurredAt).toISOString()
-                        : null,
-                  timeZone: timeZone.trim() || null
-                }
-              : null
-        }
-      })
+      const tracked = await mutateTracked(
+        {
+          protocolVersion,
+          assistantId,
+          commandId: newCommandId(),
+          mutation: {
+            action,
+            targetId: target?.id ?? null,
+            expectedVersion: target?.objectVersion ?? null,
+            kind,
+            scope: kind === 'relationship' || kind === 'continuity' ? 'assistant' : scope,
+            title: title.trim(),
+            markdown: markdown.trim(),
+            nature,
+            event:
+              kind === 'event'
+                ? {
+                    status: eventStatus,
+                    occurredAt:
+                      target?.event && occurredAt === localEventInput(target.event.occurredAt)
+                        ? target.event.occurredAt
+                        : occurredAt
+                          ? new Date(occurredAt).toISOString()
+                          : null,
+                    timeZone: timeZone.trim() || null
+                  }
+                : null
+          }
+        },
+        governance
+      )
+      if (governance !== governanceVersion.current) return
+      const result = tracked.result
       if (!result.ok) {
         setError(memoryError(result))
         return
       }
+      tracked.release()
       setNotice(result.data.summary)
-      await refreshAfterMutation(result.data.objectId)
+      await refreshAfterMutation(result.data.objectId, governance)
+      if (governance !== governanceVersion.current) return
       if (action === 'remember') {
         setTitle('')
         setMarkdown('')
       }
     } catch {
+      if (governance !== governanceVersion.current) return
       setError('写入回执未确认，请刷新记录核查；界面不会自动重试')
     } finally {
       setMutationBusy(false)
@@ -351,20 +442,31 @@ export function MemoryPanel({
   async function requestRemoval(actionName: 'delete' | 'withdraw' | 'restore'): Promise<void> {
     const record = inspection?.record
     if (!record) return
+    const governance = governanceVersion.current
     setMutationBusy(true)
     setError('')
     setNotice('')
     try {
-      const result = await mutateTracked({
-        protocolVersion,
-        assistantId,
-        commandId: newCommandId(),
-        mutation: { action: actionName, targetId: record.id, expectedVersion: record.objectVersion }
-      })
+      const tracked = await mutateTracked(
+        {
+          protocolVersion,
+          assistantId,
+          commandId: newCommandId(),
+          mutation: {
+            action: actionName,
+            targetId: record.id,
+            expectedVersion: record.objectVersion
+          }
+        },
+        governance
+      )
+      if (governance !== governanceVersion.current) return
+      const result = tracked.result
       if (!result.ok) {
         setError(memoryError(result))
         return
       }
+      tracked.release()
       if (result.data.state === 'PENDING_CONFIRMATION') {
         setPendingReceipt(result.data)
         setNotice('操作尚未执行，请核对下面的范围后确认或取消。')
@@ -372,8 +474,9 @@ export function MemoryPanel({
       }
       setPendingReceipt(null)
       setNotice(result.data.summary)
-      await refreshAfterMutation(result.data.objectId)
+      await refreshAfterMutation(result.data.objectId, governance)
     } catch {
+      if (governance !== governanceVersion.current) return
       setError('操作回执未确认，请刷新记录核查；界面不会自动重试')
     } finally {
       setMutationBusy(false)
@@ -382,6 +485,7 @@ export function MemoryPanel({
 
   async function confirmRemoval(accept: boolean): Promise<void> {
     if (!pendingReceipt?.confirmationId) return
+    const governance = governanceVersion.current
     setMutationBusy(true)
     setError('')
     try {
@@ -391,6 +495,7 @@ export function MemoryPanel({
         confirmationId: pendingReceipt.confirmationId,
         accept
       })
+      if (governance !== governanceVersion.current) return
       if (!result.ok) {
         setError(memoryError(result))
         return
@@ -398,8 +503,9 @@ export function MemoryPanel({
       setPendingReceipt(null)
       setNotice(result.data.summary)
       if (accept && result.data.state === 'SUCCEEDED')
-        await refreshAfterMutation(result.data.objectId)
+        await refreshAfterMutation(result.data.objectId, governance)
     } catch {
+      if (governance !== governanceVersion.current) return
       setError('确认结果未返回，请刷新记录核查；界面不会自动重复确认')
     } finally {
       setMutationBusy(false)
@@ -446,6 +552,7 @@ export function MemoryPanel({
   async function previewReload(): Promise<void> {
     const record = inspection?.record
     if (!record) return
+    const governance = governanceVersion.current
     setMutationBusy(true)
     setError('')
     setReloadPreview(null)
@@ -456,9 +563,11 @@ export function MemoryPanel({
         id: record.id,
         expectedVersion: record.objectVersion
       })
+      if (governance !== governanceVersion.current) return
       if (!result.ok) setError(memoryError(result))
       else setReloadPreview(result.data)
     } catch {
+      if (governance !== governanceVersion.current) return
       setError('无法读取外部修改候选，当前接受版本保持不变')
     } finally {
       setMutationBusy(false)
@@ -467,6 +576,7 @@ export function MemoryPanel({
 
   async function acceptReload(): Promise<void> {
     if (!reloadPreview) return
+    const governance = governanceVersion.current
     setMutationBusy(true)
     setError('')
     try {
@@ -475,14 +585,16 @@ export function MemoryPanel({
         assistantId,
         previewId: reloadPreview.previewId
       })
+      if (governance !== governanceVersion.current) return
       if (!result.ok) {
         setError(memoryError(result))
         return
       }
       setReloadPreview(null)
       setNotice(result.data.summary)
-      await refreshAfterMutation(result.data.objectId)
+      await refreshAfterMutation(result.data.objectId, governance)
     } catch {
+      if (governance !== governanceVersion.current) return
       setError('重新载入回执未确认，请刷新记录核查；当前候选不会自动采用')
     } finally {
       setMutationBusy(false)
@@ -508,6 +620,11 @@ export function MemoryPanel({
     }
     void loadInspection(record.id)
   }
+
+  const deletedSourceAssistantIds = new Set(
+    (inspection?.record as (MemoryRecord & { deletedSourceAssistantIds?: string[] }) | undefined)
+      ?.deletedSourceAssistantIds ?? []
+  )
 
   return (
     <section className="memory-panel" aria-labelledby="memory-heading">
@@ -822,14 +939,42 @@ export function MemoryPanel({
                     <button
                       type="button"
                       disabled={mutationBusy}
-                      onClick={() => void requestRemoval('delete')}
+                      onClick={() =>
+                        onPrepareRetention?.(
+                          assistantId,
+                          {
+                            type: 'memories',
+                            objects: [
+                              {
+                                id: inspection.record.id,
+                                version: inspection.record.objectVersion
+                              }
+                            ]
+                          },
+                          'delete-representation'
+                        )
+                      }
                     >
                       删除此表示
                     </button>
                     <button
                       type="button"
                       disabled={mutationBusy}
-                      onClick={() => void requestRemoval('withdraw')}
+                      onClick={() =>
+                        onPrepareRetention?.(
+                          assistantId,
+                          {
+                            type: 'memories',
+                            objects: [
+                              {
+                                id: inspection.record.id,
+                                version: inspection.record.objectVersion
+                              }
+                            ]
+                          },
+                          'withdraw-information'
+                        )
+                      }
                     >
                       撤回来源与信息
                     </button>
@@ -848,7 +993,7 @@ export function MemoryPanel({
                 </button>
               </div>
               <p className="scope-note">
-                删除此表示：该记录退出召回，原对话和其他事项不受影响。撤回来源与信息：立即停止使用受影响的来源和派生内容；原文与历史副本的物理清理由后续生命周期处理。
+                删除与撤回会先进入“保留与清理”的完整可信预览；只有本机确认后才执行，并在作业区显示受管副本的真实清理状态。
               </p>
               {inspection.organizationPending ? (
                 <p>此记录有真实待整理增量，尚未完成后台归并。</p>
@@ -873,7 +1018,9 @@ export function MemoryPanel({
                               ? '记忆版本'
                               : '用户在应用内创建'}{' '}
                         · v{source.version}
-                        {source.type === 'round' || source.type === 'user-round' ? (
+                        {deletedSourceAssistantIds.has(source.assistantId) ? (
+                          <span>原助手已删除，私有原文不可展开</span>
+                        ) : source.type === 'round' || source.type === 'user-round' ? (
                           <button type="button" onClick={() => void onLocateRound(source)}>
                             定位原轮次
                           </button>

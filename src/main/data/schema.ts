@@ -1,6 +1,7 @@
 import type { DatabaseSync } from 'node:sqlite'
+import { migrateRetention, verifyRetention } from '../retention/retention-schema.js'
 
-export const schemaVersion = 6
+export const schemaVersion = 7
 
 const requiredTables = [
   'assistants',
@@ -273,6 +274,8 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
       throw error
     }
   }
+  migrateRetention(database)
+  verifyRetention(database)
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )

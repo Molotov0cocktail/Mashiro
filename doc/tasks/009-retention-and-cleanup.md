@@ -1,6 +1,6 @@
 # 009 保留、原文清理、恢复与删除完成
 
-- TASK = 009；状态 = ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。
+- TASK = 009；状态 = INTEGRATION_PENDING / MANUAL_CORE PASS；PROGRAM ACTIVE。
 - 编号已核对未占用。008已独立FINAL PASS，当前产品任务为本009；基线产品`cc9c729cd5b65597049f988c41e3def97fcb0515`、归档HEAD`c6a3363bd923be7ad540ce7e0502fb35aa06bd6b`均复核同步双remote，唯一入口为[progress](progress.md)。本任务承接总清单Q6和A07、E01–E06，不是程序停止点。
 - 来源：proposal §3.3/4及集中决议，high-level-design §7，detailed-design RET-001–007、MEM-003、AST-006、EXEC-002–004。008提供即时抑制和跨资源提交；本任务完成保留、原文/旧版本/协议副本的实际清理及恢复。
 
@@ -24,7 +24,9 @@
 
 ## 当前实施与单写范围
 
-2026-09-06，retention_009_trusted（实际gpt-6-astra / medium）已冻结src/shared/retention-contract.ts与retention-channels.ts，单写main/shared/preload、trusted tests和Electron harness；retention_009_ui（实际gpt-5.6-sol / high）消费该契约，单写renderer及对应tests。overview/move/preview/confirm/jobs/retry及只含epoch/IDs的changed事件为窄领域入口；六assistant通道不变。root单写正式任务/总入口，不并写产品。
+最终手动核心于2026-09-07获[独立MANUAL_CORE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-final-manual-core.md)：41 files / 255 tests、独立4 UI oracles，最终Electron PIDs99400/115408及102文件无漂移。五处实际缺陷已关闭，详见[集成验证](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-final-validation.md)。所有作者和Reviewer已归还写权。提交同步后继续010；本任务整体保留INTEGRATION_PENDING，RET/额外AST/Q9真实接受回收及Q10备份仍待完成。下段为本次实现和修复过程记录，不代表当前仍待修复。
+
+2026-09-07续接：retention_009_trusted（实际gpt-6-astra / medium）已交回main/shared/preload、trusted tests及Electron harness写权，可信23 files / 167 tests与最新双PID 113640/112668通过；见[可信候选报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-trusted-result.md)。独立review_009（实际gpt-6-astra / medium）已复跑可信23/167通过，但[独立反例给出REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-repair-1.md)：已清空版本文件占位被再次纳入purge作业。repair_009_cleanup（实际gpt-6-astra / medium）只修可信清理清单及可证明的旧失败恢复，保持unsafe路径拒绝；尚无独立PASS。retention_009_ui（实际gpt-5.6-sol / high）已交回renderer及对应tests，见[UI候选报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-ui-result.md)：13 files / 58 tests及自有静态通过；其后独立review_009给出UI反例，原UI作者已重开AssistantPanel、RetentionPanel和MemoryPanel窄修；App迟到来源switch独立通过，旧rename局部缓存、empty-trash目标漏接、过期成功释放未知身份仍须原样oracle通过。可信清理修复及15个新增反例已独立验证，当前可信25/184通过；root增补真实Electron DOM保存及先清记忆再purge测试，尚待最终实际执行。overview/move/preview/confirm/jobs/retry及只含epoch/IDs的changed事件为窄领域入口；六assistant通道不变。root单写正式任务/总入口。
 
 ## 工程方案与风险检查
 
@@ -50,4 +52,6 @@
 - [x] 008独立FINAL PASS与精确baseline已核对；[实际代码设计](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-design.md)完成，可信执行者据此冻结增量DTO/清理边界。
 - [ ] 三区/容量/期限、用户清理和对话预览确认、恢复/物理清理实现。
 - [ ] 依赖、删除传播、中断恢复、权限及真实用户入口验证。
-- [ ] 独立审核、提交同步、覆盖更新并继续总任务。
+- [x] 手动核心独立审核MANUAL_CORE PASS；最终静态/构建/Electron与反例通过。
+- [ ] 绑定提交并双远程同步；RET/额外AST/Q9/Q10完成后结算整个009。
+- [ ] 持续执行010及后续总任务，直到实际发布下载核验。

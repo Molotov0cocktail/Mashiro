@@ -4,6 +4,7 @@ import type {
   MemoryPermissions,
   MemoryReceipt
 } from '../../../../shared/memory-contract'
+import type { RetentionChanged, RetentionIntent } from '../../../../shared/retention-contract'
 import type { ContextIntent } from '../../../../shared/provider-contract'
 import type {
   HistoryCitation,
@@ -57,6 +58,8 @@ function toolLabel(toolName: ToolOperation['toolName']): string {
       return '纠正记忆'
     case 'request_memory_removal':
       return '删除或撤回请求'
+    case 'request_retention_cleanup':
+      return '保留与原文清理预览'
   }
 }
 
@@ -170,7 +173,9 @@ export function ToolExecutionPanel({
   onRefreshOperation,
   onLocateCitation,
   onMemoryChanged,
-  onLocateMemorySource
+  onLocateMemorySource,
+  retentionChange,
+  onPrepareRetention
 }: {
   assistantId: string
   mode: ChatMode
@@ -188,6 +193,8 @@ export function ToolExecutionPanel({
   onLocateCitation: (citation: HistoryCitation) => void
   onMemoryChanged?: () => void
   onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>
+  retentionChange?: RetentionChanged | null
+  onPrepareRetention?: (intent: RetentionIntent) => void
 }): React.JSX.Element {
   const [memoryPermissions, setMemoryPermissions] = useState<MemoryPermissions[]>([])
   const [memoryPermissionLoading, setMemoryPermissionLoading] = useState(false)
@@ -197,6 +204,22 @@ export function ToolExecutionPanel({
     Record<string, MemoryConfirmationState>
   >({})
   const confirmingMemoryOperations = useRef(new Set<string>())
+  const retentionVersion = useRef(0)
+  useEffect(() => {
+    if (
+      !retentionChange ||
+      retentionChange.reason === 'job-status' ||
+      !retentionChange.assistantIds.includes(assistantId)
+    )
+      return
+    memoryPermissionVersion.current += 1
+    if (retentionChange.reason === 'cleanup' || retentionChange.reason === 'purge') {
+      retentionVersion.current += 1
+      confirmingMemoryOperations.current.clear()
+      queueMicrotask(() => setMemoryConfirmations({}))
+    }
+  }, [assistantId, retentionChange])
+
   const toolsAvailable = capability?.toolsAvailable === true
   const visibleScope = toolsAvailable ? scope : 'off'
   const historyDisabled =
@@ -264,6 +287,7 @@ export function ToolExecutionPanel({
     )
       return
     confirmingMemoryOperations.current.add(receipt.operationId)
+    const governanceVersion = retentionVersion.current
     setMemoryConfirmations((values) => ({
       ...values,
       [receipt.operationId]: { receipt, busy: true, error: '' }
@@ -275,6 +299,7 @@ export function ToolExecutionPanel({
         confirmationId: receipt.confirmationId,
         accept
       })
+      if (governanceVersion !== retentionVersion.current) return
       if (!result.ok) {
         setMemoryConfirmations((values) => ({
           ...values,
@@ -309,6 +334,7 @@ export function ToolExecutionPanel({
       onRefreshOperation(operation.requestId)
       if (accept && result.data.state === 'SUCCEEDED') onMemoryChanged?.()
     } catch {
+      if (governanceVersion !== retentionVersion.current) return
       setMemoryConfirmations((values) => ({
         ...values,
         [receipt.operationId]: {
@@ -506,6 +532,19 @@ export function ToolExecutionPanel({
                 </span>
               </div>
               <p>{operation.summary}</p>
+              {operation.retentionIntent && onPrepareRetention ? (
+                <div className="retention-tool-preview">
+                  <p className="scope-note">
+                    模型只准备了清理意图，不能代表你确认。打开后会按当前治理版本重新生成完整可信预览。
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => onPrepareRetention(operation.retentionIntent!)}
+                  >
+                    打开当前完整预览
+                  </button>
+                </div>
+              ) : null}
               {operation.memoryReceipt ? (
                 <MemoryReceiptCard
                   receipt={

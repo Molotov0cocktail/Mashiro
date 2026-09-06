@@ -1,3 +1,4 @@
+import { removeRetentionFixture } from './retention-legacy-fixture.js'
 import { chatCompletions } from '../../src/main/provider/chat-completions-transport.js'
 import { DatabaseSync } from 'node:sqlite'
 import { mkdtempSync, rmSync } from 'node:fs'
@@ -225,6 +226,7 @@ describe('007 actual trusted tool conversation', () => {
     f.service.close()
     const legacy = new DatabaseSync(f.db)
     const before = legacy.prepare('SELECT * FROM timeline_messages').all()
+    removeRetentionFixture(legacy)
     legacy.exec(
       'DROP TABLE memory_pending; DROP TABLE memory_cleanup; DROP TABLE memory_previews; DROP TABLE memory_suppressions; DROP TABLE memory_index; DROP TABLE memory_recipients; DROP TABLE memory_permissions; DROP TABLE memory_dependencies; DROP TABLE memory_commands; DROP TABLE memory_versions; DROP TABLE memory_objects; DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; PRAGMA user_version=4; CREATE TABLE tool_operations(collision TEXT)'
     )
@@ -239,7 +241,7 @@ describe('007 actual trusted tool conversation', () => {
     checked.exec('DROP TABLE tool_operations')
     checked.close()
     const upgraded = new SqliteStore(f.db)
-    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 6 })
+    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 7 })
     expect(upgraded.database.prepare('SELECT * FROM timeline_messages').all()).toEqual(before)
     upgraded.close()
   })

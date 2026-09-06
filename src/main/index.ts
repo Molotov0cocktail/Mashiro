@@ -1,4 +1,5 @@
-import { app, ipcMain, safeStorage } from 'electron'
+import { app, BrowserWindow, ipcMain, safeStorage, type IpcMainInvokeEvent } from 'electron'
+import { registerRetentionIpc } from './ipc/register-retention-ipc.js'
 import { registerMemoryIpc } from './ipc/register-memory-ipc.js'
 import { registerTimelineIpc } from './ipc/register-timeline-ipc.js'
 import { AssistantService } from './assistant/assistant-service.js'
@@ -15,6 +16,7 @@ let unregisterAssistantIpc: (() => void) | undefined
 let unregisterProviderIpc: (() => void) | undefined
 let unregisterTimelineIpc: (() => void) | undefined
 let unregisterMemoryIpc: (() => void) | undefined
+let unregisterRetentionIpc: (() => void) | undefined
 
 async function start(): Promise<void> {
   const dataRoot = resolveDataRoot(app)
@@ -32,6 +34,19 @@ async function start(): Promise<void> {
   unregisterProviderIpc = registerProviderIpc(ipcMain, providerService)
   unregisterTimelineIpc = registerTimelineIpc(ipcMain, providerService)
   unregisterMemoryIpc = registerMemoryIpc(ipcMain, providerService.memory)
+  unregisterRetentionIpc = registerRetentionIpc(
+    ipcMain,
+    providerService.retention,
+    (channel, event) => {
+      for (const window of BrowserWindow.getAllWindows()) window.webContents.send(channel, event)
+    },
+    (event) => {
+      const call = event as IpcMainInvokeEvent
+      return (
+        !!BrowserWindow.fromWebContents(call.sender) && call.senderFrame === call.sender.mainFrame
+      )
+    }
+  )
   const window = await createWindow()
   await runE2ePhase(window, dataRoot)
 }
@@ -44,6 +59,8 @@ app.on('before-quit', (event) => {
     console.error('MASHIRO_SHUTDOWN_STORAGE_FAILURE')
     return
   }
+  unregisterRetentionIpc?.()
+  unregisterRetentionIpc = undefined
   unregisterMemoryIpc?.()
   unregisterMemoryIpc = undefined
   unregisterTimelineIpc?.()

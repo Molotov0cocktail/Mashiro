@@ -1,3 +1,4 @@
+import { removeRetentionFixture } from './retention-legacy-fixture.js'
 import { DatabaseSync } from 'node:sqlite'
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -69,6 +70,7 @@ function populatedV2(): {
   assistants.close()
 
   const database = new DatabaseSync(path)
+  removeRetentionFixture(database)
   database.exec(
     'DROP TABLE memory_pending; DROP TABLE memory_cleanup; DROP TABLE memory_previews; DROP TABLE memory_suppressions; DROP TABLE memory_index; DROP TABLE memory_recipients; DROP TABLE memory_permissions; DROP TABLE memory_dependencies; DROP TABLE memory_commands; DROP TABLE memory_versions; DROP TABLE memory_objects; DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
   )
@@ -152,7 +154,7 @@ describe('timeline schema v3', () => {
     const database = new DatabaseSync(item.path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(6)
+    ).toBe(7)
     expect(readV2Evidence(database)).toEqual(item.evidence)
     expectCredentialPreserved(item)
     expect(database.prepare('SELECT count(*) AS value FROM timeline_messages').get()).toEqual({

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ContextIntent } from '../../../../shared/provider-contract'
+import type { RetentionChanged } from '../../../../shared/retention-contract'
 import type {
   ChatMode,
   HistoryPermissions,
@@ -100,6 +101,7 @@ export function HistoryContextPanel({
   selectedRequestIds,
   focusRequest,
   onPermissionsChange,
+  retentionChange,
   onContextIntentChange,
   onSelectedRequestIdsChange
 }: {
@@ -111,6 +113,7 @@ export function HistoryContextPanel({
   selectedRequestIds: string[]
   focusRequest?: { requestId: string; nonce: number }
   onPermissionsChange?: () => void
+  retentionChange?: RetentionChanged | null
   onContextIntentChange: (value: ContextIntent) => void
   onSelectedRequestIdsChange: (value: string[]) => void
 }): React.JSX.Element | null {
@@ -123,12 +126,42 @@ export function HistoryContextPanel({
   const historyVersion = useRef(0)
   const permissionVersion = useRef(0)
   const routeRef = useRef('')
+  const lastRetentionEpoch = useRef(-1)
 
   useEffect(() => {
     routeRef.current = assistantId + ':' + mode
     historyVersion.current += 1
     permissionVersion.current += 1
   }, [assistantId, mode])
+
+  useEffect(() => {
+    if (
+      !retentionChange ||
+      retentionChange.reason === 'job-status' ||
+      !retentionChange.assistantIds.includes(assistantId)
+    )
+      return
+    if (lastRetentionEpoch.current === retentionChange.epoch) return
+    lastRetentionEpoch.current = retentionChange.epoch
+    historyVersion.current += 1
+    permissionVersion.current += 1
+    if (retentionChange.reason === 'cleanup' || retentionChange.reason === 'purge') {
+      queueMicrotask(() => {
+        setViews((values) => {
+          const next = { ...values }
+          delete next[assistantId]
+          return next
+        })
+        setFocusedByAssistant((values) => ({ ...values, [assistantId]: '' }))
+        setFocusNotices((values) => ({
+          ...values,
+          [assistantId]: '数据清理已确认，旧历史结果和定位引用已从界面移除。'
+        }))
+        onSelectedRequestIdsChange([])
+        onContextIntentChange({ kind: 'recent' })
+      })
+    }
+  }, [assistantId, onContextIntentChange, onSelectedRequestIdsChange, retentionChange])
 
   const view = views[assistantId] ?? emptyView
   const permission = permissionByAssistant[assistantId]

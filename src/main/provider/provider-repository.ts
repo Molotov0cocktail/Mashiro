@@ -161,7 +161,11 @@ export class ProviderRepository {
 
   assistantExists(assistantId: string): boolean {
     return Boolean(
-      this.store.database.prepare('SELECT 1 FROM assistants WHERE id = ?').get(assistantId)
+      this.store.database
+        .prepare(
+          'SELECT 1 FROM assistants WHERE id = ? AND id NOT IN(SELECT id FROM assistant_tombstones)'
+        )
+        .get(assistantId)
     )
   }
 

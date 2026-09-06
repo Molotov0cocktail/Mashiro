@@ -146,6 +146,50 @@ const seedScript = `
   result = await api.archive({ protocolVersion: 1, assistantId: firstId, expectedAssistantVersion: 1, expectedStateRevision: 6 })
   if (!result.ok) throw new Error(result.error.code)
 
+
+  result = await api.create({protocolVersion:1,displayName:'清理测试助手',expectedStateRevision:result.data.stateRevision})
+  if(!result.ok) throw new Error('retention-assistant')
+  const cleanupAssistant=result.data.assistants.find(item=>item.id!==firstId&&item.id!==second.id)
+  const retention=window.mashiro.retention
+  const retentionMemory=window.mashiro.memory
+  const cleanupMemory=await retentionMemory.mutate({protocolVersion:1,assistantId:cleanupAssistant.id,commandId:crypto.randomUUID(),mutation:{action:'remember',targetId:null,expectedVersion:null,kind:'continuity',scope:'assistant',title:'待清理的合成记录',markdown:'E2E_RETENTION_REMOVED_BODY',nature:'user-statement',event:null}})
+  if(!cleanupMemory.ok) throw new Error('retention-memory')
+  let cleanupVersion=1
+  for(const zone of ['staging','trash','persistent']) {
+    const meter=await retention.overview({protocolVersion:1,assistantId:cleanupAssistant.id})
+    if(!meter.ok)throw new Error('retention-meter')
+    const moved=await retention.move({protocolVersion:1,assistantId:cleanupAssistant.id,commandId:crypto.randomUUID(),id:cleanupMemory.data.objectId,expectedVersion:cleanupVersion,expectedEpoch:meter.data.epoch,zone})
+    if(!moved.ok)throw new Error('retention-move')
+    cleanupVersion=moved.data.objectVersion
+  }
+  const priorPreview=await retention.preview({protocolVersion:1,assistantId:cleanupAssistant.id,intent:'delete-representation',target:{type:'memories',objects:[{id:cleanupMemory.data.objectId,version:cleanupVersion}]}})
+  if(!priorPreview.ok||priorPreview.data.blockers.length)throw new Error('retention-prior-preview')
+  const priorCleanup=await retention.confirm({protocolVersion:1,assistantId:cleanupAssistant.id,commandId:crypto.randomUUID(),previewId:priorPreview.data.id,nonce:priorPreview.data.nonce,accept:true})
+  if(!priorCleanup.ok)throw new Error('retention-prior-confirm')
+  let priorJobs
+  for(let n=0;n<100;n++){
+    priorJobs=await retention.jobs({protocolVersion:1})
+    if(!priorJobs.ok)throw new Error('retention-prior-jobs')
+    if(priorJobs.data.jobs.find(job=>job.id===priorCleanup.data.jobId)?.state==='COMPLETED')break
+    await new Promise(resolve=>setTimeout(resolve,20))
+  }
+  if(priorJobs.data.jobs.find(job=>job.id===priorCleanup.data.jobId)?.state!=='COMPLETED')throw new Error('retention-prior-drain')
+  const cleanupPreview=await retention.preview({protocolVersion:1,assistantId:cleanupAssistant.id,intent:'purge-assistant',target:{type:'assistant',replacementAssistantId:second.id}})
+  if(!cleanupPreview.ok||cleanupPreview.data.blockers.length||!cleanupPreview.data.memoryIds.includes(cleanupMemory.data.objectId))throw new Error('retention-preview')
+  const cleanupConfirmed=await retention.confirm({protocolVersion:1,assistantId:cleanupAssistant.id,commandId:crypto.randomUUID(),previewId:cleanupPreview.data.id,nonce:cleanupPreview.data.nonce,accept:true})
+  if(!cleanupConfirmed.ok)throw new Error('retention-confirm')
+  let cleanupJobs
+  for(let attempt=0;attempt<100;attempt++){
+    cleanupJobs=await retention.jobs({protocolVersion:1})
+    if(!cleanupJobs.ok)throw new Error('retention-jobs')
+    if(cleanupJobs.data.jobs.find(job=>job.id===cleanupConfirmed.data.jobId)?.state==='COMPLETED')break
+    await new Promise(resolve=>setTimeout(resolve,20))
+  }
+  if(cleanupJobs.data.jobs.find(job=>job.id===cleanupConfirmed.data.jobId)?.state!=='COMPLETED')throw new Error('retention-drain')
+  const retentionEvidence={assistantId:cleanupAssistant.id,memoryId:cleanupMemory.data.objectId,jobId:cleanupConfirmed.data.jobId,priorJobId:priorCleanup.data.jobId,movedVersion:cleanupVersion,state:'COMPLETED'}
+  result=await api.list()
+  if(!result.ok||result.data.assistants.some(item=>item.id===cleanupAssistant.id))throw new Error('retention-tombstone')
+
   const provider = window.mashiro.provider
   const timeline = window.mashiro.timeline
   let providerResult = await provider.saveConnection({
@@ -294,6 +338,7 @@ const seedScript = `
     timelineBeforeClose: timelineBeforeClose.data,
     temporaryBeforeClose: temporaryBeforeClose.data,
     pendingPartial,
+    retention:retentionEvidence,
     memory:memoryEvidence,
     toolOperations:toolOperations.data.operations
   }
@@ -304,6 +349,9 @@ const verifyRestoreScript = `
 (async () => {
   const assistant = await window.mashiro.assistants.list()
   if (!assistant.ok) throw new Error(assistant.error.code)
+
+  const retentionJobs=await window.mashiro.retention.jobs({protocolVersion:1})
+  if(!retentionJobs.ok||retentionJobs.data.jobs.length!==2||retentionJobs.data.jobs.some(job=>job.state!=='COMPLETED')||assistant.data.assistants.some(item=>item.id===retentionJobs.data.jobs[0].assistantId))throw new Error('retention-restart')
   const provider = await window.mashiro.provider.list()
   if (!provider.ok) throw new Error(provider.error.code)
   const timelineRestored = await window.mashiro.timeline.read({
@@ -331,6 +379,7 @@ const verifyRestoreScript = `
   const memoryPermissions=await window.mashiro.memory.permissions({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
   if(!memoryInspect.ok||!memoryPermissions.ok)throw new Error('memory-restored-inspect')
   return {
+    retention:{priorJobId:retentionJobs.data.jobs[0].id,jobId:retentionJobs.data.jobs[1].id,assistantId:retentionJobs.data.jobs[1].assistantId,state:retentionJobs.data.jobs[1].state},
     memory:{query:memoryQuery.data,inspect:memoryInspect.data,permissions:memoryPermissions.data,temporaryRejected:true},
     toolOperations:toolOperations.data.operations,
     historyPermission:historyPermission.data,
@@ -340,6 +389,47 @@ const verifyRestoreScript = `
     timelineRestored: timelineRestored.data,
     temporaryRestored: temporaryRestored.data
   }
+})()
+`
+
+const verifyMemoryUiScript = `
+(async () => {
+  const waitFor = async (read) => {
+    for(let n=0;n<400;n++) { const value=await read(); if(value)return value; await new Promise(resolve=>setTimeout(resolve,25)) }
+    throw new Error('memory-ui-timeout')
+  }
+  const assistants=await window.mashiro.assistants.list()
+  if(!assistants.ok||!assistants.data.currentAssistantId)throw new Error('memory-ui-assistant')
+  const assistantId=assistants.data.currentAssistantId
+  const memory=window.mashiro.memory
+  const before=await memory.query({protocolVersion:1,assistantId})
+  if(!before.ok)throw new Error('memory-ui-before')
+  const tab=Array.from(document.querySelectorAll('[role="tab"]')).find(element=>element.textContent.includes('记忆与事件'))
+  if(!tab)throw new Error('memory-ui-tab')
+  tab.click()
+  const form=await waitFor(()=>{const value=document.querySelector('.memory-editor form');return value&&!value.closest('[hidden]')?value:null})
+  const title='E2E_UI_MEMORY_DIGEST'
+  const markdown='E2E_UI_BODY_'+crypto.randomUUID()
+  const titleInput=form.querySelector('input')
+  const bodyInput=form.querySelector('textarea')
+  if(!titleInput||!bodyInput)throw new Error('memory-ui-fields')
+  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(titleInput,title)
+  titleInput.dispatchEvent(new Event('input',{bubbles:true}))
+  Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(bodyInput,markdown)
+  bodyInput.dispatchEvent(new Event('input',{bubbles:true}))
+  const submit=await waitFor(()=>{const value=form.querySelector('button[type="submit"]');return value&&!value.disabled?value:null})
+  submit.click()
+  const saved=await waitFor(async()=>{
+    const value=await memory.query({protocolVersion:1,assistantId})
+    if(!value.ok)throw new Error('memory-ui-query')
+    const matches=value.data.records.filter(record=>record.title===title&&record.markdown===markdown)
+    if(matches.length>1)throw new Error('memory-ui-duplicate')
+    return matches.length===1?{record:matches[0],count:value.data.records.length}:null
+  })
+  const inspected=await memory.inspect({protocolVersion:1,assistantId,id:saved.record.id})
+  if(!inspected.ok||inspected.data.receipts.length!==1||saved.count!==before.data.records.length+1)throw new Error('memory-ui-receipt')
+  await waitFor(()=>Array.from(document.querySelectorAll('.memory-panel article')).some(element=>element.textContent.includes(title)&&element.textContent.includes(markdown)))
+  return {enteredViaDom:true,objectsAdded:saved.count-before.data.records.length,receiptCount:inspected.data.receipts.length,objectId:saved.record.id,objectVersion:saved.record.objectVersion}
 })()
 `
 
@@ -371,6 +461,7 @@ const verifySendScript = `
 `
 
 type SeedEvidence = {
+  retention: unknown
   memory: unknown
   toolOperations: import('../../shared/tool-contract.js').ToolOperation[]
   historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
@@ -385,6 +476,14 @@ type SeedEvidence = {
   pendingPartial: string
 }
 type VerifyEvidence = {
+  memoryUi: {
+    enteredViaDom: boolean
+    objectsAdded: number
+    receiptCount: number
+    objectId: string
+    objectVersion: number
+  }
+  retention: unknown
   memory: unknown
   toolOperations: import('../../shared/tool-contract.js').ToolOperation[]
   historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
@@ -409,14 +508,15 @@ export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Pr
       evidence = await execute<SeedEvidence>(window, seedScript)
     } else {
       const restored = await execute<
-        Omit<VerifyEvidence, 'transportBeforeExplicit' | 'chat' | 'timelineAfterSend'>
+        Omit<VerifyEvidence, 'transportBeforeExplicit' | 'chat' | 'timelineAfterSend' | 'memoryUi'>
       >(window, verifyRestoreScript)
       const transportBeforeExplicit = e2eTransportEvidence()
       const sent = await execute<Pick<VerifyEvidence, 'chat' | 'timelineAfterSend'>>(
         window,
         verifySendScript
       )
-      evidence = { ...restored, transportBeforeExplicit, ...sent }
+      const memoryUi = await execute<VerifyEvidence['memoryUi']>(window, verifyMemoryUiScript)
+      evidence = { ...restored, transportBeforeExplicit, ...sent, memoryUi }
     }
   } catch {
     evidence = { failure: { stage: 'execute', code: 'FAILED' } }
@@ -424,6 +524,15 @@ export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Pr
   let captureFailure: { stage: string; code: string } | undefined
   if (dataRoot.phase === 'verify' && !('failure' in evidence)) {
     try {
+      const memoryImage = await window.webContents.capturePage()
+      writeFileSync(join(dataRoot.resultsDirectory, 'memory-ui.png'), memoryImage.toPNG(), {
+        flag: 'wx'
+      })
+      await window.webContents.executeJavaScript(
+        `Array.from(document.querySelectorAll('[role="tab"]')).find(element=>element.textContent.trim()==='对话')?.click()`,
+        false
+      )
+      await new Promise((resolve) => setTimeout(resolve, 100))
       await window.webContents.executeJavaScript(
         `document.querySelector('.provider-panel')?.scrollIntoView({ block: 'start' })`,
         false
@@ -431,6 +540,15 @@ export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Pr
       await new Promise((resolve) => setTimeout(resolve, 500))
       const image = await window.webContents.capturePage()
       writeFileSync(join(dataRoot.resultsDirectory, 'provider-ui.png'), image.toPNG(), {
+        flag: 'wx'
+      })
+      await window.webContents.executeJavaScript(
+        `Array.from(document.querySelectorAll('[role="tab"]')).find(element=>element.textContent.includes('保留与清理'))?.click()`,
+        false
+      )
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      const retentionImage = await window.webContents.capturePage()
+      writeFileSync(join(dataRoot.resultsDirectory, 'retention-ui.png'), retentionImage.toPNG(), {
         flag: 'wx'
       })
     } catch {

@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { retentionChannels, retentionChangedChannel } from '../shared/retention-channels.js'
+import type { RetentionApi, RetentionChanged } from '../shared/retention-contract.js'
 import { memoryChannels } from '../shared/memory-channels.js'
 import type { MemoryApi } from '../shared/memory-contract.js'
 import { timelineChannels } from '../shared/timeline-channels.js'
@@ -54,4 +56,17 @@ const memory: MemoryApi = {
   previewReload: (input) => ipcRenderer.invoke(memoryChannels.previewReload, input),
   acceptReload: (input) => ipcRenderer.invoke(memoryChannels.acceptReload, input)
 }
-contextBridge.exposeInMainWorld('mashiro', { assistants, provider, timeline, memory })
+const retention: RetentionApi = {
+  overview: (input) => ipcRenderer.invoke(retentionChannels.overview, input),
+  move: (input) => ipcRenderer.invoke(retentionChannels.move, input),
+  preview: (input) => ipcRenderer.invoke(retentionChannels.preview, input),
+  confirm: (input) => ipcRenderer.invoke(retentionChannels.confirm, input),
+  jobs: (input) => ipcRenderer.invoke(retentionChannels.jobs, input),
+  retry: (input) => ipcRenderer.invoke(retentionChannels.retry, input),
+  onChanged: (listener) => {
+    const handler = (_event: unknown, value: unknown): void => listener(value as RetentionChanged)
+    ipcRenderer.on(retentionChangedChannel, handler)
+    return () => ipcRenderer.removeListener(retentionChangedChannel, handler)
+  }
+}
+contextBridge.exposeInMainWorld('mashiro', { assistants, provider, timeline, memory, retention })

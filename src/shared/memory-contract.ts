@@ -40,6 +40,7 @@ export const memoryRecordSchema = z.strictObject({
   retention: z.enum(['persistent', 'staging', 'trash']),
   createdAt: timestamp,
   updatedAt: timestamp,
+  deletedSourceAssistantIds: z.array(uuid).max(4096).optional(),
   sources: z.array(memorySourceSchema).max(64)
 })
 export const memoryWriteSchema = z.strictObject({

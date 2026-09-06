@@ -2,6 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../../../shared/assistant-contract'
 import type { MemoryApi } from '../../../../shared/memory-contract'
 import type {
+  RetentionChanged,
+  RetentionIntent,
+  RetentionPreview
+} from '../../../../shared/retention-contract'
+import type {
   ContextIntent,
   ProviderApi,
   ProviderResult,
@@ -59,6 +64,7 @@ type ActiveRequest = {
   mode: ChatMode
   observedAcceptance: boolean
   observedTerminal: boolean
+  retentionEpoch: number
 }
 type TimelineObservation =
   { kind: 'snapshot'; data: TimelineSnapshot } | { kind: 'unavailable' | 'superseded' }
@@ -100,7 +106,9 @@ export function ProviderPanel({
   memoryApi,
   historyTarget,
   onMemoryChanged,
-  onLocateMemorySource
+  onLocateMemorySource,
+  retentionChange,
+  onPrepareRetention
 }: {
   assistantSnapshot: AssistantSnapshot | null
   api: ProviderApi
@@ -109,6 +117,12 @@ export function ProviderPanel({
   historyTarget?: { assistantId: string; requestId: string; nonce: number } | null
   onMemoryChanged?: () => void
   onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>
+  retentionChange?: RetentionChanged | null
+  onPrepareRetention?: (
+    assistantId: string,
+    target: RetentionIntent['target'],
+    intent?: RetentionPreview['intent']
+  ) => void
 }): React.JSX.Element {
   const [snapshot, setSnapshot] = useState<ProviderSnapshot | null>(null)
   const [selectedId, setSelectedId] = useState('')
@@ -123,6 +137,9 @@ export function ProviderPanel({
   const [contextByAssistant, setContextByAssistant] = useState<ContextIntentMap>({})
   const [selectedRequestsByAssistant, setSelectedRequestsByAssistant] =
     useState<RequestSelectionMap>({})
+  const [cleanupAnchorsByAssistant, setCleanupAnchorsByAssistant] = useState<RequestSelectionMap>(
+    {}
+  )
   const [stream, setStream] = useState(true)
   const [timelines, setTimelines] = useState<TimelineMap>({})
   const [hasMore, setHasMore] = useState<BooleanMap>({})
@@ -135,9 +152,14 @@ export function ProviderPanel({
   const toolReadVersions = useRef<Record<string, number>>({})
   const capabilityReadVersions = useRef<Record<string, number>>({})
   const requestRoutesRef = useRef<
-    Record<string, { assistantId: string; mode: ChatMode; citationEpoch: number }>
+    Record<
+      string,
+      { assistantId: string; mode: ChatMode; citationEpoch: number; retentionEpoch: number }
+    >
   >({})
   const citationEpochs = useRef<Record<string, number>>({})
+  const retentionEpochs = useRef<Record<string, number>>({})
+  const lastRetentionEpoch = useRef(-1)
   const operationSequence = useRef(0)
   const operationEvents = useRef<Record<string, Record<string, number>>>({})
   const autoOperationReadVersions = useRef<Record<string, number>>({})
@@ -171,6 +193,7 @@ export function ProviderPanel({
   const text = textDrafts[currentKey] ?? ''
   const contextIntent = contextByAssistant[currentAssistantId] ?? ({ kind: 'recent' } as const)
   const selectedRequestIds = selectedRequestsByAssistant[currentAssistantId] ?? []
+  const cleanupAnchors = cleanupAnchorsByAssistant[currentAssistantId] ?? []
   const historyBindingKey =
     (binding?.connectionId ?? '') +
     ':' +
@@ -393,7 +416,8 @@ export function ProviderPanel({
           !requestRoute ||
           requestRoute.assistantId !== event.assistantId ||
           event.operation.requestId !== event.requestId ||
-          event.operation.assistantId !== event.assistantId
+          event.operation.assistantId !== event.assistantId ||
+          requestRoute.retentionEpoch !== (retentionEpochs.current[event.assistantId] ?? 0)
         )
           return
         const key = timelineKey(event.assistantId, requestRoute.mode)
@@ -421,7 +445,12 @@ export function ProviderPanel({
         return
       }
       const route = activeRequestsRef.current[event.assistantId]
-      if (!route || route.requestId !== event.requestId) return
+      if (
+        !route ||
+        route.requestId !== event.requestId ||
+        route.retentionEpoch !== (retentionEpochs.current[event.assistantId] ?? 0)
+      )
+        return
       route.observedAcceptance = true
       route.observedTerminal = event.type !== 'delta'
       const key = timelineKey(event.assistantId, route.mode)
@@ -456,6 +485,135 @@ export function ProviderPanel({
       remove()
     }
   }, [api, clearActiveRequest, invalidateRead, onMemoryChanged])
+
+  useEffect(() => {
+    if (!retentionChange || retentionChange.reason === 'job-status') return
+    if (lastRetentionEpoch.current === retentionChange.epoch) return
+    lastRetentionEpoch.current = retentionChange.epoch
+    const affected = new Set(retentionChange.assistantIds)
+    for (const assistantId of affected) {
+      retentionEpochs.current[assistantId] = retentionChange.epoch
+      for (const chatMode of ['normal', 'temporary'] as const) {
+        const key = timelineKey(assistantId, chatMode)
+        readVersions.current[key] = (readVersions.current[key] ?? 0) + 1
+        toolReadVersions.current[key] = (toolReadVersions.current[key] ?? 0) + 1
+        autoOperationReadVersions.current[key] = (autoOperationReadVersions.current[key] ?? 0) + 1
+        citationEpochs.current[key] = (citationEpochs.current[key] ?? 0) + 1
+        delete protectedRequestsRef.current[key]
+        delete operationEvents.current[key]
+      }
+      capabilityReadVersions.current[assistantId] =
+        (capabilityReadVersions.current[assistantId] ?? 0) + 1
+    }
+    const affectedRequestIds = new Set(
+      Object.entries(requestRoutesRef.current)
+        .filter(([, route]) => affected.has(route.assistantId))
+        .map(([requestId]) => requestId)
+    )
+    activeRequestsRef.current = Object.fromEntries(
+      Object.entries(activeRequestsRef.current).filter(
+        ([assistantId]) => !affected.has(assistantId)
+      )
+    )
+    setActiveRequests(activeRequestsRef.current)
+    requestRoutesRef.current = Object.fromEntries(
+      Object.entries(requestRoutesRef.current).filter(
+        ([, route]) => !affected.has(route.assistantId)
+      )
+    )
+    setSelectedRequestsByAssistant((values) =>
+      Object.fromEntries(
+        Object.entries(values).filter(([assistantId]) => !affected.has(assistantId))
+      )
+    )
+    setCleanupAnchorsByAssistant((values) =>
+      Object.fromEntries(
+        Object.entries(values).filter(([assistantId]) => !affected.has(assistantId))
+      )
+    )
+    setContextByAssistant((values) =>
+      Object.fromEntries(
+        Object.entries(values).filter(([assistantId]) => !affected.has(assistantId))
+      )
+    )
+    setHistoryFocus((values) =>
+      Object.fromEntries(
+        Object.entries(values).filter(([assistantId]) => !affected.has(assistantId))
+      )
+    )
+    setUncertainRequests((values) =>
+      Object.fromEntries(
+        Object.entries(values).filter(([requestId]) => !affectedRequestIds.has(requestId))
+      )
+    )
+    setOperations((values) =>
+      Object.fromEntries(
+        Object.entries(values).map(([key, items]) => [
+          key,
+          affected.has(key.split(':')[0] ?? '') ? [] : items
+        ])
+      )
+    )
+    if (retentionChange.reason === 'cleanup' || retentionChange.reason === 'purge') {
+      setTimelines((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setTextDrafts((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setRejectedDrafts((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setHasMore((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setLoading((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setSaving((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setTimelineErrors((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setNotices((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setOperationLoading((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      setOperationErrors((values) =>
+        Object.fromEntries(
+          Object.entries(values).filter(([key]) => !affected.has(key.split(':')[0] ?? ''))
+        )
+      )
+      notifiedMemoryOperations.current.clear()
+    }
+    for (const assistantId of affected) {
+      if (assistantSnapshot?.assistants.some((item) => item.id === assistantId)) {
+        void readTimeline(assistantId, 'normal')
+        void readTimeline(assistantId, 'temporary')
+      }
+    }
+  }, [assistantSnapshot, readTimeline, retentionChange])
 
   useEffect(() => {
     let active = true
@@ -533,10 +691,12 @@ export function ProviderPanel({
 
   async function clearTemporaryChat(assistantId: string): Promise<void> {
     const key = timelineKey(assistantId, 'temporary')
+    const retentionEpoch = retentionEpochs.current[assistantId] ?? 0
     setTimelineErrors((values) => ({ ...values, [key]: '' }))
     setNotices((values) => ({ ...values, [key]: '' }))
     try {
       const result = await api.clearChat({ protocolVersion, assistantId })
+      if ((retentionEpochs.current[assistantId] ?? 0) !== retentionEpoch) return
       if (!result.ok) {
         setTimelineErrors((values) => ({ ...values, [key]: errorText(result) }))
         return
@@ -556,6 +716,7 @@ export function ProviderPanel({
       setHasMore((values) => ({ ...values, [key]: false }))
       setNotices((values) => ({ ...values, [key]: '当前助手的临时会话已清空' }))
     } catch {
+      if ((retentionEpochs.current[assistantId] ?? 0) !== retentionEpoch) return
       setTimelineErrors((values) => ({
         ...values,
         [key]: '临时会话清空失败，当前正文已保留'
@@ -565,11 +726,13 @@ export function ProviderPanel({
 
   async function saveTemporary(assistantId: string): Promise<void> {
     const key = timelineKey(assistantId, 'temporary')
+    const retentionEpoch = retentionEpochs.current[assistantId] ?? 0
     setSaving((values) => ({ ...values, [key]: true }))
     setTimelineErrors((values) => ({ ...values, [key]: '' }))
     setNotices((values) => ({ ...values, [key]: '' }))
     try {
       const result = await timelineApi.saveTemporary({ protocolVersion, assistantId })
+      if ((retentionEpochs.current[assistantId] ?? 0) !== retentionEpoch) return
       if (!result.ok) {
         setTimelineErrors((values) => ({ ...values, [key]: errorText(result) }))
         return
@@ -595,12 +758,15 @@ export function ProviderPanel({
       }))
       void readTimeline(assistantId, 'normal')
     } catch {
+      if ((retentionEpochs.current[assistantId] ?? 0) !== retentionEpoch) return
       setTimelineErrors((values) => ({
         ...values,
         [key]: '保存失败，临时正文仍保留在本次运行中且尚未标记为已保存'
       }))
     } finally {
-      setSaving((values) => ({ ...values, [key]: false }))
+      if ((retentionEpochs.current[assistantId] ?? 0) === retentionEpoch) {
+        setSaving((values) => ({ ...values, [key]: false }))
+      }
     }
   }
 
@@ -711,7 +877,8 @@ export function ProviderPanel({
       requestId,
       mode: requestMode,
       observedAcceptance: false,
-      observedTerminal: false
+      observedTerminal: false,
+      retentionEpoch: retentionEpochs.current[assistantId] ?? 0
     }
     activeRequestsRef.current = { ...activeRequestsRef.current, [assistantId]: request }
     setActiveRequests(activeRequestsRef.current)
@@ -720,7 +887,8 @@ export function ProviderPanel({
       [requestId]: {
         assistantId,
         mode: requestMode,
-        citationEpoch: citationEpochs.current[timelineKey(assistantId, requestMode)] ?? 0
+        citationEpoch: citationEpochs.current[timelineKey(assistantId, requestMode)] ?? 0,
+        retentionEpoch: request.retentionEpoch
       }
     }
     try {
@@ -734,6 +902,7 @@ export function ProviderPanel({
         tools: requestTools,
         stream
       })
+      if ((retentionEpochs.current[assistantId] ?? 0) !== request.retentionEpoch) return
       clearActiveRequest(assistantId, requestId)
       if (!result.ok) {
         await reconcileFailedRequest(assistantId, request, submitted, result.error.code)
@@ -751,6 +920,7 @@ export function ProviderPanel({
       )
       await readTimeline(assistantId, requestMode)
     } catch {
+      if ((retentionEpochs.current[assistantId] ?? 0) !== request.retentionEpoch) return
       clearActiveRequest(assistantId, requestId)
       const outcome = await reconcileFailedRequest(assistantId, request, submitted)
       setTimelineErrors((items) => ({
@@ -994,6 +1164,7 @@ export function ProviderPanel({
             selectedRequestIds={selectedRequestIds}
             focusRequest={historyFocus[currentAssistantId]}
             onPermissionsChange={() => refreshOperationPermissions(currentAssistantId)}
+            retentionChange={retentionChange}
             onContextIntentChange={(value) => {
               setContextByAssistant((items) => ({ ...items, [currentAssistantId]: value }))
               if (value.kind === 'none') {
@@ -1042,6 +1213,10 @@ export function ProviderPanel({
             }}
             onMemoryChanged={onMemoryChanged}
             onLocateMemorySource={onLocateMemorySource}
+            retentionChange={retentionChange}
+            onPrepareRetention={(prepared) =>
+              onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
+            }
             onLocateCitation={(citation: HistoryCitation) =>
               setHistoryFocus((items) => ({
                 ...items,
@@ -1089,6 +1264,31 @@ export function ProviderPanel({
               ))}
             </section>
           ) : null}
+          {mode === 'normal' && onPrepareRetention ? (
+            <div className="retention-timeline-actions">
+              <button
+                type="button"
+                onClick={() => onPrepareRetention(currentAssistantId, { type: 'timeline' })}
+              >
+                预览清理整条时间线
+              </button>
+              {cleanupAnchors.length === 2 ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    onPrepareRetention(currentAssistantId, {
+                      type: 'range',
+                      firstMessageId: cleanupAnchors[0]!,
+                      lastMessageId: cleanupAnchors[1]!
+                    })
+                  }
+                >
+                  预览清理所选区段
+                </button>
+              ) : null}
+              <small>按时间顺序选择两个消息作为区段端点；可信预览会说明是否扩大到完整轮次。</small>
+            </div>
+          ) : null}
           <div className="transcript" aria-live="polite" aria-label="消息时间线">
             {transcript.map((item) => (
               <article key={item.id} className={item.role + ' status-' + item.status}>
@@ -1098,6 +1298,38 @@ export function ProviderPanel({
                   {uncertainRequests[item.requestId] || statusText(item.status)}
                   {mode === 'temporary' ? ' · ' + (item.saved ? '已保存' : '未保存') : ''}
                 </small>
+                {mode === 'normal' && onPrepareRetention ? (
+                  <div className="message-retention-actions">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onPrepareRetention(currentAssistantId, {
+                          type: 'message',
+                          messageId: item.id
+                        })
+                      }
+                    >
+                      预览清理此消息
+                    </button>
+                    <label className="inline-check">
+                      <input
+                        type="checkbox"
+                        checked={cleanupAnchors.includes(item.id)}
+                        disabled={!cleanupAnchors.includes(item.id) && cleanupAnchors.length >= 2}
+                        onChange={(event) => {
+                          const checked = event.currentTarget.checked
+                          setCleanupAnchorsByAssistant((values) => ({
+                            ...values,
+                            [currentAssistantId]: checked
+                              ? [...cleanupAnchors, item.id]
+                              : cleanupAnchors.filter((id) => id !== item.id)
+                          }))
+                        }}
+                      />
+                      作为区段端点
+                    </label>
+                  </div>
+                ) : null}
               </article>
             ))}
           </div>

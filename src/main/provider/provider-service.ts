@@ -1,4 +1,6 @@
 import { randomUUID, createHash } from 'node:crypto'
+import { RetentionService } from '../retention/retention-service.js'
+import { retentionToolSchema } from './tool-protocol.js'
 import { dirname, join } from 'node:path'
 import { MemoryService, MemoryError, MemoryMutationError } from '../memory/memory-service.js'
 import {
@@ -198,6 +200,7 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
 }
 
 export class ProviderService {
+  readonly retention: RetentionService
   readonly memory: MemoryService
   private readonly toolLedger: ToolRepository
   private readonly temporaryToolLedger = new ToolRepository()
@@ -245,6 +248,26 @@ export class ProviderService {
         for (const [id, entry] of this.inflight)
           if (id !== exceptRequestId && entry.mode === 'normal') entry.controller.abort()
       }
+    )
+    this.retention = new RetentionService(
+      store,
+      join(dirname(credentialDirectory), 'memory'),
+      this.memory,
+      () => {
+        for (const entry of this.inflight.values()) {
+          entry.response.content = ''
+          entry.controller.abort()
+        }
+        for (const id of this.sessions.keys()) this.temporaryToolLedger.clear(id)
+        this.sessions.clear()
+      }
+    )
+  }
+
+  private governanceGeneration(): number {
+    return Number(
+      this.store.database.prepare('SELECT generation FROM retention_state WHERE singleton=1').get()!
+        .generation
     )
   }
 
@@ -619,8 +642,13 @@ export class ProviderService {
     let controller: AbortController | undefined
     let response: TimelineMessage | undefined
     let deltaLimitExceeded = false
+    const generation = this.governanceGeneration()
+    const currentGeneration = () => !this.closed && this.governanceGeneration() === generation
     const finish = (status: TimelineMessage['status'], content: string): void => {
-      if (!response || this.closed) return
+      if (!response || !currentGeneration()) {
+        if (response) response.content = ''
+        return
+      }
       response.status = status
       response.content = content.slice(0, 120000)
       if (value.mode === 'normal') this.timeline.finish(value.assistantId, response)
@@ -792,7 +820,12 @@ export class ProviderService {
         signal: controller.signal,
         onDelta: value.stream
           ? (delta) => {
-              if (this.closed || controller!.signal.aborted || typeof delta !== 'string' || !delta)
+              if (
+                !currentGeneration() ||
+                controller!.signal.aborted ||
+                typeof delta !== 'string' ||
+                !delta
+              )
                 return
               const available = 120000 - response!.content.length
               if (delta.length > available) {
@@ -819,7 +852,8 @@ export class ProviderService {
       const correctedInThisRound: MemorySource[] = []
       const providedHistory = new Set<string>()
       const assertCurrent = () => {
-        if (this.closed || controller!.signal.aborted) throw new ProviderDomainError('CANCELLED')
+        if (!currentGeneration() || controller!.signal.aborted)
+          throw new ProviderDomainError('CANCELLED')
         const current = this.repository
           .snapshot(this.vault.temporaryIds())
           .connections.find((c) => c.id === execution.connection.id)
@@ -917,10 +951,56 @@ export class ProviderService {
                 )
                 return citations
               },
-              memory: (call, operation) => {
+              memory: async (call, operation) => {
                 assertCurrent()
                 if (value.mode !== 'normal') throw new ProviderDomainError('PERMISSION_DENIED')
                 const args = JSON.parse(call.function.arguments)
+                if (call.function.name === 'request_retention_cleanup') {
+                  const intent = {
+                    ...retentionToolSchema.parse(args),
+                    protocolVersion: 1 as const,
+                    assistantId: value.assistantId
+                  }
+                  const scopes =
+                    intent.target.type === 'memories'
+                      ? intent.target.objects.map((object) => {
+                          const inspected = this.memory.inspect({
+                            protocolVersion: 1,
+                            assistantId: value.assistantId,
+                            id: object.id
+                          })
+                          if (!inspected.ok) throw new ProviderDomainError('PERMISSION_DENIED')
+                          return inspected.data.record.scope
+                        })
+                      : ['assistant' as const]
+                  if (
+                    scopes.some(
+                      (scope) =>
+                        !this.memory.permissionState(value.assistantId, scope, endpointFingerprint)
+                          .write
+                    )
+                  )
+                    throw new ProviderDomainError('PERMISSION_DENIED')
+                  const preview = await this.retention.preview(intent)
+                  assertCurrent()
+                  if (!preview.ok) throw new ProviderDomainError('PERMISSION_DENIED')
+                  operation.retentionPreview = {
+                    ...preview.data,
+                    memories: preview.data.memories.map((memory) => ({ ...memory, title: null })),
+                    rounds: preview.data.rounds.map((round) => ({ ...round, summary: null }))
+                  }
+                  operation.retentionIntent = intent
+                  return {
+                    body: JSON.stringify({
+                      previewId: preview.data.id,
+                      memoryCount: preview.data.memoryIds.length,
+                      roundCount: preview.data.requestIds.length,
+                      blockers: preview.data.blockers,
+                      state: 'PENDING_LOCAL_CONFIRMATION'
+                    }),
+                    summary: '治理预览已准备，尚未清理；需用户在本地打开并确认'
+                  }
+                }
                 if (call.function.name === 'search_memory') {
                   const records = this.memory.search(
                     {
@@ -1036,7 +1116,7 @@ export class ProviderService {
                 return { body: JSON.stringify(receipt), summary: receipt.summary.slice(0, 200) }
               },
               emit: (operation) => {
-                if (!this.closed)
+                if (currentGeneration())
                   emit({
                     type: 'operation',
                     requestId: value.requestId,
@@ -1045,7 +1125,10 @@ export class ProviderService {
                   })
               }
             })
-      if (this.closed) return chatFailure('CANCELLED')
+      if (!currentGeneration()) {
+        response.content = ''
+        return chatFailure('CANCELLED')
+      }
       if (deltaLimitExceeded) {
         finish('failed', response.content)
         emit({ type: 'failed', requestId: value.requestId, assistantId: value.assistantId })
@@ -1118,6 +1201,10 @@ export class ProviderService {
         }
       })
     } catch (error) {
+      if (!currentGeneration()) {
+        if (response) response.content = ''
+        return chatFailure('CANCELLED')
+      }
       if (response && !this.closed) {
         try {
           if (deltaLimitExceeded) {
@@ -1178,6 +1265,7 @@ export class ProviderService {
       request.controller.abort()
       if (request.mode === 'normal') this.timeline.finish(request.assistantId, request.response)
     }
+    this.retention.close()
     this.closed = true
     this.inflight.clear()
     this.sessions.clear()
