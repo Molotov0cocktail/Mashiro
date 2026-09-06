@@ -1,6 +1,11 @@
+import type { ZodType } from 'zod'
 import { randomUUID } from 'node:crypto'
 import { timelineChannels } from '../../shared/timeline-channels.js'
-import { timelineResultSchema, type TimelineResult } from '../../shared/timeline-contract.js'
+import {
+  timelineResultSchema,
+  timelinePageResultSchema,
+  historyPermissionsResultSchema
+} from '../../shared/timeline-contract.js'
 import type { ProviderService } from '../provider/provider-service.js'
 
 interface IpcMainLike {
@@ -9,9 +14,9 @@ interface IpcMainLike {
 }
 
 export function registerTimelineIpc(ipcMain: IpcMainLike, service: ProviderService): () => void {
-  const safe = (operation: () => unknown): TimelineResult => {
+  const safe = (schema: ZodType, operation: () => unknown): unknown => {
     try {
-      const result = timelineResultSchema.safeParse(operation())
+      const result = schema.safeParse(operation())
       if (result.success) return result.data
     } catch {
       /* No storage details or body text cross a failed trusted boundary. */
@@ -26,9 +31,20 @@ export function registerTimelineIpc(ipcMain: IpcMainLike, service: ProviderServi
       }
     }
   }
-  ipcMain.handle(timelineChannels.read, (_event, input) => safe(() => service.readTimeline(input)))
+  ipcMain.handle(timelineChannels.read, (_event, input) =>
+    safe(timelineResultSchema, () => service.readTimeline(input))
+  )
   ipcMain.handle(timelineChannels.saveTemporary, (_event, input) =>
-    safe(() => service.saveTemporary(input))
+    safe(timelineResultSchema, () => service.saveTemporary(input))
+  )
+  ipcMain.handle(timelineChannels.query, (_event, input) =>
+    safe(timelinePageResultSchema, () => service.queryTimeline(input))
+  )
+  ipcMain.handle(timelineChannels.permissions, (_event, input) =>
+    safe(historyPermissionsResultSchema, () => service.permissions(input))
+  )
+  ipcMain.handle(timelineChannels.setPermissions, (_event, input) =>
+    safe(historyPermissionsResultSchema, () => service.setPermissions(input))
   )
   return () => {
     for (const channel of Object.values(timelineChannels)) ipcMain.removeHandler(channel)

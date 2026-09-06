@@ -2,6 +2,7 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../src/renderer/src/App'
+import { timelineApi006Defaults } from './timeline-api-fixture'
 import type { AssistantApi, AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type { ProviderApi, ProviderSnapshot } from '../../src/shared/provider-contract'
 import type { TimelineApi } from '../../src/shared/timeline-contract'
@@ -100,6 +101,7 @@ describe('App assistant and Provider synchronization', () => {
       onEvent: vi.fn(() => () => undefined)
     } as ProviderApi
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) => ({
         ok: true as const,
         data: { assistantId: input.assistantId, mode: input.mode, messages: [], hasMore: false }

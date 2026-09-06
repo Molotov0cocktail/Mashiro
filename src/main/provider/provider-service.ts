@@ -1,5 +1,14 @@
-import { randomUUID } from 'node:crypto'
+import { randomUUID, createHash } from 'node:crypto'
+import { HistoryPermissionRepository } from './history-permission-repository.js'
 import {
+  timelineQueryInputSchema,
+  timelinePageResultSchema,
+  historyPermissionsInputSchema,
+  setHistoryPermissionsInputSchema,
+  historyPermissionsResultSchema,
+  type TimelinePageResult,
+  type HistoryPermissions,
+  type HistoryPermissionsResult,
   timelineReadInputSchema,
   timelineSaveInputSchema,
   timelineResultSchema,
@@ -86,6 +95,7 @@ function chatFailure(
 function errorDetails(
   code:
     | 'INVALID_INPUT'
+    | 'PERMISSION_DENIED'
     | 'NOT_FOUND'
     | 'STALE_WRITE'
     | 'ASSISTANT_ARCHIVED'
@@ -106,6 +116,7 @@ function errorDetails(
 ): { message: string; retryable: boolean } {
   const values = {
     INVALID_INPUT: ['Provider request is invalid', false],
+    PERMISSION_DENIED: ['History access or recipient permission is denied', false],
     NOT_FOUND: ['Provider connection or binding was not found', false],
     STALE_WRITE: ['Provider settings changed; refresh and try again', false],
     ASSISTANT_ARCHIVED: ['Archived assistants cannot use Provider chat', false],
@@ -167,6 +178,7 @@ export class ProviderService {
   private readonly repository: ProviderRepository
   private readonly vault: CredentialVault
   private readonly timeline: TimelineRepository
+  private readonly historyPermissions: HistoryPermissionRepository
   private readonly sessions = new Map<string, { id: string; messages: TimelineMessage[] }>()
   private closed = false
   private readonly inflight = new Map<
@@ -175,6 +187,8 @@ export class ProviderService {
       assistantId: string
       connectionId: string
       controller: AbortController
+      endpointFingerprint: string | null
+      historyUsed: boolean
       mode: ChatMode
       response: TimelineMessage
     }
@@ -188,6 +202,7 @@ export class ProviderService {
   ) {
     this.repository = new ProviderRepository(store)
     this.timeline = new TimelineRepository(store)
+    this.historyPermissions = new HistoryPermissionRepository(store)
     this.timeline.recover()
     this.vault = new CredentialVault(credentialDirectory, protector)
   }
@@ -280,6 +295,92 @@ export class ProviderService {
     })
   }
 
+  queryTimeline(input: unknown): TimelinePageResult {
+    const parsed = timelineQueryInputSchema.safeParse(input)
+    if (!parsed.success) return failure('INVALID_INPUT')
+    try {
+      if (!this.repository.assistantExists(parsed.data.assistantId))
+        throw new ProviderDomainError('NOT_FOUND')
+      return timelinePageResultSchema.parse(
+        this.timeline.query(parsed.data.assistantId, parsed.data.query, parsed.data.before)
+      )
+    } catch (error) {
+      return failureFrom(error)
+    }
+  }
+
+  private permissionSnapshot(assistantId: string): HistoryPermissions {
+    if (!this.repository.assistantExists(assistantId)) throw new ProviderDomainError('NOT_FOUND')
+    const snapshot = this.repository.snapshot()
+    const binding = snapshot.bindings.find((item) => item.assistantId === assistantId)
+    const connection = snapshot.connections.find((item) => item.id === binding?.connectionId)
+    const endpointDisplay = connection?.baseUrl ?? null
+    const endpointFingerprint =
+      endpointDisplay === null
+        ? null
+        : createHash('sha256')
+            .update('chat-completions-v1|' + validateBaseUrl(endpointDisplay))
+            .digest('hex')
+    return {
+      assistantId,
+      connectionId: connection?.id ?? null,
+      endpointFingerprint,
+      endpointDisplay,
+      ...this.historyPermissions.read(assistantId, endpointFingerprint)
+    }
+  }
+
+  permissions(input: unknown): HistoryPermissionsResult {
+    const parsed = historyPermissionsInputSchema.safeParse(input)
+    if (!parsed.success) return failure('INVALID_INPUT')
+    try {
+      return historyPermissionsResultSchema.parse({
+        ok: true,
+        data: this.permissionSnapshot(parsed.data.assistantId)
+      })
+    } catch (error) {
+      return failureFrom(error)
+    }
+  }
+
+  setPermissions(input: unknown): HistoryPermissionsResult {
+    const parsed = setHistoryPermissionsInputSchema.safeParse(input)
+    if (!parsed.success) return failure('INVALID_INPUT')
+    try {
+      const value = parsed.data
+      const current = this.permissionSnapshot(value.assistantId)
+      if (
+        current.connectionId !== value.connectionId ||
+        current.endpointFingerprint !== value.endpointFingerprint
+      )
+        throw new ProviderDomainError('STALE_WRITE')
+      if (current.endpointFingerprint === null && value.sendHistory)
+        throw new ProviderDomainError('INVALID_INPUT')
+      this.historyPermissions.update(
+        value.assistantId,
+        current.endpointFingerprint,
+        value.expectedVersion,
+        value.readHistory,
+        value.sendHistory
+      )
+      for (const request of this.inflight.values()) {
+        if (
+          request.assistantId === value.assistantId &&
+          request.historyUsed &&
+          (!value.readHistory ||
+            (!value.sendHistory && request.endpointFingerprint === current.endpointFingerprint))
+        )
+          request.controller.abort()
+      }
+      return historyPermissionsResultSchema.parse({
+        ok: true,
+        data: this.permissionSnapshot(value.assistantId)
+      })
+    } catch (error) {
+      return failureFrom(error)
+    }
+  }
+
   readTimeline(input: unknown): TimelineResult {
     const parsed = timelineReadInputSchema.safeParse(input)
     if (!parsed.success) return failure('INVALID_INPUT')
@@ -359,8 +460,22 @@ export class ProviderService {
       let session = this.sessions.get(value.assistantId)
       let previous: ChatMessage[]
       if (value.mode === 'normal') {
-        previous = this.timeline.context(value.assistantId, text.length)
+        const permissions = this.permissionSnapshot(value.assistantId)
+        const allowed = permissions.readHistory && permissions.sendHistory
+        if (value.context.kind === 'selected' && !allowed)
+          throw new ProviderDomainError('PERMISSION_DENIED')
+        previous =
+          value.context.kind === 'none' || !allowed
+            ? []
+            : value.context.kind === 'selected'
+              ? this.timeline.selectedContext(
+                  value.assistantId,
+                  value.context.requestIds,
+                  text.length
+                )
+              : this.timeline.context(value.assistantId, text.length)
       } else {
+        if (value.context.kind === 'selected') return chatFailure('INVALID_INPUT')
         session ??= { id: randomUUID(), messages: [] }
         if (session.messages.length >= 64) return chatFailure('LIMIT')
         if (session.messages.some((message) => message.requestId === value.requestId))
@@ -409,6 +524,11 @@ export class ProviderService {
       this.inflight.set(value.requestId, {
         assistantId: value.assistantId,
         connectionId: execution.connection.id,
+        endpointFingerprint:
+          value.mode === 'normal'
+            ? this.permissionSnapshot(value.assistantId).endpointFingerprint
+            : null,
+        historyUsed: value.mode === 'normal' && previous.length > 0,
         controller,
         mode: value.mode,
         response
@@ -443,13 +563,32 @@ export class ProviderService {
           : undefined
       })
       if (this.closed) return chatFailure('CANCELLED')
-      const invalidResult = deltaLimitExceeded ? 'LIMIT' : transportResultError(result)
+      if (deltaLimitExceeded) {
+        finish('failed', response.content)
+        emit({ type: 'failed', requestId: value.requestId, assistantId: value.assistantId })
+        return chatFailure('LIMIT')
+      }
+      if (controller.signal.aborted) {
+        finish('cancelled', response.content)
+        emit({ type: 'cancelled', requestId: value.requestId, assistantId: value.assistantId })
+        return providerChatResultSchema.parse({
+          ok: true,
+          data: {
+            requestId: value.requestId,
+            assistantId: value.assistantId,
+            status: 'cancelled',
+            text: response.content,
+            usage: null
+          }
+        })
+      }
+      const invalidResult = transportResultError(result)
       if (invalidResult) {
         finish('failed', response.content)
         emit({ type: 'failed', requestId: value.requestId, assistantId: value.assistantId })
         return chatFailure(invalidResult)
       }
-      const status = controller.signal.aborted ? 'cancelled' : result.status
+      const status = result.status
       finish(status, result.text || response.content)
       emit({ type: status, requestId: value.requestId, assistantId: value.assistantId })
       if (status === 'failed') return chatFailure(transportError(result.error ?? 'temporary'))
@@ -466,7 +605,26 @@ export class ProviderService {
     } catch (error) {
       if (response && !this.closed) {
         try {
-          finish(controller?.signal.aborted ? 'cancelled' : 'failed', response.content)
+          if (deltaLimitExceeded) {
+            finish('failed', response.content)
+            emit({ type: 'failed', requestId: value.requestId, assistantId: value.assistantId })
+            return chatFailure('LIMIT')
+          }
+          if (controller?.signal.aborted) {
+            finish('cancelled', response.content)
+            emit({ type: 'cancelled', requestId: value.requestId, assistantId: value.assistantId })
+            return providerChatResultSchema.parse({
+              ok: true,
+              data: {
+                requestId: value.requestId,
+                assistantId: value.assistantId,
+                status: 'cancelled',
+                text: response.content,
+                usage: null
+              }
+            })
+          }
+          finish('failed', response.content)
         } catch {
           return chatFailure('STORAGE_UNAVAILABLE')
         }

@@ -34,6 +34,9 @@ const provider: ProviderApi = {
 }
 
 const timeline: TimelineApi = {
+  query: (input) => ipcRenderer.invoke(timelineChannels.query, input),
+  permissions: (input) => ipcRenderer.invoke(timelineChannels.permissions, input),
+  setPermissions: (input) => ipcRenderer.invoke(timelineChannels.setPermissions, input),
   read: (input) => ipcRenderer.invoke(timelineChannels.read, input),
   saveTemporary: (input) => ipcRenderer.invoke(timelineChannels.saveTemporary, input)
 }

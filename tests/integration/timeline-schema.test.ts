@@ -69,7 +69,9 @@ function populatedV2(): {
   assistants.close()
 
   const database = new DatabaseSync(path)
-  database.exec('DROP TABLE timeline_messages')
+  database.exec(
+    'DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
+  )
   database.exec('PRAGMA user_version = 2')
   database
     .prepare(
@@ -150,7 +152,7 @@ describe('timeline schema v3', () => {
     const database = new DatabaseSync(item.path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(3)
+    ).toBe(4)
     expect(readV2Evidence(database)).toEqual(item.evidence)
     expectCredentialPreserved(item)
     expect(database.prepare('SELECT count(*) AS value FROM timeline_messages').get()).toEqual({

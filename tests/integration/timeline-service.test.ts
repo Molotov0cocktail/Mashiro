@@ -68,6 +68,22 @@ function fixture(transport: (request: TransportRequest) => Promise<TransportResu
       model: 'model',
       expectedVersion: null
     })
+  // Legacy context oracles now exercise an explicit product permission grant.
+  for (const assistantId of ids) {
+    const permission = service.permissions({ protocolVersion: 1, assistantId })
+    if (!permission.ok) throw Error('permission fixture')
+    const { connectionId, endpointFingerprint, version } = permission.data
+    const granted = service.setPermissions({
+      protocolVersion: 1,
+      assistantId,
+      connectionId,
+      endpointFingerprint,
+      expectedVersion: version,
+      readHistory: true,
+      sendHistory: true
+    })
+    if (!granted.ok) throw Error('permission fixture')
+  }
   return { root, path, vault, service, ids, connectionId, open }
 }
 function send(
@@ -424,7 +440,7 @@ describe('persistent timeline trusted boundary', () => {
       },
       item.service
     )
-    expect(handlers.size).toBe(2)
+    expect(handlers.size).toBe(5)
     expect(
       handlers.get('timeline:read')!(null, {
         protocolVersion: 1,

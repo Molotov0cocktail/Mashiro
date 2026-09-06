@@ -49,6 +49,10 @@ UI 执行者：ProviderPanel、可拆出的 history/context/permission 组件、
 
 未参与实现的 gpt-6-astra medium Reviewer 独立检查完整差异、权限/持久化和适当复验。实现者交回精确 HEAD、命令/退出码/计数、模型、失败与 NOT RUN，不自判 PASS。PASS 后主协调提交、既定双远程同步、总覆盖更新并继续下一任务。
 
+## 可信核心候选证据（尚未独立审核）
+
+2026-09-06：trusted core 已实现，renderer 由另一单写者进行中。加法 schema v4、稳定分页/字面检索、selected 完成轮次上下文、独立读取/端点接收授权与 CAS、撤权丢弃晚到正文、strict IPC/preload 已接通。新文件 13 个反例通过；trusted + unit 合计 15 files / 82 tests 通过（历史 69、新增 13），node typecheck 和范围 lint 通过。Electron 两 PID harness 已扩展权限重启/检索/选定上下文 oracle，但尚未运行；完整验证等待 UI 汇合，不视为 PASS。详见 [trusted candidate evidence](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-trusted-candidate.md)。
+
 ## 授权、路线与续接
 
 继承本次用户持续授权：项目改动/依赖/合成付费验证/非破坏 commit 与分支，经独立审核 main 向既定 GitHub/Gitee 非强制推送，隔离打包安装升级卸载，发布验收后的新 tag/Release/附件与下载核验。不得访问新的私人资料、泄漏秘密、强推/改已有 tag/改远程可见性/改许可证实质条款。006 本身不执行发布。

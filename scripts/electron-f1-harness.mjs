@@ -293,6 +293,15 @@ try {
     throw new Error('Unsaved temporary content recovered or entered normal context')
   }
 
+  if (
+    !seed.historyPermission.sendHistory ||
+    !verify.historyPermission.sendHistory ||
+    seed.historyPermission.endpointFingerprint !== verify.historyPermission.endpointFingerprint ||
+    seed.historyPermission.version !== verify.historyPermission.version ||
+    verify.historyPage.messages.length !== 2
+  )
+    throw new Error('History permission or search did not survive restart')
+
   const credentialFiles = readdirSync(join(testRoot, 'data', 'credentials'))
   if (
     credentialFiles.length !== 1 ||
@@ -328,6 +337,9 @@ try {
     timeline: verify.timelineAfterSend,
     temporaryConversationReset: true,
     persistentCredentialProtected: true,
+    historyPermission: verify.historyPermission,
+    historyQueryVerified: true,
+    selectedContextVerified: true,
     recoveryTransportCalls: verify.transportBeforeExplicit.count,
     explicitSendTransportCalls: verify.transportAfterExplicit.count,
     chat: verify.chat

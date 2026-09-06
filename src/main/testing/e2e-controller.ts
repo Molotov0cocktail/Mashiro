@@ -135,6 +135,14 @@ const seedScript = `
   })
   if (!providerResult.ok) throw new Error(providerResult.error.code)
 
+  const permission = await timeline.permissions({protocolVersion:1,assistantId:second.id})
+  if(!permission.ok) throw new Error(permission.error.code)
+  const grant=await timeline.setPermissions({
+    protocolVersion:1,assistantId:second.id,
+    connectionId:permission.data.connectionId,endpointFingerprint:permission.data.endpointFingerprint,
+    expectedVersion:permission.data.version,readHistory:true,sendHistory:true
+  })
+  if(!grant.ok) throw new Error(grant.error.code)
   const normalChat = await provider.startChat({
     protocolVersion: 1,
     requestId: crypto.randomUUID(),
@@ -202,6 +210,7 @@ const seedScript = `
   return {
     assistant: result.data,
     provider: providerResult.data,
+    historyPermission: grant.data,
     normalChat: normalChat.data,
     temporarySavedChat: temporarySavedChat.data,
     temporaryUnsavedChat: temporaryUnsavedChat.data,
@@ -231,7 +240,13 @@ const verifyRestoreScript = `
     mode: 'temporary'
   })
   if (!temporaryRestored.ok) throw new Error(temporaryRestored.error.code)
+  const historyPermission=await window.mashiro.timeline.permissions({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
+  if(!historyPermission.ok) throw new Error(historyPermission.error.code)
+  const historyPage=await window.mashiro.timeline.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,query:'E2E_NORMAL'})
+  if(!historyPage.ok) throw new Error(historyPage.error.code)
   return {
+    historyPermission:historyPermission.data,
+    historyPage:historyPage.data,
     assistant: assistant.data,
     provider: provider.data,
     timelineRestored: timelineRestored.data,
@@ -244,7 +259,11 @@ const verifySendScript = `
 (async () => {
   const assistant = await window.mashiro.assistants.list()
   if (!assistant.ok) throw new Error(assistant.error.code)
+  const history=await window.mashiro.timeline.read({protocolVersion:1,assistantId:assistant.data.currentAssistantId,mode:'normal'})
+  if(!history.ok)throw new Error(history.error.code)
+  const requestIds=history.data.messages.filter(row=>row.role==='assistant' && row.status==='completed').map(row=>row.requestId)
   const chat = await window.mashiro.provider.startChat({
+    context:{kind:'selected',requestIds},
     protocolVersion: 1,
     requestId: crypto.randomUUID(),
     assistantId: assistant.data.currentAssistantId,
@@ -264,6 +283,7 @@ const verifySendScript = `
 `
 
 type SeedEvidence = {
+  historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
   assistant: AssistantSnapshot
   provider: ProviderSnapshot
   normalChat: { status: string; text: string; usage: unknown }
@@ -275,6 +295,8 @@ type SeedEvidence = {
   pendingPartial: string
 }
 type VerifyEvidence = {
+  historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
+  historyPage: { assistantId: string; messages: unknown[]; nextCursor: number | null }
   assistant: AssistantSnapshot
   provider: ProviderSnapshot
   timelineRestored: TimelineSnapshot

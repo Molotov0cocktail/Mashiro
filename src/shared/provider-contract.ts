@@ -33,12 +33,19 @@ export const bindAssistantInputSchema = z.strictObject({
   model: boundedString(160),
   expectedVersion: z.number().int().positive().nullable()
 })
+export const contextIntentSchema = z.discriminatedUnion('kind', [
+  z.strictObject({ kind: z.literal('recent') }),
+  z.strictObject({ kind: z.literal('none') }),
+  z.strictObject({ kind: z.literal('selected'), requestIds: z.array(uuid).min(1).max(16) })
+])
+export type ContextIntent = z.infer<typeof contextIntentSchema>
 export const startChatInputSchema = z.strictObject({
   protocolVersion,
   requestId: uuid,
   assistantId: uuid,
   text: boundedString(16000),
   mode: z.enum(['normal', 'temporary']).default('temporary'),
+  context: contextIntentSchema.default({ kind: 'recent' }),
   stream: z.boolean()
 })
 export const clearChatInputSchema = z.strictObject({
@@ -53,6 +60,7 @@ export const cancelChatInputSchema = z.strictObject({
 
 export const providerErrorCodeSchema = z.enum([
   'INVALID_INPUT',
+  'PERMISSION_DENIED',
   'NOT_FOUND',
   'STALE_WRITE',
   'ASSISTANT_ARCHIVED',

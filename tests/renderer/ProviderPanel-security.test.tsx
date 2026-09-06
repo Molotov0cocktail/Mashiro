@@ -2,6 +2,7 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
+import { timelineApi006Defaults } from './timeline-api-fixture'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type {
   ProviderApi,
@@ -69,6 +70,7 @@ const providerSnapshot: ProviderSnapshot = {
 function mockTimelineApi(completedText?: string, requestId?: () => string): TimelineApi {
   let reads = 0
   return {
+    ...timelineApi006Defaults(),
     read: vi.fn(async (input) => {
       reads += 1
       return {

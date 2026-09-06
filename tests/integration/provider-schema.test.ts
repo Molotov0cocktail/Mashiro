@@ -30,7 +30,9 @@ describe('provider schema compatibility', () => {
     service.close()
 
     const legacy = new DatabaseSync(path)
-    legacy.exec('DROP TABLE timeline_messages')
+    legacy.exec(
+      'DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
+    )
     legacy.exec('DROP TABLE assistant_provider_bindings')
     legacy.exec('DROP TABLE provider_connections')
     legacy.exec('PRAGMA user_version = 1')
@@ -44,7 +46,7 @@ describe('provider schema compatibility', () => {
     const database = new DatabaseSync(path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(3)
+    ).toBe(4)
     database.close()
   })
   it('creates current storage and preserves assistant identities across restart', () => {
@@ -62,7 +64,7 @@ describe('provider schema compatibility', () => {
     const database = new DatabaseSync(path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(3)
+    ).toBe(4)
     expect(
       database
         .prepare(
@@ -91,7 +93,9 @@ describe('provider schema compatibility', () => {
     service.close()
 
     const legacy = new DatabaseSync(path)
-    legacy.exec('DROP TABLE timeline_messages')
+    legacy.exec(
+      'DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
+    )
     legacy.exec('DROP TABLE assistant_provider_bindings')
     legacy.exec('DROP TABLE provider_connections')
     legacy.exec('CREATE TABLE assistant_provider_bindings (broken TEXT)')

@@ -1,12 +1,15 @@
 import type { DatabaseSync } from 'node:sqlite'
 
-export const schemaVersion = 3
+export const schemaVersion = 4
 
 const requiredTables = [
   'assistants',
   'assistant_state',
   'provider_connections',
-  'assistant_provider_bindings'
+  'assistant_provider_bindings',
+  'timeline_messages',
+  'history_permissions',
+  'history_recipient_grants'
 ] as const
 const requiredTriggers = [
   'assistant_no_delete',
@@ -143,6 +146,40 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
     }
   }
 
+  const beforeV4 = Number(
+    (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
+  )
+  if (beforeV4 === 3) {
+    verifyV1Objects(database)
+    for (const table of [
+      'timeline_messages',
+      'provider_connections',
+      'assistant_provider_bindings'
+    ]) {
+      if (!schemaObjectExists(database, 'table', table))
+        throw new StorageInconsistentError('Storage table missing before upgrade')
+    }
+    const check = database.prepare('PRAGMA integrity_check').get() as { integrity_check: string }
+    if (check.integrity_check !== 'ok' || database.prepare('PRAGMA foreign_key_check').all().length)
+      throw new StorageInconsistentError('Storage integrity check failed before upgrade')
+    database.exec('BEGIN IMMEDIATE')
+    try {
+      database.exec(`CREATE TABLE history_permissions (
+        assistant_id TEXT PRIMARY KEY NOT NULL REFERENCES assistants(id) ON DELETE RESTRICT,
+        read_history INTEGER NOT NULL CHECK(read_history IN (0,1)),
+        version INTEGER NOT NULL CHECK(version > 0));
+        CREATE TABLE history_recipient_grants (
+        assistant_id TEXT NOT NULL REFERENCES assistants(id) ON DELETE RESTRICT,
+        endpoint_fingerprint TEXT NOT NULL,
+        send_history INTEGER NOT NULL CHECK(send_history IN (0,1)),
+        PRIMARY KEY(assistant_id,endpoint_fingerprint));
+        PRAGMA user_version = 4;`)
+      database.exec('COMMIT')
+    } catch (error) {
+      database.exec('ROLLBACK')
+      throw error
+    }
+  }
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )

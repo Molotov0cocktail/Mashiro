@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../../../shared/assistant-contract'
 import type {
+  ContextIntent,
   ProviderApi,
   ProviderResult,
   ProviderSnapshot
@@ -11,10 +12,12 @@ import type {
   TimelineMessage,
   TimelineSnapshot
 } from '../../../../shared/timeline-contract'
+import { HistoryContextPanel } from './HistoryContextPanel'
 
 const protocolVersion = 1 as const
 const errorMessages: Record<string, string> = {
   INVALID_INPUT: '输入不符合要求，请检查后重试',
+  PERMISSION_DENIED: '当前没有读取并向实际接收方发送历史的权限',
   NOT_FOUND: '连接、助手或时间线不存在',
   STALE_WRITE: '设置已变化，请刷新后重试',
   ASSISTANT_ARCHIVED: '已归档助手不能发起交流',
@@ -36,6 +39,8 @@ const errorMessages: Record<string, string> = {
 type TimelineMap = Record<string, TimelineMessage[]>
 type BooleanMap = Record<string, boolean>
 type TextMap = Record<string, string>
+type ContextIntentMap = Record<string, ContextIntent>
+type RequestSelectionMap = Record<string, string[]>
 type ActiveRequest = {
   requestId: string
   mode: ChatMode
@@ -94,6 +99,9 @@ export function ProviderPanel({
   const [modelDrafts, setModelDrafts] = useState<Record<string, string>>({})
   const [modeByAssistant, setModeByAssistant] = useState<Record<string, ChatMode>>({})
   const [textDrafts, setTextDrafts] = useState<TextMap>({})
+  const [contextByAssistant, setContextByAssistant] = useState<ContextIntentMap>({})
+  const [selectedRequestsByAssistant, setSelectedRequestsByAssistant] =
+    useState<RequestSelectionMap>({})
   const [stream, setStream] = useState(true)
   const [timelines, setTimelines] = useState<TimelineMap>({})
   const [hasMore, setHasMore] = useState<BooleanMap>({})
@@ -122,6 +130,14 @@ export function ProviderPanel({
   )
   const model = modelDrafts[currentAssistantId] ?? binding?.model ?? 'GLM-5.3-FLASH'
   const text = textDrafts[currentKey] ?? ''
+  const contextIntent = contextByAssistant[currentAssistantId] ?? ({ kind: 'recent' } as const)
+  const selectedRequestIds = selectedRequestsByAssistant[currentAssistantId] ?? []
+  const historyBindingKey =
+    (binding?.connectionId ?? '') +
+    ':' +
+    (executionConnection?.baseUrl ?? '') +
+    ':' +
+    (binding?.model ?? '')
   const transcript = timelines[currentKey] ?? []
   const currentRejectedDrafts = rejectedDrafts[currentKey] ?? []
   const activeRequest = activeRequests[currentAssistantId]
@@ -371,6 +387,8 @@ export function ProviderPanel({
       errorCode !== undefined &&
       [
         'INVALID_INPUT',
+        'PERMISSION_DENIED',
+        'LIMIT',
         'NOT_FOUND',
         'ASSISTANT_ARCHIVED',
         'CONNECTION_DISABLED',
@@ -405,6 +423,7 @@ export function ProviderPanel({
     const requestId = crypto.randomUUID()
     const assistantId = currentAssistantId
     const requestMode = mode
+    const requestContext = requestMode === 'temporary' ? ({ kind: 'none' } as const) : contextIntent
     const key = timelineKey(assistantId, requestMode)
     const submitted = text
     const createdAt = new Date().toISOString()
@@ -452,6 +471,7 @@ export function ProviderPanel({
         assistantId,
         text: submitted,
         mode: requestMode,
+        context: requestContext,
         stream
       })
       clearActiveRequest(assistantId, requestId)
@@ -698,9 +718,33 @@ export function ProviderPanel({
           </p>
           <p className="scope-note">
             {mode === 'normal'
-              ? '本次消息与此助手最多最近 16 组已完成的正常对话会发送给上述接收方，并受 64,000 UTF-16 字符总输入预算限制；本机完整时间线不会全部外发。'
+              ? '你可以在下方选择近期历史、仅本次输入或已选轮次；近期模式最多最近 16 组已完成的正常对话，并且只有读取与实际接收方权限都允许时才会外发。'
               : '只发送本次严格临时会话；不会读取正常历史，也不会自动保存到正常时间线。'}
           </p>
+
+          <HistoryContextPanel
+            assistantId={currentAssistantId}
+            mode={mode}
+            bindingKey={historyBindingKey}
+            timelineApi={timelineApi}
+            contextIntent={contextIntent}
+            selectedRequestIds={selectedRequestIds}
+            onContextIntentChange={(value) =>
+              setContextByAssistant((items) => ({ ...items, [currentAssistantId]: value }))
+            }
+            onSelectedRequestIdsChange={(value) => {
+              setSelectedRequestsByAssistant((items) => ({
+                ...items,
+                [currentAssistantId]: value
+              }))
+              if (contextIntent.kind === 'selected' && value.length > 0) {
+                setContextByAssistant((items) => ({
+                  ...items,
+                  [currentAssistantId]: { kind: 'selected', requestIds: value }
+                }))
+              }
+            }}
+          />
 
           {timelineErrors[currentKey] ? <p role="alert">{timelineErrors[currentKey]}</p> : null}
           {notices[currentKey] ? <p role="status">{notices[currentKey]}</p> : null}

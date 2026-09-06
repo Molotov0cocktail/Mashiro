@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
+import { timelineApi006Defaults } from './timeline-api-fixture'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type {
   ProviderApi,
@@ -79,6 +80,7 @@ const providerSnapshot: ProviderSnapshot = {
 function mockTimelineApi(): TimelineApi {
   const reads = new Map<string, number>()
   return {
+    ...timelineApi006Defaults(),
     read: vi.fn(async (input) => {
       const key = input.assistantId + ':' + input.mode
       const count = (reads.get(key) ?? 0) + 1

@@ -28,6 +28,9 @@ export class ProviderDomainError extends Error {
   constructor(
     readonly code:
       | 'NOT_FOUND'
+      | 'INVALID_INPUT'
+      | 'LIMIT'
+      | 'PERMISSION_DENIED'
       | 'STALE_WRITE'
       | 'ASSISTANT_ARCHIVED'
       | 'CONNECTION_DISABLED'

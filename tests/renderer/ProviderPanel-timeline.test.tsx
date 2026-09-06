@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
+import { timelineApi006Defaults } from './timeline-api-fixture'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type {
   ProviderApi,
@@ -142,6 +143,7 @@ describe('ProviderPanel persistent timeline UI', () => {
         }
       }
       const timelineApi = {
+        ...timelineApi006Defaults(),
         read: vi.fn(async (input) =>
           ++reads === 1 ? success(input.assistantId, input.mode, []) : unavailable
         ),
@@ -181,6 +183,7 @@ describe('ProviderPanel persistent timeline UI', () => {
   it('retains an unknown command outcome without claiming the input was never sent', async () => {
     let reads = 0
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) => {
         if (++reads === 1) return success(input.assistantId, input.mode, [])
         throw new Error('read unavailable')
@@ -207,6 +210,7 @@ describe('ProviderPanel persistent timeline UI', () => {
     let listener: ((event: ProviderEvent) => void) | undefined
     let reads = 0
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) => {
         if (++reads === 1) return success(input.assistantId, input.mode, [])
         throw new Error('read unavailable')
@@ -292,6 +296,7 @@ describe('ProviderPanel persistent timeline UI', () => {
       )
     ]
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) => {
         reads += 1
         if (reads === 1) return success(input.assistantId, input.mode, [])
@@ -382,6 +387,7 @@ describe('ProviderPanel persistent timeline UI', () => {
       )
     ]
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) =>
         ++reads <= 3 ? success(input.assistantId, input.mode, []) : unavailable
       ),
@@ -485,6 +491,7 @@ describe('ProviderPanel persistent timeline UI', () => {
     ]
     let reads = 0
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) => {
         reads += 1
         return success(input.assistantId, input.mode, reads === 1 ? restored : completed(), true)
@@ -565,6 +572,7 @@ describe('ProviderPanel persistent timeline UI', () => {
       })
       .mockResolvedValue(success(assistantA, 'temporary', saved))
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) =>
         input.mode === 'normal'
           ? success(assistantA, 'normal', [
@@ -632,6 +640,7 @@ describe('ProviderPanel persistent timeline UI', () => {
       return new Promise<ProviderChatResult>((resolve) => (resolveRequest = resolve))
     })
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) =>
         input.mode === 'temporary' && (streamed || finished)
           ? success(assistantA, 'temporary', [
@@ -712,6 +721,7 @@ describe('ProviderPanel persistent timeline UI', () => {
   it('does not let a late read replace the newly selected assistant pane', async () => {
     let resolveAlpha: ((result: TimelineResult) => void) | undefined
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn((input) => {
         if (input.assistantId === assistantA) {
           return new Promise<TimelineResult>((resolve) => (resolveAlpha = resolve))
@@ -768,6 +778,7 @@ describe('ProviderPanel persistent timeline UI', () => {
 
   it('keeps a rejected temporary input as an unsent draft and reports an empty save honestly', async () => {
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) => success(input.assistantId, input.mode, [])),
       saveTemporary: vi.fn(async () => success(assistantA, 'temporary', []))
     } as TimelineApi
@@ -845,6 +856,7 @@ describe('ProviderPanel persistent timeline UI', () => {
       )
     ]
     const timelineApi = {
+      ...timelineApi006Defaults(),
       read: vi.fn(async (input) => {
         if (input.assistantId === assistantB) {
           return success(assistantB, input.mode, [
