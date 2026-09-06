@@ -1,9 +1,13 @@
 # Mashiro 近期详细设计草案
 
-> 当前状态：006 时间线/局部上下文/权限 FINAL REVIEW PASS，007 IMPLEMENTING，项目总任务 ACTIVE；当前续接以 [progress](tasks/progress.md) 与 [007](tasks/007-provider-tools-execution.md) 为准。
-> 当前更新：2026-09-06。下方005、004、旧F1与草案状态按历史原文保留。
+> 当前状态：007 TASK_DONE / FINAL PASS；008 ACTIVE / S0；项目总任务 ACTIVE。
+> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [008](tasks/008-memory-direct-path.md)；下方006、005、004与F1状态保留为历史记录。
 
-## 006 当前设计实现
+## 当前007设计实现与008续接
+
+007实现schema v5加法迁移、完整调用校验、来源依赖、固定接收方、只读工具结果事务和未知恢复零重发；六个assistant通道及sandbox/preload运行时限制保持不变。精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`获[独立FINAL PASS](../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-final-711463a.md)：25 files / 162 tests及5个独立额外oracle，fresh Electron PIDs59208/84996；两个既有main已同步。工具thinking仍NOT_OBSERVED，其他厂商/业务写入/记忆事项/后台/正式安装发布未由007验收。008正在S0冻结即时记住、纠正、已确认删除表示或撤回依据、领域权限与Markdown恢复方案；项目继续ACTIVE。
+
+## 006 历史设计实现
 
 - SQLite schema v4以加法迁移保存助手自己正常历史的读取权，以及按assistant、实际endpoint fingerprint和数据类别绑定的发送权；旧数据不默认获得接收授权。
 - 历史支持稳定cursor分页和字面检索；selected只接受trusted request IDs并解析同助手completed完整轮次。每次发送重新解析当前助手、绑定、端点、凭据和权限，撤权优先于迟到结果；严格临时不读取正常仓库。

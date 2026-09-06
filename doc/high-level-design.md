@@ -1,9 +1,13 @@
 # Mashiro 高层设计
 
-> 当前状态：006 FINAL REVIEW PASS；007 IMPLEMENTING；项目总任务 ACTIVE
-> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [007 任务](tasks/007-provider-tools-execution.md)；下方 005、004 与 F1 状态均为历史记录。
+> 当前状态：007 TASK_DONE / FINAL PASS；008 ACTIVE / S0；项目总任务 ACTIVE。
+> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [008](tasks/008-memory-direct-path.md)；下方006、005、004与F1状态保留为历史记录。
 
-## 当前006架构增量
+## 当前007架构与008续接
+
+007以strict trusted入口、schema v5、受控协议段和稳定operation身份扩展只读clock/自己历史；活动链完整保留必要字段，closed段重放与来源/权限/预算交集受限，临时协议仅内存。精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`获[独立FINAL PASS](../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-final-711463a.md)：25 files / 162 tests及5个独立额外oracle，fresh Electron PIDs59208/84996；两个既有main已同步。工具thinking仍NOT_OBSERVED，其他厂商/业务写入/记忆事项/后台/正式安装发布未由007验收。008正在S0冻结即时记住、纠正、已确认删除表示或撤回依据、领域权限与Markdown恢复方案；项目继续ACTIVE。
+
+## 历史006架构增量
 
 006在005链路上加入strict timeline/permission IPC、SQLite schema v4加法权限迁移、稳定分页/字面检索与trusted局部上下文。renderer只提交查询、request IDs和意图；trusted每次重新解析助手、绑定、端点、凭据和权限，撤权优先于迟到结果。精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`已获独立FINAL PASS，六个assistant channels及sandbox/preload限制保持不变。007在此基线上实施受限工具、协议段、operation身份和原轮次引用定位。
 

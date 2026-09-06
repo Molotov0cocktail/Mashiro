@@ -6,10 +6,10 @@
 
 ## 当前工作与直接下一动作
 
-- 当前正式任务：[007 Provider 工具执行、协议段与操作身份](007-provider-tools-execution.md)。006 已在精确产品 `88a86a2dacc616ca3a6fa0ba63a345f059d88859` 获独立最终 PASS；007 以该已审产品为基线完成候选融合，现处于独立审核/UI 修复，负责受限工具执行、协议段、operation 身份、能力分级和原轮次引用定位。记忆、事项、提醒、后台与发布继续列入总队列。
-- 同步工作：早期 [PACKAGED 探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md) 已 SUPPORTED：独立 ASAR 程序自报 isPackaged=true，双 PID 84660/84304 验证 SQLite/preload/凭据和重启；临时副本含实验修改，生产数据位置与正式安装/升级/卸载仍 NOT RUN。全局入口由 Prompter/指定记录者单写；纯文档差异只做比例核对，不重跑006产品资格。
-- 当前已审产品 baseline：main `88a86a2dacc616ca3a6fa0ba63a345f059d88859`。2026-09-06 主协调已实际 `ls-remote` 确认 github/main、gitee/main 同值且命令退出0；后续请查 live Git，不把这次观测当未来保证。其后允许有不改变产品行为的006 closing/007合同文档提交。
-- 下一动作：修复007迟到空快照抹掉成功回执及selected范围文案，保持原独立oracle复审；当前融合25 files / 157 tests、全部静态/build及双PID71276/77272通过，真实产品工具2请求/521tokens通过，尚非独立PASS；已审后同步两个既有远端并自动选择下一依赖满足任务。Q1探索可并行推进，但不冒充正式 packaged/安装资格。
+- 当前正式任务：[008 记忆与个人事件的即时路径、来源和事务恢复](008-memory-direct-path.md)，状态 ACTIVE / S0。007已在精确产品 `711463a9dd7fbcf16de73c413fe6ad0c56c311cc` 获独立FINAL PASS并同步两个既有远端；008继续领域权限、即时记住/纠正/删除表示或撤回依据、来源/抑制与Markdown事务恢复。事项、提醒、后台与发布保持总队列必需范围。
+- 同步工作：[早期ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)及[隔离NSIS数据保护路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)均SUPPORTED。NSIS实验验证精确程序文件清除与未知/data文件保留；没有启动安装后应用、比较不同应用/schema版本或验证升级回滚，正式应用安装/更新/卸载资格仍NOT RUN。全局入口由指定记录者单写。
+- 当前已审产品 baseline：main `711463a9dd7fbcf16de73c413fe6ad0c56c311cc`。2026-09-06 root已完成github/gitee非force push并实际ls-remote确认两main同值、退出0；本次收尾记录者也独立查询同值。后续仍查live Git，不将一次观测当未来保证。
+- 下一动作：008的memory_008_s0（Prompter实际派发gpt-6-astra / medium）正在阅读设计与007接口，形成最小领域/权限/Markdown事务方案及必要隔离实验，专属产物为memory-008-*；S0回原文冻结后划分trusted/UI单写实施，最后新领域独立审核。007收尾只更新事实/链接/格式，不重复产品资格。
 
 ## 当前任务表
 
@@ -21,14 +21,18 @@
 | [004](004-provider-text.md) | Provider连接与严格临时文本 | FINAL PASS/历史同步 | `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6` |
 | [005](005-persistent-timeline.md) | 持续时间线、显式保存、正常重启 | TASK_DONE/FINAL PASS | 精确产品`0aa2d9190b63c7b99d59f52808e16965fa6b417f`；旧STOP_CHECKPOINT不是程序状态 |
 | [006](006-timeline-context-permissions.md) | 完整浏览检索、局部上下文、权限底座 | TASK_DONE/FINAL PASS | 精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`；跨域权限仍由后续任务扩展 |
-| [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | REVIEW / UI REPAIR | 候选融合及实际可信路径live通过，独立发现迟到回执竞态，正在修复 |
+| [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | TASK_DONE / FINAL PASS | 精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；独立25/162与5额外oracle，双remote同步 |
+| [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | ACTIVE / S0 | baseline为已审007；领域/权限与跨文件恢复方案冻结中 |
 
 ## 最近有效证据与边界
 
+- 007[独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-final-711463a.md)对应精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`，报告SHA-256 `21119C6C34B29E011F3BA47F3E577AD37B08352A904BD31B03BC718DA6B8E6B0`。25 files / 162 tests及独立5个额外oracle通过，最终静态/build/依赖/foundation/扫描有效；fresh Electron PIDs59208/84996验证操作身份恢复、临时协议不持久化、恢复0调用及显式发送后1调用。初审REPAIR与中间夹具/引用世代错误及修复证据保持归档，已关闭而非当前缺陷。
+- 007实际产品可信路径clock闭环为2请求、1 SUCCEEDED、精确UTC续答、usage467/54/521；加此前能力探针，本程序该组验证累计6付费请求、已得usage1515，首探针usage未知。工具thinking仍NOT_OBSERVED；未宣称renderer-driven或跨用户轮live、其他厂商工具、业务写入已验证。凭据已清理。
+
 - 项目总覆盖/授权/006合同/早期打包证据已提交 `c03c5adb05aa5e237fab0f528a1f25ccbd4825ab`；Prompter 独立核对 47 个本地链接目标、005 原始 review hash 和文档差异，非强制推送后实际查询两个 main 均同值。该提交不含006产品。
-- 新 [GLM 能力探针](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-capability-probe-v1.md) 完成：54片工具参数聚合→一次可信无副作用执行→结果回传续答、json_object本地严格校验均有真实端点证据；工具保留式思考仍 NOT_OBSERVED。累计4请求，成功三次 usage 994，首次未捕获 usage。仅合成数据、进程环境 Key 已清理；产品工具集成仍待007。
+- 新 [GLM 能力探针](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-capability-probe-v1.md) 完成：54片工具参数聚合→一次可信无副作用执行→结果回传续答、json_object本地严格校验均有真实端点证据；工具保留式思考仍 NOT_OBSERVED。累计4请求，成功三次 usage 994，首次未捕获 usage。仅合成数据、进程环境 Key 已清理；后续007实际产品clock闭环已另获验证，不能将本探针本身当产品PASS。
 - 006最终 [独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-review-final-88a86a2.md) 对应产品 `88a86a2dacc616ca3a6fa0ba63a345f059d88859`，报告 SHA-256 `A69669178A74339D08BC1CACCD125F1B3E43432E2449C8B6310D5BFE9D0BBE04`。产品套件22 files / 113 tests；独立全量24 / 117含4个额外oracle，之后新增flow 1 / 1单独通过；typecheck/lint/format/build、依赖/foundation及扫描均通过。适用fresh Electron PIDs83792/90028，恢复0次外发、显式发送后1次，关键源码hash已复核。
-- 006搜索可从单侧命中进入搜索结果、清除搜索、加载更早完整历史并选中原轮次，但没有直接 jump-to-round 按钮；这不是006合同阻塞项。007必须提供原轮次引用定位，最终验收继续检查可用性，不把直接跳转永久排除。
+- 006历史仅支持搜索后手动找到完整轮次；007已补充搜索命中与工具引用按requestId直接定位原轮次，并通过trusted归属与UI回归。最终整体验收继续检查可用性。
 
 - 005最终 [独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-0aa2d91.md) SHA-256 `E13D1F19B9E66D5932D010F8455FD4177A3EBC991FC7DE7C639C5A73C80105B0`；20 files / 88 tests、typecheck/lint/format/build/扫描通过。适用真实Electron独立PIDs59660/62500，恢复0调用、显式发送后1调用。后续新差异不能继承PASS。
 - [005产品推送回执](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-push-close-0aa2d91.md)、[continuation](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-continuation-f5aa9880.md)、[原始接管记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-reconciliation.md) 保留原始失败、修复和历史事实；设计顶栏已简洁对齐最终PASS。

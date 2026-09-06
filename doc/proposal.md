@@ -1,9 +1,13 @@
 # Mashiro 产品与阶段 Proposal
 
-> 当前状态：006 FINAL REVIEW PASS；007 IMPLEMENTING；项目总任务 ACTIVE
-> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [007 任务](tasks/007-provider-tools-execution.md)；下方 005、004 与 F1 状态均为历史记录。
+> 当前状态：007 TASK_DONE / FINAL PASS；008 ACTIVE / S0；项目总任务 ACTIVE。
+> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [008](tasks/008-memory-direct-path.md)；下方006、005、004与F1状态保留为历史记录。
 
-## 当前006产品增量
+## 当前007产品与008续接
+
+007提供中文只读工具范围、可信成功/取消/未知回执、能力分项和原轮次引用定位；实际产品clock两请求完成精确UTC续答。精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`获[独立FINAL PASS](../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-final-711463a.md)：25 files / 162 tests及5个独立额外oracle，fresh Electron PIDs59208/84996；两个既有main已同步。工具thinking仍NOT_OBSERVED，其他厂商/业务写入/记忆事项/后台/正式安装发布未由007验收。008正在S0冻结即时记住、纠正、已确认删除表示或撤回依据、领域权限与Markdown恢复方案；项目继续ACTIVE。
+
+## 历史006产品增量
 
 006加入完整稳定分页与字面检索、recent/none/selected局部上下文，以及助手读取自己历史与向实际端点指纹发送历史的分离权限。独立Reviewer对精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`给出FINAL PASS；产品22 files / 113 tests，独立全量24 / 117含4个额外oracle，另有flow 1 / 1，fresh Electron PIDs83792/90028证明恢复0次外发、显式发送后1次。搜索暂无直接jump-to-round按钮，007承担原轮次引用定位，最终验收继续检查可用性。
 
