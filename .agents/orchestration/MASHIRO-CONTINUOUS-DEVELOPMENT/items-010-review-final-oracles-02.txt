@@ -1,0 +1,11 @@
+exit=0
+npm warn Unknown cli config "--maxWorkers". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 D:/Mashiro
+
+
+ Test Files  6 passed (6)
+      Tests  7 passed (7)
+   Start at  03:29:59
+   Duration  1.28s (transform 945ms, setup 811ms, import 1.55s, tests 1.43s, environment 0ms)
+

@@ -75,6 +75,13 @@ function preview(blockers: string[] = []): RetentionPreview {
     memoryIds: [memoryId],
     requestIds: [requestId],
     retainedMemoryIds: [],
+    itemImpact: {
+      items: [{ id: '00000000-0000-4000-8000-000000000021', version: 2 }],
+      proposals: [
+        { id: '00000000-0000-4000-8000-000000000022', version: 3, delete: true },
+        { id: '00000000-0000-4000-8000-000000000023', version: 4, delete: false }
+      ]
+    },
     files: 2,
     expandedToRounds: true,
     irreversible: true,
@@ -165,6 +172,11 @@ describe('RetentionPanel', () => {
 
     expect(await screen.findByText('缺少仓储员接受结果，不能回收原文')).toBeInTheDocument()
     expect(screen.getByText('讨论靠窗座位')).toBeInTheDocument()
+    const itemImpact = screen.getByRole('region', { name: '事项与提案清理影响' })
+    expect(itemImpact).toHaveTextContent('正式事项保留')
+    expect(itemImpact).toHaveTextContent('00000000-0000-4000-8000-000000000021')
+    expect(itemImpact).toHaveTextContent('提案永久删除')
+    expect(itemImpact).toHaveTextContent('提案保留')
     expect(screen.getByText(requestId).closest('li')).toHaveTextContent('日常助手')
     expect(screen.getByRole('button', { name: '本机确认执行' })).toBeDisabled()
     expect(api.confirm).not.toHaveBeenCalled()

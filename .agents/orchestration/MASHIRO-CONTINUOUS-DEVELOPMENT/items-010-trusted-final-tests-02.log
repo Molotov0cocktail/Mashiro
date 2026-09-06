@@ -1,0 +1,15 @@
+
+> mashiro@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/retention-adversarial.test.ts (11 tests | 1 failed) 8231ms
+   × yields to unrelated local work while planning and draining a multi-batch cleanup 5156ms
+
+ Test Files  1 failed | 50 passed (51)
+      Tests  1 failed | 300 passed (301)
+   Start at  03:24:11
+   Duration  10.25s (transform 5.97s, setup 14.94s, import 14.50s, tests 101.44s, environment 23.52s)
+

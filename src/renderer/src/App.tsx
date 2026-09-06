@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../shared/assistant-contract'
+import type { ItemApi, ItemPermissions } from '../../shared/item-contract'
 import type {
   RetentionChanged,
   RetentionIntent,
   RetentionPreview
 } from '../../shared/retention-contract'
 import { AssistantPanel } from './features/assistants/AssistantPanel'
+import { ItemPanel } from './features/items/ItemPanel'
 import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
 import { RetentionPanel } from './features/retention/RetentionPanel'
 
 type RetentionTarget = RetentionIntent['target']
+type DiscussResult = Awaited<ReturnType<ItemApi['proposalAction']>>
 type PreparedRetention = {
   assistantId: string
   target: RetentionTarget
@@ -26,9 +29,24 @@ export function App(): React.JSX.Element {
     nonce: number
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
-  const [activeView, setActiveView] = useState<'chat' | 'memory' | 'retention'>('chat')
+  const [activeView, setActiveView] = useState<'chat' | 'items' | 'memory' | 'retention'>('chat')
   const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)
+  const [itemRefreshKey, setItemRefreshKey] = useState(0)
+  const [itemRecoveryTarget, setItemRecoveryTarget] = useState<{
+    assistantId: string
+    commandId: string
+    nonce: number
+    confirmationAction?: 'replace-content'
+  } | null>(null)
+  const [itemConversationTarget, setItemConversationTarget] = useState<{
+    assistantId: string
+    type: 'item' | 'proposal'
+    id: string
+    expectedVersion: number
+    nonce: number
+  } | null>(null)
   const [pendingMemoryCommands] = useState(() => new Map<string, string>())
+  const [pendingItemCommands] = useState(() => new Map<string, string>())
   const [retentionChange, setRetentionChange] = useState<RetentionChanged | null>(null)
   const [retentionTarget, setRetentionTarget] = useState<PreparedRetention | null>(null)
   const [lastGovernanceAssistantId, setLastGovernanceAssistantId] = useState('')
@@ -96,6 +114,167 @@ export function App(): React.JSX.Element {
     setMemoryRefreshKey((value) => value + 1)
   }, [])
 
+  const receiveItemChange = useCallback(() => {
+    setItemRefreshKey((value) => value + 1)
+  }, [])
+
+  const openItems = useCallback(
+    (recovery?: {
+      assistantId: string
+      commandId: string
+      confirmationAction?: 'replace-content'
+    }) => {
+      if (recovery) {
+        setItemRecoveryTarget((current) => ({
+          ...recovery,
+          nonce: (current?.nonce ?? 0) + 1
+        }))
+      }
+      setItemRefreshKey((value) => value + 1)
+      setActiveView('items')
+    },
+    []
+  )
+
+  const openItemConversation = useCallback(
+    (value: { assistantId: string; itemId: string; expectedVersion: number }): void => {
+      if (!assistantSnapshot || assistantSnapshot.currentAssistantId !== value.assistantId) {
+        setNavigationError('当前助手状态已变化，请重新打开事项后再进入对话。')
+        return
+      }
+      setNavigationError('')
+      setItemConversationTarget((current) => ({
+        assistantId: value.assistantId,
+        type: 'item',
+        id: value.itemId,
+        expectedVersion: value.expectedVersion,
+        nonce: (current?.nonce ?? 0) + 1
+      }))
+      setActiveView('chat')
+    },
+    [assistantSnapshot]
+  )
+
+  const receiveItemVersion = useCallback(
+    (value: { assistantId: string; id: string; version: number }): void => {
+      setItemConversationTarget((current) =>
+        current &&
+        current.assistantId === value.assistantId &&
+        current.type === 'item' &&
+        current.id === value.id
+          ? { ...current, expectedVersion: value.version, nonce: current.nonce + 1 }
+          : current
+      )
+    },
+    []
+  )
+
+  const receiveItemPermissions = useCallback((value: ItemPermissions): void => {
+    if (value.read && value.receive) return
+    setItemConversationTarget((current) =>
+      current && current.assistantId === value.assistantId ? null : current
+    )
+  }, [])
+  const discussItem = useCallback(
+    async (value: {
+      originAssistantId: string
+      proposalId: string
+      expectedVersion: number
+      commandId: string
+      restoreArchived: boolean
+    }): Promise<DiscussResult | null> => {
+      if (!assistantSnapshot) return null
+      setNavigationError('')
+      const governance = governanceEpoch.current
+      const requestVersion = ++assistantRequestVersion.current
+      const origin = assistantSnapshot.assistants.find(
+        (assistant) => assistant.id === value.originAssistantId
+      )
+      if (!origin) {
+        setNavigationError('提案的发起助手已删除，不能恢复协商；提案当前状态仍以事项区为准。')
+        return null
+      }
+      let nextSnapshot = assistantSnapshot
+      if (value.originAssistantId !== assistantSnapshot.currentAssistantId || origin.isArchived) {
+        try {
+          const result = await window.mashiro.assistants.switch({
+            protocolVersion: 1,
+            assistantId: value.originAssistantId,
+            expectedStateRevision: assistantSnapshot.stateRevision,
+            ...(origin.isArchived ? { restoreArchived: true } : {})
+          })
+          if (
+            governance !== governanceEpoch.current ||
+            requestVersion !== assistantRequestVersion.current
+          )
+            return null
+          if (!result.ok) {
+            setNavigationError(result.error.message)
+            return null
+          }
+          nextSnapshot = result.data
+          setAssistantSnapshot(result.data)
+        } catch {
+          setNavigationError(
+            origin.isArchived
+              ? '无法恢复提案的发起助手；提案仍保留在待确认区。'
+              : '无法切换到提案的发起助手；提案仍保留在待确认区。'
+          )
+          return null
+        }
+      }
+      if (nextSnapshot.currentAssistantId !== value.originAssistantId) {
+        setNavigationError('发起助手状态已变化，请刷新提案后重试。')
+        return null
+      }
+      let actionResult: DiscussResult
+      try {
+        actionResult = await window.mashiro.items.proposalAction({
+          protocolVersion: 1,
+          assistantId: value.originAssistantId,
+          commandId: value.commandId,
+          id: value.proposalId,
+          expectedVersion: value.expectedVersion,
+          action: 'discuss'
+        })
+      } catch {
+        if (
+          governance === governanceEpoch.current &&
+          requestVersion === assistantRequestVersion.current
+        )
+          setNavigationError('协商操作回执未确认；再次点击会先核查同一操作。')
+        return null
+      }
+      if (
+        governance !== governanceEpoch.current ||
+        requestVersion !== assistantRequestVersion.current
+      )
+        return null
+      if (!actionResult.ok) {
+        setNavigationError(actionResult.error.message)
+        return actionResult
+      }
+      if (actionResult.data.state !== 'SUCCEEDED') {
+        setNavigationError(actionResult.data.summary)
+        return actionResult
+      }
+      for (const [key, commandId] of pendingItemCommands) {
+        if (commandId === value.commandId) pendingItemCommands.delete(key)
+      }
+      setItemConversationTarget((current) => ({
+        assistantId: value.originAssistantId,
+        type: 'proposal',
+        id: value.proposalId,
+        expectedVersion: actionResult.data.objectVersion,
+        nonce: (current?.nonce ?? 0) + 1
+      }))
+      setItemRefreshKey((current) => current + 1)
+      setActiveView('chat')
+      return actionResult
+    },
+    [assistantSnapshot, pendingItemCommands]
+  )
+
   const refreshAssistants = useCallback(async (): Promise<void> => {
     const governance = governanceEpoch.current
     const requestVersion = ++assistantRequestVersion.current
@@ -121,6 +300,7 @@ export function App(): React.JSX.Element {
       setRetentionChange(event)
       if (event.reason === 'job-status') return
       setMemoryRefreshKey((value) => value + 1)
+      setItemRefreshKey((value) => value + 1)
       setLastGovernanceAssistantId((value) => event.assistantIds.at(-1) ?? value)
       if (
         historyTarget &&
@@ -130,6 +310,9 @@ export function App(): React.JSX.Element {
         setHistoryTarget(null)
       }
       if (event.reason === 'cleanup' || event.reason === 'purge') {
+        setItemConversationTarget((current) =>
+          current && event.assistantIds.includes(current.assistantId) ? null : current
+        )
         for (const key of [...pendingMemoryCommands.keys()]) {
           try {
             const parsed = JSON.parse(key) as { domain?: unknown }
@@ -178,6 +361,14 @@ export function App(): React.JSX.Element {
         <button
           type="button"
           role="tab"
+          aria-selected={activeView === 'items'}
+          onClick={() => openItems()}
+        >
+          事项
+        </button>
+        <button
+          type="button"
+          role="tab"
           aria-selected={activeView === 'memory'}
           onClick={openMemory}
         >
@@ -209,11 +400,40 @@ export function App(): React.JSX.Element {
           api={window.mashiro.provider}
           timelineApi={window.mashiro.timeline}
           memoryApi={window.mashiro.memory}
+          itemApi={window.mashiro.items}
+          itemTarget={itemConversationTarget}
           historyTarget={historyTarget}
           onMemoryChanged={receiveMemoryChange}
+          onItemChanged={receiveItemChange}
+          onOpenItems={openItems}
           onLocateMemorySource={locateMemorySource}
           retentionChange={retentionChange}
           onPrepareRetention={prepareRetention}
+        />
+      </section>
+      <section hidden={activeView !== 'items'} aria-label="事项页面">
+        <ItemPanel
+          key={assistantSnapshot?.currentAssistantId ?? ''}
+          assistantId={assistantSnapshot?.currentAssistantId ?? ''}
+          assistantName={
+            assistantSnapshot?.assistants.find(
+              (assistant) => assistant.id === assistantSnapshot.currentAssistantId
+            )?.displayName ?? ''
+          }
+          api={window.mashiro.items}
+          refreshKey={itemRefreshKey}
+          pendingCommands={pendingItemCommands}
+          retentionChange={retentionChange}
+          recoveryTarget={itemRecoveryTarget}
+          archivedAssistantIds={
+            assistantSnapshot?.assistants
+              .filter((assistant) => assistant.isArchived)
+              .map((assistant) => assistant.id) ?? []
+          }
+          onDiscuss={discussItem}
+          onOpenConversation={openItemConversation}
+          onPermissionsChanged={receiveItemPermissions}
+          onItemVersionChanged={receiveItemVersion}
         />
       </section>
       <section hidden={activeView !== 'memory'} aria-label="记忆与事件页面">

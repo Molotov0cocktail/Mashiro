@@ -53,6 +53,13 @@ export const startChatInputSchema = z.strictObject({
   mode: z.enum(['normal', 'temporary']).default('temporary'),
   context: contextIntentSchema.default({ kind: 'recent' }),
   tools: toolScopeSchema.default('off'),
+  itemContext: z
+    .strictObject({
+      type: z.enum(['item', 'proposal']),
+      id: uuid,
+      expectedVersion: z.number().int().positive()
+    })
+    .optional(),
   stream: z.boolean()
 })
 export const clearChatInputSchema = z.strictObject({

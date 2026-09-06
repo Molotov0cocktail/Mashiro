@@ -19,6 +19,19 @@ export function removeRetentionFixture(database: DatabaseSync): void {
   }
   database.exec('DROP VIEW readable_timeline_messages')
   for (const name of [
+    'items',
+    'item_proposals',
+    'item_commands',
+    'item_sources',
+    'item_permissions',
+    'item_recipients',
+    'item_confirmations',
+    'item_rejections',
+    'item_tombstones',
+    'item_retained_edges'
+  ])
+    database.exec(`DROP TABLE ${name}`)
+  for (const name of [
     'retention_job_items',
     'retention_jobs',
     'retention_commands',

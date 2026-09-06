@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { itemChannels } from '../shared/item-channels.js'
+import type { ItemApi } from '../shared/item-contract.js'
 import { retentionChannels, retentionChangedChannel } from '../shared/retention-channels.js'
 import type { RetentionApi, RetentionChanged } from '../shared/retention-contract.js'
 import { memoryChannels } from '../shared/memory-channels.js'
@@ -69,4 +71,22 @@ const retention: RetentionApi = {
     return () => ipcRenderer.removeListener(retentionChangedChannel, handler)
   }
 }
-contextBridge.exposeInMainWorld('mashiro', { assistants, provider, timeline, memory, retention })
+const items: ItemApi = {
+  query: (input) => ipcRenderer.invoke(itemChannels.query, input),
+  inspect: (input) => ipcRenderer.invoke(itemChannels.inspect, input),
+  mutate: (input) => ipcRenderer.invoke(itemChannels.mutate, input),
+  proposalAction: (input) => ipcRenderer.invoke(itemChannels.proposalAction, input),
+  operation: (input) => ipcRenderer.invoke(itemChannels.operation, input),
+  preview: (input) => ipcRenderer.invoke(itemChannels.preview, input),
+  confirm: (input) => ipcRenderer.invoke(itemChannels.confirm, input),
+  permissions: (input) => ipcRenderer.invoke(itemChannels.permissions, input),
+  setPermissions: (input) => ipcRenderer.invoke(itemChannels.setPermissions, input)
+}
+contextBridge.exposeInMainWorld('mashiro', {
+  assistants,
+  provider,
+  timeline,
+  memory,
+  retention,
+  items
+})

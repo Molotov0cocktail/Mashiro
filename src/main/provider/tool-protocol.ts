@@ -1,4 +1,10 @@
 import { z } from 'zod'
+import {
+  itemIntentToolSchema,
+  itemPrepareUpdateToolSchema,
+  itemProposeToolSchema,
+  itemReviseToolSchema
+} from '../item/item-tool-schema.js'
 import { retentionPreviewInputSchema } from '../../shared/retention-contract.js'
 export const retentionToolSchema = retentionPreviewInputSchema.omit({
   protocolVersion: true,
@@ -40,7 +46,12 @@ export const toolCallSchema = z.strictObject({
       'write_memory',
       'correct_memory',
       'request_memory_removal',
-      'request_retention_cleanup'
+      'request_retention_cleanup',
+      'search_items',
+      'apply_item_intent',
+      'propose_item',
+      'revise_item_proposal',
+      'prepare_item_update'
     ]),
     arguments: z.string().min(2).max(TOOL_LIMITS.arguments)
   })
@@ -58,7 +69,9 @@ export function toolsSupported(baseUrl: string, model: string): boolean {
     baseUrl === 'https://open.bigmodel.cn/api/paas/v4' && model.toLowerCase() === 'glm-5.3-flash'
   )
 }
-export function toolDefinitions(scope: ToolScope) {
+export function toolDefinitions(
+  scope: ToolScope
+): { type: string; function: { name: string; description: string; parameters: object } }[] {
   const clock = {
     type: 'function',
     function: {
@@ -127,6 +140,42 @@ export function toolDefinitions(scope: ToolScope) {
       parameters: z.toJSONSchema(memoryRemovalSchema)
     }
   }
+  if (scope === 'items' || scope === 'items-memory') {
+    const domain = [
+      {
+        name: 'search_items',
+        description: '查询获准的正式事项和未确认提案。提案不算正式事项。',
+        schema: historyArgumentsSchema
+      },
+      {
+        name: 'apply_item_intent',
+        description:
+          '核查并执行系统已从本轮用户原文验证的明确指令。仅引用系统提供的intentId；不得自行构造授权。',
+        schema: itemIntentToolSchema
+      },
+      {
+        name: 'propose_item',
+        description:
+          '建立待用户确认建议，不建立正式事项。evidence必须逐字引用当前用户原文的完整证据分句，可连续跨分句，不能改写。parentId和relatedIds只能使用search_items实际返回的正式事项ID；用户文本中的随机UUID、编号或主题ID不是事项ID，无明确关联则用null和[]。counterpart未明确时留空。',
+        schema: itemProposeToolSchema
+      },
+      {
+        name: 'prepare_item_update',
+        description:
+          '修改当前用户本地选中的正式事项，必须保持该itemId与expectedVersion；content包含完整保留及变更字段。期限必须含偏移与IANA时区，父项/关联只能用search_items实际可读ID。这里只准备原事项修改范围，等待本机确认，不得新建提案代替原事项修改。',
+        schema: itemPrepareUpdateToolSchema
+      },
+      {
+        name: 'revise_item_proposal',
+        description: '协商修订用户在界面明确选中的原助手提案，同一ID增加版本。不得改写其他提案。',
+        schema: itemReviseToolSchema
+      }
+    ].map(({ name, description, schema }) => ({
+      type: 'function',
+      function: { name, description, parameters: z.toJSONSchema(schema) }
+    }))
+    return [...toolDefinitions(scope === 'items-memory' ? 'clock-and-memory' : 'clock'), ...domain]
+  }
   if (scope === 'off') return []
   const definitions: (typeof clock | typeof history)[] = [clock]
   if (scope === 'clock-and-history' || scope === 'clock-history-and-memory')
@@ -169,6 +218,10 @@ export function validateToolCalls(value: unknown): ToolCall[] {
     else if (call.function.name === 'correct_memory') memoryCorrectToolSchema.parse(args)
     else if (call.function.name === 'request_memory_removal') memoryRemovalSchema.parse(args)
     else if (call.function.name === 'request_retention_cleanup') retentionToolSchema.parse(args)
+    else if (call.function.name === 'apply_item_intent') itemIntentToolSchema.parse(args)
+    else if (call.function.name === 'propose_item') itemProposeToolSchema.parse(args)
+    else if (call.function.name === 'revise_item_proposal') itemReviseToolSchema.parse(args)
+    else if (call.function.name === 'prepare_item_update') itemPrepareUpdateToolSchema.parse(args)
     else historyArgumentsSchema.parse(args)
   }
   return calls

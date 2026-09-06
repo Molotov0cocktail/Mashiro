@@ -20,7 +20,7 @@ export const memoryEventSchema = z.strictObject({
   timeZone: z.string().min(1).max(100).nullable()
 })
 export const memorySourceSchema = z.strictObject({
-  type: z.enum(['round', 'user-round', 'memory', 'manual']),
+  type: z.enum(['round', 'user-round', 'memory', 'manual', 'item', 'proposal']),
   id: uuid,
   assistantId: uuid,
   version

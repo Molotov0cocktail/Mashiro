@@ -14,6 +14,7 @@ export const createInputSchema = z.strictObject({
   expectedStateRevision: stateRevision
 })
 export const switchInputSchema = z.strictObject({
+  restoreArchived: z.boolean().optional(),
   protocolVersion,
   assistantId,
   expectedStateRevision: stateRevision

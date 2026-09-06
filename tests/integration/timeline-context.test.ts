@@ -610,7 +610,7 @@ it('migrates populated v3 without inventing grants and preserves new permission 
   const store = new SqliteStore(item.path)
   expect(
     (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-  ).toBe(7)
+  ).toBe(8)
   expect(store.database.prepare('SELECT * FROM history_recipient_grants').all()).toHaveLength(0)
   expect(
     store.database

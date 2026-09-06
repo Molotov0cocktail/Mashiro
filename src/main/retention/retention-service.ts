@@ -50,6 +50,7 @@ interface FileEntry {
   hash: string
 }
 interface Manifest {
+  itemPlan?: import('../item/item-retention.js').ItemRetentionPlan
   commandIds: string[]
   previewIds: string[]
   accepted: { id: string; version: number; hash: string }[]
@@ -78,6 +79,12 @@ const dependencies: RetentionDependencies = {
   }),
   inspectAssistant: () => ({ blockers: [] })
 }
+
+import {
+  inspectItemRetention,
+  applyItemRetention,
+  prepareItemRetainedEdges
+} from '../item/item-retention.js'
 
 /** Trusted local governance. Manifests contain IDs/hashes only, never deleted prose. */
 export class RetentionService {
@@ -350,7 +357,7 @@ export class RetentionService {
     return (
       this.store.database
         .prepare(
-          'SELECT source_type,source_id,source_assistant,source_version FROM memory_dependencies WHERE node_type=? AND node_id=? AND node_version=?'
+          `SELECT source_type,source_id,source_assistant,source_version FROM ${source.type === 'item' || source.type === 'proposal' ? 'item_sources' : 'memory_dependencies'} WHERE node_type=? AND node_id=? AND node_version=?`
         )
         .all(source.type, source.id, source.version) as {
         source_type: MemorySource['type']
@@ -569,6 +576,21 @@ export class RetentionService {
     let grew = input.intent !== 'restore-original'
     while (grew) {
       grew = false
+      const domain = inspectItemRetention(
+        this.store,
+        input.intent === 'purge-assistant' ? input.assistantId : null,
+        [...requestIds],
+        [...memoryIds]
+      )
+      for (const key of [
+        ...domain.items.map((r) => 'item:' + r.id),
+        ...domain.proposals.map((r) => 'proposal:' + r.id)
+      ]) {
+        if (!affected.has(key)) {
+          affected.add(key)
+          grew = true
+        }
+      }
       let scanned = 0
       for (const record of records) {
         if (++scanned % 24 === 0) await yieldBatch()
@@ -854,6 +876,14 @@ export class RetentionService {
         : input.intent === 'restore-original'
           ? '恢复所列仍完整的原文配对，重新核验已接受结果、权限及后续撤回；恢复不撤销用户后续的信息撤回。'
           : '确认范围包括列出的完整轮次、曾获提供这些来源的派生副本、所有受管旧版本及协议内容；不声称模型实际使用了每个来源。清理后不能恢复原文。全局正式事项由其独立领域保留。此操作不承诺介质安全擦除或清除备份、外部副本。'
+    const itemPlan = inspectItemRetention(
+      this.store,
+      input.intent === 'purge-assistant' ? input.assistantId : null,
+      [...requestIds],
+      [...memoryIds]
+    )
+    if (input.intent === 'purge-assistant' || input.intent === 'recycle-original')
+      prepareItemRetainedEdges(this.store, itemPlan, this.memory)
     const preview: RetentionPreview = {
       memories,
       rounds,
@@ -864,6 +894,7 @@ export class RetentionService {
       memoryIds: [...memoryIds].sort(),
       requestIds: [...requestIds].sort(),
       retainedMemoryIds: [...retained].sort(),
+      itemImpact: { items: itemPlan.items, proposals: itemPlan.proposals },
       files: files.length,
       expandedToRounds:
         input.target.type === 'message' ||
@@ -874,7 +905,7 @@ export class RetentionService {
       blockers: [...new Set(blockers)].slice(0, 20),
       warning
     }
-    return { input, preview, files, retainedEdges, accepted, ...copies }
+    return { input, preview, files, retainedEdges, accepted, itemPlan, ...copies }
   }
   async confirm(input: unknown) {
     return this.handle(retentionConfirmInputSchema, input, async (value) => {
@@ -917,6 +948,8 @@ export class RetentionService {
         this.fault?.('before-confirm')
         if (value.accept && this.epoch !== preview.epoch) throw new RetentionError('STALE_PREVIEW')
         const reversible = ['recycle-original', 'restore-original'].includes(preview.intent)
+        if (value.accept && preview.intent !== 'restore-original' && manifest.itemPlan)
+          applyItemRetention(this.store, manifest.itemPlan)
         if (value.accept && reversible) {
           for (const id of preview.requestIds) {
             if (preview.intent === 'restore-original')
@@ -1072,7 +1105,9 @@ export class RetentionService {
       'history_permissions',
       'history_recipient_grants',
       'memory_permissions',
-      'memory_recipients'
+      'memory_recipients',
+      'item_permissions',
+      'item_recipients'
     ])
       this.store.database.prepare(`DELETE FROM ${table} WHERE assistant_id=?`).run(id)
   }

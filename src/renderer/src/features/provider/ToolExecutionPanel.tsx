@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { ItemApi, ItemPermissions, ItemReceipt } from '../../../../shared/item-contract'
 import type {
   MemoryApi,
   MemoryPermissions,
@@ -60,6 +61,16 @@ function toolLabel(toolName: ToolOperation['toolName']): string {
       return '删除或撤回请求'
     case 'request_retention_cleanup':
       return '保留与原文清理预览'
+    case 'search_items':
+      return '事项检索'
+    case 'apply_item_intent':
+      return '明确事项操作'
+    case 'propose_item':
+      return '待确认事项建议'
+    case 'revise_item_proposal':
+      return '协商中的提案修改'
+    case 'prepare_item_update':
+      return '正式事项修改预览'
   }
 }
 
@@ -157,11 +168,52 @@ function MemoryReceiptCard({
   )
 }
 
+function ItemReceiptCard({
+  receipt,
+  onOpen
+}: {
+  receipt: ItemReceipt
+  onOpen?: () => void
+}): React.JSX.Element {
+  const state =
+    receipt.state === 'SUCCEEDED'
+      ? '可信事项操作已完成'
+      : receipt.state === 'RESULT_UNKNOWN'
+        ? '事项结果仍待核查'
+        : receipt.state === 'PENDING_CONFIRMATION'
+          ? '等待本机确认'
+          : receipt.state === 'CONFIRMED_NOT_APPLIED'
+            ? '已确认未执行'
+            : receipt.state === 'SUPPRESSED'
+              ? '已抑制重复建议'
+              : '已在执行前取消'
+  return (
+    <section className="confirmation-card" aria-label="事项可信回执">
+      <strong>{state}</strong>
+      <p>{receipt.summary}</p>
+      <p className="scope-note">
+        {receipt.objectType === 'proposal'
+          ? '提案'
+          : receipt.objectType === 'item'
+            ? '正式事项'
+            : '对象'}
+        ：{receipt.objectId ?? '无'} · 版本 {receipt.objectVersion}
+      </p>
+      {onOpen ? (
+        <button type="button" onClick={onOpen}>
+          打开事项
+        </button>
+      ) : null}
+    </section>
+  )
+}
+
 export function ToolExecutionPanel({
   assistantId,
   mode,
   contextIntent,
   memoryApi,
+  itemApi,
   capability,
   capabilityLoading,
   capabilityError,
@@ -173,6 +225,8 @@ export function ToolExecutionPanel({
   onRefreshOperation,
   onLocateCitation,
   onMemoryChanged,
+  onItemChanged,
+  onOpenItems,
   onLocateMemorySource,
   retentionChange,
   onPrepareRetention
@@ -181,6 +235,7 @@ export function ToolExecutionPanel({
   mode: ChatMode
   contextIntent: ContextIntent
   memoryApi?: MemoryApi
+  itemApi?: ItemApi
   capability: ProviderCapabilities | undefined
   capabilityLoading: boolean
   capabilityError: string
@@ -192,14 +247,24 @@ export function ToolExecutionPanel({
   onRefreshOperation: (requestId: string) => void
   onLocateCitation: (citation: HistoryCitation) => void
   onMemoryChanged?: () => void
+  onItemChanged?: () => void
+  onOpenItems?: (recovery?: {
+    assistantId: string
+    commandId: string
+    confirmationAction?: 'replace-content'
+  }) => void
   onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>
   retentionChange?: RetentionChanged | null
   onPrepareRetention?: (intent: RetentionIntent) => void
 }): React.JSX.Element {
   const [memoryPermissions, setMemoryPermissions] = useState<MemoryPermissions[]>([])
+  const [itemPermissions, setItemPermissions] = useState<ItemPermissions | null>(null)
+  const [itemPermissionLoading, setItemPermissionLoading] = useState(false)
+  const [itemPermissionError, setItemPermissionError] = useState('')
   const [memoryPermissionLoading, setMemoryPermissionLoading] = useState(false)
   const [memoryPermissionError, setMemoryPermissionError] = useState('')
   const memoryPermissionVersion = useRef(0)
+  const itemPermissionVersion = useRef(0)
   const [memoryConfirmations, setMemoryConfirmations] = useState<
     Record<string, MemoryConfirmationState>
   >({})
@@ -213,6 +278,7 @@ export function ToolExecutionPanel({
     )
       return
     memoryPermissionVersion.current += 1
+    itemPermissionVersion.current += 1
     if (retentionChange.reason === 'cleanup' || retentionChange.reason === 'purge') {
       retentionVersion.current += 1
       confirmingMemoryOperations.current.clear()
@@ -250,6 +316,26 @@ export function ToolExecutionPanel({
     }
   }, [assistantId, memoryApi, mode])
 
+  const loadItemPermissions = useCallback(async (): Promise<void> => {
+    if (!itemApi || !assistantId || mode !== 'normal') return
+    const version = ++itemPermissionVersion.current
+    setItemPermissionLoading(true)
+    setItemPermissionError('')
+    try {
+      const result = await itemApi.permissions({ protocolVersion: 1, assistantId })
+      if (version !== itemPermissionVersion.current) return
+      if (!result.ok) {
+        setItemPermissionError(result.error.message)
+        return
+      }
+      setItemPermissions(result.data)
+    } catch {
+      if (version === itemPermissionVersion.current) setItemPermissionError('事项授权暂时无法读取')
+    } finally {
+      if (version === itemPermissionVersion.current) setItemPermissionLoading(false)
+    }
+  }, [assistantId, itemApi, mode])
+
   useEffect(() => {
     memoryPermissionVersion.current += 1
     let active = true
@@ -264,6 +350,20 @@ export function ToolExecutionPanel({
     }
   }, [assistantId, memoryApi, mode, loadMemoryPermissions])
 
+  useEffect(() => {
+    itemPermissionVersion.current += 1
+    let active = true
+    queueMicrotask(() => {
+      if (!active) return
+      setItemPermissions(null)
+      setItemPermissionError('')
+      if (itemApi && assistantId && mode === 'normal') void loadItemPermissions()
+    })
+    return () => {
+      active = false
+    }
+  }, [assistantId, itemApi, loadItemPermissions, mode])
+
   const memoryEnabled = memoryPermissions.some(
     (permission) =>
       permission.write || permission.writeInferences || (permission.read && permission.receive)
@@ -274,6 +374,14 @@ export function ToolExecutionPanel({
     !toolsAvailable ||
     memoryPermissionLoading ||
     !memoryEnabled
+  const itemEnabled = Boolean(
+    itemPermissions &&
+    (itemPermissions.write ||
+      itemPermissions.propose ||
+      (itemPermissions.read && itemPermissions.receive))
+  )
+  const itemDisabled =
+    !assistantId || capabilityLoading || !toolsAvailable || itemPermissionLoading || !itemEnabled
 
   async function confirmMemoryOperation(
     operation: ToolOperation,
@@ -389,6 +497,26 @@ export function ToolExecutionPanel({
               <input
                 type="radio"
                 name={'tool-scope-' + assistantId + '-' + mode}
+                checked={visibleScope === 'items'}
+                disabled={itemDisabled}
+                onChange={() => onScopeChange('items')}
+              />
+              本机时钟 + 事项与待确认提案
+            </label>
+            <label className="inline-check">
+              <input
+                type="radio"
+                name={'tool-scope-' + assistantId + '-' + mode}
+                checked={visibleScope === 'items-memory'}
+                disabled={itemDisabled || memoryDisabled}
+                onChange={() => onScopeChange('items-memory')}
+              />
+              本机时钟 + 事项 + 记忆与个人事件
+            </label>
+            <label className="inline-check">
+              <input
+                type="radio"
+                name={'tool-scope-' + assistantId + '-' + mode}
                 checked={visibleScope === 'clock-and-memory'}
                 disabled={memoryDisabled}
                 onChange={() => onScopeChange('clock-and-memory')}
@@ -409,16 +537,18 @@ export function ToolExecutionPanel({
         ) : null}
         <p className="scope-note">
           {mode === 'temporary'
-            ? '严格临时只可使用本机时钟。临时工具不会读取正常历史，也不会形成可重启的协议或操作记录；同时不会读取或写入记忆、个人事件。'
+            ? '严格临时只可使用本机时钟。临时工具不会读取正常历史，也不会形成可重启的协议或操作记录；同时不会读取或写入记忆、个人事件，也不会读取或写入事项、提案。'
             : visibleScope === 'clock-and-history'
               ? contextIntent.kind === 'selected'
                 ? '你已明确允许本轮模型仅按关键词检索所选轮次；仍须同时具备历史读取与当前实际接收方发送权限。未选择的历史不会进入工具检索范围。'
                 : '你已明确允许本轮模型按关键词检索本助手完整正常历史；仍须同时具备历史读取与当前实际接收方发送权限。近期上下文仍只控制随请求直接发送的近期轮次，不会暗中扩成全部历史。'
-              : visibleScope === 'clock-and-memory' || visibleScope === 'clock-history-and-memory'
-                ? '本轮模型可按任务需要检索或提出记忆、事件业务操作；应用会在每次读取、外发和写入前重新检查对应全局或私有授权。每轮最多一个记忆或事件业务写操作，删除或撤回仍需本地确认。'
-                : contextIntent.kind === 'none'
-                  ? '“仅本次输入”禁止历史检索；记忆工具仍须单独开启并通过对应领域授权。'
-                  : '工具范围只影响下一次发送，默认关闭；模型文字不能代替可信执行回执。'}
+              : visibleScope === 'items' || visibleScope === 'items-memory'
+                ? '本轮模型可检索事项，并按你的明确意图执行事项操作或保存待确认建议；正式事项、提案和实际端点接收权限仍由可信边界分别检查。'
+                : visibleScope === 'clock-and-memory' || visibleScope === 'clock-history-and-memory'
+                  ? '本轮模型可按任务需要检索或提出记忆、事件业务操作；应用会在每次读取、外发和写入前重新检查对应全局或私有授权。每轮最多一个记忆或事件业务写操作，删除或撤回仍需本地确认。'
+                  : contextIntent.kind === 'none'
+                    ? '“仅本次输入”禁止历史检索；记忆工具仍须单独开启并通过对应领域授权。'
+                    : '工具范围只影响下一次发送，默认关闭；模型文字不能代替可信执行回执。'}
         </p>
         {capabilityLoading ? <p>正在读取当前端点能力…</p> : null}
         {!capabilityLoading && !capability ? (
@@ -456,6 +586,41 @@ export function ToolExecutionPanel({
             <p className="scope-note">
               请在“记忆与个人事件”面板按范围授予所需权限后，再刷新并开启本轮记忆工具。
             </p>
+          ) : null}
+        </section>
+      ) : null}
+
+      {itemApi && mode === 'normal' ? (
+        <section className="capability-panel" aria-label="Provider 事项授权状态">
+          <div className="operation-heading">
+            <div>
+              <h3>当前事项授权</h3>
+              <p className="scope-note">读取、写入、提案与实际端点接收分别由可信边界检查。</p>
+            </div>
+            <button
+              type="button"
+              disabled={itemPermissionLoading}
+              onClick={() => void loadItemPermissions()}
+            >
+              刷新事项授权
+            </button>
+          </div>
+          {itemPermissionError ? <p role="alert">{itemPermissionError}</p> : null}
+          {itemPermissions ? (
+            <>
+              <p className="receiver">
+                读取：{itemPermissions.read ? '允许' : '关闭'} · 写入：
+                {itemPermissions.write ? '允许' : '关闭'} · 提案：
+                {itemPermissions.propose ? '允许' : '关闭'} · 实际端点接收：
+                {itemPermissions.receive ? '允许' : '关闭'}
+              </p>
+              <p className="receiver">
+                实际接收方：{itemPermissions.endpointDisplay ?? '未绑定可用端点'}
+              </p>
+            </>
+          ) : null}
+          {!itemPermissionLoading && !itemEnabled ? (
+            <p className="scope-note">请在“事项”面板授予所需权限后，再刷新并开启本轮事项工具。</p>
           ) : null}
         </section>
       ) : null}
@@ -544,6 +709,25 @@ export function ToolExecutionPanel({
                     打开当前完整预览
                   </button>
                 </div>
+              ) : null}
+              {operation.itemReceipt ? (
+                <ItemReceiptCard
+                  receipt={operation.itemReceipt}
+                  onOpen={() => {
+                    onItemChanged?.()
+                    onOpenItems?.(
+                      operation.itemReceipt?.state === 'PENDING_CONFIRMATION'
+                        ? {
+                            assistantId: operation.assistantId,
+                            commandId: operation.itemReceipt.operationId,
+                            ...(operation.toolName === 'prepare_item_update'
+                              ? { confirmationAction: 'replace-content' as const }
+                              : {})
+                          }
+                        : undefined
+                    )
+                  }}
+                />
               ) : null}
               {operation.memoryReceipt ? (
                 <MemoryReceiptCard

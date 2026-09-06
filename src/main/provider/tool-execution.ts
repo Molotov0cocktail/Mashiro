@@ -151,7 +151,17 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
                 'request_memory_removal',
                 'request_retention_cleanup'
               ].includes(c.function.name) &&
-                !['clock-and-memory', 'clock-history-and-memory'].includes(scope))
+                !['clock-and-memory', 'clock-history-and-memory', 'items-memory'].includes(
+                  scope
+                )) ||
+              ([
+                'search_items',
+                'apply_item_intent',
+                'propose_item',
+                'revise_item_proposal',
+                'prepare_item_update'
+              ].includes(c.function.name) &&
+                !['items', 'items-memory'].includes(scope))
           )
         )
           throw new ProviderDomainError('PERMISSION_DENIED')
@@ -168,16 +178,23 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
           const operation = ledger.prepare(segment, modelRequestId, call)
           options.emit(structuredClone(operation))
           if (operation.state !== 'PREPARED') {
-            if (operation.state !== 'SUCCEEDED') throw new ProviderDomainError('PROTOCOL')
+            if (!['SUCCEEDED', 'CONFIRMED_NOT_APPLIED'].includes(operation.state))
+              throw new ProviderDomainError('PROTOCOL')
             const prior = ledger.result(operation.operationId)
             if (prior === undefined) throw new ProviderDomainError('PERMISSION_DENIED')
             check()
             messages.push({ role: 'tool', tool_call_id: call.id, content: prior })
             continue
           }
-          const business = ['write_memory', 'correct_memory', 'request_memory_removal'].includes(
-            call.function.name
-          )
+          const business = [
+            'write_memory',
+            'correct_memory',
+            'request_memory_removal',
+            'apply_item_intent',
+            'propose_item',
+            'revise_item_proposal',
+            'prepare_item_update'
+          ].includes(call.function.name)
           const update = (state: ToolOperation['state'], summary: string, resultBody?: string) => {
             operation.state = state
             operation.summary = summary
@@ -249,7 +266,9 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
             check()
           } catch (error) {
             operation.citations = []
-            if ((operation as ToolOperation).state !== 'SUCCEEDED')
+            if (
+              !['SUCCEEDED', 'CONFIRMED_NOT_APPLIED'].includes((operation as ToolOperation).state)
+            )
               update(
                 'SUCCEEDED',
                 business
@@ -260,7 +279,7 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
             throw error
           }
           // Completed read and its protocol result share an atomic local transaction.
-          if ((operation as ToolOperation).state !== 'SUCCEEDED')
+          if (!['SUCCEEDED', 'CONFIRMED_NOT_APPLIED'].includes((operation as ToolOperation).state))
             update('SUCCEEDED', operation.summary, body)
           else options.emit(structuredClone(operation))
           check()

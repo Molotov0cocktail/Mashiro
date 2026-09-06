@@ -730,6 +730,34 @@ export function RetentionPanel({
               )
             })}
           </ul>
+          {preview.itemImpact ? (
+            <section aria-label="事项与提案清理影响">
+              <h3>事项与待确认提案</h3>
+              {preview.itemImpact.items.length === 0 &&
+              preview.itemImpact.proposals.length === 0 ? (
+                <p className="scope-note">本次清理不影响事项或提案。</p>
+              ) : (
+                <ul className="impact-list">
+                  {preview.itemImpact.items.map((item) => (
+                    <li key={item.id}>
+                      <strong>正式事项保留</strong>
+                      <span>
+                        <code>{item.id}</code> · 版本 {item.version}
+                      </span>
+                    </li>
+                  ))}
+                  {preview.itemImpact.proposals.map((proposal) => (
+                    <li key={proposal.id}>
+                      <strong>{proposal.delete ? '提案永久删除' : '提案保留'}</strong>
+                      <span>
+                        <code>{proposal.id}</code> · 版本 {proposal.version}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ) : null}
           <h3>将受影响的对话轮次（{preview.rounds.length}）</h3>
           <ul className="impact-list">
             {preview.rounds.map((round) => {

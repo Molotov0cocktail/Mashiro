@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, safeStorage, type IpcMainInvokeEvent } from 'electron'
+import { registerItemIpc } from './ipc/register-item-ipc.js'
 import { registerRetentionIpc } from './ipc/register-retention-ipc.js'
 import { registerMemoryIpc } from './ipc/register-memory-ipc.js'
 import { registerTimelineIpc } from './ipc/register-timeline-ipc.js'
@@ -17,6 +18,7 @@ let unregisterProviderIpc: (() => void) | undefined
 let unregisterTimelineIpc: (() => void) | undefined
 let unregisterMemoryIpc: (() => void) | undefined
 let unregisterRetentionIpc: (() => void) | undefined
+let unregisterItemIpc: (() => void) | undefined
 
 async function start(): Promise<void> {
   const dataRoot = resolveDataRoot(app)
@@ -34,6 +36,7 @@ async function start(): Promise<void> {
   unregisterProviderIpc = registerProviderIpc(ipcMain, providerService)
   unregisterTimelineIpc = registerTimelineIpc(ipcMain, providerService)
   unregisterMemoryIpc = registerMemoryIpc(ipcMain, providerService.memory)
+  unregisterItemIpc = registerItemIpc(ipcMain, providerService.items)
   unregisterRetentionIpc = registerRetentionIpc(
     ipcMain,
     providerService.retention,
@@ -59,6 +62,8 @@ app.on('before-quit', (event) => {
     console.error('MASHIRO_SHUTDOWN_STORAGE_FAILURE')
     return
   }
+  unregisterItemIpc?.()
+  unregisterItemIpc = undefined
   unregisterRetentionIpc?.()
   unregisterRetentionIpc = undefined
   unregisterMemoryIpc?.()

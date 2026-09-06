@@ -92,6 +92,22 @@ interface MutationContext {
 
 /** All paths and accepted versions are derived on the trusted side. */
 export class MemoryService {
+  private domainSourceCheck?: (
+    source: MemorySource,
+    assistantId: string,
+    fingerprint: string,
+    visited: Set<string>
+  ) => void
+  setDomainSourceCheck(
+    check: (
+      source: MemorySource,
+      assistantId: string,
+      fingerprint: string,
+      visited: Set<string>
+    ) => void
+  ): void {
+    this.domainSourceCheck = check
+  }
   constructor(
     private readonly store: SqliteStore,
     private readonly directory: string,
@@ -932,7 +948,8 @@ export class MemoryService {
     source: MemorySource,
     assistantId: string,
     fingerprint: string,
-    correctedInThisRound: MemorySource[] = []
+    correctedInThisRound: MemorySource[] = [],
+    domainVisited = new Set<string>()
   ): void {
     // Trusted request-local successful receipts only; never persisted as history exemptions.
     for (const current of correctedInThisRound) this.assertSource(current, assistantId, fingerprint)
@@ -943,6 +960,19 @@ export class MemoryService {
     const ancestors = new Map(correctedInThisRound.map((current) => [current.id, current.version]))
     let visits = 0
     const visit = (dependency: MemorySource): void => {
+      if (domainVisited.size + active.size > 128) throw new MemoryError('PERMISSION_DENIED')
+      if (dependency.type === 'item' || dependency.type === 'proposal') {
+        if (!this.domainSourceCheck) throw new MemoryError('PERMISSION_DENIED')
+        const path = new Set(domainVisited)
+        for (const key of active) {
+          const [type, id, version] = JSON.parse(key)
+          path.add(type + ':' + id + ':' + version)
+        }
+        this.domainSourceCheck(dependency, assistantId, fingerprint, path)
+        return
+      }
+      if (domainVisited.has(dependency.type + ':' + dependency.id + ':' + dependency.version))
+        throw new MemoryError('PERMISSION_DENIED')
       if (this.withdrawn(dependency)) throw new MemoryError('PERMISSION_DENIED')
       const retained = [...ancestors].some(([id, version]) => {
         const edge = this.store.database
@@ -1040,7 +1070,9 @@ export class MemoryService {
   ): void {
     if (
       !this.store.database
-        .prepare("SELECT 1 FROM memory_dependencies WHERE source_type='memory' LIMIT 1")
+        .prepare(
+          "SELECT 1 FROM memory_dependencies WHERE source_type IN('memory','item','proposal') LIMIT 1"
+        )
         .get() &&
       !this.store.database.prepare('SELECT 1 FROM memory_suppressions LIMIT 1').get() &&
       !this.store.database.prepare('SELECT 1 FROM content_tombstones LIMIT 1').get() &&

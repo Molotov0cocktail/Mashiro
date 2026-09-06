@@ -8,6 +8,10 @@ test-results/
 *.log
 !.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-trusted-tests.log
 !.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-electron.log
+!.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-trusted-final-tests.log
+!.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-trusted-tests-01.log
+!.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-trusted-final-tests-02.log
+!.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-trusted-final-tests-03.log
 *.sqlite
 *.sqlite-*
 *.db

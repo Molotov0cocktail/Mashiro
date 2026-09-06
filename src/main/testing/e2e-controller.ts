@@ -1,4 +1,5 @@
 import { app, type BrowserWindow } from 'electron'
+import { seedItemsScript, restoreItemsScript, verifyItemsUiScript } from './e2e-item-scripts.js'
 import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { AssistantSnapshot } from '../../shared/assistant-contract.js'
@@ -461,6 +462,7 @@ const verifySendScript = `
 `
 
 type SeedEvidence = {
+  items: unknown
   retention: unknown
   memory: unknown
   toolOperations: import('../../shared/tool-contract.js').ToolOperation[]
@@ -476,6 +478,8 @@ type SeedEvidence = {
   pendingPartial: string
 }
 type VerifyEvidence = {
+  items: unknown
+  itemsUi: unknown
   memoryUi: {
     enteredViaDom: boolean
     objectsAdded: number
@@ -502,24 +506,65 @@ async function execute<T>(window: BrowserWindow, script: string): Promise<T> {
 
 export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Promise<void> {
   if (!dataRoot.resultsDirectory || !dataRoot.runId || !dataRoot.phase) return
+  let stage = 'seed-core'
   let evidence: SeedEvidence | VerifyEvidence | { failure: { stage: string; code: string } }
   try {
     if (dataRoot.phase === 'seed') {
-      evidence = await execute<SeedEvidence>(window, seedScript)
+      evidence = {
+        ...(await execute<SeedEvidence>(window, seedScript)),
+        items: await (async () => {
+          stage = 'seed-items'
+          return execute(window, seedItemsScript)
+        })()
+      }
     } else {
+      stage = 'restore-core'
       const restored = await execute<
-        Omit<VerifyEvidence, 'transportBeforeExplicit' | 'chat' | 'timelineAfterSend' | 'memoryUi'>
+        Omit<
+          VerifyEvidence,
+          'transportBeforeExplicit' | 'chat' | 'timelineAfterSend' | 'memoryUi' | 'itemsUi'
+        >
       >(window, verifyRestoreScript)
+      stage = 'restore-items'
+      const items = await execute(window, restoreItemsScript)
       const transportBeforeExplicit = e2eTransportEvidence()
+      stage = 'send-core'
       const sent = await execute<Pick<VerifyEvidence, 'chat' | 'timelineAfterSend'>>(
         window,
         verifySendScript
       )
+      stage = 'items-ui'
+      const itemsUi = await execute<{ failureStage?: string }>(window, verifyItemsUiScript)
+      if (itemsUi.failureStage) {
+        stage = 'items-ui-' + itemsUi.failureStage
+        throw Error('E2E')
+      }
+      await execute(
+        window,
+        `(async()=>{
+        const tab=[...document.querySelectorAll('[role="tab"]')].find(el=>el.textContent.trim()==='事项')
+        if(!tab)throw Error('item-capture-tab');tab.click()
+        for(let i=0;i<400;i++){
+          const panel=document.querySelector('.item-panel')
+          if(tab.getAttribute('aria-selected')==='true' && panel && !panel.closest('[hidden]') && [...panel.querySelectorAll('article')].some(el=>el.textContent.includes('E2E_ITEM_UI_'))){
+            panel.querySelectorAll('details').forEach(details=>{details.open=false});panel.scrollIntoView({block:'start'});await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);return true
+          }
+          await new Promise(r=>setTimeout(r,25))
+        }
+        throw Error('item-capture-timeout')
+      })()`
+      )
+      writeFileSync(
+        join(dataRoot.resultsDirectory, 'items-ui.png'),
+        (await window.webContents.capturePage()).toPNG(),
+        { flag: 'wx' }
+      )
+      stage = 'memory-ui'
       const memoryUi = await execute<VerifyEvidence['memoryUi']>(window, verifyMemoryUiScript)
-      evidence = { ...restored, transportBeforeExplicit, ...sent, memoryUi }
+      evidence = { ...restored, transportBeforeExplicit, ...sent, memoryUi, items, itemsUi }
     }
   } catch {
-    evidence = { failure: { stage: 'execute', code: 'FAILED' } }
+    evidence = { failure: { stage, code: 'FAILED' } }
   }
   let captureFailure: { stage: string; code: string } | undefined
   if (dataRoot.phase === 'verify' && !('failure' in evidence)) {

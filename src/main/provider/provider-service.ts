@@ -1,4 +1,6 @@
 import { randomUUID, createHash } from 'node:crypto'
+import { ItemService, ItemError } from '../item/item-service.js'
+import { ItemToolSession } from '../item/item-tool-session.js'
 import { RetentionService } from '../retention/retention-service.js'
 import { retentionToolSchema } from './tool-protocol.js'
 import { dirname, join } from 'node:path'
@@ -202,6 +204,7 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
 export class ProviderService {
   readonly retention: RetentionService
   readonly memory: MemoryService
+  readonly items: ItemService
   private readonly toolLedger: ToolRepository
   private readonly temporaryToolLedger = new ToolRepository()
   private readonly repository: ProviderRepository
@@ -248,6 +251,22 @@ export class ProviderService {
         for (const [id, entry] of this.inflight)
           if (id !== exceptRequestId && entry.mode === 'normal') entry.controller.abort()
       }
+    )
+    this.items = new ItemService(
+      store,
+      (assistantId) => {
+        const p = this.permissionSnapshot(assistantId)
+        return { fingerprint: p.endpointFingerprint, display: p.endpointDisplay }
+      },
+      (source, assistantId, fingerprint, visited) =>
+        this.memory.assertSource(source, assistantId, fingerprint, [], visited),
+      (exceptRequestId) => {
+        for (const [id, entry] of this.inflight)
+          if (id !== exceptRequestId && entry.mode === 'normal') entry.controller.abort()
+      }
+    )
+    this.memory.setDomainSourceCheck((source, assistantId, fingerprint, visited) =>
+      this.items.assertSource(source, assistantId, fingerprint, visited)
     )
     this.retention = new RetentionService(
       store,
@@ -669,7 +688,14 @@ export class ProviderService {
         return chatFailure('PERMISSION_DENIED')
       if (
         value.mode === 'temporary' &&
-        ['clock-and-memory', 'clock-history-and-memory'].includes(value.tools)
+        ['clock-and-memory', 'clock-history-and-memory', 'items', 'items-memory'].includes(
+          value.tools
+        )
+      )
+        return chatFailure('PERMISSION_DENIED')
+      if (
+        value.itemContext &&
+        (value.mode !== 'normal' || !['items', 'items-memory'].includes(value.tools))
       )
         return chatFailure('PERMISSION_DENIED')
       const apiKey = this.vault.get(execution.connection.id)
@@ -849,6 +875,7 @@ export class ProviderService {
         .update('chat-completions-v1|' + execution.connection.baseUrl)
         .digest('hex')
       const providedMemory: MemorySource[] = []
+      let itemSession: ItemToolSession | undefined
       const correctedInThisRound: MemorySource[] = []
       const providedHistory = new Set<string>()
       const assertCurrent = () => {
@@ -878,6 +905,7 @@ export class ProviderService {
           if (!permissions.readHistory || !permissions.sendHistory)
             throw new ProviderDomainError('PERMISSION_DENIED')
         }
+        itemSession?.assertSources()
         if (value.mode === 'normal') {
           for (const id of new Set([...contextIds, ...providedHistory]))
             this.memory.assertRound(
@@ -896,13 +924,62 @@ export class ProviderService {
         }
       }
       assertCurrent()
+      let automatic: import('./tool-protocol.js').ToolCall | undefined
+      if (value.mode === 'normal' && ['items', 'items-memory'].includes(value.tools)) {
+        itemSession = new ItemToolSession(
+          this.items,
+          this.memory,
+          this.toolLedger,
+          {
+            assistantId: value.assistantId,
+            requestId: value.requestId,
+            fingerprint: endpointFingerprint,
+            assertCurrent,
+            sources: [
+              {
+                type: 'user-round',
+                id: value.requestId,
+                assistantId: value.assistantId,
+                version: 1
+              },
+              ...providedMemory,
+              ...contextIds.map((id) => ({
+                type: 'round' as const,
+                id,
+                assistantId: value.assistantId,
+                version: 1
+              }))
+            ]
+          },
+          text,
+          value.itemContext
+        )
+        const prepared = itemSession.prepare()
+        automatic = prepared.automatic
+        if (prepared.context)
+          transportRequest.messages.unshift({ role: 'system', content: prepared.context })
+      }
+      const itemTransport: ChatTransport = async (request) => {
+        if (automatic) {
+          const call = automatic
+          automatic = undefined
+          return {
+            text: '',
+            status: 'completed',
+            usage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
+            finishReason: 'tool_calls',
+            toolCalls: [call]
+          }
+        }
+        return this.transport(request)
+      }
       const result =
         value.tools === 'off'
           ? await this.transport(transportRequest)
           : await executeToolChat({
               request: transportRequest,
               scope: value.tools,
-              transport: this.transport,
+              transport: itemTransport,
               ledger: value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger,
               segment: {
                 id: randomUUID(),
@@ -954,6 +1031,49 @@ export class ProviderService {
               memory: async (call, operation) => {
                 assertCurrent()
                 if (value.mode !== 'normal') throw new ProviderDomainError('PERMISSION_DENIED')
+                if (
+                  [
+                    'search_items',
+                    'apply_item_intent',
+                    'propose_item',
+                    'revise_item_proposal',
+                    'prepare_item_update'
+                  ].includes(call.function.name)
+                ) {
+                  if (!itemSession) throw new ProviderDomainError('PERMISSION_DENIED')
+                  try {
+                    return itemSession.execute(call, operation, [
+                      ...providedMemory,
+                      ...[...providedHistory].map((id) => ({
+                        type: 'round' as const,
+                        id,
+                        assistantId: value.assistantId,
+                        version: 1
+                      }))
+                    ])
+                  } catch (error) {
+                    if (error instanceof ItemError && error.code !== 'STORAGE_UNAVAILABLE') {
+                      const rejected = {
+                        ...operation,
+                        state: 'CONFIRMED_NOT_APPLIED' as const,
+                        summary: '当前参数未提交，已核查目标、版本或权限不符',
+                        updatedAt: new Date().toISOString()
+                      }
+                      const body = JSON.stringify({
+                        state: 'CONFIRMED_NOT_APPLIED',
+                        error: {
+                          code: error.code,
+                          message:
+                            '当前参数未提交。parentId和relatedIds只能使用search_items返回的正式事项ID，用户文本中的编号不是事项ID；evidence须逐字引用完整原文分句，可连续跨分句。请修正参数后再调用，不能声称已建立。'
+                        }
+                      })
+                      this.toolLedger.update(rejected, body)
+                      Object.assign(operation, rejected)
+                      return { body, summary: rejected.summary }
+                    }
+                    throw error
+                  }
+                }
                 const args = JSON.parse(call.function.arguments)
                 if (call.function.name === 'request_retention_cleanup') {
                   const intent = {
@@ -1055,6 +1175,7 @@ export class ProviderService {
                     : [
                         rawSource,
                         ...providedMemory,
+                        ...(itemSession?.provided ?? []),
                         ...[...new Set([...contextIds, ...providedHistory])].map((id) => ({
                           type: 'round' as const,
                           id,
@@ -1312,7 +1433,7 @@ export class ProviderService {
 }
 
 function failureFrom(error: unknown): Extract<ProviderResult, { ok: false }> {
-  if (error instanceof MemoryError) {
+  if (error instanceof MemoryError || error instanceof ItemError) {
     if (error.code === 'CONFLICT') return failure('LIMIT')
     if (error.code === 'INTEGRITY') return failure('STORAGE_UNAVAILABLE')
     return failure(error.code)

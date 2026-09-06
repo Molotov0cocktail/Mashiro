@@ -79,7 +79,7 @@ export class AssistantService {
 
   switch(input: unknown): AssistantResult {
     return this.handle(switchInputSchema, input, (value) =>
-      this.repository.switch(value.assistantId, value.expectedStateRevision)
+      this.repository.switch(value.assistantId, value.expectedStateRevision, value.restoreArchived)
     )
   }
 

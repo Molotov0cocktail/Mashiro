@@ -108,6 +108,12 @@ export const retentionPreviewSchema = z.strictObject({
   memoryIds: z.array(uuid).max(4096),
   requestIds: z.array(uuid).max(4096),
   retainedMemoryIds: z.array(uuid).max(4096),
+  itemImpact: z
+    .strictObject({
+      items: z.array(z.strictObject({ id: uuid, version })).max(4096),
+      proposals: z.array(z.strictObject({ id: uuid, version, delete: z.boolean() })).max(4096)
+    })
+    .optional(),
   files: version,
   expandedToRounds: z.boolean(),
   irreversible: z.boolean(),

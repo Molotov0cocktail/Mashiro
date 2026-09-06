@@ -4,7 +4,16 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['node_modules/**', 'out/**', 'coverage/**', 'test-results/**', '.npm-cache/**'] },
+  {
+    ignores: [
+      'node_modules/**',
+      'out/**',
+      'coverage/**',
+      'test-results/**',
+      '.npm-cache/**',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-*-oracle.{ts,tsx}'
+    ]
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

@@ -1,0 +1,18 @@
+# 010 independent review — repair 1
+
+2026-09-07, review_010_final, independent gpt-6-astra / medium. VERDICT: REPAIR. Review remains ongoing; this is not final product PASS.
+
+Baseline HEAD: 44c01f7316a1cad1dc20213d74ca641c8d435ca2. Previous reviewed product: d6cd1fa4a27ccb418ffc3ff04503366acb133e2e. No product/Git/build/Electron/paid Provider changes by reviewer. Applied repository AGENTS and orchestrate-engineering-task review instructions; read current progress, 010 contract, actual plan, UI result and root findings.
+
+Candidate item-service.ts SHA256: 6DD589D1DC728672AAF76358A244BA356340FC42A68F60BBA4941B60A81C2435. item-tool-session.ts: 5D94CB4C64491D1F95CC7D60D2C0768143BF690F2EB521A0E617DA56892A2675. Author trusted manifest SHA256: E2E5EE96F2BA7AB30EF48161B7F9E0D2DE6B72C78DDAFBC5DF37A2FDAD8755E3.
+
+1. P1 — item-service.ts applyMutation source merge (around line 533): a selected item transition stores its previous item version as a dependency of the new current version. assertSource only accepts current versions, making the newly modified object unavailable to subsequent Provider interactions. Independent real ProviderService path with synthetic transport: create item succeeds, selected transition succeeds/version 2, next selected read at version 2 fails. This is product behavior, not a Provider or test harness limitation.
+2. P1 — the same source merge uses slice(0,64), silently discarding newly used dependencies after saturation. Independent oracle creates 64 distinct sources, then adds a 65th source while transitioning: write succeeds, but the new source is absent. Later source withdrawal/recipient checks cannot see the omitted edge. Preserve all provenance or atomically reject the operation; never truncate authority dependencies.
+
+Reproduce unchanged tests at tests/integration/items-010-review-final-provider.test.ts and tests/integration/items-010-review-final-sources.test.ts. Byte-identical archived oracles: [provider](items-010-review-final-provider-oracle.ts), SHA256 9C71B9C1D655BB9ADF9AD50209DC59CF6F4809433E3165E009FE5D866C24A76B; [sources](items-010-review-final-sources-oracle.ts), SHA256 4DD8655572DF549E02E07F659845202E47DFDA4B7B4AC9EFC8CDCF276C82B7F1. Imports rely on original paths.
+
+Independent command: npm exec vitest run tests/integration/items-010-review-final-provider.test.ts tests/integration/items-010-review-final-sources.test.ts. At 02:43:54, exit 1, 2 files / 2 failed tests; [raw output](items-010-review-final-red.txt). Earlier individual runs failed identically, at 02:42:25 and 02:42:59.
+
+Bounded repair: trusted author owns main source and permanent author regression tests. Normalize dependencies on update, avoiding a target's obsolete self-reference while preserving that target's complete original upstream dependencies. Deduplicate and enforce limits without truncation. Do not replace source checks with broad current-version or same-round exemptions; retain stale-version, withdrawal, cross-recipient, and cleanup protection. Re-run unchanged independent oracles after source freeze, plus source-security and Provider regression; final full checks/Electron follow final reviewed product changes as appropriate. Renderer remains frozen. No user gate or extra paid call is required.
+
+Source audit continues; full independent candidate verification is intentionally not claimed yet. Author test/build/Electron reports are inputs, not independent PASS. Tool default helper failed before execution; approved require_escalated read/test route worked. Only unique reviewer files were added; temporary originals remain reviewer-owned until green rerun and cleanup.

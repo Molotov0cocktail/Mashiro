@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../../../shared/assistant-contract'
+import type { ItemApi } from '../../../../shared/item-contract'
 import type { MemoryApi } from '../../../../shared/memory-contract'
 import type {
   RetentionChanged,
@@ -10,7 +11,8 @@ import type {
   ContextIntent,
   ProviderApi,
   ProviderResult,
-  ProviderSnapshot
+  ProviderSnapshot,
+  StartChatInput
 } from '../../../../shared/provider-contract'
 import type {
   ChatMode,
@@ -59,6 +61,8 @@ type CapabilityMap = Record<string, ProviderCapabilities | undefined>
 type HistoryFocusMap = Record<string, { requestId: string; nonce: number }>
 type ContextIntentMap = Record<string, ContextIntent>
 type RequestSelectionMap = Record<string, string[]>
+type ItemContext = NonNullable<StartChatInput['itemContext']>
+type ItemContextMap = Record<string, ItemContext | undefined>
 type ActiveRequest = {
   requestId: string
   mode: ChatMode
@@ -104,8 +108,12 @@ export function ProviderPanel({
   api,
   timelineApi,
   memoryApi,
+  itemApi,
+  itemTarget,
   historyTarget,
   onMemoryChanged,
+  onItemChanged,
+  onOpenItems,
   onLocateMemorySource,
   retentionChange,
   onPrepareRetention
@@ -114,8 +122,22 @@ export function ProviderPanel({
   api: ProviderApi
   timelineApi: TimelineApi
   memoryApi?: MemoryApi
+  itemApi?: ItemApi
+  itemTarget?: {
+    assistantId: string
+    type: 'item' | 'proposal'
+    id: string
+    expectedVersion: number
+    nonce: number
+  } | null
   historyTarget?: { assistantId: string; requestId: string; nonce: number } | null
   onMemoryChanged?: () => void
+  onItemChanged?: () => void
+  onOpenItems?: (recovery?: {
+    assistantId: string
+    commandId: string
+    confirmationAction?: 'replace-content'
+  }) => void
   onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>
   retentionChange?: RetentionChanged | null
   onPrepareRetention?: (
@@ -135,6 +157,9 @@ export function ProviderPanel({
   const [modeByAssistant, setModeByAssistant] = useState<Record<string, ChatMode>>({})
   const [textDrafts, setTextDrafts] = useState<TextMap>({})
   const [contextByAssistant, setContextByAssistant] = useState<ContextIntentMap>({})
+  const [itemContexts, setItemContexts] = useState<ItemContextMap>({})
+  const [dismissedItemTargetNonce, setDismissedItemTargetNonce] = useState<number | null>(null)
+  const previousItemTarget = useRef(itemTarget)
   const [selectedRequestsByAssistant, setSelectedRequestsByAssistant] =
     useState<RequestSelectionMap>({})
   const [cleanupAnchorsByAssistant, setCleanupAnchorsByAssistant] = useState<RequestSelectionMap>(
@@ -164,6 +189,8 @@ export function ProviderPanel({
   const operationEvents = useRef<Record<string, Record<string, number>>>({})
   const autoOperationReadVersions = useRef<Record<string, number>>({})
   const notifiedMemoryOperations = useRef(new Set<string>())
+  const notifiedItemOperations = useRef(new Set<string>())
+  const notifiedItemRequests = useRef(new Set<string>())
   const [rejectedDrafts, setRejectedDrafts] = useState<RejectedDraftMap>({})
   const [settingsError, setSettingsError] = useState<string | null>(null)
   const [timelineErrors, setTimelineErrors] = useState<TextMap>({})
@@ -192,6 +219,15 @@ export function ProviderPanel({
   const model = modelDrafts[currentAssistantId] ?? binding?.model ?? 'GLM-5.3-FLASH'
   const text = textDrafts[currentKey] ?? ''
   const contextIntent = contextByAssistant[currentAssistantId] ?? ({ kind: 'recent' } as const)
+  const itemContext =
+    itemContexts[currentAssistantId] ??
+    (itemTarget?.assistantId === currentAssistantId && itemTarget.nonce !== dismissedItemTargetNonce
+      ? {
+          type: itemTarget.type,
+          id: itemTarget.id,
+          expectedVersion: itemTarget.expectedVersion
+        }
+      : undefined)
   const selectedRequestIds = selectedRequestsByAssistant[currentAssistantId] ?? []
   const cleanupAnchors = cleanupAnchorsByAssistant[currentAssistantId] ?? []
   const historyBindingKey =
@@ -442,6 +478,32 @@ export function ProviderPanel({
           notifiedMemoryOperations.current.add(event.operation.operationId)
           onMemoryChanged?.()
         }
+        const itemTool =
+          event.operation.toolName === 'search_items' ||
+          event.operation.toolName === 'apply_item_intent' ||
+          event.operation.toolName === 'propose_item' ||
+          event.operation.toolName === 'revise_item_proposal' ||
+          event.operation.toolName === 'prepare_item_update'
+        if (event.operation.itemReceipt?.objectId) {
+          const receipt = event.operation.itemReceipt
+          setItemContexts((values) => {
+            const current = values[event.assistantId]
+            if (!current || current.id !== receipt.objectId || receipt.objectVersion <= 0)
+              return values
+            return {
+              ...values,
+              [event.assistantId]: { ...current, expectedVersion: receipt.objectVersion }
+            }
+          })
+        }
+        if (
+          itemTool &&
+          event.operation.state === 'SUCCEEDED' &&
+          !notifiedItemOperations.current.has(event.operation.operationId)
+        ) {
+          notifiedItemOperations.current.add(event.operation.operationId)
+          onItemChanged?.()
+        }
         return
       }
       const route = activeRequestsRef.current[event.assistantId]
@@ -479,12 +541,16 @@ export function ProviderPanel({
         }))
       )
       clearActiveRequest(event.assistantId, event.requestId)
+      if (route.mode === 'normal' && !notifiedItemRequests.current.has(event.requestId)) {
+        notifiedItemRequests.current.add(event.requestId)
+        onItemChanged?.()
+      }
     })
     return () => {
       active = false
       remove()
     }
-  }, [api, clearActiveRequest, invalidateRead, onMemoryChanged])
+  }, [api, clearActiveRequest, invalidateRead, onItemChanged, onMemoryChanged])
 
   useEffect(() => {
     if (!retentionChange || retentionChange.reason === 'job-status') return
@@ -532,6 +598,11 @@ export function ProviderPanel({
       )
     )
     setContextByAssistant((values) =>
+      Object.fromEntries(
+        Object.entries(values).filter(([assistantId]) => !affected.has(assistantId))
+      )
+    )
+    setItemContexts((values) =>
       Object.fromEntries(
         Object.entries(values).filter(([assistantId]) => !affected.has(assistantId))
       )
@@ -606,6 +677,8 @@ export function ProviderPanel({
         )
       )
       notifiedMemoryOperations.current.clear()
+      notifiedItemOperations.current.clear()
+      notifiedItemRequests.current.clear()
     }
     for (const assistantId of affected) {
       if (assistantSnapshot?.assistants.some((item) => item.id === assistantId)) {
@@ -668,6 +741,41 @@ export function ProviderPanel({
       active = false
     }
   }, [currentAssistantId, historyTarget])
+
+  useEffect(() => {
+    const previous = previousItemTarget.current
+    previousItemTarget.current = itemTarget
+    if (itemTarget || !previous) return
+    setItemContexts((values) => ({ ...values, [previous.assistantId]: undefined }))
+  }, [itemTarget])
+  useEffect(() => {
+    if (
+      !itemTarget ||
+      itemTarget.assistantId !== currentAssistantId ||
+      itemTarget.nonce === dismissedItemTargetNonce
+    )
+      return
+    let active = true
+    queueMicrotask(() => {
+      if (!active) return
+      setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
+      setItemContexts((values) => ({
+        ...values,
+        [currentAssistantId]: {
+          type: itemTarget.type,
+          id: itemTarget.id,
+          expectedVersion: itemTarget.expectedVersion
+        }
+      }))
+      setToolScopes((values) => ({
+        ...values,
+        [timelineKey(currentAssistantId, 'normal')]: 'items'
+      }))
+    })
+    return () => {
+      active = false
+    }
+  }, [currentAssistantId, dismissedItemTargetNonce, itemTarget])
 
   const receiver = useMemo(() => {
     if (!executionConnection || !binding) return null
@@ -821,6 +929,12 @@ export function ProviderPanel({
     return 'retained'
   }
 
+  function notifyItemCompletion(requestId: string, requestMode: ChatMode): void {
+    if (requestMode !== 'normal' || notifiedItemRequests.current.has(requestId)) return
+    notifiedItemRequests.current.add(requestId)
+    onItemChanged?.()
+  }
+
   async function send(): Promise<void> {
     if (!currentAssistantId || !text.trim() || activeRequest) return
     const requestId = crypto.randomUUID()
@@ -834,7 +948,9 @@ export function ProviderPanel({
         : requestMode === 'temporary' &&
             (requestedTools === 'clock-and-history' ||
               requestedTools === 'clock-and-memory' ||
-              requestedTools === 'clock-history-and-memory')
+              requestedTools === 'clock-history-and-memory' ||
+              requestedTools === 'items' ||
+              requestedTools === 'items-memory')
           ? 'clock'
           : requestContext.kind === 'none' && requestedTools === 'clock-and-history'
             ? 'clock'
@@ -900,6 +1016,7 @@ export function ProviderPanel({
         mode: requestMode,
         context: requestContext,
         tools: requestTools,
+        ...(requestMode === 'normal' && itemContext ? { itemContext } : {}),
         stream
       })
       if ((retentionEpochs.current[assistantId] ?? 0) !== request.retentionEpoch) return
@@ -907,6 +1024,7 @@ export function ProviderPanel({
       if (!result.ok) {
         await reconcileFailedRequest(assistantId, request, submitted, result.error.code)
         setTimelineErrors((items) => ({ ...items, [key]: errorText(result) }))
+        notifyItemCompletion(requestId, requestMode)
         return
       }
       request.observedAcceptance = true
@@ -919,6 +1037,7 @@ export function ProviderPanel({
         }))
       )
       await readTimeline(assistantId, requestMode)
+      notifyItemCompletion(requestId, requestMode)
     } catch {
       if ((retentionEpochs.current[assistantId] ?? 0) !== request.retentionEpoch) return
       clearActiveRequest(assistantId, requestId)
@@ -930,6 +1049,7 @@ export function ProviderPanel({
             ? '已确认请求未进入时间线，输入已保留为未发送草稿；不会自动重试'
             : '请求回执未确认，当前输入与已收到正文已保留；不会自动重试'
       }))
+      notifyItemCompletion(requestId, requestMode)
     }
   }
 
@@ -1155,6 +1275,24 @@ export function ProviderPanel({
               : '只发送本次严格临时会话；不会读取正常历史，也不会自动保存到正常时间线。'}
           </p>
 
+          {mode === 'normal' && itemContext ? (
+            <section className="item-context-banner" aria-label="当前事项协商上下文">
+              <p>
+                正在{itemContext.type === 'proposal' ? '协商提案' : '处理事项'} {itemContext.id} ·
+                版本 {itemContext.expectedVersion}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setDismissedItemTargetNonce(itemTarget?.nonce ?? null)
+                  setItemContexts((values) => ({ ...values, [currentAssistantId]: undefined }))
+                }}
+              >
+                结束事项上下文
+              </button>
+            </section>
+          ) : null}
+
           <HistoryContextPanel
             assistantId={currentAssistantId}
             mode={mode}
@@ -1198,6 +1336,7 @@ export function ProviderPanel({
             mode={mode}
             contextIntent={contextIntent}
             memoryApi={memoryApi}
+            itemApi={itemApi}
             capability={currentCapability}
             capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
             capabilityError={capabilityErrors[currentAssistantId] ?? ''}
@@ -1212,6 +1351,8 @@ export function ProviderPanel({
               void loadOperations(currentAssistantId, mode, requestId)
             }}
             onMemoryChanged={onMemoryChanged}
+            onItemChanged={onItemChanged}
+            onOpenItems={onOpenItems}
             onLocateMemorySource={onLocateMemorySource}
             retentionChange={retentionChange}
             onPrepareRetention={(prepared) =>

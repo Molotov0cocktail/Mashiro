@@ -1,0 +1,35 @@
+exit=1
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/items-010-review-final-retained.test.ts (1 test | 1 failed) 170ms
+   × independent: a retained direct source cannot mask withdrawal of a transitive source 169ms
+ ❯ tests/integration/items-010-review-final-retained-public.test.ts (1 test | 1 failed) 232ms
+   × independent: public withdrawal of shared memory overrides a retained indirect round 231ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/items-010-review-final-retained-public.test.ts > independent: public withdrawal of shared memory overrides a retained indirect round
+AssertionError: expected [Function] to throw an error
+ ❯ tests/integration/items-010-review-final-retained-public.test.ts:108:58
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/items-010-review-final-retained.test.ts > independent: a retained direct source cannot mask withdrawal of a transitive source
+AssertionError: expected [Function] to throw an error
+ ❯ tests/integration/items-010-review-final-retained.test.ts:92:58
+     90|   expect(() => f.items.assertSource(ref, b, 'endpoint')).not.toThrow()
+     91|   f.store.database.prepare("INSERT INTO memory_suppressions VALUES('ma…
+     92|   expect(() => f.items.assertSource(ref, b, 'endpoint')).toThrow()
+       |                                                          ^
+     93| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  2 failed | 3 passed (5)
+   Start at  02:53:26
+   Duration  1.14s (transform 503ms, setup 482ms, import 807ms, tests 906ms, environment 0ms)
+

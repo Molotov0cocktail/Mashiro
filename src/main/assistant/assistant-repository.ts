@@ -81,9 +81,19 @@ export class AssistantRepository {
     })
   }
 
-  switch(assistantId: string, expectedStateRevision: number): AssistantSnapshot {
+  switch(
+    assistantId: string,
+    expectedStateRevision: number,
+    restoreArchived = false
+  ): AssistantSnapshot {
     return this.store.transaction(() => {
       this.requireRevision(expectedStateRevision)
+      if (restoreArchived)
+        this.store.database
+          .prepare(
+            'UPDATE assistants SET archived_at=NULL,updated_at=?,version=version+1 WHERE id=? AND archived_at IS NOT NULL AND id NOT IN(SELECT id FROM assistant_tombstones)'
+          )
+          .run(new Date().toISOString(), assistantId)
       this.requireActive(assistantId)
       this.store.database
         .prepare(

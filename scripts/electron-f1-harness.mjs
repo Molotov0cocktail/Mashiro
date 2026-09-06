@@ -180,6 +180,12 @@ try {
   }
 
   if (
+    JSON.stringify(seed.items) !== JSON.stringify(verify.items) ||
+    verify.items.query.formalCount !== 5 ||
+    !verify.itemsUi.enteredViaDom ||
+    verify.itemsUi.formalCount !== 6 ||
+    verify.itemsUi.receiptCount !== 1 ||
+    verify.itemsUi.objectVersion !== 1 ||
     JSON.stringify(seed.memory) !== JSON.stringify(verify.memory) ||
     verify.memory.query.records.length !== 1 ||
     verify.memory.query.records[0].markdown !== 'E2E_MEMORY_CORRECTED' ||
@@ -381,6 +387,9 @@ try {
     persistentCredentialProtected: true,
     historyPermission: verify.historyPermission,
     historyQueryVerified: true,
+    items: verify.items,
+    itemsUi: verify.itemsUi,
+    itemsFiveKindRestartVerified: true,
     memory: verify.memory,
     memoryUi: verify.memoryUi,
     memoryIpcLifecycleVerified: true,
@@ -395,6 +404,10 @@ try {
     chat: verify.chat
   }
   mkdirSync(join(projectRoot, 'test-results'), { recursive: true })
+  copyFileSync(
+    join(testRoot, 'results', 'items-ui.png'),
+    join(projectRoot, 'test-results', 'items-ui.png')
+  )
   copyFileSync(
     join(testRoot, 'results', 'memory-ui.png'),
     join(projectRoot, 'test-results', 'memory-ui.png')

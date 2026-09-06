@@ -6,10 +6,10 @@
 
 ## 当前工作与直接下一动作
 
-- 当前正式任务：[010 统一事项、提案与对话执行](010-items-and-proposals.md)，ACTIVE / IMPLEMENTING。009手动核心已独立MANUAL_CORE PASS并双远程同步，整体009仍INTEGRATION_PENDING；RET/额外AST/Q9/Q10余项继续总队列。
+- 当前正式任务：[011](011-assistant-basic-configuration.md)，ACTIVE / IMPLEMENTING。010已独立FINAL PASS；先完成010提交双远程同步，直接按[实际方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-actual-plan.md)实施011。009仍INTEGRATION_PENDING。
 - 同步工作：[早期ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)及[隔离NSIS数据保护路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)均SUPPORTED。NSIS实验验证精确程序文件清除与未知/data文件保留；没有启动安装后应用、比较不同应用/schema版本或验证升级回滚，正式应用安装/更新/卸载资格仍NOT RUN。全局入口由指定记录者单写。
 - 当前已审产品 baseline：009手动核心`d6cd1fa4a27ccb418ffc3ff04503366acb133e2e`，对应[独立MANUAL_CORE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-final-manual-core.md)。root核对110个源码及raw证据暂存blob字节一致后提交，非force推送github/gitee并ls-remote实查两个main均为d6cd1fa、退出0。008及历史阶段证据保留；新的010差异不继承009 PASS。
-- 下一动作：items_010_trusted（实际gpt-6-astra / medium）已承接d6cd1fa，单写main/shared/preload、对应trusted tests及harness，按[实际源码方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-actual-plan.md)冻结DTO后继续实施；随后Sol UI并行。root单写全局记录和Git；未审distribution-notices两文件保留待Q10，不混入009。010真实角色调用由root协调，未新增付费请求。009最终独立41/255+4 UI oracles、Electron PIDs99400/115408已验；RET、额外AST、Q9依赖回收及Q10完整备份仍未完成。
+- 下一动作：root核对010暂存blob并提交同步；[独立最终PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)确认51文件301测试、7独立断言及1夹具附带测试通过，131文件manifest无差异。最终build已验；Electron02两PID128516/112004先于末次回执元数据修复，Reviewer明确比例复用并用新回执oracle验证差异。010真实服务22请求56672tokens；程序35请求67932tokens及3次usage未知，非renderer或打包live。随后由trusted/UI单写者实施011，root维护全局与Git。RET/额外AST待答，REM-002默认已问待答；013后台和014完整交付继续排队。
 
 当前[010事项](010-items-and-proposals.md)已开始；AST-006原三类范围已确认，未接受提案已由用户2026-09-07确认随发起助手一并永久删除，010执行者已收到；额外私有user/event仍待答，仅其相关purge分支先阻止；RET-007待答，REM-002在提醒冻结前询问。
 
@@ -26,9 +26,11 @@
 | [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | TASK_DONE / FINAL PASS | 精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；独立25/162与5额外oracle，双remote同步 |
 | [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | TASK_DONE / FINAL PASS | 精确产品cc9c729；28 files / 196 tests、7独立oracles和最终Electron已验，双remote同步 |
 | [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | INTEGRATION_PENDING / MANUAL_CORE PASS | 已独立41/255及最终Electron通过；RET、额外AST、Q9/Q10联测继续 |
-| [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | ACTIVE / IMPLEMENTING | 009手动核心已审，实际源码方案已就绪，可信执行者实施中 |
-| [011](011-assistant-basic-configuration.md) | 稳定人设、基础形象与配置 | PLANNED | 原文闭环已核对，不等待最终美术；按现行生命周期与六助手通道约束实施 |
-| [012](012-deterministic-reminders.md) | 确定性提醒与托盘运行承诺 | PLANNED | 原文及可区分验收已立；REM-002冻结前询问，不影响010实施 |
+| [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | TASK_DONE / FINAL PASS | 51/301及131文件清单，root执行提交双远程同步 |
+| [011](011-assistant-basic-configuration.md) | 稳定人设、基础形象与配置 | ACTIVE / IMPLEMENTING | 实际方案已冻结，从010提交后的HEAD直接实施 |
+| [012](012-deterministic-reminders.md) | 确定性提醒与托盘运行承诺 | PLANNED | 原文及可区分验收已立；REM-002推荐默认已问待答，不影响010实施 |
+| [013](013-background-and-steward.md) | 章节、仓储员及日常后台 | PLANNED | 预算/权限、整理、观察、简报复盘规划及009回收依赖已有可观察验收 |
+| [014](014-windows-data-and-delivery.md) | 正式数据位置、备份与Windows交付 | PLANNED | 复用已有ASAR/NSIS路线，完整生产生命周期与实际发行仍待实现验收 |
 
 ## 最近有效证据与边界
 

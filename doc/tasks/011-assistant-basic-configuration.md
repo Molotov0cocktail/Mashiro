@@ -1,6 +1,6 @@
 # 011 助手人设、基础形象与配置入口
 
-- TASK = 011；状态 = PLANNED；PROGRAM ACTIVE。编号已核对未占用，当前执行仍为[009](009-retention-and-cleanup.md)，入口为[progress](progress.md)。本任务承接总清单A02/Q2，不等待最终美术或跨应用集成。
+- TASK = 011；状态 = ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。编号已核对未占用，承接已审[010](010-items-and-proposals.md)，入口为[progress](progress.md)。本任务承接总清单A02/Q2，不等待最终美术或跨应用集成。
 - 来源：proposal §2.1、3.1–3.2；high-level-design §5.2；detailed-design §3.1、AST-002及§8.4。名称、基础形象、人设、Provider/模型和数据范围必须可配置；配置变化不改变稳定身份、唯一时间线或关系记忆。
 
 ## 可观察闭环
@@ -22,6 +22,6 @@
 ## 清单
 
 - [x] 核对原文必需行为及最终美术边界。
-- [ ] 冻结基于当前生命周期的实现方案与单写范围。
+- [x] 冻结[实际方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-actual-plan.md)与trusted/UI单写范围；以010提交同步后的HEAD实施。
 - [ ] 可信持久化、请求绑定与中文配置/形象入口。
 - [ ] 独立行为验证、审核、提交同步及总覆盖结算。

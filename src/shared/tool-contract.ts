@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { itemReceiptSchema } from './item-contract.js'
 import { memoryReceiptSchema } from './memory-contract.js'
 import { retentionPreviewSchema, retentionPreviewInputSchema } from './retention-contract.js'
 
@@ -7,7 +8,9 @@ export const toolScopeSchema = z.enum([
   'clock',
   'clock-and-history',
   'clock-and-memory',
-  'clock-history-and-memory'
+  'clock-history-and-memory',
+  'items',
+  'items-memory'
 ])
 export type ToolScope = z.infer<typeof toolScopeSchema>
 export const toolNameSchema = z.enum([
@@ -17,7 +20,12 @@ export const toolNameSchema = z.enum([
   'write_memory',
   'correct_memory',
   'request_memory_removal',
-  'request_retention_cleanup'
+  'request_retention_cleanup',
+  'search_items',
+  'apply_item_intent',
+  'propose_item',
+  'revise_item_proposal',
+  'prepare_item_update'
 ])
 export const operationStateSchema = z.enum([
   'PREPARED',
@@ -47,6 +55,7 @@ export const toolOperationSchema = z.strictObject({
   summary: z.string().max(200),
   citations: z.array(historyCitationSchema).max(10),
   memoryReceipt: memoryReceiptSchema.optional(),
+  itemReceipt: itemReceiptSchema.optional(),
   retentionPreview: retentionPreviewSchema.optional(),
   retentionIntent: retentionPreviewInputSchema.optional()
 })

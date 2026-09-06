@@ -1,0 +1,15 @@
+Author final build evidence (command-output excerpt, not full raw capture)
+Command: npm run build
+Exit: 0
+Executed serially after Reviewer reported independent final full suite 51 files / 301 tests PASS.
+Main transformed modules: 46; preload: 7; renderer: 35.
+
+SHA256 out/main/index.js
+8E8A3260CE088799BF018EC6041E1BA66E7C149A25A7B12D425EA5C194CD1F71
+SHA256 out/preload/index.cjs
+93F93D77AE0319CCA6C84373DD1C3721651298198A5DDF019843D720089FC53F
+SHA256 out/renderer/assets/index-DK33ZnFw.js
+B1431E1CE0B6DEF89C3093F6E88A4C82B428AE884C4193BEFA55943A11EF2993
+
+Final owned source hashes: items-010-trusted-manifest-03.json.
+No author source changes followed this build. This is not an independent verdict.

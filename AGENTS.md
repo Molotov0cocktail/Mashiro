@@ -4,9 +4,9 @@
 
 ## Project overview
 
-- Mashiro is a Windows 11, single-user, local-first desktop assistant. The current reviewed F1 candidate is limited to stable local assistant identities and their SQLite-backed create, switch, rename, primary, archive, and restart lifecycle.
+- Mashiro is a Windows 11, single-user, local-first desktop assistant. The historical F1 qualification covers stable local assistant identities and their SQLite-backed lifecycle; current reviewed capabilities and remaining product work are recorded in `doc/tasks/progress.md`.
 - Product language is Chinese; identifiers, APIs, commands, and configuration use English.
-- Provider, conversation, memory, item, reminder, installer, updater, migration, packaged distribution, Release, and deployment capability require separate tasks.
+- Provider, conversation, memory, item, reminder, installation, migration and release work use stable tracked tasks; follow the current program queue rather than historical F1 scope.
 
 ## Authoritative sources
 
@@ -25,7 +25,7 @@
 
 - Use exact dependency versions and the committed npm lockfile. Do not use force, legacy-peer-deps, alternate registries, mirrors, or disabled TLS.
 - Clean recovery is `npm ci`, then `npm exec install-electron`, then `npm run verify`; the Electron package exposes the installer as a bin and does not run it as an npm lifecycle script.
-- Required verification is focused/full tests, typecheck, lint, format, build, the two-PID Electron lifecycle harness, dependency-tree checks, foundation validation, and secret/generated/residual scans; the Candidate Reviewer PASS evidence records 10 test files / 18 tests and two fresh Electron PIDs.
+- Required verification is focused/full tests, typecheck, lint, format, build, the two-PID Electron lifecycle harness, dependency-tree checks, foundation validation, and secret/generated/residual scans; the historical F1 Candidate Reviewer evidence records 10 test files / 18 tests. Current candidate counts, applicable two-PID evidence and proportionate reuse are recorded in its final review.
 - Preserve the historical Toolhelp32 `-003` auxiliary audit as failed, deferred, and non-blocking; do not rerun it or create `-004`.
 - Historical F1 Candidate PASS applies to `90335af96bf95e531ddadc4f3f19259a75c18ee4`; 004 final PASS applies to `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6`. New product differences require independent review. Later docs-only closing differences need proportionate fact/link/format review, not repeated product qualification. Record past reviewed commits and remote observations without self-referential report/commit loops; query live Git values.
 

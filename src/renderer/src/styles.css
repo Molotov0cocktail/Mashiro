@@ -557,7 +557,7 @@ button:disabled {
   top: 0;
   z-index: 3;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   margin-top: 24px;
   border: 1px solid #514568;
@@ -731,6 +731,227 @@ button:disabled {
   .retention-zones,
   .retention-records,
   .retention-confirmation dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+.item-panel {
+  display: grid;
+  gap: 18px;
+  margin-top: 32px;
+  padding: 24px;
+  border: 1px solid #3b3b4f;
+  border-radius: 16px;
+  background: #171722;
+}
+
+.item-heading,
+.item-card-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.item-heading h2,
+.item-heading h3,
+.item-card h3 {
+  margin: 0;
+}
+
+.item-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.item-tabs [role='tab'][aria-selected='true'] {
+  border-color: #b799ff;
+  background: #3a3150;
+}
+
+.item-permissions,
+.item-create,
+.item-browser,
+.item-detail,
+.item-delete-confirmation,
+.item-receipt {
+  border: 1px solid #514568;
+  border-radius: 12px;
+  padding: 16px;
+  background: rgb(24 21 34 / 72%);
+}
+
+.item-permissions > summary,
+.item-create > summary,
+.item-governance > summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.item-permission-grid,
+.item-form-grid,
+.item-browser,
+.item-detail,
+.item-governance,
+.item-list {
+  display: grid;
+  gap: 12px;
+}
+
+.item-permission-grid,
+.item-create > .item-form-grid {
+  margin-top: 14px;
+}
+
+.item-form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.item-form-grid label,
+.item-filters label {
+  display: grid;
+  gap: 7px;
+}
+
+.item-form-grid input,
+.item-form-grid select,
+.item-form-grid textarea,
+.item-filters input,
+.item-filters select {
+  width: 100%;
+}
+
+.item-form-grid textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.item-form-wide {
+  grid-column: 1 / -1;
+}
+
+.item-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) repeat(2, minmax(130px, 0.5fr)) auto;
+  align-items: end;
+}
+
+.item-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid #45405a;
+  border-left: 4px solid #8d78b8;
+  border-radius: 10px;
+  padding: 14px;
+  background: #211c2c;
+}
+
+.proposal-card {
+  border-left-color: #d5a572;
+}
+
+.item-card p,
+.item-receipt p {
+  margin: 0;
+}
+
+.item-card small,
+.item-receipt small {
+  color: #c7afff;
+  overflow-wrap: anywhere;
+}
+
+.proposal-boundary {
+  border-left: 3px solid #d5a572;
+  padding: 6px 10px;
+  color: #f0d4a9;
+  background: #30251d;
+}
+
+.item-delete-confirmation {
+  border-color: #d5a572;
+  background: #30251d;
+}
+
+.item-receipt.state-succeeded {
+  border-color: #74c7a4;
+}
+
+.item-receipt.state-result_unknown,
+.item-receipt.state-pending_confirmation {
+  border-color: #d5a572;
+}
+
+.item-context-banner,
+.item-link-diff {
+  display: grid;
+  gap: 8px;
+  border: 1px solid #7e69ad;
+  border-radius: 10px;
+  padding: 12px;
+  background: rgb(58 49 80 / 72%);
+}
+
+.item-context-banner {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.item-context-banner p,
+.item-link-diff p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.item-link-diff {
+  margin: 12px 0;
+}
+
+.item-content-diff {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.item-content-diff dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.item-content-diff dl > div {
+  display: grid;
+  grid-template-columns: minmax(90px, 0.25fr) minmax(0, 1fr);
+  gap: 10px;
+  border: 1px solid #7e69ad;
+  border-radius: 8px;
+  padding: 10px;
+  background: rgb(58 49 80 / 72%);
+}
+
+.item-content-diff dt {
+  font-weight: 700;
+  color: #f0d4a9;
+}
+
+.item-content-diff dd {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 820px) {
+  .item-form-grid,
+  .item-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .item-form-wide {
+    grid-column: auto;
+  }
+
+  .item-context-banner {
     grid-template-columns: 1fr;
   }
 }

@@ -1,0 +1,11 @@
+# 010 trusted final receipt repair
+
+This supersedes the freeze in [author report 02](items-010-trusted-result-02.md). Its implementation summary remains applicable, with the additional repair below. Independent approval belongs to the Reviewer; PROGRAM_ID MASHIRO-CONTINUOUS-DEVELOPMENT remains ACTIVE.
+
+The final independent oracle exposed successful `replace-content` confirmation returning neutral object fields although the item had advanced to version 2. The renderer therefore retained a stale version-1 conversation context. The trusted confirmation transaction now reads the actual updated item and returns its item type, ID and version for accepted `replace-content` and `replace-links`. The existing command ledger persists that same receipt for operation lookup and repeated confirmation. Delete and cancellation keep their neutral receipt semantics.
+
+Final receipt repair passed project typecheck and owned ESLint/Prettier checks. Reviewer separately reported the unchanged seven oracle files / eight tests passing after the repair (one test is incidental author coverage). The Reviewer is performing final independent full-suite verification; this author does not assign that review verdict.
+
+Evidence clarification: the test `.log` files linked by report 02 are **command-output excerpts**, not complete raw output. They preserve the reported command outcomes and counts. The first final run's retention timeout remains recorded; the unchanged test passed alone and the subsequent full suite passed at two workers with concurrent verification paused. No rerun is warranted solely to manufacture more complete historical logging.
+
+[Manifest 03](items-010-trusted-manifest-03.json) records the final source hashes and validation provenance. The earlier two-process [Electron result](items-010-trusted-electron-02.json) and visually inspected [items screenshot](items-010-trusted-ui-02.png) precede this last receipt-only change. They remain valid evidence for the tested lifecycle and actual items display, but do not claim the final receipt SHA ran under Electron. The new independent service-to-renderer-context oracle targets that last change directly. No additional paid Provider call or Git action was performed by this author.

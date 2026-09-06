@@ -1,0 +1,51 @@
+foundation exit=0
+{
+  "ok": true,
+  "root": "D:\\Mashiro",
+  "taskFiles": [
+    "doc\\tasks\\001-project-foundation.md",
+    "doc\\tasks\\002-node-sqlite-qualification.md",
+    "doc\\tasks\\003-provider-live-qualification.md",
+    "doc\\tasks\\004-provider-text.md",
+    "doc\\tasks\\005-persistent-timeline.md",
+    "doc\\tasks\\006-timeline-context-permissions.md",
+    "doc\\tasks\\007-provider-tools-execution.md",
+    "doc\\tasks\\008-memory-direct-path.md",
+    "doc\\tasks\\009-retention-and-cleanup.md",
+    "doc\\tasks\\010-items-and-proposals.md",
+    "doc\\tasks\\011-assistant-basic-configuration.md",
+    "doc\\tasks\\012-deterministic-reminders.md",
+    "doc\\tasks\\013-background-and-steward.md",
+    "doc\\tasks\\014-windows-data-and-delivery.md",
+    "doc\\tasks\\program-docs-to-release.md"
+  ],
+  "errors": [],
+  "warnings": []
+}
+
+tree exit=0
+mashiro@0.1.0 D:\Mashiro
+├── @eslint/js@10.0.1
+├── @testing-library/dom@10.4.1
+├── @testing-library/jest-dom@7.0.1
+├── @testing-library/react@16.3.3
+├── @testing-library/user-event@14.6.7
+├── @types/node@24.13.3
+├── @types/react-dom@19.2.5
+├── @types/react@19.2.18
+├── @vitejs/plugin-react@5.2.0
+├── electron-vite@5.0.0
+├── electron@44.1.1
+├── eslint-plugin-react-hooks@7.1.1
+├── eslint@10.9.1
+├── globals@17.12.0
+├── jsdom@30.0.1
+├── prettier@3.9.6
+├── react-dom@19.2.8
+├── react@19.2.8
+├── typescript-eslint@8.69.0
+├── typescript@5.9.3
+├── vite@7.3.6
+├── vitest@4.1.11
+└── zod@4.5.4
+

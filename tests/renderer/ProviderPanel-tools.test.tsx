@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
 import { timelineApi006Defaults } from './timeline-api-fixture'
 import { memoryApi008Defaults, memoryPermission } from './memory-api-fixture'
+import { itemApi010Defaults, itemId, itemReceipt } from './item-api-fixture'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type { MemoryApi } from '../../src/shared/memory-contract'
 import type {
@@ -456,13 +457,21 @@ describe('ProviderPanel trusted tools and capability UI', () => {
     expect(startChat).not.toHaveBeenCalled()
     const readsBeforeVerification = tools.mock.calls.length
     fireEvent.click(within(card).getByRole('button', { name: '核查本地状态' }))
-    await waitFor(() => expect(tools).toHaveBeenCalledTimes(readsBeforeVerification + 1))
-    expect(tools.mock.calls.at(-1)![0]).toEqual({
-      protocolVersion: 1,
-      assistantId: assistantA,
-      mode: 'normal',
-      requestId: unknown.requestId
-    })
+    await waitFor(() =>
+      expect(
+        tools.mock.calls
+          .slice(readsBeforeVerification)
+          .map(([input]) => input)
+          .filter((input) => input.requestId !== undefined)
+      ).toEqual([
+        {
+          protocolVersion: 1,
+          assistantId: assistantA,
+          mode: 'normal',
+          requestId: unknown.requestId
+        }
+      ])
+    )
     expect(await within(card).findByText('已完成')).toBeInTheDocument()
     expect(startChat).not.toHaveBeenCalled()
   })
@@ -1112,5 +1121,46 @@ describe('ProviderPanel trusted tools and capability UI', () => {
       screen.queryByRole('radio', { name: '本机时钟 + 记忆与个人事件' })
     ).not.toBeInTheDocument()
     expect(screen.getByText(/不会读取或写入记忆、个人事件/)).toBeInTheDocument()
+  })
+  it('labels a prepared formal item update and opens the exact pending confirmation command', async () => {
+    const commandId = '00000000-0000-4000-8000-000000000709'
+    const onOpenItems = vi.fn()
+    const prepared = operation({
+      operationId: commandId,
+      toolName: 'prepare_item_update',
+      summary: '已准备正式事项修改，等待本地确认',
+      citations: [],
+      itemReceipt: itemReceipt({
+        operationId: commandId,
+        objectId: itemId,
+        objectVersion: 2,
+        objectType: 'item',
+        state: 'PENDING_CONFIRMATION',
+        confirmationId: '00000000-0000-4000-8000-000000000710',
+        summary: '将修改原正式事项，尚未写入'
+      })
+    })
+    render(
+      <ProviderPanel
+        assistantSnapshot={assistants()}
+        api={provider({
+          tools: vi.fn(async (input) => toolResult(input.assistantId, input.mode, [prepared]))
+        })}
+        timelineApi={timeline()}
+        memoryApi={memoryApi008Defaults()}
+        itemApi={itemApi010Defaults()}
+        onOpenItems={onOpenItems}
+      />
+    )
+
+    const card = await screen.findByRole('article', { name: '正式事项修改预览操作' })
+    expect(within(card).getByText('等待本机确认')).toBeInTheDocument()
+    expect(within(card).getByText('将修改原正式事项，尚未写入')).toBeInTheDocument()
+    fireEvent.click(within(card).getByRole('button', { name: '打开事项' }))
+    expect(onOpenItems).toHaveBeenCalledWith({
+      assistantId: assistantA,
+      commandId,
+      confirmationAction: 'replace-content'
+    })
   })
 })

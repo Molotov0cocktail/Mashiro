@@ -1,7 +1,8 @@
 import type { DatabaseSync } from 'node:sqlite'
 import { migrateRetention, verifyRetention } from '../retention/retention-schema.js'
+import { migrateItems, verifyItems } from '../item/item-schema.js'
 
-export const schemaVersion = 7
+export const schemaVersion = 8
 
 const requiredTables = [
   'assistants',
@@ -276,6 +277,11 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
   }
   migrateRetention(database)
   verifyRetention(database)
+  for (const table of requiredTables)
+    if (!schemaObjectExists(database, 'table', table))
+      throw new StorageInconsistentError('Storage table missing before item upgrade')
+  migrateItems(database)
+  verifyItems(database)
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )
