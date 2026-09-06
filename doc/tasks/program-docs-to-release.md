@@ -22,6 +22,12 @@
 - [003](003-provider-live-qualification.md) 历史共 4 次合成 live，2 次参数 HTTP 400/code 1210，2 次 enabled+low 普通/流式成功；各成功 usage 22/4/26。只覆盖指定 GLM 端点/模型的普通/流式；思考续接、工具、结构化结果、真实取消未以该证据合格。
 - 历史 Toolhelp32 -003 辅助路线 failed/deferred/non-blocking，禁止重跑或创建 -004。默认工具 helper 启动失败已有合法宿主执行路线；本次 apply_patch 在读取目标前 helper setup-refresh 失败，固定 preimage 未改变，使用经工具审核的内容寻址原子 writer，不绕过拒绝。
 
+## 新增程序证据
+
+- 总覆盖与授权规则等11份文档已在 `c03c5adb05aa5e237fab0f528a1f25ccbd4825ab` 入库，独立比例核对47个本地链接、原005审核hash和diff；两既定远端main推送后实际查询同值。此为已发生观测，不预测后续SHA。
+- [GLM高级能力探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-capability-probe-v1.md)：工具54片参数聚合、严格本地执行、匹配结果回传续答，以及json_object本地精确校验均成功。它为B02/B03与Q4提供端点能力证据，不表示产品集成完成；B04工具思考续接仍未观测。累计本次4请求，3次成功usage994，首次usage未知；无Key/正文落普通日志。
+- 006核心候选和UI正在汇合；独立review已复现一项撤权终态finding，有界修复进行中。最终审查与全链验证前不更改需求行为为已审。
+
 ## 阅读与覆盖口径
 
 覆盖记录者已完整读取 [Proposal](../proposal.md)、[高层设计](../high-level-design.md)、[详细设计](../detailed-design.md)，含功能正文、用户场景、测试 oracle 和实际位于详细设计第 13 节的集中决议。下表 P/H/D 分别代表这三份文档的章节号；旧第 12 节决议锚点是历史引用误差，按真实标题定位。
