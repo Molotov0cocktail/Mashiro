@@ -6,10 +6,12 @@
 
 ## 当前工作与直接下一动作
 
-- 当前正式任务：[008 记忆与个人事件的即时路径、来源和事务恢复](008-memory-direct-path.md)，状态 ACTIVE / S0。007已在精确产品 `711463a9dd7fbcf16de73c413fe6ad0c56c311cc` 获独立FINAL PASS并同步两个既有远端；008继续领域权限、即时记住/纠正/删除表示或撤回依据、来源/抑制与Markdown事务恢复。事项、提醒、后台与发布保持总队列必需范围。
+- 当前正式任务：[008 记忆与个人事件的即时路径、来源和事务恢复](008-memory-direct-path.md)，状态 ACTIVE / REVIEW_REPAIR。007已在精确产品 `711463a9dd7fbcf16de73c413fe6ad0c56c311cc` 获独立FINAL PASS并同步两个既有远端；008继续领域权限、即时记住/纠正/删除表示或撤回依据、来源/抑制与Markdown事务恢复。事项、提醒、后台与发布保持总队列必需范围。
 - 同步工作：[早期ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)及[隔离NSIS数据保护路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)均SUPPORTED。NSIS实验验证精确程序文件清除与未知/data文件保留；没有启动安装后应用、比较不同应用/schema版本或验证升级回滚，正式应用安装/更新/卸载资格仍NOT RUN。全局入口由指定记录者单写。
 - 当前已审产品 baseline：main `711463a9dd7fbcf16de73c413fe6ad0c56c311cc`。2026-09-06 root已完成github/gitee非force push并实际ls-remote确认两main同值、退出0；本次收尾记录者也独立查询同值。后续仍查live Git，不将一次观测当未来保证。
-- 下一动作：008的memory_008_s0（Prompter实际派发gpt-6-astra / medium）正在阅读设计与007接口，形成最小领域/权限/Markdown事务方案及必要隔离实验，专属产物为memory-008-*；S0回原文冻结后划分trusted/UI单写实施，最后新领域独立审核。007收尾只更新事实/链接/格式，不重复产品资格。
+- 下一动作：008可信层与中文UI实现已交接，27 files / 185 tests及静态/build通过；真实记忆角色4请求SUPPORTED。review_008（实际gpt-6-astra / medium）独立审核发现历史搜索来源遗漏、纠正的旧版本传递自依赖两个反例，当前REVIEW_REPAIR；修复后最终Electron与独立复核。009已立合同，Q7事项设计在不重叠报告中推进。
+
+后续[009生命周期/清理](009-retention-and-cleanup.md)已立合同，AST-006已确认，RET-007已问待答；当前仍继续008实现和独立审核准备。
 
 ## 当前任务表
 
@@ -22,9 +24,13 @@
 | [005](005-persistent-timeline.md) | 持续时间线、显式保存、正常重启 | TASK_DONE/FINAL PASS | 精确产品`0aa2d9190b63c7b99d59f52808e16965fa6b417f`；旧STOP_CHECKPOINT不是程序状态 |
 | [006](006-timeline-context-permissions.md) | 完整浏览检索、局部上下文、权限底座 | TASK_DONE/FINAL PASS | 精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`；跨域权限仍由后续任务扩展 |
 | [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | TASK_DONE / FINAL PASS | 精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；独立25/162与5额外oracle，双remote同步 |
-| [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | ACTIVE / S0 | baseline为已审007；领域/权限与跨文件恢复方案冻结中 |
+| [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | ACTIVE / REVIEW_REPAIR | 实现交接；独立来源传播/纠正/UI反例修复后最终复核 |
+| [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | PLANNED | AST-006已确认；RET-007已问待答，未答不擅定自动策略 |
+| [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | PLANNED | 独立原文预案及合同已立，可信接口待008修复后冻结 |
 
 ## 最近有效证据与边界
+
+- 008[真实记忆角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-product.md)已SUPPORTED：自然中文创建→真实写入回执→服务重开→context none新轮检索准确返回随机代码；4请求、1对象/1写入、查询不改版本、恢复0调用，usage8246。前3次[失败诊断及修复](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-failure-diagnosis.md)保留，前2次PROTOCOL不被冒称完全解释。创建/纠正wire现已分离，确定未执行有独立状态。当前这组程序累计13请求、已得usage11260，另3次usage未知；尚待最终集成/独立产品审核，不是PROGRAM_DONE。
 
 - 007[独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-final-711463a.md)对应精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`，报告SHA-256 `21119C6C34B29E011F3BA47F3E577AD37B08352A904BD31B03BC718DA6B8E6B0`。25 files / 162 tests及独立5个额外oracle通过，最终静态/build/依赖/foundation/扫描有效；fresh Electron PIDs59208/84996验证操作身份恢复、临时协议不持久化、恢复0调用及显式发送后1调用。初审REPAIR与中间夹具/引用世代错误及修复证据保持归档，已关闭而非当前缺陷。
 - 007实际产品可信路径clock闭环为2请求、1 SUCCEEDED、精确UTC续答、usage467/54/521；加此前能力探针，本程序该组验证累计6付费请求、已得usage1515，首探针usage未知。工具thinking仍NOT_OBSERVED；未宣称renderer-driven或跨用户轮live、其他厂商工具、业务写入已验证。凭据已清理。
@@ -38,7 +44,7 @@
 - [005产品推送回执](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-push-close-0aa2d91.md)、[continuation](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-continuation-f5aa9880.md)、[原始接管记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-reconciliation.md) 保留原始失败、修复和历史事实；设计顶栏已简洁对齐最终PASS。
 - 003历史4次合成live：2次HTTP400/code1210、2次thinking enabled/reasoning effort low普通和流式成功，各usage22/4/26。旧Key已清理；用户现已在会话提供新的授权测试凭据，不入Git/日志/报告。当前不凭此宣称高级能力已验证或新增调用已发生。
 - Toolhelp32 -003 辅助审计保持failed/deferred/non-blocking，禁止重跑或派生-004。默认helper setup-refresh失败已有经工具审核合法宿主执行路径；受控writer保持allowlist/preimage/原子替换/回滚/postimage，不绕过平台拒绝。
-- AST-006助手永久删除、RET-007容量/期限/垃圾自动清空、REM-002补发/合并/过期默认仍无后续产品决议。在相应实现前提交少量准备好的推荐/影响问题；006及其他独立分支继续。最终范围结算前不能静默抹去这些问题。
+- AST-006已由用户2026-09-06确认：保留归档，二次确认永久删除助手私有聊天/关系/连续性记忆；全局共享记忆和正式事项保留，来源不再展开私有原文。[009生命周期任务](009-retention-and-cleanup.md)承接。RET-007容量/期限/垃圾清空问题已提出、待答；REM-002在提醒任务冻结前再问。008独立实施继续。
 - 尚未完成领域及验收去处全部列在总清单；当前记忆、事项/提醒、后台、完整数据位置/恢复、PACKAGED安装更新与Release并未完成。当前已明确授权实施和发行，旧NOT RUN仍保留为历史事实。
 
 ## 持续授权与交接
@@ -48,3 +54,5 @@
 只有总体已验收并实际发布下载核验通过才写PROGRAM_DONE/RELEASED；真实关键用户门禁或已穷尽合理替代的实际平台硬限制才暂停。平台暂停必须保存TECHNICAL_PAUSE完整现场和直接恢复动作，程序未完成，结束响应后无真实执行机制不得声称后台继续。
 
 关键进展、路线变化、角色交接与暂停前更新当前任务和入口；相应复核成果在合理提交点入Git并同步。纯文档仅核事实/链接/格式，不制造自引用审核提交循环。历史 [004以前progress快照](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/progress-history-through-004-final-snapshot.md) 不变，当前入口不回退为“等用户选下一任务”。
+
+008执行记录（2026-09-06）：S0合成SQLite/Markdown实验已完成，见[方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-s0.md)与[共享接口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-contract.md)。memory_008_s0（gpt-6-astra / medium）单写main/shared/preload及trusted tests，memory_008_ui（gpt-5.6-sol / high）单写renderer及对应测试；root维护全局记录。前述S0阅读动作已推进为实际实施，事件/权限范围细分随接口同步；新领域尚未验收。007收尾a5041632c09aa3d421654e56a1e76c9e109147bf已非force推送并ls-remote确认两个main同值，不含008产品。

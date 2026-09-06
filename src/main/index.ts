@@ -1,4 +1,5 @@
 import { app, ipcMain, safeStorage } from 'electron'
+import { registerMemoryIpc } from './ipc/register-memory-ipc.js'
 import { registerTimelineIpc } from './ipc/register-timeline-ipc.js'
 import { AssistantService } from './assistant/assistant-service.js'
 import { createWindow } from './app/create-window.js'
@@ -13,6 +14,7 @@ let providerService: ProviderService | undefined
 let unregisterAssistantIpc: (() => void) | undefined
 let unregisterProviderIpc: (() => void) | undefined
 let unregisterTimelineIpc: (() => void) | undefined
+let unregisterMemoryIpc: (() => void) | undefined
 
 async function start(): Promise<void> {
   const dataRoot = resolveDataRoot(app)
@@ -29,6 +31,7 @@ async function start(): Promise<void> {
   )
   unregisterProviderIpc = registerProviderIpc(ipcMain, providerService)
   unregisterTimelineIpc = registerTimelineIpc(ipcMain, providerService)
+  unregisterMemoryIpc = registerMemoryIpc(ipcMain, providerService.memory)
   const window = await createWindow()
   await runE2ePhase(window, dataRoot)
 }
@@ -41,6 +44,8 @@ app.on('before-quit', (event) => {
     console.error('MASHIRO_SHUTDOWN_STORAGE_FAILURE')
     return
   }
+  unregisterMemoryIpc?.()
+  unregisterMemoryIpc = undefined
   unregisterTimelineIpc?.()
   unregisterTimelineIpc = undefined
   unregisterProviderIpc?.()

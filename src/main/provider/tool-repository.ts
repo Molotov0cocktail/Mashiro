@@ -169,7 +169,7 @@ export class ToolRepository {
         o.callId === callId
     )
   }
-  update(record: ToolOperation, result?: string): void {
+  update(record: ToolOperation, result?: string, participating = false): void {
     toolOperationSchema.parse(record)
     const current = this.read(record.assistantId, record.requestId).find(
       (o) => o.operationId === record.operationId
@@ -199,8 +199,8 @@ export class ToolRepository {
     if (result !== undefined && Buffer.byteLength(result) > 32768)
       throw new ProviderDomainError('LIMIT')
     const persisted = { ...record, citations: record.citations.map((c) => ({ ...c, excerpt: '' })) }
-    if (this.store)
-      this.store.transaction(() => {
+    if (this.store) {
+      const commit = () => {
         this.store!.database.prepare('UPDATE tool_operations SET record_json=? WHERE id=?').run(
           JSON.stringify(persisted),
           record.operationId
@@ -209,8 +209,10 @@ export class ToolRepository {
           this.store!.database.prepare(
             'INSERT INTO protocol_results VALUES(?,?) ON CONFLICT(operation_id) DO UPDATE SET result_json=excluded.result_json'
           ).run(record.operationId, result)
-      })
-    else {
+      }
+      if (participating) commit()
+      else this.store.transaction(commit)
+    } else {
       const op = this.operations.get(record.operationId)
       if (op) {
         op.record = structuredClone(record)

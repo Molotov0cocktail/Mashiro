@@ -1,8 +1,22 @@
 import { z } from 'zod'
+import { memoryReceiptSchema } from './memory-contract.js'
 
-export const toolScopeSchema = z.enum(['off', 'clock', 'clock-and-history'])
+export const toolScopeSchema = z.enum([
+  'off',
+  'clock',
+  'clock-and-history',
+  'clock-and-memory',
+  'clock-history-and-memory'
+])
 export type ToolScope = z.infer<typeof toolScopeSchema>
-export const toolNameSchema = z.enum(['get_current_time', 'search_conversation_history'])
+export const toolNameSchema = z.enum([
+  'get_current_time',
+  'search_conversation_history',
+  'search_memory',
+  'write_memory',
+  'correct_memory',
+  'request_memory_removal'
+])
 export const operationStateSchema = z.enum([
   'PREPARED',
   'DISPATCHING',
@@ -29,7 +43,8 @@ export const toolOperationSchema = z.strictObject({
   createdAt: z.iso.datetime({ offset: true }),
   updatedAt: z.iso.datetime({ offset: true }),
   summary: z.string().max(200),
-  citations: z.array(historyCitationSchema).max(10)
+  citations: z.array(historyCitationSchema).max(10),
+  memoryReceipt: memoryReceiptSchema.optional()
 })
 export type ToolOperation = z.infer<typeof toolOperationSchema>
 export type HistoryCitation = z.infer<typeof historyCitationSchema>

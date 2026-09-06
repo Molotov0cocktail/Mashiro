@@ -1,0 +1,42 @@
+[
+  {
+    "path": "src/main/memory/memory-service.ts",
+    "sha256": "7582779AE9DF55707358C69FD48F7703B6481B4BE0D16B910D251ACCE867C4C8"
+  },
+  {
+    "path": "src/main/provider/provider-service.ts",
+    "sha256": "F7F84F770BFDB82A7763EFEFEDAA66F08BD07BF01872AABBFDF92B0A45460829"
+  },
+  {
+    "path": "src/main/provider/tool-execution.ts",
+    "sha256": "B168D631424A1BEEEB76DB88FAACA1121A327BBDA8BEDFF659414BBC75CAD9BA"
+  },
+  {
+    "path": "src/main/provider/tool-protocol.ts",
+    "sha256": "4C50EACF8C6ED08CC736F8BB6EA956E034E6226854025BDFA6681EC0B483B1A7"
+  },
+  {
+    "path": "src/main/provider/tool-repository.ts",
+    "sha256": "BE8A3A7CCCCE48269D450ABD1E41BE4D1DA1B31CA0E5BF91EFF419AC93A53A30"
+  },
+  {
+    "path": "src/main/data/schema.ts",
+    "sha256": "BC43988950D111FFC4BE78698FBBFB256B9632C34AF408A7DB66778CE254845A"
+  },
+  {
+    "path": "src/shared/memory-contract.ts",
+    "sha256": "9B62625FA287E7CAABCDCA63B395E0340AD07DB46C8B0D5DC930309FF0F0511F"
+  },
+  {
+    "path": "src/shared/tool-contract.ts",
+    "sha256": "2CE6504AB8643CA819E214EC1E1C05B90600518C827A6161329F7018F1FB4315"
+  },
+  {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-product.mjs",
+    "sha256": "9E660D89500FB9D63B6AA6619E80B7006DEC9179F5B88D0DDF963D9CEB671FC5"
+  },
+  {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-sse-observer.mjs",
+    "sha256": "229B22F9D37BF302D36A3E52CD83367BC95C8BF613A91EA4901B9454F0961544"
+  }
+]

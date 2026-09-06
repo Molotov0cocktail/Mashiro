@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { memoryChannels } from '../shared/memory-channels.js'
+import type { MemoryApi } from '../shared/memory-contract.js'
 import { timelineChannels } from '../shared/timeline-channels.js'
 import type { TimelineApi } from '../shared/timeline-contract.js'
 import { assistantChannels } from '../shared/assistant-channels.js'
@@ -42,4 +44,14 @@ const timeline: TimelineApi = {
   read: (input) => ipcRenderer.invoke(timelineChannels.read, input),
   saveTemporary: (input) => ipcRenderer.invoke(timelineChannels.saveTemporary, input)
 }
-contextBridge.exposeInMainWorld('mashiro', { assistants, provider, timeline })
+const memory: MemoryApi = {
+  query: (input) => ipcRenderer.invoke(memoryChannels.query, input),
+  mutate: (input) => ipcRenderer.invoke(memoryChannels.mutate, input),
+  inspect: (input) => ipcRenderer.invoke(memoryChannels.inspect, input),
+  permissions: (input) => ipcRenderer.invoke(memoryChannels.permissions, input),
+  setPermissions: (input) => ipcRenderer.invoke(memoryChannels.setPermissions, input),
+  confirm: (input) => ipcRenderer.invoke(memoryChannels.confirm, input),
+  previewReload: (input) => ipcRenderer.invoke(memoryChannels.previewReload, input),
+  acceptReload: (input) => ipcRenderer.invoke(memoryChannels.acceptReload, input)
+}
+contextBridge.exposeInMainWorld('mashiro', { assistants, provider, timeline, memory })

@@ -1,0 +1,1 @@
+{"outcome":"INCONCLUSIVE","requestsAttempted":1,"wire":[{"request":1,"phase":"write","toolResultPresent":false,"recallCodeInToolResult":false,"stream":true}],"usages":[null],"reason":"Actual business write incomplete"}

@@ -1,6 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite'
 
-export const schemaVersion = 5
+export const schemaVersion = 6
 
 const requiredTables = [
   'assistants',
@@ -14,7 +14,18 @@ const requiredTables = [
   'tool_operations',
   'protocol_results',
   'timeline_sources',
-  'provider_capability_evidence'
+  'provider_capability_evidence',
+  'memory_objects',
+  'memory_versions',
+  'memory_commands',
+  'memory_dependencies',
+  'memory_permissions',
+  'memory_recipients',
+  'memory_index',
+  'memory_suppressions',
+  'memory_previews',
+  'memory_cleanup',
+  'memory_pending'
 ] as const
 const requiredTriggers = [
   'assistant_no_delete',
@@ -218,6 +229,44 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
       CREATE TABLE timeline_sources(assistant_id TEXT NOT NULL REFERENCES assistants(id),request_id TEXT NOT NULL,source_request_id TEXT NOT NULL,PRIMARY KEY(assistant_id,request_id,source_request_id));
       CREATE TABLE provider_capability_evidence(endpoint_fingerprint TEXT NOT NULL,model TEXT NOT NULL,adapter_version TEXT NOT NULL,mode TEXT NOT NULL,capability TEXT NOT NULL,observed_at TEXT NOT NULL,PRIMARY KEY(endpoint_fingerprint,model,adapter_version,mode,capability));
       PRAGMA user_version=5;`)
+      database.exec('COMMIT')
+    } catch (error) {
+      database.exec('ROLLBACK')
+      throw error
+    }
+  }
+  const beforeV6 = Number(
+    (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
+  )
+  if (beforeV6 === 5) {
+    verifyV1Objects(database)
+    for (const table of requiredTables.slice(0, 12))
+      if (!schemaObjectExists(database, 'table', table))
+        throw new StorageInconsistentError('Storage table missing before upgrade')
+    const integrity = database.prepare('PRAGMA integrity_check').get() as {
+      integrity_check: string
+    }
+    if (
+      integrity.integrity_check !== 'ok' ||
+      database.prepare('PRAGMA foreign_key_check').all().length
+    )
+      throw new StorageInconsistentError('Storage integrity check failed before upgrade')
+    database.exec('BEGIN IMMEDIATE')
+    try {
+      database.exec(`
+        CREATE TABLE memory_objects(id TEXT PRIMARY KEY,version INTEGER NOT NULL,record_json TEXT NOT NULL);
+        CREATE TABLE memory_versions(object_id TEXT NOT NULL,version INTEGER NOT NULL,file_name TEXT NOT NULL,body_hash TEXT NOT NULL,metadata_json TEXT NOT NULL,PRIMARY KEY(object_id,version));
+        CREATE TABLE memory_commands(id TEXT PRIMARY KEY,assistant_id TEXT NOT NULL,request_id TEXT,arguments_hash TEXT NOT NULL,intent_json TEXT NOT NULL,state TEXT NOT NULL,receipt_json TEXT,created_at TEXT NOT NULL);
+        CREATE TABLE memory_dependencies(node_type TEXT NOT NULL,node_id TEXT NOT NULL,node_version INTEGER NOT NULL,source_type TEXT NOT NULL,source_id TEXT NOT NULL,source_assistant TEXT NOT NULL,source_version INTEGER NOT NULL,PRIMARY KEY(node_type,node_id,node_version,source_type,source_id,source_version));
+        CREATE TABLE memory_permissions(assistant_id TEXT NOT NULL,scope TEXT NOT NULL,version INTEGER NOT NULL,read_allowed INTEGER NOT NULL,write_allowed INTEGER NOT NULL,inferences_allowed INTEGER NOT NULL,PRIMARY KEY(assistant_id,scope));
+        CREATE TABLE memory_recipients(assistant_id TEXT NOT NULL,scope TEXT NOT NULL,fingerprint TEXT NOT NULL,allowed INTEGER NOT NULL,PRIMARY KEY(assistant_id,scope,fingerprint));
+        CREATE TABLE memory_index(object_id TEXT PRIMARY KEY,version INTEGER NOT NULL,title TEXT NOT NULL,body TEXT NOT NULL);
+        CREATE TABLE memory_suppressions(source_type TEXT NOT NULL,source_id TEXT NOT NULL,source_version INTEGER NOT NULL,kind TEXT NOT NULL,object_id TEXT NOT NULL,PRIMARY KEY(source_type,source_id,source_version,kind,object_id));
+        CREATE TABLE memory_previews(id TEXT PRIMARY KEY,assistant_id TEXT NOT NULL,kind TEXT NOT NULL,payload_json TEXT NOT NULL,state TEXT NOT NULL);
+        CREATE TABLE memory_cleanup(object_id TEXT PRIMARY KEY,state TEXT NOT NULL);
+        CREATE TABLE memory_pending(object_id TEXT PRIMARY KEY,version INTEGER NOT NULL,state TEXT NOT NULL);
+        PRAGMA user_version=6;
+      `)
       database.exec('COMMIT')
     } catch (error) {
       database.exec('ROLLBACK')

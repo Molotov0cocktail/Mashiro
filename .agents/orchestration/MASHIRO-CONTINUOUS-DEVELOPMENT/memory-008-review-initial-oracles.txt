@@ -1,0 +1,73 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-oracles.test.ts (2 tests | 1 failed) 675ms
+   × independent: faithful correction remains recallable through prior round provenance 93ms
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-ui.test.tsx (2 tests | 2 failed) 302ms
+   × independent: editing B cannot submit A while details are pending 215ms
+   × independent: saving an unchanged event preserves its instant 87ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-oracles.test.ts > independent: faithful correction remains recallable through prior round provenance
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-oracles.test.ts:117:80
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-ui.test.tsx > independent: editing B cannot submit A while details are pending
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-ui.test.tsx:77:77
+     75|  await screen.findByText('来源与变更');
+     76|  fireEvent.click(buttons[1]!);fireEvent.click(screen.getByRole('button…
+     77|  expect(mutate.mock.calls.every(([input])=>input.mutation.targetId===b…
+       |                                                                             ^
+     78| });
+     79| it('independent: saving an unchanged event preserves its instant',asyn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-ui.test.tsx > independent: saving an unchanged event preserves its instant
+AssertionError: expected { action: 'correct', …(8) } to match object { Object (event) }
+(10 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "event": {
+-     "occurredAt": "2026-09-06T08:00:00.000Z",
++     "occurredAt": "2026-09-06T00:00:00.000Z",
+    },
+  }
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-ui.test.tsx:85:44
+     83|  fireEvent.click(await screen.findByRole('button',{name:'查看与纠正'}));awa…
+     84|  fireEvent.click(screen.getByRole('button',{name:'保存纠正版本'}));expect(mu…
+     85|  expect(mutate.mock.calls[0]![0].mutation).toMatchObject({event:{occur…
+       |                                            ^
+     86| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 1 passed (4)
+   Start at  21:54:21
+   Duration  1.43s (transform 266ms, setup 256ms, import 378ms, tests 977ms, environment 732ms)
+

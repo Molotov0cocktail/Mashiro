@@ -1,0 +1,1 @@
+import {defineConfig} from 'vitest/config'; export default defineConfig({esbuild:{jsx:'automatic'},test:{include:['.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-*.test.{ts,tsx}'],setupFiles:['./tests/setup.ts'],restoreMocks:true}})

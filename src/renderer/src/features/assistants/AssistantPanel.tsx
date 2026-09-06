@@ -14,10 +14,12 @@ function errorText(result: Extract<AssistantResult, { ok: false }>): string {
 
 export function AssistantPanel({
   api,
-  onSnapshot
+  onSnapshot,
+  externalSnapshot
 }: {
   api: AssistantApi
   onSnapshot?: (snapshot: AssistantSnapshot) => void
+  externalSnapshot?: AssistantSnapshot | null
 }): React.JSX.Element {
   const [snapshot, setSnapshot] = useState<AssistantSnapshot | null>(null)
   const [displayName, setDisplayName] = useState('')
@@ -32,6 +34,16 @@ export function AssistantPanel({
     },
     [onSnapshot]
   )
+
+  useEffect(() => {
+    let active = true
+    queueMicrotask(() => {
+      if (active && externalSnapshot) setSnapshot(externalSnapshot)
+    })
+    return () => {
+      active = false
+    }
+  }, [externalSnapshot])
 
   useEffect(() => {
     let active = true

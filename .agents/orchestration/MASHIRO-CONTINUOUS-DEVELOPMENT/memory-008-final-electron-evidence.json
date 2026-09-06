@@ -1,0 +1,303 @@
+{
+  "runId": "54db278d-4470-492e-8e89-e826cd636bf8",
+  "startupFailureSanitized": true,
+  "pids": [
+    99292,
+    7536
+  ],
+  "electron": "44.1.1",
+  "node": "24.19.0",
+  "sqlite": "3.53.3",
+  "snapshot": {
+    "assistants": [
+      {
+        "id": "0ced9c51-4c9e-495d-9564-d5e47fe32f24",
+        "displayName": "Mashiro",
+        "isArchived": true,
+        "createdAt": "2026-09-06T14:10:21.917Z",
+        "updatedAt": "2026-09-06T14:10:21.947Z",
+        "archivedAt": "2026-09-06T14:10:21.947Z",
+        "version": 2
+      },
+      {
+        "id": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+        "displayName": "雪",
+        "isArchived": false,
+        "createdAt": "2026-09-06T14:10:21.923Z",
+        "updatedAt": "2026-09-06T14:10:21.936Z",
+        "archivedAt": null,
+        "version": 3
+      }
+    ],
+    "currentAssistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+    "primaryAssistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+    "stateRevision": 7
+  },
+  "provider": {
+    "connections": [
+      {
+        "id": "1dc4a9f3-8ac2-4472-8647-9471156df089",
+        "displayName": "BigModel synthetic",
+        "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+        "enabled": true,
+        "hasCredential": true,
+        "credentialPersistence": "persistent",
+        "createdAt": "2026-09-06T14:10:21.951Z",
+        "updatedAt": "2026-09-06T14:10:21.959Z",
+        "version": 2
+      }
+    ],
+    "bindings": [
+      {
+        "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+        "connectionId": "1dc4a9f3-8ac2-4472-8647-9471156df089",
+        "model": "GLM-5.3-FLASH",
+        "updatedAt": "2026-09-06T14:10:21.963Z",
+        "version": 1
+      }
+    ]
+  },
+  "timeline": {
+    "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+    "mode": "normal",
+    "messages": [
+      {
+        "id": "5593a944-3e71-42ff-8625-1ef12e7203ca",
+        "requestId": "d034ad1d-a9ab-4269-96f9-d2f60470db3f",
+        "role": "user",
+        "content": "E2E_NORMAL_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:21.979Z",
+        "saved": true
+      },
+      {
+        "id": "c15568fc-d06d-4411-8b3b-5fb7e13ed65d",
+        "requestId": "d034ad1d-a9ab-4269-96f9-d2f60470db3f",
+        "role": "assistant",
+        "content": "E2E_NORMAL_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:21.979Z",
+        "saved": true
+      },
+      {
+        "id": "cd2ecc94-1c58-4ebc-bbac-674b5e2af31f",
+        "requestId": "352fa5c3-c2b7-466d-9dce-ea961ee08daf",
+        "role": "user",
+        "content": "E2E_SAVED_TEMP_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:21.990Z",
+        "saved": true
+      },
+      {
+        "id": "e9c74e8d-45c4-48f7-8a3c-fdf32310ae3c",
+        "requestId": "352fa5c3-c2b7-466d-9dce-ea961ee08daf",
+        "role": "assistant",
+        "content": "E2E_SAVED_TEMP_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:21.990Z",
+        "saved": true
+      },
+      {
+        "id": "941ca8c3-d8ab-4da0-a7e3-8d6f2b575dd9",
+        "requestId": "2864dd41-dcec-4d8f-8b5a-4b98e854a215",
+        "role": "user",
+        "content": "E2E_TOOL_NORMAL",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:21.999Z",
+        "saved": true
+      },
+      {
+        "id": "52c714b3-5af3-4360-a9a3-70d9048364f4",
+        "requestId": "2864dd41-dcec-4d8f-8b5a-4b98e854a215",
+        "role": "assistant",
+        "content": "E2E_TOOL_REPLY",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:21.999Z",
+        "saved": true
+      },
+      {
+        "id": "b532dce0-63b1-499b-9ae5-cf35f2543e61",
+        "requestId": "ceab6d57-861b-4dd4-81c7-4f2c41a062af",
+        "role": "user",
+        "content": "E2E_PENDING_NORMAL",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:22.147Z",
+        "saved": true
+      },
+      {
+        "id": "4c58e03f-2844-4e1e-b306-65ad3b7b0c23",
+        "requestId": "ceab6d57-861b-4dd4-81c7-4f2c41a062af",
+        "role": "assistant",
+        "content": "E2E_PARTIAL_NORMAL",
+        "status": "interrupted",
+        "createdAt": "2026-09-06T14:10:22.147Z",
+        "saved": true
+      },
+      {
+        "id": "db233148-0952-4c93-acc4-434ca719666a",
+        "requestId": "d44b29e3-b7be-4fe6-ae31-9a7f35509bd0",
+        "role": "user",
+        "content": "E2E_VERIFY_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:23.247Z",
+        "saved": true
+      },
+      {
+        "id": "c3263e0b-6742-4695-8c01-c3875cb2e260",
+        "requestId": "d44b29e3-b7be-4fe6-ae31-9a7f35509bd0",
+        "role": "assistant",
+        "content": "E2E_VERIFY_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T14:10:23.247Z",
+        "saved": true
+      }
+    ],
+    "hasMore": false
+  },
+  "temporaryConversationReset": true,
+  "persistentCredentialProtected": true,
+  "historyPermission": {
+    "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+    "connectionId": "1dc4a9f3-8ac2-4472-8647-9471156df089",
+    "endpointFingerprint": "8822708c61ba1a72d8dd01ddee8a44d15dc6f63a1dcd5049fba9c24f62f6122d",
+    "endpointDisplay": "https://open.bigmodel.cn/api/paas/v4",
+    "readHistory": true,
+    "sendHistory": true,
+    "version": 1
+  },
+  "historyQueryVerified": true,
+  "memory": {
+    "query": {
+      "records": [
+        {
+          "id": "d8d5481c-47c4-4816-bf3d-d12d1a42893b",
+          "objectVersion": 2,
+          "kind": "user",
+          "scope": "global",
+          "ownerAssistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+          "title": "E2E_MEMORY",
+          "markdown": "E2E_MEMORY_CORRECTED",
+          "nature": "user-statement",
+          "event": null,
+          "state": "active",
+          "retention": "persistent",
+          "createdAt": "2026-09-06T14:10:22.076Z",
+          "updatedAt": "2026-09-06T14:10:22.088Z",
+          "sources": [
+            {
+              "type": "manual",
+              "id": "a4964ed4-026b-4497-ae55-9814bbbea7da",
+              "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+              "version": 1
+            },
+            {
+              "type": "manual",
+              "id": "be4908b8-0563-424a-96a0-4373447e5287",
+              "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+              "version": 1
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    },
+    "inspect": {
+      "record": {
+        "id": "d8d5481c-47c4-4816-bf3d-d12d1a42893b",
+        "objectVersion": 2,
+        "kind": "user",
+        "scope": "global",
+        "ownerAssistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+        "title": "E2E_MEMORY",
+        "markdown": "E2E_MEMORY_CORRECTED",
+        "nature": "user-statement",
+        "event": null,
+        "state": "active",
+        "retention": "persistent",
+        "createdAt": "2026-09-06T14:10:22.076Z",
+        "updatedAt": "2026-09-06T14:10:22.088Z",
+        "sources": [
+          {
+            "type": "manual",
+            "id": "a4964ed4-026b-4497-ae55-9814bbbea7da",
+            "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+            "version": 1
+          },
+          {
+            "type": "manual",
+            "id": "be4908b8-0563-424a-96a0-4373447e5287",
+            "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+            "version": 1
+          }
+        ]
+      },
+      "changes": [
+        {
+          "operationId": "be4908b8-0563-424a-96a0-4373447e5287",
+          "action": "correct",
+          "objectVersion": 2,
+          "createdAt": "2026-09-06T14:10:22.088Z",
+          "actor": "user"
+        },
+        {
+          "operationId": "a4964ed4-026b-4497-ae55-9814bbbea7da",
+          "action": "remember",
+          "objectVersion": 1,
+          "createdAt": "2026-09-06T14:10:22.076Z",
+          "actor": "user"
+        }
+      ],
+      "receipts": [
+        {
+          "operationId": "be4908b8-0563-424a-96a0-4373447e5287",
+          "objectId": "d8d5481c-47c4-4816-bf3d-d12d1a42893b",
+          "objectVersion": 2,
+          "state": "SUCCEEDED",
+          "summary": "记忆已保存并立即生效",
+          "confirmationId": null
+        },
+        {
+          "operationId": "a4964ed4-026b-4497-ae55-9814bbbea7da",
+          "objectId": "d8d5481c-47c4-4816-bf3d-d12d1a42893b",
+          "objectVersion": 1,
+          "state": "SUCCEEDED",
+          "summary": "记忆已保存并立即生效",
+          "confirmationId": null
+        }
+      ],
+      "providedToRequests": [],
+      "cleanupPending": false,
+      "organizationPending": true
+    },
+    "permissions": {
+      "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+      "scope": "global",
+      "version": 1,
+      "read": true,
+      "write": true,
+      "writeInferences": false,
+      "receive": true,
+      "endpointDisplay": "https://open.bigmodel.cn/api/paas/v4",
+      "endpointFingerprint": "8822708c61ba1a72d8dd01ddee8a44d15dc6f63a1dcd5049fba9c24f62f6122d"
+    },
+    "temporaryRejected": true
+  },
+  "memoryIpcLifecycleVerified": true,
+  "toolOperationRecovered": true,
+  "temporaryToolProtocolNotPersisted": true,
+  "toolOperationId": "da34cf5f-4f4f-4b41-876f-247a0606a8cd",
+  "selectedContextVerified": true,
+  "recoveryTransportCalls": 0,
+  "explicitSendTransportCalls": 1,
+  "chat": {
+    "requestId": "d44b29e3-b7be-4fe6-ae31-9a7f35509bd0",
+    "assistantId": "86e8fef5-5a12-4950-b7f5-02d1639df425",
+    "status": "completed",
+    "text": "E2E_VERIFY_ASSISTANT",
+    "usage": {
+      "promptTokens": 2,
+      "completionTokens": 1,
+      "totalTokens": 3
+    }
+  }
+}

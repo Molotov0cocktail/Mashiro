@@ -1,4 +1,13 @@
 import { randomUUID, createHash } from 'node:crypto'
+import { dirname, join } from 'node:path'
+import { MemoryService, MemoryError, MemoryMutationError } from '../memory/memory-service.js'
+import {
+  memoryCreateToolSchema,
+  memoryCorrectToolSchema,
+  memoryRemovalSchema,
+  type MemorySource,
+  type MemoryReceipt
+} from '../../shared/memory-contract.js'
 import {
   toolReadInputSchema,
   capabilityInputSchema,
@@ -130,7 +139,7 @@ function errorDetails(
 ): { message: string; retryable: boolean } {
   const values = {
     INVALID_INPUT: ['Provider request is invalid', false],
-    PERMISSION_DENIED: ['History access or recipient permission is denied', false],
+    PERMISSION_DENIED: ['Current data, source, business or recipient permission is denied', false],
     NOT_FOUND: ['Provider connection or binding was not found', false],
     STALE_WRITE: ['Provider settings changed; refresh and try again', false],
     ASSISTANT_ARCHIVED: ['Archived assistants cannot use Provider chat', false],
@@ -189,6 +198,7 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
 }
 
 export class ProviderService {
+  readonly memory: MemoryService
   private readonly toolLedger: ToolRepository
   private readonly temporaryToolLedger = new ToolRepository()
   private readonly repository: ProviderRepository
@@ -224,6 +234,18 @@ export class ProviderService {
     this.toolLedger = new ToolRepository(store)
     this.toolLedger.recover()
     this.vault = new CredentialVault(credentialDirectory, protector)
+    this.memory = new MemoryService(
+      store,
+      join(dirname(credentialDirectory), 'memory'),
+      (assistantId) => {
+        const p = this.permissionSnapshot(assistantId)
+        return { fingerprint: p.endpointFingerprint, display: p.endpointDisplay }
+      },
+      (exceptRequestId) => {
+        for (const [id, entry] of this.inflight)
+          if (id !== exceptRequestId && entry.mode === 'normal') entry.controller.abort()
+      }
+    )
   }
 
   static open(
@@ -350,7 +372,19 @@ export class ProviderService {
         data: {
           assistantId: value.assistantId,
           mode: value.mode,
-          operations: ledger.read(value.assistantId, value.requestId, includeHistory)
+          operations: ledger
+            .read(value.assistantId, value.requestId, includeHistory)
+            .map((operation) => {
+              if (value.mode !== 'normal' || !operation.memoryReceipt) return operation
+              return {
+                ...operation,
+                memoryReceipt:
+                  this.memory.businessReceipt(
+                    value.assistantId,
+                    operation.memoryReceipt.operationId
+                  ) ?? operation.memoryReceipt
+              }
+            })
         }
       })
     } catch (error) {
@@ -404,7 +438,7 @@ export class ProviderService {
           mode: 'standard-non-preserved',
           toolsAvailable: ready,
           reason: ready
-            ? '本轮可显式开启只读工具'
+            ? '本轮可显式开启工具；记忆写入另受业务权限限制'
             : !supported
               ? '此实际端点与模型尚无内置工具适配'
               : !connection!.enabled
@@ -601,8 +635,13 @@ export class ProviderService {
       )
         return chatFailure('CONFIGURATION')
       if (
-        value.tools === 'clock-and-history' &&
+        ['clock-and-history', 'clock-history-and-memory'].includes(value.tools) &&
         (value.mode !== 'normal' || value.context.kind === 'none')
+      )
+        return chatFailure('PERMISSION_DENIED')
+      if (
+        value.mode === 'temporary' &&
+        ['clock-and-memory', 'clock-history-and-memory'].includes(value.tools)
       )
         return chatFailure('PERMISSION_DENIED')
       const apiKey = this.vault.get(execution.connection.id)
@@ -614,7 +653,7 @@ export class ProviderService {
         const allowed = permissions.readHistory && permissions.sendHistory
         if (value.context.kind === 'selected' && !allowed)
           throw new ProviderDomainError('PERMISSION_DENIED')
-        if (value.tools === 'clock-and-history' && !allowed)
+        if (['clock-and-history', 'clock-history-and-memory'].includes(value.tools) && !allowed)
           throw new ProviderDomainError('PERMISSION_DENIED')
         if (value.context.kind === 'selected')
           this.toolLedger.assertSelectedSources(value.assistantId, value.context.requestIds)
@@ -649,7 +688,7 @@ export class ProviderService {
         )
           return chatFailure('LIMIT')
       }
-      const contextIds =
+      let contextIds =
         value.mode === 'normal'
           ? previous.length
             ? this.timeline.contextRequestIds(
@@ -664,6 +703,19 @@ export class ProviderService {
       const contextFingerprint = createHash('sha256')
         .update('chat-completions-v1|' + execution.connection.baseUrl)
         .digest('hex')
+      if (value.mode === 'normal') {
+        const acceptedIndices = new Set<number>()
+        for (const [index, id] of contextIds.entries()) {
+          try {
+            this.memory.assertRound(value.assistantId, id, contextFingerprint)
+            acceptedIndices.add(index)
+          } catch (error) {
+            if (value.context.kind !== 'recent' || !(error instanceof MemoryError)) throw error
+          }
+        }
+        previous = previous.filter((_message, index) => acceptedIndices.has(Math.floor(index / 2)))
+        contextIds = contextIds.filter((_id, index) => acceptedIndices.has(index))
+      }
       previous = (
         value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger
       ).expandContext(
@@ -695,14 +747,22 @@ export class ProviderService {
       // The user and pending response commit atomically BEFORE the transport starts.
       if (value.mode === 'normal') {
         this.timeline.insert(value.assistantId, [user, response])
-        if (previous.length > 0)
-          this.toolLedger.addSources(value.assistantId, value.requestId, contextIds)
-        if (previous.length > 0)
-          this.toolLedger.inheritSources(
-            value.assistantId,
+        if (previous.length > 0) {
+          this.memory.addDependencies(
+            'round',
             value.requestId,
-            value.context.kind === 'selected' ? value.context.requestIds : undefined
+            1,
+            contextIds.map((id) => ({
+              type: 'round',
+              id,
+              assistantId: value.assistantId,
+              version: 1
+            }))
           )
+          this.toolLedger.addSources(value.assistantId, value.requestId, contextIds)
+        }
+        if (previous.length > 0)
+          this.toolLedger.inheritSources(value.assistantId, value.requestId, contextIds)
       } else {
         session!.messages.push(user, response)
         this.sessions.set(value.assistantId, session!)
@@ -716,7 +776,9 @@ export class ProviderService {
             ? this.permissionSnapshot(value.assistantId).endpointFingerprint
             : null,
         historyUsed:
-          value.mode === 'normal' && (previous.length > 0 || value.tools === 'clock-and-history'),
+          value.mode === 'normal' &&
+          (previous.length > 0 ||
+            ['clock-and-history', 'clock-history-and-memory'].includes(value.tools)),
         controller,
         mode: value.mode,
         response
@@ -753,6 +815,9 @@ export class ProviderService {
       const endpointFingerprint = createHash('sha256')
         .update('chat-completions-v1|' + execution.connection.baseUrl)
         .digest('hex')
+      const providedMemory: MemorySource[] = []
+      const correctedInThisRound: MemorySource[] = []
+      const providedHistory = new Set<string>()
       const assertCurrent = () => {
         if (this.closed || controller!.signal.aborted) throw new ProviderDomainError('CANCELLED')
         const current = this.repository
@@ -772,13 +837,31 @@ export class ProviderService {
           throw new ProviderDomainError('ASSISTANT_ARCHIVED')
         if (
           value.mode === 'normal' &&
-          (previous.length > 0 || value.tools === 'clock-and-history')
+          (previous.length > 0 ||
+            ['clock-and-history', 'clock-history-and-memory'].includes(value.tools))
         ) {
           const permissions = this.historyPermissions.read(value.assistantId, endpointFingerprint)
           if (!permissions.readHistory || !permissions.sendHistory)
             throw new ProviderDomainError('PERMISSION_DENIED')
         }
+        if (value.mode === 'normal') {
+          for (const id of new Set([...contextIds, ...providedHistory]))
+            this.memory.assertRound(
+              value.assistantId,
+              id,
+              endpointFingerprint,
+              correctedInThisRound
+            )
+          for (const source of providedMemory)
+            this.memory.assertSource(
+              source,
+              value.assistantId,
+              endpointFingerprint,
+              correctedInThisRound
+            )
+        }
       }
+      assertCurrent()
       const result =
         value.tools === 'off'
           ? await this.transport(transportRequest)
@@ -803,7 +886,7 @@ export class ProviderService {
                 assertCurrent()
                 if (
                   value.mode !== 'normal' ||
-                  value.tools !== 'clock-and-history' ||
+                  !['clock-and-history', 'clock-history-and-memory'].includes(value.tools) ||
                   value.context.kind === 'none'
                 )
                   throw new ProviderDomainError('PERMISSION_DENIED')
@@ -814,7 +897,143 @@ export class ProviderService {
                   value.context.kind === 'selected' ? value.context.requestIds : undefined
                 )
                 assertCurrent()
+                for (const citation of citations.matches)
+                  this.memory.assertRound(
+                    value.assistantId,
+                    citation.requestId,
+                    endpointFingerprint
+                  )
+                for (const citation of citations.matches) providedHistory.add(citation.requestId)
+                this.memory.addDependencies(
+                  'round',
+                  value.requestId,
+                  1,
+                  citations.matches.map((citation) => ({
+                    type: 'round',
+                    id: citation.requestId,
+                    assistantId: value.assistantId,
+                    version: 1
+                  }))
+                )
                 return citations
+              },
+              memory: (call, operation) => {
+                assertCurrent()
+                if (value.mode !== 'normal') throw new ProviderDomainError('PERMISSION_DENIED')
+                const args = JSON.parse(call.function.arguments)
+                if (call.function.name === 'search_memory') {
+                  const records = this.memory.search(
+                    {
+                      assistantId: value.assistantId,
+                      requestId: value.requestId,
+                      fingerprint: endpointFingerprint,
+                      assertCurrent,
+                      sources: []
+                    },
+                    args.query,
+                    args.limit
+                  )
+                  providedMemory.push(
+                    ...records.map((record) => ({
+                      type: 'memory' as const,
+                      id: record.id,
+                      assistantId: record.ownerAssistantId,
+                      version: record.objectVersion
+                    }))
+                  )
+                  return {
+                    body: JSON.stringify({ records }),
+                    summary: '已提供 ' + records.length + ' 条获准记忆（不代表模型实际使用）'
+                  }
+                }
+                const mutation =
+                  call.function.name === 'write_memory'
+                    ? {
+                        ...memoryCreateToolSchema.parse(args),
+                        action: 'remember' as const,
+                        targetId: null,
+                        expectedVersion: null
+                      }
+                    : call.function.name === 'correct_memory'
+                      ? { ...memoryCorrectToolSchema.parse(args), action: 'correct' as const }
+                      : memoryRemovalSchema.parse(args)
+                const rawSource: MemorySource = {
+                  type: 'user-round',
+                  id: value.requestId,
+                  assistantId: value.assistantId,
+                  version: 1
+                }
+                if (
+                  'nature' in mutation &&
+                  mutation.nature === 'user-statement' &&
+                  !text.includes(mutation.markdown)
+                )
+                  throw new ProviderDomainError('PROTOCOL')
+                const sources: MemorySource[] =
+                  'nature' in mutation && mutation.nature === 'user-statement'
+                    ? [rawSource]
+                    : [
+                        rawSource,
+                        ...providedMemory,
+                        ...[...new Set([...contextIds, ...providedHistory])].map((id) => ({
+                          type: 'round' as const,
+                          id,
+                          assistantId: value.assistantId,
+                          version: 1
+                        }))
+                      ]
+                let receipt: MemoryReceipt
+                try {
+                  receipt = this.memory.toolMutation(
+                    {
+                      assistantId: value.assistantId,
+                      requestId: value.requestId,
+                      fingerprint: endpointFingerprint,
+                      assertCurrent,
+                      sources,
+                      toolOperationId: operation.operationId,
+                      commitReceipt: (receipt) => {
+                        this.toolLedger.update(
+                          {
+                            ...operation,
+                            state: 'SUCCEEDED',
+                            memoryReceipt: receipt,
+                            summary: receipt.summary.slice(0, 200),
+                            updatedAt: new Date().toISOString()
+                          },
+                          JSON.stringify(receipt),
+                          true
+                        )
+                      }
+                    },
+                    mutation
+                  )
+                } catch (error) {
+                  if (error instanceof MemoryMutationError && error.provenNotApplied) {
+                    const rejected = {
+                      ...operation,
+                      state: 'CONFIRMED_NOT_APPLIED' as const,
+                      summary: '已核查业务未提交，请检查目标、版本或权限',
+                      updatedAt: new Date().toISOString()
+                    }
+                    this.toolLedger.update(rejected)
+                    Object.assign(operation, rejected)
+                  }
+                  throw error
+                }
+                if (mutation.action === 'correct' && receipt.state === 'SUCCEEDED')
+                  correctedInThisRound.push({
+                    type: 'memory',
+                    id: receipt.objectId!,
+                    assistantId: value.assistantId,
+                    version: receipt.objectVersion!
+                  })
+                operation.memoryReceipt = receipt
+                const committed = this.toolLedger
+                  .read(value.assistantId, value.requestId)
+                  .find((record) => record.operationId === operation.operationId)
+                if (committed?.state === 'SUCCEEDED') Object.assign(operation, committed)
+                return { body: JSON.stringify(receipt), summary: receipt.summary.slice(0, 200) }
               },
               emit: (operation) => {
                 if (!this.closed)
@@ -1005,6 +1224,11 @@ export class ProviderService {
 }
 
 function failureFrom(error: unknown): Extract<ProviderResult, { ok: false }> {
+  if (error instanceof MemoryError) {
+    if (error.code === 'CONFLICT') return failure('LIMIT')
+    if (error.code === 'INTEGRITY') return failure('STORAGE_UNAVAILABLE')
+    return failure(error.code)
+  }
   if (error instanceof InvalidProviderInputError) return failure('INVALID_INPUT')
   if (error instanceof ProviderRequestInProgressError) return failure('REQUEST_IN_PROGRESS')
   if (error instanceof CredentialProtectionUnavailableError) {

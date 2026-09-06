@@ -1,3 +1,4 @@
+/* global console, process */
 import { DatabaseSync } from 'node:sqlite'
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, renameSync, openSync, fsyncSync, closeSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'

@@ -38,6 +38,10 @@ export interface ToolExecutionOptions {
   assertCurrent: () => void
   clock: () => Date
   history: (query: string, limit: number) => z.infer<typeof historyResultSchema>
+  memory?: (
+    call: import('./tool-protocol.js').ToolCall,
+    operation: ToolOperation
+  ) => { body: string; summary: string }
   emit: (operation: ToolOperation) => void
 }
 export async function executeToolChat(options: ToolExecutionOptions): Promise<TransportResult> {
@@ -138,7 +142,15 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
         if (
           validated.some(
             (c) =>
-              c.function.name === 'search_conversation_history' && scope !== 'clock-and-history'
+              (c.function.name === 'search_conversation_history' &&
+                !['clock-and-history', 'clock-history-and-memory'].includes(scope)) ||
+              ([
+                'search_memory',
+                'write_memory',
+                'correct_memory',
+                'request_memory_removal'
+              ].includes(c.function.name) &&
+                !['clock-and-memory', 'clock-history-and-memory'].includes(scope))
           )
         )
           throw new ProviderDomainError('PERMISSION_DENIED')
@@ -162,6 +174,9 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
             messages.push({ role: 'tool', tool_call_id: call.id, content: prior })
             continue
           }
+          const business = ['write_memory', 'correct_memory', 'request_memory_removal'].includes(
+            call.function.name
+          )
           const update = (state: ToolOperation['state'], summary: string, resultBody?: string) => {
             operation.state = state
             operation.summary = summary
@@ -174,15 +189,25 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
           } catch (error) {
             update(
               controller.signal.aborted ? 'CANCELLED_BEFORE_DISPATCH' : 'BLOCKED_BY_CURRENT_STATE',
-              '当前取消或权限状态阻止了读取'
+              business ? '当前取消或权限状态阻止了业务操作' : '当前取消或权限状态阻止了读取'
             )
             throw error
           }
-          update('DISPATCHING', '正在读取')
+          update(
+            'DISPATCHING',
+            business
+              ? call.function.name === 'request_memory_removal'
+                ? '正在准备操作确认，尚未删除或撤回'
+                : '正在提交记忆操作'
+              : '正在读取'
+          )
           try {
             check()
           } catch (error) {
-            update('CONFIRMED_NOT_APPLIED', '读取前已取消或撤权，未读取')
+            update(
+              'CONFIRMED_NOT_APPLIED',
+              business ? '提交前已取消或撤权，未执行业务操作' : '读取前已取消或撤权，未读取'
+            )
             throw error
           }
           let body: string
@@ -198,6 +223,11 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
                 })
               )
               operation.summary = '当前 UTC 时间：' + now.toISOString()
+            } else if (call.function.name !== 'search_conversation_history') {
+              if (!options.memory) throw new ProviderDomainError('PERMISSION_DENIED')
+              const result = options.memory(call, operation)
+              body = result.body
+              operation.summary = result.summary
             } else {
               const args = historyArgumentsSchema.parse(JSON.parse(call.function.arguments))
               check()
@@ -210,18 +240,28 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
                 : '未找到匹配的历史轮次'
             }
           } catch (error) {
-            update('RESULT_UNKNOWN', '读取在派发后中断，结果待核查；不会自动重做')
+            if ((operation as ToolOperation).state === 'DISPATCHING')
+              update('RESULT_UNKNOWN', '派发后中断，结果待核查；不会自动重做')
             throw error
           }
           try {
             check()
           } catch (error) {
             operation.citations = []
-            update('SUCCEEDED', '读取已完成，随后取消或撤权；结果未外发')
+            if ((operation as ToolOperation).state !== 'SUCCEEDED')
+              update(
+                'SUCCEEDED',
+                business
+                  ? '业务回执已持久化，随后取消或撤权；结果未外发'
+                  : '读取已完成，随后取消或撤权；结果未外发'
+              )
+            else options.emit(structuredClone(operation))
             throw error
           }
           // Completed read and its protocol result share an atomic local transaction.
-          update('SUCCEEDED', operation.summary, body)
+          if ((operation as ToolOperation).state !== 'SUCCEEDED')
+            update('SUCCEEDED', operation.summary, body)
+          else options.emit(structuredClone(operation))
           check()
           if (operation.citations.length)
             ledger.addSources(

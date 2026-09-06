@@ -227,6 +227,31 @@ const seedScript = `
   if(!toolOperations.ok||toolOperations.data.operations.length!==1||toolOperations.data.operations[0].state!=='SUCCEEDED')throw new Error('tool-operations')
   const temporaryTool=await provider.startChat({protocolVersion:1,requestId:crypto.randomUUID(),assistantId:second.id,text:'E2E_TOOL_TEMP_UNSAVED',mode:'temporary',tools:'clock',stream:false})
   if(!temporaryTool.ok)throw new Error('temporary-tool')
+  const memory = window.mashiro.memory
+  for (const scope of ['global','assistant']) {
+    const permission = await memory.permissions({protocolVersion:1,assistantId:second.id,scope})
+    if(!permission.ok) throw new Error('memory-permission')
+    const saved = await memory.setPermissions({protocolVersion:1,assistantId:second.id,scope,expectedVersion:permission.data.version,read:true,write:true,writeInferences:false,receive:true})
+    if(!saved.ok) throw new Error('memory-grant')
+  }
+  const memoryDraft={action:'remember',targetId:null,expectedVersion:null,kind:'user',scope:'global',title:'E2E_MEMORY',markdown:'E2E_MEMORY_ORIGINAL',nature:'user-statement',event:null}
+  const memorySaved=await memory.mutate({protocolVersion:1,assistantId:second.id,commandId:crypto.randomUUID(),mutation:memoryDraft})
+  if(!memorySaved.ok) throw new Error('memory-save')
+  const memoryCorrected=await memory.mutate({protocolVersion:1,assistantId:second.id,commandId:crypto.randomUUID(),mutation:{...memoryDraft,action:'correct',targetId:memorySaved.data.objectId,expectedVersion:1,markdown:'E2E_MEMORY_CORRECTED'}})
+  if(!memoryCorrected.ok) throw new Error('memory-correct')
+  const memoryTrash=await memory.mutate({protocolVersion:1,assistantId:second.id,commandId:crypto.randomUUID(),mutation:{...memoryDraft,title:'E2E_MEMORY_TRASH'}})
+  if(!memoryTrash.ok) throw new Error('memory-trash-save')
+  const memoryDelete=await memory.mutate({protocolVersion:1,assistantId:second.id,commandId:crypto.randomUUID(),mutation:{action:'delete',targetId:memoryTrash.data.objectId,expectedVersion:1}})
+  if(!memoryDelete.ok||memoryDelete.data.state!=='PENDING_CONFIRMATION'||!memoryDelete.data.impact) throw new Error('memory-delete-preview')
+  const memoryConfirmed=await memory.confirm({protocolVersion:1,assistantId:second.id,confirmationId:memoryDelete.data.confirmationId,accept:true})
+  if(!memoryConfirmed.ok||memoryConfirmed.data.state!=='SUCCEEDED') throw new Error('memory-delete-confirm')
+  const memoryTemporary=await provider.startChat({protocolVersion:1,requestId:crypto.randomUUID(),assistantId:second.id,text:'E2E_MEMORY_TEMP_UNSAVED',mode:'temporary',tools:'clock-and-memory',stream:false})
+  if(memoryTemporary.ok||memoryTemporary.error.code!=='PERMISSION_DENIED') throw new Error('memory-temporary')
+  const memoryQuery=await memory.query({protocolVersion:1,assistantId:second.id})
+  const memoryInspect=await memory.inspect({protocolVersion:1,assistantId:second.id,id:memorySaved.data.objectId})
+  const memoryPermissions=await memory.permissions({protocolVersion:1,assistantId:second.id,scope:'global'})
+  if(!memoryQuery.ok||!memoryInspect.ok||!memoryPermissions.ok) throw new Error('memory-inspect')
+  const memoryEvidence={query:memoryQuery.data,inspect:memoryInspect.data,permissions:memoryPermissions.data,temporaryRejected:true}
   const pendingRequestId = crypto.randomUUID()
   const deltaSeen = new Promise((resolve) => {
     const remove = provider.onEvent((event) => {
@@ -269,6 +294,7 @@ const seedScript = `
     timelineBeforeClose: timelineBeforeClose.data,
     temporaryBeforeClose: temporaryBeforeClose.data,
     pendingPartial,
+    memory:memoryEvidence,
     toolOperations:toolOperations.data.operations
   }
 })()
@@ -299,7 +325,13 @@ const verifyRestoreScript = `
   if(!historyPermission.ok) throw new Error(historyPermission.error.code)
   const historyPage=await window.mashiro.timeline.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,query:'E2E_NORMAL'})
   if(!historyPage.ok) throw new Error(historyPage.error.code)
+  const memoryQuery=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
+  if(!memoryQuery.ok||memoryQuery.data.records.length!==1)throw new Error('memory-restored-query')
+  const memoryInspect=await window.mashiro.memory.inspect({protocolVersion:1,assistantId:assistant.data.currentAssistantId,id:memoryQuery.data.records[0].id})
+  const memoryPermissions=await window.mashiro.memory.permissions({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
+  if(!memoryInspect.ok||!memoryPermissions.ok)throw new Error('memory-restored-inspect')
   return {
+    memory:{query:memoryQuery.data,inspect:memoryInspect.data,permissions:memoryPermissions.data,temporaryRejected:true},
     toolOperations:toolOperations.data.operations,
     historyPermission:historyPermission.data,
     historyPage:historyPage.data,
@@ -339,6 +371,7 @@ const verifySendScript = `
 `
 
 type SeedEvidence = {
+  memory: unknown
   toolOperations: import('../../shared/tool-contract.js').ToolOperation[]
   historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
   assistant: AssistantSnapshot
@@ -352,6 +385,7 @@ type SeedEvidence = {
   pendingPartial: string
 }
 type VerifyEvidence = {
+  memory: unknown
   toolOperations: import('../../shared/tool-contract.js').ToolOperation[]
   historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
   historyPage: { assistantId: string; messages: unknown[]; nextCursor: number | null }

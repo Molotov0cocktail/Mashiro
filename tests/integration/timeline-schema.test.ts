@@ -70,7 +70,7 @@ function populatedV2(): {
 
   const database = new DatabaseSync(path)
   database.exec(
-    'DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
+    'DROP TABLE memory_pending; DROP TABLE memory_cleanup; DROP TABLE memory_previews; DROP TABLE memory_suppressions; DROP TABLE memory_index; DROP TABLE memory_recipients; DROP TABLE memory_permissions; DROP TABLE memory_dependencies; DROP TABLE memory_commands; DROP TABLE memory_versions; DROP TABLE memory_objects; DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
   )
   database.exec('PRAGMA user_version = 2')
   database
@@ -152,7 +152,7 @@ describe('timeline schema v3', () => {
     const database = new DatabaseSync(item.path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(5)
+    ).toBe(6)
     expect(readV2Evidence(database)).toEqual(item.evidence)
     expectCredentialPreserved(item)
     expect(database.prepare('SELECT count(*) AS value FROM timeline_messages').get()).toEqual({

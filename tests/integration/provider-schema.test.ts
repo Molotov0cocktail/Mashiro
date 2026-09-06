@@ -31,7 +31,7 @@ describe('provider schema compatibility', () => {
 
     const legacy = new DatabaseSync(path)
     legacy.exec(
-      'DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
+      'DROP TABLE memory_pending; DROP TABLE memory_cleanup; DROP TABLE memory_previews; DROP TABLE memory_suppressions; DROP TABLE memory_index; DROP TABLE memory_recipients; DROP TABLE memory_permissions; DROP TABLE memory_dependencies; DROP TABLE memory_commands; DROP TABLE memory_versions; DROP TABLE memory_objects; DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
     )
     legacy.exec('DROP TABLE assistant_provider_bindings')
     legacy.exec('DROP TABLE provider_connections')
@@ -46,7 +46,7 @@ describe('provider schema compatibility', () => {
     const database = new DatabaseSync(path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(5)
+    ).toBe(6)
     database.close()
   })
   it('creates current storage and preserves assistant identities across restart', () => {
@@ -64,7 +64,7 @@ describe('provider schema compatibility', () => {
     const database = new DatabaseSync(path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(5)
+    ).toBe(6)
     expect(
       database
         .prepare(
@@ -94,7 +94,7 @@ describe('provider schema compatibility', () => {
 
     const legacy = new DatabaseSync(path)
     legacy.exec(
-      'DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
+      'DROP TABLE memory_pending; DROP TABLE memory_cleanup; DROP TABLE memory_previews; DROP TABLE memory_suppressions; DROP TABLE memory_index; DROP TABLE memory_recipients; DROP TABLE memory_permissions; DROP TABLE memory_dependencies; DROP TABLE memory_commands; DROP TABLE memory_versions; DROP TABLE memory_objects; DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; DROP TABLE timeline_messages'
     )
     legacy.exec('DROP TABLE assistant_provider_bindings')
     legacy.exec('DROP TABLE provider_connections')

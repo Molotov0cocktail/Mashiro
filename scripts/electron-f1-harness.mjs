@@ -179,6 +179,19 @@ try {
     throw new Error('Provider connection, binding, or credential restart evidence failed')
   }
 
+  if (
+    JSON.stringify(seed.memory) !== JSON.stringify(verify.memory) ||
+    verify.memory.query.records.length !== 1 ||
+    verify.memory.query.records[0].markdown !== 'E2E_MEMORY_CORRECTED' ||
+    verify.memory.query.records[0].objectVersion !== 2 ||
+    verify.memory.inspect.receipts.length !== 2 ||
+    verify.memory.inspect.record.sources.length !== 2 ||
+    !verify.memory.permissions.read ||
+    !verify.memory.permissions.receive ||
+    !verify.memory.permissions.write ||
+    !seed.memory.temporaryRejected
+  )
+    throw new Error('Memory IPC lifecycle, accepted receipt, source or permission recovery failed')
   const before = seed.timelineBeforeClose.messages
   const restored = verify.timelineRestored.messages
   const expectedBefore = [
@@ -356,6 +369,8 @@ try {
     persistentCredentialProtected: true,
     historyPermission: verify.historyPermission,
     historyQueryVerified: true,
+    memory: verify.memory,
+    memoryIpcLifecycleVerified: true,
     toolOperationRecovered: true,
     temporaryToolProtocolNotPersisted: true,
     toolOperationId: verify.toolOperations[0].operationId,

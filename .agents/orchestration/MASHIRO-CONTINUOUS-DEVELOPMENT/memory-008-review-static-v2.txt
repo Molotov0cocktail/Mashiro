@@ -1,0 +1,38 @@
+
+> mashiro@0.1.0 typecheck
+> tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.web.json --noEmit
+
+
+> mashiro@0.1.0 lint
+> eslint . --max-warnings=0
+
+
+> mashiro@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> mashiro@0.1.0 build
+> electron-vite build
+
+vite v7.3.6 building ssr environment for production...
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+out/main/index.js  207.80 kB
+✓ built in 272ms
+vite v7.3.6 building ssr environment for production...
+transforming...
+✓ 5 modules transformed.
+rendering chunks...
+out/preload/index.cjs  4.23 kB
+✓ built in 14ms
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+../../out/renderer/index.html                   0.63 kB
+../../out/renderer/assets/index-D5fiKl_8.css    9.29 kB
+../../out/renderer/assets/index-BpYNFcTV.js   706.35 kB
+✓ built in 443ms

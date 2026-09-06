@@ -3,7 +3,9 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testi
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
 import { timelineApi006Defaults } from './timeline-api-fixture'
+import { memoryApi008Defaults, memoryPermission } from './memory-api-fixture'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
+import type { MemoryApi } from '../../src/shared/memory-contract'
 import type {
   CapabilityResult,
   ProviderApi,
@@ -862,5 +864,253 @@ describe('ProviderPanel trusted tools and capability UI', () => {
     })
     expect(screen.getByText('已完成')).toBeInTheDocument()
     expect(screen.getByText('我们之前讨论过紫色主题')).toBeInTheDocument()
+  })
+
+  it('does not let a late pending snapshot regress a completed memory business receipt', async () => {
+    let listener: ((event: ProviderEvent) => void) | undefined
+    const pendingReads: Array<(value: ToolReadResult) => void> = []
+    const tools = vi.fn(() => new Promise<ToolReadResult>((resolve) => pendingReads.push(resolve)))
+    const startChat = vi.fn(
+      (...args: [StartChatInput]) => (
+        void args,
+        new Promise<Awaited<ReturnType<ProviderApi['startChat']>>>(() => {})
+      )
+    )
+    const memoryApi = {
+      ...memoryApi008Defaults(),
+      permissions: vi.fn(async (input) => ({
+        ok: true as const,
+        data: memoryPermission(input.scope, {
+          assistantId: input.assistantId,
+          write: true
+        })
+      }))
+    }
+    render(
+      <ProviderPanel
+        assistantSnapshot={assistants()}
+        api={provider({
+          tools,
+          startChat,
+          onEvent: vi.fn((value) => {
+            listener = value
+            return () => undefined
+          })
+        })}
+        timelineApi={timeline()}
+        memoryApi={memoryApi}
+      />
+    )
+    const memoryScope = await screen.findByRole('radio', {
+      name: '本机时钟 + 记忆与个人事件'
+    })
+    await waitFor(() => expect(memoryScope).toBeEnabled())
+    await waitFor(() => expect(pendingReads.length).toBeGreaterThan(0))
+    fireEvent.click(memoryScope)
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: '撤回旧称呼' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    const requestId = startChat.mock.calls[0]![0].requestId
+    const businessOperationId = '00000000-0000-4000-8000-000000000711'
+    const removal = operation({
+      operationId: '00000000-0000-4000-8000-000000000712',
+      requestId,
+      toolName: 'request_memory_removal',
+      summary: '已准备撤回',
+      citations: [],
+      memoryReceipt: {
+        operationId: businessOperationId,
+        objectId: '00000000-0000-4000-8000-000000000713',
+        objectVersion: 4,
+        state: 'SUCCEEDED',
+        summary: '已撤回并停止使用；原文/历史副本清理待生命周期处理。',
+        confirmationId: null
+      }
+    })
+    act(() =>
+      listener?.({ type: 'operation', requestId, assistantId: assistantA, operation: removal })
+    )
+    expect(await screen.findByText('已执行')).toBeInTheDocument()
+    await act(async () => {
+      for (const resolve of pendingReads)
+        resolve(
+          toolResult(assistantA, 'normal', [
+            {
+              ...removal,
+              memoryReceipt: {
+                ...removal.memoryReceipt!,
+                state: 'PENDING_CONFIRMATION',
+                confirmationId: '00000000-0000-4000-8000-000000000714'
+              }
+            }
+          ])
+        )
+    })
+    expect(screen.getByText('已执行')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '确认执行' })).not.toBeInTheDocument()
+  })
+  it('uses scoped trusted memory grants, sends the explicit scope, blocks it in temporary mode, and labels business receipts', async () => {
+    let listener: ((event: ProviderEvent) => void) | undefined
+    const memoryChanged = vi.fn()
+    const locateMemorySource = vi.fn(async () => undefined)
+    const startChat = vi.fn(async (input: StartChatInput) => ({
+      ok: true as const,
+      data: {
+        requestId: input.requestId,
+        assistantId: input.assistantId,
+        status: 'completed' as const,
+        text: '已处理',
+        usage: null
+      }
+    }))
+    const businessOperationId = '00000000-0000-4000-8000-000000000704'
+    const businessObjectId = '00000000-0000-4000-8000-000000000705'
+    const businessConfirmationId = '00000000-0000-4000-8000-000000000706'
+    const pendingMemoryReceipt = {
+      operationId: businessOperationId,
+      objectId: businessObjectId,
+      objectVersion: 3,
+      state: 'PENDING_CONFIRMATION' as const,
+      summary: '将撤回旧称呼的当前依据；原对话仍保留',
+      confirmationId: businessConfirmationId,
+      impact: {
+        sourceRounds: [{ assistantId: assistantA, requestId: citedRequestId }],
+        memoryIds: [businessObjectId],
+        roundIds: [citedRequestId],
+        totalMemories: 1,
+        totalRounds: 1,
+        truncated: false
+      }
+    }
+    const rows = [
+      operation({
+        operationId: '00000000-0000-4000-8000-000000000701',
+        toolName: 'write_memory',
+        summary: '已写入个人事件',
+        citations: []
+      }),
+      operation({
+        operationId: '00000000-0000-4000-8000-000000000702',
+        toolName: 'request_memory_removal',
+        summary: '已准备删除预览，等待本地确认',
+        citations: [],
+        memoryReceipt: pendingMemoryReceipt
+      })
+    ]
+    const confirm = vi.fn<MemoryApi['confirm']>(async () => ({
+      ok: true as const,
+      data: {
+        ...pendingMemoryReceipt,
+        state: 'SUCCEEDED' as const,
+        summary: '已撤回并停止使用；原文/历史副本清理待生命周期处理。',
+        confirmationId: null
+      }
+    }))
+    const memoryApi = {
+      ...memoryApi008Defaults(),
+      confirm,
+      permissions: vi.fn(async (input) => ({
+        ok: true as const,
+        data: memoryPermission(input.scope, {
+          assistantId: input.assistantId,
+          read: true,
+          write: input.scope === 'global',
+          receive: true
+        })
+      }))
+    }
+    render(
+      <ProviderPanel
+        assistantSnapshot={assistants()}
+        api={provider({
+          startChat,
+          tools: vi.fn(async (input) => toolResult(input.assistantId, input.mode, rows)),
+          onEvent: vi.fn((value) => {
+            listener = value
+            return () => undefined
+          })
+        })}
+        timelineApi={timeline()}
+        memoryApi={memoryApi}
+        onMemoryChanged={memoryChanged}
+        onLocateMemorySource={locateMemorySource}
+      />
+    )
+
+    const memoryScope = await screen.findByRole('radio', {
+      name: '本机时钟 + 记忆与个人事件'
+    })
+    await waitFor(() => expect(memoryScope).toBeEnabled())
+    expect(screen.getByText(/全局用户记忆：可读 · 可写/)).toBeInTheDocument()
+    fireEvent.click(memoryScope)
+    expect(screen.getByText(/每轮最多一个记忆或事件业务写操作/)).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: '记住我周六可能看展' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await waitFor(() => expect(startChat).toHaveBeenCalledTimes(1))
+    expect(startChat.mock.calls[0]![0].tools).toBe('clock-and-memory')
+    const requestId = startChat.mock.calls[0]![0].requestId
+    const liveWrite = operation({
+      operationId: '00000000-0000-4000-8000-000000000703',
+      requestId,
+      toolName: 'write_memory',
+      citations: []
+    })
+    act(() =>
+      listener?.({ type: 'operation', requestId, assistantId: assistantA, operation: liveWrite })
+    )
+    act(() =>
+      listener?.({ type: 'operation', requestId, assistantId: assistantA, operation: liveWrite })
+    )
+    expect(memoryChanged).toHaveBeenCalledTimes(1)
+    const liveCorrection = operation({
+      operationId: '00000000-0000-4000-8000-000000000707',
+      requestId,
+      toolName: 'correct_memory',
+      summary: '已纠正旧称呼',
+      citations: []
+    })
+    act(() =>
+      listener?.({
+        type: 'operation',
+        requestId,
+        assistantId: assistantA,
+        operation: liveCorrection
+      })
+    )
+    expect(memoryChanged).toHaveBeenCalledTimes(2)
+    const correctionCard = screen.getByRole('article', { name: '纠正记忆操作' })
+    expect(within(correctionCard).getByText('已纠正')).toBeInTheDocument()
+
+    const writeCard = (await screen.findByText('已写入个人事件')).closest('article')
+    expect(writeCard).not.toBeNull()
+    expect(within(writeCard!).getByText('已保存')).toBeInTheDocument()
+    const removalCard = screen.getByRole('article', { name: '删除或撤回请求操作' })
+    expect(within(removalCard).getByText('待本地确认')).toBeInTheDocument()
+    const confirmation = within(removalCard).getByRole('region', { name: '对话记忆操作确认' })
+    expect(within(confirmation).getByText(/受影响：1 条记忆或事件/)).toBeInTheDocument()
+    expect(within(confirmation).getByText(new RegExp(businessObjectId))).toBeInTheDocument()
+    expect(within(confirmation).getByRole('button', { name: '取消操作' })).toBeInTheDocument()
+    fireEvent.click(within(confirmation).getByRole('button', { name: '定位受影响来源轮次' }))
+    expect(locateMemorySource).toHaveBeenCalledWith({
+      assistantId: assistantA,
+      id: citedRequestId
+    })
+    fireEvent.click(within(confirmation).getByRole('button', { name: '确认执行' }))
+    await waitFor(() =>
+      expect(confirm).toHaveBeenCalledWith({
+        protocolVersion: 1,
+        assistantId: assistantA,
+        confirmationId: businessConfirmationId,
+        accept: true
+      })
+    )
+    expect(await within(removalCard).findByText('已执行')).toBeInTheDocument()
+    expect(within(removalCard).getByText(/已撤回并停止使用/)).toBeInTheDocument()
+    expect(memoryChanged).toHaveBeenCalledTimes(3)
+
+    fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
+    expect(
+      screen.queryByRole('radio', { name: '本机时钟 + 记忆与个人事件' })
+    ).not.toBeInTheDocument()
+    expect(screen.getByText(/不会读取或写入记忆、个人事件/)).toBeInTheDocument()
   })
 })

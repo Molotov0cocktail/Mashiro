@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../../../shared/assistant-contract'
+import type { MemoryApi } from '../../../../shared/memory-contract'
 import type {
   ContextIntent,
   ProviderApi,
@@ -95,11 +96,19 @@ function statusText(status: TimelineMessage['status']): string {
 export function ProviderPanel({
   assistantSnapshot,
   api,
-  timelineApi
+  timelineApi,
+  memoryApi,
+  historyTarget,
+  onMemoryChanged,
+  onLocateMemorySource
 }: {
   assistantSnapshot: AssistantSnapshot | null
   api: ProviderApi
   timelineApi: TimelineApi
+  memoryApi?: MemoryApi
+  historyTarget?: { assistantId: string; requestId: string; nonce: number } | null
+  onMemoryChanged?: () => void
+  onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>
 }): React.JSX.Element {
   const [snapshot, setSnapshot] = useState<ProviderSnapshot | null>(null)
   const [selectedId, setSelectedId] = useState('')
@@ -131,6 +140,8 @@ export function ProviderPanel({
   const citationEpochs = useRef<Record<string, number>>({})
   const operationSequence = useRef(0)
   const operationEvents = useRef<Record<string, Record<string, number>>>({})
+  const autoOperationReadVersions = useRef<Record<string, number>>({})
+  const notifiedMemoryOperations = useRef(new Set<string>())
   const [rejectedDrafts, setRejectedDrafts] = useState<RejectedDraftMap>({})
   const [settingsError, setSettingsError] = useState<string | null>(null)
   const [timelineErrors, setTimelineErrors] = useState<TextMap>({})
@@ -398,6 +409,15 @@ export function ProviderPanel({
           ...values,
           [key]: mergeToolOperations(values[key] ?? [], [operation])
         }))
+        if (
+          (event.operation.toolName === 'write_memory' ||
+            event.operation.toolName === 'correct_memory') &&
+          event.operation.state === 'SUCCEEDED' &&
+          !notifiedMemoryOperations.current.has(event.operation.operationId)
+        ) {
+          notifiedMemoryOperations.current.add(event.operation.operationId)
+          onMemoryChanged?.()
+        }
         return
       }
       const route = activeRequestsRef.current[event.assistantId]
@@ -435,7 +455,7 @@ export function ProviderPanel({
       active = false
       remove()
     }
-  }, [api, clearActiveRequest, invalidateRead])
+  }, [api, clearActiveRequest, invalidateRead, onMemoryChanged])
 
   useEffect(() => {
     let active = true
@@ -449,8 +469,11 @@ export function ProviderPanel({
 
   useEffect(() => {
     let active = true
+    const key = timelineKey(currentAssistantId, mode)
+    const autoVersion = (autoOperationReadVersions.current[key] ?? 0) + 1
+    autoOperationReadVersions.current[key] = autoVersion
     queueMicrotask(() => {
-      if (active) {
+      if (active && autoOperationReadVersions.current[key] === autoVersion) {
         void loadOperations(currentAssistantId, mode)
       }
     })
@@ -468,6 +491,25 @@ export function ProviderPanel({
       active = false
     }
   }, [currentAssistantId, historyBindingKey, loadCapabilities])
+
+  useEffect(() => {
+    if (!historyTarget || historyTarget.assistantId !== currentAssistantId) return
+    let active = true
+    queueMicrotask(() => {
+      if (!active) return
+      setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
+      setHistoryFocus((values) => ({
+        ...values,
+        [currentAssistantId]: {
+          requestId: historyTarget.requestId,
+          nonce: historyTarget.nonce
+        }
+      }))
+    })
+    return () => {
+      active = false
+    }
+  }, [currentAssistantId, historyTarget])
 
   const receiver = useMemo(() => {
     if (!executionConnection || !binding) return null
@@ -623,11 +665,16 @@ export function ProviderPanel({
     const requestTools: ToolScope =
       currentCapability?.assistantId !== assistantId || !currentCapability.toolsAvailable
         ? 'off'
-        : requestMode === 'temporary' && requestedTools === 'clock-and-history'
+        : requestMode === 'temporary' &&
+            (requestedTools === 'clock-and-history' ||
+              requestedTools === 'clock-and-memory' ||
+              requestedTools === 'clock-history-and-memory')
           ? 'clock'
           : requestContext.kind === 'none' && requestedTools === 'clock-and-history'
             ? 'clock'
-            : requestedTools
+            : requestContext.kind === 'none' && requestedTools === 'clock-history-and-memory'
+              ? 'clock-and-memory'
+              : requestedTools
     const key = timelineKey(assistantId, requestMode)
     const submitted = text
     const createdAt = new Date().toISOString()
@@ -743,120 +790,123 @@ export function ProviderPanel({
       {settingsError ? <p role="alert">{settingsError}</p> : null}
 
       <div className="provider-grid">
-        <form
-          className="provider-settings"
-          onSubmit={(event) => {
-            event.preventDefault()
-            void apply(() =>
-              api.saveConnection({
-                protocolVersion,
-                connectionId: selected?.id,
-                displayName,
-                baseUrl,
-                enabled,
-                expectedVersion: selected?.version
-              })
-            )
-          }}
-        >
-          <h2>连接设置</h2>
-          <label>
-            正在编辑
-            <select
-              value={selectedId}
-              onChange={(event) => selectConnection(event.currentTarget.value)}
-            >
-              <option value="">新建连接</option>
-              {snapshot?.connections.map((connection) => (
-                <option key={connection.id} value={connection.id}>
-                  {connection.displayName}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            连接名称
-            <input
-              value={displayName}
-              maxLength={80}
-              onChange={(event) => setDisplayName(event.currentTarget.value)}
-            />
-          </label>
-          <label>
-            HTTPS Base URL
-            <input value={baseUrl} onChange={(event) => setBaseUrl(event.currentTarget.value)} />
-          </label>
-          <label className="inline-check">
-            <input
-              type="checkbox"
-              checked={enabled}
-              onChange={(event) => setEnabled(event.currentTarget.checked)}
-            />
-            启用此连接
-          </label>
-          <button type="submit" disabled={!displayName.trim() || !baseUrl.trim()}>
-            保存连接
-          </button>
+        <details className="provider-settings-shell" open>
+          <summary>连接设置</summary>
+          <form
+            className="provider-settings"
+            onSubmit={(event) => {
+              event.preventDefault()
+              void apply(() =>
+                api.saveConnection({
+                  protocolVersion,
+                  connectionId: selected?.id,
+                  displayName,
+                  baseUrl,
+                  enabled,
+                  expectedVersion: selected?.version
+                })
+              )
+            }}
+          >
+            <h2>连接设置</h2>
+            <label>
+              正在编辑
+              <select
+                value={selectedId}
+                onChange={(event) => selectConnection(event.currentTarget.value)}
+              >
+                <option value="">新建连接</option>
+                {snapshot?.connections.map((connection) => (
+                  <option key={connection.id} value={connection.id}>
+                    {connection.displayName}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              连接名称
+              <input
+                value={displayName}
+                maxLength={80}
+                onChange={(event) => setDisplayName(event.currentTarget.value)}
+              />
+            </label>
+            <label>
+              HTTPS Base URL
+              <input value={baseUrl} onChange={(event) => setBaseUrl(event.currentTarget.value)} />
+            </label>
+            <label className="inline-check">
+              <input
+                type="checkbox"
+                checked={enabled}
+                onChange={(event) => setEnabled(event.currentTarget.checked)}
+              />
+              启用此连接
+            </label>
+            <button type="submit" disabled={!displayName.trim() || !baseUrl.trim()}>
+              保存连接
+            </button>
 
-          {selected ? (
-            <>
-              <label>
-                API Key
-                <input
-                  type="password"
-                  autoComplete="off"
-                  value={apiKey}
-                  onChange={(event) => setApiKey(event.currentTarget.value)}
-                />
-              </label>
-              <label className="inline-check">
-                <input
-                  type="checkbox"
-                  checked={persistent}
-                  onChange={(event) => setPersistent(event.currentTarget.checked)}
-                />
-                使用 Windows 凭据保护持久保存
-              </label>
-              <div className="button-row">
-                <button
-                  type="button"
-                  disabled={!apiKey}
-                  onClick={() => {
-                    const value = apiKey
-                    setApiKey('')
-                    void apply(() =>
-                      api.setCredential({
-                        protocolVersion,
-                        connectionId: selected.id,
-                        apiKey: value,
-                        persistence: persistent ? 'persistent' : 'temporary'
-                      })
-                    )
-                  }}
-                >
-                  提交 Key
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    void apply(() =>
-                      api.deleteCredential({ protocolVersion, connectionId: selected.id })
-                    )
-                  }
-                >
-                  删除 Key
-                </button>
-              </div>
-              <p role="status">
-                {selected.credentialPersistence === 'temporary'
-                  ? '当前使用运行期临时 Key；若先前保存过持久 Key，重启后仍会恢复持久 Key'
-                  : selected.credentialPersistence === 'persistent'
-                    ? 'Key 已由 Windows 凭据保护持久保存'
-                    : '尚未设置 Key'}
-              </p>
-            </>
-          ) : null}
-        </form>
+            {selected ? (
+              <>
+                <label>
+                  API Key
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    value={apiKey}
+                    onChange={(event) => setApiKey(event.currentTarget.value)}
+                  />
+                </label>
+                <label className="inline-check">
+                  <input
+                    type="checkbox"
+                    checked={persistent}
+                    onChange={(event) => setPersistent(event.currentTarget.checked)}
+                  />
+                  使用 Windows 凭据保护持久保存
+                </label>
+                <div className="button-row">
+                  <button
+                    type="button"
+                    disabled={!apiKey}
+                    onClick={() => {
+                      const value = apiKey
+                      setApiKey('')
+                      void apply(() =>
+                        api.setCredential({
+                          protocolVersion,
+                          connectionId: selected.id,
+                          apiKey: value,
+                          persistence: persistent ? 'persistent' : 'temporary'
+                        })
+                      )
+                    }}
+                  >
+                    提交 Key
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      void apply(() =>
+                        api.deleteCredential({ protocolVersion, connectionId: selected.id })
+                      )
+                    }
+                  >
+                    删除 Key
+                  </button>
+                </div>
+                <p role="status">
+                  {selected.credentialPersistence === 'temporary'
+                    ? '当前使用运行期临时 Key；若先前保存过持久 Key，重启后仍会恢复持久 Key'
+                    : selected.credentialPersistence === 'persistent'
+                      ? 'Key 已由 Windows 凭据保护持久保存'
+                      : '尚未设置 Key'}
+                </p>
+              </>
+            ) : null}
+          </form>
+        </details>
 
         <div className="temporary-chat">
           <h2>{mode === 'normal' ? '正常时间线' : '本次运行的严格临时会话'}</h2>
@@ -952,7 +1002,9 @@ export function ProviderPanel({
                   [currentKey]:
                     items[currentKey] === 'clock-and-history'
                       ? 'clock'
-                      : (items[currentKey] ?? 'off')
+                      : items[currentKey] === 'clock-history-and-memory'
+                        ? 'clock-and-memory'
+                        : (items[currentKey] ?? 'off')
                 }))
               }
             }}
@@ -974,6 +1026,7 @@ export function ProviderPanel({
             assistantId={currentAssistantId}
             mode={mode}
             contextIntent={contextIntent}
+            memoryApi={memoryApi}
             capability={currentCapability}
             capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
             capabilityError={capabilityErrors[currentAssistantId] ?? ''}
@@ -982,9 +1035,13 @@ export function ProviderPanel({
             operationLoading={operationLoading[currentKey] ?? false}
             operationError={operationErrors[currentKey] ?? ''}
             onScopeChange={(value) => setToolScopes((items) => ({ ...items, [currentKey]: value }))}
-            onRefreshOperation={(requestId) =>
+            onRefreshOperation={(requestId) => {
+              autoOperationReadVersions.current[currentKey] =
+                (autoOperationReadVersions.current[currentKey] ?? 0) + 1
               void loadOperations(currentAssistantId, mode, requestId)
-            }
+            }}
+            onMemoryChanged={onMemoryChanged}
+            onLocateMemorySource={onLocateMemorySource}
             onLocateCitation={(citation: HistoryCitation) =>
               setHistoryFocus((items) => ({
                 ...items,
@@ -1146,13 +1203,35 @@ function mergeToolOperations(
       : previous?.state === 'SUCCEEDED' && previous.citations.length === 0
         ? []
         : next.citations
-    byId.set(operation.operationId, { ...next, citations })
+    byId.set(operation.operationId, {
+      ...next,
+      citations,
+      memoryReceipt: mergeMemoryReceipt(
+        previous?.memoryReceipt,
+        operation.memoryReceipt,
+        Boolean(stale)
+      )
+    })
   }
   return [...byId.values()].sort((left, right) =>
     left.createdAt === right.createdAt
       ? left.operationId.localeCompare(right.operationId)
       : left.createdAt.localeCompare(right.createdAt)
   )
+}
+
+function mergeMemoryReceipt(
+  previous: ToolOperation['memoryReceipt'],
+  incoming: ToolOperation['memoryReceipt'],
+  outerOperationIsStale: boolean
+): ToolOperation['memoryReceipt'] {
+  if (outerOperationIsStale) return previous
+  if (!previous) return incoming
+  if (!incoming) return previous
+  if (previous.operationId !== incoming.operationId) return incoming
+  const rank = (state: NonNullable<ToolOperation['memoryReceipt']>['state']): number =>
+    state === 'PENDING_CONFIRMATION' ? 0 : 1
+  return rank(previous.state) > rank(incoming.state) ? previous : incoming
 }
 
 function reconcileTimelineMessages(

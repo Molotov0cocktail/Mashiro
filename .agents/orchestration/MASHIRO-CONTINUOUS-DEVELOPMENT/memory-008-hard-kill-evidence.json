@@ -1,0 +1,68 @@
+{
+  "root": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-memory-hard-kill-vm8rij",
+  "node": "v24.18.0",
+  "result": "SUPPORTED",
+  "results": [
+    {
+      "phase": "intent",
+      "pid": 52428,
+      "terminated": true,
+      "objects": 0,
+      "integrity": true,
+      "states": [
+        {
+          "state": "NOT_APPLIED"
+        }
+      ]
+    },
+    {
+      "phase": "file-temp",
+      "pid": 79100,
+      "terminated": true,
+      "objects": 0,
+      "integrity": true,
+      "states": [
+        {
+          "state": "NOT_APPLIED"
+        }
+      ]
+    },
+    {
+      "phase": "file-ready",
+      "pid": 96768,
+      "terminated": true,
+      "objects": 0,
+      "integrity": true,
+      "states": [
+        {
+          "state": "NOT_APPLIED"
+        }
+      ]
+    },
+    {
+      "phase": "before-commit",
+      "pid": 76404,
+      "terminated": true,
+      "objects": 0,
+      "integrity": true,
+      "states": [
+        {
+          "state": "NOT_APPLIED"
+        }
+      ]
+    },
+    {
+      "phase": "after-commit",
+      "pid": 96600,
+      "terminated": true,
+      "objects": 1,
+      "integrity": true,
+      "states": [
+        {
+          "state": "SUCCEEDED"
+        }
+      ]
+    }
+  ],
+  "limits": "Actual child-process hard termination on Windows; not electrical power-loss or full Electron qualification. Synthetic temporary artifacts retained at exact root."
+}
