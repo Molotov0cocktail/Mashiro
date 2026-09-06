@@ -1,7 +1,7 @@
 # 010 统一事项、提案与对话执行
 
-- TASK = 010；状态 = PLANNED / NEXT_AFTER_009；PROGRAM ACTIVE。
-- 编号核对未占用。008已独立FINAL PASS，当前正式产品任务为[009](009-retention-and-cleanup.md)，唯一入口为[progress](progress.md)，总需求见[项目总清单](program-docs-to-release.md)。[009](009-retention-and-cleanup.md)承接生命周期；本任务承接Q7、F01–F03/F07及对应业务权限。
+- TASK = 010；状态 = ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。
+- 编号核对未占用。008已独立FINAL PASS，009手动核心已审产品为`d6cd1fa4a27ccb418ffc3ff04503366acb133e2e`，两个main已实查同步，当前正式产品任务为本010，唯一入口为[progress](progress.md)，总需求见[项目总清单](program-docs-to-release.md)。[009](009-retention-and-cleanup.md)承接生命周期；本任务承接Q7、F01–F03/F07及对应业务权限。
 - 原文：proposal §3.4–3.5；high-level-design §5/13；detailed-design §7.3/8、ITEM-001–004及EXEC决议。独立Astra阅读所得[领域预案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-next-design.md)是实施输入，尚不是源码审计或冻结接口。
 
 ## 用户闭环
@@ -15,6 +15,8 @@
 
 ## 实施约束与依赖
 
+当前执行者items_010_trusted（实际gpt-6-astra / medium）单写main/shared/preload、trusted tests及harness；先冻结严格DTO供Sol UI并行，随后继续可信实现。root单写全局记录与Git。009独立41/255及最终双PID99400/115408有效；010新增差异需新审核。未审发行声明准备文件保留待Q10。
+
 - 复用007稳定operation、可信工具与协议续答，以及008领域授权/来源/接受回执；先承接008已关闭的来源与纠正修复，不复制旧缺陷。事项/提案事务状态由SQLite权威保存，不塞进记忆Markdown。
 - 已完成[实际源码方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-actual-plan.md)，覆盖可信明确指令、稳定业务slot、来源领域和009同事务联动。实施依赖009已审手动核心，不要求等待Q9自动整理或RET参数完成；相关分支保留明确阻止。
 - schema号和精确baseline读取最终现场，禁止预占或重写既有迁移。新增领域strict DTO/窄IPC，保留六个助手通道；renderer不能传SQL、任意路径、凭据或网络权限。
@@ -24,7 +26,7 @@
 
 ## 必要决议
 
-AST-006已批准永久删除私有聊天/关系/连续性记忆并保留全局共享记忆及正式事项。未接受提案在原助手永久删除后的范围已于2026-09-07提出具体问题：建议保留ID/状态、清除属于原助手私有正文并锁定协商，完整可读者可本地接受，缺失者需用户重写确认。当前待答，仅阻止含未接受提案的助手purge分支；不擅自套用正式事项结论、不自动转交其他助手或永久删除。当前可继续普通事项/提案闭环。
+AST-006已批准永久删除私有聊天/关系/连续性记忆并保留全局共享记忆及正式事项。2026-09-07用户已明确答复“未接受提案也一并永久删除”：永久删除发起助手时，其尚未接受提案一并永久删除，停止协商，不转交其他助手或保留待处理卡；已接受形成的正式事项按原AST保留。删除覆盖旧提案正文和可展开副本，迟到作业不能复活；防复活必要无正文墓碑及操作核查标识可保留。本答复取代此前保留ID/状态的推荐；该提案门禁解除，额外私有user/event和RET问题仍待答。当前可继续普通事项/提案闭环。
 
 RET-007保留策略已问待答，REM-002提醒默认仍待具体决议；不阻止本任务明确指令及提案零提前调度的实现。其余内部API、库、SQL和状态代码由工程链决定，不逐项交给用户审批。
 
