@@ -1,12 +1,12 @@
 # Mashiro 当前任务入口
 
-> 更新：2026-09-06。当前实施任务：[005 每助手持续时间线、显式保存与正常重启恢复](005-persistent-timeline.md)，CANDIDATE / INDEPENDENT REVIEW NEXT。此文件是唯一当前续接入口；下列历史文件只保存当时事实。
+> 更新：2026-09-06。当前实施任务：[005 每助手持续时间线、显式保存与正常重启恢复](005-persistent-timeline.md)，REPAIR IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT。此文件是唯一当前续接入口；下列历史文件只保存当时事实。
 
 新 Agent 先读本文件，再读当前任务、相关设计和所链接的最近证据。Git 实时 HEAD/远端值应查询 Git；不要把历史“尚未 push/等待审核”重新变成已完成切片的门禁。
 
 ## 当前、最近完成与下一步
 
-- 当前：005 合同与恢复入口已经建立，005 中文 UI、trusted/schema/IPC 与恢复 oracle 已汇合；完整 verify exit 0（20 files / 80 tests，真实新 PID 25572/62496）。下一动作是全新独立 6Astro review，修复或审核通过后按持续授权同步两远程。文档整理不是完成本轮开发。
+- 当前：005 候选独立 review 对精确 HEAD `842176053489e2d3d90037d7b36a31ef6129c415` 给出 REPAIR；冻结 [失败报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-8421760.md) 保留两项 UI P2。未发送草稿/诚实保存回执与在途 partial/terminal 快照合并修复已经实现，冻结 F1/F2 外部 oracle 均 exit 0；下一动作是完成局部验证并交全新独立复审。
 - 最近已审核产品交付：004 最终 main `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6`，独立最终 [Reviewer PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-f5aa9880.md)。连接、模型绑定、安全凭据和严格临时普通/流式文本已交付；持久聊天尚未交付。
 - 某次远程观测：2026-09-06 接管时本地 main/clean，github/main、gitee/main 的 `ls-remote` 均为 f5aa9880；上一轮 [push-close](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-push-close-f5aa9880.md) 记录该已审提交普通推送双远程成功。这些是观测事实，不预写本轮提交自身 SHA 或未来审核/推送。
 - 续接依据：[原始 continuation](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-continuation-f5aa9880.md)。三份报告由上一任务定位到明确原始目录，review SHA-256 核验匹配，逐字归档；来源/hash/Git 可恢复检查见 [入口接管记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-reconciliation.md)。
@@ -20,11 +20,11 @@
 | [002](002-node-sqlite-qualification.md)   | Electron 44.1.1 / node:sqlite      | QUALIFIED / REVIEW PASS，限定 DEV/main-only BUILT | PACKAGED 另设资格                                     |
 | [003](003-provider-live-qualification.md) | 指定真实端点能力资格               | 普通/流式 LIVE_VERIFIED，随 004 审核闭合          | 其余能力分别 NOT RUN，非整体完成                      |
 | [004](004-provider-text.md)               | Provider 连接与严格临时文本        | FINAL REVIEW PASS / 双远程同步已观测              | f5aa9880 原始 review、push-close、continuation 已归档 |
-| [005](005-persistent-timeline.md)         | 持续时间线、显式保存、正常重启恢复 | CANDIDATE / INDEPENDENT REVIEW NEXT              | 完整 verify 已过；下一步精确候选独立 review                              |
+| [005](005-persistent-timeline.md)         | 持续时间线、显式保存、正常重启恢复 | REPAIR IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT | 两项 UI P2 已修复；冻结外部 oracle 通过，待精确候选复审 |
 
 ## 阻塞、延期与验证边界
 
-- 005 当前无用户门禁；默认工具 helper 启动失败已有合法获批执行上下文，不能冒充产品阻塞。合成 transport 不依赖真实 Key；必要 live 新行为缺少 Key 时只索取 Key，等待时继续独立开发。
+- 005 当前无用户门禁；独立 review 已产生有界 UI REPAIR，修复完成前不得冒充 PASS。默认工具 helper 启动失败已有合法获批执行上下文，不能冒充产品阻塞。合成 transport 不依赖真实 Key；必要 live 新行为缺少 Key 时只索取 Key，等待时继续独立开发。
 - 005 候选最新测试 20 files / 80 tests；populated v2→v3 成功/回滚与独立 vault 保留已验，真实双 PID 恢复零自动请求。004 历史 17 files / 62 tests 保留为基线；新候选还未独立审核。
 - 003 共 4 次合成 live 调用，2 次 HTTP 400/code 1210，2 次 enabled+low 普通/流式成功；每次成功 usage 22/4/26。测试 Key 已清理。真实取消、工具、结构化输出、思考续接、个人数据均 NOT RUN。
 - 历史 Toolhelp32 -003 辅助审计 failed/deferred/non-blocking，禁止重跑或派生 -004；它不等于产品任务 003/004。

@@ -154,11 +154,20 @@ describe('ProviderPanel persistent timeline UI', () => {
         true
       )
     ]
-    const completed = [
+    let completedRequestId = ''
+    const completed = (): TimelineMessage[] => [
       ...restored,
       message(
         '00000000-0000-4000-8000-000000000104',
-        '00000000-0000-4000-8000-000000000203',
+        completedRequestId,
+        'user',
+        '新的正常问题',
+        'completed',
+        true
+      ),
+      message(
+        '00000000-0000-4000-8000-000000000105',
+        completedRequestId,
         'assistant',
         '新回答',
         'completed',
@@ -169,20 +178,23 @@ describe('ProviderPanel persistent timeline UI', () => {
     const timelineApi = {
       read: vi.fn(async (input) => {
         reads += 1
-        return success(input.assistantId, input.mode, reads === 1 ? restored : completed, true)
+        return success(input.assistantId, input.mode, reads === 1 ? restored : completed(), true)
       }),
       saveTemporary: vi.fn()
     } as TimelineApi
-    const startChat = vi.fn(async (input: StartChatInput) => ({
-      ok: true as const,
-      data: {
-        requestId: input.requestId,
-        assistantId: input.assistantId,
-        status: 'completed' as const,
-        text: '新回答',
-        usage: null
+    const startChat = vi.fn(async (input: StartChatInput) => {
+      completedRequestId = input.requestId
+      return {
+        ok: true as const,
+        data: {
+          requestId: input.requestId,
+          assistantId: input.assistantId,
+          status: 'completed' as const,
+          text: '新回答',
+          usage: null
+        }
       }
-    }))
+    })
 
     render(
       <ProviderPanel
@@ -301,8 +313,9 @@ describe('ProviderPanel persistent timeline UI', () => {
     let resolveRequest: ((result: ProviderChatResult) => void) | undefined
     let finished = false
     let streamed = false
+    let capturedRequestId = ''
     const startChat = vi.fn((input: StartChatInput) => {
-      void input
+      capturedRequestId = input.requestId
       return new Promise<ProviderChatResult>((resolve) => (resolveRequest = resolve))
     })
     const timelineApi = {
@@ -311,7 +324,15 @@ describe('ProviderPanel persistent timeline UI', () => {
           ? success(assistantA, 'temporary', [
               message(
                 '00000000-0000-4000-8000-000000000121',
-                '00000000-0000-4000-8000-000000000221',
+                capturedRequestId,
+                'user',
+                '临时问题',
+                'completed',
+                false
+              ),
+              message(
+                '00000000-0000-4000-8000-000000000122',
+                capturedRequestId,
                 'assistant',
                 '局部输出',
                 finished ? 'interrupted' : 'pending',
@@ -333,6 +354,7 @@ describe('ProviderPanel persistent timeline UI', () => {
     render(<ProviderPanel assistantSnapshot={assistants()} api={api} timelineApi={timelineApi} />)
     await screen.findByText(/实际接收方：Receiver/)
     fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(2))
     fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: '临时问题' } })
     fireEvent.click(screen.getByRole('button', { name: '发送' }))
     await waitFor(() => expect(startChat).toHaveBeenCalledTimes(1))
@@ -340,6 +362,7 @@ describe('ProviderPanel persistent timeline UI', () => {
     expect(request.mode).toBe('temporary')
 
     fireEvent.click(screen.getByRole('radio', { name: '正常模式（自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(3))
     streamed = true
     act(() =>
       listener?.({
@@ -352,6 +375,7 @@ describe('ProviderPanel persistent timeline UI', () => {
     expect(screen.queryByText('局部输出')).toBeNull()
 
     fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(4))
     expect(await screen.findByText('局部输出')).toBeInTheDocument()
     finished = true
     await act(async () => {
@@ -427,5 +451,199 @@ describe('ProviderPanel persistent timeline UI', () => {
     })
     expect(screen.getByText('Beta 的历史')).toBeInTheDocument()
     expect(screen.queryByText('Alpha 的迟到历史')).toBeNull()
+  })
+
+  it('keeps a rejected temporary input as an unsent draft and reports an empty save honestly', async () => {
+    const timelineApi = {
+      read: vi.fn(async (input) => success(input.assistantId, input.mode, [])),
+      saveTemporary: vi.fn(async () => success(assistantA, 'temporary', []))
+    } as TimelineApi
+    const api = mockProvider({
+      startChat: vi.fn(async () => ({
+        ok: false as const,
+        error: {
+          code: 'CREDENTIAL_MISSING' as const,
+          message: 'missing credential',
+          correlationId: 'corr-rejected',
+          retryable: false
+        }
+      }))
+    })
+    render(<ProviderPanel assistantSnapshot={assistants()} api={api} timelineApi={timelineApi} />)
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(2))
+    fireEvent.change(screen.getByLabelText('临时消息'), {
+      target: { value: 'USER_EXPECTS_TO_SAVE_THIS' }
+    })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await waitFor(() => expect(api.startChat).toHaveBeenCalledTimes(1))
+    expect(await screen.findByText(/请先为连接设置 API Key/)).toBeInTheDocument()
+    expect(screen.getByText('USER_EXPECTS_TO_SAVE_THIS')).toBeInTheDocument()
+    expect(screen.getByText(/未发送.*未保存.*未进入可保存的临时时间线/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: '保存到此助手时间线' }))
+    expect(await screen.findByText(/没有临时时间线消息被保存/)).toBeInTheDocument()
+    expect(screen.queryByText(/已将当前临时会话中 2 条/)).toBeNull()
+    expect(screen.getByText('USER_EXPECTS_TO_SAVE_THIS')).toBeInTheDocument()
+    expect(screen.getByText(/未发送.*未保存.*未进入可保存的临时时间线/)).toBeInTheDocument()
+  })
+
+  it('preserves a captured normal partial across mode, assistant, and stale pending reads', async () => {
+    let listener: ((event: ProviderEvent) => void) | undefined
+    let activeRequestId = ''
+    let finalized = false
+    let delayNextNormalRead = false
+    let resolveDelayedRead: ((result: TimelineResult) => void) | undefined
+    let resolveRequest: ((result: ProviderChatResult) => void) | undefined
+    const pending = (): TimelineMessage[] => [
+      message(
+        '00000000-0000-4000-8000-000000000151',
+        activeRequestId,
+        'user',
+        '触发流式响应',
+        'completed',
+        true
+      ),
+      message(
+        '00000000-0000-4000-8000-000000000152',
+        activeRequestId,
+        'assistant',
+        '',
+        'pending',
+        true
+      )
+    ]
+    const terminal = (): TimelineMessage[] => [
+      message(
+        '00000000-0000-4000-8000-000000000151',
+        activeRequestId,
+        'user',
+        '触发流式响应',
+        'completed',
+        true
+      ),
+      message(
+        '00000000-0000-4000-8000-000000000152',
+        activeRequestId,
+        'assistant',
+        'RECEIVED_PARTIAL_MUST_REMAIN',
+        'interrupted',
+        true
+      )
+    ]
+    const timelineApi = {
+      read: vi.fn(async (input) => {
+        if (input.assistantId === assistantB) {
+          return success(assistantB, input.mode, [
+            message(
+              '00000000-0000-4000-8000-000000000153',
+              '00000000-0000-4000-8000-000000000253',
+              'user',
+              'Beta 独立历史',
+              'completed',
+              true
+            )
+          ])
+        }
+        if (input.mode === 'temporary' || !activeRequestId)
+          return success(input.assistantId, input.mode, [])
+        if (delayNextNormalRead) {
+          delayNextNormalRead = false
+          return new Promise<TimelineResult>((resolve) => {
+            resolveDelayedRead = resolve
+          })
+        }
+        return success(assistantA, 'normal', finalized ? terminal() : pending())
+      }),
+      saveTemporary: vi.fn()
+    } as TimelineApi
+    const startChat = vi.fn((input: StartChatInput) => {
+      activeRequestId = input.requestId
+      return new Promise<ProviderChatResult>((resolve) => {
+        resolveRequest = resolve
+      })
+    })
+    const api = mockProvider({
+      startChat,
+      onEvent: vi.fn((callback) => {
+        listener = callback
+        return () => undefined
+      })
+    })
+    const view = render(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: '触发流式响应' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await waitFor(() => expect(startChat).toHaveBeenCalledTimes(1))
+    act(() => {
+      listener?.({
+        type: 'delta',
+        assistantId: assistantA,
+        requestId: activeRequestId,
+        text: 'RECEIVED_PARTIAL_MUST_REMAIN'
+      })
+    })
+    expect(screen.getByText('RECEIVED_PARTIAL_MUST_REMAIN')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(2))
+    fireEvent.click(screen.getByRole('radio', { name: '正常模式（自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(3))
+    expect(screen.getByText('RECEIVED_PARTIAL_MUST_REMAIN')).toBeInTheDocument()
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantB)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
+    expect(await screen.findByText('Beta 独立历史')).toBeInTheDocument()
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
+    expect(await screen.findByText('RECEIVED_PARTIAL_MUST_REMAIN')).toBeInTheDocument()
+    expect(screen.queryByText('Beta 独立历史')).toBeNull()
+
+    const readsBeforeTerminalRace = vi.mocked(timelineApi.read).mock.calls.length
+    fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(readsBeforeTerminalRace + 1))
+    delayNextNormalRead = true
+    fireEvent.click(screen.getByRole('radio', { name: '正常模式（自动保存）' }))
+    await waitFor(() => expect(resolveDelayedRead).toBeTypeOf('function'))
+    act(() => {
+      listener?.({ type: 'interrupted', assistantId: assistantA, requestId: activeRequestId })
+    })
+    await act(async () => {
+      resolveDelayedRead?.(success(assistantA, 'normal', pending()))
+    })
+    expect(screen.getByText('RECEIVED_PARTIAL_MUST_REMAIN')).toBeInTheDocument()
+    const interruptedArticle = screen.getByText('RECEIVED_PARTIAL_MUST_REMAIN').closest('article')
+    if (!interruptedArticle) throw new Error('interrupted article missing')
+    expect(within(interruptedArticle).getByText(/响应中断/)).toBeInTheDocument()
+    finalized = true
+    await act(async () => {
+      resolveRequest?.({
+        ok: true,
+        data: {
+          assistantId: assistantA,
+          requestId: activeRequestId,
+          status: 'interrupted',
+          text: 'RECEIVED_PARTIAL_MUST_REMAIN',
+          usage: null
+        }
+      })
+    })
+    const finalArticle = screen.getByText('RECEIVED_PARTIAL_MUST_REMAIN').closest('article')
+    if (!finalArticle) throw new Error('final article missing')
+    expect(within(finalArticle).getByText(/响应中断/)).toBeInTheDocument()
   })
 })

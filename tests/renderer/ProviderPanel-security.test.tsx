@@ -66,7 +66,7 @@ const providerSnapshot: ProviderSnapshot = {
     }
   ]
 }
-function mockTimelineApi(completedText?: string): TimelineApi {
+function mockTimelineApi(completedText?: string, requestId?: () => string): TimelineApi {
   let reads = 0
   return {
     read: vi.fn(async (input) => {
@@ -81,7 +81,16 @@ function mockTimelineApi(completedText?: string): TimelineApi {
               ? [
                   {
                     id: '00000000-0000-4000-8000-000000000101',
-                    requestId: '00000000-0000-4000-8000-000000000201',
+                    requestId: requestId?.() ?? '00000000-0000-4000-8000-000000000201',
+                    role: 'user' as const,
+                    content: 'synthetic request',
+                    status: 'completed' as const,
+                    saved: true,
+                    createdAt: '2026-09-06T00:00:00.000Z'
+                  },
+                  {
+                    id: '00000000-0000-4000-8000-000000000102',
+                    requestId: requestId?.() ?? '00000000-0000-4000-8000-000000000201',
                     role: 'assistant' as const,
                     content: completedText,
                     status: 'completed' as const,
@@ -129,21 +138,25 @@ describe('ProviderPanel security and receiver routing', () => {
 
   it('renders a remote response as text without creating injected markup', async () => {
     const hostile = '<img src=x onerror=alert(1)>'
-    const startChat = vi.fn(async (input: StartChatInput) => ({
-      ok: true as const,
-      data: {
-        requestId: input.requestId,
-        assistantId: input.assistantId,
-        status: 'completed' as const,
-        text: hostile,
-        usage: null
+    let capturedRequestId = ''
+    const startChat = vi.fn(async (input: StartChatInput) => {
+      capturedRequestId = input.requestId
+      return {
+        ok: true as const,
+        data: {
+          requestId: input.requestId,
+          assistantId: input.assistantId,
+          status: 'completed' as const,
+          text: hostile,
+          usage: null
+        }
       }
-    }))
+    })
     render(
       <ProviderPanel
         assistantSnapshot={assistantSnapshot}
         api={mockApi({ startChat })}
-        timelineApi={mockTimelineApi(hostile)}
+        timelineApi={mockTimelineApi(hostile, () => capturedRequestId)}
       />
     )
     await screen.findByText(/实际接收方：Bound receiver/)

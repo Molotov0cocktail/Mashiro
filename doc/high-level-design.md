@@ -1,13 +1,19 @@
 # Mashiro 高层设计
 
-> 当前状态：004 Provider 连接与严格临时文本：实现与验证完成 / FINAL DOCS DELTA REVIEW REQUIRED
-> 当前更新：2026-09-06。下方旧 F1 状态作为历史记录保留。
+> 当前状态：005 每助手持续时间线有界修复已实现 / INDEPENDENT RE-REVIEW REQUIRED
+> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md) 与 [005 任务](tasks/005-persistent-timeline.md)；下方 004 与 F1 状态均为历史记录。
 
 ## 当前架构增量
 
-Mashiro 现在以 `renderer → typed preload → strict Provider IPC → ProviderService → repository/vault/transport` 实现第一条 Provider 文本路径。SQLite 只保存连接和助手绑定，Windows 安全凭据存放在独立仓库外 vault，临时正文只存在主进程按助手隔离的有界 session。一次请求固定实际连接与模型，transport 负责受限 HTTPS、SSE、超时、取消、体积、错误和用量规范化。用户界面始终显示绑定后的实际接收方，不用设置下拉框冒充当前执行目标。
+当前链路为 `renderer → typed preload → strict Provider/timeline IPC → ProviderService → timeline/provider repository + vault + transport`。SQLite schema v3 保存每个助手的正常消息和真实状态；严格临时正文仅在主进程按助手隔离的有界 session 中，显式保存由 trusted 事务复制并按稳定来源消息 ID 去重。正常读取只返回最近 100 条，外发上下文只选当前助手最近 16 组已完成合格对话，并受 64,000 UTF-16 字符总输入预算限制。
 
-真实资格只覆盖 `https://open.bigmodel.cn/api/paas/v4`、`GLM-5.3-FLASH` 的普通与流式文本；工具、结构化输出和持久时间线仍不在本切片中。
+renderer 只展示消息、未发送草稿与用户意图。读取快照以捕获的 assistant/request/mode 合并在途可见正文，旧读取不能回退更新后的 partial 或终态；可信终态到达后取代本地覆盖。保存回执只按 trusted 返回的实际 saved 消息计算，未接纳输入不会被当作临时时间线消息。候选修复正在等待独立复审。
+
+## 历史 004 Provider 文本架构
+
+004 以 `renderer → typed preload → strict Provider IPC → ProviderService → repository/vault/transport` 实现第一条 Provider 文本路径。SQLite 在该切片只保存连接和助手绑定，Windows 安全凭据存放在独立仓库外 vault，临时正文只存在主进程按助手隔离的有界 session。一次请求固定实际连接与模型，transport 负责受限 HTTPS、SSE、超时、取消、体积、错误和用量规范化。
+
+真实资格只覆盖 `https://open.bigmodel.cn/api/paas/v4`、`GLM-5.3-FLASH` 的普通与流式文本；工具和结构化输出仍不在 005 中。
 
 ---
 > 当前状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED

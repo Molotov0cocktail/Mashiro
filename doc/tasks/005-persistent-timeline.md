@@ -1,6 +1,6 @@
 # 005 每助手持续时间线、显式保存与正常重启恢复
 
-> 状态：CANDIDATE / INDEPENDENT REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
+> 状态：REPAIR IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
 > 当前入口：[progress.md](progress.md)。本任务是稳定合同，计划可随直接证据调整；勾选完成须有代码、测试或审核依据。
 
 ## 基线与目标
@@ -59,7 +59,7 @@
 
 工具现场：默认 exec/Node helper 在进程创建前 setup refresh 失败，主 Agent 已核验 require_escalated exec 可执行；这不是产品失败或拒绝可绕过的许可。编辑采用固定 allowlist、preimage、exact transform、同目录临时文件、原子替换/备份回滚、postimage 和最小 diff；平台明确拒绝不得绕过。
 
-下一动作：完整候选验证已完成，提交后交全新独立 Reviewer；有界修复/复核后按授权双远程同步。入口整理不是本轮终止点。005 完成后由新状态评估者选择下一高价值切片；候选为时间线浏览/检索与局部上下文选择，需先登记任务，长期记忆继续另设切片。
+下一动作：两项 UI P2 的有界修复与局部验证完成后形成精确修复候选，交全新独立 Reviewer 复审；复核 PASS 后按授权双远程同步。入口整理不是本轮终止点。005 完成后由新状态评估者选择下一高价值切片；候选为时间线浏览/检索与局部上下文选择，需先登记任务，长期记忆继续另设切片。
 
 ## 实施证据（2026-09-06，候选尚未独立审核）
 
@@ -78,4 +78,11 @@
 - populated v2 成功升级及第二 DDL 冲突回滚保留助手/归档/primary/current/revision、连接/绑定/版本；独立 vault 密文逐字节不变且仍能解密。旧 v1 测试夹具初次未删除新增 v3 表导致冲突，已修正夹具并通过，未放宽产品 guard。
 - `npm ls --all --json` exit 0；foundation validator exit 0，errors/warnings 均空；secret/generated/residual scan 零匹配，`git diff --check` exit 0。无依赖版本或 lockfile 变化。
 - UI 首次旧 fixture 缺 timelineApi、effect 同步 setState lint 及完成后返回空 timeline 的 fixture 语义已修正；完整链重新通过。没有删除/跳过测试，无新 paid/live Provider 请求；004 未改 transport 资格沿用。
-- 仍 NOT RUN：全新独立候选 review、候选双远程 push（由后续角色处理）；PACKAGED、安装器、全面崩溃恢复、多实例、真实个人数据、Release/部署及其他延期高级 Provider 能力不在本片范围。历史 Toolhelp32 -003 保留 failed/deferred/non-blocking，未重跑或派生。
+- 仍 NOT RUN：候选双远程 push（由后续角色处理）；PACKAGED、安装器、全面崩溃恢复、多实例、真实个人数据、Release/部署及其他延期高级 Provider 能力不在本片范围。历史 Toolhelp32 -003 保留 failed/deferred/non-blocking，未重跑或派生。
+
+## 独立审查 REPAIR 与有界修复（2026-09-06）
+
+- 独立 Reviewer 对精确 HEAD `842176053489e2d3d90037d7b36a31ef6129c415` 给出 REPAIR；冻结 [原始报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-8421760.md) SHA-256 `38399EF35CD24003CFA8167C7055E582D32C5101E4E1B2FC422B89BBC13DEB76`，原文不改。
+- F1：Provider 在 trusted 建会话前拒绝时，renderer 将输入从可信时间线撤出并保留为明确的“未发送、未保存”草稿；显式保存只按 trusted 回执中由 unsaved 变为 saved 的稳定消息 ID 计数，空保存不再删除草稿或虚报两条。
+- F2：每个 `assistantId:mode` 的 captured request 在 pending/terminal 期间受保护；读取使用可信消息 ID/元数据并保留更晚的本地 partial/terminal，delta 或 terminal 会使更早读取失效，可信 terminal 最终取代覆盖层。仓库回归覆盖模式切换、助手切换和 terminal 后迟到 pending 读取。
+- 冻结外部 `review-ui.test.tsx` 与 `review-stream.test.tsx` 已分别 exit 0（各 1 test）；仓库 timeline 6 tests、renderer 全组 6 files / 13 tests、`npm run typecheck`、`npm run lint`、`npm run format:check`、build 与 diff-check 均 exit 0。renderer 全组首次 1 fail 来自旧 security 成功 fixture 的固定错误 request ID；改为捕获真实请求并返回完整成功 snapshot 后通过。精确修复候选仍待独立复审；本段不构成 PASS。

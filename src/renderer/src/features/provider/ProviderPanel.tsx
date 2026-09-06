@@ -33,6 +33,9 @@ type BooleanMap = Record<string, boolean>
 type TextMap = Record<string, string>
 type ActiveRequest = { requestId: string; mode: ChatMode }
 type ActiveRequestMap = Record<string, ActiveRequest>
+type ProtectedRequestMap = Record<string, Set<string>>
+type RejectedDraft = { requestId: string; content: string }
+type RejectedDraftMap = Record<string, RejectedDraft[]>
 type StableFailure = { error: { code: string; correlationId: string } }
 
 function timelineKey(assistantId: string, mode: ChatMode): string {
@@ -86,7 +89,9 @@ export function ProviderPanel({
   const [saving, setSaving] = useState<BooleanMap>({})
   const [activeRequests, setActiveRequests] = useState<ActiveRequestMap>({})
   const activeRequestsRef = useRef<ActiveRequestMap>({})
+  const protectedRequestsRef = useRef<ProtectedRequestMap>({})
   const readVersions = useRef<Record<string, number>>({})
+  const [rejectedDrafts, setRejectedDrafts] = useState<RejectedDraftMap>({})
   const [settingsError, setSettingsError] = useState<string | null>(null)
   const [timelineErrors, setTimelineErrors] = useState<TextMap>({})
   const [notices, setNotices] = useState<TextMap>({})
@@ -105,6 +110,7 @@ export function ProviderPanel({
   const model = modelDrafts[currentAssistantId] ?? binding?.model ?? 'GLM-5.3-FLASH'
   const text = textDrafts[currentKey] ?? ''
   const transcript = timelines[currentKey] ?? []
+  const currentRejectedDrafts = rejectedDrafts[currentKey] ?? []
   const activeRequest = activeRequests[currentAssistantId]
 
   const invalidateRead = useCallback((key: string): void => {
@@ -119,23 +125,46 @@ export function ProviderPanel({
     setActiveRequests(next)
   }, [])
 
+  const protectRequest = useCallback((key: string, requestId: string): void => {
+    protectedRequestsRef.current = {
+      ...protectedRequestsRef.current,
+      [key]: new Set([...(protectedRequestsRef.current[key] ?? []), requestId])
+    }
+  }, [])
+
+  const releaseProtectedRequest = useCallback((key: string, requestId: string): void => {
+    const protectedIds = new Set(protectedRequestsRef.current[key] ?? [])
+    protectedIds.delete(requestId)
+    protectedRequestsRef.current = { ...protectedRequestsRef.current, [key]: protectedIds }
+  }, [])
+
   const readTimeline = useCallback(
-    async (assistantId: string, chatMode: ChatMode): Promise<void> => {
-      if (!assistantId) return
+    async (assistantId: string, chatMode: ChatMode): Promise<TimelineMessage[] | null> => {
+      if (!assistantId) return null
       const key = timelineKey(assistantId, chatMode)
       const version = (readVersions.current[key] ?? 0) + 1
       readVersions.current[key] = version
       setLoading((values) => ({ ...values, [key]: true }))
       try {
         const result = await timelineApi.read({ protocolVersion, assistantId, mode: chatMode })
-        if (readVersions.current[key] !== version) return
+        if (readVersions.current[key] !== version) return null
         if (!result.ok) {
           setTimelineErrors((values) => ({ ...values, [key]: errorText(result) }))
-          return
+          return null
         }
-        setTimelines((values) => ({ ...values, [key]: result.data.messages }))
+        const protectedIds = new Set(protectedRequestsRef.current[key] ?? [])
+        setTimelines((values) => ({
+          ...values,
+          [key]: reconcileTimelineMessages(values[key] ?? [], result.data.messages, protectedIds)
+        }))
+        for (const message of result.data.messages) {
+          if (message.role === 'assistant' && message.status !== 'pending') {
+            releaseProtectedRequest(key, message.requestId)
+          }
+        }
         setHasMore((values) => ({ ...values, [key]: result.data.hasMore }))
         setTimelineErrors((values) => ({ ...values, [key]: '' }))
+        return result.data.messages
       } catch {
         if (readVersions.current[key] === version) {
           setTimelineErrors((values) => ({
@@ -143,13 +172,14 @@ export function ProviderPanel({
             [key]: '本地时间线暂时无法读取，当前显示内容已保留'
           }))
         }
+        return null
       } finally {
         if (readVersions.current[key] === version) {
           setLoading((values) => ({ ...values, [key]: false }))
         }
       }
     },
-    [timelineApi]
+    [releaseProtectedRequest, timelineApi]
   )
 
   useEffect(() => {
@@ -171,6 +201,7 @@ export function ProviderPanel({
       const route = activeRequestsRef.current[event.assistantId]
       if (!route || route.requestId !== event.requestId) return
       const key = timelineKey(event.assistantId, route.mode)
+      invalidateRead(key)
       if (event.type === 'delta') {
         setTimelines((values) =>
           updateRequest(values, key, event.requestId, (message) => ({
@@ -200,7 +231,7 @@ export function ProviderPanel({
       active = false
       remove()
     }
-  }, [api, clearActiveRequest])
+  }, [api, clearActiveRequest, invalidateRead])
 
   useEffect(() => {
     let active = true
@@ -245,6 +276,7 @@ export function ProviderPanel({
       invalidateRead(key)
       setSnapshot(result.data)
       setTimelines((values) => ({ ...values, [key]: [] }))
+      setRejectedDrafts((values) => ({ ...values, [key]: [] }))
       setHasMore((values) => ({ ...values, [key]: false }))
       setNotices((values) => ({ ...values, [key]: '当前助手的临时会话已清空' }))
     } catch {
@@ -257,7 +289,9 @@ export function ProviderPanel({
 
   async function saveTemporary(assistantId: string): Promise<void> {
     const key = timelineKey(assistantId, 'temporary')
-    const unsavedCount = (timelines[key] ?? []).filter((message) => !message.saved).length
+    const unsavedIds = new Set(
+      (timelines[key] ?? []).filter((message) => !message.saved).map((message) => message.id)
+    )
     setSaving((values) => ({ ...values, [key]: true }))
     setTimelineErrors((values) => ({ ...values, [key]: '' }))
     setNotices((values) => ({ ...values, [key]: '' }))
@@ -270,19 +304,24 @@ export function ProviderPanel({
       invalidateRead(key)
       setTimelines((values) => ({ ...values, [key]: result.data.messages }))
       setHasMore((values) => ({ ...values, [key]: result.data.hasMore }))
+      const savedCount = result.data.messages.filter(
+        (message) => message.saved && unsavedIds.has(message.id)
+      ).length
       const targetName =
         assistantSnapshot?.assistants.find((item) => item.id === assistantId)?.displayName ??
         '此助手'
       setNotices((values) => ({
         ...values,
         [key]:
-          unsavedCount > 0
+          savedCount > 0
             ? '已将当前临时会话中 ' +
-              String(unsavedCount) +
+              String(savedCount) +
               ' 条尚未保存的消息保存到“' +
               targetName +
               '”的正常时间线'
-            : '没有新的临时消息需要保存；已保存内容不会重复写入'
+            : currentRejectedDrafts.length > 0
+              ? '没有新的临时消息需要保存；没有临时时间线消息被保存，未发送草稿仍保留在界面中'
+              : '没有新的临时消息需要保存；没有临时时间线消息被保存，已保存内容不会重复写入'
       }))
       void readTimeline(assistantId, 'normal')
     } catch {
@@ -304,6 +343,7 @@ export function ProviderPanel({
     const submitted = text
     const createdAt = new Date().toISOString()
     invalidateRead(key)
+    protectRequest(key, requestId)
     setTextDrafts((items) => ({ ...items, [key]: '' }))
     setTimelineErrors((items) => ({ ...items, [key]: '' }))
     setNotices((items) => ({ ...items, [key]: '' }))
@@ -345,13 +385,21 @@ export function ProviderPanel({
       })
       clearActiveRequest(assistantId, requestId)
       if (!result.ok) {
-        setTimelineErrors((items) => ({ ...items, [key]: errorText(result) }))
         setTimelines((items) =>
           updateRequest(items, key, requestId, (message) => ({
             ...message,
             status: result.error.code === 'CANCELLED' ? 'cancelled' : 'failed'
           }))
         )
+        const authoritative = await readTimeline(assistantId, requestMode)
+        if (!authoritative?.some((message) => message.requestId === requestId)) {
+          releaseProtectedRequest(key, requestId)
+          setTimelines((items) => removeRequest(items, key, requestId))
+          setRejectedDrafts((items) =>
+            addRejectedDraft(items, key, { requestId, content: submitted })
+          )
+        }
+        setTimelineErrors((items) => ({ ...items, [key]: errorText(result) }))
         return
       }
       setTimelines((items) =>
@@ -364,13 +412,21 @@ export function ProviderPanel({
       await readTimeline(assistantId, requestMode)
     } catch {
       clearActiveRequest(assistantId, requestId)
-      setTimelineErrors((items) => ({
-        ...items,
-        [key]: '请求失败，当前正文已保留；不会自动重试'
-      }))
       setTimelines((items) =>
         updateRequest(items, key, requestId, (message) => ({ ...message, status: 'failed' }))
       )
+      const authoritative = await readTimeline(assistantId, requestMode)
+      if (!authoritative?.some((message) => message.requestId === requestId)) {
+        releaseProtectedRequest(key, requestId)
+        setTimelines((items) => removeRequest(items, key, requestId))
+        setRejectedDrafts((items) =>
+          addRejectedDraft(items, key, { requestId, content: submitted })
+        )
+      }
+      setTimelineErrors((items) => ({
+        ...items,
+        [key]: '请求失败，输入已保留为未发送草稿；不会自动重试'
+      }))
     }
   }
 
@@ -599,6 +655,36 @@ export function ProviderPanel({
           {hasMore[currentKey] ? (
             <p className="scope-note">这里只显示最近 100 条消息，更早内容仍保留在本机。</p>
           ) : null}
+          {currentRejectedDrafts.length > 0 ? (
+            <section aria-label="未发送草稿" className="rejected-drafts">
+              {currentRejectedDrafts.map((draft) => (
+                <article key={draft.requestId}>
+                  <strong>未发送草稿</strong>
+                  <p>{draft.content}</p>
+                  <small>
+                    {mode === 'temporary'
+                      ? '未发送 · 未保存 · 未进入可保存的临时时间线'
+                      : '未发送 · 未保存 · 未进入正常时间线'}
+                  </small>
+                  <button
+                    type="button"
+                    disabled={Boolean(text.trim())}
+                    onClick={() => {
+                      setTextDrafts((values) => ({ ...values, [currentKey]: draft.content }))
+                      setRejectedDrafts((values) => ({
+                        ...values,
+                        [currentKey]: (values[currentKey] ?? []).filter(
+                          (item) => item.requestId !== draft.requestId
+                        )
+                      }))
+                    }}
+                  >
+                    重新编辑此草稿
+                  </button>
+                </article>
+              ))}
+            </section>
+          ) : null}
           <div className="transcript" aria-live="polite" aria-label="消息时间线">
             {transcript.map((item) => (
               <article key={item.id} className={item.role + ' status-' + item.status}>
@@ -689,6 +775,65 @@ export function ProviderPanel({
       </div>
     </section>
   )
+}
+
+function reconcileTimelineMessages(
+  local: TimelineMessage[],
+  authoritative: TimelineMessage[],
+  protectedRequestIds: Set<string>
+): TimelineMessage[] {
+  const localByRequestRole = new Map(
+    local.map((message) => [message.requestId + ':' + message.role, message])
+  )
+  const authoritativeRoles = new Set(
+    authoritative.map((message) => message.requestId + ':' + message.role)
+  )
+  const reconciled = authoritative.map((message) => {
+    if (
+      message.role !== 'assistant' ||
+      message.status !== 'pending' ||
+      !protectedRequestIds.has(message.requestId)
+    ) {
+      return message
+    }
+    const localMessage = localByRequestRole.get(message.requestId + ':assistant')
+    if (!localMessage) return message
+    return {
+      ...message,
+      content: newerVisibleContent(message.content, localMessage.content),
+      status: localMessage.status
+    }
+  })
+  for (const message of local) {
+    const roleKey = message.requestId + ':' + message.role
+    if (protectedRequestIds.has(message.requestId) && !authoritativeRoles.has(roleKey)) {
+      reconciled.push(message)
+    }
+  }
+  return reconciled
+}
+
+function newerVisibleContent(authoritative: string, local: string): string {
+  if (!local) return authoritative
+  if (!authoritative) return local
+  if (authoritative.startsWith(local)) return authoritative
+  return local
+}
+
+function removeRequest(values: TimelineMap, key: string, requestId: string): TimelineMap {
+  return {
+    ...values,
+    [key]: (values[key] ?? []).filter((message) => message.requestId !== requestId)
+  }
+}
+
+function addRejectedDraft(
+  values: RejectedDraftMap,
+  key: string,
+  draft: RejectedDraft
+): RejectedDraftMap {
+  if ((values[key] ?? []).some((item) => item.requestId === draft.requestId)) return values
+  return { ...values, [key]: [...(values[key] ?? []), draft] }
 }
 
 function updateRequest(
