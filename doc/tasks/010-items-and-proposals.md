@@ -1,7 +1,7 @@
 # 010 统一事项、提案与对话执行
 
-- TASK = 010；状态 = PLANNED / DEPENDS_ON_008；PROGRAM ACTIVE。
-- 编号核对未占用。当前正式产品任务仍为[008](008-memory-direct-path.md)，唯一入口为[progress](progress.md)，总需求见[项目总清单](program-docs-to-release.md)。[009](009-retention-and-cleanup.md)承接生命周期；本任务承接Q7、F01–F03/F07及对应业务权限。
+- TASK = 010；状态 = PLANNED / NEXT_AFTER_009；PROGRAM ACTIVE。
+- 编号核对未占用。008已独立FINAL PASS，当前正式产品任务为[009](009-retention-and-cleanup.md)，唯一入口为[progress](progress.md)，总需求见[项目总清单](program-docs-to-release.md)。[009](009-retention-and-cleanup.md)承接生命周期；本任务承接Q7、F01–F03/F07及对应业务权限。
 - 原文：proposal §3.4–3.5；high-level-design §5/13；detailed-design §7.3/8、ITEM-001–004及EXEC决议。独立Astra阅读所得[领域预案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-next-design.md)是实施输入，尚不是源码审计或冻结接口。
 
 ## 用户闭环
@@ -19,7 +19,7 @@
 - schema号和精确baseline读取最终现场，禁止预占或重写既有迁移。新增领域strict DTO/窄IPC，保留六个助手通道；renderer不能传SQL、任意路径、凭据或网络权限。
 - 业务提交、版本检查、提案接受、正式对象和成功回执同一事务。稳定command身份绑定原始用户操作；重复同内容核查已有结果，不同内容冲突；未知状态先核查，不自动重放副作用。
 - 来源和权限覆盖结果返回、继续回答、提案协商及009清理。内容删撤后不能从旧快照、协议或操作正文复活。确认绑定目标版本与完整影响范围，陈旧预览不执行。
-- 可信域文件和UI组件可以按冻结DTO并行；schema、Provider、preload、App接线等共享文件由单写整合者顺序修改，不能与008/009并写。正式全局任务和progress由root协调。
+- 可信域文件和UI组件可以按冻结DTO并行；schema、Provider、preload、App接线等共享文件由单写整合者顺序修改，不能与当前009可信/UI文件并写。正式全局任务和progress由root协调。
 
 ## 必要决议
 
@@ -38,7 +38,8 @@ RET-007保留策略已问待答，REM-002提醒默认仍待具体决议；不阻
 ## 清单
 
 - [x] 文档来源、五类用户闭环、提案与正式边界及编号准备。
-- [ ] 承接008最终baseline与实际源码，冻结DTO/操作和来源身份方案。
+- [x] 008最终已审产品baseline为`cc9c729cd5b65597049f988c41e3def97fcb0515`；009清理契约正在整合。
+- [ ] 承接009最终实际源码，冻结DTO/操作和来源身份方案。
 - [ ] 可信事务、对话工具链与整合中文日常入口。
 - [ ] 甄别性权限、来源、确认/协商、恢复和真实角色验证。
 - [ ] 独立审核、提交双远程同步、覆盖更新并继续。

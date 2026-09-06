@@ -19,7 +19,12 @@
 
 - AST-006已确认：用户2026-09-06答复“采用建议的永久删除范围”。保留归档，另提供二次确认永久删除助手私有聊天/关系/连续性记忆；全局共享记忆及正式事项保留，来源显示原助手已删除且不再展开私有原文。
 - RET-007建议：持久区当前有效Markdown正文UTF-8总量上限100 MiB、可配置，达上限停止新增而不删旧内容；暂存90天后移垃圾、可关闭/调整；垃圾默认不自动永久清空。另给出不启用任何自动迁移/清空的选择。这些是待批准建议，不是实现默认值。
+- AST-006实施细节待答（不撤销已批准三类）：008允许user/event类型设为assistant私有，是否随永久删目标助手一并删除。root已就“全部目标助手私有记录”对比“仅原三类”提出一个具体问题；等答前命中其余私有记录时阻止purge，避免越界或留下无法访问的对象。其他助手已接受的私有记忆与global对象不被来源级联删除。
 - REM-002在提醒任务冻结前另问，此处不捆绑决定。
+
+## 当前实施与单写范围
+
+2026-09-06，retention_009_trusted（实际gpt-6-astra / medium）已冻结src/shared/retention-contract.ts与retention-channels.ts，单写main/shared/preload、trusted tests和Electron harness；retention_009_ui（实际gpt-5.6-sol / high）消费该契约，单写renderer及对应tests。overview/move/preview/confirm/jobs/retry及只含epoch/IDs的changed事件为窄领域入口；六assistant通道不变。root单写正式任务/总入口，不并写产品。
 
 ## 工程方案与风险检查
 
