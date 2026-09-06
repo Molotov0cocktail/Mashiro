@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-06",
+  "scriptSha256": "B9701D326E0141A8A69E94F58651E80D31A83176FB27D7DCD97F9E94205DF985",
+  "exitCode": 0,
+  "outcome": "SUPPORTED",
+  "endpoint": "https://open.bigmodel.cn/api/paas/v4",
+  "model": "GLM-5.3-FLASH",
+  "adapter": "glm-5.3-flash-tools-v1",
+  "requestsAttempted": 2,
+  "wire": [
+    { "request": 1, "stream": true, "toolStream": true, "clearThinking": true, "toolResultPresent": false, "reasoningPresent": false },
+    { "request": 2, "stream": true, "toolStream": true, "clearThinking": true, "toolResultPresent": true, "reasoningPresent": false }
+  ],
+  "operationStates": ["SUCCEEDED"],
+  "replyCharacters": 79,
+  "replyUsesExactToolUtc": true,
+  "usage": { "promptTokens": 467, "completionTokens": 54, "totalTokens": 521 },
+  "error": null,
+  "reasoningMessagesObserved": 0,
+  "capabilityTools": "LIVE_VERIFIED",
+  "disclosure": { "bodyLogged": false, "reasoningLogged": false, "credentialPersisted": false },
+  "boundary": "Actual bundled ProviderService with default live transport and synthetic normal data; not a renderer-driven live test, cross-user-turn live test, or preserved-thinking qualification."
+}

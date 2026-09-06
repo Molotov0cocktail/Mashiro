@@ -1,0 +1,23 @@
+{
+  "remainingFiles": [
+    "unknown-user-file.txt",
+    "data\\synthetic-governance.json",
+    "resources\\unknown-user-file.txt"
+  ],
+  "installPid": 91272,
+  "installExit": 0,
+  "boundary": "installer route only; no application runtime or version/schema upgrade qualification",
+  "firstReinstallExit": "UNKNOWN: 45 second observation window expired; process subsequently ended",
+  "signature": "NotSigned",
+  "sentinelHashes": {
+    "resources\\unknown-user-file.txt": "120D2C8A725B0D951F468D8518E4DD1D0AE01DBF1FB0F733E92A24A531A01773",
+    "unknown-user-file.txt": "FEC7262A170F49A1EC7892D6A3B3E8A2E3BCE2F67BC7E402BFC082BF2C2EB62E",
+    "data\\synthetic-governance.json": "83398F7A9AF6C2ED57708A6FDDEF16E711ED76754F56966D4B8736CB04C01343"
+  },
+  "uninstallLauncherExit": 0,
+  "status": "SUPPORTED",
+  "uninstallLauncherPid": 76260,
+  "firstResidual": "elevate.exe was injected by builder after initial manifest; fixed exact owned path",
+  "installerSha256": "FCAF44CBDC315B7F7D98E14E7D7336ABD2C957CF55E27249F968EF7569F439BA",
+  "secondImmediateOracle": "failed: observed after main exe disappeared but before asynchronous cleanup finished; final all-owned-file check passed"
+}

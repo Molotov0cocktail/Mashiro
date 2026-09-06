@@ -98,6 +98,8 @@ export function HistoryContextPanel({
   timelineApi,
   contextIntent,
   selectedRequestIds,
+  focusRequest,
+  onPermissionsChange,
   onContextIntentChange,
   onSelectedRequestIdsChange
 }: {
@@ -107,6 +109,8 @@ export function HistoryContextPanel({
   timelineApi: TimelineApi
   contextIntent: ContextIntent
   selectedRequestIds: string[]
+  focusRequest?: { requestId: string; nonce: number }
+  onPermissionsChange?: () => void
   onContextIntentChange: (value: ContextIntent) => void
   onSelectedRequestIdsChange: (value: string[]) => void
 }): React.JSX.Element | null {
@@ -114,6 +118,8 @@ export function HistoryContextPanel({
   const [permissionByAssistant, setPermissionByAssistant] = useState<PermissionMap>({})
   const [permissionLoading, setPermissionLoading] = useState<BooleanMap>({})
   const [permissionErrors, setPermissionErrors] = useState<TextMap>({})
+  const [focusedByAssistant, setFocusedByAssistant] = useState<TextMap>({})
+  const [focusNotices, setFocusNotices] = useState<TextMap>({})
   const historyVersion = useRef(0)
   const permissionVersion = useRef(0)
   const routeRef = useRef('')
@@ -237,6 +243,71 @@ export function HistoryContextPanel({
     [timelineApi]
   )
 
+  const loadCitation = useCallback(
+    async (targetAssistantId: string, requestId: string): Promise<void> => {
+      const version = ++historyVersion.current
+      const route = targetAssistantId + ':normal'
+      setViews((values) => ({
+        ...values,
+        [targetAssistantId]: {
+          ...(values[targetAssistantId] ?? emptyView),
+          loading: true,
+          error: ''
+        }
+      }))
+      setFocusNotices((values) => ({ ...values, [targetAssistantId]: '' }))
+      try {
+        const result = await timelineApi.query({
+          protocolVersion,
+          assistantId: targetAssistantId,
+          requestId
+        })
+        if (version !== historyVersion.current || routeRef.current !== route) return
+        if (!result.ok) {
+          setViews((values) => ({
+            ...values,
+            [targetAssistantId]: {
+              ...(values[targetAssistantId] ?? emptyView),
+              loading: false,
+              error: messageError(result.error.code, result.error.correlationId)
+            }
+          }))
+          return
+        }
+        setViews((values) => ({
+          ...values,
+          [targetAssistantId]: {
+            ...(values[targetAssistantId] ?? emptyView),
+            draft: '',
+            query: '',
+            messages: result.data.messages,
+            nextCursor: null,
+            loading: false,
+            error: ''
+          }
+        }))
+        setFocusedByAssistant((values) => ({ ...values, [targetAssistantId]: requestId }))
+        setFocusNotices((values) => ({
+          ...values,
+          [targetAssistantId]: result.data.messages.length
+            ? '已定位引用原轮次'
+            : '引用原轮次当前没有可显示的消息'
+        }))
+      } catch {
+        if (version !== historyVersion.current || routeRef.current !== route) return
+        setViews((values) => ({
+          ...values,
+          [targetAssistantId]: {
+            ...(values[targetAssistantId] ?? emptyView),
+            loading: false,
+            error: '引用原轮次暂时无法读取，当前结果已保留'
+          }
+        }))
+      }
+    },
+    [timelineApi]
+  )
+
   useEffect(() => {
     if (!assistantId || mode !== 'normal') return
     let active = true
@@ -258,6 +329,17 @@ export function HistoryContextPanel({
       active = false
     }
   }, [assistantId, mode, bindingKey, loadPermissions])
+
+  useEffect(() => {
+    if (!assistantId || mode !== 'normal' || !focusRequest) return
+    let active = true
+    queueMicrotask(() => {
+      if (active) void loadCitation(assistantId, focusRequest.requestId)
+    })
+    return () => {
+      active = false
+    }
+  }, [assistantId, focusRequest, loadCitation, mode])
 
   async function updatePermission(readHistory: boolean, sendHistory: boolean): Promise<void> {
     if (!permission || typeof timelineApi.setPermissions !== 'function') return
@@ -292,6 +374,7 @@ export function HistoryContextPanel({
         ...values,
         [targetAssistantId]: result.data
       }))
+      onPermissionsChange?.()
     } catch {
       if (
         version === permissionVersion.current &&
@@ -379,6 +462,7 @@ export function HistoryContextPanel({
       </div>
 
       {view.error ? <p role="alert">{view.error}</p> : null}
+      {focusNotices[assistantId] ? <p role="status">{focusNotices[assistantId]}</p> : null}
       {view.loading && view.messages.length === 0 ? <p>正在读取历史…</p> : null}
       {!view.loading && view.messages.length === 0 ? (
         <p className="scope-note">
@@ -391,7 +475,13 @@ export function HistoryContextPanel({
             turn.user?.status === 'completed' && turn.assistant?.status === 'completed'
           const timestamp = turn.user?.createdAt ?? turn.assistant?.createdAt
           return (
-            <article key={turn.requestId} className="history-turn">
+            <article
+              key={turn.requestId}
+              className={
+                'history-turn' +
+                (focusedByAssistant[assistantId] === turn.requestId ? ' history-turn-focused' : '')
+              }
+            >
               {selectable && turn.user ? (
                 <label className="inline-check">
                   <input
@@ -423,6 +513,14 @@ export function HistoryContextPanel({
                 {turn.user && turn.assistant ? ' · ' : ''}
                 {turn.assistant ? '助手：' + historyStatusText(turn.assistant.status) : ''}
               </small>
+              {view.query && focusedByAssistant[assistantId] !== turn.requestId ? (
+                <button
+                  type="button"
+                  onClick={() => void loadCitation(assistantId, turn.requestId)}
+                >
+                  定位此搜索结果的完整原轮次
+                </button>
+              ) : null}
             </article>
           )
         })}

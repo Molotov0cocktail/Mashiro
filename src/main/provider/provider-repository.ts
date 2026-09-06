@@ -28,6 +28,10 @@ export class ProviderDomainError extends Error {
   constructor(
     readonly code:
       | 'NOT_FOUND'
+      | 'PROTOCOL'
+      | 'CONFIGURATION'
+      | 'TIMEOUT'
+      | 'CANCELLED'
       | 'INVALID_INPUT'
       | 'LIMIT'
       | 'PERMISSION_DENIED'

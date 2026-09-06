@@ -35,12 +35,15 @@ export type TimelineMessage = z.infer<typeof timelineMessageSchema>
 export type TimelineSnapshot = z.infer<typeof timelineSnapshotSchema>
 export type TimelineResult = z.infer<typeof timelineResultSchema>
 
-export const timelineQueryInputSchema = z.strictObject({
-  protocolVersion: z.literal(1),
-  assistantId: z.string().uuid(),
-  query: z.string().max(200).default(''),
-  before: z.number().int().positive().max(Number.MAX_SAFE_INTEGER).optional()
-})
+export const timelineQueryInputSchema = z
+  .strictObject({
+    protocolVersion: z.literal(1),
+    assistantId: z.string().uuid(),
+    query: z.string().max(200).default(''),
+    before: z.number().int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
+    requestId: z.string().uuid().optional()
+  })
+  .refine((value) => !value.requestId || (value.query === '' && value.before === undefined))
 export const timelinePageSchema = z.strictObject({
   assistantId: z.string().uuid(),
   messages: z.array(timelineMessageSchema).max(100),

@@ -47,9 +47,53 @@ export async function e2eProviderTransport(request: TransportRequest): Promise<T
   transportRequests.push({
     credential,
     stream: request.stream,
-    messages: request.messages.map((message) => ({ ...message }))
+    messages: request.messages.map((message) => ({ role: message.role, content: message.content }))
   })
+  if (request.tools && request.tools !== 'off') {
+    const last = request.messages.at(-1)
+    if (last?.role === 'tool') {
+      const previous = request.messages.at(-2)
+      if (
+        previous?.reasoning_content !== 'E2E_TOOL_PRIVATE_REASONING' ||
+        previous.tool_calls?.[0]?.id !== last.tool_call_id
+      )
+        throw new Error('tool-protocol')
+      const clock = JSON.parse(last.content) as { utc: string }
+      if (!Number.isFinite(Date.parse(clock.utc))) throw new Error('tool-clock')
+      if (request.stream) request.onDelta?.('E2E_TOOL_REPLY')
+      return {
+        status: 'completed',
+        text: 'E2E_TOOL_REPLY',
+        usage: null,
+        toolCalls: [],
+        finishReason: 'stop'
+      }
+    }
+    return {
+      status: 'completed',
+      text: '',
+      usage: null,
+      reasoning: 'E2E_TOOL_PRIVATE_REASONING',
+      toolCalls: [
+        {
+          id: 'e2e-clock',
+          type: 'function',
+          function: { name: 'get_current_time', arguments: '{}' }
+        }
+      ],
+      finishReason: 'tool_calls'
+    }
+  }
   const input = request.messages.at(-1)?.content
+  if (input === 'E2E_VERIFY_USER') {
+    const index = request.messages.findIndex((message) => message.role === 'tool')
+    if (
+      index < 1 ||
+      request.messages[index - 1]?.tool_calls?.[0]?.id !== request.messages[index]?.tool_call_id ||
+      request.messages.some((message) => message.reasoning_content !== undefined)
+    )
+      throw new Error('closed-tool-context')
+  }
   if (input === 'E2E_PENDING_NORMAL') {
     request.onDelta?.('E2E_PARTIAL_NORMAL')
     return await new Promise((resolve) => {
@@ -176,6 +220,13 @@ const seedScript = `
   })
   if (!temporaryUnsavedChat.ok) throw new Error(temporaryUnsavedChat.error.code)
 
+  const toolRequestId=crypto.randomUUID()
+  const toolChat=await provider.startChat({protocolVersion:1,requestId:toolRequestId,assistantId:second.id,text:'E2E_TOOL_NORMAL',mode:'normal',context:{kind:'none'},tools:'clock',stream:true})
+  if(!toolChat.ok||toolChat.data.text!=='E2E_TOOL_REPLY')throw new Error('tool-chat')
+  const toolOperations=await provider.tools({protocolVersion:1,assistantId:second.id,mode:'normal',requestId:toolRequestId})
+  if(!toolOperations.ok||toolOperations.data.operations.length!==1||toolOperations.data.operations[0].state!=='SUCCEEDED')throw new Error('tool-operations')
+  const temporaryTool=await provider.startChat({protocolVersion:1,requestId:crypto.randomUUID(),assistantId:second.id,text:'E2E_TOOL_TEMP_UNSAVED',mode:'temporary',tools:'clock',stream:false})
+  if(!temporaryTool.ok)throw new Error('temporary-tool')
   const pendingRequestId = crypto.randomUUID()
   const deltaSeen = new Promise((resolve) => {
     const remove = provider.onEvent((event) => {
@@ -217,7 +268,8 @@ const seedScript = `
     savedTemporary: savedTemporary.data,
     timelineBeforeClose: timelineBeforeClose.data,
     temporaryBeforeClose: temporaryBeforeClose.data,
-    pendingPartial
+    pendingPartial,
+    toolOperations:toolOperations.data.operations
   }
 })()
 `
@@ -240,11 +292,15 @@ const verifyRestoreScript = `
     mode: 'temporary'
   })
   if (!temporaryRestored.ok) throw new Error(temporaryRestored.error.code)
+  const toolOperations=await window.mashiro.provider.tools({protocolVersion:1,assistantId:assistant.data.currentAssistantId,mode:'normal'})
+  const temporaryTools=await window.mashiro.provider.tools({protocolVersion:1,assistantId:assistant.data.currentAssistantId,mode:'temporary'})
+  if(!toolOperations.ok||!temporaryTools.ok||temporaryTools.data.operations.length!==0)throw new Error('tool-restore')
   const historyPermission=await window.mashiro.timeline.permissions({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
   if(!historyPermission.ok) throw new Error(historyPermission.error.code)
   const historyPage=await window.mashiro.timeline.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,query:'E2E_NORMAL'})
   if(!historyPage.ok) throw new Error(historyPage.error.code)
   return {
+    toolOperations:toolOperations.data.operations,
     historyPermission:historyPermission.data,
     historyPage:historyPage.data,
     assistant: assistant.data,
@@ -283,6 +339,7 @@ const verifySendScript = `
 `
 
 type SeedEvidence = {
+  toolOperations: import('../../shared/tool-contract.js').ToolOperation[]
   historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
   assistant: AssistantSnapshot
   provider: ProviderSnapshot
@@ -295,6 +352,7 @@ type SeedEvidence = {
   pendingPartial: string
 }
 type VerifyEvidence = {
+  toolOperations: import('../../shared/tool-contract.js').ToolOperation[]
   historyPermission: import('../../shared/timeline-contract.js').HistoryPermissions
   historyPage: { assistantId: string; messages: unknown[]; nextCursor: number | null }
   assistant: AssistantSnapshot

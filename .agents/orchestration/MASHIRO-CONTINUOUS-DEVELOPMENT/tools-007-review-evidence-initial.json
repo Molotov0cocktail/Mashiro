@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-06",
+  "notes": [
+    "red first run is JSX configuration failure, not product. red-v2 is actual empty snapshot defect.",
+    "citations-v1 is not evidence: its snapshot timing fixture was superseded. citations-v2-red failed before old snapshot resolution because interim repair incorrectly invalidated citation epoch on assistant switch.",
+    "green runs are independent reruns; exact final candidate is reviewed separately."
+  ],
+  "runs": [
+    {
+      "run": "tools-007-review-red",
+      "rawSha256": "60A771391CBD98AE2B30C1AAE974FA54D2E6D709FA82F18484A8D46C5135B6BE",
+      "files": 1,
+      "passed": 0,
+      "failed": 1,
+      "failures": [
+        {
+          "name": "review: late pre-request empty snapshot cannot erase a successful live receipt",
+          "firstLine": "ReferenceError: React is not defined"
+        }
+      ]
+    },
+    {
+      "run": "tools-007-review-red-v2",
+      "rawSha256": "654DBF04228D40EDD48F449D8D2F1D9AC47D2DF847958B2A548C8E46957C3B57",
+      "files": 1,
+      "passed": 0,
+      "failed": 1,
+      "failures": [
+        {
+          "name": "review: late pre-request empty snapshot cannot erase a successful live receipt",
+          "firstLine": "TestingLibraryElementError: Unable to find an element with the text: 已完成. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible."
+        }
+      ]
+    },
+    {
+      "run": "tools-007-review-active",
+      "rawSha256": "5DA857D93EF3183284D3A1D1DAEC2435E5DA77B9CE2164F286B4551084CA73E3",
+      "files": 25,
+      "passed": 157,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "run": "tools-007-review-trusted",
+      "rawSha256": "64E9729FE16F9A3580C3BF0C0C3E29EDD220198471309EBFD1B4CEEF77C3BA19",
+      "files": 1,
+      "passed": 3,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "run": "tools-007-review-citations-v2-red",
+      "rawSha256": "639B49FC32B9A0C8671DF7D7560CFEBADE4845B256C52C71A508C76AF72A991E",
+      "files": 1,
+      "passed": 0,
+      "failed": 1,
+      "failures": [
+        {
+          "name": "review: refresh captured after PREPARED cannot strip a later SUCCEEDED history citation",
+          "firstLine": "Error: Unable to find an element with the text: 我们之前讨论过紫色主题. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible."
+        }
+      ]
+    },
+    {
+      "run": "tools-007-review-green",
+      "rawSha256": "83513C8618D59197B80C0AE0981975C448BD5FD030B1D06962CD969CE35F3F82",
+      "files": 1,
+      "passed": 1,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "run": "tools-007-review-citations-v2-green",
+      "rawSha256": "6DFCF48390B791F6249F821FA14F3D1C0C708340836EC5D3FD61AC37BEFEC30E",
+      "files": 1,
+      "passed": 1,
+      "failed": 0,
+      "failures": []
+    }
+  ]
+}

@@ -1,4 +1,18 @@
 import { randomUUID, createHash } from 'node:crypto'
+import {
+  toolReadInputSchema,
+  capabilityInputSchema,
+  type ProviderCapabilities
+} from '../../shared/tool-contract.js'
+import {
+  toolReadResultSchema,
+  capabilityResultSchema,
+  type ToolReadResult,
+  type CapabilityResult
+} from '../../shared/provider-contract.js'
+import { ToolRepository } from './tool-repository.js'
+import { executeToolChat } from './tool-execution.js'
+import { GLM_TOOL_ADAPTER, toolsSupported, type ProtocolMessage } from './tool-protocol.js'
 import { HistoryPermissionRepository } from './history-permission-repository.js'
 import {
   timelineQueryInputSchema,
@@ -50,7 +64,7 @@ import {
 import { ProviderDomainError, ProviderRepository } from './provider-repository.js'
 
 type ChatTransport = (request: TransportRequest) => Promise<TransportResult>
-type ChatMessage = { role: 'user' | 'assistant'; content: string }
+type ChatMessage = ProtocolMessage
 
 class InvalidProviderInputError extends Error {}
 class ProviderRequestInProgressError extends Error {}
@@ -175,6 +189,8 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
 }
 
 export class ProviderService {
+  private readonly toolLedger: ToolRepository
+  private readonly temporaryToolLedger = new ToolRepository()
   private readonly repository: ProviderRepository
   private readonly vault: CredentialVault
   private readonly timeline: TimelineRepository
@@ -198,12 +214,15 @@ export class ProviderService {
     private readonly store: SqliteStore,
     credentialDirectory: string,
     protector: CredentialProtector,
-    private readonly transport: ChatTransport
+    private readonly transport: ChatTransport,
+    private readonly toolOptions: { clock?: () => Date }
   ) {
     this.repository = new ProviderRepository(store)
     this.timeline = new TimelineRepository(store)
     this.historyPermissions = new HistoryPermissionRepository(store)
     this.timeline.recover()
+    this.toolLedger = new ToolRepository(store)
+    this.toolLedger.recover()
     this.vault = new CredentialVault(credentialDirectory, protector)
   }
 
@@ -211,11 +230,12 @@ export class ProviderService {
     databasePath: string,
     credentialDirectory: string,
     protector: CredentialProtector,
-    transport: ChatTransport = chatCompletions
+    transport: ChatTransport = chatCompletions,
+    toolOptions: { clock?: () => Date } = {}
   ): ProviderService {
     const store = new SqliteStore(databasePath)
     try {
-      return new ProviderService(store, credentialDirectory, protector, transport)
+      return new ProviderService(store, credentialDirectory, protector, transport, toolOptions)
     } catch (error) {
       store.close()
       throw error
@@ -291,6 +311,7 @@ export class ProviderService {
       if (!this.repository.assistantExists(value.assistantId))
         throw new ProviderDomainError('NOT_FOUND')
       this.sessions.delete(value.assistantId)
+      this.temporaryToolLedger.clear(value.assistantId)
       return this.snapshot()
     })
   }
@@ -302,8 +323,127 @@ export class ProviderService {
       if (!this.repository.assistantExists(parsed.data.assistantId))
         throw new ProviderDomainError('NOT_FOUND')
       return timelinePageResultSchema.parse(
-        this.timeline.query(parsed.data.assistantId, parsed.data.query, parsed.data.before)
+        this.timeline.query(
+          parsed.data.assistantId,
+          parsed.data.query,
+          parsed.data.before,
+          parsed.data.requestId
+        )
       )
+    } catch (error) {
+      return failureFrom(error)
+    }
+  }
+
+  tools(input: unknown): ToolReadResult {
+    const parsed = toolReadInputSchema.safeParse(input)
+    if (!parsed.success) return failure('INVALID_INPUT')
+    try {
+      const value = parsed.data
+      if (!this.repository.assistantExists(value.assistantId))
+        throw new ProviderDomainError('NOT_FOUND')
+      const ledger = value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger
+      const includeHistory =
+        value.mode === 'normal' && this.permissionSnapshot(value.assistantId).readHistory
+      return toolReadResultSchema.parse({
+        ok: true,
+        data: {
+          assistantId: value.assistantId,
+          mode: value.mode,
+          operations: ledger.read(value.assistantId, value.requestId, includeHistory)
+        }
+      })
+    } catch (error) {
+      return failureFrom(error)
+    }
+  }
+
+  capabilities(input: unknown): CapabilityResult {
+    const parsed = capabilityInputSchema.safeParse(input)
+    if (!parsed.success) return failure('INVALID_INPUT')
+    try {
+      const permissions = this.permissionSnapshot(parsed.data.assistantId)
+      const snapshot = this.repository.snapshot(this.vault.temporaryIds())
+      const binding = snapshot.bindings.find((b) => b.assistantId === parsed.data.assistantId)
+      const connection = snapshot.connections.find((c) => c.id === binding?.connectionId)
+      const supported =
+        !!connection && !!binding && toolsSupported(connection.baseUrl, binding.model)
+      const ready = supported && connection!.enabled && connection!.hasCredential
+      const names: ProviderCapabilities['evidence'][number]['capability'][] = [
+        'text',
+        'stream',
+        'tools',
+        'preserved-thinking',
+        'json-object',
+        'local-strict',
+        'vendor-strict',
+        'parallel',
+        'usage'
+      ]
+      const liveRows = supported
+        ? (this.store.database
+            .prepare(
+              'SELECT capability,observed_at FROM provider_capability_evidence WHERE endpoint_fingerprint=? AND model=? AND adapter_version=? AND mode=?'
+            )
+            .all(
+              permissions.endpointFingerprint!,
+              binding!.model.toLowerCase(),
+              GLM_TOOL_ADAPTER,
+              'standard-non-preserved'
+            ) as unknown as { capability: string; observed_at: string }[])
+        : []
+      return capabilityResultSchema.parse({
+        ok: true,
+        data: {
+          assistantId: parsed.data.assistantId,
+          endpointFingerprint: permissions.endpointFingerprint,
+          endpointDisplay: permissions.endpointDisplay,
+          model: binding?.model ?? null,
+          protocol: 'chat-completions-v1',
+          adapterVersion: supported ? GLM_TOOL_ADAPTER : 'text-v1',
+          mode: 'standard-non-preserved',
+          toolsAvailable: ready,
+          reason: ready
+            ? '本轮可显式开启只读工具'
+            : !supported
+              ? '此实际端点与模型尚无内置工具适配'
+              : !connection!.enabled
+                ? '连接已停用'
+                : '连接需要API密钥',
+          evidence: names.map((capability) => ({
+            capability,
+            level: liveRows.some((r) => r.capability === capability)
+              ? 'LIVE_VERIFIED'
+              : supported &&
+                  ['text', 'stream', 'tools', 'json-object', 'usage'].includes(capability)
+                ? 'DOCUMENTED'
+                : supported && capability === 'local-strict'
+                  ? 'LOCAL_TESTED'
+                  : 'UNVERIFIED',
+            observedAt:
+              liveRows.find((r) => r.capability === capability)?.observed_at ??
+              (supported &&
+              ['text', 'stream', 'tools', 'json-object', 'local-strict', 'usage'].includes(
+                capability
+              )
+                ? '2026-09-06T00:00:00.000Z'
+                : null),
+            detail: liveRows.some((r) => r.capability === capability)
+              ? '实际产品正常模式请求成功的端点证据；不等于所有能力均已验证'
+              : capability === 'preserved-thinking'
+                ? '本片未启用跨轮保留思考；工具reasoning真实端点未观测'
+                : capability === 'local-strict'
+                  ? '本地严格参数验证；不代表厂商strict'
+                  : capability === 'parallel'
+                    ? '工具串行执行，未声明并行支持'
+                    : capability === 'usage'
+                      ? '缺任一请求usage则整链总量未知；非账单'
+                      : supported
+                        ? '官方文档或本地实现证据；产品LIVE资格另行验证'
+                        : '未验证'
+          }))
+        }
+      })
     } catch (error) {
       return failureFrom(error)
     }
@@ -455,6 +595,16 @@ export class ProviderService {
       const text = normalize(value.text, 16000)
       // Authority and actual recipient are re-resolved in trusted code on every send.
       const execution = this.repository.execution(value.assistantId)
+      if (
+        value.tools !== 'off' &&
+        !toolsSupported(execution.connection.baseUrl, execution.binding.model)
+      )
+        return chatFailure('CONFIGURATION')
+      if (
+        value.tools === 'clock-and-history' &&
+        (value.mode !== 'normal' || value.context.kind === 'none')
+      )
+        return chatFailure('PERMISSION_DENIED')
       const apiKey = this.vault.get(execution.connection.id)
       if (!apiKey) return chatFailure('CREDENTIAL_MISSING')
       let session = this.sessions.get(value.assistantId)
@@ -464,6 +614,10 @@ export class ProviderService {
         const allowed = permissions.readHistory && permissions.sendHistory
         if (value.context.kind === 'selected' && !allowed)
           throw new ProviderDomainError('PERMISSION_DENIED')
+        if (value.tools === 'clock-and-history' && !allowed)
+          throw new ProviderDomainError('PERMISSION_DENIED')
+        if (value.context.kind === 'selected')
+          this.toolLedger.assertSelectedSources(value.assistantId, value.context.requestIds)
         previous =
           value.context.kind === 'none' || !allowed
             ? []
@@ -495,6 +649,30 @@ export class ProviderService {
         )
           return chatFailure('LIMIT')
       }
+      const contextIds =
+        value.mode === 'normal'
+          ? previous.length
+            ? this.timeline.contextRequestIds(
+                value.assistantId,
+                text.length,
+                value.context.kind === 'selected' ? value.context.requestIds : undefined
+              )
+            : []
+          : session!.messages
+              .filter((message) => message.role === 'assistant' && message.status === 'completed')
+              .map((message) => message.requestId)
+      const contextFingerprint = createHash('sha256')
+        .update('chat-completions-v1|' + execution.connection.baseUrl)
+        .digest('hex')
+      previous = (
+        value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger
+      ).expandContext(
+        value.assistantId,
+        previous,
+        contextIds,
+        contextFingerprint,
+        execution.binding.model
+      )
       const now = new Date().toISOString()
       const user: TimelineMessage = {
         id: randomUUID(),
@@ -515,8 +693,17 @@ export class ProviderService {
         saved: value.mode === 'normal'
       }
       // The user and pending response commit atomically BEFORE the transport starts.
-      if (value.mode === 'normal') this.timeline.insert(value.assistantId, [user, response])
-      else {
+      if (value.mode === 'normal') {
+        this.timeline.insert(value.assistantId, [user, response])
+        if (previous.length > 0)
+          this.toolLedger.addSources(value.assistantId, value.requestId, contextIds)
+        if (previous.length > 0)
+          this.toolLedger.inheritSources(
+            value.assistantId,
+            value.requestId,
+            value.context.kind === 'selected' ? value.context.requestIds : undefined
+          )
+      } else {
         session!.messages.push(user, response)
         this.sessions.set(value.assistantId, session!)
       }
@@ -528,12 +715,13 @@ export class ProviderService {
           value.mode === 'normal'
             ? this.permissionSnapshot(value.assistantId).endpointFingerprint
             : null,
-        historyUsed: value.mode === 'normal' && previous.length > 0,
+        historyUsed:
+          value.mode === 'normal' && (previous.length > 0 || value.tools === 'clock-and-history'),
         controller,
         mode: value.mode,
         response
       })
-      const result = await this.transport({
+      const transportRequest: TransportRequest = {
         baseUrl: execution.connection.baseUrl,
         apiKey,
         model: execution.binding.model,
@@ -561,7 +749,83 @@ export class ProviderService {
               }
             }
           : undefined
-      })
+      }
+      const endpointFingerprint = createHash('sha256')
+        .update('chat-completions-v1|' + execution.connection.baseUrl)
+        .digest('hex')
+      const assertCurrent = () => {
+        if (this.closed || controller!.signal.aborted) throw new ProviderDomainError('CANCELLED')
+        const current = this.repository
+          .snapshot(this.vault.temporaryIds())
+          .connections.find((c) => c.id === execution.connection.id)
+        if (
+          !current ||
+          !current.enabled ||
+          current.baseUrl !== execution.connection.baseUrl ||
+          !this.vault.get(execution.connection.id)
+        )
+          throw new ProviderDomainError('PERMISSION_DENIED')
+        const assistant = this.store.database
+          .prepare('SELECT archived_at FROM assistants WHERE id=?')
+          .get(value.assistantId) as { archived_at: string | null } | undefined
+        if (!assistant || assistant.archived_at !== null)
+          throw new ProviderDomainError('ASSISTANT_ARCHIVED')
+        if (
+          value.mode === 'normal' &&
+          (previous.length > 0 || value.tools === 'clock-and-history')
+        ) {
+          const permissions = this.historyPermissions.read(value.assistantId, endpointFingerprint)
+          if (!permissions.readHistory || !permissions.sendHistory)
+            throw new ProviderDomainError('PERMISSION_DENIED')
+        }
+      }
+      const result =
+        value.tools === 'off'
+          ? await this.transport(transportRequest)
+          : await executeToolChat({
+              request: transportRequest,
+              scope: value.tools,
+              transport: this.transport,
+              ledger: value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger,
+              segment: {
+                id: randomUUID(),
+                assistantId: value.assistantId,
+                requestId: value.requestId,
+                endpointFingerprint,
+                model: execution.binding.model,
+                adapterVersion: GLM_TOOL_ADAPTER,
+                messages: transportRequest.messages,
+                createdAt: now
+              },
+              assertCurrent,
+              clock: this.toolOptions.clock ?? (() => new Date()),
+              history: (query, limit) => {
+                assertCurrent()
+                if (
+                  value.mode !== 'normal' ||
+                  value.tools !== 'clock-and-history' ||
+                  value.context.kind === 'none'
+                )
+                  throw new ProviderDomainError('PERMISSION_DENIED')
+                const citations = this.timeline.searchHistory(
+                  value.assistantId,
+                  query,
+                  limit,
+                  value.context.kind === 'selected' ? value.context.requestIds : undefined
+                )
+                assertCurrent()
+                return citations
+              },
+              emit: (operation) => {
+                if (!this.closed)
+                  emit({
+                    type: 'operation',
+                    requestId: value.requestId,
+                    assistantId: value.assistantId,
+                    operation
+                  })
+              }
+            })
       if (this.closed) return chatFailure('CANCELLED')
       if (deltaLimitExceeded) {
         finish('failed', response.content)
@@ -587,6 +851,38 @@ export class ProviderService {
         finish('failed', response.content)
         emit({ type: 'failed', requestId: value.requestId, assistantId: value.assistantId })
         return chatFailure(invalidResult)
+      }
+      if (
+        value.tools !== 'off' &&
+        value.mode === 'normal' &&
+        this.transport === chatCompletions &&
+        result.status === 'completed'
+      ) {
+        assertCurrent()
+        const capabilities = [
+          'text',
+          ...(value.stream ? ['stream'] : []),
+          ...(this.toolLedger
+            .read(value.assistantId, value.requestId)
+            .some((o) => o.state === 'SUCCEEDED')
+            ? ['tools']
+            : []),
+          ...(result.usage ? ['usage'] : [])
+        ]
+        this.store.transaction(() => {
+          const statement = this.store.database.prepare(
+            'INSERT INTO provider_capability_evidence VALUES(?,?,?,?,?,?) ON CONFLICT(endpoint_fingerprint,model,adapter_version,mode,capability) DO UPDATE SET observed_at=excluded.observed_at'
+          )
+          for (const capability of capabilities)
+            statement.run(
+              endpointFingerprint,
+              execution.binding.model.toLowerCase(),
+              GLM_TOOL_ADAPTER,
+              'standard-non-preserved',
+              capability,
+              new Date().toISOString()
+            )
+        })
       }
       const status = result.status
       finish(status, result.text || response.content)

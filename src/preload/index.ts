@@ -16,6 +16,8 @@ const assistants: AssistantApi = {
 }
 
 const provider: ProviderApi = {
+  tools: (input) => ipcRenderer.invoke(providerChannels.tools, input),
+  capabilities: (input) => ipcRenderer.invoke(providerChannels.capabilities, input),
   list: () => ipcRenderer.invoke(providerChannels.list, { protocolVersion: 1 }),
   saveConnection: (input) => ipcRenderer.invoke(providerChannels.saveConnection, input),
   setCredential: (input) => ipcRenderer.invoke(providerChannels.setCredential, input),

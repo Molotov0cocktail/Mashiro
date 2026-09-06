@@ -1,6 +1,6 @@
 # 007 Provider 工具执行、协议段与操作身份
 
-- TASK = 007；状态 = IMPLEMENTING / S0；PROGRAM ACTIVE。
+- TASK = 007；状态 = REVIEW / UI REPAIR；PROGRAM ACTIVE。
 - ROUTE_ID = bounded-glm-tools-v1；ATTEMPT = 1。
 - Planner = gpt-6-astra / medium；006最终已审产品基线 = `88a86a2dacc616ca3a6fa0ba63a345f059d88859`。其后006 closing/007合同文档差异不改变产品行为；候选审核须从该产品基线解释全部007产品差异。
 - 007已进入S0/trusted实施。全局入口由指定记录者维护；本片PASS后继续总队列，不停止程序。
@@ -29,7 +29,7 @@ Planner于2026-09-06完整读取官方[流式工具](https://docs.bigmodel.cn/cn
 
 沿用现有原生HTTPS/SSE transport，不引入第二SDK栈或任意模板。新增版本化内置GLM adapter，仅对经规范化匹配的实际端点和明确能力配置启用。固定thinking.enabled、已支持reasoning_effort；tool_stream只在已验证流式工具模式发送，tool_choice=auto。其他任意OpenAI-compatible端点保留文本能力，工具默认不可用，不能静默切到Beta/其他URL。
 
-本片默认标准API的非保留跨轮模式，不开启clear_thinking=false；活动工具链完整保留并原序回传已观察reasoning_content。最终stop后才关闭该活动链，下一次独立用户请求按标准API非保留规则构建。S0必须证实该边界；若规则无法支持，则保持旧段不裁剪、不自动重建并REPLAN。保留式跨用户轮次模式不是本片隐式打开的选项；相关能力显示未验证，不伪造非空reasoning。任何活动链都不能因一次工具完成而清除必要字段。
+本片使用标准API非保留跨轮模式，显式thinking.clear_thinking=true；活动工具链完整保留并原序回传已观察reasoning_content。当前官方API证明该参数只清除历史轮次reasoning，保留工具调用/结果。故最终stop后关闭活动链，下一用户轮仍重放同端点/model/adapter已闭合段的完整调用/结果，仅移除旧reasoning；选段不能夹带更早上下文，必须同时包含来源依赖。无法合法重放时返回CONFIGURATION并提示选不附带历史开始新请求，不丢工具字段假称重建合格。保留式跨用户轮次模式不是本片隐式打开的选项；相关能力显示未验证，不伪造非空reasoning。任何活动链都不能因一次工具完成而清除必要字段。
 
 段身份由trusted生成，绑定assistantId、timeline、endpointFingerprint、protocol、model、mode、adapterVersion与来源引用。内容、reasoning、工具调用与结果分型存放，不把reasoning加到聊天正文。仅白名单厂商字段可进入协议存储，无任意透传对象；明确大小/数量上限，超过即中断并保留可理解状态，禁止裁剪半个调用。首版建议最多3个工具轮次、每轮最多4调用且串行执行、单调用arguments最多32K字符、全请求链总字节/时间预算有界；S0冻结具体常量并测边界，不承诺并行能力。
 
@@ -37,9 +37,9 @@ SSE按choice/index聚合，每个最终call必须具有唯一非空ID、function
 
 ### 工具白名单与权限交集
 
-| 工具 | 严格参数与结果 | 可信约束 |
-| --- | --- | --- |
-| get_current_time | 参数为strict空对象；结果为UTC ISO时间、可信本机时区与offset | 读取注入Clock；不收模型时区/系统路径，不修改时钟；normal与temporary均可用 |
+| 工具                        | 严格参数与结果                                                                                                    | 可信约束                                                                                                                     |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| get_current_time            | 参数为strict空对象；结果为UTC ISO时间、可信本机时区与offset                                                       | 读取注入Clock；不收模型时区/系统路径，不修改时钟；normal与temporary均可用                                                    |
 | search_conversation_history | strict对象query为1–200字符非空字面关键词、limit为1–10整数；结果含有界completed轮次摘录、requestId、时间、截断标志 | 仅当前助手正常历史；assistant/endpoint/范围由trusted注入，禁止模型指定SQL、ID列表、路径或权限；稳定顺序与字面匹配复用006底层 |
 
 请求增加窄工具意图（默认关闭，可单选时钟或时钟+历史）；中文入口说明检索范围并显示当前实际接收方。历史检索必须同时满足本轮明确勾选、006readHistory、该实际端点sendHistory与上下文范围。context=none禁止历史工具；selected只搜选定完整requestIds；recent若启用历史检索，UI必须明确这是授权在自己完整正常历史中按关键词检索，不能暗中把“近期上下文”解释成全部历史。
@@ -89,12 +89,16 @@ S3融合：真实Electron两PID、合成数据的实际产品路径；必要低�
 
 最终证据：精确baseline/candidate、修改文件与角色所有权、红绿oracle、实际命令/退出码、两PID、现场实际产品live次数/usage及未观察项、官方参数/重建边界依据、独立verdict、提交/双remote与残留。专属报告在`.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/`，由Prompter更新progress和总覆盖。
 
-## 进度清单
+## 当前S3实际证据
+
+2026-09-06 root 已运行[实际产品Clock工具合成闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-live-product-result.json)：默认真实transport的ProviderService/Clock/协议与operation仓库→续答，2请求、1 SUCCEEDED、回答包含工具返回的精确UTC，usage467/54/521，工具能力为实际产品LIVE_VERIFIED。两次reasoning均未观测，不结算保留式思考。此为产品可信路径live，不是renderer驱动live或跨用户轮live；renderer/preload/IPC恢复由独立双PID夹具覆盖。程序累计6付费请求，已观测usage1515，第一次探针usage仍未知。完整融合verify与独立Reviewer尚待闭合。
+
+## 集成与独立审核当前事实
 
 - [x] 007编号不存在确认；读当前入口、相关设计/006 DTO、探针与官方核心协议；形成独占规划产物。
 - [x] 006最终PASS基线填定为`88a86a2dacc616ca3a6fa0ba63a345f059d88859`。
-- [ ] S0协议/API/DTO与schema冻结（trusted实施中）。
-- [ ] S1可信工具/协议/操作身份/权限和红绿证据。
+- [x] S0协议/API/DTO与schema冻结；见[可信候选/S0证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-core-candidate.md)。
+- [x] S1可信工具/协议/操作身份/权限和红绿证据（候选，待独立审核）：17 files / 123 tests、trusted typecheck/lint/build、双PID25816/87296通过。
 - [ ] S2中文用户闭环、状态、来源引用及能力限制展示。
 - [ ] S3融合、真实产品合成工具闭环、完整verify及两PID。
 - [ ] 独立Reviewer PASS、必要修复复审、已审提交/双remote同步。

@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { HistoryContextPanel } from '../../src/renderer/src/features/provider/HistoryContextPanel'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
+import { providerApi007Defaults } from './provider-api-fixture'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type {
   ProviderApi,
@@ -98,6 +99,7 @@ function permission(values: Partial<HistoryPermissions> = {}): HistoryPermission
 }
 function provider(startChat = vi.fn()): ProviderApi {
   return {
+    ...providerApi007Defaults(),
     list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
     saveConnection: vi.fn(),
     setCredential: vi.fn(),

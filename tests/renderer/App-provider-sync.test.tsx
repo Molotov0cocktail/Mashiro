@@ -2,6 +2,7 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../src/renderer/src/App'
+import { providerApi007Defaults } from './provider-api-fixture'
 import { timelineApi006Defaults } from './timeline-api-fixture'
 import type { AssistantApi, AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type { ProviderApi, ProviderSnapshot } from '../../src/shared/provider-contract'
@@ -90,6 +91,7 @@ describe('App assistant and Provider synchronization', () => {
       archive: vi.fn()
     } as AssistantApi
     const providerApi = {
+      ...providerApi007Defaults(),
       list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
       saveConnection: vi.fn(),
       setCredential: vi.fn(),

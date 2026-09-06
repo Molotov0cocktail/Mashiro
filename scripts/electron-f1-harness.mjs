@@ -186,6 +186,8 @@ try {
     ['assistant', 'E2E_NORMAL_ASSISTANT', 'completed'],
     ['user', 'E2E_SAVED_TEMP_USER', 'completed'],
     ['assistant', 'E2E_SAVED_TEMP_ASSISTANT', 'completed'],
+    ['user', 'E2E_TOOL_NORMAL', 'completed'],
+    ['assistant', 'E2E_TOOL_REPLY', 'completed'],
     ['user', 'E2E_PENDING_NORMAL', 'completed'],
     ['assistant', '', 'pending']
   ]
@@ -204,7 +206,7 @@ try {
   if (
     restored.length !== before.length ||
     restored
-      .slice(0, 5)
+      .slice(0, 7)
       .some(
         (message, index) =>
           JSON.stringify(messageShape(message)) !== JSON.stringify(messageShape(before[index]))
@@ -212,8 +214,8 @@ try {
   ) {
     throw new Error('Stable timeline identity or content changed across restart')
   }
-  const pendingBefore = before[5]
-  const interrupted = restored[5]
+  const pendingBefore = before[7]
+  const interrupted = restored[7]
   if (
     interrupted.id !== pendingBefore.id ||
     interrupted.requestId !== pendingBefore.requestId ||
@@ -228,7 +230,7 @@ try {
   if (
     seed.savedTemporary.messages.length !== 2 ||
     !seed.savedTemporary.messages.every((message) => message.saved) ||
-    seed.temporaryBeforeClose.messages.length !== 4 ||
+    seed.temporaryBeforeClose.messages.length !== 6 ||
     !seed.temporaryBeforeClose.messages.slice(0, 2).every((message) => message.saved) ||
     seed.temporaryBeforeClose.messages.slice(2).some((message) => message.saved) ||
     verify.temporaryRestored.messages.length !== 0
@@ -244,7 +246,7 @@ try {
     throw new Error('Synthetic seed response evidence changed')
   }
   if (
-    seed.transportAfterExplicit.count !== 4 ||
+    seed.transportAfterExplicit.count !== 8 ||
     seed.transportAfterExplicit.requests.some((request) => request.credential !== 'temporary') ||
     verify.transportBeforeExplicit.count !== 0 ||
     verify.transportAfterExplicit.count !== 1 ||
@@ -252,9 +254,12 @@ try {
   ) {
     throw new Error('Restart recovery made an automatic Provider request')
   }
-  const verifyMessages = verify.transportAfterExplicit.requests[0]?.messages.map(
-    (message) => message.content
-  )
+  const verifyProtocol = verify.transportAfterExplicit.requests[0]?.messages
+  if (verifyProtocol.filter((message) => message.role === 'tool').length !== 1)
+    throw new Error('Closed tool result was lost during context replay')
+  const verifyMessages = verifyProtocol
+    .filter((message) => message.role !== 'tool' && message.content !== '')
+    .map((message) => message.content)
   if (
     JSON.stringify(verifyMessages) !==
     JSON.stringify([
@@ -262,6 +267,8 @@ try {
       'E2E_NORMAL_ASSISTANT',
       'E2E_SAVED_TEMP_USER',
       'E2E_SAVED_TEMP_ASSISTANT',
+      'E2E_TOOL_NORMAL',
+      'E2E_TOOL_REPLY',
       'E2E_VERIFY_USER'
     ])
   ) {
@@ -269,17 +276,17 @@ try {
   }
   const afterSend = verify.timelineAfterSend.messages
   if (
-    afterSend.length !== 8 ||
+    afterSend.length !== 10 ||
     afterSend
-      .slice(0, 6)
+      .slice(0, 8)
       .some(
         (message, index) =>
           JSON.stringify(messageShape(message)) !== JSON.stringify(messageShape(restored[index]))
       ) ||
-    afterSend[6].content !== 'E2E_VERIFY_USER' ||
-    afterSend[6].status !== 'completed' ||
-    afterSend[7].content !== 'E2E_VERIFY_ASSISTANT' ||
-    afterSend[7].status !== 'completed' ||
+    afterSend[8].content !== 'E2E_VERIFY_USER' ||
+    afterSend[8].status !== 'completed' ||
+    afterSend[9].content !== 'E2E_VERIFY_ASSISTANT' ||
+    afterSend[9].status !== 'completed' ||
     verify.chat.status !== 'completed' ||
     verify.chat.text !== 'E2E_VERIFY_ASSISTANT'
   ) {
@@ -302,6 +309,12 @@ try {
   )
     throw new Error('History permission or search did not survive restart')
 
+  if (
+    seed.toolOperations.length !== 1 ||
+    JSON.stringify(seed.toolOperations) !== JSON.stringify(verify.toolOperations) ||
+    verify.toolOperations[0].state !== 'SUCCEEDED'
+  )
+    throw new Error('Successful tool operation did not survive restart unchanged')
   const credentialFiles = readdirSync(join(testRoot, 'data', 'credentials'))
   if (
     credentialFiles.length !== 1 ||
@@ -318,8 +331,12 @@ try {
     name.startsWith('mashiro.sqlite')
   )
   if (
-    databaseFiles.some((name) =>
-      readFileSync(join(testRoot, 'data', name)).includes(Buffer.from('E2E_UNSAVED_TEMP_MARKER'))
+    databaseFiles.some(
+      (name) =>
+        readFileSync(join(testRoot, 'data', name)).includes(
+          Buffer.from('E2E_UNSAVED_TEMP_MARKER')
+        ) ||
+        readFileSync(join(testRoot, 'data', name)).includes(Buffer.from('E2E_TOOL_TEMP_UNSAVED'))
     )
   ) {
     throw new Error('Unsaved temporary body reached persistent database files')
@@ -339,6 +356,9 @@ try {
     persistentCredentialProtected: true,
     historyPermission: verify.historyPermission,
     historyQueryVerified: true,
+    toolOperationRecovered: true,
+    temporaryToolProtocolNotPersisted: true,
+    toolOperationId: verify.toolOperations[0].operationId,
     selectedContextVerified: true,
     recoveryTransportCalls: verify.transportBeforeExplicit.count,
     explicitSendTransportCalls: verify.transportAfterExplicit.count,

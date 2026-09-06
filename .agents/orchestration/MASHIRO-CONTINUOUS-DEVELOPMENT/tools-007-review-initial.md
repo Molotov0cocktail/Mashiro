@@ -1,0 +1,18 @@
+# 007 independent initial review
+
+Verdict: REPAIR. Product baseline 88a86a2dacc616ca3a6fa0ba63a345f059d88859; inspected working candidate above e73fd7e56c37970579e04fcff618f5f77894d166 on 2026-09-06. No final candidate SHA has yet been provided. Reviewer is independent of trusted/UI implementation. PROGRAM ACTIVE; this review does not reduce later memory/items/reminders/install/release coverage.
+
+## Findings
+
+1. P2: A late tools-read snapshot erases newer successful execution receipts. ProviderPanel loadOperations replaces the entire operation array for an unfiltered read; operation events do not invalidate or reconcile that read. Reproduction: keep the initial empty tools read pending, send a clock request, emit its actual SUCCEEDED receipt, then resolve the older empty read. The already visible completed receipt disappears. An older PREPARED snapshot can similarly regress a terminal receipt. This violates the 007 late-snapshot and truthful successful-receipt requirements. Repair must preserve newer operation facts while still clearing forbidden citations on current permission withdrawal; simply retaining all old fields is insufficient.
+2. P2: ToolExecutionPanel describes history search as the assistant's complete normal history even when contextIntent is selected. Trusted correctly restricts search to selected request IDs. The Chinese scope explanation and option label must accurately describe the selected-only intersection.
+
+## Independent evidence
+
+- Active suite: node node_modules/vitest/vitest.mjs run --reporter=json --outputFile=test-results/tools-007-review-active.json, process exit 0, 157 tests, zero failures. testResults contains the file inventory; Vitest numPassedTestSuites also counts nested suites and is not a file count.
+- Independent race oracle: tools-007-review-oracle.test.tsx. Derived fixture declarations from the current renderer test, with a new independently written delayed-empty-snapshot assertion. No product or existing test was changed.
+- First isolated config failed before product assertion because archive TSX lacked automatic JSX transform (React is not defined). Raw test-results/tools-007-review-red.json is retained.
+- Corrected separate config tools-007-review-vitest-v2.config.ts explicitly sets esbuild jsx automatic, setupFiles ./tests/setup.ts and only the owned oracle include. tools-007-review-red-v2.json records the real product failure: completed receipt is missing after old snapshot resolution. Test command exit was 1; the enclosing PowerShell command later printed evidence and itself exited 0.
+- New vitest.config.ts include is justified: active tests remain under tests/, old 006 archived review fixtures remain unmodified. Current migration fixtures remove only additive v5 tables before setting their historical user_version, preserving legacy assertions and failure-atomicity checks.
+
+Read the full 007 contract, current progress/program coverage, orchestrator modes/role contracts and relevant HLD/detailed design. Inspected full new protocol, execution, ledger and DTO files; service authority/source propagation, transport aggregation, schema migration and UI changes. Six assistant channels and sandbox preload runtime boundary remain unchanged. Existing active tests cover all-call validation, interleaved reasoning, source selection, endpoint/model refusal, cancellation, temporary bounds/save, operation identity and recovery. No new paid calls, credentials access, product edits, commits or pushes. Parent owns final integration, repairs and exact candidate publication.

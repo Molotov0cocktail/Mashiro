@@ -1,4 +1,10 @@
 import { z } from 'zod'
+import {
+  toolScopeSchema,
+  toolOperationSchema,
+  capabilitySchema,
+  type ToolReadInput
+} from './tool-contract.js'
 
 export { providerChannels } from './provider-channels.js'
 
@@ -46,6 +52,7 @@ export const startChatInputSchema = z.strictObject({
   text: boundedString(16000),
   mode: z.enum(['normal', 'temporary']).default('temporary'),
   context: contextIntentSchema.default({ kind: 'recent' }),
+  tools: toolScopeSchema.default('off'),
   stream: z.boolean()
 })
 export const clearChatInputSchema = z.strictObject({
@@ -133,6 +140,12 @@ export const providerChatResultSchema = z.discriminatedUnion('ok', [
 ])
 export const providerEventSchema = z.discriminatedUnion('type', [
   z.strictObject({
+    type: z.literal('operation'),
+    requestId: uuid,
+    assistantId: uuid,
+    operation: toolOperationSchema
+  }),
+  z.strictObject({
     type: z.literal('delta'),
     requestId: uuid,
     assistantId: uuid,
@@ -144,6 +157,24 @@ export const providerEventSchema = z.discriminatedUnion('type', [
     assistantId: uuid
   })
 ])
+
+export const toolReadResultSchema = z.discriminatedUnion('ok', [
+  z.strictObject({
+    ok: z.literal(true),
+    data: z.strictObject({
+      assistantId: uuid,
+      mode: z.enum(['normal', 'temporary']),
+      operations: z.array(toolOperationSchema).max(384)
+    })
+  }),
+  z.strictObject({ ok: z.literal(false), error: providerStableErrorSchema })
+])
+export const capabilityResultSchema = z.discriminatedUnion('ok', [
+  z.strictObject({ ok: z.literal(true), data: capabilitySchema }),
+  z.strictObject({ ok: z.literal(false), error: providerStableErrorSchema })
+])
+export type ToolReadResult = z.infer<typeof toolReadResultSchema>
+export type CapabilityResult = z.infer<typeof capabilityResultSchema>
 
 export type ProviderConnection = z.infer<typeof providerConnectionSchema>
 export type ProviderBinding = z.infer<typeof providerBindingSchema>
@@ -159,6 +190,8 @@ export type ClearChatInput = z.infer<typeof clearChatInputSchema>
 export type CancelChatInput = z.infer<typeof cancelChatInputSchema>
 
 export interface ProviderApi {
+  tools(input: ToolReadInput): Promise<ToolReadResult>
+  capabilities(input: { protocolVersion: 1; assistantId: string }): Promise<CapabilityResult>
   list(): Promise<ProviderResult>
   saveConnection(input: SaveConnectionInput): Promise<ProviderResult>
   setCredential(input: SetCredentialInput): Promise<ProviderResult>

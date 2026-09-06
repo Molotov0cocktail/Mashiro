@@ -10,13 +10,15 @@ describe('provider IPC boundary', () => {
     expect(Object.values(providerChannels).sort()).toEqual([
       'provider:bind-assistant',
       'provider:cancel-chat',
+      'provider:capabilities',
       'provider:clear-chat',
       'provider:delete-credential',
       'provider:event',
       'provider:list',
       'provider:save-connection',
       'provider:set-credential',
-      'provider:start-chat'
+      'provider:start-chat',
+      'provider:tools'
     ])
   })
 
@@ -49,6 +51,6 @@ describe('provider IPC boundary', () => {
     })
     expect(JSON.stringify(result)).not.toContain('secret')
     unregister()
-    expect(ipc.removeHandler).toHaveBeenCalledTimes(8)
+    expect(ipc.removeHandler).toHaveBeenCalledTimes(10)
   })
 })

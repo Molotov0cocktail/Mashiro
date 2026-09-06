@@ -12,7 +12,14 @@ import type {
   TimelineMessage,
   TimelineSnapshot
 } from '../../../../shared/timeline-contract'
+import type {
+  HistoryCitation,
+  ProviderCapabilities,
+  ToolOperation,
+  ToolScope
+} from '../../../../shared/tool-contract'
 import { HistoryContextPanel } from './HistoryContextPanel'
+import { ToolExecutionPanel } from './ToolExecutionPanel'
 
 const protocolVersion = 1 as const
 const errorMessages: Record<string, string> = {
@@ -27,7 +34,8 @@ const errorMessages: Record<string, string> = {
   REQUEST_IN_PROGRESS: '当前助手仍在生成，请等待完成或先取消',
   AUTHENTICATION: 'Provider 认证失败，请检查 Key',
   QUOTA: 'Provider 额度不足或不可用',
-  CONFIGURATION: '连接地址或模型配置无效',
+  CONFIGURATION:
+    '连接地址或模型配置无效，请检查连接与模型；若引用了旧工具轮次，可选不附带历史后重新发送',
   TEMPORARY: 'Provider 暂时不可用，请稍后手动重试',
   PROTOCOL: 'Provider 返回不完整或格式异常，已保留部分输出',
   TIMEOUT: '请求超时，已保留部分输出',
@@ -39,6 +47,10 @@ const errorMessages: Record<string, string> = {
 type TimelineMap = Record<string, TimelineMessage[]>
 type BooleanMap = Record<string, boolean>
 type TextMap = Record<string, string>
+type ToolScopeMap = Record<string, ToolScope>
+type OperationMap = Record<string, ToolOperation[]>
+type CapabilityMap = Record<string, ProviderCapabilities | undefined>
+type HistoryFocusMap = Record<string, { requestId: string; nonce: number }>
 type ContextIntentMap = Record<string, ContextIntent>
 type RequestSelectionMap = Record<string, string[]>
 type ActiveRequest = {
@@ -111,11 +123,27 @@ export function ProviderPanel({
   const activeRequestsRef = useRef<ActiveRequestMap>({})
   const protectedRequestsRef = useRef<ProtectedRequestMap>({})
   const readVersions = useRef<Record<string, number>>({})
+  const toolReadVersions = useRef<Record<string, number>>({})
+  const capabilityReadVersions = useRef<Record<string, number>>({})
+  const requestRoutesRef = useRef<
+    Record<string, { assistantId: string; mode: ChatMode; citationEpoch: number }>
+  >({})
+  const citationEpochs = useRef<Record<string, number>>({})
+  const operationSequence = useRef(0)
+  const operationEvents = useRef<Record<string, Record<string, number>>>({})
   const [rejectedDrafts, setRejectedDrafts] = useState<RejectedDraftMap>({})
   const [settingsError, setSettingsError] = useState<string | null>(null)
   const [timelineErrors, setTimelineErrors] = useState<TextMap>({})
   const [notices, setNotices] = useState<TextMap>({})
   const [uncertainRequests, setUncertainRequests] = useState<TextMap>({})
+  const [toolScopes, setToolScopes] = useState<ToolScopeMap>({})
+  const [operations, setOperations] = useState<OperationMap>({})
+  const [operationLoading, setOperationLoading] = useState<BooleanMap>({})
+  const [operationErrors, setOperationErrors] = useState<TextMap>({})
+  const [capabilities, setCapabilities] = useState<CapabilityMap>({})
+  const [capabilityLoading, setCapabilityLoading] = useState<BooleanMap>({})
+  const [capabilityErrors, setCapabilityErrors] = useState<TextMap>({})
+  const [historyFocus, setHistoryFocus] = useState<HistoryFocusMap>({})
 
   const currentAssistantId = assistantSnapshot?.currentAssistantId ?? ''
   const currentAssistant = assistantSnapshot?.assistants.find(
@@ -141,6 +169,9 @@ export function ProviderPanel({
   const transcript = timelines[currentKey] ?? []
   const currentRejectedDrafts = rejectedDrafts[currentKey] ?? []
   const activeRequest = activeRequests[currentAssistantId]
+  const toolScope = toolScopes[currentKey] ?? 'off'
+  const currentOperations = operations[currentKey] ?? []
+  const currentCapability = capabilities[currentAssistantId]
 
   const invalidateRead = useCallback((key: string): void => {
     readVersions.current[key] = (readVersions.current[key] ?? 0) + 1
@@ -219,6 +250,116 @@ export function ProviderPanel({
     [applyTimelineSnapshot, timelineApi]
   )
 
+  const loadOperations = useCallback(
+    async (assistantId: string, chatMode: ChatMode, requestId?: string): Promise<void> => {
+      if (!assistantId) return
+      const key = timelineKey(assistantId, chatMode)
+      const version = (toolReadVersions.current[key] ?? 0) + 1
+      toolReadVersions.current[key] = version
+      setOperationLoading((values) => ({ ...values, [key]: true }))
+      setOperationErrors((values) => ({ ...values, [key]: '' }))
+      try {
+        const result = await api.tools({
+          protocolVersion,
+          assistantId,
+          mode: chatMode,
+          ...(requestId ? { requestId } : {})
+        })
+        if (toolReadVersions.current[key] !== version) return
+        if (!result.ok) {
+          setOperationErrors((values) => ({ ...values, [key]: errorText(result) }))
+          return
+        }
+        if (result.data.assistantId !== assistantId || result.data.mode !== chatMode) {
+          setOperationErrors((values) => ({
+            ...values,
+            [key]: '工具回执归属不一致，已忽略此次读取'
+          }))
+          return
+        }
+        setOperations((values) => ({
+          ...values,
+          [key]: mergeToolOperations(
+            (values[key] ?? []).filter(
+              (operation) =>
+                requestId ||
+                result.data.operations.some(
+                  (incoming) => incoming.operationId === operation.operationId
+                ) ||
+                (operationEvents.current[key]?.[operation.operationId] ?? 0) > 0
+            ),
+            result.data.operations,
+            true
+          )
+        }))
+      } catch {
+        if (toolReadVersions.current[key] === version) {
+          setOperationErrors((values) => ({
+            ...values,
+            [key]: '可信工具回执暂时无法读取，当前记录已保留'
+          }))
+        }
+      } finally {
+        if (toolReadVersions.current[key] === version) {
+          setOperationLoading((values) => ({ ...values, [key]: false }))
+        }
+      }
+    },
+    [api]
+  )
+
+  const refreshOperationPermissions = useCallback(
+    (assistantId: string): void => {
+      const key = timelineKey(assistantId, 'normal')
+      citationEpochs.current[key] = (citationEpochs.current[key] ?? 0) + 1
+      setOperations((values) => ({
+        ...values,
+        [key]: (values[key] ?? []).map((operation) => ({ ...operation, citations: [] }))
+      }))
+      void loadOperations(assistantId, 'normal')
+    },
+    [loadOperations]
+  )
+
+  const loadCapabilities = useCallback(
+    async (assistantId: string): Promise<void> => {
+      if (!assistantId) return
+      const version = (capabilityReadVersions.current[assistantId] ?? 0) + 1
+      capabilityReadVersions.current[assistantId] = version
+      setCapabilityLoading((values) => ({ ...values, [assistantId]: true }))
+      setCapabilityErrors((values) => ({ ...values, [assistantId]: '' }))
+      setCapabilities((values) => ({ ...values, [assistantId]: undefined }))
+      try {
+        const result = await api.capabilities({ protocolVersion, assistantId })
+        if (capabilityReadVersions.current[assistantId] !== version) return
+        if (!result.ok) {
+          setCapabilityErrors((values) => ({ ...values, [assistantId]: errorText(result) }))
+          return
+        }
+        if (result.data.assistantId !== assistantId) {
+          setCapabilityErrors((values) => ({
+            ...values,
+            [assistantId]: '端点能力归属不一致，工具保持关闭'
+          }))
+          return
+        }
+        setCapabilities((values) => ({ ...values, [assistantId]: result.data }))
+      } catch {
+        if (capabilityReadVersions.current[assistantId] === version) {
+          setCapabilityErrors((values) => ({
+            ...values,
+            [assistantId]: '当前端点能力暂时无法读取，工具保持关闭'
+          }))
+        }
+      } finally {
+        if (capabilityReadVersions.current[assistantId] === version) {
+          setCapabilityLoading((values) => ({ ...values, [assistantId]: false }))
+        }
+      }
+    },
+    [api]
+  )
+
   useEffect(() => {
     let active = true
     void api.list().then((result) => {
@@ -235,6 +376,30 @@ export function ProviderPanel({
       } else setSettingsError(errorText(result))
     })
     const remove = api.onEvent((event) => {
+      if (event.type === 'operation') {
+        const requestRoute = requestRoutesRef.current[event.requestId]
+        if (
+          !requestRoute ||
+          requestRoute.assistantId !== event.assistantId ||
+          event.operation.requestId !== event.requestId ||
+          event.operation.assistantId !== event.assistantId
+        )
+          return
+        const key = timelineKey(event.assistantId, requestRoute.mode)
+        operationEvents.current[key] = {
+          ...operationEvents.current[key],
+          [event.operation.operationId]: ++operationSequence.current
+        }
+        const operation =
+          requestRoute.citationEpoch === (citationEpochs.current[key] ?? 0)
+            ? event.operation
+            : { ...event.operation, citations: [] }
+        setOperations((values) => ({
+          ...values,
+          [key]: mergeToolOperations(values[key] ?? [], [operation])
+        }))
+        return
+      }
       const route = activeRequestsRef.current[event.assistantId]
       if (!route || route.requestId !== event.requestId) return
       route.observedAcceptance = true
@@ -282,6 +447,28 @@ export function ProviderPanel({
     }
   }, [currentAssistantId, mode, readTimeline])
 
+  useEffect(() => {
+    let active = true
+    queueMicrotask(() => {
+      if (active) {
+        void loadOperations(currentAssistantId, mode)
+      }
+    })
+    return () => {
+      active = false
+    }
+  }, [currentAssistantId, historyBindingKey, loadOperations, mode, refreshOperationPermissions])
+
+  useEffect(() => {
+    let active = true
+    queueMicrotask(() => {
+      if (active) void loadCapabilities(currentAssistantId)
+    })
+    return () => {
+      active = false
+    }
+  }, [currentAssistantId, historyBindingKey, loadCapabilities])
+
   const receiver = useMemo(() => {
     if (!executionConnection || !binding) return null
     return (
@@ -315,6 +502,14 @@ export function ProviderPanel({
       invalidateRead(key)
       setSnapshot(result.data)
       setTimelines((values) => ({ ...values, [key]: [] }))
+      toolReadVersions.current[key] = (toolReadVersions.current[key] ?? 0) + 1
+      delete operationEvents.current[key]
+      for (const [id, route] of Object.entries(requestRoutesRef.current)) {
+        if (route.assistantId === assistantId && route.mode === 'temporary')
+          delete requestRoutesRef.current[id]
+      }
+      setOperationLoading((values) => ({ ...values, [key]: false }))
+      setOperations((values) => ({ ...values, [key]: [] }))
       setRejectedDrafts((values) => ({ ...values, [key]: [] }))
       setHasMore((values) => ({ ...values, [key]: false }))
       setNotices((values) => ({ ...values, [key]: '当前助手的临时会话已清空' }))
@@ -424,6 +619,15 @@ export function ProviderPanel({
     const assistantId = currentAssistantId
     const requestMode = mode
     const requestContext = requestMode === 'temporary' ? ({ kind: 'none' } as const) : contextIntent
+    const requestedTools = toolScopes[timelineKey(assistantId, requestMode)] ?? 'off'
+    const requestTools: ToolScope =
+      currentCapability?.assistantId !== assistantId || !currentCapability.toolsAvailable
+        ? 'off'
+        : requestMode === 'temporary' && requestedTools === 'clock-and-history'
+          ? 'clock'
+          : requestContext.kind === 'none' && requestedTools === 'clock-and-history'
+            ? 'clock'
+            : requestedTools
     const key = timelineKey(assistantId, requestMode)
     const submitted = text
     const createdAt = new Date().toISOString()
@@ -464,6 +668,14 @@ export function ProviderPanel({
     }
     activeRequestsRef.current = { ...activeRequestsRef.current, [assistantId]: request }
     setActiveRequests(activeRequestsRef.current)
+    requestRoutesRef.current = {
+      ...requestRoutesRef.current,
+      [requestId]: {
+        assistantId,
+        mode: requestMode,
+        citationEpoch: citationEpochs.current[timelineKey(assistantId, requestMode)] ?? 0
+      }
+    }
     try {
       const result = await api.startChat({
         protocolVersion,
@@ -472,6 +684,7 @@ export function ProviderPanel({
         text: submitted,
         mode: requestMode,
         context: requestContext,
+        tools: requestTools,
         stream
       })
       clearActiveRequest(assistantId, requestId)
@@ -729,9 +942,20 @@ export function ProviderPanel({
             timelineApi={timelineApi}
             contextIntent={contextIntent}
             selectedRequestIds={selectedRequestIds}
-            onContextIntentChange={(value) =>
+            focusRequest={historyFocus[currentAssistantId]}
+            onPermissionsChange={() => refreshOperationPermissions(currentAssistantId)}
+            onContextIntentChange={(value) => {
               setContextByAssistant((items) => ({ ...items, [currentAssistantId]: value }))
-            }
+              if (value.kind === 'none') {
+                setToolScopes((items) => ({
+                  ...items,
+                  [currentKey]:
+                    items[currentKey] === 'clock-and-history'
+                      ? 'clock'
+                      : (items[currentKey] ?? 'off')
+                }))
+              }
+            }}
             onSelectedRequestIdsChange={(value) => {
               setSelectedRequestsByAssistant((items) => ({
                 ...items,
@@ -744,6 +968,32 @@ export function ProviderPanel({
                 }))
               }
             }}
+          />
+
+          <ToolExecutionPanel
+            assistantId={currentAssistantId}
+            mode={mode}
+            contextIntent={contextIntent}
+            capability={currentCapability}
+            capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
+            capabilityError={capabilityErrors[currentAssistantId] ?? ''}
+            scope={toolScope}
+            operations={currentOperations}
+            operationLoading={operationLoading[currentKey] ?? false}
+            operationError={operationErrors[currentKey] ?? ''}
+            onScopeChange={(value) => setToolScopes((items) => ({ ...items, [currentKey]: value }))}
+            onRefreshOperation={(requestId) =>
+              void loadOperations(currentAssistantId, mode, requestId)
+            }
+            onLocateCitation={(citation: HistoryCitation) =>
+              setHistoryFocus((items) => ({
+                ...items,
+                [currentAssistantId]: {
+                  requestId: citation.requestId,
+                  nonce: (items[currentAssistantId]?.nonce ?? 0) + 1
+                }
+              }))
+            }
           />
 
           {timelineErrors[currentKey] ? <p role="alert">{timelineErrors[currentKey]}</p> : null}
@@ -871,6 +1121,37 @@ export function ProviderPanel({
         </div>
       </div>
     </section>
+  )
+}
+
+function mergeToolOperations(
+  current: ToolOperation[],
+  incoming: ToolOperation[],
+  snapshot = false
+): ToolOperation[] {
+  const byId = new Map(current.map((operation) => [operation.operationId, operation]))
+  for (const operation of incoming) {
+    const previous = byId.get(operation.operationId)
+    const rank = (state: ToolOperation['state']): number =>
+      state === 'PREPARED' ? 0 : state === 'DISPATCHING' ? 1 : state === 'RESULT_UNKNOWN' ? 2 : 3
+    const stale =
+      previous &&
+      (rank(previous.state) > rank(operation.state) || previous.updatedAt > operation.updatedAt)
+    const next = stale ? previous : operation
+    // Permission-filtered snapshots own citation visibility; queued events cannot restore stripped references.
+    const citations = snapshot
+      ? stale
+        ? next.citations
+        : operation.citations
+      : previous?.state === 'SUCCEEDED' && previous.citations.length === 0
+        ? []
+        : next.citations
+    byId.set(operation.operationId, { ...next, citations })
+  }
+  return [...byId.values()].sort((left, right) =>
+    left.createdAt === right.createdAt
+      ? left.operationId.localeCompare(right.operationId)
+      : left.createdAt.localeCompare(right.createdAt)
   )
 }
 

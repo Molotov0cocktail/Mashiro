@@ -1,6 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite'
 
-export const schemaVersion = 4
+export const schemaVersion = 5
 
 const requiredTables = [
   'assistants',
@@ -9,7 +9,12 @@ const requiredTables = [
   'assistant_provider_bindings',
   'timeline_messages',
   'history_permissions',
-  'history_recipient_grants'
+  'history_recipient_grants',
+  'protocol_segments',
+  'tool_operations',
+  'protocol_results',
+  'timeline_sources',
+  'provider_capability_evidence'
 ] as const
 const requiredTriggers = [
   'assistant_no_delete',
@@ -174,6 +179,45 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
         send_history INTEGER NOT NULL CHECK(send_history IN (0,1)),
         PRIMARY KEY(assistant_id,endpoint_fingerprint));
         PRAGMA user_version = 4;`)
+      database.exec('COMMIT')
+    } catch (error) {
+      database.exec('ROLLBACK')
+      throw error
+    }
+  }
+  const beforeV5 = Number(
+    (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
+  )
+  if (beforeV5 === 4) {
+    verifyV1Objects(database)
+    for (const table of requiredTables.slice(0, 7)) {
+      if (!schemaObjectExists(database, 'table', table))
+        throw new StorageInconsistentError('Storage table missing before upgrade')
+    }
+    const check = database.prepare('PRAGMA integrity_check').get() as { integrity_check: string }
+    if (check.integrity_check !== 'ok' || database.prepare('PRAGMA foreign_key_check').all().length)
+      throw new StorageInconsistentError('Storage integrity check failed before upgrade')
+    database.exec('BEGIN IMMEDIATE')
+    try {
+      database.exec(`CREATE TABLE protocol_segments(
+        id TEXT PRIMARY KEY NOT NULL, assistant_id TEXT NOT NULL REFERENCES assistants(id),
+        request_id TEXT NOT NULL, endpoint_fingerprint TEXT NOT NULL, model TEXT NOT NULL,
+        adapter_version TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','closed','interrupted')),
+        messages_json TEXT NOT NULL CHECK(length(messages_json)<=524288), created_at TEXT NOT NULL,
+        protocol TEXT NOT NULL DEFAULT 'chat-completions-v1' CHECK(protocol='chat-completions-v1'),
+        mode TEXT NOT NULL DEFAULT 'standard-non-preserved' CHECK(mode='standard-non-preserved'),
+        chat_mode TEXT NOT NULL DEFAULT 'normal' CHECK(chat_mode='normal'),
+        UNIQUE(assistant_id,request_id));
+      CREATE TABLE tool_operations(
+        id TEXT PRIMARY KEY NOT NULL, segment_id TEXT NOT NULL REFERENCES protocol_segments(id),
+        model_request_id TEXT NOT NULL, tool_call_id TEXT NOT NULL,
+        arguments_json TEXT NOT NULL CHECK(length(arguments_json)<=32768),
+        record_json TEXT NOT NULL, arguments_version INTEGER NOT NULL DEFAULT 1 CHECK(arguments_version=1),
+        expected_object_version INTEGER NULL, UNIQUE(segment_id,model_request_id,tool_call_id));
+      CREATE TABLE protocol_results(operation_id TEXT PRIMARY KEY NOT NULL REFERENCES tool_operations(id), result_json TEXT NOT NULL CHECK(length(result_json)<=32768));
+      CREATE TABLE timeline_sources(assistant_id TEXT NOT NULL REFERENCES assistants(id),request_id TEXT NOT NULL,source_request_id TEXT NOT NULL,PRIMARY KEY(assistant_id,request_id,source_request_id));
+      CREATE TABLE provider_capability_evidence(endpoint_fingerprint TEXT NOT NULL,model TEXT NOT NULL,adapter_version TEXT NOT NULL,mode TEXT NOT NULL,capability TEXT NOT NULL,observed_at TEXT NOT NULL,PRIMARY KEY(endpoint_fingerprint,model,adapter_version,mode,capability));
+      PRAGMA user_version=5;`)
       database.exec('COMMIT')
     } catch (error) {
       database.exec('ROLLBACK')

@@ -602,13 +602,13 @@ it('migrates populated v3 without inventing grants and preserves new permission 
   item.service.close()
   const db = new DatabaseSync(item.path)
   db.exec(
-    'DROP TABLE history_recipient_grants; DROP TABLE history_permissions; PRAGMA user_version=3'
+    'DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; PRAGMA user_version=3'
   )
   db.close()
   const store = new SqliteStore(item.path)
   expect(
     (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-  ).toBe(4)
+  ).toBe(5)
   expect(store.database.prepare('SELECT * FROM history_recipient_grants').all()).toHaveLength(0)
   expect(
     store.database
@@ -671,7 +671,7 @@ it('rolls back a failed v3 upgrade without losing history or advancing schema', 
   item.service.close()
   const db = new DatabaseSync(item.path)
   db.exec(
-    'DROP TABLE history_recipient_grants; DROP TABLE history_permissions; PRAGMA user_version=3'
+    'DROP TABLE provider_capability_evidence; DROP TABLE protocol_results; DROP TABLE tool_operations; DROP TABLE protocol_segments; DROP TABLE timeline_sources; DROP TABLE history_recipient_grants; DROP TABLE history_permissions; PRAGMA user_version=3'
   )
   db.exec('CREATE TABLE history_recipient_grants(collision TEXT)')
   db.close()

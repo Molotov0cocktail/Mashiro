@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto'
 import type { ProviderService } from '../provider/provider-service.js'
 import {
   providerChannels,
+  toolReadResultSchema,
+  capabilityResultSchema,
   providerChatResultSchema,
   providerEventSchema,
   providerResultSchema,
@@ -54,7 +56,23 @@ async function chat(operation: () => Promise<unknown>): Promise<ProviderChatResu
 }
 
 export function registerProviderIpc(ipcMain: IpcMainLike, service: ProviderService): () => void {
+  const safeTools = (
+    schema: typeof toolReadResultSchema | typeof capabilityResultSchema,
+    operation: () => unknown
+  ): unknown => {
+    try {
+      const parsed = schema.safeParse(operation())
+      if (parsed.success) return parsed.data
+    } catch {
+      /* Sanitized boundary. */
+    }
+    return internalSettingsError()
+  }
   const handlers = {
+    [providerChannels.tools]: (_event: EventLike, input: unknown) =>
+      safeTools(toolReadResultSchema, () => service.tools(input)),
+    [providerChannels.capabilities]: (_event: EventLike, input: unknown) =>
+      safeTools(capabilityResultSchema, () => service.capabilities(input)),
     [providerChannels.list]: (_event: EventLike, input: unknown) =>
       settings(() => service.list(input)),
     [providerChannels.saveConnection]: (_event: EventLike, input: unknown) =>

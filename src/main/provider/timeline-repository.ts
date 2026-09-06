@@ -13,13 +13,22 @@ export class TimelineRepository {
   query(
     assistantId: string,
     query: string,
-    before?: number
+    before?: number,
+    requestId?: string
   ): import('../../shared/timeline-contract.js').TimelinePageResult {
+    if (requestId && (query !== '' || before !== undefined))
+      throw new ProviderDomainError('INVALID_INPUT')
     const rows = this.store.database
       .prepare(
-        'SELECT sequence,id,request_id,role,content,status,created_at FROM timeline_messages WHERE assistant_id=? AND sequence < ? AND instr(content,?)>0 ORDER BY sequence DESC LIMIT 101'
+        'SELECT sequence,id,request_id,role,content,status,created_at FROM timeline_messages WHERE assistant_id=? AND sequence < ? AND instr(content,?)>0 AND (? IS NULL OR request_id=?) ORDER BY sequence DESC LIMIT 101'
       )
-      .all(assistantId, before ?? Number.MAX_SAFE_INTEGER, query) as unknown as (Row & {
+      .all(
+        assistantId,
+        before ?? Number.MAX_SAFE_INTEGER,
+        query,
+        requestId ?? null,
+        requestId ?? null
+      ) as unknown as (Row & {
       sequence: number
     })[]
     const page = rows.slice(0, 100)
@@ -39,6 +48,65 @@ export class TimelineRepository {
         nextCursor: rows.length > 100 ? rows[99]!.sequence : null
       }
     }
+  }
+  contextRequestIds(assistantId: string, inputLength: number, selected?: string[]): string[] {
+    const filter = selected
+      ? ' AND u.request_id IN (' + selected.map(() => '?').join(',') + ')'
+      : ''
+    const rows = this.store.database
+      .prepare(
+        "SELECT u.request_id,length(u.content)+length(a.content) AS chars,u.content AS utext,a.content AS atext FROM timeline_messages u JOIN timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed'" +
+          filter +
+          ' ORDER BY a.sequence DESC LIMIT 16'
+      )
+      .all(assistantId, ...(selected ?? [])) as unknown as {
+      request_id: string
+      utext: string
+      atext: string
+    }[]
+    let remaining = 64000 - inputLength
+    const ids: string[] = []
+    for (const row of rows) {
+      const length = row.utext.length + row.atext.length
+      if (length > remaining) break
+      remaining -= length
+      ids.push(row.request_id)
+    }
+    return ids.reverse()
+  }
+  searchHistory(
+    assistantId: string,
+    query: string,
+    limit: number,
+    selected?: string[]
+  ): { matches: import('../../shared/tool-contract.js').HistoryCitation[]; truncated: boolean } {
+    const filter = selected
+      ? ' AND u.request_id IN (' + selected.map(() => '?').join(',') + ')'
+      : ''
+    const rows = this.store.database
+      .prepare(
+        "SELECT u.request_id,u.created_at,u.content AS user_text,a.content AS assistant_text FROM timeline_messages u JOIN timeline_messages a ON a.assistant_id=u.assistant_id AND a.request_id=u.request_id AND a.role='assistant' WHERE u.assistant_id=? AND u.role='user' AND u.status='completed' AND a.status='completed' AND (instr(u.content,?)>0 OR instr(a.content,?)>0)" +
+          filter +
+          ' ORDER BY a.sequence DESC LIMIT ?'
+      )
+      .all(assistantId, query, query, ...(selected ?? []), limit + 1) as unknown as {
+      request_id: string
+      created_at: string
+      user_text: string
+      assistant_text: string
+    }[]
+    const matches = rows.slice(0, limit).map((row) => {
+      const matched = row.user_text.includes(query) ? row.user_text : row.assistant_text
+      const start = Math.max(0, matched.indexOf(query) - 200)
+      const excerpt = matched.slice(start, start + 1000)
+      return {
+        requestId: row.request_id,
+        createdAt: row.created_at,
+        excerpt,
+        truncated: start > 0 || start + 1000 < matched.length
+      }
+    })
+    return { matches, truncated: rows.length > limit || matches.some((match) => match.truncated) }
   }
   selectedContext(
     assistantId: string,

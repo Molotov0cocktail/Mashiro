@@ -6,10 +6,10 @@
 
 ## 当前工作与直接下一动作
 
-- 当前正式任务：[007 Provider 工具执行、协议段与操作身份](007-provider-tools-execution.md)。006 已在精确产品 `88a86a2dacc616ca3a6fa0ba63a345f059d88859` 获独立最终 PASS；007 以该已审产品为基线进入 S0/trusted 实施，负责受限工具执行、协议段、operation 身份、能力分级和原轮次引用定位。记忆、事项、提醒、后台与发布继续列入总队列。
+- 当前正式任务：[007 Provider 工具执行、协议段与操作身份](007-provider-tools-execution.md)。006 已在精确产品 `88a86a2dacc616ca3a6fa0ba63a345f059d88859` 获独立最终 PASS；007 以该已审产品为基线完成候选融合，现处于独立审核/UI 修复，负责受限工具执行、协议段、operation 身份、能力分级和原轮次引用定位。记忆、事项、提醒、后台与发布继续列入总队列。
 - 同步工作：早期 [PACKAGED 探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md) 已 SUPPORTED：独立 ASAR 程序自报 isPackaged=true，双 PID 84660/84304 验证 SQLite/preload/凭据和重启；临时副本含实验修改，生产数据位置与正式安装/升级/卸载仍 NOT RUN。全局入口由 Prompter/指定记录者单写；纯文档差异只做比例核对，不重跑006产品资格。
 - 当前已审产品 baseline：main `88a86a2dacc616ca3a6fa0ba63a345f059d88859`。2026-09-06 主协调已实际 `ls-remote` 确认 github/main、gitee/main 同值且命令退出0；后续请查 live Git，不把这次观测当未来保证。其后允许有不改变产品行为的006 closing/007合同文档提交。
-- 下一动作：继续007 S0/trusted实现，随后UI、融合、真实产品合成工具闭环与独立审核；已审后同步两个既有远端并自动选择下一依赖满足任务。Q1探索可并行推进，但不冒充正式 packaged/安装资格。
+- 下一动作：修复007迟到空快照抹掉成功回执及selected范围文案，保持原独立oracle复审；当前融合25 files / 157 tests、全部静态/build及双PID71276/77272通过，真实产品工具2请求/521tokens通过，尚非独立PASS；已审后同步两个既有远端并自动选择下一依赖满足任务。Q1探索可并行推进，但不冒充正式 packaged/安装资格。
 
 ## 当前任务表
 
@@ -21,7 +21,7 @@
 | [004](004-provider-text.md) | Provider连接与严格临时文本 | FINAL PASS/历史同步 | `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6` |
 | [005](005-persistent-timeline.md) | 持续时间线、显式保存、正常重启 | TASK_DONE/FINAL PASS | 精确产品`0aa2d9190b63c7b99d59f52808e16965fa6b417f`；旧STOP_CHECKPOINT不是程序状态 |
 | [006](006-timeline-context-permissions.md) | 完整浏览检索、局部上下文、权限底座 | TASK_DONE/FINAL PASS | 精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`；跨域权限仍由后续任务扩展 |
-| [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | IMPLEMENTING / S0 | 以已审006产品为基线；trusted实施中，UI/融合/live/独立审核待完成 |
+| [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | REVIEW / UI REPAIR | 候选融合及实际可信路径live通过，独立发现迟到回执竞态，正在修复 |
 
 ## 最近有效证据与边界
 

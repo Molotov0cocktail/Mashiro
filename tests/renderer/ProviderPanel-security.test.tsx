@@ -2,6 +2,7 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
+import { providerApi007Defaults } from './provider-api-fixture'
 import { timelineApi006Defaults } from './timeline-api-fixture'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type {
@@ -110,6 +111,7 @@ function mockTimelineApi(completedText?: string, requestId?: () => string): Time
 }
 function mockApi(overrides: Partial<ProviderApi> = {}): ProviderApi {
   return {
+    ...providerApi007Defaults(),
     list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
     saveConnection: vi.fn(),
     setCredential: vi.fn(),

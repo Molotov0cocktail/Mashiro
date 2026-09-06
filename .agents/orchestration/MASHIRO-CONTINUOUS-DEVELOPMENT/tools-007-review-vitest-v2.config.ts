@@ -1,0 +1,2 @@
+import { defineConfig } from 'vitest/config'
+export default defineConfig({ esbuild: { jsx: 'automatic' }, test: { include: ['.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-oracle.test.tsx'], setupFiles: ['./tests/setup.ts'], restoreMocks: true } })

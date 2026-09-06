@@ -1,3 +1,13 @@
+import {
+  ToolAccumulator,
+  ToolProtocolError,
+  toolsSupported,
+  toolDefinitions,
+  type ProtocolMessage,
+  type ToolCall
+} from './tool-protocol.js'
+import type { ToolScope } from '../../shared/tool-contract.js'
+
 // Keep returned text representable in the service session and every delta below IPC limits.
 export const MAX_RESPONSE_TEXT_CHARS = 120_000
 const MAX_DELTA_TEXT_CHARS = 16_384
@@ -28,12 +38,16 @@ export interface TransportResult {
   text: string
   usage: TransportUsage | null
   error?: TransportError
+  toolCalls?: ToolCall[]
+  reasoning?: string
+  finishReason?: 'stop' | 'tool_calls'
 }
 export interface TransportRequest {
   baseUrl: string
   apiKey: string
   model: string
-  messages: { role: 'user' | 'assistant' | 'system'; content: string }[]
+  messages: ProtocolMessage[]
+  tools?: ToolScope
   stream: boolean
   signal?: AbortSignal
   onDelta?: (text: string) => void
@@ -97,6 +111,8 @@ export async function chatCompletions(
   options: TransportOptions = {}
 ): Promise<TransportResult> {
   let text = ''
+  const toolMode = request.tools !== undefined && request.tools !== 'off'
+  const toolAccumulator = new ToolAccumulator()
   let usage: TransportUsage | null = null
   let reader: ReadableStreamDefaultReader<Uint8Array> | undefined
   const controller = new AbortController()
@@ -129,6 +145,7 @@ export async function chatCompletions(
     const endpoint = new URL(baseUrl)
     const bigModel =
       endpoint.hostname === 'open.bigmodel.cn' && endpoint.pathname === '/api/paas/v4'
+    if (toolMode && !toolsSupported(baseUrl, request.model)) throw new Failure('configuration')
     const response = await race(
       (options.fetch ?? fetch)(`${baseUrl}/chat/completions`, {
         method: 'POST',
@@ -139,9 +156,20 @@ export async function chatCompletions(
           model: request.model,
           messages: request.messages,
           stream: request.stream,
+          ...(toolMode
+            ? {
+                tools: toolDefinitions(request.tools!),
+                tool_choice: 'auto',
+                max_tokens: 2048,
+                ...(request.stream ? { tool_stream: true } : {})
+              }
+            : {}),
           ...(bigModel
             ? /^glm-5\.3(?:-flash)?$/i.test(request.model)
-              ? { thinking: { type: 'enabled' }, reasoning_effort: 'low' }
+              ? {
+                  thinking: { type: 'enabled', ...(toolMode ? { clear_thinking: true } : {}) },
+                  reasoning_effort: 'low'
+                }
               : { thinking: { type: 'disabled' } }
             : {})
         })
@@ -192,6 +220,7 @@ export async function chatCompletions(
       if (choice.index !== 0) throw new Failure('protocol')
       if (finished) throw new Failure('protocol')
       const message = record(request.stream ? choice.delta : choice.message)
+      if (toolMode) toolAccumulator.consume(message, request.stream)
       if (message.content != null && typeof message.content !== 'string')
         throw new Failure('protocol')
       if (typeof message.content === 'string' && message.content.length) {
@@ -271,20 +300,33 @@ export async function chatCompletions(
       consume(data)
       done = true
     }
-    if (!done || !finished || finishReason !== 'stop') throw new Failure('protocol')
+    if (!done || !finished) throw new Failure('protocol')
+    if (toolMode) {
+      const protocol = toolAccumulator.finish(finishReason)
+      return {
+        status: 'completed',
+        text,
+        usage,
+        ...protocol,
+        finishReason: finishReason as 'stop' | 'tool_calls'
+      }
+    }
+    if (finishReason !== 'stop') throw new Failure('protocol')
     return { status: 'completed', text, usage }
   } catch (error) {
     const category: TransportError = controller.signal.aborted
       ? timedOut
         ? 'timeout'
         : 'cancelled'
-      : error instanceof Failure
+      : error instanceof ToolProtocolError
         ? error.category
-        : error instanceof SyntaxError || (error instanceof TypeError && reader !== undefined)
-          ? 'protocol'
-          : error instanceof Error && error.message === 'Invalid Provider base URL'
-            ? 'configuration'
-            : 'temporary'
+        : error instanceof Failure
+          ? error.category
+          : error instanceof SyntaxError || (error instanceof TypeError && reader !== undefined)
+            ? 'protocol'
+            : error instanceof Error && error.message === 'Invalid Provider base URL'
+              ? 'configuration'
+              : 'temporary'
     return {
       status: category === 'cancelled' ? 'cancelled' : text ? 'interrupted' : 'failed',
       text,

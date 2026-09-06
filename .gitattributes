@@ -1,4 +1,6 @@
 * text=auto eol=lf
 *.cmd text eol=crlf
 *.bat text eol=crlf
-
+# Preserve byte hashes of archived raw evidence.
+.agents/orchestration/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1-macro.nsh -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

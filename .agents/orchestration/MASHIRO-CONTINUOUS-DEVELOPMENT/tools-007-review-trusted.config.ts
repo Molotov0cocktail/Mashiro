@@ -1,0 +1,2 @@
+import { defineConfig } from 'vitest/config'
+export default defineConfig({ test: { include: ['.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-trusted.test.ts'], setupFiles: ['./tests/setup.ts'], restoreMocks: true } })
