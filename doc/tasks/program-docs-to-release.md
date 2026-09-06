@@ -6,7 +6,7 @@
 
 本次用户指令覆盖旧初始化、F1、004、005 的阶段停止与发布授权限制。工程链自行选择切片、依赖、精确版本、加法 schema、内部 API、测试方法、并发、分支与合理提交点；可执行必要低价合成 Provider 调用、已独立审核 main 的双远程非强制推送、隔离合成安装/升级/重装/卸载、版本与新 tag、现有 Mashiro 仓库可见性下审核制品 Release、资产和说明上传。GitHub 为默认制品入口，Gitee 同步源码。无需再次逐 SHA、逐调用或发布前征求相同授权。
 
-边界保持：不读取新的真实私人数据，不改 AIbrowse/Clender 等其他项目，不改仓库可见性，不重写历史或已有 tag，不破坏性替换已发布资产，不实质改许可证、不采购证书/订阅、不另建收费基础设施。真实私人数据、无法取得的必需账号权限、用户保留的产品语义才按具体需要询问。合成开发付费授权不取消产品后台预算与权限要求。当前010[真实角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-live-product.md)SUPPORTED，[原事项修改增量](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-update-live-product.md)也已SUPPORTED；010累计22请求/56672已得tokens；011[真实人设增量](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-live-product.md)2请求402tokens通过；程序累计37请求/68334已得tokens，仍有原3次usage未知。此为服务级角色证据，010独立FINAL PASS已完成并同步ab11110；011整体审核仍待完成。以下008结束时统计为历史检查点。本记录不包含凭据；Q4能力探针4次、007clock闭环2次、008前3次失败/诊断及修复后4请求成功闭环，合计13次请求；已得usage11260，首探针及008前2次usage未知。008[真实记忆角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-product.md)已SUPPORTED，008独立产品审核已FINAL PASS；[历史失败](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-failure-diagnosis.md)保留，工具reasoning仍NOT_OBSERVED。
+边界保持：不读取新的真实私人数据，不改 AIbrowse/Clender 等其他项目，不改仓库可见性，不重写历史或已有 tag，不破坏性替换已发布资产，不实质改许可证、不采购证书/订阅、不另建收费基础设施。真实私人数据、无法取得的必需账号权限、用户保留的产品语义才按具体需要询问。合成开发付费授权不取消产品后台预算与权限要求。当前010[真实角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-live-product.md)SUPPORTED，[原事项修改增量](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-update-live-product.md)也已SUPPORTED；010累计22请求/56672已得tokens；011[真实人设增量](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-live-product.md)2请求402tokens通过；程序累计37请求/68334已得tokens，仍有原3次usage未知。此为服务级角色证据，010独立FINAL PASS已完成并同步ab11110；011也已独立FINAL PASS并同步072dd39。以下008结束时统计为历史检查点。本记录不包含凭据；Q4能力探针4次、007clock闭环2次、008前3次失败/诊断及修复后4请求成功闭环，合计13次请求；已得usage11260，首探针及008前2次usage未知。008[真实记忆角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-product.md)已SUPPORTED，008独立产品审核已FINAL PASS；[历史失败](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-failure-diagnosis.md)保留，工具reasoning仍NOT_OBSERVED。
 
 每一切片实现、验证、独立审核、提交/同步之后，更新覆盖状态并选择下一依赖满足的工作。计划、PASS、数次修复、需要迁移/新 schema、技术路线失败或上下文较长均不是总任务停止点。换 Agent/压缩/持久交接优先；确实没有可用执行路线时保存 TECHNICAL_PAUSE（准确现场、未完成队列、确切门禁、直接恢复动作），程序不完成，也不声称结束响应后仍在后台开发。
 
@@ -39,7 +39,7 @@
 | 覆盖 ID / 来源 | 应有行为与适用范围 | 当前状态 / 关联任务 | 用户入口与验收证据或剩余 oracle |
 | --- | --- | --- | --- |
 | A01 AST-001；P3.1；D3.1 | 稳定身份、唯一时间线、创建/改名/切换/主助手/归档；归档不删除全局事项和共享记忆 | 基础已审 001/005；跨新领域回归 Q5/Q7 | 助手管理；现有重启/并发/事务证据，新增关系与正式事项后证明归档不连带删除 |
-| A02 AST-002；P2.1/3.1 | 名称、基础形象、人设、Provider/模型及数据范围可实际配置；改配置不改身份和关系 | 名称/模型部分已审001/004；[011配置](011-assistant-basic-configuration.md)FINAL_REVIEW：可信/UI独立反例、真实2请求及修复后54/320和Electron08通过，最终审核与同步待完成；数据范围随各域扩展 | 中文配置入口；重启保留人设/基础形象；请求准确使用稳定人设，严格临时可用；无任意本地路径暴露 |
+| A02 AST-002；P2.1/3.1 | 名称、基础形象、人设、Provider/模型及数据范围可实际配置；改配置不改身份和关系 | 名称/模型部分已审001/004；[011配置](011-assistant-basic-configuration.md)TASK_DONE / FINAL PASS：072dd39双远程已核验；真实2请求、54/320、独立3新增场景及Electron08通过；数据范围随各域扩展 | 中文配置入口；重启保留人设/基础形象；请求准确使用稳定人设，严格临时可用；无任意本地路径暴露 |
 | A03 AST-001/P3.1；H3/5.1 | 完整时间线浏览/全文检索；局部上下文选择，有界发送不删除历史 | 006及007原轮次定位已审 | 稳定分页/字面检索/selected trusted重验；搜索命中和工具引用按requestId直接定位原轮次，最终Q11继续可用性验收 |
 | A04 MEM-004/RET-003；H5.3/7.2 | 助手负责章节、摘要、连续性记忆、未完成话题；压缩与回收不同 | 连续性记忆即时路径008已审；章节/摘要/未完成话题Q9，回收Q6 | 008可管理助手私有连续性记忆；章节压缩与未完成依赖仍待Q9，不能冒称自动整理完成 |
 | A05 AST-004；P3.2；H5.2 | 正常默认保存；严格临时不读正常/记忆/业务，不写后台/业务/协议重启快照；显式保存可信回执 | 005–008正常/临时及记忆工具已审；事项/后台Q7–Q9回归 | 008严格临时记忆读写与业务零持久化、真实Electron临时拒绝已验；稳定人设及新增事项/后台继续验收 |
@@ -98,7 +98,7 @@
 | F01 ITEM-001；P2.1/3.4 | 目标/项目/任务/承诺/等待事项统一正式系统，各类型生命周期和关联可理解 | 010 TASK_DONE / FINAL PASS | 事项列表/详情与对话创建修改同一状态；重启保留，不只手动CRUD |
 | F02 ITEM-002/003/004；D7.3 | AI推测进提案，确认/否决/暂缓/与发起助手协商同一版本；发起稳定ID保留 | 010 TASK_DONE / FINAL PASS | 提案入口与发起助手对话；旧版本确认冲突；其他助手不自行改写；同旧来源否决后不反复提出 |
 | F03 ITEM-002；P3.4 | 未确认提案不算正式承诺/完成率/逾期/正式提醒/日历占用；临时不生成 | 010正式/提案隔离已审；012提醒待实现 | 提案与正式视图统计和调度甄别测试；接受后建立正式对象；提醒须有明确设置并由012联测 |
-| F04 REM-001；P3.5；H5.5 | 确定性提醒不依赖模型/Key，打开/最小化/托盘可用；可选登录启动；明确退出无保证 | 排队 Q8 | 提醒配置、托盘、退出说明；普通用户真实通知、关闭驻留/明确退出、无Key提醒实测 |
+| F04 REM-001；P3.5；H5.5 | 确定性提醒不依赖模型/Key，打开/最小化/托盘可用；可选登录启动；明确退出无保证 | 012 ACTIVE / IMPLEMENTING | 提醒配置、托盘、退出说明；普通用户真实通知、关闭驻留/明确退出、无Key提醒实测 |
 | F05 REM-001/002；P3.5 | 休眠/重启对仍有价值逾期提醒受控补发，合并与过期语义可理解 | 待默认决议后 Q8 | 建议有价值补发并合并旧重复，窗口/合并默认需用户确认；确定性去重、跨重启/时钟/恢复测试 |
 | F06 P2.1；H3/10；D9；USE-002 | 每日简报、晚间复盘、每周规划、截止与变更提醒，后台授权/预算/状态 | 排队 Q9 | 配置时段、功能、角色模型/数据范围/预算；真实合成输出与失败恢复，预算耗尽停止新增，不能用“远期”删除正文要求 |
 | F07 INT-001；P3.5；H13 | 未接Clender仍可管理事项/提醒/建议时间，但不称已写日历、核实空闲或无冲突 | 本次边界，Q7/Q8/Q11回归 | 全部相关UI与模型工具回执无虚假日历能力；正式日历集成不暗中启用 |
@@ -138,13 +138,13 @@
 | 队列 | 可观察交付 / 依赖 | 正式任务 / 当前下一动作 |
 | --- | --- | --- |
 | Q1 早期制品路线 | 现有应用脱源码打包、SQLite/preload/资源/保护凭据和中文空格路径证明；不声称完整发布 | ASAR双PID及[隔离NSIS数据保护路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)SUPPORTED；正式app/安装/不同版本升级仍Q10 |
-| Q2 时间线与助手配置 | 全历史浏览/检索/局部选择；人设/基础形象补全；依赖005 | 006已审时间线/局部选择；[011](011-assistant-basic-configuration.md)承接稳定人设、基础形象及整合配置入口 |
+| Q2 时间线与助手配置 | 全历史浏览/检索/局部选择；人设/基础形象补全；依赖005 | 006已审时间线/局部选择；[011](011-assistant-basic-configuration.md)稳定人设、基础形象及整合配置入口已审同步072dd39 |
 | Q3 权限底座与跨域扩展 | 读取/端点接收/业务政策可配置且每次重查；依赖005，随新增域扩展 | 006已审当前历史权限；Q5/Q7/Q9扩展同一契约 |
 | Q4 能力与工具执行 | 协议保真、能力证据、只读真实工具循环、operation恢复；依赖Q3 | [007](007-provider-tools-execution.md)TASK_DONE / FINAL PASS，精确`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；业务写入008/Q7、其他厂商与角色兼容Q9/Q11继续 |
 | Q5 记忆/事件事务闭环 | Markdown与治理一致、即时对话记住/纠正/删除、来源面板、全文索引、完整备份语义；依赖Q3/Q4 | [008](008-memory-direct-path.md)TASK_DONE / FINAL PASS，产品cc9c729；即时记忆闭环已交付，完整备份Q10、自动整理Q9继续 |
 | Q6 生命周期与清理 | 三区、恢复、消息/区段/时间线意图清理、防复活；依赖Q5 | [009](009-retention-and-cleanup.md)INTEGRATION_PENDING / MANUAL_CORE PASS；独立41/255、4 UI oracles及最终Electron通过；RET未答不擅定自动参数，Q9/Q10联测仍待完成 |
 | Q7 统一事项提案 | 五类事项、对话执行、提案协商确认；依赖Q3/Q4 | [010](010-items-and-proposals.md)TASK_DONE / [独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)，51/301与131文件清单，精确产品ab11110a45c6ddb65bd114547225dd4e329bba11，双远程已核验 |
-| Q8 提醒/托盘/用量健康 | 确定性提醒、可选登录启动、休眠重启补发、运行状况/分类用量；依赖Q7，补发需REM-002 | [012](012-deterministic-reminders.md)已准备原文与验收；REM默认已问待答；独立通知路线实验进行中，确定性提醒不依赖Key |
+| Q8 提醒/托盘/用量健康 | 确定性提醒、可选登录启动、休眠重启补发、运行状况/分类用量；依赖Q7，补发需REM-002 | [012](012-deterministic-reminders.md)ACTIVE / IMPLEMENTING；REM默认已问待答；独立通知路线SUPPORTED限定开发态，确定性提醒不依赖Key |
 | Q9 仓储员与日常后台 | 去重分支冲突、章节压缩/未完成话题、事件观察、简报/复盘/周规划；依赖Q3–Q8 | [013正式任务](013-background-and-steward.md)PLANNED，含真实角色能力、显式预算、可见结果、故障和009回收依赖；不能只后台底层无入口 |
 | Q10 位置/安装更新恢复 | 普通用户路径选择/失效恢复、完整迁移备份、隔离安装升级卸载重装；依赖Q1与各schema | [014正式任务](014-windows-data-and-delivery.md)PLANNED；[NSIS路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)已SUPPORTED：精确程序清单/未知与data保护；正式安装应用启动、不同版本/schema升级、失败回滚与完整领域数据仍NOT RUN |
 | Q11 整体功能与制品验收 | 独立从三文档/覆盖表反查用户场景与安全恢复，真实Provider关键角色，所有必需行闭合 | 未参与实现的胜任审核者；有缺口回任务而非改NON-GOALS |
@@ -173,6 +173,6 @@
 4. 独立整体验收与实际制品发布审核PASS；版本、源码、构建、安装包hash、说明/第三方声明对应，不自引用未来SHA。
 5. 已审main双远程非force同步，新tag/Release含完整资产；实际发布入口可见、下载内容校验匹配。只push源码、目录中的安装包、空Release、内部预发布都不满足。
 
-当前正在运行：[011](011-assistant-basic-configuration.md)ACTIVE / IMPLEMENTING，实际方案已冻结；010已独立FINAL PASS，精确产品ab11110a45c6ddb65bd114547225dd4e329bba11已双远程核验；assistant_011_trusted（实际Astra medium）与assistant_011_ui（实际Sol high）按可信/UI单写实施011。009仍INTEGRATION_PENDING，RET/额外AST待答，013接受结果回收与014完整备份交付继续。早期ASAR/NSIS仅路线SUPPORTED，正式安装升级及Release未验。PROGRAM保持ACTIVE。
+当前正在运行：[012](012-deterministic-reminders.md)ACTIVE / IMPLEMENTING，从011独立FINAL PASS且双远程核验的072dd39771e01b29bbced93f49e20a996f1e2cab接续；reminder_012_trusted（实际gpt-6-astra/medium）单写可信域并准备共享契约，UI随后按契约并行。009仍INTEGRATION_PENDING，RET/额外AST待答，013接受结果回收与014完整备份交付继续。早期ASAR/NSIS仅路线SUPPORTED，正式安装升级及Release未验。PROGRAM保持ACTIVE。
 
 历史008启动记录（2026-09-06，现已关闭）：S0合成SQLite/Markdown实验已完成，见[方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-s0.md)与[共享接口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-contract.md)。memory_008_s0（gpt-6-astra / medium）单写main/shared/preload及trusted tests，memory_008_ui（gpt-5.6-sol / high）单写renderer及对应测试；root维护全局记录。前述S0阅读动作已推进为实际实施，事件/权限范围细分随接口同步；新领域尚未验收。007收尾a5041632c09aa3d421654e56a1e76c9e109147bf已非force推送并ls-remote确认两个main同值，不含008产品。

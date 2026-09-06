@@ -1,6 +1,6 @@
 # 012 确定性提醒与应用运行承诺
 
-- TASK = 012；状态 = PLANNED；PROGRAM ACTIVE。
+- TASK = 012；状态 = ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。
 - 当前入口为[progress](progress.md)，本任务承接[总覆盖](program-docs-to-release.md)Q8的F04–F05及运行承诺；分类用量、后台预算及重复错误汇总仍由Q8/Q9后续整合，不因本任务拆分遗漏。
 - 原文：proposal §3.5及验收正文，high-level-design §5.5及应用架构，detailed-design REM-001/002、ITEM-002及EXEC-003/005。提醒不依赖模型在线或凭据。
 - 依赖：[010](010-items-and-proposals.md)正式事项与稳定操作身份；当前已审009手动核心d6cd1fa保留为历史基线，实施时查询实际HEAD/schema。编号012已现场检查未占用。
@@ -16,7 +16,7 @@
 
 ## 待决与工程路线
 
-root已基于010实际items表和当前main生命周期形成[源码准备方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-actual-plan.md)。这是011并行期间的只读准备，未实现提醒、未预占schema；012从011最终实际HEAD接续。reminder_012_notification_spike（实际gpt-5.6-sol/high）已在独立OS-temp合成环境完成Electron44.1.1原生通知事件与身份配置路线验证，仅写自己的实验文件，未改011产品或日常系统设置；[实验结果](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-spike.md)已SUPPORTED（开发态main事件）：A4 Electron44.1.1 PID132972、show后22ms收到show；close调用后6.483秒无close事件，未验点击/冷启动，通知中心残留UNKNOWN。四合成根及进程已清理，无快捷方式/注册表/设置改动；前三次仅Node模式/模块启动失败，最终正确移除ELECTRON_RUN_AS_NODE后进入browser。不能代替最终安装制品验收。
+root已基于010实际items表和当前main生命周期形成[源码准备方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-actual-plan.md)。这是011并行期间的只读准备，未实现提醒、未预占schema；012从011已审并双远程同步的072dd39771e01b29bbced93f49e20a996f1e2cab接续。reminder_012_trusted（实际gpt-6-astra/medium）负责可信域、协议和运行生命周期，先冻结共享契约后协调UI单写；root维护全局记录。reminder_012_notification_spike（实际gpt-5.6-sol/high）已在独立OS-temp合成环境完成Electron44.1.1原生通知事件与身份配置路线验证，仅写自己的实验文件，未改011产品或日常系统设置；[实验结果](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-spike.md)已SUPPORTED（开发态main事件）：A4 Electron44.1.1 PID132972、show后22ms收到show；close调用后6.483秒无close事件，未验点击/冷启动，通知中心残留UNKNOWN。四合成根及进程已清理，无快捷方式/注册表/设置改动；前三次仅Node模式/模块启动失败，最终正确移除ELECTRON_RUN_AS_NODE后进入browser。不能代替最终安装制品验收。
 
 REM-002补发、合并和过期具体默认值仍DEFERRED。2026-09-07已询问：推荐24小时内补发、同事项只取最新、多事项合并系统通知并可展开列表，超过窗口仅列为过期待处理，完成/取消不补发，窗口可调整或关闭；尚待答复，不是已批准默认。不得把尚未答复的数值写成产品默认。可以先实现明确时间提醒、运行生命周期、可测试的策略接口及不依赖默认值的状态恢复。关闭窗口驻留托盘、登录启动可选及明确退出无保证已CONFIRMED，不重复索要批准。
 

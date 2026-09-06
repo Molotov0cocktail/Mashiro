@@ -1,6 +1,6 @@
 # 011 助手人设、基础形象与配置入口
 
-- TASK = 011；状态 = ACTIVE / FINAL_REVIEW；PROGRAM ACTIVE。编号已核对未占用，承接已审[010](010-items-and-proposals.md)，入口为[progress](progress.md)。本任务承接总清单A02/Q2，不等待最终美术或跨应用集成。
+- TASK = 011；状态 = TASK_DONE / FINAL PASS；PROGRAM ACTIVE。编号已核对未占用，承接已审[010](010-items-and-proposals.md)，入口为[progress](progress.md)。本任务承接总清单A02/Q2，不等待最终美术或跨应用集成。
 - 来源：proposal §2.1、3.1–3.2；high-level-design §5.2；detailed-design §3.1、AST-002及§8.4。名称、基础形象、人设、Provider/模型和数据范围必须可配置；配置变化不改变稳定身份、唯一时间线或关系记忆。
 
 ## 可观察闭环
@@ -29,11 +29,11 @@ root核对可信/UI两阶段共46文件一致后，全量54文件320测试、全
 
 ## 当前最终审核
 
-修复后root[最终验证](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-final-verification.md)通过正式54文件320测试、typecheck/lint/format/build及Electron08（PIDs135516/135832）。可信23文件清单83a627…、UI23文件清单08deca…已由独立Reviewer核对。UI父快照回传曾清除冲突提示，root甄别测试实际红转绿；独立新增两个在途/更高版本屏障场景通过。早期Electron失败、直接seed后reload同步机制及未定论保留于[可信交接](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-integration-handoff.md)。当前FINAL_REVIEW，等待最终候选绑定结论后提交双远程并直接012；不是PROGRAM_DONE。
+修复后root[最终验证](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-final-verification.md)通过正式54文件320测试、typecheck/lint/format/build及Electron08（PIDs135516/135832）。可信23文件清单83a627…、UI23文件清单08deca…已由独立Reviewer核对。UI父快照回传曾清除冲突提示，root甄别测试实际红转绿；独立新增两个在途/更高版本屏障场景通过。早期Electron失败、直接seed后reload同步机制及未定论保留于[可信交接](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-trusted-integration-handoff.md)。[独立最终PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-review-final-pass.md) SHA256 3b59755c17cf7ba371ea6eeddc95871b09160a920d66d784458e3abc111051b9；104文件候选清单5628248c…逐字节匹配。root暂存104候选+清单+审核报告106文件，原始工作树/index字节核对通过后提交072dd39771e01b29bbced93f49e20a996f1e2cab；非force推送两远程退出0，实际ls-remote两个main同值。已直接启动012；不是PROGRAM_DONE。
 
 ## 清单
 
 - [x] 核对原文必需行为及最终美术边界。
 - [x] 冻结[实际方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-actual-plan.md)与trusted/UI单写范围；以010提交同步后的HEAD实施。
 - [x] 可信持久化、请求绑定与中文配置/形象入口。
-- [ ] 独立行为验证、审核、提交同步及总覆盖结算。
+- [x] 独立行为验证、审核、提交同步及总覆盖结算。
