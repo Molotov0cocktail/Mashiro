@@ -17,6 +17,35 @@ afterEach(() => {
 })
 
 describe('provider schema v2', () => {
+  it('upgrades a populated v1 database without changing assistant identity or state', () => {
+    const path = databasePath()
+    const service = AssistantService.open(path)
+    const created = service.create({
+      protocolVersion: 1,
+      displayName: 'Legacy success',
+      expectedStateRevision: 0
+    })
+    if (!created.ok) throw new Error('legacy fixture failed')
+    const before = created.data
+    service.close()
+
+    const legacy = new DatabaseSync(path)
+    legacy.exec('DROP TABLE assistant_provider_bindings')
+    legacy.exec('DROP TABLE provider_connections')
+    legacy.exec('PRAGMA user_version = 1')
+    legacy.close()
+
+    const upgraded = AssistantService.open(path)
+    const after = upgraded.list({ protocolVersion: 1 })
+    expect(after.ok && after.data).toEqual(before)
+    upgraded.close()
+
+    const database = new DatabaseSync(path)
+    expect(
+      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
+    ).toBe(2)
+    database.close()
+  })
   it('creates v2 storage and preserves assistant identities across restart', () => {
     const path = databasePath()
     const first = AssistantService.open(path)

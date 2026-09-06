@@ -130,6 +130,21 @@ export function ProviderPanel({
     }
   }
 
+  async function clearTemporaryChat(assistantId: string): Promise<void> {
+    setError(null)
+    try {
+      const result = await api.clearChat({ protocolVersion, assistantId })
+      if (!result.ok) {
+        setError(errorText(result))
+        return
+      }
+      setSnapshot(result.data)
+      setTranscripts((items) => ({ ...items, [assistantId]: [] }))
+    } catch {
+      setError('Provider 服务暂时不可用')
+    }
+  }
+
   async function send(): Promise<void> {
     if (!currentAssistantId || !text.trim() || activeRequestId) return
     const requestId = crypto.randomUUID()
@@ -385,10 +400,7 @@ export function ProviderPanel({
           <button
             type="button"
             disabled={!currentAssistantId || Boolean(activeRequestId)}
-            onClick={() => {
-              void apply(() => api.clearChat({ protocolVersion, assistantId: currentAssistantId }))
-              setTranscripts((items) => ({ ...items, [currentAssistantId]: [] }))
-            }}
+            onClick={() => void clearTemporaryChat(currentAssistantId)}
           >
             清空本助手的临时会话
           </button>

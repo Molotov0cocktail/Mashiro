@@ -10,9 +10,14 @@
 - 保留既有六个 assistant IPC；新增 Provider 窄通道全部在 trusted main 边界严格校验。renderer 无任意网络、文件、SQL 或凭据读取权，远端文本按文本渲染。
 - 完整 `npm run verify` exit 0：focused/full 均为 17 files / 59 tests；typecheck、lint、format、build 均通过。真实 Electron PID `49348 → 49772`，持久凭据保护/恢复与临时会话重置通过，截图可见 Provider 接收方、模型、空 Key 输入和中文聊天控件。
 - 真实 Provider 共 4 次合成请求：前 2 次 `thinking: disabled` 均为 HTTP 400/code 1210，usage 未知；据服务端明确约束改为 `thinking: enabled` 与 `reasoning_effort: low` 后，普通与流式各 1 次均 HTTP 200/completed，正文 4 字符，流式 1 个 delta；两次成功 usage 均为 22/4/26 tokens。端点与模型保持 `https://open.bigmodel.cn/api/paas/v4` / `GLM-5.3-FLASH`。
+- 独立 Reviewer 对首候选要求有界 repair：清空现在只要求助手存在，连接停用或无绑定不阻止清除内存；UI 只在 trusted 成功后清对应助手 transcript，失败保留正文并显示中文错误。6 files / 18 tests 及 typecheck/lint/format/build 均 exit 0；独立 delta 复核仍待进行。
 - 测试 Key 已清理且不预置产品。真实取消、工具、结构化输出和个人数据均 NOT RUN。候选尚未由实现者自判 PASS，也尚未 push。
 
 ---
+## 历史 Planner 接管快照（2026-09-06，实施前）
+
+> 本段记录 004 开始执行前的端点与实现状态，只用于保留决策历史，不是当前续接入口。
+
 - 当前任务：[004 Provider 连接与严格临时文本交互](004-provider-text.md)，AUTHORIZED / READY FOR IMPLEMENTATION，route `provider-text-v1`。
 - 现场核验：main `c8de9e9c84807127bad4ae5edb5302f8f0c3581e`，接管时 index/worktree 干净；github/main 与 gitee/main 实际 ls-remote 均匹配。旧 PUSH=NONE 不是当前状态。
 - F1 已有 Candidate PASS 与用户提供的 Final PASS 续接事实；仓库缺少 Final Reviewer 原始归档，004 将补核 closing docs-only diff，不回退 F1 或重跑历史辅助审计。

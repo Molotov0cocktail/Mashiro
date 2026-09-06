@@ -463,4 +463,69 @@ describe('ProviderService', () => {
     expect(seenMessages[2]).toEqual(['after clear'])
     service.close()
   })
+  it('clears memory without a binding and while the bound connection is disabled', async () => {
+    const item = fixture()
+    const seenMessages: string[][] = []
+    const transport = vi.fn(async (request: TransportRequest): Promise<TransportResult> => {
+      seenMessages.push(request.messages.map((message) => message.content))
+      return { status: 'completed', text: 'reply', usage: null }
+    })
+    const service = ProviderService.open(
+      item.databasePath,
+      item.credentialDirectory,
+      protector,
+      transport
+    )
+    expect(service.clearChat({ protocolVersion: 1, assistantId: item.assistantId }).ok).toBe(true)
+    const connectionId = configure(service, item.assistantId)
+    await service.startChat(
+      {
+        protocolVersion: 1,
+        requestId: crypto.randomUUID(),
+        assistantId: item.assistantId,
+        text: 'old user',
+        stream: false
+      },
+      () => undefined
+    )
+    const beforeDisable = service.list({ protocolVersion: 1 })
+    if (!beforeDisable.ok) throw new Error('list fixture failed')
+    const connection = beforeDisable.data.connections.find((value) => value.id === connectionId)!
+    expect(
+      service.saveConnection({
+        protocolVersion: 1,
+        connectionId,
+        displayName: connection.displayName,
+        baseUrl: connection.baseUrl,
+        enabled: false,
+        expectedVersion: connection.version
+      }).ok
+    ).toBe(true)
+    expect(service.clearChat({ protocolVersion: 1, assistantId: item.assistantId }).ok).toBe(true)
+    const beforeEnable = service.list({ protocolVersion: 1 })
+    if (!beforeEnable.ok) throw new Error('list fixture failed')
+    const disabled = beforeEnable.data.connections.find((value) => value.id === connectionId)!
+    expect(
+      service.saveConnection({
+        protocolVersion: 1,
+        connectionId,
+        displayName: disabled.displayName,
+        baseUrl: disabled.baseUrl,
+        enabled: true,
+        expectedVersion: disabled.version
+      }).ok
+    ).toBe(true)
+    await service.startChat(
+      {
+        protocolVersion: 1,
+        requestId: crypto.randomUUID(),
+        assistantId: item.assistantId,
+        text: 'new user',
+        stream: false
+      },
+      () => undefined
+    )
+    expect(seenMessages).toEqual([['old user'], ['new user']])
+    service.close()
+  })
 })

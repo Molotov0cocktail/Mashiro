@@ -251,7 +251,8 @@ export class ProviderService {
       ) {
         throw new ProviderRequestInProgressError()
       }
-      this.repository.execution(value.assistantId)
+      if (!this.repository.assistantExists(value.assistantId))
+        throw new ProviderDomainError('NOT_FOUND')
       this.sessions.delete(value.assistantId)
       return this.snapshot()
     })

@@ -6,6 +6,7 @@ import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type {
   ProviderApi,
   ProviderChatResult,
+  ProviderResult,
   ProviderEvent,
   ProviderSnapshot,
   StartChatInput
@@ -75,6 +76,54 @@ const providerSnapshot: ProviderSnapshot = {
 }
 
 describe('ProviderPanel late response routing', () => {
+  it('retains the captured assistant transcript when clear fails after a switch', async () => {
+    let resolveClear: ((result: ProviderResult) => void) | undefined
+    const clearChat = vi.fn(
+      () => new Promise<ProviderResult>((resolve) => (resolveClear = resolve))
+    )
+    const api = {
+      list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
+      saveConnection: vi.fn(),
+      setCredential: vi.fn(),
+      deleteCredential: vi.fn(),
+      bindAssistant: vi.fn(),
+      clearChat,
+      startChat: vi.fn(async (input: StartChatInput) => ({
+        ok: true as const,
+        data: {
+          requestId: input.requestId,
+          assistantId: input.assistantId,
+          status: 'completed' as const,
+          text: 'answer A',
+          usage: null
+        }
+      })),
+      cancelChat: vi.fn(),
+      onEvent: vi.fn(() => () => undefined)
+    } as ProviderApi
+    const view = render(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: 'question A' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    expect(await screen.findByText('answer A')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: '清空本助手的临时会话' }))
+    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantB)} api={api} />)
+    await act(async () => {
+      resolveClear?.({
+        ok: false,
+        error: {
+          code: 'STORAGE_UNAVAILABLE',
+          message: 'Storage unavailable',
+          correlationId: 'clear-failure',
+          retryable: true
+        }
+      })
+    })
+    expect(screen.queryByText('answer A')).not.toBeInTheDocument()
+    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
+    expect(screen.getByText('answer A')).toBeInTheDocument()
+    expect(screen.getByRole('alert')).toHaveTextContent('Provider 设置暂时无法读取')
+  })
   it('keeps an old A promise on its request after A to B to A and a newer request', async () => {
     let listener: ((event: ProviderEvent) => void) | undefined
     const pending = new Map<string, (result: ProviderChatResult) => void>()

@@ -152,6 +152,12 @@ export class ProviderRepository {
     return Boolean(this.connectionRow(connectionId))
   }
 
+  assistantExists(assistantId: string): boolean {
+    return Boolean(
+      this.store.database.prepare('SELECT 1 FROM assistants WHERE id = ?').get(assistantId)
+    )
+  }
+
   private connectionRow(connectionId: string): ConnectionRow | undefined {
     return this.store.database
       .prepare(
