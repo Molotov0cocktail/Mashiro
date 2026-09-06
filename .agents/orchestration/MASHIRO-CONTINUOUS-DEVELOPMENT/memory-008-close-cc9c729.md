@@ -1,0 +1,17 @@
+# 008 close and program continuation
+
+2026-09-06. PROGRAM remains ACTIVE. Exact product `cc9c729cd5b65597049f988c41e3def97fcb0515` received independent [FINAL PASS](memory-008-review-final-cc9c729.md), report SHA-256 `47FD505BB2B867FC2430E5C07E6291D6904775BADEDA94C27ABC046770ABF5EC`. Its four raw review TXT files were subsequently restored to original CRLF bytes by docs-only commit `c6a3363bd923be7ad540ce7e0502fb35aa06bd6b`; reviewer verified exact committed bytes and no product delta. Neither commit was amended or force-pushed.
+
+Coordinator pushed main non-force to both existing GitHub and Gitee remotes. Both subsequent ls-remote queries returned `c6a3363bd923be7ad540ce7e0502fb35aa06bd6b`, exit 0. These are dated observations, not guarantees about future remote state.
+
+Product acceptance: 28 files / 196 tests and seven independent behavioral oracles passed; required static/build/dependency/foundation/scans passed. Fresh Electron PIDs 99292 / 7536 verify memory IPC/recovery/temporary isolation with zero recovery transport requests and one explicit subsequent request. The narrow later App registry-container correction was independently covered by relevant UI tests and static/build checks; the record does not claim the earlier process ran those later bytes.
+
+Real Provider role evidence remains four successful requests for natural-language creation, accepted write, service reopen and exact context-none recall, with 8246 observed tokens. Earlier probe failures and unknown usage remain recorded. The current program probe group totals 13 requests, 11260 observed tokens and three requests with unknown usage; no extra paid call occurred during review repairs or closing. No credential is stored in these reports or Git.
+
+The coordinator reconciled coverage rows for memory/event direct behavior, permissions, provenance, operation identity and recovery. Complete backups, physical old-copy cleanup, chapters/warehouse/background, items/reminders, remaining assistant configuration, final Windows installation/update and actual release/download remain explicitly assigned in the program coverage table. No requirements were removed or silently deferred to close 008.
+
+AST-006 is confirmed by the user's current reply: retain archive, double-confirm permanent private assistant deletion, retain shared global memory/formal items with non-expandable deleted-source indication. RET-007 is still awaiting its already presented question; REM-002 will be settled before reminder defaults. The supplied Provider credential remains authorized for future necessary synthetic role tests; it is not re-requested or persisted by closing.
+
+009 is now ACTIVE / IMPLEMENTING. [Actual-code design](retention-009-design.md) covers precise copies, versioned source-retention boundaries, suppression-first jobs and renderer cache invalidation. Actual gpt-6-astra / medium `retention_009_trusted` owns main/shared/preload/trusted tests and lifecycle harness; root owns global records. A sol high renderer executor will receive the strict DTO after it is frozen. Q9 missing accepted-summary dependencies remain explicit blockers for actual compression/recycling success until implemented, while authorized manual retention and deletion continue. [010 item design](items-next-design.md) and its formal task remain queued.
+
+This closing record requires only factual/link/format review and ordinary synchronization with the reviewed state; it does not start a recursive product requalification or signal PROGRAM_DONE.

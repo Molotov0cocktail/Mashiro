@@ -6,12 +6,12 @@
 
 ## 当前工作与直接下一动作
 
-- 当前正式任务：[008 记忆与个人事件的即时路径、来源和事务恢复](008-memory-direct-path.md)，状态 ACTIVE / REVIEW_REPAIR。007已在精确产品 `711463a9dd7fbcf16de73c413fe6ad0c56c311cc` 获独立FINAL PASS并同步两个既有远端；008继续领域权限、即时记住/纠正/删除表示或撤回依据、来源/抑制与Markdown事务恢复。事项、提醒、后台与发布保持总队列必需范围。
+- 当前正式任务：[009 保留、原文清理、恢复与删除完成](009-retention-and-cleanup.md)，ACTIVE / IMPLEMENTING。008已独立FINAL PASS；009先实施已确认的手动三区、精确清理、永久删除与共享来源保留，RET-007未答不擅定自动参数。010事项、Q9后台、完整安装与实际发布继续总队列。
 - 同步工作：[早期ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)及[隔离NSIS数据保护路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)均SUPPORTED。NSIS实验验证精确程序文件清除与未知/data文件保留；没有启动安装后应用、比较不同应用/schema版本或验证升级回滚，正式应用安装/更新/卸载资格仍NOT RUN。全局入口由指定记录者单写。
-- 当前已审产品 baseline：main `711463a9dd7fbcf16de73c413fe6ad0c56c311cc`。2026-09-06 root已完成github/gitee非force push并实际ls-remote确认两main同值、退出0；本次收尾记录者也独立查询同值。后续仍查live Git，不将一次观测当未来保证。
-- 下一动作：008可信层与中文UI实现已交接，27 files / 185 tests及静态/build通过；真实记忆角色4请求SUPPORTED。review_008（实际gpt-6-astra / medium）独立审核发现历史搜索来源遗漏、纠正的旧版本传递自依赖两个反例，当前REVIEW_REPAIR；修复后最终Electron与独立复核。009已立合同，Q7事项设计在不重叠报告中推进。
+- 当前已审产品 baseline：008 `cc9c729cd5b65597049f988c41e3def97fcb0515`；纯原始证据字节修正HEAD `c6a3363bd923be7ad540ce7e0502fb35aa06bd6b`也经独立比例核准。root已非force推送并ls-remote实查github/gitee main均c6a3363、退出0。后续继续查询live Git。
+- 下一动作：依据[009实际代码设计](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-design.md)，可信单写者落实schema/来源保留边/治理屏障与精确作业，接口冻结后sol high实施UI。Q9真实接受结果尚未存在时原文回收诚实阻断，不能以空摘要通过；009无需等待RET自动参数即可推进。
 
-后续[009生命周期/清理](009-retention-and-cleanup.md)已立合同，AST-006已确认，RET-007已问待答；当前仍继续008实现和独立审核准备。
+当前[009生命周期/清理](009-retention-and-cleanup.md)已开始；AST-006已确认，RET-007待答；[010事项](010-items-and-proposals.md)合同及独立原文预案已准备。
 
 ## 当前任务表
 
@@ -24,11 +24,13 @@
 | [005](005-persistent-timeline.md) | 持续时间线、显式保存、正常重启 | TASK_DONE/FINAL PASS | 精确产品`0aa2d9190b63c7b99d59f52808e16965fa6b417f`；旧STOP_CHECKPOINT不是程序状态 |
 | [006](006-timeline-context-permissions.md) | 完整浏览检索、局部上下文、权限底座 | TASK_DONE/FINAL PASS | 精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`；跨域权限仍由后续任务扩展 |
 | [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | TASK_DONE / FINAL PASS | 精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；独立25/162与5额外oracle，双remote同步 |
-| [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | ACTIVE / REVIEW_REPAIR | 实现交接；独立来源传播/纠正/UI反例修复后最终复核 |
-| [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | PLANNED | AST-006已确认；RET-007已问待答，未答不擅定自动策略 |
+| [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | TASK_DONE / FINAL PASS | 精确产品cc9c729；28 files / 196 tests、7独立oracles和最终Electron已验，双remote同步 |
+| [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | ACTIVE / IMPLEMENTING | AST-006已确认，trusted治理/清理实施；RET-007未答不擅定自动策略 |
 | [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | PLANNED | 独立原文预案及合同已立，可信接口待008修复后冻结 |
 
 ## 最近有效证据与边界
+
+- 008[独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-final-cc9c729.md)，SHA-256 `47FD505BB2B867FC2430E5C07E6291D6904775BADEDA94C27ABC046770ABF5EC`，精确产品cc9c729。28 files / 196 tests、7独立oracles通过；来源传播/纠正/DAG、错对象/时区/迟到回执与未知重试身份缺陷均关闭。最终Electron PIDs99292/7536，恢复0外发、显式发送1；唯一后续App ref→state改动经专属回归及静态/build比例复核。c6a3363仅修正四份raw审核文本的CRLF字节，独立blob比对一致；两remote已实查同值。008不是整个产品或发布完成。
 
 - 008[真实记忆角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-product.md)已SUPPORTED：自然中文创建→真实写入回执→服务重开→context none新轮检索准确返回随机代码；4请求、1对象/1写入、查询不改版本、恢复0调用，usage8246。前3次[失败诊断及修复](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-live-failure-diagnosis.md)保留，前2次PROTOCOL不被冒称完全解释。创建/纠正wire现已分离，确定未执行有独立状态。当前这组程序累计13请求、已得usage11260，另3次usage未知；尚待最终集成/独立产品审核，不是PROGRAM_DONE。
 

@@ -1,7 +1,7 @@
 # 009 保留、原文清理、恢复与删除完成
 
-- TASK = 009；状态 = PLANNED / DEPENDS_ON_008；PROGRAM ACTIVE。
-- 编号已核对未占用。当前产品任务仍为[008](008-memory-direct-path.md)，唯一入口为[progress](progress.md)。本任务承接总清单Q6和A07、E01–E06，不是程序停止点。
+- TASK = 009；状态 = ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。
+- 编号已核对未占用。008已独立FINAL PASS，当前产品任务为本009；基线产品`cc9c729cd5b65597049f988c41e3def97fcb0515`、归档HEAD`c6a3363bd923be7ad540ce7e0502fb35aa06bd6b`均复核同步双remote，唯一入口为[progress](progress.md)。本任务承接总清单Q6和A07、E01–E06，不是程序停止点。
 - 来源：proposal §3.3/4及集中决议，high-level-design §7，detailed-design RET-001–007、MEM-003、AST-006、EXEC-002–004。008提供即时抑制和跨资源提交；本任务完成保留、原文/旧版本/协议副本的实际清理及恢复。
 
 ## 用户闭环
@@ -42,7 +42,7 @@
 - [x] 原文、编号、008依赖和待决问题准备。
 - [x] AST-006：用户2026-09-06答复“采用建议的永久删除范围”，决议已确认；按上文精确范围实施。
 - [ ] RET-007答复仍待收到；未答不采用默认迁移/清空策略。
-- [ ] 008独立PASS后填写精确产品baseline，冻结生命周期接口及来源清理边界。
+- [x] 008独立FINAL PASS与精确baseline已核对；[实际代码设计](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-design.md)完成，可信执行者据此冻结增量DTO/清理边界。
 - [ ] 三区/容量/期限、用户清理和对话预览确认、恢复/物理清理实现。
 - [ ] 依赖、删除传播、中断恢复、权限及真实用户入口验证。
 - [ ] 独立审核、提交同步、覆盖更新并继续总任务。

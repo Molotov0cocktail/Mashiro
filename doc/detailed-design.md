@@ -1,9 +1,13 @@
 # Mashiro 近期详细设计草案
 
-> 当前状态：007 TASK_DONE / FINAL PASS；008 ACTIVE / S0；项目总任务 ACTIVE。
-> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [008](tasks/008-memory-direct-path.md)；下方006、005、004与F1状态保留为历史记录。
+> 当前状态：008 TASK_DONE / FINAL PASS；009 ACTIVE / IMPLEMENTING；项目总任务 ACTIVE。
+> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [009](tasks/009-retention-and-cleanup.md)；下方007、006、005、004与F1状态保留为历史记录。
 
-## 当前007设计实现与008续接
+## 当前008实现与009续接
+
+008提供全局/助手私有记忆与个人事件、中文日常入口、领域读取/写入/推测/实际端点接收权限、来源和接受版本治理，以及即时对话创建/纠正/删除表示或撤回确认。schema6的Markdown接受指针、事务回执和来源抑制已验；精确产品`cc9c729cd5b65597049f988c41e3def97fcb0515`获[独立FINAL PASS](../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-final-cc9c729.md)：28 files / 196 tests与7独立oracles、真实记忆角色4请求及最终Electron PIDs99292/7536。原始证据修正c6a3363也经核准并双remote同步。009继续三区、精确原文/副本清理与已批准助手永久删除；事项、仓储员/章节后台、完整备份和安装发布仍在总队列，008不是整体验收完成。
+
+## 历史007设计实现与008续接
 
 007实现schema v5加法迁移、完整调用校验、来源依赖、固定接收方、只读工具结果事务和未知恢复零重发；六个assistant通道及sandbox/preload运行时限制保持不变。精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`获[独立FINAL PASS](../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-final-711463a.md)：25 files / 162 tests及5个独立额外oracle，fresh Electron PIDs59208/84996；两个既有main已同步。工具thinking仍NOT_OBSERVED，其他厂商/业务写入/记忆事项/后台/正式安装发布未由007验收。008正在S0冻结即时记住、纠正、已确认删除表示或撤回依据、领域权限与Markdown恢复方案；项目继续ACTIVE。
 

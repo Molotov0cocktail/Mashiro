@@ -1,6 +1,6 @@
 # 008 记忆与个人事件的即时路径、来源和事务恢复
 
-- TASK = 008；状态 = ACTIVE / REVIEW_REPAIR；PROGRAM ACTIVE。
+- TASK = 008；状态 = TASK_DONE / FINAL PASS；PROGRAM ACTIVE。
 - 产品基线 = 已审007 `711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；[独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/tools-007-review-final-711463a.md)及两个main实际同步已确认。新领域实现仍须新证据，不能继承业务写入PASS。
 - 范围来自总清单Q3/Q5以及D01-D08、C02/C04、B05、E03/E04。正式入口是[progress](progress.md)。当前S0由Prompter实际派发的memory_008_s0（gpt-6-astra / medium）阅读设计/007接口并形成专属方案与必要隔离实验；全局任务文件由指定记录者单写。
 
@@ -41,7 +41,9 @@ AST-006永久助手删除范围已由用户2026-09-06明确确认，见[009](009
 - [x] S0领域/权限/Markdown事务方案与接口冻结，明确UI和trusted所有权；独立审核中的来源修复继续更新实现。
 - [x] 即时对话路径、应用内入口、来源/变更与全文检索候选已实现；不等于独立验收完成。
 - [x] 版本、抑制与跨资源失败恢复候选证据已落盘；Windows child硬终止不扩大为断电资格。
-- [ ] 真实产品合成角色4请求SUPPORTED；融合初审REPAIR，来源/纠正与UI问题修复后再独立FINAL。
-- [ ] 提交同步、覆盖更新，继续Q6/Q7/Q9及剩余助手配置/安装交付。
+- [x] 真实产品合成角色4请求SUPPORTED；全部初审反例修复，独立FINAL PASS对应cc9c729，28/196与7独立oracles、最终Electron通过。
+- [x] 精确产品cc9c729、纯归档修正c6a3363已复核同步双remote；总覆盖已更新并继续009/010/Q9及其余安装发布任务。
+
+最终[独立报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-review-final-cc9c729.md) SHA-256 `47FD505BB2B867FC2430E5C07E6291D6904775BADEDA94C27ABC046770ABF5EC`。历史执行叙述不改写，当前结论以本段为准。
 
 008执行记录（2026-09-06）：S0合成SQLite/Markdown实验已完成，见[方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-s0.md)与[共享接口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-contract.md)。memory_008_s0（gpt-6-astra / medium）单写main/shared/preload及trusted tests，memory_008_ui（gpt-5.6-sol / high）单写renderer及对应测试；root维护全局记录。前述S0阅读动作已推进为实际实施，事件/权限范围细分随接口同步；新领域尚未验收。007收尾a5041632c09aa3d421654e56a1e76c9e109147bf已非force推送并ls-remote确认两个main同值，不含008产品。
