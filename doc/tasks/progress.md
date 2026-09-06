@@ -6,12 +6,12 @@
 
 ## 当前工作与直接下一动作
 
-- 当前正式任务：[011](011-assistant-basic-configuration.md)，ACTIVE / IMPLEMENTING。010已独立FINAL PASS；先完成010提交双远程同步，直接按[实际方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-actual-plan.md)实施011。009仍INTEGRATION_PENDING。
+- 当前正式任务：[011](011-assistant-basic-configuration.md)，ACTIVE / IMPLEMENTING。010已独立FINAL PASS；010已提交并双远程核验同步，直接按[实际方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-actual-plan.md)实施011。009仍INTEGRATION_PENDING。
 - 同步工作：[早期ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)及[隔离NSIS数据保护路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)均SUPPORTED。NSIS实验验证精确程序文件清除与未知/data文件保留；没有启动安装后应用、比较不同应用/schema版本或验证升级回滚，正式应用安装/更新/卸载资格仍NOT RUN。全局入口由指定记录者单写。
-- 当前已审产品 baseline：009手动核心`d6cd1fa4a27ccb418ffc3ff04503366acb133e2e`，对应[独立MANUAL_CORE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-final-manual-core.md)。root核对110个源码及raw证据暂存blob字节一致后提交，非force推送github/gitee并ls-remote实查两个main均为d6cd1fa、退出0。008及历史阶段证据保留；新的010差异不继承009 PASS。
-- 下一动作：root核对010暂存blob并提交同步；[独立最终PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)确认51文件301测试、7独立断言及1夹具附带测试通过，131文件manifest无差异。最终build已验；Electron02两PID128516/112004先于末次回执元数据修复，Reviewer明确比例复用并用新回执oracle验证差异。010真实服务22请求56672tokens；程序35请求67932tokens及3次usage未知，非renderer或打包live。随后由trusted/UI单写者实施011，root维护全局与Git。RET/额外AST待答，REM-002默认已问待答；013后台和014完整交付继续排队。
+- 历史已审产品 baseline：009手动核心`d6cd1fa4a27ccb418ffc3ff04503366acb133e2e`，对应[独立MANUAL_CORE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-final-manual-core.md)。root核对110个源码及raw证据暂存blob字节一致后提交，非force推送github/gitee并ls-remote实查两个main均为d6cd1fa、退出0。008及历史阶段证据保留；新的010差异不继承009 PASS。
+- 下一动作：root已核对130个候选文件及53份010证据暂存字节，唯一属性增量保留UI原始报告字节；提交`ab11110a45c6ddb65bd114547225dd4e329bba11`，非force推送github/gitee退出0，ls-remote两个main同值。当前assistant_011_trusted（实际gpt-6-astra/medium）单写可信域，assistant_011_ui（实际gpt-5.6-sol/high）单写renderer；[独立最终PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)确认51文件301测试、7独立断言及1夹具附带测试通过，131文件manifest无差异。最终build已验；Electron02两PID128516/112004先于末次回执元数据修复，Reviewer明确比例复用并用新回执oracle验证差异。010真实服务22请求56672tokens；程序35请求67932tokens及3次usage未知，非renderer或打包live。随后由trusted/UI单写者实施011，root维护全局与Git。RET/额外AST待答，REM-002默认已问待答；013后台和014完整交付继续排队。
 
-当前[010事项](010-items-and-proposals.md)已开始；AST-006原三类范围已确认，未接受提案已由用户2026-09-07确认随发起助手一并永久删除，010执行者已收到；额外私有user/event仍待答，仅其相关purge分支先阻止；RET-007待答，REM-002在提醒冻结前询问。
+当前[011配置](011-assistant-basic-configuration.md)已开始，010已审并同步；AST-006原三类范围已确认，未接受提案已由用户2026-09-07确认随发起助手一并永久删除，010执行者已收到；额外私有user/event仍待答，仅其相关purge分支先阻止；RET-007待答，REM-002推荐默认已问待答。
 
 ## 当前任务表
 
@@ -26,7 +26,7 @@
 | [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | TASK_DONE / FINAL PASS | 精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；独立25/162与5额外oracle，双remote同步 |
 | [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | TASK_DONE / FINAL PASS | 精确产品cc9c729；28 files / 196 tests、7独立oracles和最终Electron已验，双remote同步 |
 | [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | INTEGRATION_PENDING / MANUAL_CORE PASS | 已独立41/255及最终Electron通过；RET、额外AST、Q9/Q10联测继续 |
-| [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | TASK_DONE / FINAL PASS | 51/301及131文件清单，root执行提交双远程同步 |
+| [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | TASK_DONE / FINAL PASS | 51/301及131文件清单；ab11110a45c6ddb65bd114547225dd4e329bba11双远程已核验 |
 | [011](011-assistant-basic-configuration.md) | 稳定人设、基础形象与配置 | ACTIVE / IMPLEMENTING | 实际方案已冻结，从010提交后的HEAD直接实施 |
 | [012](012-deterministic-reminders.md) | 确定性提醒与托盘运行承诺 | PLANNED | 原文及可区分验收已立；REM-002推荐默认已问待答，不影响010实施 |
 | [013](013-background-and-steward.md) | 章节、仓储员及日常后台 | PLANNED | 预算/权限、整理、观察、简报复盘规划及009回收依赖已有可观察验收 |
@@ -51,7 +51,7 @@
 - 003历史4次合成live：2次HTTP400/code1210、2次thinking enabled/reasoning effort low普通和流式成功，各usage22/4/26。旧Key已清理；用户现已在会话提供新的授权测试凭据，不入Git/日志/报告。当前不凭此宣称高级能力已验证或新增调用已发生。
 - Toolhelp32 -003 辅助审计保持failed/deferred/non-blocking，禁止重跑或派生-004。默认helper setup-refresh失败已有经工具审核合法宿主执行路径；受控writer保持allowlist/preimage/原子替换/回滚/postimage，不绕过平台拒绝。
 - AST-006已由用户2026-09-06确认：保留归档，二次确认永久删除助手私有聊天/关系/连续性记忆；全局共享记忆和正式事项保留，来源不再展开私有原文。[009生命周期任务](009-retention-and-cleanup.md)承接。RET-007容量/期限/垃圾清空问题已提出、待答；REM-002在提醒任务冻结前再问。009独立实施继续。
-- 尚未完成领域及验收去处全部列在总清单；当前记忆、事项/提醒、后台、完整数据位置/恢复、PACKAGED安装更新与Release并未完成。当前已明确授权实施和发行，旧NOT RUN仍保留为历史事实。
+- 尚未完成领域及验收去处全部列在总清单；记忆即时路径与事项010已审；自动整理、提醒、后台、完整数据位置/恢复、PACKAGED安装更新与Release尚未完成。当前已明确授权实施和发行，旧NOT RUN仍保留为历史事实。
 
 ## 持续授权与交接
 

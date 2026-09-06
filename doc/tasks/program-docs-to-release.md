@@ -143,7 +143,7 @@
 | Q4 能力与工具执行 | 协议保真、能力证据、只读真实工具循环、operation恢复；依赖Q3 | [007](007-provider-tools-execution.md)TASK_DONE / FINAL PASS，精确`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；业务写入008/Q7、其他厂商与角色兼容Q9/Q11继续 |
 | Q5 记忆/事件事务闭环 | Markdown与治理一致、即时对话记住/纠正/删除、来源面板、全文索引、完整备份语义；依赖Q3/Q4 | [008](008-memory-direct-path.md)TASK_DONE / FINAL PASS，产品cc9c729；即时记忆闭环已交付，完整备份Q10、自动整理Q9继续 |
 | Q6 生命周期与清理 | 三区、恢复、消息/区段/时间线意图清理、防复活；依赖Q5 | [009](009-retention-and-cleanup.md)INTEGRATION_PENDING / MANUAL_CORE PASS；独立41/255、4 UI oracles及最终Electron通过；RET未答不擅定自动参数，Q9/Q10联测仍待完成 |
-| Q7 统一事项提案 | 五类事项、对话执行、提案协商确认；依赖Q3/Q4 | [010](010-items-and-proposals.md)TASK_DONE / [独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)，51/301与131文件清单，root执行提交同步 |
+| Q7 统一事项提案 | 五类事项、对话执行、提案协商确认；依赖Q3/Q4 | [010](010-items-and-proposals.md)TASK_DONE / [独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)，51/301与131文件清单，精确产品ab11110a45c6ddb65bd114547225dd4e329bba11，双远程已核验 |
 | Q8 提醒/托盘/用量健康 | 确定性提醒、可选登录启动、休眠重启补发、运行状况/分类用量；依赖Q7，补发需REM-002 | [012](012-deterministic-reminders.md)已准备原文与验收；冻结前询问REM默认，无Key仍提醒 |
 | Q9 仓储员与日常后台 | 去重分支冲突、章节压缩/未完成话题、事件观察、简报/复盘/周规划；依赖Q3–Q8 | [013正式任务](013-background-and-steward.md)PLANNED，含真实角色能力、显式预算、可见结果、故障和009回收依赖；不能只后台底层无入口 |
 | Q10 位置/安装更新恢复 | 普通用户路径选择/失效恢复、完整迁移备份、隔离安装升级卸载重装；依赖Q1与各schema | [014正式任务](014-windows-data-and-delivery.md)PLANNED；[NSIS路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)已SUPPORTED：精确程序清单/未知与data保护；正式安装应用启动、不同版本/schema升级、失败回滚与完整领域数据仍NOT RUN |
@@ -173,6 +173,6 @@
 4. 独立整体验收与实际制品发布审核PASS；版本、源码、构建、安装包hash、说明/第三方声明对应，不自引用未来SHA。
 5. 已审main双远程非force同步，新tag/Release含完整资产；实际发布入口可见、下载内容校验匹配。只push源码、目录中的安装包、空Release、内部预发布都不满足。
 
-当前正在运行：[011](011-assistant-basic-configuration.md)ACTIVE / IMPLEMENTING，实际方案已冻结；010已独立FINAL PASS，root先提交同步再直接实施011。009仍INTEGRATION_PENDING，RET/额外AST待答，013接受结果回收与014完整备份交付继续。早期ASAR/NSIS仅路线SUPPORTED，正式安装升级及Release未验。PROGRAM保持ACTIVE。
+当前正在运行：[011](011-assistant-basic-configuration.md)ACTIVE / IMPLEMENTING，实际方案已冻结；010已独立FINAL PASS，精确产品ab11110a45c6ddb65bd114547225dd4e329bba11已双远程核验；assistant_011_trusted（实际Astra medium）与assistant_011_ui（实际Sol high）按可信/UI单写实施011。009仍INTEGRATION_PENDING，RET/额外AST待答，013接受结果回收与014完整备份交付继续。早期ASAR/NSIS仅路线SUPPORTED，正式安装升级及Release未验。PROGRAM保持ACTIVE。
 
 历史008启动记录（2026-09-06，现已关闭）：S0合成SQLite/Markdown实验已完成，见[方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-s0.md)与[共享接口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-contract.md)。memory_008_s0（gpt-6-astra / medium）单写main/shared/preload及trusted tests，memory_008_ui（gpt-5.6-sol / high）单写renderer及对应测试；root维护全局记录。前述S0阅读动作已推进为实际实施，事件/权限范围细分随接口同步；新领域尚未验收。007收尾a5041632c09aa3d421654e56a1e76c9e109147bf已非force推送并ls-remote确认两个main同值，不含008产品。
