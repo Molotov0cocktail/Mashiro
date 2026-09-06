@@ -1,7 +1,13 @@
 # Mashiro 近期详细设计草案
 
-> 当前状态：005 持续时间线 FINAL REVIEW PASS，项目总任务 ACTIVE；当前验收以 [005](tasks/005-persistent-timeline.md) 为准。
-> 当前更新：2026-09-06。下方旧 F1 与草案状态按历史原文保留。
+> 当前状态：006 时间线/局部上下文/权限 FINAL REVIEW PASS，007 IMPLEMENTING，项目总任务 ACTIVE；当前续接以 [progress](tasks/progress.md) 与 [007](tasks/007-provider-tools-execution.md) 为准。
+> 当前更新：2026-09-06。下方005、004、旧F1与草案状态按历史原文保留。
+
+## 006 当前设计实现
+
+- SQLite schema v4以加法迁移保存助手自己正常历史的读取权，以及按assistant、实际endpoint fingerprint和数据类别绑定的发送权；旧数据不默认获得接收授权。
+- 历史支持稳定cursor分页和字面检索；selected只接受trusted request IDs并解析同助手completed完整轮次。每次发送重新解析当前助手、绑定、端点、凭据和权限，撤权优先于迟到结果；严格临时不读取正常仓库。
+- 精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`已获独立FINAL PASS（产品22 files / 113 tests；独立24 / 117加flow 1 / 1；fresh Electron PIDs83792/90028）。搜索暂无直接jump按钮；007承担原轮次引用定位，跨记忆/事项/后台权限仍由Q3后续扩展。
 
 ## 005 当前设计实现
 

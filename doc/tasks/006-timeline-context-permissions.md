@@ -1,8 +1,9 @@
 # 006 时间线浏览、局部上下文与历史权限
 
-- TASK = 006；状态 = IMPLEMENTING / PROGRAM ACTIVE。
+- TASK = 006；状态 = TASK_DONE / FINAL PASS；PROGRAM ACTIVE。
 - ROUTE = timeline-context-permissions-v1 / attempt 1。
 - BASELINE = main / fb268174e5b14848c5345e52cf6c88ed6c6e1a5d。规划已实时核验；主控制器接管已核 clean。执行前解释其后单写者文档变化。
+- FINAL PRODUCT = `88a86a2dacc616ca3a6fa0ba63a345f059d88859`；独立 Reviewer `PASS`。006完成不等于PROGRAM完成。
 - Planner 实际型号 = gpt-6-astra / medium。
 - 本稳定合同的 PASS 不是 PROGRAM_DONE。总入口 [progress](progress.md)，本片后自动更新总覆盖并继续。
 
@@ -49,9 +50,13 @@ UI 执行者：ProviderPanel、可拆出的 history/context/permission 组件、
 
 未参与实现的 gpt-6-astra medium Reviewer 独立检查完整差异、权限/持久化和适当复验。实现者交回精确 HEAD、命令/退出码/计数、模型、失败与 NOT RUN，不自判 PASS。PASS 后主协调提交、既定双远程同步、总覆盖更新并继续下一任务。
 
-## 可信核心候选证据（尚未独立审核）
+## 最终独立审核与证据
 
-2026-09-06：trusted core 已实现，renderer 由另一单写者进行中。加法 schema v4、稳定分页/字面检索、selected 完成轮次上下文、独立读取/端点接收授权与 CAS、撤权丢弃晚到正文、strict IPC/preload 已接通。新文件 13 个反例通过；trusted + unit 合计 15 files / 82 tests 通过（历史 69、新增 13），node typecheck 和范围 lint 通过。Electron 两 PID harness 已扩展权限重启/检索/选定上下文 oracle，但尚未运行；完整验证等待 UI 汇合，不视为 PASS。详见 [trusted candidate evidence](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-trusted-candidate.md)。
+2026-09-06：独立 Reviewer 对精确产品 `88a86a2dacc616ca3a6fa0ba63a345f059d88859` 给出 [FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-review-final-88a86a2.md)，报告 SHA-256 `A69669178A74339D08BC1CACCD125F1B3E43432E2449C8B6310D5BFE9D0BBE04`。产品套件22 files / 113 tests；独立全量24 files / 117 tests含4个额外oracle，之后新增 [flow oracle](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-review-flow.test.tsx) 1 file / 1 test单独通过。typecheck、lint、format、build、dependency/foundation、secret/generated/runtime扫描均通过。
+
+原始独立证据保留：[trusted cancellation oracle](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-review-independent.test.ts)、[UI oracle](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-review-ui.test.tsx)、[core repair review](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-review-core-repair.md) 与 [UI repair review](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-review-ui-repair.md)。三份oracle SHA-256依次为 `3B198140C5D7FDA44D739B10266772E636AA191D0ABA889992133204815922FB`、`D8F82E1B9431BE816DCCE0D1060B6FA65E0FE7AB4CD481EFDAB1D1888DD69880`、`2BE068E6FF592329CF981FAE9DEE5BF73C59DEFECA17E184D7BF0711868C06B5`。
+
+fresh Electron证据使用PIDs83792/90028，恢复阶段0次Provider外发、显式发送后1次；Reviewer复核最终 ProviderService/TimelineRepository 源码hash与生命周期证据一致。已归档的脱敏原始JSON见 [Electron evidence](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/timeline-context-v1-electron-evidence.json)，SHA-256 `CAEC817D88244B9E38FDED92AD6C9D1C58BEB09E0AC533F38C08ACB242E20418`。搜索支持单侧命中后清除查询、加载更早完整历史并选择轮次，但没有直接jump-to-round按钮；006合同未要求直接跳转，007原轮次引用定位和最终产品验收继续承担可用性闭环。
 
 ## 授权、路线与续接
 

@@ -1,9 +1,13 @@
 # Mashiro 高层设计
 
-> 当前状态：005 FINAL REVIEW PASS；项目总任务 ACTIVE
-> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md) 与 [005 任务](tasks/005-persistent-timeline.md)；下方 004 与 F1 状态均为历史记录。
+> 当前状态：006 FINAL REVIEW PASS；007 IMPLEMENTING；项目总任务 ACTIVE
+> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [007 任务](tasks/007-provider-tools-execution.md)；下方 005、004 与 F1 状态均为历史记录。
 
-## 当前架构增量
+## 当前006架构增量
+
+006在005链路上加入strict timeline/permission IPC、SQLite schema v4加法权限迁移、稳定分页/字面检索与trusted局部上下文。renderer只提交查询、request IDs和意图；trusted每次重新解析助手、绑定、端点、凭据和权限，撤权优先于迟到结果。精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`已获独立FINAL PASS，六个assistant channels及sandbox/preload限制保持不变。007在此基线上实施受限工具、协议段、operation身份和原轮次引用定位。
+
+## 历史005架构增量
 
 当前链路为 `renderer → typed preload → strict Provider/timeline IPC → ProviderService → timeline/provider repository + vault + transport`。SQLite schema v3 保存每个助手的正常消息和真实状态；严格临时正文仅在主进程按助手隔离的有界 session 中，显式保存由 trusted 事务复制并按稳定来源消息 ID 去重。正常读取只返回最近 100 条，外发上下文只选当前助手最近 16 组已完成合格对话，并受 64,000 UTF-16 字符总输入预算限制。
 

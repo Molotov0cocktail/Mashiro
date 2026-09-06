@@ -1,9 +1,13 @@
 # Mashiro 产品与阶段 Proposal
 
-> 当前状态：005 FINAL REVIEW PASS；项目总任务 ACTIVE
-> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md) 与 [005 任务](tasks/005-persistent-timeline.md)；下方 004 与 F1 状态均为历史记录。
+> 当前状态：006 FINAL REVIEW PASS；007 IMPLEMENTING；项目总任务 ACTIVE
+> 当前更新：2026-09-06。唯一续接入口见 [progress](tasks/progress.md)，当前合同见 [007 任务](tasks/007-provider-tools-execution.md)；下方 005、004 与 F1 状态均为历史记录。
 
-## 当前产品增量
+## 当前006产品增量
+
+006加入完整稳定分页与字面检索、recent/none/selected局部上下文，以及助手读取自己历史与向实际端点指纹发送历史的分离权限。独立Reviewer对精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`给出FINAL PASS；产品22 files / 113 tests，独立全量24 / 117含4个额外oracle，另有flow 1 / 1，fresh Electron PIDs83792/90028证明恢复0次外发、显式发送后1次。搜索暂无直接jump-to-round按钮，007承担原轮次引用定位，最终验收继续检查可用性。
+
+## 历史005产品增量
 
 005 候选为每个稳定助手加入默认自动保存的正常时间线，以及与正常历史隔离的严格临时会话。用户可明确把临时会话中由 trusted 接纳的消息保存到目标助手；正常模式只把界面说明的近期合格历史送给当前绑定接收方。未被 trusted 接纳的输入保留为明确的未发送草稿，不计入保存回执。
 
