@@ -1,6 +1,6 @@
 # 当前续接入口（2026-09-06）
 
-> 当前阶段：004 PROVIDER TEXT CANDIDATE IMPLEMENTED / FINAL VERIFICATION COMPLETE / INDEPENDENT REVIEW REQUIRED
+> 当前阶段：004 Provider 连接与严格临时文本：实现与验证完成 / FINAL DOCS DELTA REVIEW REQUIRED
 > 当前更新：2026-09-06。下方 2026-09-03 及更早段落保留为历史快照。
 
 ## 004 当前续接摘要
@@ -8,10 +8,10 @@
 - 在 baseline `c8de9e9c84807127bad4ae5edb5302f8f0c3581e` 上完成 Provider 连接、按稳定助手绑定模型、严格临时普通/流式文本、取消、分类错误、真实或未知用量及显式清空。
 - SQLite v1→v2 采用加法事务升级；连接和绑定跨重启，聊天正文与临时 Key 不跨进程。持久 Key 由 Windows `safeStorage` 保护，保护不可用则拒绝保存。
 - 保留既有六个 assistant IPC；新增 Provider 窄通道全部在 trusted main 边界严格校验。renderer 无任意网络、文件、SQL 或凭据读取权，远端文本按文本渲染。
-- 完整 `npm run verify` exit 0：focused/full 均为 17 files / 59 tests；typecheck、lint、format、build 均通过。真实 Electron PID `49348 → 49772`，持久凭据保护/恢复与临时会话重置通过，截图可见 Provider 接收方、模型、空 Key 输入和中文聊天控件。
+- 完整 `npm run verify` exit 0：focused/full 均为 17 files / 59 tests；typecheck、lint、format、build 均通过。真实 Electron PID `49348 → 49772`，持久凭据保护/恢复与临时会话重置通过。最新独立候选复核在 `0ff92d5fde11113d439706e5e357d4e1b328797f` 运行 `npm test`，17 files / 62 tests 全部通过；依赖树、foundation validator 与残留检查也通过。
 - 真实 Provider 共 4 次合成请求：前 2 次 `thinking: disabled` 均为 HTTP 400/code 1210，usage 未知；据服务端明确约束改为 `thinking: enabled` 与 `reasoning_effort: low` 后，普通与流式各 1 次均 HTTP 200/completed，正文 4 字符，流式 1 个 delta；两次成功 usage 均为 22/4/26 tokens。端点与模型保持 `https://open.bigmodel.cn/api/paas/v4` / `GLM-5.3-FLASH`。
-- 独立 Reviewer 对首候选要求有界 repair：清空现在只要求助手存在，连接停用或无绑定不阻止清除内存；UI 只在 trusted 成功后清对应助手 transcript，失败保留正文并显示中文错误。6 files / 18 tests 及 typecheck/lint/format/build 均 exit 0；独立 delta 复核仍待进行。
-- 测试 Key 已清理且不预置产品。真实取消、工具、结构化输出和个人数据均 NOT RUN。候选尚未由实现者自判 PASS，也尚未 push。
+- 独立 Reviewer 已在 `0ff92d5fde11113d439706e5e357d4e1b328797f` 关闭全部产品 finding：清空只要求助手存在，UI 仅在 trusted 成功后清对应助手 transcript；助手同步、晚到结果路由、transport 输出边界与 populated v1→v2 保留 oracle 均已覆盖。当前只等待本次文档差异的独立复核。
+- 测试 Key 已清理且产品不预置用户配置。真实 Provider 共 4 次合成请求，前两次失败、后两次成功，没有新增 live 调用。真实取消、工具、结构化输出和个人数据均 NOT RUN；当前 HEAD 尚未获得最终 docs delta PASS，也尚未 push。历史独立报告见 [e39a5e5e REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-e39a5e5e.md) 与 [0ff92d5f docs-only REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-0ff92d5f.md)。下一建议切片是每助手持续时间线、对话保存与重启恢复。
 
 ---
 ## 历史 Planner 接管快照（2026-09-06，实施前）

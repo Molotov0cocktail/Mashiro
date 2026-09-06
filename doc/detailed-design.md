@@ -1,6 +1,6 @@
 # Mashiro 近期详细设计草案
 
-> 当前状态：004 PROVIDER TEXT CANDIDATE IMPLEMENTED / INDEPENDENT REVIEW REQUIRED
+> 当前状态：004 Provider 连接与严格临时文本：实现与验证完成 / FINAL DOCS DELTA REVIEW REQUIRED
 > 当前更新：2026-09-06。下方旧 F1 与草案状态按历史原文保留。
 
 ## 004 当前设计实现

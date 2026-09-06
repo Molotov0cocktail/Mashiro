@@ -1,6 +1,6 @@
 # 004 Provider 连接与严格临时文本交互
 
-> 2026-09-06：IMPLEMENTED CANDIDATE / FINAL VERIFICATION COMPLETE / INDEPENDENT REVIEW REQUIRED，route `provider-text-v1`，attempt 1。
+> 2026-09-06：Provider 连接与严格临时文本实现与验证完成 / FINAL DOCS DELTA REVIEW REQUIRED，route `provider-text-v1`，attempt 1。
 
 ## 执行结果
 
@@ -8,7 +8,9 @@
 - 上下文按助手隔离并有界；退出即丢失。连接、绑定和受保护的持久 Key 可跨重启；临时 Key 只覆盖当前进程，旧持久 Key 若存在会在重启后恢复。用户可显式清空当前助手临时会话。
 - 真实端点按任务 003 执行 4 次合成调用：前两次关闭思考收到 HTTP 400/code 1210；改为该模型要求的 enabled+low 后，普通与流式各一次成功。两次成功 usage 均为 22/4/26 tokens。端点与模型均保持用户指定值。
 - 完整 `npm run verify` exit 0：focused/full 均为 17 files / 59 tests，typecheck、lint、format、build 和真实 Electron 双 PID 重启均通过。PID `49348 → 49772`；持久凭据保护/恢复、临时会话不跨重启与 Provider 中文界面截图均有直接证据。测试 Key 已清理，产品没有预置凭据。
-- 首轮独立 Reviewer 后完成有界 repair：即使助手无绑定或连接停用也能清除临时内存，renderer 只在 trusted 清空成功后清除捕获助手的 transcript；失败跨助手切换仍保留原内容并显示中文错误。另补真实 populated v1→v2 成功保留完整助手快照的 oracle。repair 聚焦 6 files / 18 tests 及 typecheck/lint/format/build 均 exit 0。
+- 首轮独立 Reviewer 后完成有界 repair：即使助手无绑定或连接停用也能清除临时内存，renderer 只在 trusted 清空成功后清除捕获助手的 transcript；失败跨助手切换仍保留原内容并显示中文错误。另补真实 populated v1→v2 成功保留完整助手快照的 oracle。独立候选复核在 `0ff92d5fde11113d439706e5e357d4e1b328797f` 关闭全部产品 finding，最新 `npm test` 为 17 files / 62 tests；依赖、foundation 与残留检查通过。当前只等待文档差异复核。
+
+历史独立报告归档为 [e39a5e5e REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-e39a5e5e.md) 与 [0ff92d5f docs-only REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-0ff92d5f.md)。测试 Key 已清理，产品不预置用户配置；没有新增 live 调用。下一建议切片是每助手持续时间线、对话保存与重启恢复。
 
 ---
 > 2026-09-06：AUTHORIZED / READY FOR IMPLEMENTATION，route `provider-text-v1`，attempt 1。

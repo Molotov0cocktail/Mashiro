@@ -8,7 +8,7 @@
 - 接收端点：`https://open.bigmodel.cn/api/paas/v4`；模型：`GLM-5.3-FLASH`；wire 模型未改写；仅发送无个人信息的短合成文本。
 - 共 4 个请求，无自动重试。前 2 个请求使用文档通用的关闭思考参数，均收到 HTTP 400/code 1210，服务端说明该模型必须开启思考且强度为 low/high/max；失败 usage 为未知，不能记作零。
 - 适配器据此对该端点的 GLM-5.3 家族发送 `thinking: { type: 'enabled' }` 与 `reasoning_effort: 'low'`。修正后普通与流式请求各 1 个，均 HTTP 200/completed，返回预期 4 字符；流式收到 1 个文本 delta。
-- 四次 live 调用使用的已归档成功源 SHA-256 为 `06025EFC2560DF7F8CFCAD8C28D81C3FCD95A503E27F2DFE54D14A2378C78DC0`。候选随后增加响应 120,000 字符上限和 delta 分片，当前 transport SHA-256 为 `2ED843DA3FFF98F7E761B43204A2AED8C9A58E352E999F0E9337DAC546BBC538`；该后续限额变化仅本地测试，没有再次发起付费 live 调用，也不改变成功请求的端点/模型/thinking 语义。
+- 前两次失败调用使用的已归档初始源 SHA-256 为 `4583C21FA021AD5A414542C08F3749063D4A3D983432BCD9A98923771A50CBFF`；后两次成功调用使用的已归档成功源 SHA-256 为 `06025EFC2560DF7F8CFCAD8C28D81C3FCD95A503E27F2DFE54D14A2378C78DC0`。候选随后增加响应 120,000 字符上限和 delta 分片，当前 transport SHA-256 为 `2ED843DA3FFF98F7E761B43204A2AED8C9A58E352E999F0E9337DAC546BBC538`；该后续限额变化仅本地测试，没有再次发起付费 live 调用，也不改变成功请求的端点/模型/thinking 语义。
 - 两个成功请求各自报告 prompt 22、completion 4、total 26 tokens。实际调用时间为 2026-09-06T03:50:48.024Z 至 2026-09-06T03:50:49.841Z。
 - 证据等级：普通文本与流式文本为 `LIVE_VERIFIED`；首次参数组合为 `MISCONFIGURED` 后已修正。真实取消、工具、结构化输出、思考续接、个人数据和业务副作用均 `NOT RUN`。
 - 测试秘密只由运行期测试进程读取，没有写入产品数据、日志或版本控制；测试秘密源已清理。脱敏逐请求报告归档于 `../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-live-report.json`。

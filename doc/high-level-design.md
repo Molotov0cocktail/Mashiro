@@ -1,6 +1,6 @@
 # Mashiro 高层设计
 
-> 当前状态：004 PROVIDER TEXT CANDIDATE IMPLEMENTED / INDEPENDENT REVIEW REQUIRED
+> 当前状态：004 Provider 连接与严格临时文本：实现与验证完成 / FINAL DOCS DELTA REVIEW REQUIRED
 > 当前更新：2026-09-06。下方旧 F1 状态作为历史记录保留。
 
 ## 当前架构增量
