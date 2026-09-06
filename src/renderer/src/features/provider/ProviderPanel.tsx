@@ -1,52 +1,73 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../../../shared/assistant-contract'
 import type {
   ProviderApi,
   ProviderResult,
   ProviderSnapshot
 } from '../../../../shared/provider-contract'
+import type { ChatMode, TimelineApi, TimelineMessage } from '../../../../shared/timeline-contract'
 
 const protocolVersion = 1 as const
 const errorMessages: Record<string, string> = {
   INVALID_INPUT: '输入不符合要求，请检查后重试',
-  NOT_FOUND: '连接或助手绑定不存在',
+  NOT_FOUND: '连接、助手或时间线不存在',
   STALE_WRITE: '设置已变化，请刷新后重试',
-  ASSISTANT_ARCHIVED: '已归档助手不能发起临时交流',
+  ASSISTANT_ARCHIVED: '已归档助手不能发起交流',
   CONNECTION_DISABLED: '当前连接已停用',
   CREDENTIAL_MISSING: '请先为连接设置 API Key',
   CREDENTIAL_PROTECTION_UNAVAILABLE: 'Windows 凭据保护不可用，无法持久保存 Key',
-  REQUEST_IN_PROGRESS: '这个助手已有请求正在进行',
+  REQUEST_IN_PROGRESS: '当前助手仍在生成，请等待完成或先取消',
   AUTHENTICATION: 'Provider 认证失败，请检查 Key',
   QUOTA: 'Provider 额度不足或不可用',
   CONFIGURATION: '连接地址或模型配置无效',
   TEMPORARY: 'Provider 暂时不可用，请稍后手动重试',
   PROTOCOL: 'Provider 返回不完整或格式异常，已保留部分输出',
   TIMEOUT: '请求超时，已保留部分输出',
-  LIMIT: '临时上下文或响应达到安全上限，请清空本助手的临时会话后继续',
+  LIMIT: '当前上下文或响应达到安全上限，请缩短输入后重试',
   CANCELLED: '请求已取消',
-  STORAGE_UNAVAILABLE: 'Provider 设置暂时无法读取',
-  INTERNAL_ERROR: 'Provider 服务发生内部错误'
+  STORAGE_UNAVAILABLE: '本地时间线或 Provider 设置暂时无法读取',
+  INTERNAL_ERROR: '服务发生内部错误'
 }
-type Transcript = {
-  role: 'user' | 'assistant'
-  text: string
-  requestId?: string
-  status?: string
-  usage?: string
-}
-type TranscriptMap = Record<string, Transcript[]>
-type RequestMap = Record<string, string>
+type TimelineMap = Record<string, TimelineMessage[]>
+type BooleanMap = Record<string, boolean>
+type TextMap = Record<string, string>
+type ActiveRequest = { requestId: string; mode: ChatMode }
+type ActiveRequestMap = Record<string, ActiveRequest>
+type StableFailure = { error: { code: string; correlationId: string } }
 
-function errorText(result: Extract<ProviderResult, { ok: false }>): string {
-  return `${errorMessages[result.error.code] ?? '操作失败'} · 关联编号 ${result.error.correlationId}`
+function timelineKey(assistantId: string, mode: ChatMode): string {
+  return assistantId + ':' + mode
+}
+
+function errorText(result: StableFailure): string {
+  return (
+    (errorMessages[result.error.code] ?? '操作失败') + ' · 关联编号 ' + result.error.correlationId
+  )
+}
+
+function statusText(status: TimelineMessage['status']): string {
+  switch (status) {
+    case 'pending':
+      return '生成中'
+    case 'completed':
+      return '完成'
+    case 'failed':
+      return '失败，已保留现有正文'
+    case 'cancelled':
+      return '已取消，已保留现有正文'
+    case 'interrupted':
+      return '响应中断，已保留部分输出且不会自动重发'
+  }
 }
 
 export function ProviderPanel({
   assistantSnapshot,
-  api
+  api,
+  timelineApi
 }: {
   assistantSnapshot: AssistantSnapshot | null
   api: ProviderApi
+  timelineApi: TimelineApi
 }): React.JSX.Element {
   const [snapshot, setSnapshot] = useState<ProviderSnapshot | null>(null)
   const [selectedId, setSelectedId] = useState('')
@@ -56,22 +77,80 @@ export function ProviderPanel({
   const [apiKey, setApiKey] = useState('')
   const [persistent, setPersistent] = useState(false)
   const [modelDrafts, setModelDrafts] = useState<Record<string, string>>({})
-  const [textDrafts, setTextDrafts] = useState<Record<string, string>>({})
+  const [modeByAssistant, setModeByAssistant] = useState<Record<string, ChatMode>>({})
+  const [textDrafts, setTextDrafts] = useState<TextMap>({})
   const [stream, setStream] = useState(true)
-  const [transcripts, setTranscripts] = useState<TranscriptMap>({})
-  const [activeRequests, setActiveRequests] = useState<RequestMap>({})
-  const [error, setError] = useState<string | null>(null)
+  const [timelines, setTimelines] = useState<TimelineMap>({})
+  const [hasMore, setHasMore] = useState<BooleanMap>({})
+  const [loading, setLoading] = useState<BooleanMap>({})
+  const [saving, setSaving] = useState<BooleanMap>({})
+  const [activeRequests, setActiveRequests] = useState<ActiveRequestMap>({})
+  const activeRequestsRef = useRef<ActiveRequestMap>({})
+  const readVersions = useRef<Record<string, number>>({})
+  const [settingsError, setSettingsError] = useState<string | null>(null)
+  const [timelineErrors, setTimelineErrors] = useState<TextMap>({})
+  const [notices, setNotices] = useState<TextMap>({})
 
   const currentAssistantId = assistantSnapshot?.currentAssistantId ?? ''
+  const currentAssistant = assistantSnapshot?.assistants.find(
+    (item) => item.id === currentAssistantId
+  )
+  const mode = modeByAssistant[currentAssistantId] ?? 'normal'
+  const currentKey = timelineKey(currentAssistantId, mode)
   const selected = snapshot?.connections.find((item) => item.id === selectedId)
   const binding = snapshot?.bindings.find((item) => item.assistantId === currentAssistantId)
   const executionConnection = snapshot?.connections.find(
     (item) => item.id === binding?.connectionId
   )
   const model = modelDrafts[currentAssistantId] ?? binding?.model ?? 'GLM-5.3-FLASH'
-  const text = textDrafts[currentAssistantId] ?? ''
-  const transcript = transcripts[currentAssistantId] ?? []
-  const activeRequestId = activeRequests[currentAssistantId]
+  const text = textDrafts[currentKey] ?? ''
+  const transcript = timelines[currentKey] ?? []
+  const activeRequest = activeRequests[currentAssistantId]
+
+  const invalidateRead = useCallback((key: string): void => {
+    readVersions.current[key] = (readVersions.current[key] ?? 0) + 1
+  }, [])
+
+  const clearActiveRequest = useCallback((assistantId: string, requestId: string): void => {
+    if (activeRequestsRef.current[assistantId]?.requestId !== requestId) return
+    const next = { ...activeRequestsRef.current }
+    delete next[assistantId]
+    activeRequestsRef.current = next
+    setActiveRequests(next)
+  }, [])
+
+  const readTimeline = useCallback(
+    async (assistantId: string, chatMode: ChatMode): Promise<void> => {
+      if (!assistantId) return
+      const key = timelineKey(assistantId, chatMode)
+      const version = (readVersions.current[key] ?? 0) + 1
+      readVersions.current[key] = version
+      setLoading((values) => ({ ...values, [key]: true }))
+      try {
+        const result = await timelineApi.read({ protocolVersion, assistantId, mode: chatMode })
+        if (readVersions.current[key] !== version) return
+        if (!result.ok) {
+          setTimelineErrors((values) => ({ ...values, [key]: errorText(result) }))
+          return
+        }
+        setTimelines((values) => ({ ...values, [key]: result.data.messages }))
+        setHasMore((values) => ({ ...values, [key]: result.data.hasMore }))
+        setTimelineErrors((values) => ({ ...values, [key]: '' }))
+      } catch {
+        if (readVersions.current[key] === version) {
+          setTimelineErrors((values) => ({
+            ...values,
+            [key]: '本地时间线暂时无法读取，当前显示内容已保留'
+          }))
+        }
+      } finally {
+        if (readVersions.current[key] === version) {
+          setLoading((values) => ({ ...values, [key]: false }))
+        }
+      }
+    },
+    [timelineApi]
+  )
 
   useEffect(() => {
     let active = true
@@ -86,118 +165,213 @@ export function ProviderPanel({
           setBaseUrl(first.baseUrl)
           setEnabled(first.enabled)
         }
-      } else setError(errorText(result))
+      } else setSettingsError(errorText(result))
     })
     const remove = api.onEvent((event) => {
-      setActiveRequests((requests) => {
-        if (requests[event.assistantId] !== event.requestId) return requests
-        if (event.type === 'delta') {
-          setTranscripts((items) =>
-            updateRequest(items, event.assistantId, event.requestId, (last) => ({
-              ...last,
-              text: last.text + event.text,
-              status: '生成中'
-            }))
-          )
-          return requests
-        }
-        const next = { ...requests }
-        delete next[event.assistantId]
-        return next
-      })
+      const route = activeRequestsRef.current[event.assistantId]
+      if (!route || route.requestId !== event.requestId) return
+      const key = timelineKey(event.assistantId, route.mode)
+      if (event.type === 'delta') {
+        setTimelines((values) =>
+          updateRequest(values, key, event.requestId, (message) => ({
+            ...message,
+            content: message.content + event.text,
+            status: 'pending'
+          }))
+        )
+        return
+      }
+      setTimelines((values) =>
+        updateRequest(values, key, event.requestId, (message) => ({
+          ...message,
+          status:
+            event.type === 'completed'
+              ? 'completed'
+              : event.type === 'cancelled'
+                ? 'cancelled'
+                : event.type === 'interrupted'
+                  ? 'interrupted'
+                  : 'failed'
+        }))
+      )
+      clearActiveRequest(event.assistantId, event.requestId)
     })
     return () => {
       active = false
       remove()
     }
-  }, [api])
+  }, [api, clearActiveRequest])
+
+  useEffect(() => {
+    let active = true
+    queueMicrotask(() => {
+      if (active) void readTimeline(currentAssistantId, mode)
+    })
+    return () => {
+      active = false
+    }
+  }, [currentAssistantId, mode, readTimeline])
 
   const receiver = useMemo(() => {
     if (!executionConnection || !binding) return null
-    return `${executionConnection.displayName} · ${executionConnection.baseUrl} · ${binding.model}`
+    return (
+      executionConnection.displayName + ' · ' + executionConnection.baseUrl + ' · ' + binding.model
+    )
   }, [executionConnection, binding])
 
   async function apply(operation: () => Promise<ProviderResult>): Promise<void> {
-    setError(null)
+    setSettingsError(null)
     try {
       const result = await operation()
       if (result.ok) {
         setSnapshot(result.data)
         if (!selectedId) setSelectedId(result.data.connections.at(-1)?.id ?? '')
-      } else setError(errorText(result))
+      } else setSettingsError(errorText(result))
     } catch {
-      setError('Provider 服务暂时不可用')
+      setSettingsError('Provider 服务暂时不可用')
     }
   }
 
   async function clearTemporaryChat(assistantId: string): Promise<void> {
-    setError(null)
+    const key = timelineKey(assistantId, 'temporary')
+    setTimelineErrors((values) => ({ ...values, [key]: '' }))
+    setNotices((values) => ({ ...values, [key]: '' }))
     try {
       const result = await api.clearChat({ protocolVersion, assistantId })
       if (!result.ok) {
-        setError(errorText(result))
+        setTimelineErrors((values) => ({ ...values, [key]: errorText(result) }))
         return
       }
+      invalidateRead(key)
       setSnapshot(result.data)
-      setTranscripts((items) => ({ ...items, [assistantId]: [] }))
+      setTimelines((values) => ({ ...values, [key]: [] }))
+      setHasMore((values) => ({ ...values, [key]: false }))
+      setNotices((values) => ({ ...values, [key]: '当前助手的临时会话已清空' }))
     } catch {
-      setError('Provider 服务暂时不可用')
+      setTimelineErrors((values) => ({
+        ...values,
+        [key]: '临时会话清空失败，当前正文已保留'
+      }))
+    }
+  }
+
+  async function saveTemporary(assistantId: string): Promise<void> {
+    const key = timelineKey(assistantId, 'temporary')
+    const unsavedCount = (timelines[key] ?? []).filter((message) => !message.saved).length
+    setSaving((values) => ({ ...values, [key]: true }))
+    setTimelineErrors((values) => ({ ...values, [key]: '' }))
+    setNotices((values) => ({ ...values, [key]: '' }))
+    try {
+      const result = await timelineApi.saveTemporary({ protocolVersion, assistantId })
+      if (!result.ok) {
+        setTimelineErrors((values) => ({ ...values, [key]: errorText(result) }))
+        return
+      }
+      invalidateRead(key)
+      setTimelines((values) => ({ ...values, [key]: result.data.messages }))
+      setHasMore((values) => ({ ...values, [key]: result.data.hasMore }))
+      const targetName =
+        assistantSnapshot?.assistants.find((item) => item.id === assistantId)?.displayName ??
+        '此助手'
+      setNotices((values) => ({
+        ...values,
+        [key]:
+          unsavedCount > 0
+            ? '已将当前临时会话中 ' +
+              String(unsavedCount) +
+              ' 条尚未保存的消息保存到“' +
+              targetName +
+              '”的正常时间线'
+            : '没有新的临时消息需要保存；已保存内容不会重复写入'
+      }))
+      void readTimeline(assistantId, 'normal')
+    } catch {
+      setTimelineErrors((values) => ({
+        ...values,
+        [key]: '保存失败，临时正文仍保留在本次运行中且尚未标记为已保存'
+      }))
+    } finally {
+      setSaving((values) => ({ ...values, [key]: false }))
     }
   }
 
   async function send(): Promise<void> {
-    if (!currentAssistantId || !text.trim() || activeRequestId) return
+    if (!currentAssistantId || !text.trim() || activeRequest) return
     const requestId = crypto.randomUUID()
     const assistantId = currentAssistantId
+    const requestMode = mode
+    const key = timelineKey(assistantId, requestMode)
     const submitted = text
-    setTextDrafts((items) => ({ ...items, [assistantId]: '' }))
-    setError(null)
-    setTranscripts((items) => ({
+    const createdAt = new Date().toISOString()
+    invalidateRead(key)
+    setTextDrafts((items) => ({ ...items, [key]: '' }))
+    setTimelineErrors((items) => ({ ...items, [key]: '' }))
+    setNotices((items) => ({ ...items, [key]: '' }))
+    setTimelines((items) => ({
       ...items,
-      [assistantId]: [
-        ...(items[assistantId] ?? []),
-        { role: 'user', text: submitted },
-        { role: 'assistant', text: '', requestId, status: '正在发送' }
+      [key]: [
+        ...(items[key] ?? []),
+        {
+          id: crypto.randomUUID(),
+          requestId,
+          role: 'user',
+          content: submitted,
+          status: 'completed',
+          createdAt,
+          saved: requestMode === 'normal'
+        },
+        {
+          id: crypto.randomUUID(),
+          requestId,
+          role: 'assistant',
+          content: '',
+          status: 'pending',
+          createdAt,
+          saved: requestMode === 'normal'
+        }
       ]
     }))
-    setActiveRequests((items) => ({ ...items, [assistantId]: requestId }))
-    const result = await api.startChat({
-      protocolVersion,
-      requestId,
-      assistantId,
-      text: submitted,
-      stream
-    })
-    setActiveRequests((items) => {
-      if (items[assistantId] !== requestId) return items
-      const next = { ...items }
-      delete next[assistantId]
-      return next
-    })
-    if (!result.ok) {
-      setError(
-        `${errorMessages[result.error.code] ?? '请求失败'} · 关联编号 ${result.error.correlationId}`
+    const request = { requestId, mode: requestMode }
+    activeRequestsRef.current = { ...activeRequestsRef.current, [assistantId]: request }
+    setActiveRequests(activeRequestsRef.current)
+    try {
+      const result = await api.startChat({
+        protocolVersion,
+        requestId,
+        assistantId,
+        text: submitted,
+        mode: requestMode,
+        stream
+      })
+      clearActiveRequest(assistantId, requestId)
+      if (!result.ok) {
+        setTimelineErrors((items) => ({ ...items, [key]: errorText(result) }))
+        setTimelines((items) =>
+          updateRequest(items, key, requestId, (message) => ({
+            ...message,
+            status: result.error.code === 'CANCELLED' ? 'cancelled' : 'failed'
+          }))
+        )
+        return
+      }
+      setTimelines((items) =>
+        updateRequest(items, key, requestId, (message) => ({
+          ...message,
+          content: result.data.text,
+          status: result.data.status
+        }))
       )
-      setTranscripts((items) =>
-        updateRequest(items, assistantId, requestId, (last) => ({ ...last, status: '失败' }))
-      )
-      return
-    }
-    setTranscripts((items) =>
-      updateRequest(items, assistantId, requestId, (last) => ({
-        ...last,
-        text: result.data.text,
-        status:
-          result.data.status === 'completed'
-            ? '完成'
-            : result.data.status === 'cancelled'
-              ? '已取消'
-              : '响应中断，部分输出已保留',
-        usage: result.data.usage
-          ? `输入 ${result.data.usage.promptTokens} / 输出 ${result.data.usage.completionTokens} / 合计 ${result.data.usage.totalTokens} tokens`
-          : '用量未知'
+      await readTimeline(assistantId, requestMode)
+    } catch {
+      clearActiveRequest(assistantId, requestId)
+      setTimelineErrors((items) => ({
+        ...items,
+        [key]: '请求失败，当前正文已保留；不会自动重试'
       }))
-    )
+      setTimelines((items) =>
+        updateRequest(items, key, requestId, (message) => ({ ...message, status: 'failed' }))
+      )
+    }
   }
 
   function selectConnection(id: string): void {
@@ -217,12 +391,14 @@ export function ProviderPanel({
     <section aria-labelledby="provider-heading" className="provider-panel">
       <div className="panel-heading">
         <div>
-          <p className="eyebrow">严格临时交流</p>
-          <h1 id="provider-heading">连接与临时文本</h1>
+          <p className="eyebrow">持续时间线与严格临时交流</p>
+          <h1 id="provider-heading">连接与文本交流</h1>
         </div>
-        <p className="privacy-note">正文仅在本次运行内存中保留，不写入时间线或长期记忆</p>
+        <p className="privacy-note">
+          正常模式自动记录在本机；严格临时模式只保留于本次运行，除非你明确保存
+        </p>
       </div>
-      {error ? <p role="alert">{error}</p> : null}
+      {settingsError ? <p role="alert">{settingsError}</p> : null}
 
       <div className="provider-grid">
         <form
@@ -341,16 +517,45 @@ export function ProviderPanel({
         </form>
 
         <div className="temporary-chat">
-          <h2>本次运行的临时会话</h2>
+          <h2>{mode === 'normal' ? '正常时间线' : '本次运行的严格临时会话'}</h2>
           <label>
             当前助手
             <select value={currentAssistantId} disabled>
               <option value={currentAssistantId}>
-                {assistantSnapshot?.assistants.find((item) => item.id === currentAssistantId)
-                  ?.displayName ?? '请先创建助手'}
+                {currentAssistant?.displayName ?? '请先创建助手'}
               </option>
             </select>
           </label>
+          <fieldset className="mode-switch">
+            <legend>交流模式</legend>
+            <label className="inline-check">
+              <input
+                type="radio"
+                name={'chat-mode-' + currentAssistantId}
+                value="normal"
+                checked={mode === 'normal'}
+                onChange={() =>
+                  setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
+                }
+              />
+              正常模式（自动保存）
+            </label>
+            <label className="inline-check">
+              <input
+                type="radio"
+                name={'chat-mode-' + currentAssistantId}
+                value="temporary"
+                checked={mode === 'temporary'}
+                onChange={() =>
+                  setModeByAssistant((values) => ({
+                    ...values,
+                    [currentAssistantId]: 'temporary'
+                  }))
+                }
+              />
+              严格临时（不自动保存）
+            </label>
+          </fieldset>
           <label>
             模型
             <input
@@ -380,30 +585,61 @@ export function ProviderPanel({
             绑定“正在编辑”的连接
           </button>
           <p className="receiver">
-            {receiver ? `实际接收方：${receiver}` : '请先保存连接并绑定当前助手'}
+            {receiver ? '实际接收方：' + receiver : '请先保存连接并绑定当前助手'}
+          </p>
+          <p className="scope-note">
+            {mode === 'normal'
+              ? '本次消息与此助手最多最近 16 组已完成的正常对话会发送给上述接收方，并受 64,000 UTF-16 字符总输入预算限制；本机完整时间线不会全部外发。'
+              : '只发送本次严格临时会话；不会读取正常历史，也不会自动保存到正常时间线。'}
           </p>
 
-          <div className="transcript" aria-live="polite">
-            {transcript.map((item, index) => (
-              <article key={index} className={item.role}>
+          {timelineErrors[currentKey] ? <p role="alert">{timelineErrors[currentKey]}</p> : null}
+          {notices[currentKey] ? <p role="status">{notices[currentKey]}</p> : null}
+          {loading[currentKey] && transcript.length === 0 ? <p>正在读取…</p> : null}
+          {hasMore[currentKey] ? (
+            <p className="scope-note">这里只显示最近 100 条消息，更早内容仍保留在本机。</p>
+          ) : null}
+          <div className="transcript" aria-live="polite" aria-label="消息时间线">
+            {transcript.map((item) => (
+              <article key={item.id} className={item.role + ' status-' + item.status}>
                 <strong>{item.role === 'user' ? '你' : '助手'}</strong>
-                <p>{item.text || '…'}</p>
-                {item.status ? (
-                  <small>
-                    {item.status}
-                    {item.usage ? ` · ${item.usage}` : ''}
-                  </small>
-                ) : null}
+                <p>{item.content || (item.status === 'pending' ? '尚未返回正文' : '未返回正文')}</p>
+                <small>
+                  {statusText(item.status)}
+                  {mode === 'temporary' ? ' · ' + (item.saved ? '已保存' : '未保存') : ''}
+                </small>
               </article>
             ))}
           </div>
-          <button
-            type="button"
-            disabled={!currentAssistantId || Boolean(activeRequestId)}
-            onClick={() => void clearTemporaryChat(currentAssistantId)}
-          >
-            清空本助手的临时会话
-          </button>
+
+          {mode === 'temporary' ? (
+            <div className="temporary-actions">
+              <p className="scope-note">
+                保存目标：“{currentAssistant?.displayName ?? '此助手'}
+                ”的正常时间线。范围：当前临时会话中尚未保存的用户可见消息及其真实状态。
+              </p>
+              {activeRequest ? (
+                <p className="scope-note">请等待当前请求完成或取消后再保存。</p>
+              ) : null}
+              <div className="button-row">
+                <button
+                  type="button"
+                  disabled={!currentAssistantId || Boolean(activeRequest) || saving[currentKey]}
+                  onClick={() => void saveTemporary(currentAssistantId)}
+                >
+                  {saving[currentKey] ? '正在保存…' : '保存到此助手时间线'}
+                </button>
+                <button
+                  type="button"
+                  disabled={!currentAssistantId || Boolean(activeRequest)}
+                  onClick={() => void clearTemporaryChat(currentAssistantId)}
+                >
+                  清空本助手的临时会话
+                </button>
+              </div>
+            </div>
+          ) : null}
+
           <form
             onSubmit={(event) => {
               event.preventDefault()
@@ -411,13 +647,13 @@ export function ProviderPanel({
             }}
           >
             <label>
-              临时消息
+              {mode === 'normal' ? '正常消息' : '临时消息'}
               <textarea
                 value={text}
                 maxLength={16000}
                 onChange={(event) => {
                   const value = event.currentTarget.value
-                  setTextDrafts((items) => ({ ...items, [currentAssistantId]: value }))
+                  setTextDrafts((items) => ({ ...items, [currentKey]: value }))
                 }}
               />
             </label>
@@ -430,20 +666,17 @@ export function ProviderPanel({
               流式显示
             </label>
             <div className="button-row">
-              <button
-                type="submit"
-                disabled={!receiver || !text.trim() || Boolean(activeRequestId)}
-              >
+              <button type="submit" disabled={!receiver || !text.trim() || Boolean(activeRequest)}>
                 发送
               </button>
               <button
                 type="button"
-                disabled={!activeRequestId}
+                disabled={!activeRequest}
                 onClick={() =>
-                  activeRequestId &&
+                  activeRequest &&
                   void api.cancelChat({
                     protocolVersion,
-                    requestId: activeRequestId,
+                    requestId: activeRequest.requestId,
                     assistantId: currentAssistantId
                   })
                 }
@@ -459,12 +692,12 @@ export function ProviderPanel({
 }
 
 function updateRequest(
-  values: TranscriptMap,
-  assistantId: string,
+  values: TimelineMap,
+  key: string,
   requestId: string,
-  update: (value: Transcript) => Transcript
-): TranscriptMap {
-  const items = [...(values[assistantId] ?? [])]
+  update: (value: TimelineMessage) => TimelineMessage
+): TimelineMap {
+  const items = [...(values[key] ?? [])]
   let index = items.length - 1
   while (
     index >= 0 &&
@@ -473,5 +706,5 @@ function updateRequest(
     index -= 1
   }
   if (index >= 0) items[index] = update(items[index]!)
-  return { ...values, [assistantId]: items }
+  return { ...values, [key]: items }
 }

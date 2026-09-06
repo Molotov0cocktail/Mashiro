@@ -1,4 +1,5 @@
 import { app, ipcMain, safeStorage } from 'electron'
+import { registerTimelineIpc } from './ipc/register-timeline-ipc.js'
 import { AssistantService } from './assistant/assistant-service.js'
 import { createWindow } from './app/create-window.js'
 import { resolveDataRoot } from './data/data-root.js'
@@ -11,6 +12,7 @@ let assistantService: AssistantService | undefined
 let providerService: ProviderService | undefined
 let unregisterAssistantIpc: (() => void) | undefined
 let unregisterProviderIpc: (() => void) | undefined
+let unregisterTimelineIpc: (() => void) | undefined
 
 async function start(): Promise<void> {
   const dataRoot = resolveDataRoot(app)
@@ -22,18 +24,29 @@ async function start(): Promise<void> {
     safeStorage,
     dataRoot.profile === 'test' ? e2eProviderTransport : undefined
   )
-  unregisterAssistantIpc = registerAssistantIpc(ipcMain, assistantService)
+  unregisterAssistantIpc = registerAssistantIpc(ipcMain, assistantService, () =>
+    providerService?.cancelArchivedRequests()
+  )
   unregisterProviderIpc = registerProviderIpc(ipcMain, providerService)
+  unregisterTimelineIpc = registerTimelineIpc(ipcMain, providerService)
   const window = await createWindow()
   await runE2ePhase(window, dataRoot)
 }
 
-app.on('before-quit', () => {
+app.on('before-quit', (event) => {
+  try {
+    providerService?.close()
+  } catch {
+    event.preventDefault()
+    console.error('MASHIRO_SHUTDOWN_STORAGE_FAILURE')
+    return
+  }
+  unregisterTimelineIpc?.()
+  unregisterTimelineIpc = undefined
   unregisterProviderIpc?.()
   unregisterProviderIpc = undefined
   unregisterAssistantIpc?.()
   unregisterAssistantIpc = undefined
-  providerService?.close()
   providerService = undefined
   assistantService?.close()
   assistantService = undefined

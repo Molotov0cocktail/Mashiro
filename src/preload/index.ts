@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { timelineChannels } from '../shared/timeline-channels.js'
+import type { TimelineApi } from '../shared/timeline-contract.js'
 import { assistantChannels } from '../shared/assistant-channels.js'
 import { providerChannels } from '../shared/provider-channels.js'
 import type { AssistantApi } from '../shared/assistant-contract.js'
@@ -31,4 +33,8 @@ const provider: ProviderApi = {
   }
 }
 
-contextBridge.exposeInMainWorld('mashiro', { assistants, provider })
+const timeline: TimelineApi = {
+  read: (input) => ipcRenderer.invoke(timelineChannels.read, input),
+  saveTemporary: (input) => ipcRenderer.invoke(timelineChannels.saveTemporary, input)
+}
+contextBridge.exposeInMainWorld('mashiro', { assistants, provider, timeline })

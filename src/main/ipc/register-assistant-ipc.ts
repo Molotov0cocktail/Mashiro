@@ -33,14 +33,22 @@ function validateOutput(operation: () => unknown): AssistantResult {
   return internalError()
 }
 
-export function registerAssistantIpc(ipcMain: IpcMainLike, service: AssistantService): () => void {
+export function registerAssistantIpc(
+  ipcMain: IpcMainLike,
+  service: AssistantService,
+  afterArchive: () => void = () => undefined
+): () => void {
   const handlers = {
     [assistantChannels.list]: (input: unknown) => service.list(input),
     [assistantChannels.create]: (input: unknown) => service.create(input),
     [assistantChannels.switch]: (input: unknown) => service.switch(input),
     [assistantChannels.rename]: (input: unknown) => service.rename(input),
     [assistantChannels.setPrimary]: (input: unknown) => service.setPrimary(input),
-    [assistantChannels.archive]: (input: unknown) => service.archive(input)
+    [assistantChannels.archive]: (input: unknown) => {
+      const result = service.archive(input)
+      if (result.ok) afterArchive()
+      return result
+    }
   }
   for (const [channel, handler] of Object.entries(handlers)) {
     ipcMain.handle(channel, (_event, input) => validateOutput(() => handler(input)))

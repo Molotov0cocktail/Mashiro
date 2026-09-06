@@ -38,6 +38,7 @@ export const startChatInputSchema = z.strictObject({
   requestId: uuid,
   assistantId: uuid,
   text: boundedString(16000),
+  mode: z.enum(['normal', 'temporary']).default('temporary'),
   stream: z.boolean()
 })
 export const clearChatInputSchema = z.strictObject({
@@ -145,7 +146,7 @@ export type ProviderEvent = z.infer<typeof providerEventSchema>
 export type SaveConnectionInput = z.infer<typeof saveConnectionInputSchema>
 export type SetCredentialInput = z.infer<typeof setCredentialInputSchema>
 export type BindAssistantInput = z.infer<typeof bindAssistantInputSchema>
-export type StartChatInput = z.infer<typeof startChatInputSchema>
+export type StartChatInput = z.input<typeof startChatInputSchema>
 export type ClearChatInput = z.infer<typeof clearChatInputSchema>
 export type CancelChatInput = z.infer<typeof cancelChatInputSchema>
 

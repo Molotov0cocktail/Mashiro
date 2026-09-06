@@ -1,0 +1,154 @@
+{
+  "runId": "1a09637d-d522-4a64-86c2-28695e59d0f3",
+  "startupFailureSanitized": true,
+  "pids": [
+    25572,
+    62496
+  ],
+  "electron": "44.1.1",
+  "node": "24.19.0",
+  "sqlite": "3.53.3",
+  "snapshot": {
+    "assistants": [
+      {
+        "id": "f6615eaa-b1d9-4a3b-8acc-574b78159a1f",
+        "displayName": "Mashiro",
+        "isArchived": true,
+        "createdAt": "2026-09-06T06:49:40.363Z",
+        "updatedAt": "2026-09-06T06:49:40.409Z",
+        "archivedAt": "2026-09-06T06:49:40.409Z",
+        "version": 2
+      },
+      {
+        "id": "f05d078c-8ee3-46e0-9c68-50d992a3f08b",
+        "displayName": "雪",
+        "isArchived": false,
+        "createdAt": "2026-09-06T06:49:40.373Z",
+        "updatedAt": "2026-09-06T06:49:40.399Z",
+        "archivedAt": null,
+        "version": 3
+      }
+    ],
+    "currentAssistantId": "f05d078c-8ee3-46e0-9c68-50d992a3f08b",
+    "primaryAssistantId": "f05d078c-8ee3-46e0-9c68-50d992a3f08b",
+    "stateRevision": 7
+  },
+  "provider": {
+    "connections": [
+      {
+        "id": "c4a1e713-3e64-4850-99c7-0c2f74b78e48",
+        "displayName": "BigModel synthetic",
+        "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+        "enabled": true,
+        "hasCredential": true,
+        "credentialPersistence": "persistent",
+        "createdAt": "2026-09-06T06:49:40.414Z",
+        "updatedAt": "2026-09-06T06:49:40.423Z",
+        "version": 2
+      }
+    ],
+    "bindings": [
+      {
+        "assistantId": "f05d078c-8ee3-46e0-9c68-50d992a3f08b",
+        "connectionId": "c4a1e713-3e64-4850-99c7-0c2f74b78e48",
+        "model": "GLM-5.3-FLASH",
+        "updatedAt": "2026-09-06T06:49:40.430Z",
+        "version": 1
+      }
+    ]
+  },
+  "timeline": {
+    "assistantId": "f05d078c-8ee3-46e0-9c68-50d992a3f08b",
+    "mode": "normal",
+    "messages": [
+      {
+        "id": "c2d07da2-a72c-4bb6-bed9-40c3d3f0db4f",
+        "requestId": "b3699c5e-b194-4b65-a302-7a686bc2ddfd",
+        "role": "user",
+        "content": "E2E_NORMAL_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T06:49:40.438Z",
+        "saved": true
+      },
+      {
+        "id": "566d0338-babb-4b0a-98b8-810fa468f58e",
+        "requestId": "b3699c5e-b194-4b65-a302-7a686bc2ddfd",
+        "role": "assistant",
+        "content": "E2E_NORMAL_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T06:49:40.438Z",
+        "saved": true
+      },
+      {
+        "id": "59d21068-e781-4790-af12-2b4cc2c5d8e7",
+        "requestId": "7ee01e89-6f73-4680-83c7-0e37524eb7f5",
+        "role": "user",
+        "content": "E2E_SAVED_TEMP_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T06:49:40.450Z",
+        "saved": true
+      },
+      {
+        "id": "f3a78dd7-b930-49ac-9fa4-865dd4082900",
+        "requestId": "7ee01e89-6f73-4680-83c7-0e37524eb7f5",
+        "role": "assistant",
+        "content": "E2E_SAVED_TEMP_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T06:49:40.450Z",
+        "saved": true
+      },
+      {
+        "id": "66b856f2-dd94-4eac-b370-0c6cb672d58f",
+        "requestId": "4e6b5e10-611d-4faf-9fec-cd4b079934a4",
+        "role": "user",
+        "content": "E2E_PENDING_NORMAL",
+        "status": "completed",
+        "createdAt": "2026-09-06T06:49:40.460Z",
+        "saved": true
+      },
+      {
+        "id": "3e70465a-5812-4cc1-9a13-328315c5b75a",
+        "requestId": "4e6b5e10-611d-4faf-9fec-cd4b079934a4",
+        "role": "assistant",
+        "content": "E2E_PARTIAL_NORMAL",
+        "status": "interrupted",
+        "createdAt": "2026-09-06T06:49:40.460Z",
+        "saved": true
+      },
+      {
+        "id": "a462f574-56be-46b6-8963-51c6da423151",
+        "requestId": "8b2f91c5-db64-4014-9dc8-6f9c5153d29a",
+        "role": "user",
+        "content": "E2E_VERIFY_USER",
+        "status": "completed",
+        "createdAt": "2026-09-06T06:49:41.488Z",
+        "saved": true
+      },
+      {
+        "id": "7238eb3a-af4f-4bfc-9e2a-aa64f26f3852",
+        "requestId": "8b2f91c5-db64-4014-9dc8-6f9c5153d29a",
+        "role": "assistant",
+        "content": "E2E_VERIFY_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-06T06:49:41.488Z",
+        "saved": true
+      }
+    ],
+    "hasMore": false
+  },
+  "temporaryConversationReset": true,
+  "persistentCredentialProtected": true,
+  "recoveryTransportCalls": 0,
+  "explicitSendTransportCalls": 1,
+  "chat": {
+    "requestId": "8b2f91c5-db64-4014-9dc8-6f9c5153d29a",
+    "assistantId": "f05d078c-8ee3-46e0-9c68-50d992a3f08b",
+    "status": "completed",
+    "text": "E2E_VERIFY_ASSISTANT",
+    "usage": {
+      "promptTokens": 2,
+      "completionTokens": 1,
+      "totalTokens": 3
+    }
+  }
+}

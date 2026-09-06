@@ -1,4 +1,14 @@
 import { randomUUID } from 'node:crypto'
+import {
+  timelineReadInputSchema,
+  timelineSaveInputSchema,
+  timelineResultSchema,
+  type TimelineMessage,
+  type TimelineResult,
+  type TimelineSnapshot,
+  type ChatMode
+} from '../../shared/timeline-contract.js'
+import { TimelineRepository } from './timeline-repository.js'
 import type { ZodType } from 'zod'
 import {
   bindAssistantInputSchema,
@@ -156,10 +166,18 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
 export class ProviderService {
   private readonly repository: ProviderRepository
   private readonly vault: CredentialVault
-  private readonly sessions = new Map<string, ChatMessage[]>()
+  private readonly timeline: TimelineRepository
+  private readonly sessions = new Map<string, { id: string; messages: TimelineMessage[] }>()
+  private closed = false
   private readonly inflight = new Map<
     string,
-    { assistantId: string; connectionId: string; controller: AbortController }
+    {
+      assistantId: string
+      connectionId: string
+      controller: AbortController
+      mode: ChatMode
+      response: TimelineMessage
+    }
   >()
 
   private constructor(
@@ -169,6 +187,8 @@ export class ProviderService {
     private readonly transport: ChatTransport
   ) {
     this.repository = new ProviderRepository(store)
+    this.timeline = new TimelineRepository(store)
+    this.timeline.recover()
     this.vault = new CredentialVault(credentialDirectory, protector)
   }
 
@@ -178,12 +198,13 @@ export class ProviderService {
     protector: CredentialProtector,
     transport: ChatTransport = chatCompletions
   ): ProviderService {
-    return new ProviderService(
-      new SqliteStore(databasePath),
-      credentialDirectory,
-      protector,
-      transport
-    )
+    const store = new SqliteStore(databasePath)
+    try {
+      return new ProviderService(store, credentialDirectory, protector, transport)
+    } catch (error) {
+      store.close()
+      throw error
+    }
   }
 
   list(input: unknown): ProviderResult {
@@ -199,7 +220,7 @@ export class ProviderService {
         enabled: value.enabled,
         expectedVersion: value.expectedVersion
       })
-      if (value.connectionId && !value.enabled) this.cancelConnection(value.connectionId)
+      if (value.connectionId) this.cancelConnection(value.connectionId)
       return this.snapshot()
     })
   }
@@ -210,6 +231,7 @@ export class ProviderService {
         throw new ProviderDomainError('NOT_FOUND')
       }
       const apiKey = normalize(value.apiKey, 4096)
+      this.cancelConnection(value.connectionId)
       if (value.persistence === 'temporary') {
         this.vault.setTemporary(value.connectionId, apiKey)
       } else {
@@ -258,6 +280,53 @@ export class ProviderService {
     })
   }
 
+  readTimeline(input: unknown): TimelineResult {
+    const parsed = timelineReadInputSchema.safeParse(input)
+    if (!parsed.success) return failure('INVALID_INPUT')
+    try {
+      if (!this.repository.assistantExists(parsed.data.assistantId))
+        throw new ProviderDomainError('NOT_FOUND')
+      return timelineResultSchema.parse({
+        ok: true,
+        data:
+          parsed.data.mode === 'normal'
+            ? this.timeline.read(parsed.data.assistantId)
+            : this.temporarySnapshot(parsed.data.assistantId)
+      })
+    } catch (error) {
+      return failureFrom(error)
+    }
+  }
+
+  saveTemporary(input: unknown): TimelineResult {
+    const parsed = timelineSaveInputSchema.safeParse(input)
+    if (!parsed.success) return failure('INVALID_INPUT')
+    try {
+      const assistantId = parsed.data.assistantId
+      if (!this.repository.assistantExists(assistantId)) throw new ProviderDomainError('NOT_FOUND')
+      if ([...this.inflight.values()].some((request) => request.assistantId === assistantId)) {
+        throw new ProviderRequestInProgressError()
+      }
+      const session = this.sessions.get(assistantId)
+      if (session) {
+        this.timeline.insert(assistantId, session.messages, session.id)
+        for (const message of session.messages) message.saved = true
+      }
+      return timelineResultSchema.parse({ ok: true, data: this.temporarySnapshot(assistantId) })
+    } catch (error) {
+      return failureFrom(error)
+    }
+  }
+
+  private temporarySnapshot(assistantId: string): TimelineSnapshot {
+    return {
+      assistantId,
+      mode: 'temporary',
+      messages: this.sessions.get(assistantId)?.messages.map((message) => ({ ...message })) ?? [],
+      hasMore: false
+    }
+  }
+
   async startChat(
     input: unknown,
     emit: (event: ProviderEvent) => void
@@ -265,6 +334,7 @@ export class ProviderService {
     const parsed = startChatInputSchema.safeParse(input)
     if (!parsed.success) return chatFailure('INVALID_INPUT')
     const value = parsed.data
+    if (this.closed) return chatFailure('STORAGE_UNAVAILABLE')
     if (
       this.inflight.has(value.requestId) ||
       [...this.inflight.values()].some((entry) => entry.assistantId === value.assistantId)
@@ -272,32 +342,95 @@ export class ProviderService {
       return chatFailure('REQUEST_IN_PROGRESS')
     }
     let controller: AbortController | undefined
+    let response: TimelineMessage | undefined
+    let deltaLimitExceeded = false
+    const finish = (status: TimelineMessage['status'], content: string): void => {
+      if (!response || this.closed) return
+      response.status = status
+      response.content = content.slice(0, 120000)
+      if (value.mode === 'normal') this.timeline.finish(value.assistantId, response)
+    }
     try {
       const text = normalize(value.text, 16000)
+      // Authority and actual recipient are re-resolved in trusted code on every send.
       const execution = this.repository.execution(value.assistantId)
       const apiKey = this.vault.get(execution.connection.id)
       if (!apiKey) return chatFailure('CREDENTIAL_MISSING')
-      const previous = this.sessions.get(value.assistantId) ?? []
-      const totalCharacters =
-        previous.reduce((total, message) => total + message.content.length, 0) + text.length
-      if (previous.length >= 64 || totalCharacters > 120000) return chatFailure('LIMIT')
+      let session = this.sessions.get(value.assistantId)
+      let previous: ChatMessage[]
+      if (value.mode === 'normal') {
+        previous = this.timeline.context(value.assistantId, text.length)
+      } else {
+        session ??= { id: randomUUID(), messages: [] }
+        if (session.messages.length >= 64) return chatFailure('LIMIT')
+        if (session.messages.some((message) => message.requestId === value.requestId))
+          return chatFailure('INVALID_INPUT')
+        previous = []
+        for (let index = 0; index < session.messages.length; index += 2) {
+          const user = session.messages[index]!
+          const assistant = session.messages[index + 1]
+          if (assistant?.status === 'completed')
+            previous.push(
+              { role: 'user', content: user.content },
+              { role: 'assistant', content: assistant.content }
+            )
+        }
+        if (
+          previous.reduce((total, message) => total + message.content.length, text.length) > 120000
+        )
+          return chatFailure('LIMIT')
+      }
+      const now = new Date().toISOString()
+      const user: TimelineMessage = {
+        id: randomUUID(),
+        requestId: value.requestId,
+        role: 'user',
+        content: text,
+        status: 'completed',
+        createdAt: now,
+        saved: value.mode === 'normal'
+      }
+      response = {
+        id: randomUUID(),
+        requestId: value.requestId,
+        role: 'assistant',
+        content: '',
+        status: 'pending',
+        createdAt: now,
+        saved: value.mode === 'normal'
+      }
+      // The user and pending response commit atomically BEFORE the transport starts.
+      if (value.mode === 'normal') this.timeline.insert(value.assistantId, [user, response])
+      else {
+        session!.messages.push(user, response)
+        this.sessions.set(value.assistantId, session!)
+      }
       controller = new AbortController()
       this.inflight.set(value.requestId, {
         assistantId: value.assistantId,
         connectionId: execution.connection.id,
-        controller
+        controller,
+        mode: value.mode,
+        response
       })
-      const messages: ChatMessage[] = [...previous, { role: 'user', content: text }]
       const result = await this.transport({
         baseUrl: execution.connection.baseUrl,
         apiKey,
         model: execution.binding.model,
-        messages,
+        messages: [...previous, { role: 'user', content: text }],
         stream: value.stream,
         signal: controller.signal,
         onDelta: value.stream
           ? (delta) => {
-              if (typeof delta !== 'string') return
+              if (this.closed || controller!.signal.aborted || typeof delta !== 'string' || !delta)
+                return
+              const available = 120000 - response!.content.length
+              if (delta.length > available) {
+                delta = delta.slice(0, available)
+                deltaLimitExceeded = true
+                controller!.abort()
+              }
+              response!.content += delta
               for (let offset = 0; offset < delta.length; offset += 65536) {
                 emit({
                   type: 'delta',
@@ -309,33 +442,35 @@ export class ProviderService {
             }
           : undefined
       })
-      const invalidResult = transportResultError(result)
+      if (this.closed) return chatFailure('CANCELLED')
+      const invalidResult = deltaLimitExceeded ? 'LIMIT' : transportResultError(result)
       if (invalidResult) {
+        finish('failed', response.content)
         emit({ type: 'failed', requestId: value.requestId, assistantId: value.assistantId })
         return chatFailure(invalidResult)
       }
-      if (result.status === 'completed' || (result.status === 'interrupted' && result.text)) {
-        this.sessions.set(value.assistantId, [
-          ...messages,
-          { role: 'assistant', content: result.text }
-        ])
-      }
-      const eventType = result.status === 'failed' ? 'failed' : result.status
-      emit({ type: eventType, requestId: value.requestId, assistantId: value.assistantId })
-      if (result.status === 'failed') {
-        return chatFailure(transportError(result.error ?? 'temporary'))
-      }
+      const status = controller.signal.aborted ? 'cancelled' : result.status
+      finish(status, result.text || response.content)
+      emit({ type: status, requestId: value.requestId, assistantId: value.assistantId })
+      if (status === 'failed') return chatFailure(transportError(result.error ?? 'temporary'))
       return providerChatResultSchema.parse({
         ok: true,
         data: {
           requestId: value.requestId,
           assistantId: value.assistantId,
-          status: result.status,
-          text: result.text,
+          status,
+          text: response.content,
           usage: result.usage
         }
       })
     } catch (error) {
+      if (response && !this.closed) {
+        try {
+          finish(controller?.signal.aborted ? 'cancelled' : 'failed', response.content)
+        } catch {
+          return chatFailure('STORAGE_UNAVAILABLE')
+        }
+      }
       return this.asChatFailure(error)
     } finally {
       const current = this.inflight.get(value.requestId)
@@ -364,11 +499,26 @@ export class ProviderService {
   }
 
   close(): void {
-    for (const request of this.inflight.values()) request.controller.abort()
+    if (this.closed) return
+    for (const request of this.inflight.values()) {
+      request.response.status = request.controller.signal.aborted ? 'cancelled' : 'interrupted'
+      request.controller.abort()
+      if (request.mode === 'normal') this.timeline.finish(request.assistantId, request.response)
+    }
+    this.closed = true
     this.inflight.clear()
     this.sessions.clear()
     this.vault.clearTemporary()
     this.store.close()
+  }
+
+  cancelArchivedRequests(): void {
+    for (const request of this.inflight.values()) {
+      const assistant = this.store.database
+        .prepare('SELECT archived_at FROM assistants WHERE id = ?')
+        .get(request.assistantId) as { archived_at: string | null } | undefined
+      if (!assistant || assistant.archived_at !== null) request.controller.abort()
+    }
   }
 
   private cancelConnection(connectionId: string): void {

@@ -11,6 +11,7 @@ import type {
   ProviderSnapshot,
   StartChatInput
 } from '../../src/shared/provider-contract'
+import type { TimelineApi } from '../../src/shared/timeline-contract'
 
 afterEach(cleanup)
 const assistantA = '00000000-0000-4000-8000-000000000001'
@@ -75,6 +76,23 @@ const providerSnapshot: ProviderSnapshot = {
   ]
 }
 
+function mockTimelineApi(): TimelineApi {
+  const reads = new Map<string, number>()
+  return {
+    read: vi.fn(async (input) => {
+      const key = input.assistantId + ':' + input.mode
+      const count = (reads.get(key) ?? 0) + 1
+      reads.set(key, count)
+      if (count > 1) throw new Error('synthetic refresh failure')
+      return {
+        ok: true as const,
+        data: { assistantId: input.assistantId, mode: input.mode, messages: [], hasMore: false }
+      }
+    }),
+    saveTemporary: vi.fn()
+  } as TimelineApi
+}
+
 describe('ProviderPanel late response routing', () => {
   it('retains the captured assistant transcript when clear fails after a switch', async () => {
     let resolveClear: ((result: ProviderResult) => void) | undefined
@@ -101,13 +119,27 @@ describe('ProviderPanel late response routing', () => {
       cancelChat: vi.fn(),
       onEvent: vi.fn(() => () => undefined)
     } as ProviderApi
-    const view = render(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
+    const timelineApi = mockTimelineApi()
+    const view = render(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
     await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
     fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: 'question A' } })
     fireEvent.click(screen.getByRole('button', { name: '发送' }))
     expect(await screen.findByText('answer A')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: '清空本助手的临时会话' }))
-    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantB)} api={api} />)
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantB)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
     await act(async () => {
       resolveClear?.({
         ok: false,
@@ -120,9 +152,15 @@ describe('ProviderPanel late response routing', () => {
       })
     })
     expect(screen.queryByText('answer A')).not.toBeInTheDocument()
-    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
     expect(screen.getByText('answer A')).toBeInTheDocument()
-    expect(screen.getByRole('alert')).toHaveTextContent('Provider 设置暂时无法读取')
+    expect(screen.getByRole('alert')).toHaveTextContent('本地时间线或 Provider 设置暂时无法读取')
   })
   it('keeps an old A promise on its request after A to B to A and a newer request', async () => {
     let listener: ((event: ProviderEvent) => void) | undefined
@@ -145,20 +183,39 @@ describe('ProviderPanel late response routing', () => {
         return () => undefined
       })
     } as ProviderApi
-    const view = render(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
+    const timelineApi = mockTimelineApi()
+    const view = render(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
     await screen.findByText(/实际接收方：Receiver/)
 
-    fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: 'old A' } })
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'old A' } })
     fireEvent.click(screen.getByRole('button', { name: '发送' }))
     const oldInput = startChat.mock.calls[0]![0]
     act(() =>
       listener?.({ type: 'cancelled', requestId: oldInput.requestId, assistantId: assistantA })
     )
 
-    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantB)} api={api} />)
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantB)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
     expect(screen.getByLabelText('当前助手')).toHaveValue(assistantB)
-    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
-    fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: 'new A' } })
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'new A' } })
     fireEvent.click(screen.getByRole('button', { name: '发送' }))
     const newInput = startChat.mock.calls[1]![0]
 

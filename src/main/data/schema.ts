@@ -1,6 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite'
 
-export const schemaVersion = 2
+export const schemaVersion = 3
 
 const requiredTables = [
   'assistants',
@@ -34,6 +34,12 @@ const v2Ddl = [
   'CREATE TABLE provider_connections (id TEXT PRIMARY KEY NOT NULL, display_name TEXT NOT NULL, base_url TEXT NOT NULL, enabled INTEGER NOT NULL DEFAULT 1 CHECK (enabled IN (0, 1)), has_persistent_credential INTEGER NOT NULL DEFAULT 0 CHECK (has_persistent_credential IN (0, 1)), created_at TEXT NOT NULL, updated_at TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1), CHECK (length(trim(display_name)) BETWEEN 1 AND 80));',
   'CREATE TABLE assistant_provider_bindings (assistant_id TEXT PRIMARY KEY NOT NULL REFERENCES assistants(id) ON DELETE RESTRICT, connection_id TEXT NOT NULL REFERENCES provider_connections(id) ON DELETE RESTRICT, model TEXT NOT NULL, updated_at TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1), CHECK (length(trim(model)) BETWEEN 1 AND 160));',
   'PRAGMA user_version = 2;'
+].join('\n')
+
+const v3Ddl = [
+  "CREATE TABLE timeline_messages (sequence INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT NOT NULL UNIQUE, assistant_id TEXT NOT NULL REFERENCES assistants(id) ON DELETE RESTRICT, request_id TEXT NOT NULL, role TEXT NOT NULL CHECK (role IN ('user', 'assistant')), content TEXT NOT NULL CHECK (length(content) <= 120000), status TEXT NOT NULL CHECK (status IN ('pending', 'completed', 'failed', 'cancelled', 'interrupted')), created_at TEXT NOT NULL, source_session_id TEXT NULL, source_message_id TEXT NULL, UNIQUE(assistant_id, source_session_id, source_message_id), UNIQUE(assistant_id, request_id, role));",
+  'CREATE INDEX timeline_assistant_sequence ON timeline_messages(assistant_id, sequence);',
+  'PRAGMA user_version = 3;'
 ].join('\n')
 
 export class StorageInconsistentError extends Error {}
@@ -101,6 +107,35 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
     database.exec('BEGIN IMMEDIATE')
     try {
       database.exec(v2Ddl)
+      database.exec('COMMIT')
+    } catch (error) {
+      database.exec('ROLLBACK')
+      throw error
+    }
+  }
+
+  const beforeV3 = Number(
+    (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
+  )
+  if (beforeV3 === 2) {
+    verifyV1Objects(database)
+    for (const table of ['provider_connections', 'assistant_provider_bindings']) {
+      if (!schemaObjectExists(database, 'table', table)) {
+        throw new StorageInconsistentError('Storage table missing before upgrade')
+      }
+    }
+    const integrity = database.prepare('PRAGMA integrity_check').get() as {
+      integrity_check: string
+    }
+    if (
+      integrity.integrity_check !== 'ok' ||
+      database.prepare('PRAGMA foreign_key_check').all().length
+    ) {
+      throw new StorageInconsistentError('Storage integrity check failed before upgrade')
+    }
+    database.exec('BEGIN IMMEDIATE')
+    try {
+      database.exec(v3Ddl)
       database.exec('COMMIT')
     } catch (error) {
       database.exec('ROLLBACK')

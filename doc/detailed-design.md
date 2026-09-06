@@ -1,9 +1,20 @@
 # Mashiro 近期详细设计草案
 
-> 当前状态：004 Provider 连接与严格临时文本：实现与验证完成 / FINAL DOCS DELTA REVIEW REQUIRED
+> 当前状态：005 持续时间线候选完整验证通过，等待独立审核；当前验收以 [005](tasks/005-persistent-timeline.md) 为准。
 > 当前更新：2026-09-06。下方旧 F1 与草案状态按历史原文保留。
 
-## 004 当前设计实现
+## 005 当前设计实现
+
+- 每助手唯一逻辑时间线按稳定 assistant ID 存储于 `timeline_messages`。schema v3 在 populated v2 上事务增加消息表与排序索引，升级前验证原 guard、完整性和外键；凭据文件不参与数据库迁移。
+- 正常发送先原子写入用户消息和 pending 助手占位；成功后才开始 Provider 请求。回答终结保留 completed/failed/cancelled/interrupted 及实际部分正文，存储失败返回脱敏错误而非成功。
+- 每次调用在 trusted 侧重新解析活动助手、启用连接、模型绑定和凭据，并固定本次接收方。连接编辑、禁用、凭据撤销/替换和助手归档及时取消相应在途请求。晚到响应只对应捕获的 assistant/request。
+- 正常 context 取当前助手最近最多 16 个 completed 用户/助手对，加当前输入最多 64,000 UTF-16 字符。若某对超出剩余预算，停止向前选择；本地记录不裁剪。读取 UI 返回最近 100 消息与 hasMore。
+- 严格临时消息只在内存维护固定 session/message ID，绝不读取正常消息；当前临时会话最多 64 消息，合格上下文与输入上限 120,000 字符。显式保存事务按 assistant/source session/source message 去重，只有提交后标 saved；失败不改内存标志。保存后保持临时，后续消息仍不自动保存，运行中不允许保存。
+- 正常关闭同步保存已收 partial 并终结中断；启动把遗留 pending 标 interrupted，不执行自动 Provider 重发。正常终结存储不可用时返回诚实错误；关闭写失败保留应用运行并只发固定脱敏日志事件，避免未处理底层异常。
+- 新增两个窄 timeline IPC（read / save-temporary），输入输出 strict Zod，Provider 事件沿用严格 schema；六 assistant 通道不变，preload runtime 只导入 Electron 和无 Zod 通道常量。
+- 005 完整候选验证已通过（20 files / 80 tests 与真实双 PID 恢复），尚待全新独立审核；后续正文保留历史事实，不覆盖当前任务入口。
+
+## 004 历史设计实现
 
 - SQLite schema v2 以事务加法升级保存 Provider 连接元数据和稳定助手绑定；升级前验证 v1 完整性，失败回滚，不改变原有 assistant ID、primary/current 或 revision。
 - `CredentialVault` 将临时 Key 只放在主进程内存，将持久 Key 以 Electron `safeStorage` 密文写入仓库外凭据目录。renderer 和 SQLite 只能看到是否存在凭据，不能读取 Key。

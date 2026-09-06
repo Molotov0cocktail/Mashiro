@@ -138,9 +138,31 @@ button:disabled {
 }
 
 .privacy-note,
-.receiver {
+.receiver,
+.scope-note {
   max-width: 520px;
   color: #c7afff;
+}
+
+.scope-note {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.mode-switch {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  border: 1px solid #514568;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.temporary-actions {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid #3b3b4f;
+  padding-top: 12px;
 }
 
 .transcript {
@@ -164,6 +186,16 @@ button:disabled {
 
 .transcript article.assistant {
   background: #202d32;
+}
+
+.transcript article.status-failed,
+.transcript article.status-cancelled,
+.transcript article.status-interrupted {
+  border: 1px solid #8a5d68;
+}
+
+.transcript article small {
+  color: #c7afff;
 }
 
 .transcript article p {

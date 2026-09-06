@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../src/renderer/src/App'
 import type { AssistantApi, AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type { ProviderApi, ProviderSnapshot } from '../../src/shared/provider-contract'
+import type { TimelineApi } from '../../src/shared/timeline-contract'
 
 const assistantA = '00000000-0000-4000-8000-000000000001'
 const assistantB = '00000000-0000-4000-8000-000000000002'
@@ -98,9 +99,16 @@ describe('App assistant and Provider synchronization', () => {
       cancelChat: vi.fn(),
       onEvent: vi.fn(() => () => undefined)
     } as ProviderApi
+    const timelineApi = {
+      read: vi.fn(async (input) => ({
+        ok: true as const,
+        data: { assistantId: input.assistantId, mode: input.mode, messages: [], hasMore: false }
+      })),
+      saveTemporary: vi.fn()
+    } as TimelineApi
     Object.defineProperty(window, 'mashiro', {
       configurable: true,
-      value: { assistants: assistantApi, provider: providerApi }
+      value: { assistants: assistantApi, provider: providerApi, timeline: timelineApi }
     })
 
     render(<App />)

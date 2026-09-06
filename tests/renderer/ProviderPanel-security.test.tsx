@@ -8,6 +8,7 @@ import type {
   ProviderSnapshot,
   StartChatInput
 } from '../../src/shared/provider-contract'
+import type { TimelineApi } from '../../src/shared/timeline-contract'
 
 afterEach(cleanup)
 
@@ -65,6 +66,37 @@ const providerSnapshot: ProviderSnapshot = {
     }
   ]
 }
+function mockTimelineApi(completedText?: string): TimelineApi {
+  let reads = 0
+  return {
+    read: vi.fn(async (input) => {
+      reads += 1
+      return {
+        ok: true as const,
+        data: {
+          assistantId: input.assistantId,
+          mode: input.mode,
+          messages:
+            completedText && reads > 1
+              ? [
+                  {
+                    id: '00000000-0000-4000-8000-000000000101',
+                    requestId: '00000000-0000-4000-8000-000000000201',
+                    role: 'assistant' as const,
+                    content: completedText,
+                    status: 'completed' as const,
+                    saved: true,
+                    createdAt: '2026-09-06T00:00:00.000Z'
+                  }
+                ]
+              : [],
+          hasMore: false
+        }
+      }
+    }),
+    saveTemporary: vi.fn()
+  } as TimelineApi
+}
 function mockApi(overrides: Partial<ProviderApi> = {}): ProviderApi {
   return {
     list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
@@ -82,7 +114,13 @@ function mockApi(overrides: Partial<ProviderApi> = {}): ProviderApi {
 
 describe('ProviderPanel security and receiver routing', () => {
   it('shows the bound execution receiver instead of the settings selection', async () => {
-    render(<ProviderPanel assistantSnapshot={assistantSnapshot} api={mockApi()} />)
+    render(
+      <ProviderPanel
+        assistantSnapshot={assistantSnapshot}
+        api={mockApi()}
+        timelineApi={mockTimelineApi()}
+      />
+    )
     expect(
       await screen.findByText('实际接收方：Bound receiver · https://bound.example/v1 · safe-model')
     ).toBeInTheDocument()
@@ -101,9 +139,15 @@ describe('ProviderPanel security and receiver routing', () => {
         usage: null
       }
     }))
-    render(<ProviderPanel assistantSnapshot={assistantSnapshot} api={mockApi({ startChat })} />)
+    render(
+      <ProviderPanel
+        assistantSnapshot={assistantSnapshot}
+        api={mockApi({ startChat })}
+        timelineApi={mockTimelineApi(hostile)}
+      />
+    )
     await screen.findByText(/实际接收方：Bound receiver/)
-    fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: 'synthetic request' } })
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'synthetic request' } })
     fireEvent.click(screen.getByRole('button', { name: '发送' }))
     expect(await screen.findByText(hostile)).toBeInTheDocument()
     expect(document.querySelector('img')).toBeNull()

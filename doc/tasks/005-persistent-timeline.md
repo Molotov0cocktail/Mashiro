@@ -1,6 +1,6 @@
 # 005 每助手持续时间线、显式保存与正常重启恢复
 
-> 状态：AUTHORIZED / IMPLEMENTATION NEXT；2026-09-06；route `persistent-timeline-v1`。
+> 状态：CANDIDATE / INDEPENDENT REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
 > 当前入口：[progress.md](progress.md)。本任务是稳定合同，计划可随直接证据调整；勾选完成须有代码、测试或审核依据。
 
 ## 基线与目标
@@ -39,13 +39,13 @@
 
 - [x] 004 最终 PASS、双远程历史回执和 continuation 原始报告核验并归档；正式 001～004 已在 Git，005 编号未占用。
 - [x] 接管 HEAD/clean/双远程实核；必要入口、历史快照和合同已落盘（是否入库以 `git ls-files` 和提交核验为准）。
-- [ ] 正常时间线按助手独立、改名/换模型不丢，切换/并行/晚到响应不串线。
-- [ ] 严格临时不读正常历史、不自动持久化；显式保存目标与范围清楚，事务失败保留内容，重复操作不重复插入，保存成功时点诚实。
-- [ ] 正常 completed/failed/cancelled/interrupted/pending 恢复真实；正常关闭保存已收到 partial，重启不重发。
-- [ ] populated v2 升级保留助手/连接/绑定/凭据与旧状态；注入升级失败完整回滚。
-- [ ] 有界 context 的实际请求断言：当前助手、当前允许接收方、最近合格历史、长度上限，不混入其他助手/临时内容。
-- [ ] 真实 Electron 两个 fresh PID：正常消息/状态/显式保存恢复，未保存临时正文与进程临时 Key 不恢复；恢复零自动请求。
-- [ ] 聚焦与完整测试、typecheck/lint/format/build、Electron lifecycle、依赖树、foundation validator、秘密/生成物/残留检查通过；报告保留计数、PID、失败和 NOT RUN。
+- [x] 正常时间线按助手独立、改名/换模型不丢，切换/并行/晚到响应不串线。
+- [x] 严格临时不读正常历史、不自动持久化；显式保存目标与范围清楚，事务失败保留内容，重复操作不重复插入，保存成功时点诚实。
+- [x] 正常 completed/failed/cancelled/interrupted/pending 恢复真实；正常关闭保存已收到 partial，重启不重发。
+- [x] populated v2 升级保留助手/连接/绑定/凭据与旧状态；注入升级失败完整回滚。
+- [x] 有界 context 的实际请求断言：当前助手、当前允许接收方、最近合格历史、长度上限，不混入其他助手/临时内容。
+- [x] 真实 Electron 两个 fresh PID：正常消息/状态/显式保存恢复，未保存临时正文与进程临时 Key 不恢复；恢复零自动请求。
+- [x] 聚焦与完整测试、typecheck/lint/format/build、Electron lifecycle、依赖树、foundation validator、秘密/生成物/残留检查通过；报告保留计数、PID、失败和 NOT RUN。
 - [ ] 独立新 6Astro Reviewer 对精确候选和完整产品 diff PASS；docs-only 后续差异相称核对。
 - [ ] 已审交付普通推送 github/main 与 gitee/main，分别 Git 实测；关键任务、索引和脱敏证据 tracked。
 
@@ -59,4 +59,23 @@
 
 工具现场：默认 exec/Node helper 在进程创建前 setup refresh 失败，主 Agent 已核验 require_escalated exec 可执行；这不是产品失败或拒绝可绕过的许可。编辑采用固定 allowlist、preimage、exact transform、同目录临时文件、原子替换/备份回滚、postimage 和最小 diff；平台明确拒绝不得绕过。
 
-下一动作：立即实施步骤 1～3，随后中文 UI、验收、独立 review 和授权双远程同步。入口整理不是本轮终止点。005 完成后由新状态评估者选择下一高价值切片；候选为时间线浏览/检索与局部上下文选择，需先登记任务，长期记忆继续另设切片。
+下一动作：完整候选验证已完成，提交后交全新独立 Reviewer；有界修复/复核后按授权双远程同步。入口整理不是本轮终止点。005 完成后由新状态评估者选择下一高价值切片；候选为时间线浏览/检索与局部上下文选择，需先登记任务，长期记忆继续另设切片。
+
+## 实施证据（2026-09-06，候选尚未独立审核）
+
+- 直接实施 HEAD：`cb65fe501c0a366529d3f0553b2ca6a2b900e0de`；产品 baseline 仍为 f5aa9880。shared timeline DTO/两窄通道、v3 加法升级、单一 TimelineRepository、Provider 双模式状态机及 preload 已落盘。
+- 普通模式：先原子写 user + pending，再外发；context 最近 16 完整对、输入与历史共 64,000 UTF-16 字符。若最新候选对超预算则停止向前选择，历史本体不删；界面读取最近 100 消息。临时模式保持 64 条内存消息与 120,000 字符上下文预算，显式事务保存后仍临时。
+- `npm exec vitest run tests/integration/timeline-service.test.ts`：11 tests 通过（exit 0）；覆盖事务前发、失败回滚、保存幂等/隔离、失败状态、上下文预算、跨助手、正常关闭 partial、最终存储失败诚实回执、撤权和敌手 delta 上限。适用 Provider/assistant IPC 回归已运行 4 files / 19 tests（增加最后 3 oracle 之前）。全链计数待汇合更新。
+- 真实失败保留：delta 超限新 oracle 首次失败，原因是 CRLF 使一次定向变换未命中；改用换行归一化和严格匹配计数后通过。测试 protector 的 Buffer.map 返回类型报错已修正，下一完整 typecheck 复核。工具 helper 读取失败后核验 preimage 未变，切换合法获批内容寻址同目录原子写入；一次审批 reviewer deadline 超时未启动命令，允许重试成功。
+- UI（sol）与 populated-v2 / Electron 恢复 oracle（sol）独占不重叠文件并行实施。独立 Reviewer、双远程同步、完整 verify 尚未运行；本段不构成 PASS。
+
+- 工程语义澄清（沿用 004）：本切片“当前助手”指每次明确操作所捕获的目标 active assistant。trusted 校验目标存在/active、绑定、启用连接和凭据并冻结接收方；不把 `request.assistantId === assistant_state.current_assistant_id` 作为额外前提。这样界面切换及不同助手并行请求仍可按捕获 ID 完成。renderer 不能传 history、SQL、接收方或“已授权”结论；普通 context 仅 trusted 读取该目标，临时显式保存仅复制 trusted 内存会话。
+
+## 候选最终验证（2026-09-06）
+
+- `npm run verify` exit 0：focused 与 full 各 20 files / 80 tests，typecheck、lint、format、build 与真实 Electron 全部通过。timeline core 12 tests、migration 2 tests、renderer 总 6 files / 11 tests 均在完整链内。
+- [真实 Electron 合成证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-electron-evidence.json)：run `1a09637d-d522-4a64-86c2-28695e59d0f3`，fresh PIDs 25572 / 62496；正常/显式保存记录身份正文恢复、pending partial→interrupted、未保存临时不在盘、恢复调用 0、显式发送后调用 1、实际 persistent Key 与 Windows 保护均通过。
+- populated v2 成功升级及第二 DDL 冲突回滚保留助手/归档/primary/current/revision、连接/绑定/版本；独立 vault 密文逐字节不变且仍能解密。旧 v1 测试夹具初次未删除新增 v3 表导致冲突，已修正夹具并通过，未放宽产品 guard。
+- `npm ls --all --json` exit 0；foundation validator exit 0，errors/warnings 均空；secret/generated/residual scan 零匹配，`git diff --check` exit 0。无依赖版本或 lockfile 变化。
+- UI 首次旧 fixture 缺 timelineApi、effect 同步 setState lint 及完成后返回空 timeline 的 fixture 语义已修正；完整链重新通过。没有删除/跳过测试，无新 paid/live Provider 请求；004 未改 transport 资格沿用。
+- 仍 NOT RUN：全新独立候选 review、候选双远程 push（由后续角色处理）；PACKAGED、安装器、全面崩溃恢复、多实例、真实个人数据、Release/部署及其他延期高级 Provider 能力不在本片范围。历史 Toolhelp32 -003 保留 failed/deferred/non-blocking，未重跑或派生。

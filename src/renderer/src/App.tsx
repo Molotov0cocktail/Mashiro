@@ -12,12 +12,16 @@ export function App(): React.JSX.Element {
   return (
     <main>
       <header>
-        <p className="eyebrow">本机优先 · Provider Text</p>
+        <p className="eyebrow">本机优先 · 持续时间线</p>
         <h1>Mashiro 助手</h1>
-        <p>管理稳定助手身份，并与明确连接的模型进行不留存的临时文本交流。</p>
+        <p>管理稳定助手身份，并在正常记录与严格临时交流之间清楚选择。</p>
       </header>
       <AssistantPanel api={window.mashiro.assistants} onSnapshot={receiveAssistantSnapshot} />
-      <ProviderPanel assistantSnapshot={assistantSnapshot} api={window.mashiro.provider} />
+      <ProviderPanel
+        assistantSnapshot={assistantSnapshot}
+        api={window.mashiro.provider}
+        timelineApi={window.mashiro.timeline}
+      />
     </main>
   )
 }
