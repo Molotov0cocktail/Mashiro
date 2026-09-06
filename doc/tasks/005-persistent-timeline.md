@@ -1,6 +1,6 @@
 # 005 每助手持续时间线、显式保存与正常重启恢复
 
-> 状态：FINAL PRODUCT REVIEW PASS / PRODUCT HEAD SYNCED / DOCS CLOSING REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
+> 状态：PRODUCT COMPLETED / STOP_CHECKPOINT；2026-09-06；route `persistent-timeline-v1`。
 > 当前入口：[progress.md](progress.md)。本任务是稳定合同，计划可随直接证据调整；勾选完成须有代码、测试或审核依据。
 
 ## 基线与目标
@@ -59,7 +59,7 @@
 
 工具现场：默认 exec/Node helper 在进程创建前 setup refresh 失败，主 Agent 已核验 require_escalated exec 可执行；这不是产品失败或拒绝可绕过的许可。编辑采用固定 allowlist、preimage、exact transform、同目录临时文件、原子替换/备份回滚、postimage 和最小 diff；平台明确拒绝不得绕过。
 
-下一动作：005 产品目标已经完成并独立审核通过。当前形成单一 docs-only closing 候选，交独立 Reviewer 做事实、链接与格式复核；复核前不推送该文档提交。下一产品候选是尚未实施的时间线浏览/检索与局部上下文选择，实施前需登记稳定任务；长期记忆继续另设切片。
+下一动作：005 产品目标已经完成并独立审核通过，本轮为 STOP_CHECKPOINT；收尾审核与传输记录不改变已审产品状态。恢复时评估尚未实施的时间线浏览/检索与局部上下文选择，登记正式任务后按新差异验证复核；长期记忆继续另设切片。
 
 ## 实施证据（2026-09-06，候选尚未独立审核）
 
@@ -100,4 +100,4 @@
 - 独立 Reviewer 对精确产品 HEAD `0aa2d9190b63c7b99d59f52808e16965fa6b417f` 给出 `PASS`，无剩余 finding；原始报告逐字归档于 [persistent-timeline-v1-review-0aa2d91.md](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-0aa2d91.md)，SHA-256 为 `E13D1F19B9E66D5932D010F8455FD4177A3EBC991FC7DE7C639C5A73C80105B0`。
 - 独立全量验证为 20 个测试文件 / 88 个测试，typecheck、lint、format、build 与安全扫描通过；同一产品边界沿用独立 Electron 生命周期证据 PID 59660 / 62500。
 - 该精确产品提交已用普通非 force push 同步至 GitHub 与 Gitee 的 `main`；推送后 `ls-remote` 均返回 `0aa2d9190b63c7b99d59f52808e16965fa6b417f`。脱敏回执见 [persistent-timeline-v1-push-close-0aa2d91.md](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-push-close-0aa2d91.md)。
-- 005 产品范围至此完成。当前仅形成 docs-only closing 候选供比例化独立复核；时间线浏览/检索与局部上下文选择尚未实施。
+- 005 产品范围至此完成，本轮为 STOP_CHECKPOINT。收尾审核与传输记录不改变已审产品状态；时间线浏览/检索与局部上下文选择尚未实施。
