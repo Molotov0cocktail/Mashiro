@@ -1,6 +1,6 @@
 # Mashiro
 
-Mashiro 是面向 Windows 11、单用户、本机优先的私人助理桌面应用。当前 005 候选在稳定助手、Provider 连接和模型绑定基础上增加每助手持续时间线、严格临时模式的显式保存及正常重启恢复；独立审核与完整验证结果见 [当前任务](doc/tasks/005-persistent-timeline.md)。
+Mashiro 是面向 Windows 11、单用户、本机优先的私人助理桌面应用。已交付的 005 产品增量在稳定助手、Provider 连接和模型绑定基础上增加每助手持续时间线、严格临时模式的显式保存及正常重启恢复；独立审核与完整验证结果见 [当前任务](doc/tasks/005-persistent-timeline.md)。
 
 ## 使用文本交流与时间线
 
@@ -13,6 +13,8 @@ Mashiro 是面向 Windows 11、单用户、本机优先的私人助理桌面应�
 
 正常关闭会记录已收到的部分回答和中断状态；重启读取本地记录，不自动重发请求。失败、取消、中断的回答不作为后续正常外发上下文。临时正文及进程临时 Key 不随重启恢复。开发测试 Key 已清理，产品不预置 Key；持久 Key 在仓库外由 Electron `safeStorage` 保护，保护不可用时拒绝持久保存。
 
+005 已审产品提交为 `0aa2d9190b63c7b99d59f52808e16965fa6b417f`。独立验证包括 `npm test` 的 20 个文件 / 88 个测试、typecheck、lint、format、build，以及沿用同一产品边界的双 PID Electron 生命周期证据（59660 / 62500）。
+
 ## 开发命令
 
 - `npm ci`，随后 `npm exec install-electron`：按锁文件恢复依赖与 Electron。
@@ -21,10 +23,10 @@ Mashiro 是面向 Windows 11、单用户、本机优先的私人助理桌面应�
 - `npm run typecheck`、`npm run lint`、`npm run format:check`：静态验证。
 - `npm run build`：构建 main、preload 和 renderer。
 - `npm run test:electron`：用两个真实 Electron PID 验证恢复、凭据保护和临时边界。
-- `npm run verify`：完整候选验证链。
+- `npm run verify`：完整验证链。
 
 运行数据位于仓库外；开发数据在 appData 下的 `Mashiro Development`，E2E 使用带所有权标记的唯一系统临时目录。当前 schema v3 事务升级已有 v2，保留助手、连接与绑定；凭据文件独立保留。
 
 ## 当前边界
 
-工具调用、结构化输出、长期记忆、事项、提醒、历史检索与全量浏览、安装器、`PACKAGED`、全面崩溃恢复、Release、部署及真实个人数据访问不在 005 范围。当前进度以 [progress](doc/tasks/progress.md) 为唯一入口，候选完成不等同于独立审核通过。
+工具调用、结构化输出、长期记忆、事项、提醒、历史检索与全量浏览、安装器、`PACKAGED`、全面崩溃恢复、Release、部署及真实个人数据访问不在 005 范围。005 产品增量已经独立审核并同步至两个既有 `main`；当前进度以 [progress](doc/tasks/progress.md) 为唯一入口。时间线浏览/检索与局部上下文选择是尚未实施的后续候选。

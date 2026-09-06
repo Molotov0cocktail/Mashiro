@@ -1,6 +1,6 @@
 # 005 每助手持续时间线、显式保存与正常重启恢复
 
-> 状态：REPAIR 2 IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
+> 状态：FINAL PRODUCT REVIEW PASS / PRODUCT HEAD SYNCED / DOCS CLOSING REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
 > 当前入口：[progress.md](progress.md)。本任务是稳定合同，计划可随直接证据调整；勾选完成须有代码、测试或审核依据。
 
 ## 基线与目标
@@ -46,8 +46,8 @@
 - [x] 有界 context 的实际请求断言：当前助手、当前允许接收方、最近合格历史、长度上限，不混入其他助手/临时内容。
 - [x] 真实 Electron 两个 fresh PID：正常消息/状态/显式保存恢复，未保存临时正文与进程临时 Key 不恢复；恢复零自动请求。
 - [x] 聚焦与完整测试、typecheck/lint/format/build、Electron lifecycle、依赖树、foundation validator、秘密/生成物/残留检查通过；报告保留计数、PID、失败和 NOT RUN。
-- [ ] 独立新 6Astro Reviewer 对精确候选和完整产品 diff PASS；docs-only 后续差异相称核对。
-- [ ] 已审交付普通推送 github/main 与 gitee/main，分别 Git 实测；关键任务、索引和脱敏证据 tracked。
+- [x] 独立 Reviewer 对精确产品 HEAD `0aa2d9190b63c7b99d59f52808e16965fa6b417f` 和完整产品 diff 给出 `PASS`；docs-only 后续差异相称核对。
+- [x] 已审产品提交普通非 force 推送 github/main 与 gitee/main，并分别以 `ls-remote` 实测为精确产品 HEAD；关键任务、索引和脱敏证据在文档收尾候选中纳入 tracking。
 
 新增验收不得只复述旧 17 files / 62 tests。已有 Provider transport 的精确端点普通/流式资格可复用；本切片可使用合成 transport 验证持久化，不为不变 transport 重复收费。若真实新增行为必须 live，缺少 Key 时向用户索取 Key 一项，同时继续本地工程；端点/模型已知，不从私人目录找秘密。
 
@@ -59,7 +59,7 @@
 
 工具现场：默认 exec/Node helper 在进程创建前 setup refresh 失败，主 Agent 已核验 require_escalated exec 可执行；这不是产品失败或拒绝可绕过的许可。编辑采用固定 allowlist、preimage、exact transform、同目录临时文件、原子替换/备份回滚、postimage 和最小 diff；平台明确拒绝不得绕过。
 
-下一动作：两项 UI P2 的有界修复与局部验证完成后形成精确修复候选，交全新独立 Reviewer 复审；复核 PASS 后按授权双远程同步。入口整理不是本轮终止点。005 完成后由新状态评估者选择下一高价值切片；候选为时间线浏览/检索与局部上下文选择，需先登记任务，长期记忆继续另设切片。
+下一动作：005 产品目标已经完成并独立审核通过。当前形成单一 docs-only closing 候选，交独立 Reviewer 做事实、链接与格式复核；复核前不推送该文档提交。下一产品候选是尚未实施的时间线浏览/检索与局部上下文选择，实施前需登记稳定任务；长期记忆继续另设切片。
 
 ## 实施证据（2026-09-06，候选尚未独立审核）
 
@@ -71,14 +71,14 @@
 
 - 工程语义澄清（沿用 004）：本切片“当前助手”指每次明确操作所捕获的目标 active assistant。trusted 校验目标存在/active、绑定、启用连接和凭据并冻结接收方；不把 `request.assistantId === assistant_state.current_assistant_id` 作为额外前提。这样界面切换及不同助手并行请求仍可按捕获 ID 完成。renderer 不能传 history、SQL、接收方或“已授权”结论；普通 context 仅 trusted 读取该目标，临时显式保存仅复制 trusted 内存会话。
 
-## 候选最终验证（2026-09-06）
+## 候选最终验证（2026-09-06，历史候选快照）
 
 - `npm run verify` exit 0：focused 与 full 各 20 files / 80 tests，typecheck、lint、format、build 与真实 Electron 全部通过。timeline core 12 tests、migration 2 tests、renderer 总 6 files / 11 tests 均在完整链内。
 - [真实 Electron 合成证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-electron-evidence.json)：run `1a09637d-d522-4a64-86c2-28695e59d0f3`，fresh PIDs 25572 / 62496；正常/显式保存记录身份正文恢复、pending partial→interrupted、未保存临时不在盘、恢复调用 0、显式发送后调用 1、实际 persistent Key 与 Windows 保护均通过。
 - populated v2 成功升级及第二 DDL 冲突回滚保留助手/归档/primary/current/revision、连接/绑定/版本；独立 vault 密文逐字节不变且仍能解密。旧 v1 测试夹具初次未删除新增 v3 表导致冲突，已修正夹具并通过，未放宽产品 guard。
 - `npm ls --all --json` exit 0；foundation validator exit 0，errors/warnings 均空；secret/generated/residual scan 零匹配，`git diff --check` exit 0。无依赖版本或 lockfile 变化。
 - UI 首次旧 fixture 缺 timelineApi、effect 同步 setState lint 及完成后返回空 timeline 的 fixture 语义已修正；完整链重新通过。没有删除/跳过测试，无新 paid/live Provider 请求；004 未改 transport 资格沿用。
-- 仍 NOT RUN：候选双远程 push（由后续角色处理）；PACKAGED、安装器、全面崩溃恢复、多实例、真实个人数据、Release/部署及其他延期高级 Provider 能力不在本片范围。历史 Toolhelp32 -003 保留 failed/deferred/non-blocking，未重跑或派生。
+- 本段形成时仍 NOT RUN：候选双远程 push；随后发生的产品 push 见“独立最终产品审查与同步”。PACKAGED、安装器、全面崩溃恢复、多实例、真实个人数据、Release/部署及其他延期高级 Provider 能力仍不在本片范围。历史 Toolhelp32 -003 保留 failed/deferred/non-blocking，未重跑或派生。
 
 ## 独立审查 REPAIR 与有界修复（2026-09-06）
 
@@ -93,4 +93,11 @@
 - 对比新增 trusted admission/count DTO 与现有可信事件/命令回执/快照观测，选择后者：UI 显式区分 snapshot、unavailable、superseded；捕获请求记住 accepted/terminal 证据，未知状态保留输入和 partial，只有可信拒绝或无接受证据且完整新快照确认缺席才是未发送草稿。已确认 terminal 不因丢失回执降级。
 - 保存消息数只描述 trusted 返回快照的“已确认保存总数”（包括此前保存），不从乐观 ID 或旧 UI 行数猜新插入数；read/save 共用按 request+role 合并，保留新请求和独立未发送草稿。无 trusted/shared/IPC/schema/transport 改动，无自动重试。
 - 原冻结 F1 / F2 / R1 / R2 由机械收尾接管者独立重跑并全部通过（1+1+2 tests）；repo 新增 6 tests，覆盖 failed/throw/superseded 观测、已知完成、乐观 ID、重复保存、独立草稿与新请求隔离。renderer + trusted timeline 共 7 files / 31 tests、typecheck、lint、format、build 均 exit 0。原 6Astro 修复执行者在实现完成后遇到 `Selected model is at capacity`，partial state 完整保留；route 转由 `/root/timeline_ui` 完成验证、记录与提交。
-- 全链 Electron/migration 沿用独立 review 的未变 trusted 证据（PIDs 59660 / 62500，恢复 0 / 显式发送 1）；本纯 UI 差异未重复运行。独立最终复审与 push 尚未执行。本段不宣告 PASS。
+- 全链 Electron/migration 沿用独立 review 的未变 trusted 证据（PIDs 59660 / 62500，恢复 0 / 显式发送 1）；本纯 UI 差异未重复运行。本段记录第二轮修复候选形成时状态；随后的独立最终复审与产品 push 见下一节。
+
+## 独立最终产品审查与同步
+
+- 独立 Reviewer 对精确产品 HEAD `0aa2d9190b63c7b99d59f52808e16965fa6b417f` 给出 `PASS`，无剩余 finding；原始报告逐字归档于 [persistent-timeline-v1-review-0aa2d91.md](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-0aa2d91.md)，SHA-256 为 `E13D1F19B9E66D5932D010F8455FD4177A3EBC991FC7DE7C639C5A73C80105B0`。
+- 独立全量验证为 20 个测试文件 / 88 个测试，typecheck、lint、format、build 与安全扫描通过；同一产品边界沿用独立 Electron 生命周期证据 PID 59660 / 62500。
+- 该精确产品提交已用普通非 force push 同步至 GitHub 与 Gitee 的 `main`；推送后 `ls-remote` 均返回 `0aa2d9190b63c7b99d59f52808e16965fa6b417f`。脱敏回执见 [persistent-timeline-v1-push-close-0aa2d91.md](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-push-close-0aa2d91.md)。
+- 005 产品范围至此完成。当前仅形成 docs-only closing 候选供比例化独立复核；时间线浏览/检索与局部上下文选择尚未实施。
