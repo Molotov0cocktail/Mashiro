@@ -144,8 +144,8 @@
 | Q5 记忆/事件事务闭环 | Markdown与治理一致、即时对话记住/纠正/删除、来源面板、全文索引、完整备份语义；依赖Q3/Q4 | [008](008-memory-direct-path.md)TASK_DONE / FINAL PASS，产品cc9c729；即时记忆闭环已交付，完整备份Q10、自动整理Q9继续 |
 | Q6 生命周期与清理 | 三区、恢复、消息/区段/时间线意图清理、防复活；依赖Q5 | [009](009-retention-and-cleanup.md)INTEGRATION_PENDING / MANUAL_CORE PASS；独立41/255、4 UI oracles及最终Electron通过；RET未答不擅定自动参数，Q9/Q10联测仍待完成 |
 | Q7 统一事项提案 | 五类事项、对话执行、提案协商确认；依赖Q3/Q4 | [010](010-items-and-proposals.md)TASK_DONE / [独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)，51/301与131文件清单，精确产品ab11110a45c6ddb65bd114547225dd4e329bba11，双远程已核验 |
-| Q8 提醒/托盘/用量健康 | 确定性提醒、可选登录启动、休眠重启补发、运行状况/分类用量；依赖Q7，补发需REM-002 | [012](012-deterministic-reminders.md)已实现核心独立PASS，61/360及实际双PID/DOM通过；REM默认和014安装联测未完，分类用量/运行健康由013继续 |
-| Q9 仓储员与日常后台 | 去重分支冲突、章节压缩/未完成话题、事件观察、简报/复盘/周规划；依赖Q3–Q8 | [013正式任务](013-background-and-steward.md)PLANNED，含真实角色能力、显式预算、可见结果、故障和009回收依赖；不能只后台底层无入口 |
+| Q8 提醒/托盘/用量健康 | 确定性提醒、可选登录启动、休眠重启补发、运行状况/分类用量；依赖Q7，补发需REM-002 | [012](012-deterministic-reminders.md)已实现核心独立PASS并双远程同步f34c543，61/360及实际双PID/DOM通过；REM默认和014安装联测未完，分类用量/运行健康由013继续 |
+| Q9 仓储员与日常后台 | 去重分支冲突、章节压缩/未完成话题、事件观察、简报/复盘/周规划；依赖Q3–Q8 | [013正式任务](013-background-and-steward.md)ACTIVE / IMPLEMENTING，从012已审同步f34c543接续；[实际服务合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-contract.md)明确真实Memory接受引用、后台origin、预算及完整用户入口 |
 | Q10 位置/安装更新恢复 | 普通用户路径选择/失效恢复、完整迁移备份、隔离安装升级卸载重装；依赖Q1与各schema | [014正式任务](014-windows-data-and-delivery.md)PLANNED；[NSIS路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)已SUPPORTED：精确程序清单/未知与data保护；正式安装应用启动、不同版本/schema升级、失败回滚与完整领域数据仍NOT RUN |
 | Q11 整体功能与制品验收 | 独立从三文档/覆盖表反查用户场景与安全恢复，真实Provider关键角色，所有必需行闭合 | 未参与实现的胜任审核者；有缺口回任务而非改NON-GOALS |
 | Q12 发布下载闭合 | 冻结版本/精确源码/资产hash、说明/声明、新tag/Release、下载hash、两remote | [只读REST传输预检](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-preflight-v1.md)已确认路线；实际发布上传下载仍NOT RUN，仅Q11 PASS后按既有授权执行 |

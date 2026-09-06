@@ -1,6 +1,6 @@
 # 013 章节、仓储员与可预算日常后台
 
-- TASK = 013；PLANNED；PROGRAM ACTIVE。唯一入口为[progress](progress.md)，承接[总覆盖](program-docs-to-release.md)Q9及D02/D03/D05/D07、F06、G02/G03相关余项；实施时逐行复核实际覆盖，不以这些导航编号减少范围。
+- TASK = 013；ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。唯一入口为[progress](progress.md)，承接[总覆盖](program-docs-to-release.md)Q9及D02/D03/D05/D07、F06、G02/G03相关余项；实施时逐行复核实际覆盖，不以这些导航编号减少范围。
 - 来源：proposal §2.1、3.1–3.3、4.2–4.3、6；high-level-design §5.3、7、10；detailed-design §7、9及MEM-001–007、EVT-002、RET-003/004、USE决议。依赖008记忆、009清理、010事项和012运行生命周期；编号已核对未占用。
 
 ## 用户闭环与验收
@@ -16,7 +16,7 @@
 
 ## 当前源码准备
 
-root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-actual-plan.md)：基于memory_pending、接受版本/来源/抑制、RetentionDependencies真实ID/version/hash及现有Provider输出限制，明确角色预算、作业、章节与日常入口。本任务仍PLANNED，方案不代表实现或提前占用schema。
+root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-actual-plan.md)：基于memory_pending、接受版本/来源/抑制、RetentionDependencies真实ID/version/hash及现有Provider输出限制，明确角色预算、作业、章节与日常入口。background_013_design（实际gpt-6-astra/medium）随后已完成[实际服务合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-contract.md)，root已读并采纳为实施路线：后台origin不伪造round，章节引用真实Memory接受版本，预算持久预留且未知不归零，009依赖ID/version/hash稳定排序。012产品f34c543d287946ad9302f51577fe30c86a67bdf9已独立通过且双远程实查同步；现在background_013_trusted（实际gpt-6-astra/medium）已接手可信实施，主进程/共享DTO/存储单写，DTO冻结后由独立UI执行者并行；root维护全局记录。首个连贯增量为显式配置→正常完整轮→预算内真实章节/未完成话题→接受/可读/选上下文/可回收依赖；它不代表013全部完成，仓储分支/冲突/观察/日常/运行中心继续必做。
 
 ## 工程闭环
 

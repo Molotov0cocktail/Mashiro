@@ -5,7 +5,7 @@
 - 原文：proposal §3.5及验收正文，high-level-design §5.5及应用架构，detailed-design REM-001/002、ITEM-002及EXEC-003/005。提醒不依赖模型在线或凭据。
 - 依赖：[010](010-items-and-proposals.md)正式事项与稳定操作身份；当前已审009手动核心d6cd1fa保留为历史基线，实施时查询实际HEAD/schema。编号012已现场检查未占用。
 
-已实现核心获[独立最终PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-final-pass.md)，报告SHA25682550359E78CE578630FCC71B078484569489731A745B0D22AD65AB3C1C1E4AC。精确46文件v2清单SHA256EB22CD59A4A46775D414EADDFE984FCDE5FB1789DEF58F02F0D794AC8112977E；默认61/360及8独立额外反例通过，7处缺陷关闭；最终实际Electron PIDs143756/143776包含原生show、同ID恢复和真实提醒页处理。见[最终协调验证](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-root-final-verification.md)。REM默认、实际OS点击/登录/冷激活和安装制品仍未完，本任务不是全部验收完成。提交及双远程回执由root收尾记录，随后继续013/014。
+已实现核心获[独立最终PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-final-pass.md)，报告SHA25682550359E78CE578630FCC71B078484569489731A745B0D22AD65AB3C1C1E4AC。精确46文件v2清单SHA256EB22CD59A4A46775D414EADDFE984FCDE5FB1789DEF58F02F0D794AC8112977E；默认61/360及8独立额外反例通过，7处缺陷关闭；最终实际Electron PIDs143756/143776包含原生show、同ID恢复和真实提醒页处理。见[最终协调验证](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-root-final-verification.md)。REM默认、实际OS点击/登录/冷激活和安装制品仍未完，本任务不是全部验收完成。root提交135文件为f34c543d287946ad9302f51577fe30c86a67bdf9，github/gitee非force push均退出0，独立ls-remote两个main实际同值。归档raw尾空格规则为已说明的纯记录收尾差异，其余45份v2候选文件逐项未变。现在继续013/014，不因核心PASS停止项目。
 
 ## 用户闭环
 
@@ -53,4 +53,5 @@ UI[10文件正式冻结](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPM
 - [x] 本地提醒事务、对话链、关闭驻留/明确退出、开发态原生通知和真实提醒页处理。
 - [x] 已实现核心甄别测试、实际双进程运行及独立最终审核。
 - [ ] 实际OS托盘点击、登录注册/关闭、冷启动激活及014安装制品联测。
-- [ ] 提交/双远程同步并继续Q9/Q10/整体与实际发布下载，TASK_DONE不等于PROGRAM_DONE。
+- [x] 已审核心提交/双远程同步，013已接续；TASK_DONE不等于PROGRAM_DONE。
+- [ ] 完成剩余运行决议与安装联测，并完成整体及实际发布下载。
