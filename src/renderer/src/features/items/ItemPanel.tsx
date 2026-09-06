@@ -9,6 +9,8 @@ import type {
   ItemSource
 } from '../../../../shared/item-contract'
 import type { RetentionChanged } from '../../../../shared/retention-contract'
+import type { ReminderApi } from '../../../../shared/reminder-contract'
+import { ReminderPanel } from '../reminders/ReminderPanel'
 
 const protocolVersion = 1 as const
 type ItemView = 'items' | 'proposals'
@@ -291,22 +293,29 @@ export function ItemPanel({
   assistantId,
   assistantName,
   api,
+  reminderApi,
   refreshKey = 0,
+  reminderRefreshKey = 0,
   onDiscuss,
   onOpenConversation,
   onPermissionsChanged,
   onItemVersionChanged,
   pendingCommands,
+  pendingReminderCommands,
   retentionChange,
   recoveryTarget,
   archivedAssistantIds = [],
-  configurationFocusNonce
+  configurationFocusNonce,
+  openItemTarget
 }: {
   assistantId: string
   assistantName: string
   api: ItemApi
+  reminderApi?: ReminderApi
   refreshKey?: number
+  reminderRefreshKey?: number
   pendingCommands?: Map<string, string>
+  pendingReminderCommands?: Map<string, string>
   retentionChange?: RetentionChanged | null
   recoveryTarget?: RecoveryTarget | null
   archivedAssistantIds?: readonly string[]
@@ -325,6 +334,7 @@ export function ItemPanel({
   onPermissionsChanged?: (value: ItemPermissions) => void
   onItemVersionChanged?: (value: { assistantId: string; id: string; version: number }) => void
   configurationFocusNonce?: number | null
+  openItemTarget?: { assistantId: string; itemId: string; nonce: number } | null
 }): React.JSX.Element {
   const [localPendingCommands] = useState(() => new Map<string, string>())
   const commandRegistry = pendingCommands ?? localPendingCommands
@@ -370,6 +380,7 @@ export function ItemPanel({
   const inspectVersion = useRef(0)
   const permissionVersion = useRef(0)
   const operationGeneration = useRef(0)
+  const reminderOpenVersion = useRef(0)
 
   const currentRows = view === 'items' ? items : proposals
 
@@ -662,6 +673,52 @@ export function ItemPanel({
   }, [loadPermissions, refreshKey])
 
   useEffect(() => {
+    if (!openItemTarget || openItemTarget.assistantId !== assistantId) return
+    const openVersion = ++reminderOpenVersion.current
+    // The new notification target also supersedes an older manual detail request.
+    inspectVersion.current += 1
+    const requestAssistantId = assistantId
+    void Promise.all([
+      api.permissions({ protocolVersion, assistantId: requestAssistantId }),
+      api.inspect({
+        protocolVersion,
+        assistantId: requestAssistantId,
+        id: openItemTarget.itemId,
+        type: 'item'
+      })
+    ])
+      .then(([permissionResult, inspectResult]) => {
+        if (openVersion !== reminderOpenVersion.current || requestAssistantId !== assistantId)
+          return
+        if (!permissionResult.ok) {
+          setError(permissionResult.error.message)
+          return
+        }
+        if (!inspectResult.ok) {
+          setError(inspectResult.error.message)
+          return
+        }
+        if (!inspectResult.data.item) {
+          setError('通知关联的正式事项已不存在或当前不可用。')
+          return
+        }
+        setPermissions(permissionResult.data)
+        setSelection({ type: 'item', id: inspectResult.data.item.id })
+        setSelectedItem(inspectResult.data.item)
+        setSelectedProposal(null)
+        setReceipts(inspectResult.data.receipts)
+        setEditor(inspectResult.data.item.content)
+      })
+      .catch(() => {
+        if (openVersion === reminderOpenVersion.current && requestAssistantId === assistantId)
+          setError('无法重新核验通知关联的当前事项与权限。')
+      })
+    return () => {
+      reminderOpenVersion.current += 1
+    }
+  }, [api, assistantId, openItemTarget])
+
+  useEffect(() => {
     if (!recoveryTarget || recoveryTarget.assistantId !== assistantId) return
     const generation = operationGeneration.current
     const command = registerRecoveredCommand(recoveryTarget.commandId)
@@ -683,6 +740,7 @@ export function ItemPanel({
   ])
 
   async function inspect(next: Selection): Promise<void> {
+    reminderOpenVersion.current += 1
     const requestVersion = ++inspectVersion.current
     const requestAssistantId = assistantId
     setSelection(next)
@@ -1418,6 +1476,17 @@ export function ItemPanel({
                   永久删除此事项
                 </button>
               </div>
+              {reminderApi ? (
+                <ReminderPanel
+                  assistantId={assistantId}
+                  assistantName={assistantName}
+                  api={reminderApi}
+                  itemApi={api}
+                  item={selectedItem}
+                  refreshKey={reminderRefreshKey}
+                  pendingCommands={pendingReminderCommands}
+                />
+              ) : null}
             </>
           ) : selectedProposal ? (
             <>

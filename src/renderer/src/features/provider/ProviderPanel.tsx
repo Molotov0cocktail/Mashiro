@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../../../shared/assistant-contract'
 import type { ItemApi } from '../../../../shared/item-contract'
 import type { MemoryApi } from '../../../../shared/memory-contract'
+import type { ReminderApi } from '../../../../shared/reminder-contract'
 import type {
   RetentionChanged,
   RetentionIntent,
@@ -110,10 +111,12 @@ export function ProviderPanel({
   timelineApi,
   memoryApi,
   itemApi,
+  reminderApi,
   itemTarget,
   historyTarget,
   onMemoryChanged,
   onItemChanged,
+  onReminderChanged,
   onOpenItems,
   onLocateMemorySource,
   retentionChange,
@@ -125,6 +128,7 @@ export function ProviderPanel({
   timelineApi: TimelineApi
   memoryApi?: MemoryApi
   itemApi?: ItemApi
+  reminderApi?: ReminderApi
   itemTarget?: {
     assistantId: string
     type: 'item' | 'proposal'
@@ -135,6 +139,7 @@ export function ProviderPanel({
   historyTarget?: { assistantId: string; requestId: string; nonce: number } | null
   onMemoryChanged?: () => void
   onItemChanged?: () => void
+  onReminderChanged?: () => void
   onOpenItems?: (recovery?: {
     assistantId: string
     commandId: string
@@ -1409,6 +1414,7 @@ export function ProviderPanel({
             contextIntent={contextIntent}
             memoryApi={memoryApi}
             itemApi={itemApi}
+            reminderApi={reminderApi}
             capability={currentCapability}
             capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
             capabilityError={capabilityErrors[currentAssistantId] ?? ''}
@@ -1424,6 +1430,7 @@ export function ProviderPanel({
             }}
             onMemoryChanged={onMemoryChanged}
             onItemChanged={onItemChanged}
+            onReminderChanged={onReminderChanged}
             onOpenItems={onOpenItems}
             onLocateMemorySource={onLocateMemorySource}
             retentionChange={retentionChange}
@@ -1655,6 +1662,16 @@ function mergeToolOperations(
         previous?.memoryReceipt,
         operation.memoryReceipt,
         Boolean(stale)
+      ),
+      reminderPreview: mergeReminderPreview(
+        previous?.reminderPreview,
+        operation.reminderPreview,
+        Boolean(stale)
+      ),
+      reminderReceipt: mergeReminderReceipt(
+        previous?.reminderReceipt,
+        operation.reminderReceipt,
+        Boolean(stale)
       )
     })
   }
@@ -1677,6 +1694,34 @@ function mergeMemoryReceipt(
   const rank = (state: NonNullable<ToolOperation['memoryReceipt']>['state']): number =>
     state === 'PENDING_CONFIRMATION' ? 0 : 1
   return rank(previous.state) > rank(incoming.state) ? previous : incoming
+}
+
+function mergeReminderPreview(
+  previous: ToolOperation['reminderPreview'],
+  incoming: ToolOperation['reminderPreview'],
+  outerOperationIsStale: boolean
+): ToolOperation['reminderPreview'] {
+  if (outerOperationIsStale) return previous
+  if (!previous) return incoming
+  if (!incoming) return previous
+  if (previous.confirmationId !== incoming.confirmationId) return incoming
+  const rank = (state: NonNullable<ToolOperation['reminderPreview']>['state']): number =>
+    state === 'PENDING' ? 0 : 1
+  return rank(previous.state) >= rank(incoming.state) ? previous : incoming
+}
+
+function mergeReminderReceipt(
+  previous: ToolOperation['reminderReceipt'],
+  incoming: ToolOperation['reminderReceipt'],
+  outerOperationIsStale: boolean
+): ToolOperation['reminderReceipt'] {
+  if (outerOperationIsStale) return previous
+  if (!previous) return incoming
+  if (!incoming) return previous
+  if (previous.operationId !== incoming.operationId) return incoming
+  const rank = (state: NonNullable<ToolOperation['reminderReceipt']>['state']): number =>
+    state === 'RESULT_UNKNOWN' ? 0 : 1
+  return rank(previous.state) >= rank(incoming.state) ? previous : incoming
 }
 
 function reconcileTimelineMessages(

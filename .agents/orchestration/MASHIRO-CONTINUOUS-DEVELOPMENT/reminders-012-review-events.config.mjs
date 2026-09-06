@@ -1,0 +1,1 @@
+export default {test:{include:['.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-events.test.ts'],setupFiles:['./tests/setup.ts'],restoreMocks:true}}

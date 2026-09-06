@@ -1,3 +1,4 @@
+import { removeReminderFixture } from './retention-legacy-fixture.js'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -10,6 +11,7 @@ it('upgrades genuine v7 atomically and rolls back a v8 object collision without 
   const path = join(root, 'state.sqlite')
   try {
     const current = new SqliteStore(path)
+    removeReminderFixture(current.database)
     current.database.exec(
       'ALTER TABLE assistants DROP COLUMN persona; ALTER TABLE assistants DROP COLUMN avatar_key'
     )
@@ -42,7 +44,7 @@ it('upgrades genuine v7 atomically and rolls back a v8 object collision without 
     raw.exec('DROP TABLE item_proposals')
     raw.close()
     const upgraded = new SqliteStore(path)
-    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 9 })
+    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 10 })
     expect(upgraded.database.prepare('SELECT * FROM assistant_state').all()).toEqual(before)
     upgraded.close()
   } finally {

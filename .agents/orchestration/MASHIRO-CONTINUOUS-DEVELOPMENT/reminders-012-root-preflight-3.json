@@ -1,0 +1,24 @@
+{
+  "outcome": "LOCAL_PREFLIGHT_PASS",
+  "bundleSha256": "10c12dab084e5f5ad8db3fdc95ee2c9e1baeb4afe884b445940442a7d4276a2c",
+  "requestsAttempted": 0,
+  "wire": [],
+  "rounds": [],
+  "naturalChineseTimeChecked": false,
+  "previewDidNotSchedule": false,
+  "confirmationIdempotent": false,
+  "sameReminderAfterReopen": true,
+  "reopenCalls": 0,
+  "keyAbsentAfterReopen": true,
+  "syntheticNotifications": 1,
+  "repeatedTickNoDuplicate": true,
+  "disclosure": {
+    "rendererDriven": false,
+    "processRestart": false,
+    "nativeNotification": false,
+    "injectedClock": true,
+    "explicitFixturePolicyNotProductDefault": true,
+    "credentialPersisted": false,
+    "bodyLogged": false
+  }
+}

@@ -412,6 +412,14 @@ export class ItemService {
         record.originProposalId,
         JSON.stringify(itemRecordSchema.parse(record))
       )
+    // Persist the stop in the same item transaction: reopening before the next tick
+    // must not revive the old reminder occurrence.
+    if (['completed', 'cancelled'].includes(record.content.status))
+      this.store.database
+        .prepare(
+          "UPDATE reminders SET state='CANCELLED',record_json=json_set(record_json,'$.state','CANCELLED','$.updatedAt',?) WHERE item_id=? AND state NOT IN ('CANCELLED','HANDLED','EXPIRED')"
+        )
+        .run(record.updatedAt, record.id)
     this.edges('item', record.id, record.version, record.sources)
     // Inherit only previously audited recipients for this exact object's unchanged source edges.
     if (previous && Number(previous.version) < record.version)

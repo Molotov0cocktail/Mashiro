@@ -1,0 +1,470 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-confirm.test.tsx (1 test | 1 failed) 1195ms
+   × review: same candidate parent refresh cannot discard an inflight confirmation receipt 1194ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-confirm.test.tsx > review: same candidate parent refresh cannot discard an inflight confirmation receipt
+TestingLibraryElementError: Unable to find an element with the text: review confirmed. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-label="本轮工具与可信回执"
+      class="tool-execution"
+    >
+      <fieldset
+        class="tool-scope"
+      >
+        <legend>
+          本轮工具范围
+        </legend>
+        <label
+          class="inline-check"
+        >
+          <input
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          关闭工具（默认）
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          仅本机时钟
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 按关键词检索本助手完整历史
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            checked=""
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 事项与待确认提案
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 事项 + 记忆与个人事件
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 记忆与个人事件
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 历史 + 记忆与个人事件
+        </label>
+        <p
+          class="scope-note"
+        >
+          本轮模型可检索事项，并按你的明确意图执行事项操作或保存待确认建议；正式事项、提案和实际端点接收权限仍由可信边界分别检查。
+        </p>
+      </fieldset>
+      <details
+        class="capability-panel"
+        open=""
+      >
+        <summary>
+          当前端点能力
+        </summary>
+        <p
+          class="receiver"
+        >
+          实际端点：https://example.com/v1
+        </p>
+        <p
+          class="scope-note"
+        >
+          模型：
+          synthetic
+           · 协议：
+          chat-completions-v1
+           · 适配版本：
+          test
+           · 模式：
+          standard-non-preserved
+        </p>
+        <p
+          class="capability-reason"
+        >
+          合成工具能力可用
+        </p>
+        <ul
+          class="capability-list"
+        />
+      </details>
+      <section
+        aria-label="可信工具回执"
+        class="operation-panel"
+      >
+        <div
+          class="operation-heading"
+        >
+          <div>
+            <h3>
+              可信工具回执
+            </h3>
+            <p
+              class="scope-note"
+            >
+              这里显示应用实际记录的工具状态；与助手最后回答分别保存和展示。
+            </p>
+          </div>
+        </div>
+        <div
+          class="operation-list"
+        >
+          <article
+            aria-label="提醒候选操作"
+            class="operation-card state-succeeded"
+          >
+            <div
+              class="operation-title"
+            >
+              <strong>
+                提醒候选
+              </strong>
+              <span
+                class="operation-state"
+              >
+                已完成
+              </span>
+            </div>
+            <p>
+              已准备提醒候选，等待本地确认
+            </p>
+            <section
+              aria-label="对话提醒候选确认"
+              class="confirmation-card reminder-confirmation-card"
+            >
+              <strong>
+                请核对后明确确认
+              </strong>
+              <p>
+                设置提醒
+                ：
+                周五交报告
+              </p>
+              <p>
+                2026年9月12日周六 GMT+08:00 09:30:00 · Asia/Shanghai · 2026-09-12T09:30:00+08:00
+              </p>
+              <p
+                class="scope-note"
+              >
+                正式事项 
+                00000000-0000-4000-8000-000000000101
+                 · 当前候选事项版本 
+                2
+                 · 确认编号
+                 
+                00000000-0000-4000-8000-000000000503
+              </p>
+              <p
+                class="scope-note"
+              >
+                模型只准备了候选，尚未调度提醒；确认时本机会重新核对事项、提醒版本、时间和权限。
+              </p>
+              <div
+                class="button-row"
+              >
+                <button
+                  disabled=""
+                  type="button"
+                >
+                  正在确认…
+                </button>
+                <button
+                  disabled=""
+                  type="button"
+                >
+                  拒绝候选
+                </button>
+              </div>
+            </section>
+            <small>
+              操作编号：
+              00000000-0000-4000-8000-000000000701
+               · 更新于
+              2026/9/7 09:00:00
+            </small>
+          </article>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-label="本轮工具与可信回执"
+      class="tool-execution"
+    >
+      <fieldset
+        class="tool-scope"
+      >
+        <legend>
+          本轮工具范围
+        </legend>
+        <label
+          class="inline-check"
+        >
+          <input
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          关闭工具（默认）
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          仅本机时钟
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 按关键词检索本助手完整历史
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            checked=""
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 事项与待确认提案
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 事项 + 记忆与个人事件
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 记忆与个人事件
+        </label>
+        <label
+          class="inline-check"
+        >
+          <input
+            disabled=""
+            name="tool-scope-00000000-0000-4000-8000-000000000001-normal"
+            type="radio"
+          />
+          本机时钟 + 历史 + 记忆与个人事件
+        </label>
+        <p
+          class="scope-note"
+        >
+          本轮模型可检索事项，并按你的明确意图执行事项操作或保存待确认建议；正式事项、提案和实际端点接收权限仍由可信边界分别检查。
+        </p>
+      </fieldset>
+      <details
+        class="capability-panel"
+        open=""
+      >
+        <summary>
+          当前端点能力
+        </summary>
+        <p
+          class="receiver"
+        >
+          实际端点：https://example.com/v1
+        </p>
+        <p
+          class="scope-note"
+        >
+          模型：
+          synthetic
+           · 协议：
+          chat-completions-v1
+           · 适配版本：
+          test
+           · 模式：
+          standard-non-preserved
+        </p>
+        <p
+          class="capability-reason"
+        >
+          合成工具能力可用
+        </p>
+        <ul
+          class="capability-list"
+        />
+      </details>
+      <section
+        aria-label="可信工具回执"
+        class="operation-panel"
+      >
+        <div
+          class="operation-heading"
+        >
+          <div>
+            <h3>
+              可信工具回执
+            </h3>
+            <p
+              class="scope-note"
+            >
+              这里显示应用实际记录的工具状态；与助手最后回答分别保存和展示。
+            </p>
+          </div>
+        </div>
+        <div
+          class="operation-list"
+        >
+          <article
+            aria-label="提醒候选操作"
+            class="operation-card state-succeeded"
+          >
+            <div
+              class="operation-title"
+            >
+              <strong>
+                提醒候选
+              </strong>
+              <span
+                class="operation-state"
+              >
+                已完成
+              </span>
+            </div>
+            <p>
+              已准备提醒候选，等待本地确认
+            </p>
+            <section
+              aria-label="对话提醒候选确认"
+              class="confirmation-card reminder-confirmation-card"
+            >
+              <strong>
+                请核对后明确确认
+              </strong>
+              <p>
+                设置提醒
+                ：
+                周五交报告
+              </p>
+              <p>
+                2026年9月12日周六 GMT+08:00 09:30:00 · Asia/Shanghai · 2026-09-12T09:30:00+08:00
+              </p>
+              <p
+                class="scope-note"
+              >
+                正式事项 
+                00000000-0000-4000-8000-000000000101
+                 · 当前候选事项版本 
+                2
+                 · 确认编号
+                 
+                00000000-0000-4000-8000-000000000503
+              </p>
+              <p
+                class="scope-note"
+              >
+                模型只准备了候选，尚未调度提醒；确认时本机会重新核对事项、提醒版本、时间和权限。
+              </p>
+              <div
+                class="button-row"
+              >
+                <button
+                  disabled=""
+                  type="button"
+                >
+                  正在确认…
+                </button>
+                <button
+                  disabled=""
+                  type="button"
+                >
+                  拒绝候选
+                </button>
+              </div>
+            </section>
+            <small>
+              操作编号：
+              00000000-0000-4000-8000-000000000701
+               · 更新于
+              2026/9/7 09:00:00
+            </small>
+          </article>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-confirm.test.tsx:56:22
+     54|  view.rerender(<ToolExecutionPanel {...props} operations={[operation()…
+     55|  resolveConfirm({ok:true,data:reminderReceipt({summary:'review confirm…
+     56|  expect(await screen.findByText('review confirmed')).toBeInTheDocument…
+       |                      ^
+     57|  expect(screen.queryByRole('button',{name:'正在确认…'})).not.toBeInTheDocu…
+     58| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  06:35:31
+   Duration  2.26s (transform 80ms, setup 139ms, import 94ms, tests 1.19s, environment 682ms)
+

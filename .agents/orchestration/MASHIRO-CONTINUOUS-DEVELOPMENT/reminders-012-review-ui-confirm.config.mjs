@@ -1,0 +1,1 @@
+export default {esbuild:{jsx:'automatic'},test:{include:['.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-confirm.test.tsx'],setupFiles:['./tests/setup.ts'],restoreMocks:true}}

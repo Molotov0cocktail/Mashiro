@@ -1,0 +1,9 @@
+# 012 independent notification navigation review — REPAIR
+
+R7 / P2, 2026-09-07, gpt-6-astra / medium. ItemPanel's manual inspect invalidates old notification inspections, but the notification effect does not invalidate old manual inspections. A deferred manual item A lookup can overwrite a newer notification item B after B has already become visible. The detail selection/content then targets A instead of the notified B.
+
+[Independent oracle](reminders-012-review-ui-navigation.test.tsx), [config](reminders-012-review-ui-navigation.config.mjs), [actual red evidence](reminders-012-review-ui-navigation-red-3.raw.txt): first manual A inspection waits; notification B completes and input has B's title; resolve A; expected B's title but received A's title. Root explicitly requested this current012 navigation check after a source-level suspicion; it is not deferred to014.
+
+The first red.raw used textContent for an input value; red-2.raw used an incorrect accessible label. These are Reviewer oracle preparation errors, not product failures. Actual DOM showed the value on label 编辑标题; the corrected oracle reaches the final race assertion. Temporary pre-value/pre-label backups were compared to their exact expected predecessor contents and removed. No product changes by Reviewer.
+
+Bounded repair: notification navigation must advance the manual inspect generation when it becomes the newer request, while preserving the existing reverse-direction barrier. Keep assistant switching/unmount barriers and current trusted permissions/item checks. Parent coordinates product ownership; rerun this unchanged oracle and relevant ItemPanel/App-reminders regressions, then update candidate manifest.

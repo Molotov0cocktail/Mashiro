@@ -1,3 +1,4 @@
+import type { ReminderApi } from '../shared/reminder-contract'
 import type { ItemApi } from '../shared/item-contract'
 import type { RetentionApi } from '../shared/retention-contract'
 import type { AssistantApi } from '../shared/assistant-contract'
@@ -9,6 +10,7 @@ import type { TimelineApi } from '../shared/timeline-contract'
 declare global {
   interface Window {
     mashiro: {
+      reminders: ReminderApi
       items: ItemApi
       retention: RetentionApi
       assistants: AssistantApi

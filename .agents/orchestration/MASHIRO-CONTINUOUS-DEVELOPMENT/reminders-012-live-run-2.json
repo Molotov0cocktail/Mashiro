@@ -1,0 +1,51 @@
+{
+  "outcome": "SUPPORTED",
+  "bundleSha256": "10c12dab084e5f5ad8db3fdc95ee2c9e1baeb4afe884b445940442a7d4276a2c",
+  "requestsAttempted": 2,
+  "wire": [
+    {
+      "request": 1,
+      "phase": "natural-language-preview",
+      "stream": true,
+      "reminderToolPresent": true,
+      "httpStatus": 200
+    },
+    {
+      "request": 2,
+      "phase": "natural-language-preview",
+      "stream": true,
+      "reminderToolPresent": true,
+      "httpStatus": 200
+    }
+  ],
+  "rounds": [
+    {
+      "phase": "natural-language-preview",
+      "ok": true,
+      "status": "completed",
+      "usage": {
+        "promptTokens": 8679,
+        "completionTokens": 131,
+        "totalTokens": 8810
+      },
+      "errorCode": null
+    }
+  ],
+  "naturalChineseTimeChecked": true,
+  "previewDidNotSchedule": true,
+  "confirmationIdempotent": true,
+  "sameReminderAfterReopen": true,
+  "reopenCalls": 0,
+  "keyAbsentAfterReopen": true,
+  "syntheticNotifications": 1,
+  "repeatedTickNoDuplicate": true,
+  "disclosure": {
+    "rendererDriven": false,
+    "processRestart": false,
+    "nativeNotification": false,
+    "injectedClock": true,
+    "explicitFixturePolicyNotProductDefault": true,
+    "credentialPersisted": false,
+    "bodyLogged": false
+  }
+}

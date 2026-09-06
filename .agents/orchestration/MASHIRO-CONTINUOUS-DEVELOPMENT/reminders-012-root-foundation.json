@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "root": "D:\\Mashiro",
+  "taskFiles": [
+    "doc\\tasks\\001-project-foundation.md",
+    "doc\\tasks\\002-node-sqlite-qualification.md",
+    "doc\\tasks\\003-provider-live-qualification.md",
+    "doc\\tasks\\004-provider-text.md",
+    "doc\\tasks\\005-persistent-timeline.md",
+    "doc\\tasks\\006-timeline-context-permissions.md",
+    "doc\\tasks\\007-provider-tools-execution.md",
+    "doc\\tasks\\008-memory-direct-path.md",
+    "doc\\tasks\\009-retention-and-cleanup.md",
+    "doc\\tasks\\010-items-and-proposals.md",
+    "doc\\tasks\\011-assistant-basic-configuration.md",
+    "doc\\tasks\\012-deterministic-reminders.md",
+    "doc\\tasks\\013-background-and-steward.md",
+    "doc\\tasks\\014-windows-data-and-delivery.md",
+    "doc\\tasks\\program-docs-to-release.md"
+  ],
+  "errors": [],
+  "warnings": []
+}

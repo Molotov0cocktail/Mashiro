@@ -400,7 +400,18 @@ try {
     throw new Error('Unsaved temporary body reached persistent database files')
   }
 
+  for (const phase of [seed, verify]) {
+    if (
+      !phase.reminders?.windowCloseHid ||
+      !phase.reminders.nativeShowObserved ||
+      !phase.reminders.trayRestoreHandlerInjected ||
+      !phase.reminders.windowRestored ||
+      !phase.reminders.rendererTabAndHandle
+    )
+      throw new Error('Reminder native runtime evidence missing')
+  }
   summary = {
+    reminders: { seed: seed.reminders, restored: verify.reminders },
     runId,
     startupFailureSanitized: true,
     pids: [seed.pid, verify.pid],
@@ -432,6 +443,11 @@ try {
     chat: verify.chat
   }
   mkdirSync(join(projectRoot, 'test-results'), { recursive: true })
+  for (const phase of ['seed', 'verify'])
+    copyFileSync(
+      join(testRoot, 'results', `${phase}-reminders-ui.png`),
+      join(projectRoot, 'test-results', `reminders-012-${phase}-ui.png`)
+    )
   copyFileSync(
     join(testRoot, 'results', 'items-ui.png'),
     join(projectRoot, 'test-results', 'items-ui.png')

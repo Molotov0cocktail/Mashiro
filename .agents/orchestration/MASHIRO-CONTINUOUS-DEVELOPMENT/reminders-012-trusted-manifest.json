@@ -1,0 +1,130 @@
+[
+  {
+    "sha256": "999CA7AA76D3D74FE01A61C8692387F1474905719B0105BBBEE508682B6D2593",
+    "path": "scripts/electron-f1-harness.mjs"
+  },
+  {
+    "sha256": "3EC6C62A537C5E3DD45C5F123EEE378D8589F15CF4BBB105A1EACCC6500D9C3F",
+    "path": "src/main/data/schema.ts"
+  },
+  {
+    "sha256": "82E0A2BA18B6ACDE826391A9E3494A3F7CB6D923130F10E5D2C2E53204B17809",
+    "path": "src/main/index.ts"
+  },
+  {
+    "sha256": "E88573DC1396D15538EF7E39394CB6E479F72A4BAC993BC3FBDE19719A93FE7C",
+    "path": "src/main/item/item-tool-session.ts"
+  },
+  {
+    "sha256": "1F434981D0B5681E41777660382C17260E8AB0B30A46586BD43681281F4EA5D0",
+    "path": "src/main/provider/provider-service.ts"
+  },
+  {
+    "sha256": "7EB37FBEAD1461F10F27A08BE66F2C1CD2FBA4E7D2ACDA4DDC4C1C772AB1357C",
+    "path": "src/main/provider/tool-execution.ts"
+  },
+  {
+    "sha256": "A9C34BB393F07523277E8976469B28B4040C63D47592EA5BA6A8467EDEA622B7",
+    "path": "src/main/provider/tool-protocol.ts"
+  },
+  {
+    "sha256": "800CB32E38C9BB62FF827398FC3C1BCD209E39C5BABD407094130D39AFD00B7C",
+    "path": "src/main/testing/e2e-controller.ts"
+  },
+  {
+    "sha256": "265243B33C9563C29F263B86F94D3732B9BAF80C06A0D9A2F3CE8A9AF8A1B61C",
+    "path": "src/preload/index.d.ts"
+  },
+  {
+    "sha256": "A6A4BC16D62297120B44F170A8E53AB130D3E9E1225C796A6D98E0BA363A3B9D",
+    "path": "src/preload/index.ts"
+  },
+  {
+    "sha256": "1468F69E6376271467AF2B79360D0D7DD38D293B70E4E9D32EB90D45A6A2551D",
+    "path": "src/shared/tool-contract.ts"
+  },
+  {
+    "sha256": "8C6441E5D2739FDEF236E828C37BB057457070EBEB916E39601C9BB6165529C9",
+    "path": "tests/integration/assistant-profile.test.ts"
+  },
+  {
+    "sha256": "D352A04F63F3BED131F7C64CD8700F73AE0F67F2D22AB8C0A3233346D578B747",
+    "path": "tests/integration/item-schema.test.ts"
+  },
+  {
+    "sha256": "6102096328BCB4C8DD16F2E35FA2A214801157E8AABA0A82CC0C4A16B83B7CC2",
+    "path": "tests/integration/provider-schema.test.ts"
+  },
+  {
+    "sha256": "EE01277E41EC648D642F12FC9EB81938710931367C965C7FEDB99DD005EB2EDB",
+    "path": "tests/integration/provider-tools.test.ts"
+  },
+  {
+    "sha256": "467AED32AC1ECFD9326C2398D3F70556B62862C22D99DCFB7CD71CB609E9C8B4",
+    "path": "tests/integration/retention-legacy-fixture.ts"
+  },
+  {
+    "sha256": "ECD5A6801370BC36B1E41A16AD0F6CE62E4A8FB1326BF002A1B522F869674EFE",
+    "path": "tests/integration/retention-schema.test.ts"
+  },
+  {
+    "sha256": "0493B58FFE470D2CBAE91BAA9B866FA524F0564D5DB2C04F557A4B7BD9E31302",
+    "path": "tests/integration/timeline-context.test.ts"
+  },
+  {
+    "sha256": "7374FF3E07C1EE12BA8293968BA429198B1EFC375457D85CA62F241D88EB3FCA",
+    "path": "tests/integration/timeline-schema.test.ts"
+  },
+  {
+    "sha256": "0B9BDF4CB9CEECB86CD6D4B7D916270A8229A45BC94C9A672FDDA53EDD65D466",
+    "path": "src/main/ipc/register-reminder-ipc.ts"
+  },
+  {
+    "sha256": "87D31E57AA073AD28ACB3242D730E0F3DAF5ACD564182145BA12956B04E0A155",
+    "path": "src/main/reminder/reminder-runtime.ts"
+  },
+  {
+    "sha256": "802BE88869B1EB8307EEE1984DAD831C8F3E51CDB200CC9590C8E838211CE1A6",
+    "path": "src/main/reminder/reminder-schema.ts"
+  },
+  {
+    "sha256": "84CA82D3A7A18E8DDDF060158EF1B7F5C660154267FF5ABDDBF1FACF3C036B4D",
+    "path": "src/main/reminder/reminder-service.ts"
+  },
+  {
+    "sha256": "8907FFAD9E5492769F9B49144131D61C3BA8B2823B5026EB02A0209838B7B8CB",
+    "path": "src/main/reminder/reminder-tool-session.ts"
+  },
+  {
+    "sha256": "23B22AE3FA8966AFCBD53F19C94D7FAD4EF3ACC9245043686FC8BA53A2263253",
+    "path": "src/main/reminder/windows-reminder-platform.ts"
+  },
+  {
+    "sha256": "6D41C088C13ABC59F55040857E147983879542E528EDD37B1F57EA14B060B11A",
+    "path": "src/main/testing/e2e-reminder.ts"
+  },
+  {
+    "sha256": "1B56CDC9634D9D211FC3CF2D2E59466BA66A33F201EC77BDB455F73D30CFC182",
+    "path": "src/shared/reminder-channels.ts"
+  },
+  {
+    "sha256": "69B464FDD17D1EAABB183524724D5790339D08C646D839D5B5A30CDC3682EAFF",
+    "path": "src/shared/reminder-contract.ts"
+  },
+  {
+    "sha256": "37DD7705BFCA3101AA367FCE4AD5125260A2E89F5E78DB3DC6E5E2050F5C8771",
+    "path": "tests/integration/reminder-schema.test.ts"
+  },
+  {
+    "sha256": "83D873C1362D0B9638BE260A7B622876EB912378CE740007FEA6A4FB7CACC9D4",
+    "path": "tests/integration/reminder-service.test.ts"
+  },
+  {
+    "sha256": "0151F2E9A2A3902B269EB8D8047859E5B5584AE6B21D3115DCCD9A32DA16E4D3",
+    "path": "tests/integration/reminder-tools.test.ts"
+  },
+  {
+    "sha256": "68328CFE8725CDE19363E33E6629AF0A8347024065DEA37C1397EC3EC9A1A68F",
+    "path": "tests/unit/reminder-boundaries.test.ts"
+  }
+]

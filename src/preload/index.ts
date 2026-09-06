@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { reminderChannels, reminderChangedChannel } from '../shared/reminder-channels.js'
+import type { ReminderApi, ReminderChanged } from '../shared/reminder-contract.js'
 import { itemChannels } from '../shared/item-channels.js'
 import type { ItemApi } from '../shared/item-contract.js'
 import { retentionChannels, retentionChangedChannel } from '../shared/retention-channels.js'
@@ -82,7 +84,22 @@ const items: ItemApi = {
   permissions: (input) => ipcRenderer.invoke(itemChannels.permissions, input),
   setPermissions: (input) => ipcRenderer.invoke(itemChannels.setPermissions, input)
 }
+const reminders: ReminderApi = {
+  query: (input) => ipcRenderer.invoke(reminderChannels.query, input),
+  mutate: (input) => ipcRenderer.invoke(reminderChannels.mutate, input),
+  operation: (input) => ipcRenderer.invoke(reminderChannels.operation, input),
+  runtime: (input) => ipcRenderer.invoke(reminderChannels.runtime, input),
+  configure: (input) => ipcRenderer.invoke(reminderChannels.configure, input),
+  preview: (input) => ipcRenderer.invoke(reminderChannels.preview, input),
+  confirm: (input) => ipcRenderer.invoke(reminderChannels.confirm, input),
+  onChanged: (listener) => {
+    const handler = (_event: unknown, value: unknown): void => listener(value as ReminderChanged)
+    ipcRenderer.on(reminderChangedChannel, handler)
+    return () => ipcRenderer.removeListener(reminderChangedChannel, handler)
+  }
+}
 contextBridge.exposeInMainWorld('mashiro', {
+  reminders,
   assistants,
   provider,
   timeline,

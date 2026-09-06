@@ -1,0 +1,7 @@
+# 012 independent dialog confirmation review — REPAIR
+
+2026-09-07, gpt-6-astra / medium. R6 / P2: ReminderConversationCard uses its initial object reference as operation generation. A parent operation refresh with the same candidate ID and identical content increments version while confirm is awaiting its trusted receipt. The late SUCCEEDED result is discarded, and finally also skips clearing busy. The card remains permanently disabled at “正在确认…” until remount, without showing a committed operation.
+
+[Independent oracle](reminders-012-review-ui-confirm.test.tsx), [config](reminders-012-review-ui-confirm.config.mjs), [raw failure](reminders-012-review-ui-confirm-red.raw.txt): deferred confirm starts, parent rerenders a new same-content operation object, then trusted success resolves. The receipt is absent and the raw DOM retains disabled confirmation buttons. This is the conversation card, separate from previously repaired ReminderPanel refresh generation.
+
+Repair separates stable assistant/candidate identity lifecycle from parent snapshot synchronization. Same-ID refresh must preserve the live confirmation receipt, prevent terminal regression, and clear busy when the operation settles. A genuinely different candidate or assistant must still block late callbacks. Reviewer owns only these oracle/evidence files; UI author owns product and regression repair. Await final frozen candidate for independent rerun.

@@ -6,6 +6,11 @@ import type {
   MemoryReceipt
 } from '../../../../shared/memory-contract'
 import type { RetentionChanged, RetentionIntent } from '../../../../shared/retention-contract'
+import type {
+  ReminderApi,
+  ReminderPreview,
+  ReminderReceipt
+} from '../../../../shared/reminder-contract'
 import type { ContextIntent } from '../../../../shared/provider-contract'
 import type {
   HistoryCitation,
@@ -71,6 +76,8 @@ function toolLabel(toolName: ToolOperation['toolName']): string {
       return '协商中的提案修改'
     case 'prepare_item_update':
       return '正式事项修改预览'
+    case 'prepare_reminder':
+      return '提醒候选'
   }
 }
 
@@ -208,12 +215,233 @@ function ItemReceiptCard({
   )
 }
 
+function reminderTime(preview: ReminderPreview): string {
+  if (!('dueAt' in preview.mutation)) return '不包含新提醒时间'
+  try {
+    return (
+      new Intl.DateTimeFormat('zh-CN', {
+        timeZone: preview.mutation.timeZone,
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'longOffset',
+        hourCycle: 'h23'
+      }).format(new Date(preview.mutation.dueAt)) +
+      ' · ' +
+      preview.mutation.timeZone +
+      ' · ' +
+      preview.mutation.dueAt
+    )
+  } catch {
+    return preview.mutation.dueAt + ' · ' + preview.mutation.timeZone
+  }
+}
+
+function ReminderReceiptCard({ receipt }: { receipt: ReminderReceipt }): React.JSX.Element {
+  return (
+    <section className="reminder-tool-receipt" aria-label="提醒可信回执">
+      <strong>
+        {receipt.state === 'SUCCEEDED'
+          ? '本地提醒操作已完成'
+          : receipt.state === 'RESULT_UNKNOWN'
+            ? '提醒操作结果待核查'
+            : '已确认提醒操作未执行'}
+      </strong>
+      <p>{receipt.summary}</p>
+      <small>
+        操作编号：{receipt.operationId}
+        {receipt.reminderId
+          ? ' · 提醒 ' + receipt.reminderId + ' · 版本 ' + receipt.reminderVersion
+          : ''}
+      </small>
+    </section>
+  )
+}
+
+function ReminderConversationCard({
+  api,
+  operation,
+  initial,
+  onRefresh,
+  onChanged
+}: {
+  api: ReminderApi
+  operation: ToolOperation
+  initial: ReminderPreview
+  onRefresh: () => void
+  onChanged?: () => void
+}): React.JSX.Element {
+  const [preview, setPreview] = useState(initial)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const version = useRef(0)
+
+  useEffect(() => {
+    const currentVersion = ++version.current
+    queueMicrotask(() => {
+      if (currentVersion !== version.current) return
+      setBusy(false)
+      setError('')
+    })
+    return () => {
+      version.current += 1
+    }
+  }, [initial.confirmationId, operation.assistantId])
+
+  useEffect(() => {
+    const currentVersion = version.current
+    queueMicrotask(() => {
+      if (currentVersion !== version.current) return
+      setPreview((current) => {
+        if (current.confirmationId !== initial.confirmationId) return initial
+        const rank = (state: ReminderPreview['state']): number => (state === 'PENDING' ? 0 : 1)
+        return rank(current.state) > rank(initial.state) ? current : initial
+      })
+    })
+  }, [initial])
+
+  async function confirm(accept: boolean): Promise<void> {
+    if (busy || preview.state !== 'PENDING') return
+    const currentVersion = version.current
+    setBusy(true)
+    setError('')
+    try {
+      const checked = await api.preview({
+        protocolVersion: 1,
+        assistantId: operation.assistantId,
+        confirmationId: preview.confirmationId
+      })
+      if (currentVersion !== version.current) return
+      if (!checked.ok) {
+        setError('候选核查失败：' + checked.error.message)
+        onRefresh()
+        return
+      }
+      const current = checked.data
+      const changed =
+        current.commandId !== preview.commandId ||
+        current.itemId !== preview.itemId ||
+        current.itemVersion !== preview.itemVersion ||
+        current.itemTitle !== preview.itemTitle ||
+        JSON.stringify(current.mutation) !== JSON.stringify(preview.mutation)
+      setPreview(current)
+      if (changed) {
+        setError('候选内容或事项版本已变化，请重新核对后再确认。')
+        onRefresh()
+        return
+      }
+      if (current.state !== 'PENDING') {
+        onRefresh()
+        return
+      }
+      const result = await api.confirm({
+        protocolVersion: 1,
+        assistantId: operation.assistantId,
+        confirmationId: current.confirmationId,
+        accept
+      })
+      if (currentVersion !== version.current) return
+      if (!result.ok) {
+        setError('确认失败：' + result.error.message)
+        onRefresh()
+        return
+      }
+      if (result.data.operationId !== current.commandId) {
+        setError('确认回执与原候选操作不一致，已停止并重新核查。')
+        onRefresh()
+        return
+      }
+      let resolved: ReminderPreview = {
+        ...current,
+        state:
+          result.data.state === 'SUCCEEDED'
+            ? accept
+              ? 'ACCEPTED'
+              : 'REJECTED'
+            : !accept && result.data.state === 'CONFIRMED_NOT_APPLIED'
+              ? 'REJECTED'
+              : 'PENDING',
+        receipt: result.data
+      }
+      try {
+        const refreshed = await api.preview({
+          protocolVersion: 1,
+          assistantId: operation.assistantId,
+          confirmationId: current.confirmationId
+        })
+        if (currentVersion !== version.current) return
+        if (refreshed.ok) resolved = refreshed.data
+      } catch {
+        // Keep the confirmed receipt visible until the next trusted operation refresh.
+      }
+      setPreview(resolved)
+      onRefresh()
+      if (accept && result.data.state === 'SUCCEEDED') onChanged?.()
+    } catch {
+      if (currentVersion === version.current)
+        setError('确认结果未返回，请核查本地状态；界面不会自动重复确认。')
+    } finally {
+      if (currentVersion === version.current) setBusy(false)
+    }
+  }
+
+  const action =
+    preview.mutation.action === 'create'
+      ? '设置提醒'
+      : preview.mutation.action === 'reschedule'
+        ? '修改提醒'
+        : preview.mutation.action === 'cancel'
+          ? '取消提醒'
+          : '标为已处理'
+  return (
+    <section className="confirmation-card reminder-confirmation-card" aria-label="对话提醒候选确认">
+      <strong>
+        {preview.state === 'PENDING'
+          ? '请核对后明确确认'
+          : preview.state === 'ACCEPTED'
+            ? '提醒操作已接受'
+            : '提醒操作已拒绝'}
+      </strong>
+      <p>
+        {action}：{preview.itemTitle}
+      </p>
+      <p>{reminderTime(preview)}</p>
+      <p className="scope-note">
+        正式事项 {preview.itemId} · 当前候选事项版本 {preview.itemVersion} · 确认编号{' '}
+        {preview.confirmationId}
+      </p>
+      {preview.state === 'PENDING' ? (
+        <>
+          <p className="scope-note">
+            模型只准备了候选，尚未调度提醒；确认时本机会重新核对事项、提醒版本、时间和权限。
+          </p>
+          <div className="button-row">
+            <button type="button" disabled={busy} onClick={() => void confirm(true)}>
+              {busy ? '正在确认…' : '确认' + action}
+            </button>
+            <button type="button" disabled={busy} onClick={() => void confirm(false)}>
+              拒绝候选
+            </button>
+          </div>
+        </>
+      ) : null}
+      {preview.receipt ? <ReminderReceiptCard receipt={preview.receipt} /> : null}
+      {error ? <p role="alert">{error}</p> : null}
+    </section>
+  )
+}
+
 export function ToolExecutionPanel({
   assistantId,
   mode,
   contextIntent,
   memoryApi,
   itemApi,
+  reminderApi,
   capability,
   capabilityLoading,
   capabilityError,
@@ -226,6 +454,7 @@ export function ToolExecutionPanel({
   onLocateCitation,
   onMemoryChanged,
   onItemChanged,
+  onReminderChanged,
   onOpenItems,
   onLocateMemorySource,
   retentionChange,
@@ -236,6 +465,7 @@ export function ToolExecutionPanel({
   contextIntent: ContextIntent
   memoryApi?: MemoryApi
   itemApi?: ItemApi
+  reminderApi?: ReminderApi
   capability: ProviderCapabilities | undefined
   capabilityLoading: boolean
   capabilityError: string
@@ -248,6 +478,7 @@ export function ToolExecutionPanel({
   onLocateCitation: (citation: HistoryCitation) => void
   onMemoryChanged?: () => void
   onItemChanged?: () => void
+  onReminderChanged?: () => void
   onOpenItems?: (recovery?: {
     assistantId: string
     commandId: string
@@ -728,6 +959,17 @@ export function ToolExecutionPanel({
                     )
                   }}
                 />
+              ) : null}
+              {operation.reminderPreview && reminderApi ? (
+                <ReminderConversationCard
+                  api={reminderApi}
+                  operation={operation}
+                  initial={operation.reminderPreview}
+                  onRefresh={() => onRefreshOperation(operation.requestId)}
+                  onChanged={onReminderChanged}
+                />
+              ) : operation.reminderReceipt ? (
+                <ReminderReceiptCard receipt={operation.reminderReceipt} />
               ) : null}
               {operation.memoryReceipt ? (
                 <MemoryReceiptCard

@@ -159,7 +159,8 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
                 'apply_item_intent',
                 'propose_item',
                 'revise_item_proposal',
-                'prepare_item_update'
+                'prepare_item_update',
+                'prepare_reminder'
               ].includes(c.function.name) &&
                 !['items', 'items-memory'].includes(scope))
           )
@@ -193,7 +194,8 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
             'apply_item_intent',
             'propose_item',
             'revise_item_proposal',
-            'prepare_item_update'
+            'prepare_item_update',
+            'prepare_reminder'
           ].includes(call.function.name)
           const update = (state: ToolOperation['state'], summary: string, resultBody?: string) => {
             operation.state = state
@@ -213,11 +215,13 @@ export async function executeToolChat(options: ToolExecutionOptions): Promise<Tr
           }
           update(
             'DISPATCHING',
-            business
-              ? call.function.name === 'request_memory_removal'
-                ? '正在准备操作确认，尚未删除或撤回'
-                : '正在提交记忆操作'
-              : '正在读取'
+            call.function.name === 'prepare_reminder'
+              ? '正在准备提醒候选，尚未调度'
+              : business
+                ? call.function.name === 'request_memory_removal'
+                  ? '正在准备操作确认，尚未删除或撤回'
+                  : '正在提交记忆操作'
+                : '正在读取'
           )
           try {
             check()

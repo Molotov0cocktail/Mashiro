@@ -1,7 +1,19 @@
 import type { DatabaseSync } from 'node:sqlite'
 
 /** Only for constructing synthetic pre-v7 migration fixtures from a fresh current database. */
+export function removeReminderFixture(database: DatabaseSync): void {
+  for (const table of [
+    'reminders',
+    'reminder_commands',
+    'reminder_occurrences',
+    'reminder_settings',
+    'reminder_previews',
+    'reminder_activations'
+  ])
+    database.exec('DROP TABLE ' + table)
+}
 export function removeRetentionFixture(database: DatabaseSync): void {
+  removeReminderFixture(database)
   database.exec(
     'ALTER TABLE assistants DROP COLUMN persona; ALTER TABLE assistants DROP COLUMN avatar_key'
   )

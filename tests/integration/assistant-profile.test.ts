@@ -1,3 +1,4 @@
+import { removeReminderFixture } from './retention-legacy-fixture.js'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -360,6 +361,7 @@ it('upgrades populated exact v8 with safe defaults, preserves every prior table 
   f.provider.close()
   f.assistants.close()
   let raw = new DatabaseSync(f.db)
+  removeReminderFixture(raw)
   raw.exec(
     'ALTER TABLE assistants DROP COLUMN persona; ALTER TABLE assistants DROP COLUMN avatar_key; PRAGMA user_version=8'
   )
@@ -385,7 +387,7 @@ it('upgrades populated exact v8 with safe defaults, preserves every prior table 
   raw.close()
   const migrated = new SqliteStore(f.db)
   cleanup.push(() => migrated.close())
-  expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 9 })
+  expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 10 })
   for (const table of tables) {
     const rows = migrated.database.prepare('SELECT * FROM "' + table + '"').all()
     if (table === 'assistants')
@@ -405,7 +407,7 @@ it('upgrades populated exact v8 with safe defaults, preserves every prior table 
   expect(() =>
     migrated.database.prepare('UPDATE assistants SET avatar_key=? WHERE id=?').run('evil', f.id)
   ).toThrow()
-  migrated.database.exec('PRAGMA user_version=10')
+  migrated.database.exec('PRAGMA user_version=11')
   migrated.close()
   expect(() => new SqliteStore(f.db)).toThrow()
 })

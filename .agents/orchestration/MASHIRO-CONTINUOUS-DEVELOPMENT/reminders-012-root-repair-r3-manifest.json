@@ -1,0 +1,18 @@
+{
+  "phase": "root-review-repair-r3",
+  "supersedes": "reminders-012-root-repair-manifest.json",
+  "files": [
+    {
+      "path": "src/main/item/item-service.ts",
+      "sha256": "1A591678A9FA29D767A985EBA20BACB934F40A2FA507AA5B428906237D045CBE"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "5367DA764E6AC8B43365069D0723FCD0879BE6AF0E529FC79CBB9688C868D601"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "F0DC1F6442318F9C8E9E5A3BDDA2466133D40DCC2A79FF70C0DFC739DF5FAA2B"
+    }
+  ]
+}

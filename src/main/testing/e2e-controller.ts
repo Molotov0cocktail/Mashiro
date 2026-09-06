@@ -1,3 +1,4 @@
+import { runReminderE2e } from './e2e-reminder.js'
 import { app, type BrowserWindow } from 'electron'
 import { seedProfileUiScript, verifyProfileUiScript } from './e2e-profile-scripts.js'
 import { seedItemsScript, restoreItemsScript, verifyItemsUiScript } from './e2e-item-scripts.js'
@@ -507,7 +508,11 @@ async function execute<T>(window: BrowserWindow, script: string): Promise<T> {
   return (await window.webContents.executeJavaScript(script, false)) as T
 }
 
-export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Promise<void> {
+export async function runE2ePhase(
+  window: BrowserWindow,
+  dataRoot: DataRoot,
+  restoreFromTray?: () => void
+): Promise<void> {
   if (!dataRoot.resultsDirectory || !dataRoot.runId || !dataRoot.phase) return
   let stage = 'seed-core'
   let evidence: SeedEvidence | VerifyEvidence | { failure: { stage: string; code: string } }
@@ -667,7 +672,16 @@ export async function runE2ePhase(window: BrowserWindow, dataRoot: DataRoot): Pr
       captureFailure = { stage: 'capture', code: 'FAILED' }
     }
   }
+  let reminders: Awaited<ReturnType<typeof runReminderE2e>> | undefined
+  if (!('failure' in evidence) && !captureFailure && restoreFromTray) {
+    try {
+      reminders = await runReminderE2e(window, dataRoot, restoreFromTray)
+    } catch {
+      captureFailure = { stage: 'reminder-native-runtime', code: 'FAILED' }
+    }
+  }
   const result = {
+    reminders,
     runId: dataRoot.runId,
     phase: dataRoot.phase,
     pid: process.pid,

@@ -1,5 +1,7 @@
 import { randomUUID, createHash } from 'node:crypto'
 import { ItemService, ItemError } from '../item/item-service.js'
+import { ReminderService, ReminderError } from '../reminder/reminder-service.js'
+import { ReminderToolSession } from '../reminder/reminder-tool-session.js'
 import { ItemToolSession } from '../item/item-tool-session.js'
 import { RetentionService } from '../retention/retention-service.js'
 import { retentionToolSchema } from './tool-protocol.js'
@@ -205,6 +207,7 @@ export class ProviderService {
   readonly retention: RetentionService
   readonly memory: MemoryService
   readonly items: ItemService
+  readonly reminders: ReminderService
   private readonly toolLedger: ToolRepository
   private readonly temporaryToolLedger = new ToolRepository()
   private readonly repository: ProviderRepository
@@ -264,6 +267,13 @@ export class ProviderService {
         for (const [id, entry] of this.inflight)
           if (id !== exceptRequestId && entry.mode === 'normal') entry.controller.abort()
       }
+    )
+    this.reminders = new ReminderService(
+      store,
+      this.toolOptions.clock,
+      undefined,
+      this.items,
+      this.toolLedger
     )
     this.memory.setDomainSourceCheck((source, assistantId, fingerprint, visited) =>
       this.items.assertSource(source, assistantId, fingerprint, visited)
@@ -893,6 +903,7 @@ export class ProviderService {
         .digest('hex')
       const providedMemory: MemorySource[] = []
       let itemSession: ItemToolSession | undefined
+      let reminderSession: ReminderToolSession | undefined
       const correctedInThisRound: MemorySource[] = []
       const providedHistory = new Set<string>()
       const assertCurrent = () => {
@@ -923,6 +934,7 @@ export class ProviderService {
             throw new ProviderDomainError('PERMISSION_DENIED')
         }
         itemSession?.assertSources()
+        reminderSession?.assertSources()
         if (value.mode === 'normal') {
           for (const id of new Set([...contextIds, ...providedHistory]))
             this.memory.assertRound(
@@ -971,6 +983,37 @@ export class ProviderService {
           text,
           value.itemContext
         )
+        reminderSession = new ReminderToolSession(
+          this.reminders,
+          this.items,
+          {
+            assistantId: value.assistantId,
+            requestId: value.requestId,
+            fingerprint: endpointFingerprint,
+            assertCurrent,
+            sources: [
+              {
+                type: 'user-round',
+                id: value.requestId,
+                assistantId: value.assistantId,
+                version: 1
+              },
+              ...providedMemory,
+              ...contextIds.map((id) => ({
+                type: 'round' as const,
+                id,
+                assistantId: value.assistantId,
+                version: 1
+              }))
+            ]
+          },
+          text,
+          value.itemContext,
+          this.toolOptions.clock
+        )
+        const reminderContext = reminderSession.prepare()
+        if (reminderContext)
+          transportRequest.messages.unshift({ role: 'system', content: reminderContext })
         const prepared = itemSession.prepare()
         automatic = prepared.automatic
         if (prepared.context)
@@ -1055,6 +1098,35 @@ export class ProviderService {
               memory: async (call, operation) => {
                 assertCurrent()
                 if (value.mode !== 'normal') throw new ProviderDomainError('PERMISSION_DENIED')
+                if (call.function.name === 'prepare_reminder') {
+                  if (!reminderSession) throw new ProviderDomainError('PERMISSION_DENIED')
+                  try {
+                    return reminderSession.execute(call, operation)
+                  } catch (error) {
+                    if (
+                      (error instanceof ReminderError ||
+                        error instanceof ItemError ||
+                        error instanceof MemoryError) &&
+                      error.code !== 'STORAGE_UNAVAILABLE' &&
+                      reminderSession.provenNotApplied()
+                    ) {
+                      const rejected = {
+                        ...operation,
+                        state: 'CONFIRMED_NOT_APPLIED' as const,
+                        summary: '提醒候选未提交，请核对明确请求、事项、日期和时区',
+                        updatedAt: new Date().toISOString()
+                      }
+                      const body = JSON.stringify({
+                        state: 'CONFIRMED_NOT_APPLIED',
+                        error: { code: error.code, message: rejected.summary }
+                      })
+                      this.toolLedger.update(rejected, body)
+                      Object.assign(operation, rejected)
+                      return { body, summary: rejected.summary }
+                    }
+                    throw error
+                  }
+                }
                 if (
                   [
                     'search_items',
@@ -1200,6 +1272,7 @@ export class ProviderService {
                         rawSource,
                         ...providedMemory,
                         ...(itemSession?.provided ?? []),
+                        ...(reminderSession?.provided ?? []),
                         ...[...new Set([...contextIds, ...providedHistory])].map((id) => ({
                           type: 'round' as const,
                           id,
@@ -1410,6 +1483,7 @@ export class ProviderService {
       request.controller.abort()
       if (request.mode === 'normal') this.timeline.finish(request.assistantId, request.response)
     }
+    this.reminders.close()
     this.retention.close()
     this.closed = true
     this.inflight.clear()

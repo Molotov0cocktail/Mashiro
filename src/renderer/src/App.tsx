@@ -13,6 +13,7 @@ import {
 import { ItemPanel } from './features/items/ItemPanel'
 import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
+import { ReminderPanel } from './features/reminders/ReminderPanel'
 import { RetentionPanel } from './features/retention/RetentionPanel'
 
 type RetentionTarget = RetentionIntent['target']
@@ -38,7 +39,9 @@ export function App(): React.JSX.Element {
     nonce: number
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
-  const [activeView, setActiveView] = useState<'chat' | 'items' | 'memory' | 'retention'>('chat')
+  const [activeView, setActiveView] = useState<
+    'chat' | 'items' | 'reminders' | 'memory' | 'retention'
+  >('chat')
   const [configurationFocus, setConfigurationFocus] = useState<ConfigurationFocus | null>(null)
   const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)
   const [itemRefreshKey, setItemRefreshKey] = useState(0)
@@ -57,11 +60,19 @@ export function App(): React.JSX.Element {
   } | null>(null)
   const [pendingMemoryCommands] = useState(() => new Map<string, string>())
   const [pendingItemCommands] = useState(() => new Map<string, string>())
+  const [pendingReminderCommands] = useState(() => new Map<string, string>())
+  const [reminderRefreshKey, setReminderRefreshKey] = useState(0)
+  const [reminderOpenTarget, setReminderOpenTarget] = useState<{
+    assistantId: string
+    itemId: string
+    nonce: number
+  } | null>(null)
   const [retentionChange, setRetentionChange] = useState<RetentionChanged | null>(null)
   const [retentionTarget, setRetentionTarget] = useState<PreparedRetention | null>(null)
   const [lastGovernanceAssistantId, setLastGovernanceAssistantId] = useState('')
   const governanceEpoch = useRef(0)
   const assistantRequestVersion = useRef(0)
+  const reminderListenerVersion = useRef(0)
 
   const receiveAssistantSnapshot = useCallback((value: AssistantSnapshot) => {
     assistantRequestVersion.current += 1
@@ -121,7 +132,23 @@ export function App(): React.JSX.Element {
 
   const receiveItemChange = useCallback(() => {
     setItemRefreshKey((value) => value + 1)
+    setReminderRefreshKey((value) => value + 1)
   }, [])
+
+  const openReminderItem = useCallback(
+    (itemId: string): void => {
+      const assistantId = assistantSnapshot?.currentAssistantId
+      if (!assistantId) return
+      setReminderOpenTarget((current) => ({
+        assistantId,
+        itemId,
+        nonce: (current?.nonce ?? 0) + 1
+      }))
+      setItemRefreshKey((value) => value + 1)
+      setActiveView('items')
+    },
+    [assistantSnapshot?.currentAssistantId]
+  )
 
   const openItems = useCallback(
     (recovery?: {
@@ -396,6 +423,44 @@ export function App(): React.JSX.Element {
     })
   }, [historyTarget, pendingMemoryCommands, refreshAssistants])
 
+  useEffect(() => {
+    let active = true
+    queueMicrotask(() => {
+      if (active) setReminderOpenTarget(null)
+    })
+    return () => {
+      active = false
+    }
+  }, [assistantSnapshot?.currentAssistantId])
+
+  useEffect(() => {
+    const reminders = window.mashiro.reminders
+    const assistantId = assistantSnapshot?.currentAssistantId
+    if (!reminders || !assistantId) return
+    const listenerVersion = ++reminderListenerVersion.current
+    return reminders.onChanged((event) => {
+      if (listenerVersion !== reminderListenerVersion.current) return
+      if (event.kind === 'changed') {
+        setReminderRefreshKey((value) => value + 1)
+        return
+      }
+      if (event.kind === 'open-reminders') {
+        setReminderRefreshKey((value) => value + 1)
+        setActiveView('reminders')
+        return
+      }
+      const itemId = event.itemId
+      if (!itemId) return
+      setReminderOpenTarget((current) => ({
+        assistantId,
+        itemId,
+        nonce: (current?.nonce ?? 0) + 1
+      }))
+      setItemRefreshKey((value) => value + 1)
+      setActiveView('items')
+    })
+  }, [assistantSnapshot?.currentAssistantId])
+
   const prepareRetention = useCallback(
     (assistantId: string, target: RetentionTarget, intent?: RetentionPreview['intent']): void => {
       setRetentionTarget((value) => ({
@@ -410,14 +475,18 @@ export function App(): React.JSX.Element {
     []
   )
 
-  const selectPrimaryView = useCallback((view: 'chat' | 'items' | 'memory' | 'retention'): void => {
-    assistantRequestVersion.current += 1
-    setConfigurationFocus(null)
-    setNavigationError('')
-    if (view === 'items') setItemRefreshKey((value) => value + 1)
-    if (view === 'memory') setMemoryRefreshKey((value) => value + 1)
-    setActiveView(view)
-  }, [])
+  const selectPrimaryView = useCallback(
+    (view: 'chat' | 'items' | 'reminders' | 'memory' | 'retention'): void => {
+      assistantRequestVersion.current += 1
+      setConfigurationFocus(null)
+      setNavigationError('')
+      if (view === 'items') setItemRefreshKey((value) => value + 1)
+      if (view === 'reminders') setReminderRefreshKey((value) => value + 1)
+      if (view === 'memory') setMemoryRefreshKey((value) => value + 1)
+      setActiveView(view)
+    },
+    []
+  )
 
   return (
     <main>
@@ -443,6 +512,14 @@ export function App(): React.JSX.Element {
           onClick={() => selectPrimaryView('items')}
         >
           事项
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeView === 'reminders'}
+          onClick={() => selectPrimaryView('reminders')}
+        >
+          提醒
         </button>
         <button
           type="button"
@@ -480,10 +557,12 @@ export function App(): React.JSX.Element {
           timelineApi={window.mashiro.timeline}
           memoryApi={window.mashiro.memory}
           itemApi={window.mashiro.items}
+          reminderApi={window.mashiro.reminders}
           itemTarget={itemConversationTarget}
           historyTarget={historyTarget}
           onMemoryChanged={receiveMemoryChange}
           onItemChanged={receiveItemChange}
+          onReminderChanged={() => setReminderRefreshKey((value) => value + 1)}
           onOpenItems={openItems}
           onLocateMemorySource={locateMemorySource}
           retentionChange={retentionChange}
@@ -510,8 +589,11 @@ export function App(): React.JSX.Element {
             )?.displayName ?? ''
           }
           api={window.mashiro.items}
+          reminderApi={window.mashiro.reminders}
           refreshKey={itemRefreshKey}
+          reminderRefreshKey={reminderRefreshKey}
           pendingCommands={pendingItemCommands}
+          pendingReminderCommands={pendingReminderCommands}
           retentionChange={retentionChange}
           recoveryTarget={itemRecoveryTarget}
           archivedAssistantIds={
@@ -526,7 +608,28 @@ export function App(): React.JSX.Element {
           configurationFocusNonce={
             configurationFocus?.target === 'items' ? configurationFocus.nonce : null
           }
+          openItemTarget={reminderOpenTarget}
         />
+      </section>
+      <section hidden={activeView !== 'reminders'} aria-label="提醒页面">
+        {window.mashiro.reminders ? (
+          <ReminderPanel
+            key={assistantSnapshot?.currentAssistantId ?? ''}
+            assistantId={assistantSnapshot?.currentAssistantId ?? ''}
+            assistantName={
+              assistantSnapshot?.assistants.find(
+                (assistant) => assistant.id === assistantSnapshot.currentAssistantId
+              )?.displayName ?? ''
+            }
+            api={window.mashiro.reminders}
+            itemApi={window.mashiro.items}
+            refreshKey={reminderRefreshKey}
+            pendingCommands={pendingReminderCommands}
+            onOpenItem={openReminderItem}
+          />
+        ) : (
+          <p role="alert">本机提醒服务尚未就绪。</p>
+        )}
       </section>
       <section hidden={activeView !== 'memory'} aria-label="记忆与事件页面">
         <MemoryPanel

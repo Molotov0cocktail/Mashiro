@@ -11,7 +11,8 @@ export default tseslint.config(
       'coverage/**',
       'test-results/**',
       '.npm-cache/**',
-      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-*-oracle.{ts,tsx}'
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-*-oracle.{ts,tsx}',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-*.test.{ts,tsx}'
     ]
   },
   js.configs.recommended,

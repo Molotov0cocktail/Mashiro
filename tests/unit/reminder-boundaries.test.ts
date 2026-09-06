@@ -1,0 +1,121 @@
+import { beforeEach, expect, it, vi } from 'vitest'
+const host = vi.hoisted(() => ({
+  packaged: false,
+  startup: false,
+  set: vi.fn(),
+  options: [] as unknown[],
+  callbacks: new Map<string, () => void>()
+}))
+vi.mock('electron', () => ({
+  app: {
+    get isPackaged() {
+      return host.packaged
+    },
+    getLoginItemSettings: () => ({ openAtLogin: host.startup }),
+    setLoginItemSettings: (value: { openAtLogin: boolean }) => {
+      host.set(value)
+      host.startup = value.openAtLogin
+    }
+  },
+  Notification: class {
+    static isSupported() {
+      return true
+    }
+    constructor(value: unknown) {
+      host.options.push(value)
+    }
+    on(name: string, fn: () => void) {
+      host.callbacks.set(name, fn)
+      return this
+    }
+    show() {
+      host.callbacks.get('show')?.()
+    }
+    close() {}
+  }
+}))
+import {
+  createWindowsReminderPlatform,
+  parseReminderActivation
+} from '../../src/main/reminder/windows-reminder-platform.js'
+import { reminderChannels } from '../../src/shared/reminder-channels.js'
+import { registerReminderIpc } from '../../src/main/ipc/register-reminder-ipc.js'
+import type { ReminderService } from '../../src/main/reminder/reminder-service.js'
+beforeEach(() => {
+  host.packaged = false
+  host.startup = false
+  host.set.mockClear()
+  host.options = []
+  host.callbacks.clear()
+})
+it('accepts only bounded reminder activation identities and rejects paths, scripts and oversized inputs', () => {
+  const id = '01234567-89ab-4def-8123-456789abcdef'
+  expect(parseReminderActivation('mashiro-reminders:' + id + ':1')).toEqual([{ id, version: 1 }])
+  for (const bad of [
+    'file:///private',
+    'mashiro-reminders:' + id + ':0',
+    'mashiro-reminders:' + id + ':1<script>',
+    'mashiro-reminders:' + id + ':1,' + 'x'.repeat(6000)
+  ])
+    expect(parseReminderActivation(bad)).toEqual([])
+})
+it('development never registers login startup; packaged settings target this executable with exact args', () => {
+  const platform = createWindowsReminderPlatform()
+  expect(platform.loginStartupSupported()).toBe(false)
+  expect(() => platform.setLoginStartup(true)).toThrow()
+  expect(host.set).not.toHaveBeenCalled()
+  host.packaged = true
+  platform.setLoginStartup(true)
+  expect(host.set).toHaveBeenCalledWith({
+    path: process.execPath,
+    args: ['--mashiro-login'],
+    openAtLogin: true,
+    name: 'Mashiro'
+  })
+  expect(platform.getLoginStartup()).toBe(true)
+  platform.setLoginStartup(false)
+  expect(platform.getLoginStartup()).toBe(false)
+})
+it('native notification carries only stable identities and generic text; event observation remains separate', () => {
+  const platform = createWindowsReminderPlatform()
+  const events: string[] = []
+  platform.show(
+    { identities: [{ id: '01234567-89ab-4def-8123-456789abcdef', version: 2 }], count: 1 },
+    (event) => events.push(event)
+  )
+  expect(events).toEqual(['show'])
+  expect(host.options[0]).toMatchObject({
+    title: 'Mashiro 提醒',
+    body: '一项已保存的提醒到时。点击查看当前事项。'
+  })
+  expect(JSON.stringify(host.options[0])).toContain(
+    'mashiro-reminders:01234567-89ab-4def-8123-456789abcdef:2'
+  )
+})
+it('reminder IPC rejects subframe/untrusted callers before service access and validates outbound results', () => {
+  const handlers = new Map<string, (event: unknown, input: unknown) => unknown>()
+  const query = vi.fn(() => ({ ok: true, data: { arbitraryPath: 'private' } }))
+  const service = { query } as unknown as ReminderService
+  const remove = vi.fn()
+  const unregister = registerReminderIpc(
+    {
+      handle: (name, fn) => {
+        handlers.set(name, fn)
+      },
+      removeHandler: remove
+    },
+    service,
+    (event) => event === 'trusted'
+  )
+  expect(handlers.get(reminderChannels.query)!('untrusted', {})).toMatchObject({
+    ok: false,
+    error: { code: 'PERMISSION_DENIED' }
+  })
+  expect(query).not.toHaveBeenCalled()
+  expect(handlers.get(reminderChannels.query)!('trusted', {})).toMatchObject({
+    ok: false,
+    error: { code: 'STORAGE_UNAVAILABLE' }
+  })
+  unregister()
+  expect(remove).toHaveBeenCalledTimes(Object.keys(reminderChannels).length)
+})

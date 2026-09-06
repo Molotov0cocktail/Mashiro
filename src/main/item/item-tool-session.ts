@@ -70,6 +70,7 @@ export class ItemToolSession {
     this.acceptSelected =
       this.selected?.type === 'proposal' &&
       /^(?:请)?(?:接受|确认接受)(?:这个|这项|当前)?(?:建议|提案)[。！]?$/.test(this.text.trim())
+    if (/提醒/.test(this.text)) return { context }
     this.mutation = recognizeItemIntent(this.text, [], selectedItem)
     if (!this.mutation)
       this.mutation = recognizeItemIntent(

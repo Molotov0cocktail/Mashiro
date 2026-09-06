@@ -14,6 +14,10 @@
 7. 运行中心汇总权限拒绝、业务记录、重复同类错误及按普通对话/整理/后台任务分类的用量；显示下一动作与恢复状态，默认日志不复制正文/Key。失败不把已发生业务说成未执行，未知先核查。
 8. Markdown语义接受版本与事务治理一致；应用内编辑优先。显式外部重载只走可信选择、验证及冲突处理，不自动信任文件变化或扩大权限。可选embedding仍按原始DEFERRED范围，不构成必需门槛，现有全文检索和重建须遵守删除抑制。
 
+## 当前源码准备
+
+root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-actual-plan.md)：基于memory_pending、接受版本/来源/抑制、RetentionDependencies真实ID/version/hash及现有Provider输出限制，明确角色预算、作业、章节与日常入口。本任务仍PLANNED，方案不代表实现或提前占用schema。
+
 ## 工程闭环
 
 实施者读取当前实际服务/DTO与上述原文，再拆可审核增量；队列、租约、事务和worker由工程链评估，不能把复杂度改成产品延期。主线程响应性使用真实合成积压验证，只有证据需要时迁移worker。新schema加法版本化，恢复先核查稳定作业身份及当前版本，提交前再检查权限、撤回及取消。

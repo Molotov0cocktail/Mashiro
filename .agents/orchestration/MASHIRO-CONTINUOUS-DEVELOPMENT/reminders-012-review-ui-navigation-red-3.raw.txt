@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-navigation.test.tsx (1 test | 1 failed) 168ms
+   × review: a later notification target wins over an older pending manual inspection 167ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-navigation.test.tsx > review: a later notification target wins over an older pending manual inspection
+Error: expect(element).toHaveValue(最新通知事项)
+
+Expected the element to have value:
+  最新通知事项
+Received:
+  周五交报告
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-navigation.test.tsx:20:82
+     18|  await waitFor(()=>expect(within(screen.getByRole('region',{name:'事项详情…
+     19|  await act(async()=>resolveManual({ok:true,data:{item:itemRecord(),pro…
+     20|  expect(within(screen.getByRole('region',{name:'事项详情'})).getByLabelTex…
+       |                                                                                  ^
+     21| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  06:49:31
+   Duration  1.34s (transform 107ms, setup 143ms, import 129ms, tests 168ms, environment 737ms)
+

@@ -1,0 +1,33 @@
+{
+  "outcome": "INCONCLUSIVE",
+  "phase": "natural-language-preview",
+  "bundleSha256": "4e0688560ecb189658d73742f7431662b76636ae1f4e619a0e7e372452cb8ae8",
+  "requestsAttempted": 2,
+  "wire": [
+    {
+      "request": 1,
+      "phase": "natural-language-preview",
+      "stream": true,
+      "reminderToolPresent": true,
+      "httpStatus": 200
+    },
+    {
+      "request": 2,
+      "phase": "natural-language-preview",
+      "stream": true,
+      "reminderToolPresent": true,
+      "httpStatus": 200
+    }
+  ],
+  "rounds": [
+    {
+      "phase": "natural-language-preview",
+      "ok": false,
+      "status": null,
+      "usage": null,
+      "errorCode": "STORAGE_UNAVAILABLE"
+    }
+  ],
+  "retainedSyntheticRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-reminders-live-0AlAKv",
+  "reason": "CHAT_INCOMPLETE"
+}

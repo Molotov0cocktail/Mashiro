@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-dst.test.tsx (1 test | 1 failed) 147ms
+   × review: changing an ambiguous wall clock invalidates the previously chosen instant 146ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-dst.test.tsx > review: changing an ambiguous wall clock invalidates the previously chosen instant
+Error: expect(element).toBeDisabled()
+
+Received element is not disabled:
+  <button
+  type="button"
+/>
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-ui-dst.test.tsx:17:51
+     15|  expect(screen.getByRole('button',{name:'保存提醒'})).toBeEnabled()
+     16|  fireEvent.change(screen.getByLabelText('提醒本地日期和时间'),{target:{value:'2…
+     17|  expect(screen.getByRole('button',{name:'保存提醒'})).toBeDisabled()
+       |                                                   ^
+     18| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  06:33:21
+   Duration  1.21s (transform 76ms, setup 138ms, import 91ms, tests 147ms, environment 683ms)
+

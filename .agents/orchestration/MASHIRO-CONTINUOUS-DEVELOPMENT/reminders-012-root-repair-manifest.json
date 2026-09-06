@@ -1,0 +1,18 @@
+{
+  "phase": "root-review-repair",
+  "baseline": "reminders-012-trusted-manifest.json",
+  "files": [
+    {
+      "path": "src/main/item/item-service.ts",
+      "sha256": "1A591678A9FA29D767A985EBA20BACB934F40A2FA507AA5B428906237D045CBE"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "9E30EF8A98472E1CEAE360B624F72146B8FFCF1BAE12CB57AB54668513384061"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "4E04E353B5B8B3E655634E0D2AF59B1E22A00C952BDA290EF62B4ED9649D303A"
+    }
+  ]
+}

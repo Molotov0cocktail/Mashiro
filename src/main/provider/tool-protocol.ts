@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { reminderPrepareToolSchema } from '../../shared/reminder-contract.js'
 import {
   itemIntentToolSchema,
   itemPrepareUpdateToolSchema,
@@ -51,7 +52,8 @@ export const toolCallSchema = z.strictObject({
       'apply_item_intent',
       'propose_item',
       'revise_item_proposal',
-      'prepare_item_update'
+      'prepare_item_update',
+      'prepare_reminder'
     ]),
     arguments: z.string().min(2).max(TOOL_LIMITS.arguments)
   })
@@ -143,6 +145,12 @@ export function toolDefinitions(
   if (scope === 'items' || scope === 'items-memory') {
     const domain = [
       {
+        name: 'prepare_reminder',
+        description:
+          '仅为当前用户明确请求的正式事项提醒准备本机确认，不执行调度。action set需完整未来ISO日期偏移和IANA时区；中文相对时间先查当前时间。时区或时间不明确先问用户，不猜测。取消用cancel和两个null。已有提醒保持同ID改期，不建立重复提醒。',
+        schema: reminderPrepareToolSchema
+      },
+      {
         name: 'search_items',
         description: '查询获准的正式事项和未确认提案。提案不算正式事项。',
         schema: historyArgumentsSchema
@@ -222,6 +230,7 @@ export function validateToolCalls(value: unknown): ToolCall[] {
     else if (call.function.name === 'propose_item') itemProposeToolSchema.parse(args)
     else if (call.function.name === 'revise_item_proposal') itemReviseToolSchema.parse(args)
     else if (call.function.name === 'prepare_item_update') itemPrepareUpdateToolSchema.parse(args)
+    else if (call.function.name === 'prepare_reminder') reminderPrepareToolSchema.parse(args)
     else historyArgumentsSchema.parse(args)
   }
   return calls

@@ -1,0 +1,32 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-events.test.ts (1 test | 1 failed) 134ms
+   × review: terminal item write is broadcast to existing reminder views on next tick 133ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-events.test.ts > review: terminal item write is broadcast to existing reminder views on next tick
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-events.test.ts:134:58
+    132|   f.service.tick()
+    133|   expect(f.records()[0]!.state).toBe('CANCELLED')
+    134|   expect(f.events.filter(event=>event.kind==='changed')).toHaveLength(…
+       |                                                          ^
+    135| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  06:28:23
+   Duration  663ms (transform 164ms, setup 139ms, import 233ms, tests 134ms, environment 0ms)
+

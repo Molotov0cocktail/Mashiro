@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/retention-adversarial.test.ts (11 tests | 1 failed) 9187ms
+   × yields to unrelated local work while planning and draining a multi-batch cleanup 5420ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/retention-adversarial.test.ts > yields to unrelated local work while planning and draining a multi-batch cleanup
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/integration/retention-adversarial.test.ts:668:1
+    666| })
+    667|
+    668| it('yields to unrelated local work while planning and draining a multi…
+       | ^
+    669|   const f = fixture()
+    670|   const records = Array.from({ length: 52 }, () => f.remember(f.ids[0]…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 60 passed (61)
+      Tests  1 failed | 359 passed (360)
+   Start at  06:41:43
+   Duration  12.34s (transform 6.56s, setup 16.57s, import 17.76s, tests 136.53s, environment 29.61s)
+

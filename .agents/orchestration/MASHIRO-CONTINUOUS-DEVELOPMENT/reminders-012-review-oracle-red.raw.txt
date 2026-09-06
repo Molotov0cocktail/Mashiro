@@ -1,0 +1,50 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-oracle.test.ts (3 tests | 2 failed) 372ms
+   × review: complete then reopen before scheduler cannot revive the original plan 141ms
+   × review: cancelling one merged occurrence preserves the notification for its live sibling 117ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-oracle.test.ts > review: complete then reopen before scheduler cannot revive the original plan
+AssertionError: expected 'DISPLAY_OBSERVED' to be 'CANCELLED' // Object.is equality
+
+Expected: "CANCELLED"
+Received: "DISPLAY_OBSERVED"
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-oracle.test.ts:134:33
+    132|   f.time(1000)
+    133|   f.service.tick()
+    134|   expect(f.records()[0]!.state).toBe('CANCELLED')
+       |                                 ^
+    135|   expect(f.shown).toHaveLength(0)
+    136| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-oracle.test.ts > review: cancelling one merged occurrence preserves the notification for its live sibling
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-oracle.test.ts:145:30
+    143|   expect(f.shown).toHaveLength(1)
+    144|   f.service.mutate({...f.base,commandId:randomUUID(),mutation:{action:…
+    145|   expect(f.shown[0]!.closed).toBe(false)
+       |                              ^
+    146| })
+    147| it('review: failed post-show claim recovers unknown without replay and…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  06:19:42
+   Duration  903ms (transform 168ms, setup 142ms, import 237ms, tests 372ms, environment 0ms)
+

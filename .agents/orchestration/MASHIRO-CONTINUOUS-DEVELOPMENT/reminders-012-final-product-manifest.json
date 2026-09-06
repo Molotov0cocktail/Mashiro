@@ -1,0 +1,237 @@
+{
+  "scope": "012-final-product-and-check-configuration",
+  "baseCommit": "6da9ee983ab6ffa51b77c4dd14c97ef10a142c49",
+  "count": 46,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "21CEFD6F223556B0C211EFB8B03AC012EB7ED1F248514D3FA787817C165E4A3A",
+      "bytes": 1634
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sha256": "908FC53D5D7B516E2CFBA5C86C98C54D6ACCD41A165E257A924977C8EF102821",
+      "bytes": 927
+    },
+    {
+      "path": "scripts/electron-f1-harness.mjs",
+      "sha256": "37F4FADFFCE3A2D7541DDE2E0C9ADAE83CD0D872E5BC8C4A43376D9AE4BC2DCA",
+      "bytes": 17581
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "3EC6C62A537C5E3DD45C5F123EEE378D8589F15CF4BBB105A1EACCC6500D9C3F",
+      "bytes": 19285
+    },
+    {
+      "path": "src/main/index.ts",
+      "sha256": "82E0A2BA18B6ACDE826391A9E3494A3F7CB6D923130F10E5D2C2E53204B17809",
+      "bytes": 4561
+    },
+    {
+      "path": "src/main/ipc/register-reminder-ipc.ts",
+      "sha256": "0B9BDF4CB9CEECB86CD6D4B7D916270A8229A45BC94C9A672FDDA53EDD65D466",
+      "bytes": 2038
+    },
+    {
+      "path": "src/main/item/item-service.ts",
+      "sha256": "1A591678A9FA29D767A985EBA20BACB934F40A2FA507AA5B428906237D045CBE",
+      "bytes": 40442
+    },
+    {
+      "path": "src/main/item/item-tool-session.ts",
+      "sha256": "E88573DC1396D15538EF7E39394CB6E479F72A4BAC993BC3FBDE19719A93FE7C",
+      "bytes": 10579
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "sha256": "1F434981D0B5681E41777660382C17260E8AB0B30A46586BD43681281F4EA5D0",
+      "bytes": 59643
+    },
+    {
+      "path": "src/main/provider/tool-execution.ts",
+      "sha256": "7EB37FBEAD1461F10F27A08BE66F2C1CD2FBA4E7D2ACDA4DDC4C1C772AB1357C",
+      "bytes": 13237
+    },
+    {
+      "path": "src/main/provider/tool-protocol.ts",
+      "sha256": "A9C34BB393F07523277E8976469B28B4040C63D47592EA5BA6A8467EDEA622B7",
+      "bytes": 12433
+    },
+    {
+      "path": "src/main/reminder/reminder-runtime.ts",
+      "sha256": "87D31E57AA073AD28ACB3242D730E0F3DAF5ACD564182145BA12956B04E0A155",
+      "bytes": 3046
+    },
+    {
+      "path": "src/main/reminder/reminder-schema.ts",
+      "sha256": "802BE88869B1EB8307EEE1984DAD831C8F3E51CDB200CC9590C8E838211CE1A6",
+      "bytes": 2675
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "5367DA764E6AC8B43365069D0723FCD0879BE6AF0E529FC79CBB9688C868D601",
+      "bytes": 26686
+    },
+    {
+      "path": "src/main/reminder/reminder-tool-session.ts",
+      "sha256": "8907FFAD9E5492769F9B49144131D61C3BA8B2823B5026EB02A0209838B7B8CB",
+      "bytes": 7051
+    },
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "sha256": "23B22AE3FA8966AFCBD53F19C94D7FAD4EF3ACC9245043686FC8BA53A2263253",
+      "bytes": 2546
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "sha256": "800CB32E38C9BB62FF827398FC3C1BCD209E39C5BABD407094130D39AFD00B7C",
+      "bytes": 33912
+    },
+    {
+      "path": "src/main/testing/e2e-reminder.ts",
+      "sha256": "7338A5F4BD0D1FCD26C5D49624DC4DA11416B6ACCBB64113E091494A8574E402",
+      "bytes": 5818
+    },
+    {
+      "path": "src/preload/index.d.ts",
+      "sha256": "265243B33C9563C29F263B86F94D3732B9BAF80C06A0D9A2F3CE8A9AF8A1B61C",
+      "bytes": 702
+    },
+    {
+      "path": "src/preload/index.ts",
+      "sha256": "A6A4BC16D62297120B44F170A8E53AB130D3E9E1225C796A6D98E0BA363A3B9D",
+      "bytes": 6173
+    },
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "2D79E178B407644DA2A58E7392014084012A97E647F26C9455F3DEEDD3E4921A",
+      "bytes": 23984
+    },
+    {
+      "path": "src/renderer/src/features/items/ItemPanel.tsx",
+      "sha256": "AE3488A5A34B7544D11D474768897C1E47ACD3D1ED1AC477539C77293EA79849",
+      "bytes": 57643
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "sha256": "18EEE7F31DA9E4CB511AF4FF372F157C9638D5B7B71C674AC44A95F52166CD6C",
+      "bytes": 69714
+    },
+    {
+      "path": "src/renderer/src/features/provider/ToolExecutionPanel.tsx",
+      "sha256": "EF1E00CBAC8AF633E0B347CF43B9BCEE6E7CEC483E75790864FB0D5AEA73DFD9",
+      "bytes": 38685
+    },
+    {
+      "path": "src/renderer/src/features/reminders/ReminderPanel.tsx",
+      "sha256": "44ADBAA79101BDF64B8C6520ED415C37DC8978A100A7980E66873A8A3CCD593F",
+      "bytes": 33616
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "4AEA8DCA068A63BF7D25939D1991EFE461E64158A2D186653A295042AE17087E",
+      "bytes": 20600
+    },
+    {
+      "path": "src/shared/reminder-channels.ts",
+      "sha256": "1B56CDC9634D9D211FC3CF2D2E59466BA66A33F201EC77BDB455F73D30CFC182",
+      "bytes": 328
+    },
+    {
+      "path": "src/shared/reminder-contract.ts",
+      "sha256": "69B464FDD17D1EAABB183524724D5790339D08C646D839D5B5A30CDC3682EAFF",
+      "bytes": 5661
+    },
+    {
+      "path": "src/shared/tool-contract.ts",
+      "sha256": "1468F69E6376271467AF2B79360D0D7DD38D293B70E4E9D32EB90D45A6A2551D",
+      "bytes": 3584
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "sha256": "8C6441E5D2739FDEF236E828C37BB057457070EBEB916E39601C9BB6165529C9",
+      "bytes": 19511
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "sha256": "D352A04F63F3BED131F7C64CD8700F73AE0F67F2D22AB8C0A3233346D578B747",
+      "bytes": 2200
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "sha256": "6102096328BCB4C8DD16F2E35FA2A214801157E8AABA0A82CC0C4A16B83B7CC2",
+      "bytes": 6069
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "EE01277E41EC648D642F12FC9EB81938710931367C965C7FEDB99DD005EB2EDB",
+      "bytes": 26177
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "sha256": "37DD7705BFCA3101AA367FCE4AD5125260A2E89F5E78DB3DC6E5E2050F5C8771",
+      "bytes": 2063
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "F0DC1F6442318F9C8E9E5A3BDDA2466133D40DCC2A79FF70C0DFC739DF5FAA2B",
+      "bytes": 13939
+    },
+    {
+      "path": "tests/integration/reminder-tools.test.ts",
+      "sha256": "0151F2E9A2A3902B269EB8D8047859E5B5584AE6B21D3115DCCD9A32DA16E4D3",
+      "bytes": 11572
+    },
+    {
+      "path": "tests/integration/retention-legacy-fixture.ts",
+      "sha256": "467AED32AC1ECFD9326C2398D3F70556B62862C22D99DCFB7CD71CB609E9C8B4",
+      "bytes": 2032
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "sha256": "ECD5A6801370BC36B1E41A16AD0F6CE62E4A8FB1326BF002A1B522F869674EFE",
+      "bytes": 2190
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "sha256": "0493B58FFE470D2CBAE91BAA9B866FA524F0564D5DB2C04F557A4B7BD9E31302",
+      "bytes": 26462
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "sha256": "7374FF3E07C1EE12BA8293968BA429198B1EFC375457D85CA62F241D88EB3FCA",
+      "bytes": 7732
+    },
+    {
+      "path": "tests/renderer/App-reminders.test.tsx",
+      "sha256": "7D88C2FBF2B68ACF6A9D24A57D836A3A47A41582F06C0E007C3CB0FA45DE2C73",
+      "bytes": 3980
+    },
+    {
+      "path": "tests/renderer/reminder-api-fixture.ts",
+      "sha256": "A363323117E371C0D55D621A19F7AAE0A0AC914A32C590B9191DE4C7437E11D0",
+      "bytes": 2873
+    },
+    {
+      "path": "tests/renderer/ReminderPanel.test.tsx",
+      "sha256": "6CEB47DE1A4FE11D472F9BB951F04566748598F16DF1EB5A1AE5265EC882DBAF",
+      "bytes": 14754
+    },
+    {
+      "path": "tests/renderer/ToolExecutionPanel-reminders.test.tsx",
+      "sha256": "5381D7AD0C2331F7B70D77923DA183A3E16C30FDF0B6C00A301725CB915BDBF6",
+      "bytes": 6511
+    },
+    {
+      "path": "tests/unit/reminder-boundaries.test.ts",
+      "sha256": "68328CFE8725CDE19363E33E6629AF0A8347024065DEA37C1397EC3EC9A1A68F",
+      "bytes": 4143
+    },
+    {
+      "path": "vitest.config.ts",
+      "sha256": "A464A8FF576C0439DA6A05B3E16E04A83A26522FB3D89CBC77CEEEB39C805A78",
+      "bytes": 403
+    }
+  ]
+}

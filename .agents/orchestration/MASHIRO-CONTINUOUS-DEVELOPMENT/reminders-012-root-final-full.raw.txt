@@ -1,0 +1,13 @@
+
+> mashiro@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 D:/Mashiro
+
+
+ Test Files  61 passed (61)
+      Tests  360 passed (360)
+   Start at  06:53:01
+   Duration  46.18s (transform 1.62s, setup 6.56s, import 6.20s, tests 54.79s, environment 15.31s)
+

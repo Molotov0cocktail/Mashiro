@@ -1,4 +1,6 @@
 import { app, BrowserWindow, ipcMain, safeStorage, type IpcMainInvokeEvent } from 'electron'
+import { registerReminderIpc, emitReminderChanged } from './ipc/register-reminder-ipc.js'
+import { startReminderRuntime } from './reminder/reminder-runtime.js'
 import { registerItemIpc } from './ipc/register-item-ipc.js'
 import { registerRetentionIpc } from './ipc/register-retention-ipc.js'
 import { registerMemoryIpc } from './ipc/register-memory-ipc.js'
@@ -11,6 +13,8 @@ import { registerProviderIpc } from './ipc/register-provider-ipc.js'
 import { ProviderService } from './provider/provider-service.js'
 import { e2eProviderTransport, runE2ePhase } from './testing/e2e-controller.js'
 
+let reminderRuntime: ReturnType<typeof startReminderRuntime> | undefined
+let unregisterReminderIpc: (() => void) | undefined
 let assistantService: AssistantService | undefined
 let providerService: ProviderService | undefined
 let unregisterAssistantIpc: (() => void) | undefined
@@ -22,6 +26,10 @@ let unregisterItemIpc: (() => void) | undefined
 
 async function start(): Promise<void> {
   const dataRoot = resolveDataRoot(app)
+  if (!app.requestSingleInstanceLock()) {
+    app.quit()
+    return
+  }
   await app.whenReady()
   assistantService = AssistantService.open(dataRoot.databasePath)
   providerService = ProviderService.open(
@@ -50,18 +58,40 @@ async function start(): Promise<void> {
       )
     }
   )
+  unregisterReminderIpc = registerReminderIpc(ipcMain, providerService.reminders, (event) => {
+    const call = event as IpcMainInvokeEvent
+    return (
+      !!BrowserWindow.fromWebContents(call.sender) && call.senderFrame === call.sender.mainFrame
+    )
+  })
   const window = await createWindow()
-  await runE2ePhase(window, dataRoot)
+  reminderRuntime = startReminderRuntime(providerService.reminders, window, (event) =>
+    emitReminderChanged((channel, value) => {
+      if (!window.isDestroyed()) window.webContents.send(channel, value)
+    }, event)
+  )
+  if (app.isPackaged && process.argv.includes('--mashiro-login')) window.hide()
+  await runE2ePhase(
+    window,
+    dataRoot,
+    dataRoot.profile === 'test' ? reminderRuntime.restoreFromTrayForTest : undefined
+  )
 }
 
 app.on('before-quit', (event) => {
+  reminderRuntime?.setQuitting(true)
   try {
     providerService?.close()
   } catch {
     event.preventDefault()
+    reminderRuntime?.setQuitting(false)
     console.error('MASHIRO_SHUTDOWN_STORAGE_FAILURE')
     return
   }
+  reminderRuntime?.stop()
+  reminderRuntime = undefined
+  unregisterReminderIpc?.()
+  unregisterReminderIpc = undefined
   unregisterItemIpc?.()
   unregisterItemIpc = undefined
   unregisterRetentionIpc?.()
@@ -79,7 +109,9 @@ app.on('before-quit', (event) => {
   assistantService = undefined
 })
 
-app.on('window-all-closed', () => app.quit())
+app.on('window-all-closed', () => {
+  if (!reminderRuntime) app.quit()
+})
 
 void start().catch(() => {
   console.error('MASHIRO_STARTUP_FAILURE')
