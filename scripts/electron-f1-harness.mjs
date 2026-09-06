@@ -1,9 +1,11 @@
 import { spawn, spawnSync } from 'node:child_process'
 import {
+  copyFileSync,
   existsSync,
   mkdtempSync,
   mkdirSync,
   readFileSync,
+  readdirSync,
   realpathSync,
   rmSync,
   writeFileSync
@@ -125,6 +127,10 @@ try {
   await runStartupFailureProbe()
   const seed = await runPhase('seed')
   const verify = await runPhase('verify')
+  if (verify.failure)
+    throw new Error(
+      'Electron verify stage ' + verify.failure.stage + ' failed: ' + verify.failure.code
+    )
   if (seed.pid === verify.pid) throw new Error('Electron restart reused the same PID')
   if (
     seed.electron !== '44.1.1' ||
@@ -150,6 +156,30 @@ try {
     )
   )
     throw new Error('Window security preferences changed')
+  if (
+    seed.provider.connections.length !== 1 ||
+    seed.provider.connections[0].credentialPersistence !== 'temporary' ||
+    verify.provider.connections.length !== 1 ||
+    verify.provider.connections[0].credentialPersistence !== 'persistent' ||
+    seed.provider.bindings.length !== 1 ||
+    verify.provider.bindings.length !== 1
+  )
+    throw new Error('Provider connection, binding, or credential restart evidence failed')
+  if (
+    seed.chat.status !== 'completed' ||
+    verify.chat.status !== 'completed' ||
+    seed.chat.text !== 'messages=1' ||
+    verify.chat.text !== 'messages=1'
+  )
+    throw new Error('Temporary conversation leaked across restart')
+  const credentialFiles = readdirSync(join(testRoot, 'data', 'credentials'))
+  if (
+    credentialFiles.length !== 1 ||
+    readFileSync(join(testRoot, 'data', 'credentials', credentialFiles[0])).includes(
+      Buffer.from('e2e-persistent-key')
+    )
+  )
+    throw new Error('Persistent credential was not protected')
   summary = {
     runId,
     startupFailureSanitized: true,
@@ -157,9 +187,17 @@ try {
     electron: verify.electron,
     node: verify.node,
     sqlite: verify.sqlite,
-    snapshot: verify.snapshot
+    snapshot: verify.snapshot,
+    provider: verify.provider,
+    temporaryConversationReset: true,
+    persistentCredentialProtected: true,
+    chat: verify.chat
   }
   mkdirSync(join(projectRoot, 'test-results'), { recursive: true })
+  copyFileSync(
+    join(testRoot, 'results', 'provider-ui.png'),
+    join(projectRoot, 'test-results', 'provider-ui.png')
+  )
   writeFileSync(
     join(projectRoot, 'test-results', 'electron-f1.json'),
     JSON.stringify(summary, null, 2)

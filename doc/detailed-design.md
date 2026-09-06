@@ -1,5 +1,18 @@
 # Mashiro 近期详细设计草案
 
+> 当前状态：004 PROVIDER TEXT CANDIDATE IMPLEMENTED / INDEPENDENT REVIEW REQUIRED
+> 当前更新：2026-09-06。下方旧 F1 与草案状态按历史原文保留。
+
+## 004 当前设计实现
+
+- SQLite schema v2 以事务加法升级保存 Provider 连接元数据和稳定助手绑定；升级前验证 v1 完整性，失败回滚，不改变原有 assistant ID、primary/current 或 revision。
+- `CredentialVault` 将临时 Key 只放在主进程内存，将持久 Key 以 Electron `safeStorage` 密文写入仓库外凭据目录。renderer 和 SQLite 只能看到是否存在凭据，不能读取 Key。
+- `ProviderService` 在每个请求开始时固定 assistant、connection、model 与 credential；全局 request ID 唯一，取消按固定连接处理，晚到结果只结束自身 entry。每助手上下文最多 64 条且合计不超过 120,000 个 UTF-16 字符，超限须由用户清空，不静默裁剪。
+- 原生 fetch transport 只允许受限 HTTPS Base URL，拒绝 userinfo/query/hash/redirect，不自动重试；普通和 SSE 文本上限为 120,000 字符，delta 拆分到 16,384 字符以内。断流保留部分输出并标 interrupted，缺失 usage 为 unknown。
+- preload 仅新增按用例命名的 Provider API；运行时仍只导入 Electron 和不含 Zod 的 channel constants。main 对输入、输出和事件执行严格 Schema 校验，远端文本由 React 作为文本显示。
+- UI 把“正在编辑”的连接与当前助手“实际接收方”分开显示；助手切换同步绑定、模型、草稿和 transcript，异步结果按 assistant ID/request ID 路由。临时会话支持普通、流式、取消和显式清空。
+
+---
 > 当前状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 当前更新：2026-09-03。下方设计与集中决议记录完整保留；旧的授权、Git 和“尚未实现”描述仅是 2026-09-02 历史现场。
 

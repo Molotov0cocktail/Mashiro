@@ -1,8 +1,13 @@
 import type { DatabaseSync } from 'node:sqlite'
 
-export const schemaVersion = 1
+export const schemaVersion = 2
 
-const requiredTables = ['assistants', 'assistant_state'] as const
+const requiredTables = [
+  'assistants',
+  'assistant_state',
+  'provider_connections',
+  'assistant_provider_bindings'
+] as const
 const requiredTriggers = [
   'assistant_no_delete',
   'assistant_state_no_delete',
@@ -12,7 +17,7 @@ const requiredTriggers = [
   'assistant_state_current_active'
 ] as const
 
-const ddl = [
+const v1Ddl = [
   'CREATE TABLE assistants (id TEXT PRIMARY KEY NOT NULL, display_name TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, archived_at TEXT NULL, version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1), CHECK (length(trim(display_name)) BETWEEN 1 AND 80));',
   'CREATE TABLE assistant_state (singleton INTEGER PRIMARY KEY CHECK (singleton = 1), primary_assistant_id TEXT NULL REFERENCES assistants(id) ON DELETE RESTRICT, current_assistant_id TEXT NULL REFERENCES assistants(id) ON DELETE RESTRICT, revision INTEGER NOT NULL DEFAULT 0 CHECK (revision >= 0));',
   'INSERT INTO assistant_state(singleton, primary_assistant_id, current_assistant_id, revision) VALUES (1, NULL, NULL, 0);',
@@ -25,6 +30,12 @@ const ddl = [
   'PRAGMA user_version = 1;'
 ].join('\n')
 
+const v2Ddl = [
+  'CREATE TABLE provider_connections (id TEXT PRIMARY KEY NOT NULL, display_name TEXT NOT NULL, base_url TEXT NOT NULL, enabled INTEGER NOT NULL DEFAULT 1 CHECK (enabled IN (0, 1)), has_persistent_credential INTEGER NOT NULL DEFAULT 0 CHECK (has_persistent_credential IN (0, 1)), created_at TEXT NOT NULL, updated_at TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1), CHECK (length(trim(display_name)) BETWEEN 1 AND 80));',
+  'CREATE TABLE assistant_provider_bindings (assistant_id TEXT PRIMARY KEY NOT NULL REFERENCES assistants(id) ON DELETE RESTRICT, connection_id TEXT NOT NULL REFERENCES provider_connections(id) ON DELETE RESTRICT, model TEXT NOT NULL, updated_at TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1), CHECK (length(trim(model)) BETWEEN 1 AND 160));',
+  'PRAGMA user_version = 2;'
+].join('\n')
+
 export class StorageInconsistentError extends Error {}
 
 function schemaObjectExists(
@@ -35,6 +46,19 @@ function schemaObjectExists(
   return Boolean(
     database.prepare('SELECT 1 FROM sqlite_master WHERE type = ? AND name = ?').get(type, name)
   )
+}
+
+function verifyV1Objects(database: DatabaseSync): void {
+  for (const table of ['assistants', 'assistant_state']) {
+    if (!schemaObjectExists(database, 'table', table)) {
+      throw new StorageInconsistentError('Storage table missing before upgrade')
+    }
+  }
+  for (const trigger of requiredTriggers) {
+    if (!schemaObjectExists(database, 'trigger', trigger)) {
+      throw new StorageInconsistentError('Storage guard missing before upgrade')
+    }
+  }
 }
 
 export function initializeOrVerifySchema(database: DatabaseSync): void {
@@ -55,7 +79,28 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
     if (objectCount !== 0) throw new StorageInconsistentError('Unversioned storage is not empty')
     database.exec('BEGIN IMMEDIATE')
     try {
-      database.exec(ddl)
+      database.exec(v1Ddl)
+      database.exec('COMMIT')
+    } catch (error) {
+      database.exec('ROLLBACK')
+      throw error
+    }
+  }
+
+  const afterCreate = Number(
+    (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
+  )
+  if (afterCreate === 1) {
+    verifyV1Objects(database)
+    const check = database.prepare('PRAGMA integrity_check').get() as {
+      integrity_check: string
+    }
+    if (check.integrity_check !== 'ok') {
+      throw new StorageInconsistentError('Storage integrity check failed before upgrade')
+    }
+    database.exec('BEGIN IMMEDIATE')
+    try {
+      database.exec(v2Ddl)
       database.exec('COMMIT')
     } catch (error) {
       database.exec('ROLLBACK')

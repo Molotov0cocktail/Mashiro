@@ -23,6 +23,7 @@ export interface DataRoot {
   profile: 'development' | 'test'
   root: string
   databasePath: string
+  credentialDirectory: string
   resultsDirectory: string | null
   runId: string | null
   phase: 'seed' | 'verify' | null
@@ -124,6 +125,7 @@ export function resolveDataRoot(
     profile,
     root,
     databasePath: join(dataDirectory, 'mashiro.sqlite'),
+    credentialDirectory: join(dataDirectory, 'credentials'),
     resultsDirectory,
     runId,
     phase

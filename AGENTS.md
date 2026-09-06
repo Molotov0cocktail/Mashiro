@@ -1,3 +1,5 @@
+> Current authorization (2026-09-06): continuous development resumes from reviewed F1 and follows `doc/tasks/004-provider-text.md`. The F1 scope below is historical, not a permanent prohibition on Provider, new narrow IPC, dependencies, or additive versioned schema changes. Preserve the six assistant channels; new domain channels need strict trusted validation. The user has continuously authorized non-force pushes of independently reviewed final main HEADs to the two existing remotes and necessary synthetic paid Provider tests. No repeat per-SHA or per-call approval is required. Release, deployment and real personal-data access remain outside this authorization. Final review covers new behavior and final diff; docs-only closing changes require proportionate delta review, not repeated full product qualification.
+
 # Mashiro repository rules
 
 ## Project overview

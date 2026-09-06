@@ -1,5 +1,15 @@
 # Mashiro 高层设计
 
+> 当前状态：004 PROVIDER TEXT CANDIDATE IMPLEMENTED / INDEPENDENT REVIEW REQUIRED
+> 当前更新：2026-09-06。下方旧 F1 状态作为历史记录保留。
+
+## 当前架构增量
+
+Mashiro 现在以 `renderer → typed preload → strict Provider IPC → ProviderService → repository/vault/transport` 实现第一条 Provider 文本路径。SQLite 只保存连接和助手绑定，Windows 安全凭据存放在独立仓库外 vault，临时正文只存在主进程按助手隔离的有界 session。一次请求固定实际连接与模型，transport 负责受限 HTTPS、SSE、超时、取消、体积、错误和用量规范化。用户界面始终显示绑定后的实际接收方，不用设置下拉框冒充当前执行目标。
+
+真实资格只覆盖 `https://open.bigmodel.cn/api/paas/v4`、`GLM-5.3-FLASH` 的普通与流式文本；工具、结构化输出和持久时间线仍不在本切片中。
+
+---
 > 当前状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 当前更新：2026-09-03。下方 2026-09-02 设计保留为长期方向；未在 F1 中实现的模块仍不是现有架构事实。
 

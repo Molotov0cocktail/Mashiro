@@ -1,5 +1,15 @@
 # Mashiro 产品与阶段 Proposal
 
+> 当前状态：004 PROVIDER TEXT CANDIDATE IMPLEMENTED / INDEPENDENT REVIEW REQUIRED
+> 当前更新：2026-09-06。下方旧 F1 状态作为历史记录保留。
+
+## 当前产品增量
+
+004 候选让用户在中文界面保存可复用 HTTPS Provider 连接，为每个稳定助手分别绑定模型，并进行明确标注为“严格临时”的普通或流式文本交流。界面在发送前显示实际接收连接与模型；支持取消、部分输出、分类错误、真实或未知用量，以及清空当前助手的内存会话。
+
+连接和绑定可跨重启，临时聊天不能跨重启。API Key 可选择只在当前运行使用，或由 Windows 凭据保护后持久保存；应用不展示或导出 Key。当前真实资格仅覆盖用户指定智谱端点与 `GLM-5.3-FLASH` 的普通和流式文本，不扩展到工具、结构化输出、持续时间线或个人资料外发。
+
+---
 > 当前状态：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED
 > 当前更新：2026-09-03。下方原始 2026-09-02 规划快照保留决策与失败历史；其中“未授权／未初始化”等现场描述不再代表当前状态。
 

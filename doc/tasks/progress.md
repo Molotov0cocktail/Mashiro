@@ -1,3 +1,25 @@
+# 当前续接入口（2026-09-06）
+
+> 当前阶段：004 PROVIDER TEXT CANDIDATE IMPLEMENTED / FINAL VERIFICATION COMPLETE / INDEPENDENT REVIEW REQUIRED
+> 当前更新：2026-09-06。下方 2026-09-03 及更早段落保留为历史快照。
+
+## 004 当前续接摘要
+
+- 在 baseline `c8de9e9c84807127bad4ae5edb5302f8f0c3581e` 上完成 Provider 连接、按稳定助手绑定模型、严格临时普通/流式文本、取消、分类错误、真实或未知用量及显式清空。
+- SQLite v1→v2 采用加法事务升级；连接和绑定跨重启，聊天正文与临时 Key 不跨进程。持久 Key 由 Windows `safeStorage` 保护，保护不可用则拒绝保存。
+- 保留既有六个 assistant IPC；新增 Provider 窄通道全部在 trusted main 边界严格校验。renderer 无任意网络、文件、SQL 或凭据读取权，远端文本按文本渲染。
+- 完整 `npm run verify` exit 0：focused/full 均为 17 files / 59 tests；typecheck、lint、format、build 均通过。真实 Electron PID `49348 → 49772`，持久凭据保护/恢复与临时会话重置通过，截图可见 Provider 接收方、模型、空 Key 输入和中文聊天控件。
+- 真实 Provider 共 4 次合成请求：前 2 次 `thinking: disabled` 均为 HTTP 400/code 1210，usage 未知；据服务端明确约束改为 `thinking: enabled` 与 `reasoning_effort: low` 后，普通与流式各 1 次均 HTTP 200/completed，正文 4 字符，流式 1 个 delta；两次成功 usage 均为 22/4/26 tokens。端点与模型保持 `https://open.bigmodel.cn/api/paas/v4` / `GLM-5.3-FLASH`。
+- 测试 Key 已清理且不预置产品。真实取消、工具、结构化输出和个人数据均 NOT RUN。候选尚未由实现者自判 PASS，也尚未 push。
+
+---
+- 当前任务：[004 Provider 连接与严格临时文本交互](004-provider-text.md)，AUTHORIZED / READY FOR IMPLEMENTATION，route `provider-text-v1`。
+- 现场核验：main `c8de9e9c84807127bad4ae5edb5302f8f0c3581e`，接管时 index/worktree 干净；github/main 与 gitee/main 实际 ls-remote 均匹配。旧 PUSH=NONE 不是当前状态。
+- F1 已有 Candidate PASS 与用户提供的 Final PASS 续接事实；仓库缺少 Final Reviewer 原始归档，004 将补核 closing docs-only diff，不回退 F1 或重跑历史辅助审计。
+- 本轮持续授权已生效：开发、提交、相称验证、必要合成付费调用及已复核 final main 非强制推送两远程自动执行。真实端点尚未核验；缺少的 Base URL 正由 Prompter 向用户汇总，Key 不写报告。
+- 当前新增产品能力尚未实现；持续时间线、记忆、事项/提醒、PACKAGED、发布和个人数据访问仍 NOT RUN。以下 2026-09-03 及更早段落均为历史快照。
+
+---
 # progress.md — 当前状态
 
 > 当前阶段：F1 CANDIDATE REVIEWER PASS / CLOSING DOCS IN PROGRESS / FINAL REVIEW REQUIRED

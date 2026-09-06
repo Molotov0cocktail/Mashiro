@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type {
   AssistantApi,
   AssistantDto,
@@ -12,31 +12,45 @@ function errorText(result: Extract<AssistantResult, { ok: false }>): string {
   return `${result.error.message} · 关联编号 ${result.error.correlationId}`
 }
 
-export function AssistantPanel({ api }: { api: AssistantApi }): React.JSX.Element {
+export function AssistantPanel({
+  api,
+  onSnapshot
+}: {
+  api: AssistantApi
+  onSnapshot?: (snapshot: AssistantSnapshot) => void
+}): React.JSX.Element {
   const [snapshot, setSnapshot] = useState<AssistantSnapshot | null>(null)
   const [displayName, setDisplayName] = useState('')
   const [renameValues, setRenameValues] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
+  const acceptSnapshot = useCallback(
+    (value: AssistantSnapshot): void => {
+      setSnapshot(value)
+      onSnapshot?.(value)
+    },
+    [onSnapshot]
+  )
+
   useEffect(() => {
     let active = true
     void api.list().then((result) => {
       if (!active) return
-      if (result.ok) setSnapshot(result.data)
+      if (result.ok) acceptSnapshot(result.data)
       else setError(errorText(result))
     })
     return () => {
       active = false
     }
-  }, [api])
+  }, [api, acceptSnapshot])
 
   async function apply(operation: () => Promise<AssistantResult>): Promise<void> {
     setBusy(true)
     setError(null)
     try {
       const result = await operation()
-      if (result.ok) setSnapshot(result.data)
+      if (result.ok) acceptSnapshot(result.data)
       else setError(errorText(result))
     } catch {
       setError('助手服务暂时不可用')

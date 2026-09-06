@@ -1,0 +1,146 @@
+// @vitest-environment jsdom
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { ProviderPanel } from '../../src/renderer/src/features/provider/ProviderPanel'
+import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
+import type {
+  ProviderApi,
+  ProviderChatResult,
+  ProviderEvent,
+  ProviderSnapshot,
+  StartChatInput
+} from '../../src/shared/provider-contract'
+
+afterEach(cleanup)
+const assistantA = '00000000-0000-4000-8000-000000000001'
+const assistantB = '00000000-0000-4000-8000-000000000002'
+const connectionId = '00000000-0000-4000-8000-000000000003'
+function assistants(currentAssistantId: string): AssistantSnapshot {
+  return {
+    assistants: [
+      {
+        id: assistantA,
+        displayName: 'Alpha',
+        isArchived: false,
+        createdAt: '2026-09-06T00:00:00.000Z',
+        updatedAt: '2026-09-06T00:00:00.000Z',
+        archivedAt: null,
+        version: 1
+      },
+      {
+        id: assistantB,
+        displayName: 'Beta',
+        isArchived: false,
+        createdAt: '2026-09-06T00:00:01.000Z',
+        updatedAt: '2026-09-06T00:00:01.000Z',
+        archivedAt: null,
+        version: 1
+      }
+    ],
+    currentAssistantId,
+    primaryAssistantId: assistantA,
+    stateRevision: 2
+  }
+}
+const providerSnapshot: ProviderSnapshot = {
+  connections: [
+    {
+      id: connectionId,
+      displayName: 'Receiver',
+      baseUrl: 'https://example.com/v1',
+      enabled: true,
+      hasCredential: true,
+      credentialPersistence: 'temporary',
+      createdAt: '2026-09-06T00:00:00.000Z',
+      updatedAt: '2026-09-06T00:00:00.000Z',
+      version: 1
+    }
+  ],
+  bindings: [
+    {
+      assistantId: assistantA,
+      connectionId,
+      model: 'model-a',
+      updatedAt: '2026-09-06T00:00:00.000Z',
+      version: 1
+    },
+    {
+      assistantId: assistantB,
+      connectionId,
+      model: 'model-b',
+      updatedAt: '2026-09-06T00:00:00.000Z',
+      version: 1
+    }
+  ]
+}
+
+describe('ProviderPanel late response routing', () => {
+  it('keeps an old A promise on its request after A to B to A and a newer request', async () => {
+    let listener: ((event: ProviderEvent) => void) | undefined
+    const pending = new Map<string, (result: ProviderChatResult) => void>()
+    const startChat = vi.fn(
+      (input: StartChatInput) =>
+        new Promise<ProviderChatResult>((resolve) => pending.set(input.requestId, resolve))
+    )
+    const api = {
+      list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
+      saveConnection: vi.fn(),
+      setCredential: vi.fn(),
+      deleteCredential: vi.fn(),
+      bindAssistant: vi.fn(),
+      clearChat: vi.fn(),
+      startChat,
+      cancelChat: vi.fn(),
+      onEvent: vi.fn((value: (event: ProviderEvent) => void) => {
+        listener = value
+        return () => undefined
+      })
+    } as ProviderApi
+    const view = render(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
+    await screen.findByText(/实际接收方：Receiver/)
+
+    fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: 'old A' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    const oldInput = startChat.mock.calls[0]![0]
+    act(() =>
+      listener?.({ type: 'cancelled', requestId: oldInput.requestId, assistantId: assistantA })
+    )
+
+    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantB)} api={api} />)
+    expect(screen.getByLabelText('当前助手')).toHaveValue(assistantB)
+    view.rerender(<ProviderPanel assistantSnapshot={assistants(assistantA)} api={api} />)
+    fireEvent.change(screen.getByLabelText('临时消息'), { target: { value: 'new A' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    const newInput = startChat.mock.calls[1]![0]
+
+    await act(async () => {
+      pending.get(newInput.requestId)?.({
+        ok: true,
+        data: {
+          requestId: newInput.requestId,
+          assistantId: assistantA,
+          status: 'completed',
+          text: 'new answer',
+          usage: null
+        }
+      })
+    })
+    expect(screen.getByText('new answer')).toBeInTheDocument()
+
+    await act(async () => {
+      pending.get(oldInput.requestId)?.({
+        ok: true,
+        data: {
+          requestId: oldInput.requestId,
+          assistantId: assistantA,
+          status: 'completed',
+          text: 'old answer',
+          usage: null
+        }
+      })
+    })
+    expect(screen.getByText('new answer')).toBeInTheDocument()
+    expect(screen.getByText('old answer')).toBeInTheDocument()
+    expect(startChat).toHaveBeenCalledTimes(2)
+  })
+})

@@ -1,0 +1,111 @@
+{
+  "sourcePath": "D:\\Mashiro\\src\\main\\provider\\chat-completions-transport.ts",
+  "sourceSha256": "4583C21FA021AD5A414542C08F3749063D4A3D983432BCD9A98923771A50CBFF",
+  "startedAt": "2026-09-06T03:30:32.356Z",
+  "endedAt": "2026-09-06T03:30:32.695Z",
+  "endpoint": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+  "model": "GLM-5.3-FLASH",
+  "thinking": {
+    "type": "disabled"
+  },
+  "requestCount": 1,
+  "ordinary": {
+    "startedAt": "2026-09-06T03:30:32.357Z",
+    "endedAt": "2026-09-06T03:30:32.695Z",
+    "status": "failed",
+    "error": "configuration",
+    "usage": null,
+    "bodyLength": 0,
+    "textMatchesExpected": false
+  },
+  "stream": {
+    "status": "not-run-after-ordinary-failure"
+  },
+  "attempt2": {
+    "startedAt": "2026-09-06T03:32:47.263Z",
+    "endedAt": "2026-09-06T03:32:47.466Z",
+    "endpoint": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+    "model": "GLM-5.3-FLASH",
+    "thinking": {
+      "type": "disabled"
+    },
+    "requestCount": 1,
+    "transport": {
+      "status": "failed",
+      "error": "configuration",
+      "usage": null,
+      "bodyLength": 0,
+      "textMatchesExpected": false
+    },
+    "http": {
+      "status": 400,
+      "errorCode": "1210",
+      "messageSummary": "该模型始终思考，不支持关闭思考；请使用 low、high 或 max。",
+      "semantics": {
+        "mentionsModel": true,
+        "invalidParameter": false,
+        "thinkingUnsupported": true,
+        "balanceOrQuota": false
+      }
+    }
+  },
+  "totalRequestCount": 4,
+  "attempt3": {
+    "startedAt": "2026-09-06T03:50:48.024Z",
+    "endedAt": "2026-09-06T03:50:49.087Z",
+    "endpoint": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+    "model": "GLM-5.3-FLASH",
+    "thinking": {
+      "type": "enabled"
+    },
+    "reasoningEffort": "low",
+    "requestCount": 1,
+    "transport": {
+      "status": "completed",
+      "error": null,
+      "usage": {
+        "promptTokens": 22,
+        "completionTokens": 4,
+        "totalTokens": 26
+      },
+      "bodyLength": 4,
+      "textMatchesExpected": true
+    },
+    "http": {
+      "status": 200,
+      "contentType": "application/json",
+      "errorCode": null,
+      "messageSummary": null
+    }
+  },
+  "attempt4": {
+    "startedAt": "2026-09-06T03:50:49.087Z",
+    "endedAt": "2026-09-06T03:50:49.841Z",
+    "endpoint": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+    "model": "GLM-5.3-FLASH",
+    "thinking": {
+      "type": "enabled"
+    },
+    "reasoningEffort": "low",
+    "requestCount": 1,
+    "transport": {
+      "status": "completed",
+      "error": null,
+      "usage": {
+        "promptTokens": 22,
+        "completionTokens": 4,
+        "totalTokens": 26
+      },
+      "bodyLength": 4,
+      "textMatchesExpected": true,
+      "deltaCount": 1
+    },
+    "http": {
+      "status": 200,
+      "contentType": "text/event-stream",
+      "errorCode": null,
+      "messageSummary": null
+    }
+  },
+  "latestSourceSha256": "06025EFC2560DF7F8CFCAD8C28D81C3FCD95A503E27F2DFE54D14A2378C78DC0"
+}

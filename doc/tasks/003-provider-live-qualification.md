@@ -1,5 +1,18 @@
 # 003 真实 Provider 能力资格验证
 
+> 当前状态：AUTHORIZED / EXECUTED FOR TEXT BASELINE / REVIEW PENDING
+> 当前更新：2026-09-06。以下结果只绑定精确端点、模型、Chat Completions 文本模式和本次适配实现；旧 DEFERRED 文本作为历史合同保留。
+
+## 2026-09-06 实际结果
+
+- 接收端点：`https://open.bigmodel.cn/api/paas/v4`；模型：`GLM-5.3-FLASH`；wire 模型未改写；仅发送无个人信息的短合成文本。
+- 共 4 个请求，无自动重试。前 2 个请求使用文档通用的关闭思考参数，均收到 HTTP 400/code 1210，服务端说明该模型必须开启思考且强度为 low/high/max；失败 usage 为未知，不能记作零。
+- 适配器据此对该端点的 GLM-5.3 家族发送 `thinking: { type: 'enabled' }` 与 `reasoning_effort: 'low'`。修正后普通与流式请求各 1 个，均 HTTP 200/completed，返回预期 4 字符；流式收到 1 个文本 delta。
+- 两个成功请求各自报告 prompt 22、completion 4、total 26 tokens。实际调用时间为 2026-09-06T03:50:48.024Z 至 2026-09-06T03:50:49.841Z。
+- 证据等级：普通文本与流式文本为 `LIVE_VERIFIED`；首次参数组合为 `MISCONFIGURED` 后已修正。真实取消、工具、结构化输出、思考续接、个人数据和业务副作用均 `NOT RUN`。
+- 测试秘密只由运行期测试进程读取，没有写入产品数据、日志或版本控制；测试秘密源已清理。脱敏逐请求报告归档于 `../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-live-report.json`。
+
+---
 > 当前状态：DEFERRED / NOT RUN / NON-BLOCKING FOR F1
 > 2026-09-03 注：F1 mandatory-fresh Candidate Reviewer 已对本地助手身份与 SQLite 生命周期的精确 HEAD `90335af96bf95e531ddadc4f3f19259a75c18ee4` 给出 `PASS`；该结论不授权 Provider endpoint、credential、预算或个人数据。没有 Provider 调用，也没有把本任务变成 F1 前置门禁。
 

@@ -1,8 +1,9 @@
 import type { AssistantApi } from '../shared/assistant-contract'
+import type { ProviderApi } from '../shared/provider-contract'
 
 declare global {
   interface Window {
-    mashiro: { assistants: AssistantApi }
+    mashiro: { assistants: AssistantApi; provider: ProviderApi }
   }
 }
 
