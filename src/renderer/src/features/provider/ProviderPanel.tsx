@@ -5,7 +5,12 @@ import type {
   ProviderResult,
   ProviderSnapshot
 } from '../../../../shared/provider-contract'
-import type { ChatMode, TimelineApi, TimelineMessage } from '../../../../shared/timeline-contract'
+import type {
+  ChatMode,
+  TimelineApi,
+  TimelineMessage,
+  TimelineSnapshot
+} from '../../../../shared/timeline-contract'
 
 const protocolVersion = 1 as const
 const errorMessages: Record<string, string> = {
@@ -31,7 +36,14 @@ const errorMessages: Record<string, string> = {
 type TimelineMap = Record<string, TimelineMessage[]>
 type BooleanMap = Record<string, boolean>
 type TextMap = Record<string, string>
-type ActiveRequest = { requestId: string; mode: ChatMode }
+type ActiveRequest = {
+  requestId: string
+  mode: ChatMode
+  observedAcceptance: boolean
+  observedTerminal: boolean
+}
+type TimelineObservation =
+  { kind: 'snapshot'; data: TimelineSnapshot } | { kind: 'unavailable' | 'superseded' }
 type ActiveRequestMap = Record<string, ActiveRequest>
 type ProtectedRequestMap = Record<string, Set<string>>
 type RejectedDraft = { requestId: string; content: string }
@@ -95,6 +107,7 @@ export function ProviderPanel({
   const [settingsError, setSettingsError] = useState<string | null>(null)
   const [timelineErrors, setTimelineErrors] = useState<TextMap>({})
   const [notices, setNotices] = useState<TextMap>({})
+  const [uncertainRequests, setUncertainRequests] = useState<TextMap>({})
 
   const currentAssistantId = assistantSnapshot?.currentAssistantId ?? ''
   const currentAssistant = assistantSnapshot?.assistants.find(
@@ -138,33 +151,41 @@ export function ProviderPanel({
     protectedRequestsRef.current = { ...protectedRequestsRef.current, [key]: protectedIds }
   }, [])
 
+  const applyTimelineSnapshot = useCallback(
+    (key: string, snapshot: TimelineSnapshot): void => {
+      const protectedIds = new Set(protectedRequestsRef.current[key] ?? [])
+      setTimelines((values) => ({
+        ...values,
+        [key]: reconcileTimelineMessages(values[key] ?? [], snapshot.messages, protectedIds)
+      }))
+      for (const message of snapshot.messages) {
+        if (message.role === 'assistant' && message.status !== 'pending') {
+          releaseProtectedRequest(key, message.requestId)
+          setUncertainRequests((values) => ({ ...values, [message.requestId]: '' }))
+        }
+      }
+      setHasMore((values) => ({ ...values, [key]: snapshot.hasMore }))
+    },
+    [releaseProtectedRequest]
+  )
+
   const readTimeline = useCallback(
-    async (assistantId: string, chatMode: ChatMode): Promise<TimelineMessage[] | null> => {
-      if (!assistantId) return null
+    async (assistantId: string, chatMode: ChatMode): Promise<TimelineObservation> => {
+      if (!assistantId) return { kind: 'unavailable' }
       const key = timelineKey(assistantId, chatMode)
       const version = (readVersions.current[key] ?? 0) + 1
       readVersions.current[key] = version
       setLoading((values) => ({ ...values, [key]: true }))
       try {
         const result = await timelineApi.read({ protocolVersion, assistantId, mode: chatMode })
-        if (readVersions.current[key] !== version) return null
+        if (readVersions.current[key] !== version) return { kind: 'superseded' }
         if (!result.ok) {
           setTimelineErrors((values) => ({ ...values, [key]: errorText(result) }))
-          return null
+          return { kind: 'unavailable' }
         }
-        const protectedIds = new Set(protectedRequestsRef.current[key] ?? [])
-        setTimelines((values) => ({
-          ...values,
-          [key]: reconcileTimelineMessages(values[key] ?? [], result.data.messages, protectedIds)
-        }))
-        for (const message of result.data.messages) {
-          if (message.role === 'assistant' && message.status !== 'pending') {
-            releaseProtectedRequest(key, message.requestId)
-          }
-        }
-        setHasMore((values) => ({ ...values, [key]: result.data.hasMore }))
+        applyTimelineSnapshot(key, result.data)
         setTimelineErrors((values) => ({ ...values, [key]: '' }))
-        return result.data.messages
+        return { kind: 'snapshot', data: result.data }
       } catch {
         if (readVersions.current[key] === version) {
           setTimelineErrors((values) => ({
@@ -172,14 +193,14 @@ export function ProviderPanel({
             [key]: '本地时间线暂时无法读取，当前显示内容已保留'
           }))
         }
-        return null
+        return { kind: readVersions.current[key] === version ? 'unavailable' : 'superseded' }
       } finally {
         if (readVersions.current[key] === version) {
           setLoading((values) => ({ ...values, [key]: false }))
         }
       }
     },
-    [releaseProtectedRequest, timelineApi]
+    [applyTimelineSnapshot, timelineApi]
   )
 
   useEffect(() => {
@@ -200,6 +221,8 @@ export function ProviderPanel({
     const remove = api.onEvent((event) => {
       const route = activeRequestsRef.current[event.assistantId]
       if (!route || route.requestId !== event.requestId) return
+      route.observedAcceptance = true
+      route.observedTerminal = event.type !== 'delta'
       const key = timelineKey(event.assistantId, route.mode)
       invalidateRead(key)
       if (event.type === 'delta') {
@@ -289,9 +312,6 @@ export function ProviderPanel({
 
   async function saveTemporary(assistantId: string): Promise<void> {
     const key = timelineKey(assistantId, 'temporary')
-    const unsavedIds = new Set(
-      (timelines[key] ?? []).filter((message) => !message.saved).map((message) => message.id)
-    )
     setSaving((values) => ({ ...values, [key]: true }))
     setTimelineErrors((values) => ({ ...values, [key]: '' }))
     setNotices((values) => ({ ...values, [key]: '' }))
@@ -302,11 +322,8 @@ export function ProviderPanel({
         return
       }
       invalidateRead(key)
-      setTimelines((values) => ({ ...values, [key]: result.data.messages }))
-      setHasMore((values) => ({ ...values, [key]: result.data.hasMore }))
-      const savedCount = result.data.messages.filter(
-        (message) => message.saved && unsavedIds.has(message.id)
-      ).length
+      applyTimelineSnapshot(key, result.data)
+      const savedCount = result.data.messages.filter((message) => message.saved).length
       const targetName =
         assistantSnapshot?.assistants.find((item) => item.id === assistantId)?.displayName ??
         '此助手'
@@ -316,9 +333,9 @@ export function ProviderPanel({
           savedCount > 0
             ? '已将当前临时会话中 ' +
               String(savedCount) +
-              ' 条尚未保存的消息保存到“' +
+              ' 条消息保存到“' +
               targetName +
-              '”的正常时间线'
+              '”的正常时间线；这是已确认的保存总数，包含此前保存的消息，重复操作不会重复写入'
             : currentRejectedDrafts.length > 0
               ? '没有新的临时消息需要保存；没有临时时间线消息被保存，未发送草稿仍保留在界面中'
               : '没有新的临时消息需要保存；没有临时时间线消息被保存，已保存内容不会重复写入'
@@ -332,6 +349,55 @@ export function ProviderPanel({
     } finally {
       setSaving((values) => ({ ...values, [key]: false }))
     }
+  }
+
+  async function reconcileFailedRequest(
+    assistantId: string,
+    request: ActiveRequest,
+    submitted: string,
+    errorCode?: string
+  ): Promise<'not-admitted' | 'retained'> {
+    const key = timelineKey(assistantId, request.mode)
+    const observation = await readTimeline(assistantId, request.mode)
+    const snapshot = observation.kind === 'snapshot' ? observation.data : undefined
+    const rows = snapshot?.messages.filter((message) => message.requestId === request.requestId)
+    if (rows?.length) request.observedAcceptance = true
+    if (rows?.some((message) => message.role === 'assistant' && message.status !== 'pending')) {
+      request.observedTerminal = true
+    }
+    // These codes are trusted rejections before admission. A missing row is
+    // evidence only in a fresh complete snapshot, and never outweighs an event.
+    const rejectedBeforeAdmission =
+      errorCode !== undefined &&
+      [
+        'INVALID_INPUT',
+        'NOT_FOUND',
+        'ASSISTANT_ARCHIVED',
+        'CONNECTION_DISABLED',
+        'CREDENTIAL_MISSING',
+        'REQUEST_IN_PROGRESS'
+      ].includes(errorCode)
+    const confirmedAbsent = snapshot !== undefined && !snapshot.hasMore && rows?.length === 0
+    if (!request.observedAcceptance && (rejectedBeforeAdmission || confirmedAbsent)) {
+      releaseProtectedRequest(key, request.requestId)
+      setTimelines((items) => removeRequest(items, key, request.requestId))
+      setRejectedDrafts((items) =>
+        addRejectedDraft(items, key, {
+          requestId: request.requestId,
+          content: submitted
+        })
+      )
+      return 'not-admitted'
+    }
+    if (!request.observedTerminal) {
+      setUncertainRequests((items) => ({
+        ...items,
+        [request.requestId]: request.observedAcceptance
+          ? '请求已发送，最终状态或保存情况未确认；不会自动重试'
+          : '请求结果未确认，可能已经发送；已保留输入，不会自动重试'
+      }))
+    }
+    return 'retained'
   }
 
   async function send(): Promise<void> {
@@ -371,7 +437,12 @@ export function ProviderPanel({
         }
       ]
     }))
-    const request = { requestId, mode: requestMode }
+    const request = {
+      requestId,
+      mode: requestMode,
+      observedAcceptance: false,
+      observedTerminal: false
+    }
     activeRequestsRef.current = { ...activeRequestsRef.current, [assistantId]: request }
     setActiveRequests(activeRequestsRef.current)
     try {
@@ -385,23 +456,12 @@ export function ProviderPanel({
       })
       clearActiveRequest(assistantId, requestId)
       if (!result.ok) {
-        setTimelines((items) =>
-          updateRequest(items, key, requestId, (message) => ({
-            ...message,
-            status: result.error.code === 'CANCELLED' ? 'cancelled' : 'failed'
-          }))
-        )
-        const authoritative = await readTimeline(assistantId, requestMode)
-        if (!authoritative?.some((message) => message.requestId === requestId)) {
-          releaseProtectedRequest(key, requestId)
-          setTimelines((items) => removeRequest(items, key, requestId))
-          setRejectedDrafts((items) =>
-            addRejectedDraft(items, key, { requestId, content: submitted })
-          )
-        }
+        await reconcileFailedRequest(assistantId, request, submitted, result.error.code)
         setTimelineErrors((items) => ({ ...items, [key]: errorText(result) }))
         return
       }
+      request.observedAcceptance = true
+      request.observedTerminal = true
       setTimelines((items) =>
         updateRequest(items, key, requestId, (message) => ({
           ...message,
@@ -412,20 +472,13 @@ export function ProviderPanel({
       await readTimeline(assistantId, requestMode)
     } catch {
       clearActiveRequest(assistantId, requestId)
-      setTimelines((items) =>
-        updateRequest(items, key, requestId, (message) => ({ ...message, status: 'failed' }))
-      )
-      const authoritative = await readTimeline(assistantId, requestMode)
-      if (!authoritative?.some((message) => message.requestId === requestId)) {
-        releaseProtectedRequest(key, requestId)
-        setTimelines((items) => removeRequest(items, key, requestId))
-        setRejectedDrafts((items) =>
-          addRejectedDraft(items, key, { requestId, content: submitted })
-        )
-      }
+      const outcome = await reconcileFailedRequest(assistantId, request, submitted)
       setTimelineErrors((items) => ({
         ...items,
-        [key]: '请求失败，输入已保留为未发送草稿；不会自动重试'
+        [key]:
+          outcome === 'not-admitted'
+            ? '已确认请求未进入时间线，输入已保留为未发送草稿；不会自动重试'
+            : '请求回执未确认，当前输入与已收到正文已保留；不会自动重试'
       }))
     }
   }
@@ -691,7 +744,7 @@ export function ProviderPanel({
                 <strong>{item.role === 'user' ? '你' : '助手'}</strong>
                 <p>{item.content || (item.status === 'pending' ? '尚未返回正文' : '未返回正文')}</p>
                 <small>
-                  {statusText(item.status)}
+                  {uncertainRequests[item.requestId] || statusText(item.status)}
                   {mode === 'temporary' ? ' · ' + (item.saved ? '已保存' : '未保存') : ''}
                 </small>
               </article>

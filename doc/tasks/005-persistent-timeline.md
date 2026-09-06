@@ -1,6 +1,6 @@
 # 005 每助手持续时间线、显式保存与正常重启恢复
 
-> 状态：REPAIR IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
+> 状态：REPAIR 2 IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT；2026-09-06；route `persistent-timeline-v1`。
 > 当前入口：[progress.md](progress.md)。本任务是稳定合同，计划可随直接证据调整；勾选完成须有代码、测试或审核依据。
 
 ## 基线与目标
@@ -86,3 +86,11 @@
 - F1：Provider 在 trusted 建会话前拒绝时，renderer 将输入从可信时间线撤出并保留为明确的“未发送、未保存”草稿；显式保存只按 trusted 回执中由 unsaved 变为 saved 的稳定消息 ID 计数，空保存不再删除草稿或虚报两条。
 - F2：每个 `assistantId:mode` 的 captured request 在 pending/terminal 期间受保护；读取使用可信消息 ID/元数据并保留更晚的本地 partial/terminal，delta 或 terminal 会使更早读取失效，可信 terminal 最终取代覆盖层。仓库回归覆盖模式切换、助手切换和 terminal 后迟到 pending 读取。
 - 冻结外部 `review-ui.test.tsx` 与 `review-stream.test.tsx` 已分别 exit 0（各 1 test）；仓库 timeline 6 tests、renderer 全组 6 files / 13 tests、`npm run typecheck`、`npm run lint`、`npm run format:check`、build 与 diff-check 均 exit 0。renderer 全组首次 1 fail 来自旧 security 成功 fixture 的固定错误 request ID；改为捕获真实请求并返回完整成功 snapshot 后通过。精确修复候选仍待独立复审；本段不构成 PASS。
+
+## 第二轮 UI 诊断与修复（b1aa9b9 后）
+
+- 原始 [独立第二 review](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-b1aa9b9.md) 逐字保留。其 R1/R2 在修复前独立复现为 2 tests / 2 failures；不是存储或 transport finding。
+- 对比新增 trusted admission/count DTO 与现有可信事件/命令回执/快照观测，选择后者：UI 显式区分 snapshot、unavailable、superseded；捕获请求记住 accepted/terminal 证据，未知状态保留输入和 partial，只有可信拒绝或无接受证据且完整新快照确认缺席才是未发送草稿。已确认 terminal 不因丢失回执降级。
+- 保存消息数只描述 trusted 返回快照的“已确认保存总数”（包括此前保存），不从乐观 ID 或旧 UI 行数猜新插入数；read/save 共用按 request+role 合并，保留新请求和独立未发送草稿。无 trusted/shared/IPC/schema/transport 改动，无自动重试。
+- 原冻结 F1 / F2 / R1 / R2 由机械收尾接管者独立重跑并全部通过（1+1+2 tests）；repo 新增 6 tests，覆盖 failed/throw/superseded 观测、已知完成、乐观 ID、重复保存、独立草稿与新请求隔离。renderer + trusted timeline 共 7 files / 31 tests、typecheck、lint、format、build 均 exit 0。原 6Astro 修复执行者在实现完成后遇到 `Selected model is at capacity`，partial state 完整保留；route 转由 `/root/timeline_ui` 完成验证、记录与提交。
+- 全链 Electron/migration 沿用独立 review 的未变 trusted 证据（PIDs 59660 / 62500，恢复 0 / 显式发送 1）；本纯 UI 差异未重复运行。独立最终复审与 push 尚未执行。本段不宣告 PASS。

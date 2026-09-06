@@ -1,12 +1,12 @@
 # Mashiro 当前任务入口
 
-> 更新：2026-09-06。当前实施任务：[005 每助手持续时间线、显式保存与正常重启恢复](005-persistent-timeline.md)，REPAIR IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT。此文件是唯一当前续接入口；下列历史文件只保存当时事实。
+> 更新：2026-09-06。当前实施任务：[005 每助手持续时间线、显式保存与正常重启恢复](005-persistent-timeline.md)，REPAIR 2 IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT。此文件是唯一当前续接入口；下列历史文件只保存当时事实。
 
 新 Agent 先读本文件，再读当前任务、相关设计和所链接的最近证据。Git 实时 HEAD/远端值应查询 Git；不要把历史“尚未 push/等待审核”重新变成已完成切片的门禁。
 
 ## 当前、最近完成与下一步
 
-- 当前：005 候选独立 review 对精确 HEAD `842176053489e2d3d90037d7b36a31ef6129c415` 给出 REPAIR；冻结 [失败报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-8421760.md) 保留两项 UI P2。未发送草稿/诚实保存回执与在途 partial/terminal 快照合并修复已经实现，冻结 F1/F2 外部 oracle 均 exit 0；下一动作是完成局部验证并交全新独立复审。
+- 当前：005 候选独立 review 对精确 HEAD `842176053489e2d3d90037d7b36a31ef6129c415` 给出 REPAIR；冻结 [失败报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-8421760.md) 保留两项 UI P2。第一轮 UI 修复在 b1aa9b9 复审发现“未知 read 当缺席”和“乐观 ID 当保存计数”的两项 P2，见 [第二原始 review](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-review-b1aa9b9.md)。现已改为显式 snapshot/unavailable/superseded 观测、捕获 accepted/terminal 证据和 trusted 已保存总数回执；原四个冻结反例全部通过，renderer + trusted timeline 共 7 files / 31 tests，typecheck/lint/format/build 均由接管者独立重跑并 exit 0。原 6Astro 修复执行者在实现完成后遇到 `Selected model is at capacity`，未丢失文件；route 由 `/root/timeline_ui` 接管机械验证、记录与提交。下一动作是精确新 HEAD 独立复审。
 - 最近已审核产品交付：004 最终 main `f5aa9880828b2a0719b6b8c16d1e4e05c475dcd6`，独立最终 [Reviewer PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-review-f5aa9880.md)。连接、模型绑定、安全凭据和严格临时普通/流式文本已交付；持久聊天尚未交付。
 - 某次远程观测：2026-09-06 接管时本地 main/clean，github/main、gitee/main 的 `ls-remote` 均为 f5aa9880；上一轮 [push-close](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-push-close-f5aa9880.md) 记录该已审提交普通推送双远程成功。这些是观测事实，不预写本轮提交自身 SHA 或未来审核/推送。
 - 续接依据：[原始 continuation](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-continuation-f5aa9880.md)。三份报告由上一任务定位到明确原始目录，review SHA-256 核验匹配，逐字归档；来源/hash/Git 可恢复检查见 [入口接管记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-reconciliation.md)。
@@ -20,7 +20,7 @@
 | [002](002-node-sqlite-qualification.md)   | Electron 44.1.1 / node:sqlite      | QUALIFIED / REVIEW PASS，限定 DEV/main-only BUILT | PACKAGED 另设资格                                     |
 | [003](003-provider-live-qualification.md) | 指定真实端点能力资格               | 普通/流式 LIVE_VERIFIED，随 004 审核闭合          | 其余能力分别 NOT RUN，非整体完成                      |
 | [004](004-provider-text.md)               | Provider 连接与严格临时文本        | FINAL REVIEW PASS / 双远程同步已观测              | f5aa9880 原始 review、push-close、continuation 已归档 |
-| [005](005-persistent-timeline.md)         | 持续时间线、显式保存、正常重启恢复 | REPAIR IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT | 两项 UI P2 已修复；冻结外部 oracle 通过，待精确候选复审 |
+| [005](005-persistent-timeline.md)         | 持续时间线、显式保存、正常重启恢复 | REPAIR 2 IMPLEMENTED / INDEPENDENT RE-REVIEW NEXT | 第二轮观测机制修复已实现；原四反例通过，待精确复审 |
 
 ## 阻塞、延期与验证边界
 

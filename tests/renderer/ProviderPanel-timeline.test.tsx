@@ -127,6 +127,315 @@ function mockProvider(overrides: Partial<ProviderApi> = {}): ProviderApi {
 }
 
 describe('ProviderPanel persistent timeline UI', () => {
+  it.each(['failure', 'exception'] as const)(
+    'preserves accepted partial when final receipt and read are unavailable: %s',
+    async (failureMode) => {
+      let listener: ((event: ProviderEvent) => void) | undefined
+      let reads = 0
+      const unavailable = {
+        ok: false as const,
+        error: {
+          code: 'STORAGE_UNAVAILABLE' as const,
+          message: 'unavailable',
+          correlationId: 'read-failure',
+          retryable: true
+        }
+      }
+      const timelineApi = {
+        read: vi.fn(async (input) =>
+          ++reads === 1 ? success(input.assistantId, input.mode, []) : unavailable
+        ),
+        saveTemporary: vi.fn()
+      } as TimelineApi
+      const api = mockProvider({
+        onEvent: vi.fn((callback) => {
+          listener = callback
+          return () => undefined
+        }),
+        startChat: vi.fn(async (input) => {
+          listener?.({
+            type: 'delta',
+            assistantId: input.assistantId,
+            requestId: input.requestId,
+            text: 'ALREADY_RECEIVED_FROM_PROVIDER'
+          })
+          if (failureMode === 'exception') throw new Error('lost command reply')
+          return unavailable
+        })
+      })
+      render(<ProviderPanel assistantSnapshot={assistants()} api={api} timelineApi={timelineApi} />)
+      await screen.findByText(/实际接收方：Receiver/)
+      fireEvent.change(screen.getByLabelText('正常消息'), {
+        target: { value: 'ACTUALLY_SENT_INPUT' }
+      })
+      fireEvent.click(screen.getByRole('button', { name: '发送' }))
+      await screen.findByRole('alert')
+      expect(screen.getByText('ALREADY_RECEIVED_FROM_PROVIDER')).toBeInTheDocument()
+      expect(screen.getByText('ACTUALLY_SENT_INPUT')).toBeInTheDocument()
+      expect(screen.queryByRole('region', { name: '未发送草稿' })).toBeNull()
+      expect(screen.getAllByText(/请求已发送，最终状态或保存情况未确认/)).toHaveLength(2)
+      expect(api.startChat).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it('retains an unknown command outcome without claiming the input was never sent', async () => {
+    let reads = 0
+    const timelineApi = {
+      read: vi.fn(async (input) => {
+        if (++reads === 1) return success(input.assistantId, input.mode, [])
+        throw new Error('read unavailable')
+      }),
+      saveTemporary: vi.fn()
+    } as TimelineApi
+    const api = mockProvider({
+      startChat: vi.fn(async () => {
+        throw new Error('lost IPC reply')
+      })
+    })
+    render(<ProviderPanel assistantSnapshot={assistants()} api={api} timelineApi={timelineApi} />)
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'UNKNOWN_DELIVERY' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await screen.findByRole('alert')
+    expect(screen.getByText('UNKNOWN_DELIVERY')).toBeInTheDocument()
+    expect(screen.getAllByText(/请求结果未确认，可能已经发送/)).toHaveLength(2)
+    expect(screen.queryByRole('region', { name: '未发送草稿' })).toBeNull()
+    expect(api.startChat).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps positively observed completion when the command reply and later read are lost', async () => {
+    let listener: ((event: ProviderEvent) => void) | undefined
+    let reads = 0
+    const timelineApi = {
+      read: vi.fn(async (input) => {
+        if (++reads === 1) return success(input.assistantId, input.mode, [])
+        throw new Error('read unavailable')
+      }),
+      saveTemporary: vi.fn()
+    } as TimelineApi
+    const api = mockProvider({
+      onEvent: vi.fn((callback) => {
+        listener = callback
+        return () => undefined
+      }),
+      startChat: vi.fn(async (input) => {
+        listener?.({
+          type: 'delta',
+          assistantId: input.assistantId,
+          requestId: input.requestId,
+          text: 'CONFIRMED_COMPLETE'
+        })
+        listener?.({
+          type: 'completed',
+          assistantId: input.assistantId,
+          requestId: input.requestId
+        })
+        throw new Error('lost IPC reply')
+      })
+    })
+    render(<ProviderPanel assistantSnapshot={assistants()} api={api} timelineApi={timelineApi} />)
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'confirmed input' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await screen.findByRole('alert')
+    const article = screen.getByText('CONFIRMED_COMPLETE').closest('article')!
+    expect(within(article).getByText('完成')).toBeInTheDocument()
+    expect(within(article).queryByText(/未确认|未发送/)).toBeNull()
+  })
+
+  it('does not turn a superseded empty read into rejection or erase a newer request', async () => {
+    let listener: ((event: ProviderEvent) => void) | undefined
+    let resolveOldRead!: (result: TimelineResult) => void
+    let reads = 0
+    const requests: StartChatInput[] = []
+    const unavailable = {
+      ok: false as const,
+      error: {
+        code: 'STORAGE_UNAVAILABLE' as const,
+        message: 'unavailable',
+        correlationId: 'old-failure',
+        retryable: true
+      }
+    }
+    const rows = (): TimelineMessage[] => [
+      message(
+        '00000000-0000-4000-8000-000000000601',
+        requests[0]!.requestId,
+        'user',
+        'old accepted input',
+        'completed',
+        true
+      ),
+      message(
+        '00000000-0000-4000-8000-000000000602',
+        requests[0]!.requestId,
+        'assistant',
+        '',
+        'pending',
+        true
+      ),
+      message(
+        '00000000-0000-4000-8000-000000000603',
+        requests[1]!.requestId,
+        'user',
+        'new accepted input',
+        'completed',
+        true
+      ),
+      message(
+        '00000000-0000-4000-8000-000000000604',
+        requests[1]!.requestId,
+        'assistant',
+        'NEW_CONFIRMED_REPLY',
+        'completed',
+        true
+      )
+    ]
+    const timelineApi = {
+      read: vi.fn(async (input) => {
+        reads += 1
+        if (reads === 1) return success(input.assistantId, input.mode, [])
+        if (reads === 2)
+          return new Promise<TimelineResult>((resolve) => {
+            resolveOldRead = resolve
+          })
+        return success(input.assistantId, input.mode, rows())
+      }),
+      saveTemporary: vi.fn()
+    } as TimelineApi
+    const api = mockProvider({
+      onEvent: vi.fn((callback) => {
+        listener = callback
+        return () => undefined
+      }),
+      startChat: vi.fn(async (input) => {
+        requests.push(input)
+        if (requests.length === 1) {
+          listener?.({
+            type: 'delta',
+            assistantId: input.assistantId,
+            requestId: input.requestId,
+            text: 'OLD_ACCEPTED_PARTIAL'
+          })
+          return unavailable
+        }
+        return {
+          ok: true as const,
+          data: {
+            assistantId: input.assistantId,
+            requestId: input.requestId,
+            status: 'completed' as const,
+            text: 'NEW_CONFIRMED_REPLY',
+            usage: null
+          }
+        }
+      })
+    })
+    render(<ProviderPanel assistantSnapshot={assistants()} api={api} timelineApi={timelineApi} />)
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'old accepted input' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(2))
+    fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'new accepted input' } })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(3))
+    await act(async () => {
+      resolveOldRead(success(assistantA, 'normal', []))
+    })
+    expect(screen.getByText('OLD_ACCEPTED_PARTIAL')).toBeInTheDocument()
+    expect(screen.getByText('old accepted input')).toBeInTheDocument()
+    expect(screen.getByText('NEW_CONFIRMED_REPLY')).toBeInTheDocument()
+    expect(screen.getByText('new accepted input')).toBeInTheDocument()
+    expect(screen.queryByRole('region', { name: '未发送草稿' })).toBeNull()
+    expect(api.startChat).toHaveBeenCalledTimes(2)
+  })
+
+  it('uses the confirmed saved total after optimistic IDs failed to refresh, while keeping rejected drafts', async () => {
+    let reads = 0
+    let sends = 0
+    let acceptedRequestId = ''
+    const unavailable = {
+      ok: false as const,
+      error: {
+        code: 'STORAGE_UNAVAILABLE' as const,
+        message: 'unavailable',
+        correlationId: 'read-failure',
+        retryable: true
+      }
+    }
+    const saved = (): TimelineMessage[] => [
+      message(
+        '00000000-0000-4000-8000-000000000701',
+        acceptedRequestId,
+        'user',
+        'accepted temporary input',
+        'completed',
+        true
+      ),
+      message(
+        '00000000-0000-4000-8000-000000000702',
+        acceptedRequestId,
+        'assistant',
+        'accepted reply',
+        'completed',
+        true
+      )
+    ]
+    const timelineApi = {
+      read: vi.fn(async (input) =>
+        ++reads <= 3 ? success(input.assistantId, input.mode, []) : unavailable
+      ),
+      saveTemporary: vi.fn(async () => success(assistantA, 'temporary', saved()))
+    } as TimelineApi
+    const api = mockProvider({
+      startChat: vi.fn(async (input) => {
+        if (++sends === 1)
+          return {
+            ok: false as const,
+            error: { ...unavailable.error, code: 'CREDENTIAL_MISSING' as const }
+          }
+        acceptedRequestId = input.requestId
+        return {
+          ok: true as const,
+          data: {
+            assistantId: input.assistantId,
+            requestId: input.requestId,
+            status: 'completed' as const,
+            text: 'accepted reply',
+            usage: null
+          }
+        }
+      })
+    })
+    render(<ProviderPanel assistantSnapshot={assistants()} api={api} timelineApi={timelineApi} />)
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(2))
+    fireEvent.change(screen.getByLabelText('临时消息'), {
+      target: { value: 'rejected draft remains' }
+    })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await screen.findByRole('region', { name: '未发送草稿' })
+    fireEvent.change(screen.getByLabelText('临时消息'), {
+      target: { value: 'accepted temporary input' }
+    })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await waitFor(() => expect(timelineApi.read).toHaveBeenCalledTimes(4))
+    for (let count = 1; count <= 2; count++) {
+      fireEvent.click(screen.getByRole('button', { name: '保存到此助手时间线' }))
+      await waitFor(() => expect(timelineApi.saveTemporary).toHaveBeenCalledTimes(count))
+      expect(
+        await screen.findByText(/已将当前临时会话中 2 条消息.*已确认的保存总数/)
+      ).toBeInTheDocument()
+      expect(screen.queryByText(/没有临时时间线消息被保存/)).toBeNull()
+      expect(screen.getByText('rejected draft remains')).toBeInTheDocument()
+      expect(screen.getByText('accepted temporary input')).toBeInTheDocument()
+      expect(screen.getByText('accepted reply')).toBeInTheDocument()
+    }
+    expect(within(screen.getByLabelText('消息时间线')).getAllByRole('article')).toHaveLength(2)
+    expect(api.startChat).toHaveBeenCalledTimes(2)
+  })
+
   it('defaults to normal, restores real status, has no normal clear, and sends explicit normal mode', async () => {
     const restored = [
       message(
@@ -298,13 +607,17 @@ describe('ProviderPanel persistent timeline UI', () => {
     expect(within(temporaryArticle).getByText(/未保存/)).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: '保存到此助手时间线' }))
-    expect(await screen.findByText(/已将当前临时会话中 2 条尚未保存的消息/)).toBeInTheDocument()
+    expect(
+      await screen.findByText(/已将当前临时会话中 2 条消息.*已确认的保存总数/)
+    ).toBeInTheDocument()
     const savedArticle = screen.getByText('临时正文').closest('article')
     if (!savedArticle) throw new Error('saved article missing')
     expect(within(savedArticle).getByText(/已保存/)).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: '保存到此助手时间线' }))
-    expect(await screen.findByText(/没有新的临时消息需要保存/)).toBeInTheDocument()
+    expect(
+      await screen.findByText(/已将当前临时会话中 2 条消息.*已确认的保存总数/)
+    ).toBeInTheDocument()
     expect(saveTemporary).toHaveBeenCalledTimes(3)
   })
 
