@@ -1,0 +1,24 @@
+# Final installed runtime review
+
+2026-09-08 independent Astra/medium。实际查看两张冻结PNG并读JSON，未操作桌面。**分类用量LIMITED PASS；当前失败列表REPAIR。**
+
+current-failures JSON D7795C4EABE0536C3BDFA405AB04E9481D5ADB82394D7D42D1D6ADA4A3FDE8B0 / PNG 01B43961E677D8B8F7F33519C59E6DCE18C45CEB8261032A87EF5D7E0C3FD18F；usage JSON05268B4346E5C2523BBE331C17CDC91B7C02A89187FF589E825EDF16030372A2 / PNGD0E4908BA3EA54D12B4432B86A88C6DB393DC76E8088704C1206E951400393B0。PID233116。截图实际可见预算BUDGET_PAUSED5次/当前仍存在，以及正常SENDING6次/已恢复；不是只看到按钮就推断通过。
+
+operations-service.dispatch为正常SENDING调用event(...current=true)，event把current直接映射WARN；settle把先前事件current=false/recoveredAt设置但保留WARN；failures只筛severity非INFO并聚合，因此正常发送持续作为黄色失败历史出现。这不是实际请求失败，误导“当前失败”视图。保留真正已恢复WARN历史可单独按既有设计解释，但不能把正常SENDING称告警。
+
+最小修复合同已交Sol：severity与current分离，正常发送INFO；兼容已有持久SENDING/WARN读取，不入失败但保留历史与usage。真实预算不足/权限拒绝继续WARN、重复可聚合且当前/恢复正确。独立反例须包含真实dispatch→settle无失败、旧SENDING/WARN不混入、真实BUDGET_PAUSED保留，不用改截图说明掩盖。产品尚待作者冻结，不改src/out，本报告不是最终016通过。
+
+分类用量图与冻结账本一致：已知13291、completion355、字符9954、unknown3、sending0；工具链13179/unknown2明确不完整。总量/分类/未知说明实际可读，本次可关闭该视觉分项，既有按助手/连接/功能筛选与预算反例复用，不新增付费业务。运行中心整体仍由上述REPAIR阻挡。
+
+独立补充RED：[review014-operations-severity.test.ts](../../../tests/integration/review014-operations-severity.test.ts)在真实内存SQLite运行begin/settle，正常current INFO/失败列表为空先通过；插入旧持久SENDING WARN后，history仍返回WARN，实际断言失败，见[run01](delivery-014-operations-review-run-01.json)，不是fixture初始化问题。DailyPanel依据severity给历史卡片黄色样式，因此仅在failures排除旧行仍不完整。已交作者读时正规化旧SENDING INFO、不改历史SQL行或usage；真实BUDGET_PAUSED WARN及恢复仍须保留。当前仍REPAIR，等待候选冻结原样复验。
+
+## 分类修复冻结独立结论
+
+**SOURCE LIMITED PASS**。manifest operations-013-sending-classification-manifest-v1.json SHA4B5135774B7AAA97282BD6634D9827B70D0238B76F1067B10B3B029DBBFEC1EB，3条产品/作者测试hash在独立运行前后均匹配：operations-service AA08A885DB65A8620E3D01A1046AC0DE6E610199D513FF66CD09F65A055FC7A2；daily-service A8DBD36415552D546C47849E5C79522CF8526FE482CED1DFFD2BF43D3B96A977；daily-usage 88EA40C3BA20D4C5FF0F8FF3526BEB1B882548FF3C97A615EFEFD27305046A72。
+
+实际独立[run02](delivery-014-operations-review-run-02.json)三文件九项全部通过：原review014-operations-severity RED断言未削弱，并增加旧QUEUED/RUNNING在current/history皆INFO；原始operation_events及usage_attempts逐行不变。作者daily-usage真实QUEUED→挂起RUNNING→完成场景及既有DailyPanel运行视图一并通过。正常SENDING active current仍可见，完成后历史保留不列失败；真实预算WARN当前及恢复时间保留。相关Node类型与独立文件ESLint退出0，格式已处理。
+
+源码差异限于显式severity/current分离、日常关注状态白名单和旧正常状态的只读DTO正规化；WAITING_CONFIGURATION/BUDGET_PAUSED/RECOVERY_PENDING/PARTIAL/FAILED/REMOTE_UNKNOWN仍WARN，未降低实际故障。DailyPanel原来按severity着色，现在旧正常行也得到INFO，不再黄色误报。正常历史统一“已恢复”后缀沿既有非current表示，本次没有据此声称发生过错误；更具体state和summary仍呈现真实正常状态。原v4截图FAIL及独立run01保留。
+
+产品已变化，不能把v4原包称已含修复。root负责新out/包身份与比例整合，最终安装运行中心需核修复后表示；未build/out、没有新Provider或桌面操作，其他v4已审安装/治理/卸载按实际差异复用。
+独立测试最终SHA256：F07C0F8C2ACBA02EF16CBF466651ABAE8A62103118DFB8365E269BA0D2CF7FF8

@@ -27,6 +27,7 @@ export class OperationsService {
           record.feature,
           'USAGE_UNKNOWN',
           '上次进程退出前未取得完整用量；不自动重试',
+          'WARN',
           true
         )
       }
@@ -83,7 +84,7 @@ export class OperationsService {
     }
     this.save(record)
     if (record.persistent)
-      this.event(record.owner, record.feature, 'SENDING', '正在调用已授权的实际模型', true)
+      this.event(record.owner, record.feature, 'SENDING', '正在调用已授权的实际模型', 'INFO', true)
     return record.id
   }
   settle(id: string, usage: TransportUsage | null, reason?: string) {
@@ -105,6 +106,7 @@ export class OperationsService {
         record.feature,
         actual ? 'COMPLETED' : 'USAGE_UNKNOWN',
         actual ? '调用已结算；记录端点返回的实际用量' : '调用用量未知；不能按零计算',
+        actual ? 'INFO' : 'WARN',
         !actual
       )
   }
@@ -122,6 +124,7 @@ export class OperationsService {
     feature: dto.UsageFeature | null,
     state: string,
     summary: string,
+    severity: dto.OperationRow['severity'],
     current: boolean
   ) {
     if (this.closed) return
@@ -142,7 +145,7 @@ export class OperationsService {
       owner,
       feature,
       state,
-      severity: current ? 'WARN' : 'INFO',
+      severity,
       summary,
       firstAt: now,
       lastAt: now,
@@ -206,6 +209,11 @@ export class OperationsService {
         .prepare('SELECT record_json FROM operation_events ORDER BY rowid DESC')
         .all()
         .map((row) => dto.operationRowSchema.parse(JSON.parse(String(row.record_json))))
+        .map((row) =>
+          ['SENDING', 'QUEUED', 'RUNNING'].includes(row.state) && row.severity !== 'INFO'
+            ? { ...row, severity: 'INFO' as const }
+            : row
+        )
       if (value.actor) {
         const attempts = this.attempts()
         records = records.filter((row) => {

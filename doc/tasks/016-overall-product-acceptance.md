@@ -1,6 +1,6 @@
 # 016 文档用户场景与整体验收
 
-状态：ACTIVE / RUNTIME_CLASSIFICATION_REPAIR / FINAL_NATIVE_PENDING；PROGRAM ACTIVE。唯一当前入口仍为[progress](progress.md)。本任务落实[总覆盖](program-docs-to-release.md)Q11，不建立第二份需求清单，也不替代014实际制品、安装升级和发布核验。
+状态：ACTIVE / CLASSIFICATION_SOURCE_PASS / FINAL_NATIVE_PENDING；PROGRAM ACTIVE。唯一当前入口仍为[progress](progress.md)。本任务落实[总覆盖](program-docs-to-release.md)Q11，不建立第二份需求清单，也不替代014实际制品、安装升级和发布核验。
 
 ## 验收口径
 
@@ -19,7 +19,7 @@
 
 ## 当前已核事实与余项
 
-- 最新实际REPAIR：最终运行中心正常SENDING被记为WARN并出现在当前失败；当前/恢复与严重度需分离，旧记录也按正常状态排除失败查询，保留真实失败、恢复和用量。Sol修复、Astra独立复核后重建候选并验证最终入口。通知物理操作仍未通过，旧COM探针内部CLSID错误不归为产品失败，使用已核的新探针进行有界诊断。
+- 分类源码REPAIR已关闭：正常SENDING/QUEUED/RUNNING与历史记录只读表示为INFO，真实告警及DB/用量不变；[独立反例](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-runtime-review.md)及[v5全量/两PID整合](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-root-integration-v5.md)通过。新安装包及最终入口仍需实际验证；v4普通卸载已独立通过，当前保留数据待新包重装。通知物理操作仍未通过，旧COM探针内部CLSID错误不归为产品失败，使用已核的新探针进行有界诊断。
 
 - [独立整体结算](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-overall-final-review.md)已核48项功能、12队列及11项原始边界；非原生功能与治理恢复分项通过，没有新增产品遗漏或待决项。最终通知点击/冷激活、登录开启卸载重装及数据/COM保护、运行中心视觉和实际发布下载仍待，整体不是PASS。
 

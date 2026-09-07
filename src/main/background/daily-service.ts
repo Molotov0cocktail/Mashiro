@@ -294,6 +294,18 @@ export class DailyService {
   private owner(job: dto.DailyJob) {
     return { domain: 'daily' as const, id: job.id, assistantId: job.authorityAssistantId }
   }
+  private operationSeverity(state: dto.DailyJob['state']): 'INFO' | 'WARN' {
+    return [
+      'WAITING_CONFIGURATION',
+      'BUDGET_PAUSED',
+      'RECOVERY_PENDING',
+      'PARTIAL',
+      'FAILED',
+      'REMOTE_UNKNOWN'
+    ].includes(state)
+      ? 'WARN'
+      : 'INFO'
+  }
   private update(job: dto.DailyJob, state: dto.DailyJob['state'], reason: string) {
     job.state = state
     job.reason = reason
@@ -306,12 +318,14 @@ export class DailyService {
       this.store.database
         .prepare('UPDATE daily_jobs SET inputs_json=?,candidate_json=NULL WHERE id=?')
         .run('{}', job.id)
+    const current = !['COMPLETED', 'CANCELLED', 'STALE'].includes(state)
     this.operations.event(
       this.owner(job),
       job.feature,
       state,
       reason,
-      !['COMPLETED', 'CANCELLED', 'STALE'].includes(state)
+      this.operationSeverity(state),
+      current
     )
     this.emit(job.authorityAssistantId, job.feature, job.id, job.version)
   }
@@ -373,7 +387,14 @@ export class DailyService {
     this.store.database
       .prepare('INSERT INTO daily_jobs VALUES(?,?,?,?,NULL)')
       .run(job.id, key, JSON.stringify(job), JSON.stringify(inputs))
-    this.operations.event(this.owner(job), job.feature, state, job.reason, true)
+    this.operations.event(
+      this.owner(job),
+      job.feature,
+      state,
+      job.reason,
+      this.operationSeverity(state),
+      true
+    )
     this.emit(config.assistantId, config.feature, job.id, job.version)
     return job
   }
@@ -1111,6 +1132,7 @@ export class DailyService {
               config.feature,
               'WAITING_CONFIGURATION',
               next.reason,
+              'WARN',
               true
             )
           this.store.database

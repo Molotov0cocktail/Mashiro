@@ -1,0 +1,66 @@
+{
+  "candidate": "operations-013-sending-classification-v1",
+  "baseHead": "f296f1c18629c221d85ba426a14ae41a79c148ee",
+  "scope": "Normal persistent SENDING and daily QUEUED/RUNNING remain current and visible as INFO; legacy rows for those normal states are normalized to INFO at query time without rewriting storage; actual attention states remain WARN with current/recovered evidence; usage is unchanged.",
+  "files": [
+    {
+      "path": "src/main/background/operations-service.ts",
+      "sha256": "AA08A885DB65A8620E3D01A1046AC0DE6E610199D513FF66CD09F65A055FC7A2"
+    },
+    {
+      "path": "src/main/background/daily-service.ts",
+      "sha256": "A8DBD36415552D546C47849E5C79522CF8526FE482CED1DFFD2BF43D3B96A977"
+    },
+    {
+      "path": "tests/integration/daily-usage.test.ts",
+      "sha256": "88EA40C3BA20D4C5FF0F8FF3526BEB1B882548FF3C97A615EFEFD27305046A72"
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-sending-classification-red-01.json",
+      "sha256": "BF49B92A8FFF7EAF76353D727523AAB6317E6AE152585A6FBCB0C154F9DD9C6A"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-daily-state-classification-red-01.json",
+      "sha256": "8027DB2BF2A1CF3ED026CD1209E02A42192400E4DF9B0C04B5E0A3152AA2E297"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-sending-classification-green-03.json",
+      "sha256": "81B10608194A33763CD39C9D364F2F814A7B19E8095856B65E5F867C3EEDFB14"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-sending-focused-green-03.json",
+      "sha256": "D0F711034B0A8688E8C30BE623A1AC1674FA897BC7799D9B64927C1C38D8E674"
+    }
+  ],
+  "checks": [
+    {
+      "command": "vitest daily-usage",
+      "result": "1 file, 7 tests passed",
+      "evidence": "operations-013-sending-classification-green-03.json"
+    },
+    {
+      "command": "vitest bounded affected integration",
+      "result": "6 files, 7 suites, 37 tests passed",
+      "evidence": "operations-013-sending-focused-green-03.json"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "Node and Web exited 0"
+    },
+    {
+      "command": "scoped ESLint",
+      "result": "3 files exited 0"
+    },
+    {
+      "command": "scoped Prettier check",
+      "result": "3 files exited 0"
+    }
+  ],
+  "notRun": [
+    "build",
+    "Electron harness",
+    "Windows packaging or native UI"
+  ]
+}

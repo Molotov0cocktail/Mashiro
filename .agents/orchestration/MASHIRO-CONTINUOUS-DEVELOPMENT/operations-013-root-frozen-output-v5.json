@@ -1,0 +1,34 @@
+{
+  "scope": "operations classification v5 frozen output",
+  "observedAt": "2026-09-08T06:50:11.6187804+08:00",
+  "baseHead": "f296f1c18629c221d85ba426a14ae41a79c148ee",
+  "sourceManifest": "operations-013-sending-classification-manifest-v1.json",
+  "sourceManifestSha256": "4B5135774B7AAA97282BD6634D9827B70D0238B76F1067B10B3B029DBBFEC1EB",
+  "files": [
+    {
+      "path": "out/main/index.js",
+      "bytes": 925741,
+      "sha256": "F5E0B6925E4585C44A1CCE13B9125F68CE2A17107D5469695E5A0B667FF1B4D5"
+    },
+    {
+      "path": "out/preload/index.cjs",
+      "bytes": 12501,
+      "sha256": "6FA45BB4625584B2A471BC8B187793BE84BD7487BBE258F0215D10628726971D"
+    },
+    {
+      "path": "out/renderer/index.html",
+      "bytes": 625,
+      "sha256": "8ABE0E306A1FC8EE683602286FA27E961B6785F67C416E1BC75DB16A7DA7BA95"
+    },
+    {
+      "path": "out/renderer/assets/index-B1DhjySS.css",
+      "bytes": 29308,
+      "sha256": "E0576BDC96DE8B8CD57620237DDA4D778289E5B89D8F3A370C89FA98C10830FC"
+    },
+    {
+      "path": "out/renderer/assets/index-V2pEEo7A.js",
+      "bytes": 1340159,
+      "sha256": "D3C722D337CC388C8A8B2FF150288ACCFF70B993B761F8A7AC8FC7A44C4B9BEE"
+    }
+  ]
+}
