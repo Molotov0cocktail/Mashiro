@@ -1,0 +1,64 @@
+{
+  "scope": "final release-v4 installed ordinary-exit and ordinary-GUI-uninstall evidence",
+  "createdAt": "2026-09-08T06:35:28.9634444+08:00",
+  "artifact": {
+    "sourceCommit": "37620929a7f507bb31d41861114cf6f825d715fd",
+    "setupSha256": "D352DD8AAD149D011405400476C2561C336768F076523E7DEDD2CCDB45D16EF4",
+    "installedExeSha256": "73A4AFA12FF36B758C0F8D450F6B6AACFC0F3566C63EFAD14F458173D8508E4D",
+    "asarSha256": "F310B79143120BADF9BF7AEE4603A01C7F2C63963B43EBE1E80C4C906F5541FD"
+  },
+  "files": [
+    {
+      "sha256": "43A52374FA534C5B07AFA887B7F4DE8A854390E7F923D4F82974B38B38BBE3AF",
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-normal-exit.ps1",
+      "bytes": 4511
+    },
+    {
+      "sha256": "6C790119C57ED07F8FE3CC56C293804231A1351327953B18810DB90DCE0B4725",
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-uninstall-snapshot.ps1",
+      "bytes": 7614
+    },
+    {
+      "sha256": "4E1E2009AC4A52B1037C7BF5B75CED30901EC0730029664FBDE52CFBCF39B068",
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-uninstall-system-pre.json",
+      "bytes": 11366
+    },
+    {
+      "sha256": "E00E9589C1287676D17A1B45B4B6785D85065ED653482FC86308EBC37E40769A",
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-uninstall-system-post.json",
+      "bytes": 8066
+    },
+    {
+      "sha256": "0913A475E60F55274FCB53D5D93771F7BCC349AB68F116CACE08221D68002749",
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-uninstall-comparison-01.json",
+      "bytes": 1622
+    }
+  ],
+  "result": {
+    "normalExit": "SUCCEEDED",
+    "ordinaryGuiUninstall": "SUCCEEDED",
+    "exactMashiroProcessesAfter": 0,
+    "dataEntriesExactPreserved": 18,
+    "unknownFileExactPreserved": true,
+    "locationExactPreserved": true,
+    "loginRunRemoved": true,
+    "knownOwnedLocalServer32Removed": "4/4",
+    "ownedProgramFilesRemoved": true
+  },
+  "facts": {
+    "startupApprovedPreimage": "ABSENT",
+    "clsidRootMetadata": "PRESERVED_NONEMPTY",
+    "currentState": "UNINSTALLED_WAITING_FOR_V5"
+  },
+  "historicalFailures": [
+    "baseline menu UIA FromPoint access denied",
+    "SubmenuButton InvokePattern unsupported",
+    "advertised ExpandCollapse returned unexpected HRESULT",
+    "two duplicate uninstaller windows from earlier launch attempts were identity-checked and cancelled; one exact window completed"
+  ],
+  "boundaries": [
+    "This proves release-v4 ordinary uninstall data/login/known COM LocalServer32 cleanup; it does not qualify the pending v5 runtime classification repair.",
+    "The old v7 COM probe had a hard-coded stale CLSID inside C# and remains RESULT_UNKNOWN; it is excluded from product conclusions.",
+    "Notification-center physical activation remains not proven."
+  ]
+}

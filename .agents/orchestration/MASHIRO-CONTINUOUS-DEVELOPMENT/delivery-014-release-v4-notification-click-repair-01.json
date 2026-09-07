@@ -1,0 +1,77 @@
+{
+  "observedAt": "2026-09-08T06:03:49.4732056+08:00",
+  "scope": "final-package-installed-synthetic-scene",
+  "status": "REPAIR",
+  "package": {
+    "sourceRevision": "37620929a7f507bb31d41861114cf6f825d715fd",
+    "installedExecutableSha256": "73A4AFA12FF36B758C0F8D450F6B6AACFC0F3566C63EFAD14F458173D8508E4D"
+  },
+  "reminder": {
+    "id": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+    "version": 7,
+    "state": "DISPLAY_OBSERVED",
+    "dueAt": "2026-09-08T05:28:00+08:00",
+    "notificationGroupId": "bb94790a82178a390dcd52a9a6f95f1c98b55a6584362d502551aaad169da183"
+  },
+  "winRtHistory": {
+    "appId": "Mashiro.Desktop",
+    "beforeDueCount": 0,
+    "afterDueCount": 1,
+    "afterInvokeCount": 1,
+    "tag": "ce6464c6708b695c",
+    "group": "reminders"
+  },
+  "notificationCenter": {
+    "root": {
+      "name": "通知中心",
+      "process": "ShellExperienceHost",
+      "windowHandle": 262532
+    },
+    "item": {
+      "name": "Mashiro 提醒。一项已保存的提醒到时。点击查看当前事项。。。接收于 5:28",
+      "controlType": "ControlType.ListItem",
+      "automationId": "NOT_RECORDED_BEFORE_ELEMENT_BECAME_STALE",
+      "parentChain": "NOT_RECORDED_BEFORE_ELEMENT_BECAME_STALE",
+      "bounds": "2213,98,334,103",
+      "isOffscreen": false,
+      "isKeyboardFocusable": true,
+      "supportedPatterns": {
+        "invoke": true,
+        "selectionItem": false,
+        "toggle": false
+      }
+    },
+    "physicalPointer": {
+      "targetOwner": "ShellExperienceHost",
+      "targetRootHandle": 262532,
+      "result": "NO_NAVIGATION",
+      "mashiroTabAfter": "提醒"
+    },
+    "invokePattern": {
+      "result": "NO_NAVIGATION",
+      "mashiroTabAfter": "提醒"
+    }
+  },
+  "serviceEvidence": {
+    "activationsBeforeAndAfter": [
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:4",
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:6"
+    ],
+    "version7ActivationPresent": false,
+    "businessDispatchRepeated": false
+  },
+  "shortcut": {
+    "sha256": "0EB7419527F83306D4D3F289457D6ADC44B438D53A8538119422011DA4D0BF83",
+    "appUserModelId": "Mashiro.Desktop",
+    "toastActivatorClsid": "{77ECE83F-1281-41F7-A306-A45192D2B840}",
+    "localServer32": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "referencesCurrentExecutable": true
+  },
+  "boundary": [
+    "A visible exact Mashiro Notification Center entry and WinRT history membership were proven.",
+    "Neither the guarded physical pointer click nor system UIA InvokePattern caused Mashiro to navigate or record reminder version 7 activation.",
+    "This evidence does not claim a successful user click or cold activation.",
+    "Unrelated notification contents and credentials are excluded."
+  ]
+}

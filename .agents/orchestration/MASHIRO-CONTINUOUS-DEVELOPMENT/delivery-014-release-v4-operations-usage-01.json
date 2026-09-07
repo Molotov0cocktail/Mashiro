@@ -1,0 +1,222 @@
+{
+  "observedAt": "2026-09-08T06:06:59.9670290+08:00",
+  "pid": 233116,
+  "view": "分类用量",
+  "elements": [
+    {
+      "name": "14",
+      "type": "ControlType.Text",
+      "bounds": "869,428,21,22"
+    },
+    {
+      "name": "12936",
+      "type": "ControlType.Text",
+      "bounds": "1290,428,50,22"
+    },
+    {
+      "name": "Completion tokens",
+      "type": "ControlType.ListItem",
+      "bounds": "869,485,386,22"
+    },
+    {
+      "name": "Completion tokens",
+      "type": "ControlType.Text",
+      "bounds": "869,485,146,22"
+    },
+    {
+      "name": "355",
+      "type": "ControlType.Text",
+      "bounds": "869,509,31,22"
+    },
+    {
+      "name": "已知总 tokens",
+      "type": "ControlType.ListItem",
+      "bounds": "1290,485,386,22"
+    },
+    {
+      "name": "已知总 tokens",
+      "type": "ControlType.Text",
+      "bounds": "1290,485,104,22"
+    },
+    {
+      "name": "13291",
+      "type": "ControlType.Text",
+      "bounds": "1290,509,50,22"
+    },
+    {
+      "name": "处理字符",
+      "type": "ControlType.ListItem",
+      "bounds": "869,566,386,22"
+    },
+    {
+      "name": "处理字符",
+      "type": "ControlType.Text",
+      "bounds": "869,566,65,22"
+    },
+    {
+      "name": "9954",
+      "type": "ControlType.Text",
+      "bounds": "869,591,40,22"
+    },
+    {
+      "name": "未知请求",
+      "type": "ControlType.ListItem",
+      "bounds": "1290,566,386,22"
+    },
+    {
+      "name": "未知请求",
+      "type": "ControlType.Text",
+      "bounds": "1290,566,65,22"
+    },
+    {
+      "name": "3",
+      "type": "ControlType.Text",
+      "bounds": "1290,591,11,22"
+    },
+    {
+      "name": "发送中",
+      "type": "ControlType.ListItem",
+      "bounds": "869,648,386,22"
+    },
+    {
+      "name": "发送中",
+      "type": "ControlType.Text",
+      "bounds": "869,648,49,22"
+    },
+    {
+      "name": "0",
+      "type": "ControlType.Text",
+      "bounds": "869,672,11,22"
+    },
+    {
+      "name": "此计量模块启用后的实际派发；更早缺失的逐次身份/用量不能恢复，历史预算账本仍在对应功能可查。严格临时仅本次进程内。",
+      "type": "ControlType.Text",
+      "bounds": "857,722,520,47"
+    },
+    {
+      "name": " · 含未知用量，不能当作零消耗",
+      "type": "ControlType.Text",
+      "bounds": "857,747,510,46"
+    },
+    {
+      "name": "分类汇总",
+      "type": "ControlType.Text",
+      "bounds": "857,814,831,26"
+    },
+    {
+      "name": "工具链",
+      "type": "ControlType.Text",
+      "bounds": "872,873,49,22"
+    },
+    {
+      "name": "助手",
+      "type": "ControlType.Text",
+      "bounds": "872,910,33,22"
+    },
+    {
+      "name": " · ",
+      "type": "ControlType.Text",
+      "bounds": "904,910,15,22"
+    },
+    {
+      "name": "GLM-5.3-FLASH",
+      "type": "ControlType.Text",
+      "bounds": "918,910,123,22"
+    },
+    {
+      "name": " · ",
+      "type": "ControlType.Text",
+      "bounds": "1040,910,14,22"
+    },
+    {
+      "name": "6",
+      "type": "ControlType.Text",
+      "bounds": "1053,910,11,22"
+    },
+    {
+      "name": " 次",
+      "type": "ControlType.Text",
+      "bounds": "1063,910,21,22"
+    },
+    {
+      "name": "Prompt ",
+      "type": "ControlType.Text",
+      "bounds": "872,947,63,22"
+    },
+    {
+      "name": "12861",
+      "type": "ControlType.Text",
+      "bounds": "934,947,48,22"
+    },
+    {
+      "name": " · Completion ",
+      "type": "ControlType.Text",
+      "bounds": "981,947,109,22"
+    },
+    {
+      "name": "318",
+      "type": "ControlType.Text",
+      "bounds": "1089,947,29,22"
+    },
+    {
+      "name": " · 总计",
+      "type": "ControlType.Text",
+      "bounds": "1117,947,46,22"
+    },
+    {
+      "name": " ",
+      "type": "ControlType.Text",
+      "bounds": "1162,947,6,22"
+    },
+    {
+      "name": "13179",
+      "type": "ControlType.Text",
+      "bounds": "1167,947,48,22"
+    },
+    {
+      "name": " tokens · ",
+      "type": "ControlType.Text",
+      "bounds": "1214,947,70,22"
+    },
+    {
+      "name": "3795",
+      "type": "ControlType.Text",
+      "bounds": "1283,947,38,22"
+    },
+    {
+      "name": " 字符",
+      "type": "ControlType.Text",
+      "bounds": "1320,947,38,22"
+    },
+    {
+      "name": "2",
+      "type": "ControlType.Text",
+      "bounds": "872,984,11,22"
+    },
+    {
+      "name": " 个未知 · ",
+      "type": "ControlType.Text",
+      "bounds": "882,984,67,22"
+    },
+    {
+      "name": "0",
+      "type": "ControlType.Text",
+      "bounds": "948,984,10,22"
+    },
+    {
+      "name": " 个发送中 ·",
+      "type": "ControlType.Text",
+      "bounds": "957,984,79,22"
+    },
+    {
+      "name": " ",
+      "type": "ControlType.Text",
+      "bounds": "1035,984,5,22"
+    },
+    {
+      "name": "不完整",
+      "type": "ControlType.Text",
+      "bounds": "1039,984,49,22"
+    }
+  ]
+}

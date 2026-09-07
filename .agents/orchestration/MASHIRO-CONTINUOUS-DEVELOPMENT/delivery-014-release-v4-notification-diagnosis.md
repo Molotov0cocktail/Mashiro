@@ -1,0 +1,31 @@
+# Final release-v4 notification activation diagnosis
+
+2026-09-08，独立Astra/medium。**实际通知用户流未通过，整体保持REPAIR/PENDING；根因待精确操作证据。** 本文不把旧COM成功替代真实点击，不改src/out，不操作桌面/Registry/当前数据。已向唯一native owner索取冻结操作JSON/UIA、v7 reminder/group/tag和当前CLSID注册摘要。
+
+已报告现场：ShellExperienceHost HWND262532唯一Mashiro条目；物理点击未关闭/导航，随后InvokePattern移除条目但Mashiro仍提醒页，当前PID233116，activation只有旧v4/v6而无v7。此处是owner回报，尚未收到上述动作的冻结控件JSON，不能先认定Invoke的是正文激活而非关闭/清除。
+
+只读生产接线确认：windows-reminder-platform生成toast launch=mashiro-reminder-group:<64hex>，tag为该字符串SHA256前16字符，groupId=reminders。活对象click回调与Notification.handleActivation都调用activateGroup。service查询notification_members后核当前提醒版本、state属于DISPLAY_OBSERVED/RESULT_UNKNOWN/DISPATCHING及正式事项未完成/取消，再INSERT OR IGNORE activation并发布导航。故“没有新增v7 activation”将故障范围前移到Shell操作、OS/Electron交付或服务身份/有效性拒绝；不能仅据未导航判为renderer订阅丢失。已有冷导航独立44项与broker保留/ack机制保持其源码资格，但不能证明本次OS事件交付。
+
+最小判别顺序：
+
+1. 冻结被物理点击和Invoke的具体AutomationId/Name/ControlType、父级、bounds、支持pattern，区分正文容器与关闭/清除按钮。只取Mashiro条目，不读其他通知。
+2. 同一条v7的精确launch/tag/group、notification_members中的id/version与当前reminder state/item status、当前快捷方式ToastActivatorCLSID及其LocalServer32路径/参数做只读对账。tag不等于group；恢复或重装后不能固定旧GUID。若参数/成员或版本失配，先解释拒绝而不是重新派发掩盖。
+3. 若步骤1证明真正正文激活、步骤2均有效，唯一owner可对同一当前v7参数使用已批准精确COM回调做一次差分诊断，记录activation增量与目标UI。COM成功只说明该支链有效，不代替鼠标点击验收；COM也失败则继续按注册/投递和业务拒绝边界定位。重复原失败点击没有判别力。
+
+必要修复合同依证据决定：控件误操作则修验收动作而非产品；失效旧通知按版本/完成状态拒绝应保留，不放宽trusted校验；有效通知未交付则修精确AUMI/CLSID注册或Electron激活接线，并保留原用户动作反例；若需诊断埋点，只允许activation接收类型、参数hash、固定拒绝码和关联ID，不记录正文/Key，也不伪造业务activation。当前没有足够证据指定产品改动或宣称根因已关闭。
+
+## 冻结点击证据后的判别收窄
+
+已独立核[click-repair01](delivery-014-release-v4-notification-click-repair-01.json) SHA256 5AC906B73AD586637B93AE29370A8AF3BE36F6EB305FEFA5B9DA87135C1A99EA。该文件实际afterInvokeCount=1；因此此前owner口头“移除”只可解释为控件stale/通知中心界面变化，**并未证明WinRT条目被移除**。物理点击和Invoke未产生导航/activation的失败保留，但不能据此断言调用了通知正文或dismiss控件。
+
+可排除的身份错误：独立由70a8cb12-b0e3-42f6-b261-b08e6febcfb6:7重算group，精确bb94790a82178a390dcd52a9a6f95f1c98b55a6584362d502551aaad169da183；由launch前缀加group重算tag为ce6464c6708b695c，与唯一Mashiro WinRT条目吻合。提醒DISPLAY_OBSERVED符合服务激活允许状态。冻结shortcut的AUMI Mashiro.Desktop、CLSID77ECE83F-1281-41F7-A306-A45192D2B840与LocalServer32当前EXE归属吻合；这不是COM实际投递成功证明。
+
+最有判别力的下一动作已直接交唯一owner：在卸载改变注册前，用同一当前v7 launch参数做一次既有精确COM差分，冻结HRESULT、activation前后和UI目标；同时给本条实际XML launch、成员id/version及item未完成/未取消摘要。若COM导航成功，则生产当前v7链有效，应修验收Shell正文目标识别（记录AutomationId/父链、焦点/Enter或明确正文点击），不是放宽业务权限或重写broker；若无activation，先检查是否COM/launch未到达或group/item有效性拒绝，必要最小固定码诊断再修对应路径。不得重复当前无法识别的ListItem Invoke，也不以COM成功宣布真实点击通过。
+
+精确注册补充：2026-09-07T22:06:31.1030543Z独立仅打开HKCU Registry64的上述CLSID/LocalServer32，GetValueKind=String，默认值为当前中文空格完整EXE路径，无引号、无参数，只有默认值（工具ad3c07）。这是API读取字符串，未声称核过原始尾NUL字节；裸路径不单独证明COM启动失败。当前进程注册的class-object身份也不能由静态Registry反推。root明确不追加无新依据的REG_SZ字节审查，等待owner同v7差分；未写注册或启动COM。
+
+## COM探针身份错误已确认
+
+实际v7.ps1顶部校验77ECE，但C# CoCreateInstance硬编码旧B5051779-A11F-4603-BE81-C87C46CCB6C5，独立源码核对与root一致。因此此次分类为PROBE_IDENTITY_MISMATCH；无stdout/HRESULT的UNKNOWN不是当前CLSID有效差分，不据此判产品失败。真实Shell点击未通过的事实仍保持。
+
+原脚本不改，新toast-com-02.ps1 SHA D53114858DFD0C6D00BDE85346E223FE8F2183164EB1D54E6FADCAEB3C265B16：固定本合成EXE路径及73A4哈希、固定Mashiro快捷方式/AUMI/空参数/同CLSID LocalServer32匹配；从已验证快捷方式提取唯一CLSID并传入C#，重装新GUID可在相同归属约束下使用，不接受任意COM参数。调用前输出PENDING，异常仅最内层类型/HResult；原失败保留，PS语法解析通过，未由reviewer执行COM。root已核主体路线，交唯一owner PREPARE_ONLY后一次EXECUTE，必须保存stdout/stderr/exitcode及实际业务结果。

@@ -1,0 +1,337 @@
+{
+  "observedAt": "2026-09-08T06:05:49.5174241+08:00",
+  "pid": 233116,
+  "view": "当前失败",
+  "elements": [
+    {
+      "name": "筛选运行与用量",
+      "type": "ControlType.Button",
+      "bounds": "857,436,831,22"
+    },
+    {
+      "name": "筛选运行与用量",
+      "type": "ControlType.Text",
+      "bounds": "874,436,113,22"
+    },
+    {
+      "name": "助手筛选",
+      "type": "ControlType.Text",
+      "bounds": "857,457,65,22"
+    },
+    {
+      "name": "助手筛选",
+      "type": "ControlType.ComboBox",
+      "bounds": "921,460,143,20"
+    },
+    {
+      "name": "角色筛选",
+      "type": "ControlType.Text",
+      "bounds": "1278,457,65,22"
+    },
+    {
+      "name": "角色筛选",
+      "type": "ControlType.ComboBox",
+      "bounds": "1342,460,77,20"
+    },
+    {
+      "name": "功能筛选",
+      "type": "ControlType.Text",
+      "bounds": "857,491,65,22"
+    },
+    {
+      "name": "功能筛选",
+      "type": "ControlType.ComboBox",
+      "bounds": "921,494,90,20"
+    },
+    {
+      "name": "连接筛选",
+      "type": "ControlType.Text",
+      "bounds": "1278,491,65,22"
+    },
+    {
+      "name": "连接筛选",
+      "type": "ControlType.ComboBox",
+      "bounds": "1342,494,135,20"
+    },
+    {
+      "name": "模型筛选",
+      "type": "ControlType.Text",
+      "bounds": "857,531,65,22"
+    },
+    {
+      "name": "模型筛选",
+      "type": "ControlType.Edit",
+      "bounds": "921,525,196,38"
+    },
+    {
+      "name": "开始时间",
+      "type": "ControlType.Text",
+      "bounds": "1278,532,65,22"
+    },
+    {
+      "name": "开始时间",
+      "type": "ControlType.Edit",
+      "bounds": "1342,525,180,40"
+    },
+    {
+      "name": "年 开始时间",
+      "type": "ControlType.Spinner",
+      "bounds": "1355,537,31,16"
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "bounds": "1385,538,8,14"
+    },
+    {
+      "name": "月 开始时间",
+      "type": "ControlType.Spinner",
+      "bounds": "1392,537,17,16"
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "bounds": "1408,538,8,14"
+    },
+    {
+      "name": "日 开始时间",
+      "type": "ControlType.Spinner",
+      "bounds": "1415,537,17,16"
+    },
+    {
+      "name": " ",
+      "type": "ControlType.Text",
+      "bounds": "1431,538,8,14"
+    },
+    {
+      "name": "小时 开始时间",
+      "type": "ControlType.Spinner",
+      "bounds": "1438,537,17,16"
+    },
+    {
+      "name": ":",
+      "type": "ControlType.Text",
+      "bounds": "1454,538,8,14"
+    },
+    {
+      "name": "分钟 开始时间",
+      "type": "ControlType.Spinner",
+      "bounds": "1461,537,17,16"
+    },
+    {
+      "name": "显示当地日期和时间选择器",
+      "type": "ControlType.Button",
+      "bounds": "1491,536,18,18"
+    },
+    {
+      "name": "结束时间",
+      "type": "ControlType.Text",
+      "bounds": "857,583,65,22"
+    },
+    {
+      "name": "结束时间",
+      "type": "ControlType.Edit",
+      "bounds": "921,576,180,40"
+    },
+    {
+      "name": "年 结束时间",
+      "type": "ControlType.Spinner",
+      "bounds": "934,588,31,16"
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "bounds": "964,589,8,14"
+    },
+    {
+      "name": "月 结束时间",
+      "type": "ControlType.Spinner",
+      "bounds": "971,588,17,16"
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "bounds": "987,589,8,14"
+    },
+    {
+      "name": "日 结束时间",
+      "type": "ControlType.Spinner",
+      "bounds": "994,588,17,16"
+    },
+    {
+      "name": " ",
+      "type": "ControlType.Text",
+      "bounds": "1010,589,8,14"
+    },
+    {
+      "name": "小时 结束时间",
+      "type": "ControlType.Spinner",
+      "bounds": "1017,588,17,16"
+    },
+    {
+      "name": ":",
+      "type": "ControlType.Text",
+      "bounds": "1033,589,8,14"
+    },
+    {
+      "name": "分钟 结束时间",
+      "type": "ControlType.Spinner",
+      "bounds": "1040,588,17,16"
+    },
+    {
+      "name": "显示当地日期和时间选择器",
+      "type": "ControlType.Button",
+      "bounds": "1070,587,18,18"
+    },
+    {
+      "name": "筛选变更会重新读取第一页；“全部助手与内部角色”包含仓储员和系统任务。",
+      "type": "ControlType.Text",
+      "bounds": "857,616,513,47"
+    },
+    {
+      "name": "运行状态分类",
+      "type": "ControlType.Tab",
+      "bounds": "857,665,831,42"
+    },
+    {
+      "name": "当前运行",
+      "type": "ControlType.TabItem",
+      "bounds": "857,665,133,42"
+    },
+    {
+      "name": "当前失败",
+      "type": "ControlType.TabItem",
+      "bounds": "997,665,132,42"
+    },
+    {
+      "name": "历史记录",
+      "type": "ControlType.TabItem",
+      "bounds": "1136,665,133,42"
+    },
+    {
+      "name": "业务记录",
+      "type": "ControlType.TabItem",
+      "bounds": "1276,665,133,42"
+    },
+    {
+      "name": "分类用量",
+      "type": "ControlType.TabItem",
+      "bounds": "1416,665,132,42"
+    },
+    {
+      "name": "当前UTC日调用数或输入字符预算不足",
+      "type": "ControlType.Text",
+      "bounds": "872,733,274,22"
+    },
+    {
+      "name": "BUDGET_PAUSED",
+      "type": "ControlType.Text",
+      "bounds": "872,770,134,22"
+    },
+    {
+      "name": " · ",
+      "type": "ControlType.Text",
+      "bounds": "1005,770,15,22"
+    },
+    {
+      "name": "5",
+      "type": "ControlType.Text",
+      "bounds": "1019,770,10,22"
+    },
+    {
+      "name": " 次 · ",
+      "type": "ControlType.Text",
+      "bounds": "1028,770,35,22"
+    },
+    {
+      "name": "2026/9/8 03:31:32",
+      "type": "ControlType.Text",
+      "bounds": "1062,770,140,22"
+    },
+    {
+      "name": " · 当前仍存在",
+      "type": "ControlType.Text",
+      "bounds": "1201,770,94,22"
+    },
+    {
+      "name": "章节后台",
+      "type": "ControlType.Text",
+      "bounds": "872,819,55,18"
+    },
+    {
+      "name": " · 对象 ",
+      "type": "ControlType.Text",
+      "bounds": "926,819,42,18"
+    },
+    {
+      "name": "c20b43cf-4359-4a27-ae3a-ac1441f2aef8",
+      "type": "ControlType.Text",
+      "bounds": "967,819,259,18"
+    },
+    {
+      "name": "打开所属功能或对象",
+      "type": "ControlType.Button",
+      "bounds": "1225,807,147,42"
+    },
+    {
+      "name": "正在调用已授权的实际模型",
+      "type": "ControlType.Text",
+      "bounds": "872,891,193,22"
+    },
+    {
+      "name": "SENDING",
+      "type": "ControlType.Text",
+      "bounds": "872,928,74,22"
+    },
+    {
+      "name": " · ",
+      "type": "ControlType.Text",
+      "bounds": "945,928,15,22"
+    },
+    {
+      "name": "6",
+      "type": "ControlType.Text",
+      "bounds": "959,928,10,22"
+    },
+    {
+      "name": " 次 · ",
+      "type": "ControlType.Text",
+      "bounds": "968,928,35,22"
+    },
+    {
+      "name": "2026/9/8 03:31:26",
+      "type": "ControlType.Text",
+      "bounds": "1002,928,140,22"
+    },
+    {
+      "name": " · 已恢复",
+      "type": "ControlType.Text",
+      "bounds": "1141,928,62,22"
+    },
+    {
+      "name": "对话与连接",
+      "type": "ControlType.Text",
+      "bounds": "872,977,68,18"
+    },
+    {
+      "name": " · 对象 ",
+      "type": "ControlType.Text",
+      "bounds": "939,977,43,18"
+    },
+    {
+      "name": "395bf025-2c88-403e-908e-1940139a6f7f",
+      "type": "ControlType.Text",
+      "bounds": "981,977,263,18"
+    },
+    {
+      "name": "打开所属功能或对象",
+      "type": "ControlType.Button",
+      "bounds": "1243,965,147,42"
+    },
+    {
+      "name": "正在调用已授权的实际模型",
+      "type": "ControlType.Text",
+      "bounds": "872,1049,193,22"
+    }
+  ]
+}

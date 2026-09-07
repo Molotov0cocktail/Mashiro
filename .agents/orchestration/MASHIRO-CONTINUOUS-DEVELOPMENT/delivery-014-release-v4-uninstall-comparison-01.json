@@ -1,0 +1,45 @@
+{
+  "scope": "final-v4 ordinary GUI uninstall exact preservation comparison",
+  "observedAt": "2026-09-08T06:33:47.2306129+08:00",
+  "preReport": "delivery-014-release-v4-uninstall-system-pre.json",
+  "postReport": "delivery-014-release-v4-uninstall-system-post.json",
+  "normalExit": {
+    "processId": 233116,
+    "windowHandle": 20387968,
+    "menu": "退出 Mashiro",
+    "result": "SUCCEEDED",
+    "exactProcessesAfter": 0
+  },
+  "uninstall": {
+    "launcherAttempts": 3,
+    "duplicateWindowsCancelled": [
+      237544,
+      246608
+    ],
+    "completedProcessId": 237304,
+    "welcomeNext": "下一步(&N) >",
+    "completionText": "Mashiro 已从你的计算机解除安装。",
+    "finish": "完成(&F)",
+    "result": "SUCCEEDED"
+  },
+  "checks": {
+    "preProcessCount": 0,
+    "postProcessCount": 0,
+    "dataEntriesEqual": true,
+    "dataEntryCount": 18,
+    "unknownFileEqual": true,
+    "locationEqual": true,
+    "programFilesRemoved": true,
+    "runRemoved": true,
+    "shortcutRemoved": true,
+    "localServersBefore": 4,
+    "localServersAfter": 0,
+    "uninstallRegistrationRemoved": true
+  },
+  "allChecksPassed": true,
+  "boundaries": [
+    "Known owned LocalServer32 default registrations were removed. CLSID root metadata intentionally remains because the uninstaller only deletes the exact owned default then empty keys.",
+    "No StartupApproved Mashiro.Desktop value existed in the preimage; the owned Run value existed and was removed.",
+    "The installation directory remains because protected data and the synthetic unknown file remain."
+  ]
+}

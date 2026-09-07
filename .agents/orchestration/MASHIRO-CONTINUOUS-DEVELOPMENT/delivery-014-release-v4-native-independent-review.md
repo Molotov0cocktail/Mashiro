@@ -124,3 +124,13 @@ root首次仅比较before→production-governance-apply:185 SQL→after的oracle
 源码实际链还调用production-governance-redaction.ts的scrubReceipt，最终固定summary为“操作正文已被后续治理清理”；原位retention-service的固定摘要则是“操作内容已清理”。独立用固定字符串的JSON SHA核验两边子hash，均精确相等；单条SQL产生的中间摘要“内容已被后续治理阻止”亦匹配诊断hash。完整记录在仅替换为最终scrubReceipt固定摘要后，与after规范化深等；没有忽略任何时间、权限、状态或其他字段。
 
 [第二份结论](delivery-014-release-v4-op-semantic-diagnosis-02.json)记录两条均通过该完整语义等价核验，同时明确originalSingleSqlEquality=false。结论为**归因PASS**：两条回执差异是两条生产清理路径使用不同固定占位摘要，业务身份/状态保持且旧正文回执没有被恢复。此补证关闭上一节嵌套字段未核的限制，不新增业务操作或发布门禁。
+
+## v4 开启登录后的普通GUI卸载限定通过
+
+独立读取pre/post/comparison及manifest，逐字段重算data/unknownFile/location相等，全部18数据条目路径/类型/大小/SHA保留；5份manifest文件大小/hash零漂移。manifest BB31AA35920B82D10C65D32D76F4C08B8B426F87676B522AE17F476ABD7D5B92；pre 4E1E2009AC4A52B1037C7BF5B75CED30901EC0730029664FBDE52CFBCF39B068；post E00E9589C1287676D17A1B45B4B6785D85065ED653482FC86308EBC37E40769A；comparison 0913A475E60F55274FCB53D5D93771F7BCC349AB68F116CACE08221D68002749。
+
+D352/73A4/F310安装态，正常菜单退出PID233116后精确进程0。pre实际Run存在，值为带引号本EXE加--mashiro-login；post Run不存在，未先关闭登录。StartupApproved前本就不存在，不能宣称本次实际删除该值。程序EXE/ASAR/uninstaller、快捷方式、卸载注册移除，安装目录因data和51字节未知文件保留。四个已知自有CLSID（B505、14AB、4750、77ECE）的LocalServer32由4→0；独立核各CLSID根default/CustomActivator元数据逐字段不变，非空根保留符合精确清理，不当作旧可执行注册仍存在。
+
+真实操作不是一次顺利启动：共3次launcher，两个身份确认后的重复窗口PID237544/246608被取消，仅PID237304的C次流程走下一步→解除安装完成→完成。此处GUI动作依据owner冻结记录，reviewer没有重新操作桌面。先前COM探针旧CLSID错误和真实点击未通过均不被卸载成功覆盖。
+
+结论 **UNINSTALL LIMITED PASS**，关闭v4真实登录Run/已知COM默认注册清理与安装目录data/locator/未知文件保护。可作为仅operations分类修复的v5复用安装器依据，前提v5构建仍核NSIS生成宏/owned策略无行为差异；不要求重跑旧REG_SZ/全部卸载矩阵。v5新包实际身份、重装保留和修复后运行中心/通知点击仍需对应证据，当前处于未安装等待v5状态。
