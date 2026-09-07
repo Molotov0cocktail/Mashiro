@@ -1,0 +1,984 @@
+{
+  "scope": "release-v5 actual installed UI current-failure classification",
+  "observedAt": "2026-09-08T07:30:35.0785779+08:00",
+  "pid": 249648,
+  "hwnd": 13176654,
+  "executableSha256": "3BD29B9E9C4300000B98251D07C3D4A98E1638EBE4D4F9EF152FF8596DFB1030",
+  "view": "当前失败",
+  "oracle": {
+    "currentFailureTabVisible": true,
+    "oldSendingCount": 0,
+    "budgetPausedCount": 1,
+    "conclusion": "normal SENDING is absent from current failures; actual failures remain"
+  },
+  "elements": [
+    {
+      "name": "Mashiro",
+      "type": "ControlType.Pane",
+      "automationId": "",
+      "bounds": [
+        808.0,
+        411.0,
+        944.0,
+        641.0
+      ]
+    },
+    {
+      "name": "数据与备份",
+      "type": "ControlType.Button",
+      "automationId": "",
+      "bounds": [
+        808.0,
+        411.0,
+        72.0,
+        26.0
+      ]
+    },
+    {
+      "name": "编辑",
+      "type": "ControlType.Button",
+      "automationId": "view_1",
+      "bounds": [
+        880.0,
+        411.0,
+        36.0,
+        26.0
+      ]
+    },
+    {
+      "name": "Mashiro",
+      "type": "ControlType.Document",
+      "automationId": "RootWebArea",
+      "bounds": [
+        808.0,
+        437.0,
+        944.0,
+        615.0
+      ]
+    },
+    {
+      "name": "主要功能",
+      "type": "ControlType.Tab",
+      "automationId": "",
+      "bounds": [
+        832.0,
+        437.0,
+        881.0,
+        59.0
+      ]
+    },
+    {
+      "name": "对话",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        841.0,
+        446.0,
+        102.0,
+        41.0
+      ]
+    },
+    {
+      "name": "事项",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        950.0,
+        446.0,
+        101.0,
+        41.0
+      ]
+    },
+    {
+      "name": "提醒",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1059.0,
+        446.0,
+        101.0,
+        41.0
+      ]
+    },
+    {
+      "name": "记忆与事件",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1167.0,
+        446.0,
+        102.0,
+        41.0
+      ]
+    },
+    {
+      "name": "章节后台",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1276.0,
+        446.0,
+        102.0,
+        41.0
+      ]
+    },
+    {
+      "name": "资料整理",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1385.0,
+        446.0,
+        101.0,
+        41.0
+      ]
+    },
+    {
+      "name": "日常与运行",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1494.0,
+        446.0,
+        101.0,
+        41.0
+      ]
+    },
+    {
+      "name": "保留与清理",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1602.0,
+        446.0,
+        102.0,
+        41.0
+      ]
+    },
+    {
+      "name": "日常与运行页面",
+      "type": "ControlType.Group",
+      "automationId": "",
+      "bounds": [
+        832.0,
+        300.0,
+        881.0,
+        1291.0
+      ]
+    },
+    {
+      "name": "日常与运行",
+      "type": "ControlType.Group",
+      "automationId": "",
+      "bounds": [
+        832.0,
+        300.0,
+        881.0,
+        1291.0
+      ]
+    },
+    {
+      "name": "日常工作类别",
+      "type": "ControlType.Tab",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        437.0,
+        831.0,
+        42.0
+      ]
+    },
+    {
+      "name": "观察",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        437.0,
+        133.0,
+        42.0
+      ]
+    },
+    {
+      "name": "每日简报",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        997.0,
+        437.0,
+        132.0,
+        42.0
+      ]
+    },
+    {
+      "name": "晚间复盘",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1136.0,
+        437.0,
+        133.0,
+        42.0
+      ]
+    },
+    {
+      "name": "周规划",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1276.0,
+        437.0,
+        133.0,
+        42.0
+      ]
+    },
+    {
+      "name": "期限与变更",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1416.0,
+        437.0,
+        132.0,
+        42.0
+      ]
+    },
+    {
+      "name": "运行与用量",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1555.0,
+        437.0,
+        133.0,
+        42.0
+      ]
+    },
+    {
+      "name": "运行状态与分类用量",
+      "type": "ControlType.Group",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        494.0,
+        831.0,
+        1072.0
+      ]
+    },
+    {
+      "name": "筛选运行与用量",
+      "type": "ControlType.Button",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        494.0,
+        831.0,
+        22.0
+      ]
+    },
+    {
+      "name": "筛选运行与用量",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        874.0,
+        494.0,
+        113.0,
+        22.0
+      ]
+    },
+    {
+      "name": "助手筛选",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        515.0,
+        65.0,
+        22.0
+      ]
+    },
+    {
+      "name": "助手筛选",
+      "type": "ControlType.ComboBox",
+      "automationId": "",
+      "bounds": [
+        921.0,
+        518.0,
+        143.0,
+        20.0
+      ]
+    },
+    {
+      "name": "角色筛选",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1278.0,
+        515.0,
+        65.0,
+        22.0
+      ]
+    },
+    {
+      "name": "角色筛选",
+      "type": "ControlType.ComboBox",
+      "automationId": "",
+      "bounds": [
+        1342.0,
+        518.0,
+        77.0,
+        20.0
+      ]
+    },
+    {
+      "name": "功能筛选",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        549.0,
+        65.0,
+        22.0
+      ]
+    },
+    {
+      "name": "功能筛选",
+      "type": "ControlType.ComboBox",
+      "automationId": "",
+      "bounds": [
+        921.0,
+        552.0,
+        90.0,
+        20.0
+      ]
+    },
+    {
+      "name": "连接筛选",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1278.0,
+        549.0,
+        65.0,
+        22.0
+      ]
+    },
+    {
+      "name": "连接筛选",
+      "type": "ControlType.ComboBox",
+      "automationId": "",
+      "bounds": [
+        1342.0,
+        552.0,
+        135.0,
+        20.0
+      ]
+    },
+    {
+      "name": "模型筛选",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        589.0,
+        65.0,
+        22.0
+      ]
+    },
+    {
+      "name": "模型筛选",
+      "type": "ControlType.Edit",
+      "automationId": "",
+      "bounds": [
+        921.0,
+        583.0,
+        196.0,
+        38.0
+      ]
+    },
+    {
+      "name": "开始时间",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1278.0,
+        590.0,
+        65.0,
+        22.0
+      ]
+    },
+    {
+      "name": "开始时间",
+      "type": "ControlType.Edit",
+      "automationId": "",
+      "bounds": [
+        1342.0,
+        583.0,
+        180.0,
+        40.0
+      ]
+    },
+    {
+      "name": "年 开始时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        1355.0,
+        595.0,
+        31.0,
+        16.0
+      ]
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1385.0,
+        596.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "月 开始时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        1392.0,
+        595.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1408.0,
+        596.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "日 开始时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        1415.0,
+        595.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": " ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1431.0,
+        596.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "小时 开始时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        1438.0,
+        595.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": ":",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1454.0,
+        596.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "分钟 开始时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        1461.0,
+        595.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": "显示当地日期和时间选择器",
+      "type": "ControlType.Button",
+      "automationId": "picker",
+      "bounds": [
+        1491.0,
+        594.0,
+        18.0,
+        18.0
+      ]
+    },
+    {
+      "name": "结束时间",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        641.0,
+        65.0,
+        22.0
+      ]
+    },
+    {
+      "name": "结束时间",
+      "type": "ControlType.Edit",
+      "automationId": "",
+      "bounds": [
+        921.0,
+        634.0,
+        180.0,
+        40.0
+      ]
+    },
+    {
+      "name": "年 结束时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        934.0,
+        646.0,
+        31.0,
+        16.0
+      ]
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        964.0,
+        647.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "月 结束时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        971.0,
+        646.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": "/",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        987.0,
+        647.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "日 结束时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        994.0,
+        646.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": " ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1010.0,
+        647.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "小时 结束时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        1017.0,
+        646.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": ":",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1033.0,
+        647.0,
+        8.0,
+        14.0
+      ]
+    },
+    {
+      "name": "分钟 结束时间",
+      "type": "ControlType.Spinner",
+      "automationId": "",
+      "bounds": [
+        1040.0,
+        646.0,
+        17.0,
+        16.0
+      ]
+    },
+    {
+      "name": "显示当地日期和时间选择器",
+      "type": "ControlType.Button",
+      "automationId": "picker",
+      "bounds": [
+        1070.0,
+        645.0,
+        18.0,
+        18.0
+      ]
+    },
+    {
+      "name": "筛选变更会重新读取第一页；“全部助手与内部角色”包含仓储员和系统任务。",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        674.0,
+        513.0,
+        47.0
+      ]
+    },
+    {
+      "name": "运行状态分类",
+      "type": "ControlType.Tab",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        723.0,
+        831.0,
+        42.0
+      ]
+    },
+    {
+      "name": "当前运行",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        857.0,
+        723.0,
+        133.0,
+        42.0
+      ]
+    },
+    {
+      "name": "当前失败",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        997.0,
+        723.0,
+        132.0,
+        42.0
+      ]
+    },
+    {
+      "name": "历史记录",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1136.0,
+        723.0,
+        133.0,
+        42.0
+      ]
+    },
+    {
+      "name": "业务记录",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1276.0,
+        723.0,
+        133.0,
+        42.0
+      ]
+    },
+    {
+      "name": "分类用量",
+      "type": "ControlType.TabItem",
+      "automationId": "",
+      "bounds": [
+        1416.0,
+        723.0,
+        132.0,
+        42.0
+      ]
+    },
+    {
+      "name": "当前UTC日调用数或输入字符预算不足",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        872.0,
+        791.0,
+        274.0,
+        22.0
+      ]
+    },
+    {
+      "name": "BUDGET_PAUSED",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        872.0,
+        828.0,
+        134.0,
+        22.0
+      ]
+    },
+    {
+      "name": " · ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1005.0,
+        828.0,
+        15.0,
+        22.0
+      ]
+    },
+    {
+      "name": "5",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1019.0,
+        828.0,
+        10.0,
+        22.0
+      ]
+    },
+    {
+      "name": " 次 · ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1028.0,
+        828.0,
+        35.0,
+        22.0
+      ]
+    },
+    {
+      "name": "2026/9/8 03:31:32",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1062.0,
+        828.0,
+        140.0,
+        22.0
+      ]
+    },
+    {
+      "name": " · 当前仍存在",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1201.0,
+        828.0,
+        94.0,
+        22.0
+      ]
+    },
+    {
+      "name": "章节后台",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        872.0,
+        877.0,
+        55.0,
+        18.0
+      ]
+    },
+    {
+      "name": " · 对象 ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        926.0,
+        877.0,
+        42.0,
+        18.0
+      ]
+    },
+    {
+      "name": "c20b43cf-4359-4a27-ae3a-ac1441f2aef8",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        967.0,
+        877.0,
+        259.0,
+        18.0
+      ]
+    },
+    {
+      "name": "打开所属功能或对象",
+      "type": "ControlType.Button",
+      "automationId": "",
+      "bounds": [
+        1225.0,
+        865.0,
+        147.0,
+        42.0
+      ]
+    },
+    {
+      "name": "上次进程退出前未取得完整用量；不自动重试",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        872.0,
+        949.0,
+        321.0,
+        22.0
+      ]
+    },
+    {
+      "name": "USAGE_UNKNOWN",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        872.0,
+        986.0,
+        152.0,
+        22.0
+      ]
+    },
+    {
+      "name": " · ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1023.0,
+        986.0,
+        14.0,
+        22.0
+      ]
+    },
+    {
+      "name": "1",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1036.0,
+        986.0,
+        11.0,
+        22.0
+      ]
+    },
+    {
+      "name": " 次 · ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1046.0,
+        986.0,
+        35.0,
+        22.0
+      ]
+    },
+    {
+      "name": "2026/9/7 14:35:18",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1080.0,
+        986.0,
+        139.0,
+        22.0
+      ]
+    },
+    {
+      "name": " · 当前仍存在",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        1218.0,
+        986.0,
+        95.0,
+        22.0
+      ]
+    },
+    {
+      "name": "对话与连接",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        872.0,
+        1035.0,
+        68.0,
+        18.0
+      ]
+    },
+    {
+      "name": " · 对象 ",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        939.0,
+        1035.0,
+        43.0,
+        18.0
+      ]
+    },
+    {
+      "name": "8b087f8d-2f76-481b-94bb-024ebf5f375a",
+      "type": "ControlType.Text",
+      "automationId": "",
+      "bounds": [
+        981.0,
+        1035.0,
+        265.0,
+        18.0
+      ]
+    },
+    {
+      "name": "打开所属功能或对象",
+      "type": "ControlType.Button",
+      "automationId": "",
+      "bounds": [
+        1245.0,
+        1023.0,
+        147.0,
+        42.0
+      ]
+    }
+  ]
+}

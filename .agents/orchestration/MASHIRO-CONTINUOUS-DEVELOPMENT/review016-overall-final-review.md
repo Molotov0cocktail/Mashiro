@@ -4,9 +4,9 @@
 
 ## 身份与证据范围
 
-实查HEAD为8c68b7980b0cebebb4331587a8879d909bfca8d5。相对运行源码37620929a7f507bb31d41861114cf6f825d715fd，src/build/package.json/package-lock.json/electron-builder.config.mjs无差异。后继为证据/文档及独立测试，不伪称安装包含新增review测试。已独立[制品审查](delivery-014-release-v4-artifact-review.md)绑定setup D352DD8AAD149D011405400476C2561C336768F076523E7DEDD2CCDB45D16EF4、ASAR F310B79143120BADF9BF7AEE4603A01C7F2C63963B43EBE1E80C4C906F5541FD、五份冻结out、79owned文件和声明；0.1.0实际NotSigned，无default_app.asar/version残留。
+实查HEAD为100a9a23ab40427ac520cc35318d3e54bfe98908。相对运行源码a86c2684733fbd3d9d5f5fefd53775357089fbfd，src/build/package.json/package-lock.json/electron-builder.config.mjs无差异。后继为证据/文档及独立测试，不伪称安装包含新增review测试。已独立[制品审查](delivery-014-release-v5-artifact-review.md)绑定setup CEB41588827C580C47F226F94E810188FC85563D34D24C68FE89D4C94C6E221E、ASAR BD19D48D842ADE57CAA16CD42C103B8D8EB9C30637005342A30711DDC6D0F6B1、五份冻结out、79owned文件和声明；0.1.0实际NotSigned，无default_app.asar/version残留。
 
-复用[最终工程整合](retention-009-root-final-verification-v4.md)：206文件850项，842通过/0失败/8明确opt-in跳过，类型/lint/格式/build/依赖树通过，真实Electron两PID216688/225880，原temporary6→0重启断言保留。单独执行的规模/故障证据不改写为普通suite通过；所有历史RED、构建失败、初次归因失败保持原事实。后续新增正式事项restore窄fixture单项与Node类型已独立通过，不要求再跑整套。
+复用[最终工程整合](operations-013-root-integration-v5.md)：210文件859项，851通过/0失败/8明确opt-in跳过，类型/lint/格式/build/依赖树通过，真实Electron两PID243836/248072，原temporary6→0重启断言保留。单独执行的规模/故障证据不改写为普通suite通过；所有历史RED、构建失败、初次归因失败保持原事实。后续新增正式事项restore窄fixture单项与Node类型已独立通过，不要求再跑整套。
 
 ## 覆盖计数及逐ID结算
 
@@ -30,19 +30,19 @@
 | E02、E03 | 接受结果/依赖回收/多清理意图区分结清；009/013独立及真实章节接受→回收→读取→恢复。正式事项不被来源清理连带删除。 |
 | E04、E06、G05 | 治理优先及完整备份恢复结清；[014 v4](delivery-014-review014-final-v4.md)、[v6容量修复](delivery-014-review014-seed-v6-final-pass.md)、真实session纠正、正式ItemService确认删除→旧备份restore窄fixture，以及本次backup05→C撤回/receive/凭据代际/暂停。详见[原生独立报告](delivery-014-release-v4-native-independent-review.md)，区分fixture与native；原位/备份不混淆，不承诺丢失配置后重建其后来治理。 |
 | F01、F02、F03 | 五类正式事项/提案协商确认/统计调度隔离结清；[010独立审](items-010-review-final-pass.md)、[真实业务](items-010-live-product.md)和012未确认零调度。不是仅手动CRUD。 |
-| F04、F05 | 确定性提醒/补发默认源码、服务及失败边界结清；[012](reminders-012-review-final-pass.md)、REM默认独立证据、[冷导航](delivery-014-cold-navigation-review-final-pass.md)。最终Windows真实点击/冷激活与登录生命周期仍待；show事件/COM S_OK不能单独替代。 |
+| F04、F05 | 确定性提醒/补发默认源码、服务及失败边界结清；[012](reminders-012-review-final-pass.md)、REM默认独立证据、[冷导航](delivery-014-cold-navigation-review-final-pass.md)。最终Windows真实点击/冷激活仍待；登录On卸载与v5重装已分层验证；show事件/COM S_OK不能单独替代。 |
 | F06、F07 | 五类日常配置/真实角色和无日历能力边界结清；013独立及真实观察/简报/复盘/规划/截止变更，受来源、接受及预算约束。Clender未集成、不声称已写日历或核实空闲。 |
 | G01 | 本地中文整合应用、sandbox/窄IPC结清；最终ASAR脱开发服务器运行、两PID安全配置。六助手通道不增加宽权限。 |
-| G02、G03 | 当前/历史/业务/分类用量和预算源码/DOM/真实角色账本结清；[日常独立审](daily-013-root-candidate-review.md)。最终安装运行中心视觉仍待；已知/估算/未知和账单不同，不将unknown算零。 |
-| G04、G06 | 中文空格程序与数据路径、18→19安装迁移/16文件76表保留、失效路径显式空A中转恢复及重启已验；最终开启登录的卸载/重装、安装目录data和COM保护仍待。旧清理REPAIR不因源码修复自动变成原生通过。 |
+| G02、G03 | 当前/历史/业务/分类用量和预算源码/DOM/真实角色账本结清；[日常独立审](daily-013-root-candidate-review.md)。v4分类用量与v5修复后当前失败视觉已独立通过，正常SENDING不再误报警，真实BUDGET_PAUSED/USAGE_UNKNOWN保留；已知/估算/未知和账单不同，不将unknown算零。 |
+| G04、G06 | 中文空格程序与数据路径、18→19安装迁移/16文件76表保留、失效路径显式空A中转恢复及重启已验；v4实际开启登录卸载已核18data/locator/未知文件保留及Run/4COM清理，v5同字节卸载器复用、GUI重装及首次启动同dataset已通过；据实际证据关闭，非仅源码推定。 |
 | G07 | 精确依赖/工程复核与非force双远程链有效；后续纯文档/测试仍做比例检查。无重写历史/标签、无放宽保护；最终发布精确HEAD仍须冻结核验。 |
 | G08、G09 | 制品身份、[指南/声明材料](release-v4-user-materials-review.md)已限定通过；整体最终签结、发布材料最终化及实际tag/Release/上传/无凭据下载仍待。[传输工具静态审](release-transport-independent-review-02.md)不能代替执行成功。 |
 
 ## 十二队列和八个场景
 
-Q1–Q9实现/领域证据已交付，Q8只保留最终OS通知和运行中心证据，Q6不再有RET决议/性能REPAIR。Q10剩余最终生命周期；Q11本报告待原生补结；Q12实际发布下载NOT RUN。旧Q7/Q9字样不制造新实施待办，Q10/Q11旧“治理待验”已被本轮证据关闭。
+Q1–Q9实现/领域证据已交付，Q8只保留最终OS通知，运行中心已闭合；Q6不再有RET决议/性能REPAIR。Q10安装/卸载重装/数据保护分项已闭合，通知仍待；Q11本报告待最后通知补结；Q12实际发布下载NOT RUN。旧Q7/Q9字样不制造新实施待办，Q10/Q11旧“治理待验”已被本轮证据关闭。
 
-016场景1–5的跨模块功能可结清：稳定助手/凭据/重启；时间线/严格临时/旧回执；记忆三区及治理；正式事项/提案及幂等；章节/仓储/五类日常角色。场景6保留最终通知OS操作；场景7保留最终运行中心可理解性视觉；场景8迁移/备份/恢复已结清但最终卸载重装和发布仍待。017/018先前真实REPAIR已由对应独立修复及最终制品入口关闭，不能只引用原失败。
+016场景1–5的跨模块功能可结清：稳定助手/凭据/重启；时间线/严格临时/旧回执；记忆三区及治理；正式事项/提案及幂等；章节/仓储/五类日常角色。场景6保留最终通知OS操作；场景7运行中心可理解性视觉已结清；场景8迁移/备份/恢复和卸载重装分项已结清，发布仍待。017/018先前真实REPAIR已由对应独立修复及最终制品入口关闭，不能只引用原失败。
 
 ## 原始十一项边界
 
@@ -50,9 +50,8 @@ Q1–Q9实现/领域证据已交付，Q8只保留最终OS通知和运行中心�
 
 ## 仅余的具体收束证据
 
-1. 最终D352对应安装态：无新Provider依赖的真实Windows通知展示与鼠标点击、进程为零后的冷激活定位正确事项；重复/过期/取消按既有独立服务反例复用，不能以API show或仅HRESULT0代替UI定位。
-2. 最终启用登录状态下正常卸载：精确自有Run/Toast COM清理且外来条目保护；安装目录data及未知文件保留；同版重装/恢复同一数据，登录状态与快捷方式注册据实际语义核对。不得预先关闭登录以掩盖清理。
-3. 用已产生业务/账本展示最终运行中心当前与历史、等待/恢复、已提交业务和分类用量/未知/预算状态；不为采图新增付费角色矩阵。
-4. 以上证据冻结后补最终016/制品结论，核最终发布指南/notes及附件版本/hash；再按既有授权执行新tag/Release/资产上传与实际无凭据下载校验、两remote精确源码观测。未签名如实声明，不关闭系统防护、不覆盖既有公开资产。
+1. 最终CEB/BD19安装态的真实Windows通知展示与实际用户激活、进程为零后的冷激活定位正确事项。重复/过期/取消按既有独立服务反例复用；不能以show或仅HRESULT0代替UI定位。旧v7探针内部CLSID身份错误保留为PROBE_IDENTITY_MISMATCH，不据其UNKNOWN归产品失败；新v8证据尚待。
+2. 登录及生命周期已按真实v4开启Run卸载→18data/定位/未知文件保留→v5同字节uninstaller及GUI重装/同dataset首次启动结清。v5首次UIOff/系统Off一致，显式重新On的口头回报待并入v8冻结摘要，不需另造截图矩阵。运行中心分类修复已由独立源码和v5视觉关闭，见[v5原生独立报告](delivery-014-release-v5-native-independent-review.md)。
+3. 最后通知证据冻结后补最终016/制品结论，核最终发布指南/notes及附件版本/hash；按既有授权执行新tag/Release/资产上传与实际无凭据下载校验、两remote精确源码观测。G08最终签结及G09实际发布仍NOT RUN。未签名如实声明，不关闭系统防护、不覆盖既有公开资产。
 
-截至本报告未发现新的产品功能遗漏或需新增用户决议。上述待办是已有验收范围，不是新门禁循环；任何后续真实失败仍转REPAIR，不能为结束收缩需求。PROGRAM保持ACTIVE。
+本次更新只变更当前身份和已关闭证据，不改48功能/12队列/11边界的范围。相对a86的src/build/package/安装配置无新增产品差异。未重跑测试，后续真实失败仍转REPAIR；PROGRAM保持ACTIVE。
