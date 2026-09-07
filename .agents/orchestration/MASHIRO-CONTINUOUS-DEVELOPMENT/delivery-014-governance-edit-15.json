@@ -1,0 +1,22 @@
+[
+  {
+    "path": "tests/integration/production-governance-restore.test.ts",
+    "hash": "DAE54CCA3FEDC09789D77CF87A24BE42C223386C259292DF00081C8BA085AB79",
+    "edits": [
+      [
+        "for (const store of stores.splice(0)) store.close()",
+        "for (const store of stores.splice(0)) if (store.database.isOpen) store.close()"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-redaction.ts",
+    "hash": "3DB0A98C9B6AE468702A1AB1E41D2DBC9E9AB28CC8749D92A5F68A30A1560020",
+    "edits": [
+      [
+        "    value.summary = '操作正文已被后续治理清理'",
+        "    if ('summary' in value) value.summary = '操作正文已被后续治理清理'\n    if (value.memory && typeof value.memory === 'object') value.memory = JSON.parse(scrubReceipt(JSON.stringify(value.memory))!)"
+      ]
+    ]
+  }
+]

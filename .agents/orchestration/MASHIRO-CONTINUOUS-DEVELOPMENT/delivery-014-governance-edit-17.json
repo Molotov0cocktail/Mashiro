@@ -1,0 +1,16 @@
+[
+  {
+    "path": "src/main/data/production-governance-database.ts",
+    "hash": "6D13F9C3BD58039324672676A2C741DCE328AE17675573F4402157A0D124FCEB",
+    "edits": [
+      [
+        "          ' BEFORE ' +",
+        "          ' AFTER ' +"
+      ],
+      [
+        "/** Must durably record a pending intent before returning. No application content is passed. */",
+        "/** Durably records an applied row before its SQL transaction can commit. No content is passed. */"
+      ]
+    ]
+  }
+]

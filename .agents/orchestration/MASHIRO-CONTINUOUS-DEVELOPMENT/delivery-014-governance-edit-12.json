@@ -1,0 +1,30 @@
+[
+  {
+    "path": "src/main/data/production-governance-lifecycle.ts",
+    "hash": "2917108DB321E7B20EC2B4B19AF5FF69F6A6D49FA1B753461480516FD3DC06C7",
+    "edits": [
+      [
+        "import { governanceKey } from './production-governance-catalog.js'",
+        "import { assertGovernanceDominance } from './production-governance-check.js'"
+      ],
+      [
+        "function anchorFor(",
+        "export function anchorFor("
+      ],
+      [
+        "      const actual = new Map(baseline.map((projection) => [governanceKey(projection), projection]))\n      for (const expected of journal.snapshot().projections) {\n        const current = actual.get(governanceKey(expected))\n        if (expected.deleted ? !!current : JSON.stringify(current) !== JSON.stringify(expected))\n          throw Error('GOVERNANCE_RESTORATION_REQUIRED')\n      }",
+        "      assertGovernanceDominance(baseline, journal.snapshot().projections)"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "3DE6B851EAE9BE234AEDCAE21E9904FDE8413E061B9CA348B9CC5F4BBE8D37E7",
+    "edits": [
+      [
+        "      record.sources = []; record.sourceUnavailable = true\n      database.prepare('UPDATE items SET record_json=? WHERE id=?').run(JSON.stringify(record), id)",
+        "      record.sources = []; record.sourceUnavailable = true\n      record.version = Math.max(record.version, Number(projections.find((p) => p.table === 'items' && p.keys[0] === id)?.values[0] ?? 0))\n      database.prepare('UPDATE items SET version=?,record_json=? WHERE id=?').run(record.version, JSON.stringify(record), id)"
+      ]
+    ]
+  }
+]

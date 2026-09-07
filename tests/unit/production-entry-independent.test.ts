@@ -95,8 +95,8 @@ it('a writer becoming active during selection preparation leaves the locator unc
   const session = await openProductionSession({
     configurationDirectory: f.config,
     choose: async () => ({ action: 'cancel' }),
-    prepareExisting: async (database, path, signal, lease) => {
-      await f.prepare(database, path, signal, lease)
+    prepareExisting: async (database, path, signal, lease, authorizeReplacement) => {
+      await f.prepare(database, path, signal, lease, authorizeReplacement)
       if (path === f.target) active = true
     },
     onOwnershipLost: vi.fn()

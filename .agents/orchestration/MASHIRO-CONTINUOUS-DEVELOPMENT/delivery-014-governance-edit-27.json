@@ -1,0 +1,22 @@
+[
+  {
+    "path": "src/main/provider/credential-vault.ts",
+    "hash": "F59D9F389B1B339473F7CFE6CAA4303E580888CA295F7B7E662A219A8433515D",
+    "edits": [
+      [
+        "    if (existsSync(revocation)) {\n      // Invalid markers also fail closed; no protector/decryption call occurs.\n      try {\n        const stat = lstatSync(revocation)\n        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 512) return undefined\n        const marker = JSON.parse(readFileSync(revocation, 'utf8'))\n        if (marker.format !== 1 || marker.connectionId !== connectionId || marker.reason !== 'restored-deletion') return undefined\n      } catch { return undefined }\n      return undefined\n    }",
+        "    // Only a genuinely absent marker permits decryption; dangling links and I/O errors do not.\n    try {\n      const stat = lstatSync(revocation, { throwIfNoEntry: false })\n      if (stat) {\n        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 512) return undefined\n        const marker = JSON.parse(readFileSync(revocation, 'utf8'))\n        if (marker.format !== 1 || marker.connectionId !== connectionId || marker.reason !== 'restored-deletion') return undefined\n        return undefined\n      }\n    } catch { return undefined }"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-schema.ts",
+    "hash": "74573359E4B45AB11260CE6D8C1A518E6959F85EB9FD61BE3EF1F977C64A1E54",
+    "edits": [
+      [
+        "if (Number(database.prepare('PRAGMA user_version').get()!.user_version) === 17)",
+        "if (Number(database.prepare('PRAGMA user_version').get()!.user_version) >= 17)"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "path": "src/main/data/production-governance-redaction.ts",
+    "hash": "CB9143162224DC8CEC972C8ECEF856CF9BAC32614A22B5FC735A0F13637D6DCD",
+    "edits": [
+      [
+        "    delete value.memoryReceipt",
+        "    delete value.itemReceipt\n    delete value.reminderPreview\n    delete value.reminderReceipt\n    delete value.memoryReceipt"
+      ]
+    ]
+  },
+  {
+    "path": "tests/integration/production-governance-protocol-copy.test.ts",
+    "hash": "A6B6176C0A8B11AE28043D89D59D8D38CFD620AF8BC07E4A2AF80BB2DE5607FC",
+    "edits": [
+      [
+        "import { SqliteStore }",
+        "import { AssistantService } from '../../src/main/assistant/assistant-service.js'\nimport { SqliteStore }"
+      ],
+      [
+        "  const store = new SqliteStore(join(root, 'mashiro.sqlite'))",
+        "  const assistants = AssistantService.open(join(root, 'mashiro.sqlite'))\n  const created = assistants.create({ protocolVersion: 1, displayName: '合成助手', expectedStateRevision: 0 })\n  if (!created.ok) throw Error('NO_ASSISTANT')\n  const assistantId = created.data.assistants[0]!.id\n  assistants.close()\n  const store = new SqliteStore(join(root, 'mashiro.sqlite'))"
+      ],
+      [
+        "assistantId: randomUUID(), requestId",
+        "assistantId, requestId"
+      ]
+    ]
+  }
+]

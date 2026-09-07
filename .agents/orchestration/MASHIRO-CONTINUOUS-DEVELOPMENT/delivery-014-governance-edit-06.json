@@ -1,0 +1,20 @@
+[
+  {
+    "path": "src/main/data/production-governance-journal.ts",
+    "hash": "704507E661CAE6FDD5E9DB0C72C5BEF2951905B668A6019DE4A1A3DA03A3D00B",
+    "edits": [
+      [
+        "  private ready = false",
+        "  private ready = false\n  private identifier = ''"
+      ],
+      [
+        "      if (this.sequence !== 0 || payload.dataSetId !== this.dataSetId)\n        throw Error('GOVERNANCE_IDENTITY_MISMATCH')",
+        "      if (this.sequence !== 0 || payload.dataSetId !== this.dataSetId)\n        throw Error('GOVERNANCE_IDENTITY_MISMATCH')\n      this.identifier = payload.journalId"
+      ],
+      [
+        "  snapshot(): { revision: string; projections: GovernanceProjection[] } {",
+        "  get journalId(): string { return this.identifier }\n  enrollInstance(anchor: GovernanceAnchor): void {\n    this.snapshot()\n    if (this.instances.has(anchor.instanceId)) throw Error('GOVERNANCE_INSTANCE_DUPLICATE')\n    this.append({ kind: 'instance', anchor: anchorSchema.parse(anchor) })\n  }\n  snapshot(): { revision: string; projections: GovernanceProjection[] } {"
+      ]
+    ]
+  }
+]

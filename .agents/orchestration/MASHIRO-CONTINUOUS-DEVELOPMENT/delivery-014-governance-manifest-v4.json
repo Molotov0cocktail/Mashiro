@@ -1,0 +1,332 @@
+{
+  "candidate": "014 R014-P2 credential generation repair",
+  "status": "AUTHOR_FROZEN_PENDING_INDEPENDENT_REVIEW",
+  "supersedes": "v3 remains historical REPAIR; includes current root guide and independent credential oracle",
+  "files": [
+    {
+      "bytes": 6692,
+      "path": "doc/user-guide.md",
+      "sha256": "8BDB6F465EA083B450B310F9AD30F82DF35D3D28BF9FC73A2EBA39B52878DD43"
+    },
+    {
+      "bytes": 12594,
+      "path": "src/main/data/production-backup.ts",
+      "sha256": "B4D3987488A6F597F03A67DB970E152168689608DDAA4152702DBAE3C784C93B"
+    },
+    {
+      "bytes": 3908,
+      "path": "src/main/data/production-bootstrap.ts",
+      "sha256": "054D869EF39AF160F8F41A8A200F1A64B278E0EFBE68A8C7FA8F9EBEB03EA59B"
+    },
+    {
+      "bytes": 14660,
+      "path": "src/main/data/production-governance-apply.ts",
+      "sha256": "9FD631C9E79ACB6454B3EB48760BF073E97187FF1ABC487F2D7D9CF6E8365E1D"
+    },
+    {
+      "bytes": 6259,
+      "path": "src/main/data/production-governance-catalog.ts",
+      "sha256": "4D6E4F59053A050A83DDC5073969B437BFAD909A64969E5EBA232B43BA0B0662"
+    },
+    {
+      "bytes": 1980,
+      "path": "src/main/data/production-governance-check.ts",
+      "sha256": "A6A595ACC00AFAEB22456917192E9EED3FE65E9DB914258AEA1809C428C0440E"
+    },
+    {
+      "bytes": 4762,
+      "path": "src/main/data/production-governance-connection.ts",
+      "sha256": "3FF052C1A969DC6F31A64B862D11EAA0914FC7AAA86CD73DADB6823AFE2F300A"
+    },
+    {
+      "bytes": 1390,
+      "path": "src/main/data/production-governance-credentials.ts",
+      "sha256": "0E3AD0DAC70847A18B6603561C20F7F68DDDD9159BA1F81785E40F82E43CAECC"
+    },
+    {
+      "bytes": 6154,
+      "path": "src/main/data/production-governance-database.ts",
+      "sha256": "92D37763FFACFF09326F3D56B41B41FCE32DE224C11F640531EFC2667DD3AD43"
+    },
+    {
+      "bytes": 2344,
+      "path": "src/main/data/production-governance-dependencies.ts",
+      "sha256": "9F452B4A4532B1EF61FAA3C86107EC72F0AF4DF73766875A5108F4760C0BC2EC"
+    },
+    {
+      "bytes": 10696,
+      "path": "src/main/data/production-governance-index.ts",
+      "sha256": "832284A009BD75A67707BBF2E72346C4A39B2681633C8723F39FEB2F1F32A43A"
+    },
+    {
+      "bytes": 9234,
+      "path": "src/main/data/production-governance-journal.ts",
+      "sha256": "BFAB7A5000272ED55F68DAC9EF8BAC72F65221DBBE381D9895DEF9615DDAC9C4"
+    },
+    {
+      "bytes": 3605,
+      "path": "src/main/data/production-governance-lifecycle.ts",
+      "sha256": "EC7BE59239BF7E121BD231A7339EA62ACA6900C776ECA8CB185FEF525303597A"
+    },
+    {
+      "bytes": 2550,
+      "path": "src/main/data/production-governance-migration.ts",
+      "sha256": "E9D2F85FA4B20781B8DB7710EA95E6F760BCE996A642601B96D4B440C9D3B9C8"
+    },
+    {
+      "bytes": 2385,
+      "path": "src/main/data/production-governance-portable.ts",
+      "sha256": "EADFDF723E58B9E52F801F85D2CFEFA5E1A708A01185C146065B72345747E7CC"
+    },
+    {
+      "bytes": 5586,
+      "path": "src/main/data/production-governance-redaction.ts",
+      "sha256": "C07BB8757B56CDBAB95DAD20249FA49D903682571EC3D20DA1481AB0A9A572D2"
+    },
+    {
+      "bytes": 2818,
+      "path": "src/main/data/production-governance-registry.ts",
+      "sha256": "1158031E497A94B0F22F51DD22C7ABE2B218144802EA6D06AD3D14E1ABCCBABC"
+    },
+    {
+      "bytes": 2306,
+      "path": "src/main/data/production-governance-reminders.ts",
+      "sha256": "D7E510FE49052FC0B26634FF541BD0333A79569EB97310CDD160D794AB186872"
+    },
+    {
+      "bytes": 2719,
+      "path": "src/main/data/production-governance-restore.ts",
+      "sha256": "89C66AD70C9C1E85B367B6AE6CF09A960BDC5B16FB201F8867E149BBDD130A62"
+    },
+    {
+      "bytes": 2619,
+      "path": "src/main/data/production-governance-schema.ts",
+      "sha256": "7BFBBE5119FBB68AFE4BB03427D13030DAD9AC8F721C64D595C1DCD8FE935ADF"
+    },
+    {
+      "bytes": 4310,
+      "path": "src/main/data/production-maintenance.ts",
+      "sha256": "259040E939010D2364938EEA79FBFA53C46E53D44454E00028EA13DB73788122"
+    },
+    {
+      "bytes": 5168,
+      "path": "src/main/data/production-prepare.ts",
+      "sha256": "09D8AC811E8F52C796E67CD60D4147382CE70D2E23909DC187C450DD9D452743"
+    },
+    {
+      "bytes": 3819,
+      "path": "src/main/data/production-restore.ts",
+      "sha256": "A76015530BEBE44AE7FF1481CE5F8BA9F5ABD07CF11FCDD994F56277B7073C8C"
+    },
+    {
+      "bytes": 11257,
+      "path": "src/main/data/production-session.ts",
+      "sha256": "D1F83DBFDB219C44E93993DEC1EE493365A601EB05CEFDC068799F1E8E4F0948"
+    },
+    {
+      "bytes": 2999,
+      "path": "src/main/data/production-startup-restore.ts",
+      "sha256": "95BEF8E64857EE91201A4557F9C0E90174A541AE6D34CBE8DEFC4F6CF0AA3C7D"
+    },
+    {
+      "bytes": 20037,
+      "path": "src/main/data/schema.ts",
+      "sha256": "54A4B6E3A9039A720892241DD41FD474985263AAF05167031B894E8A3E6D75A7"
+    },
+    {
+      "bytes": 1053,
+      "path": "src/main/data/sqlite.ts",
+      "sha256": "7EDD18AA593A1A388A17CDFDE072BF0DE212EC15B2C12F7BB2B47BFAEE24E823"
+    },
+    {
+      "bytes": 1686,
+      "path": "src/main/memory/memory-round-schema.ts",
+      "sha256": "0466DB57A234E4419379C9921A24103EA23BA314598EF0013B7545010719FDAD"
+    },
+    {
+      "bytes": 2908,
+      "path": "src/main/provider/credential-vault.ts",
+      "sha256": "D6101596585E7DFFCAFFA5D382512D031467233C2A4B6B047F3505BE4170042D"
+    },
+    {
+      "bytes": 4416,
+      "path": "src/main/provider/retained-protocol-schema.ts",
+      "sha256": "95BA2175E6986405035ED17DC127748907A8E5DF3F28FD0F7315997074DA99D8"
+    },
+    {
+      "bytes": 19511,
+      "path": "tests/integration/assistant-profile.test.ts",
+      "sha256": "2301F77436318140900C20491B9479494E5C12B740B4BC7E4BF2D7639011D01C"
+    },
+    {
+      "bytes": 1679,
+      "path": "tests/integration/background-schema.test.ts",
+      "sha256": "2E2BB36ECF881ADCB7E635CDC60482E7222BF08EF333E027F4432CC15910DC94"
+    },
+    {
+      "bytes": 863,
+      "path": "tests/integration/governance-legacy-fixture.ts",
+      "sha256": "03A7FB0A3092E31192BA20D4366AD627C85247255E8BCA807BA31456E7EE433E"
+    },
+    {
+      "bytes": 2200,
+      "path": "tests/integration/item-schema.test.ts",
+      "sha256": "8C08EC63C997D51AE7C967ACACFFAE014CBA1EF84CD571939CFA3952CAA5E8DA"
+    },
+    {
+      "bytes": 2608,
+      "path": "tests/integration/production-governance-corrupt-source.test.ts",
+      "sha256": "42048E49ACC1E943A523C177EFC8861F13A2F54B67CF49AC5BE56619FF60A34B"
+    },
+    {
+      "bytes": 5075,
+      "path": "tests/integration/production-governance-credential-generation.test.ts",
+      "sha256": "3183DA9488F902C85986070821DBCC4C21FE0D2705682550ECDAEC95EA00D3A7"
+    },
+    {
+      "bytes": 4080,
+      "path": "tests/integration/production-governance-credential.test.ts",
+      "sha256": "DA286513C66D98D3220CAFDAF1106B838CE186A42D7441AD555AF5BCC3F70C1A"
+    },
+    {
+      "bytes": 2589,
+      "path": "tests/integration/production-governance-migration.test.ts",
+      "sha256": "D1012F7AF10F8441F6149790A2C518D806EB36636726DD35BD36E1097402B815"
+    },
+    {
+      "bytes": 3292,
+      "path": "tests/integration/production-governance-portable.test.ts",
+      "sha256": "B90B3E330EC0354E66A77C39DEDCB86C190721E99F5ED3DB3748148C136AE0BB"
+    },
+    {
+      "bytes": 4698,
+      "path": "tests/integration/production-governance-projection.test.ts",
+      "sha256": "7905F3DB4B525A6D72D41EFFCF3B902DB30294589BD5222E58E5C4BDC0427F76"
+    },
+    {
+      "bytes": 4362,
+      "path": "tests/integration/production-governance-protocol-copy.test.ts",
+      "sha256": "A416C5AC1EDF0A28B2897B84BA479062D13931F1BA4496C4C134E6467E796DCF"
+    },
+    {
+      "bytes": 6313,
+      "path": "tests/integration/production-governance-purge.test.ts",
+      "sha256": "082EAFC5D94C8C423B0249B57794207975BD4943E8E0E7CC400F83115A0CEBD1"
+    },
+    {
+      "bytes": 5339,
+      "path": "tests/integration/production-governance-reminder-independent.test.ts",
+      "sha256": "D4844D98AB0473931525A7763C041EBD943FA84575852A430D9ED15448944080"
+    },
+    {
+      "bytes": 5719,
+      "path": "tests/integration/production-governance-restore.test.ts",
+      "sha256": "69165678712A56833E4BCA62F2482F0BD4AC5472FDC8A7EAE46F6B95A8EFCB28"
+    },
+    {
+      "bytes": 3380,
+      "path": "tests/integration/production-governance-review014-credential.test.ts",
+      "sha256": "782E7666EFE358D541CABFD3B3339A793FE141355DC8E5BC47DEE6DBAED43338"
+    },
+    {
+      "bytes": 4314,
+      "path": "tests/integration/production-governance-review014-protocol.test.ts",
+      "sha256": "65FAD28DF5C558610D8B9A330D2F92953D4FC6AB1E92C686AA58C96ED187AB75"
+    },
+    {
+      "bytes": 3690,
+      "path": "tests/integration/production-governance-session.test.ts",
+      "sha256": "FCD01907AF68A35E88543AED36EECC7CED81A9BDC423A311C3C0AA9A0E135E4B"
+    },
+    {
+      "bytes": 5906,
+      "path": "tests/integration/production-governance-upgrade.test.ts",
+      "sha256": "E4F4BB30ACAB6E065D35025E1BEFD7BE88EBC4D5EA3E34851308324741D86A35"
+    },
+    {
+      "bytes": 6069,
+      "path": "tests/integration/provider-schema.test.ts",
+      "sha256": "BB251AF89DF73129941D2DCB3B129583124830D28246CC3F27EEA570CF0E24CB"
+    },
+    {
+      "bytes": 26561,
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "D7903BAD082817D97F7053CD5810F124143198A8BD42668D16C5EBCB70EEB9AC"
+    },
+    {
+      "bytes": 2305,
+      "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+      "sha256": "A96B4946AC0C30E24F353250D5DC6FDB362BA7A349542DF87EF4136AEFF2F0AF"
+    },
+    {
+      "bytes": 2063,
+      "path": "tests/integration/reminder-schema.test.ts",
+      "sha256": "F7FCA192FCD591965ABF21C4D0ACCB8C6CE1F8B844F409054D65A2B739347386"
+    },
+    {
+      "bytes": 2462,
+      "path": "tests/integration/retained-protocol-legacy-fixture.ts",
+      "sha256": "5874EA716500E5E9F37E788B207C6D7561290D76042DAD89099B6A2CE31D2F24"
+    },
+    {
+      "bytes": 6139,
+      "path": "tests/integration/retained-protocol-migration.test.ts",
+      "sha256": "9D4EB96364018A6F0ACCD187087D0EC32B1D2B1BDF9290D67A94318F0FF48C5D"
+    },
+    {
+      "bytes": 2190,
+      "path": "tests/integration/retention-schema.test.ts",
+      "sha256": "CEF15648B08D01D05DEF0858612421390D4665A38A3109EF91ADD0C1AB51A135"
+    },
+    {
+      "bytes": 1717,
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "sha256": "E83C29C9D8BFA8BDDA191B8E2B61D7CCB1527377482A7B67F1C6C64845C88D85"
+    },
+    {
+      "bytes": 995,
+      "path": "tests/integration/steward-schema.test.ts",
+      "sha256": "2F836EFBCCA6D7EB67B9FFDE1CC2B885FF4B5F0BAFB8ECBCE3C0C0F763BA7BF3"
+    },
+    {
+      "bytes": 26462,
+      "path": "tests/integration/timeline-context.test.ts",
+      "sha256": "D78900349895BE369A375549D51D7EFC9B21A5A44EE578189E6CFC89BC0186B7"
+    },
+    {
+      "bytes": 7732,
+      "path": "tests/integration/timeline-schema.test.ts",
+      "sha256": "501513EC80877173FB725ADCBA970626F6B5E0CC5D354F874B21E46673D2AFDC"
+    },
+    {
+      "bytes": 1898,
+      "path": "tests/unit/credential-revocation-boundary.test.ts",
+      "sha256": "BCBFE1E11C31B9FA853B2CDBEF958A173A3299678ECFF207BAFF0410386EEAB2"
+    },
+    {
+      "bytes": 4384,
+      "path": "tests/unit/production-entry-independent.test.ts",
+      "sha256": "403E6A11B6EF419F3B0785F2D5D4421004E387483B522E68362BF300CA994215"
+    },
+    {
+      "bytes": 3355,
+      "path": "tests/unit/production-governance-connection.test.ts",
+      "sha256": "E94FD734347C3FE761B7E252A4742C49CD645F6123E75E7DA586F57191947860"
+    },
+    {
+      "bytes": 1428,
+      "path": "tests/unit/production-governance-ignored-write.test.ts",
+      "sha256": "872CF078C9A23E413839DD846945CDB8259C3EE2B9FEC00381C08F262A77BF7C"
+    },
+    {
+      "bytes": 3650,
+      "path": "tests/unit/production-governance-journal.test.ts",
+      "sha256": "D7C8652EB7A27F467EF62F80AB95561B84698E34364DE6C00B82746A193D9EDD"
+    },
+    {
+      "bytes": 4367,
+      "path": "tests/unit/production-governance-mechanism.test.ts",
+      "sha256": "8899878A3FA3380A79CC2B5809BA004648459CF30AA923BDAA0C3ABE26638156"
+    }
+  ]
+}

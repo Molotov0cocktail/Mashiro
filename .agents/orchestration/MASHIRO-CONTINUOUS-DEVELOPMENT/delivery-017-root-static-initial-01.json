@@ -1,0 +1,53 @@
+{
+  "initial": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "stage": "typecheck",
+        "result": {
+          "chunk_id": "51f573",
+          "wall_time_seconds": 9.772597,
+          "exit_code": 0,
+          "original_token_count": 26,
+          "output": "\n> mashiro@0.1.0 typecheck\n> tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.web.json --noEmit\n\n"
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "stage": "lint",
+        "result": {
+          "chunk_id": "526f87",
+          "wall_time_seconds": 10.0014266,
+          "session_id": 40200,
+          "original_token_count": 13,
+          "output": "\n> mashiro@0.1.0 lint\n> eslint . --max-warnings=0\n\n"
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "stage": "format:check",
+        "result": {
+          "chunk_id": "6d9a0f",
+          "wall_time_seconds": 6.6891729,
+          "exit_code": 0,
+          "original_token_count": 30,
+          "output": "\n> mashiro@0.1.0 format:check\n> prettier --check .\n\nChecking formatting...\nAll matched files use Prettier code style!\n"
+        }
+      }
+    }
+  ],
+  "lintCompletion": {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "b20385",
+      "wall_time_seconds": 0.0000029,
+      "exit_code": 1,
+      "original_token_count": 491,
+      "output": "\nD:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-current-source-snapshot.mjs\n  102:1  error  'console' is not defined  no-undef\n\nD:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-upgrade-backup-verify.mjs\n  173:1  error  'console' is not defined  no-undef\n\nD:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\memory-017-format.mjs\n  17:17  error  'Buffer' is not defined   no-undef\n  35:1   error  'console' is not defined  no-undef\n\nD:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\memory-017-guarded-writer.mjs\n   6:38  error  'process' is not defined  no-undef\n  12:35  error  'Buffer' is not defined   no-undef\n  18:17  error  'Buffer' is not defined   no-undef\n  27:5   error  'console' is not defined  no-undef\n\nD:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\reminders-014-login-electron-probe.cjs\n    1:26  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports\n    1:26  error  'require' is not defined                 no-undef\n    2:24  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports\n    2:24  error  'require' is not defined                 no-undef\n    3:53  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports\n    3:53  error  'require' is not defined                 no-undef\n    4:21  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports\n    4:21  error  'require' is not defined                 no-undef\n    5:17  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports\n    5:17  error  'require' is not defined                 no-undef\n   85:9   error  'process' is not defined                 no-undef\n  167:21  error  'process' is not defined                 no-undef\n  197:5   error  'console' is not defined                 no-undef\n\n✖ 21 problems (21 errors, 0 warnings)\n\n"
+    }
+  }
+}

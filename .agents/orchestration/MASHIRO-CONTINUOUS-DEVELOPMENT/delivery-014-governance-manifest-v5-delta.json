@@ -1,0 +1,22 @@
+{
+  "candidate": "014 seed accepted-size read boundary",
+  "base": "delivery-014-governance-manifest-v4.json (independent limited PASS retained)",
+  "status": "AUTHOR_FROZEN_PENDING_DELTA_REVIEW",
+  "files": [
+    {
+      "path": "src/main/data/production-governance-index.ts",
+      "bytes": 11269,
+      "sha256": "7C1897D38126868A01B27B943A2934187732361F7F543E385FB13BF47B084B36"
+    },
+    {
+      "path": "src/main/data/production-governance-seed.ts",
+      "bytes": 1797,
+      "sha256": "D10B0A448ABF6C3FB47431FC86B38C13EC023DFFF5AEF30BE88DD3226904725C"
+    },
+    {
+      "path": "tests/unit/production-governance-seed-capacity.test.ts",
+      "bytes": 3339,
+      "sha256": "E01FE3B8648F2203CC91A68DE85F9BDB6413D2362F74BCCC3C0EE05E38B1E5EC"
+    }
+  ]
+}

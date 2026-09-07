@@ -1,0 +1,26 @@
+[
+  {
+    "path": "src/main/data/production-governance-index.ts",
+    "hash": "AA849B846EBF157938EF849B8DC4EE25260185FB33739617A0B825E7C8020678",
+    "edits": [
+      [
+        "  known(dataSetId: string): ProductionGovernanceJournal | undefined {",
+        "  resumeInitialization(dataSetId: string, dataDirectory: string, anchor: GovernanceAnchor, projections: GovernanceProjection[], hasCommitTokens: boolean): void {\n    this.assertHeld()\n    const entry = this.registry.entries.find((value) => value.dataSetId === dataSetId)\n    if (!entry || entry.state === 'READY') return\n    if (JSON.stringify(entry.anchor) !== JSON.stringify(anchor) || hasCommitTokens)\n      throw Error('GOVERNANCE_INITIALIZATION_SOURCE_UNCERTAIN')\n    const marker = join(canonicalProductionDirectory(dataDirectory), '.mashiro-governance.json')\n    try {\n      const ready = ProductionGovernanceJournal.open(this.directory, dataSetId)\n      ready.assertAnchor(anchor)\n      ready.snapshot()\n      entry.state = 'READY'; entry.journalId = ready.journalId; this.persist()\n      this.stamp(dataDirectory, ready)\n      return\n    } catch (error) {\n      if (existsSync(marker) || entry.journalId) throw error\n      // PREPARING was durable before creation; no application writer has ever been exposed.\n      // Preserve the incomplete exact file as evidence; never repair a READY ledger this way.\n      const path = join(this.directory, 'governance-' + dataSetId + '.jsonl')\n      if (existsSync(path)) {\n        readMetadata(path)\n        renameSync(path, path + '.initialization-' + randomUUID() + '.incomplete')\n      }\n    }\n    const journal = ProductionGovernanceJournal.create(this.directory, dataSetId, anchor, projections)\n    entry.state = 'READY'; entry.journalId = journal.journalId; this.persist()\n    this.stamp(dataDirectory, journal)\n  }\n  known(dataSetId: string): ProductionGovernanceJournal | undefined {"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-lifecycle.ts",
+    "hash": "01163D3038FC7BB39F25BF12AFB5B70F93B2FAD721BE61F1BF1D63E7DECED73E",
+    "edits": [
+      [
+        "  const journal = index.known(dataSetId)\n  if (!journal) return\n  const path",
+        "  const path"
+      ],
+      [
+        "    const anchor = anchorFor(path, database)\n    recoverGovernancePending",
+        "    const version = Number(database.prepare('PRAGMA user_version').get()!.user_version)\n    if (version < 17) {\n      if (index.known(dataSetId)) throw Error('GOVERNANCE_KNOWN_DATASET_SCHEMA_REGRESSED')\n      return\n    }\n    const anchor = anchorFor(path, database)\n    index.resumeInitialization(dataSetId, dataDirectory, anchor, readGovernanceBaseline(database),\n      !!database.prepare('SELECT 1 FROM production_governance_commits LIMIT 1').get())\n    const journal = index.known(dataSetId)\n    if (!journal) return\n    recoverGovernancePending"
+      ]
+    ]
+  }
+]

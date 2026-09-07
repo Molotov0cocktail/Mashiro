@@ -1,0 +1,711 @@
+{
+  "daily": {
+    "seed": {
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "configurationId": "506f8603-aaa8-4a98-a1ba-cfb64bb3e676",
+      "configurationVersion": 1,
+      "jobId": "01da3c7e-8a9e-45c0-afbc-ba55978cd6f7",
+      "jobVersion": 4,
+      "reportId": "c5c15982-4b1b-49ac-ae87-d634d7848273",
+      "reportVersion": 2,
+      "governanceVersion": 1,
+      "observationId": "cfe228dc-c9b9-4f5e-a27c-b96729e6cf27",
+      "observationVersion": 2,
+      "memoryId": "b0d63fe7-0dd1-4983-be1a-7c558c20390a",
+      "memoryVersion": 1,
+      "sourceMemoryIds": [
+        "616bbd8e-4c56-4605-9e8c-07221b6be053",
+        "291a5970-5646-462f-a5db-a2560f4bde24"
+      ],
+      "budgetCalls": 1,
+      "budgetInputCharacters": 2382,
+      "configuredThroughDom": true,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "inferenceAcceptedThroughDom": true,
+      "priorIdentityRestored": false,
+      "capture": {
+        "innerHeight": 615,
+        "rects": [
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 246,
+            "bottom": 267
+          },
+          {
+            "top": 283,
+            "bottom": 333
+          }
+        ]
+      }
+    },
+    "restored": {
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "configurationId": "506f8603-aaa8-4a98-a1ba-cfb64bb3e676",
+      "configurationVersion": 1,
+      "jobId": "01da3c7e-8a9e-45c0-afbc-ba55978cd6f7",
+      "jobVersion": 4,
+      "reportId": "c5c15982-4b1b-49ac-ae87-d634d7848273",
+      "reportVersion": 2,
+      "governanceVersion": 1,
+      "observationId": "cfe228dc-c9b9-4f5e-a27c-b96729e6cf27",
+      "observationVersion": 2,
+      "memoryId": "b0d63fe7-0dd1-4983-be1a-7c558c20390a",
+      "memoryVersion": 1,
+      "sourceMemoryIds": [
+        "616bbd8e-4c56-4605-9e8c-07221b6be053",
+        "291a5970-5646-462f-a5db-a2560f4bde24"
+      ],
+      "budgetCalls": 1,
+      "budgetInputCharacters": 2382,
+      "configuredThroughDom": true,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "inferenceAcceptedThroughDom": true,
+      "priorIdentityRestored": true,
+      "capture": {
+        "innerHeight": 615,
+        "rects": [
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 246,
+            "bottom": 267
+          },
+          {
+            "top": 283,
+            "bottom": 333
+          }
+        ]
+      }
+    },
+    "seedTransportCalls": 1,
+    "verifyTransportCalls": 0
+  },
+  "steward": {
+    "seed": {
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "branchId": "e7bb702f-3adb-42f5-92bd-20ef49729787",
+      "branchVersion": 3,
+      "memoryId": "76141835-5197-4832-b76b-52402a897e47",
+      "memoryVersion": 1,
+      "commandId": "1b1a3d92-31f7-4842-aeb9-ee1e0931f8b1",
+      "discoveryBudgetCalls": 1,
+      "stewardBudgetCalls": 1,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "priorIdentityRestored": false,
+      "governance": null
+    },
+    "restored": {
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "branchId": "e7bb702f-3adb-42f5-92bd-20ef49729787",
+      "branchVersion": 3,
+      "memoryId": "76141835-5197-4832-b76b-52402a897e47",
+      "memoryVersion": 1,
+      "commandId": "1b1a3d92-31f7-4842-aeb9-ee1e0931f8b1",
+      "discoveryBudgetCalls": 1,
+      "stewardBudgetCalls": 1,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "priorIdentityRestored": true,
+      "governance": {
+        "oldExportRejected": true,
+        "cachedBodyCleared": true,
+        "correctedMemoryVersion": 2
+      }
+    },
+    "seedTransportCalls": 2,
+    "verifyTransportCalls": 0
+  },
+  "background": {
+    "seed": {
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "chapterId": "852090ae-d98b-45dc-8ceb-7189c446c472",
+      "memoryId": "580c7979-2f7c-4e14-aa52-750451754bba",
+      "chapterVersion": 1,
+      "budgetCalls": 1,
+      "priorIdentityRestored": false,
+      "bodyReadThroughDom": true,
+      "contextSelectedThroughDom": true,
+      "contextSentThroughDom": false
+    },
+    "restored": {
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "chapterId": "852090ae-d98b-45dc-8ceb-7189c446c472",
+      "memoryId": "580c7979-2f7c-4e14-aa52-750451754bba",
+      "chapterVersion": 1,
+      "budgetCalls": 1,
+      "priorIdentityRestored": true,
+      "bodyReadThroughDom": true,
+      "contextSelectedThroughDom": true,
+      "contextSentThroughDom": true
+    },
+    "seedTransportCalls": 1,
+    "verifyTransportCalls": 1
+  },
+  "reminders": {
+    "seed": {
+      "protocolVersion": 1,
+      "reminderId": "10dc2030-5b7d-4e49-8909-03e4dbe1e26f",
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "priorIdentityRestored": false,
+      "phase": "seed",
+      "windowCloseHid": true,
+      "nativeShowObserved": true,
+      "trayRestoreHandlerInjected": true,
+      "windowRestored": true,
+      "rendererTabAndHandle": true,
+      "processStillRunning": true,
+      "userSawNotification": "NOT_PROVEN",
+      "osTrayClick": "NOT_RUN",
+      "loginRegistration": "NOT_RUN",
+      "coldActivation": "NOT_RUN"
+    },
+    "restored": {
+      "protocolVersion": 1,
+      "reminderId": "a80d8bcd-3a15-4bf8-b326-eab2859bfd68",
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "priorIdentityRestored": true,
+      "phase": "verify",
+      "windowCloseHid": true,
+      "nativeShowObserved": true,
+      "trayRestoreHandlerInjected": true,
+      "windowRestored": true,
+      "rendererTabAndHandle": true,
+      "processStillRunning": true,
+      "userSawNotification": "NOT_PROVEN",
+      "osTrayClick": "NOT_RUN",
+      "loginRegistration": "NOT_RUN",
+      "coldActivation": "NOT_RUN"
+    }
+  },
+  "runId": "dd98219f-c1d9-4925-9716-55b6b93d5733",
+  "startupFailureSanitized": true,
+  "pids": [
+    186464,
+    185996
+  ],
+  "electron": "44.1.1",
+  "node": "24.19.0",
+  "sqlite": "3.53.3",
+  "snapshot": {
+    "assistants": [
+      {
+        "id": "02038476-42a2-4a3e-91a0-8eb583201da3",
+        "displayName": "Mashiro",
+        "persona": "",
+        "avatarKey": "mashiro",
+        "isArchived": true,
+        "createdAt": "2026-09-07T11:29:06.658Z",
+        "updatedAt": "2026-09-07T11:29:06.688Z",
+        "archivedAt": "2026-09-07T11:29:06.688Z",
+        "version": 2
+      },
+      {
+        "id": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+        "displayName": "雪",
+        "persona": "E2E_PROFILE",
+        "avatarKey": "moon",
+        "isArchived": false,
+        "createdAt": "2026-09-07T11:29:06.663Z",
+        "updatedAt": "2026-09-07T11:29:07.313Z",
+        "archivedAt": null,
+        "version": 4
+      }
+    ],
+    "currentAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+    "primaryAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+    "stateRevision": 10
+  },
+  "profileUi": {
+    "seed": {
+      "editedViaDom": true,
+      "restoredViaDom": false,
+      "navigationTargets": [
+        "provider-connection-settings",
+        "history-permissions",
+        "memory-permissions",
+        "item-permissions"
+      ],
+      "persona": "E2E_PROFILE",
+      "avatarKey": "moon"
+    },
+    "restored": {
+      "editedViaDom": false,
+      "restoredViaDom": true,
+      "navigationTargets": [
+        "provider-connection-settings",
+        "history-permissions",
+        "memory-permissions",
+        "item-permissions"
+      ],
+      "persona": "E2E_PROFILE",
+      "avatarKey": "moon"
+    }
+  },
+  "provider": {
+    "connections": [
+      {
+        "id": "eb227d10-ddfa-402a-8608-f9b97eeb8e50",
+        "displayName": "BigModel synthetic",
+        "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+        "enabled": true,
+        "hasCredential": true,
+        "credentialPersistence": "persistent",
+        "createdAt": "2026-09-07T11:29:06.945Z",
+        "updatedAt": "2026-09-07T11:29:06.952Z",
+        "version": 2
+      }
+    ],
+    "bindings": [
+      {
+        "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+        "connectionId": "eb227d10-ddfa-402a-8608-f9b97eeb8e50",
+        "model": "GLM-5.3-FLASH",
+        "updatedAt": "2026-09-07T11:29:06.956Z",
+        "version": 1
+      }
+    ]
+  },
+  "timeline": {
+    "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+    "mode": "normal",
+    "messages": [
+      {
+        "id": "47b8a9cb-e8dd-48f7-b6b8-a07c504ce481",
+        "requestId": "29dc7409-5205-40af-943e-574ae8fc2ff8",
+        "role": "user",
+        "content": "E2E_NORMAL_USER",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:06.970Z",
+        "saved": true
+      },
+      {
+        "id": "d033e224-8e71-420a-84be-af9b8e6862b6",
+        "requestId": "29dc7409-5205-40af-943e-574ae8fc2ff8",
+        "role": "assistant",
+        "content": "E2E_NORMAL_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:06.970Z",
+        "saved": true
+      },
+      {
+        "id": "39139c27-20fb-493c-a0cc-22d8f52f02a5",
+        "requestId": "ef6d6e13-b631-476d-b1cb-ad983a3911ee",
+        "role": "user",
+        "content": "E2E_SAVED_TEMP_USER",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:06.999Z",
+        "saved": true
+      },
+      {
+        "id": "35a73120-1c2f-4b6e-9538-9a22d86ebf14",
+        "requestId": "ef6d6e13-b631-476d-b1cb-ad983a3911ee",
+        "role": "assistant",
+        "content": "E2E_SAVED_TEMP_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:06.999Z",
+        "saved": true
+      },
+      {
+        "id": "0999d136-578b-4ee2-b369-be83cebf0ad9",
+        "requestId": "0a552106-9065-48ae-820b-9a282babe26b",
+        "role": "user",
+        "content": "E2E_TOOL_NORMAL",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:07.015Z",
+        "saved": true
+      },
+      {
+        "id": "c9dab004-9acd-4f86-85a3-83bf5c2abbd8",
+        "requestId": "0a552106-9065-48ae-820b-9a282babe26b",
+        "role": "assistant",
+        "content": "E2E_TOOL_REPLY",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:07.015Z",
+        "saved": true
+      },
+      {
+        "id": "7f3c16e9-b674-4c69-ae27-9fbfaf311ef3",
+        "requestId": "819ebcef-a388-449a-95a8-e31c9b35437c",
+        "role": "user",
+        "content": "E2E_PENDING_NORMAL",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:13.426Z",
+        "saved": true
+      },
+      {
+        "id": "45925391-6587-4112-aa5c-6892a790badd",
+        "requestId": "819ebcef-a388-449a-95a8-e31c9b35437c",
+        "role": "assistant",
+        "content": "E2E_PARTIAL_NORMAL",
+        "status": "interrupted",
+        "createdAt": "2026-09-07T11:29:13.426Z",
+        "saved": true
+      },
+      {
+        "id": "90149f23-016b-4ba9-be78-334a75e3ea44",
+        "requestId": "6cd3023f-c1f9-4daf-99fb-c1735b196a15",
+        "role": "user",
+        "content": "E2E_VERIFY_USER",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:14.825Z",
+        "saved": true
+      },
+      {
+        "id": "87569ef2-59e0-4b1e-a956-3c1de8c62ed0",
+        "requestId": "6cd3023f-c1f9-4daf-99fb-c1735b196a15",
+        "role": "assistant",
+        "content": "E2E_VERIFY_ASSISTANT",
+        "status": "completed",
+        "createdAt": "2026-09-07T11:29:14.825Z",
+        "saved": true
+      }
+    ],
+    "hasMore": false
+  },
+  "temporaryConversationReset": true,
+  "persistentCredentialProtected": true,
+  "historyPermission": {
+    "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+    "connectionId": "eb227d10-ddfa-402a-8608-f9b97eeb8e50",
+    "endpointFingerprint": "8822708c61ba1a72d8dd01ddee8a44d15dc6f63a1dcd5049fba9c24f62f6122d",
+    "endpointDisplay": "https://open.bigmodel.cn/api/paas/v4",
+    "readHistory": true,
+    "sendHistory": true,
+    "version": 1
+  },
+  "historyQueryVerified": true,
+  "items": {
+    "query": {
+      "items": [
+        {
+          "id": "61d278f9-ca4f-4cd2-8d1b-7b18d9422942",
+          "version": 1,
+          "content": {
+            "kind": "waiting",
+            "title": "E2E_ITEM_waiting",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+          "originProposalId": null,
+          "createdAt": "2026-09-07T11:29:07.221Z",
+          "updatedAt": "2026-09-07T11:29:07.221Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "cbe53e4f-c7a0-4d4a-9629-27197613e4f1",
+          "version": 1,
+          "content": {
+            "kind": "commitment",
+            "title": "E2E_ITEM_commitment",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+          "originProposalId": null,
+          "createdAt": "2026-09-07T11:29:07.216Z",
+          "updatedAt": "2026-09-07T11:29:07.216Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "fae511e8-a9be-4708-a410-80bb6429739c",
+          "version": 1,
+          "content": {
+            "kind": "task",
+            "title": "E2E_ITEM_task",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+          "originProposalId": null,
+          "createdAt": "2026-09-07T11:29:07.212Z",
+          "updatedAt": "2026-09-07T11:29:07.212Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "eda3f0a9-2ebd-4f84-b9b6-c7141eb79fae",
+          "version": 1,
+          "content": {
+            "kind": "project",
+            "title": "E2E_ITEM_project",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+          "originProposalId": null,
+          "createdAt": "2026-09-07T11:29:07.208Z",
+          "updatedAt": "2026-09-07T11:29:07.208Z",
+          "sources": [],
+          "sourceUnavailable": false
+        },
+        {
+          "id": "a10798a8-3dae-4792-9b63-5b9881374741",
+          "version": 1,
+          "content": {
+            "kind": "goal",
+            "title": "E2E_ITEM_goal",
+            "description": "合成事项",
+            "status": "open",
+            "dueAt": null,
+            "timeZone": null,
+            "parentId": null,
+            "relatedIds": [],
+            "counterpart": ""
+          },
+          "originAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+          "originProposalId": null,
+          "createdAt": "2026-09-07T11:29:07.202Z",
+          "updatedAt": "2026-09-07T11:29:07.202Z",
+          "sources": [],
+          "sourceUnavailable": false
+        }
+      ],
+      "proposals": [],
+      "nextCursor": null,
+      "formalCount": 5
+    },
+    "operations": [
+      {
+        "operationId": "0c969de8-c000-4311-8b2b-ba2ddbec1684",
+        "objectId": "a10798a8-3dae-4792-9b63-5b9881374741",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "c50f77cf-8429-4f62-ab86-78384d04624d",
+        "objectId": "eda3f0a9-2ebd-4f84-b9b6-c7141eb79fae",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "bc6053f7-abbb-4e9e-9794-ceb14af2bbed",
+        "objectId": "fae511e8-a9be-4708-a410-80bb6429739c",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "7819cc49-3eff-40ac-80ff-ad126ef08094",
+        "objectId": "cbe53e4f-c7a0-4d4a-9629-27197613e4f1",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      },
+      {
+        "operationId": "781d3f09-4242-476d-ae1f-5402f3a093bc",
+        "objectId": "61d278f9-ca4f-4cd2-8d1b-7b18d9422942",
+        "objectVersion": 1,
+        "objectType": "item",
+        "state": "SUCCEEDED",
+        "confirmationId": null,
+        "summary": "事项操作已提交"
+      }
+    ]
+  },
+  "itemsUi": {
+    "enteredViaDom": true,
+    "formalCount": 6,
+    "receiptCount": 1,
+    "objectVersion": 1
+  },
+  "itemsFiveKindRestartVerified": true,
+  "memory": {
+    "query": {
+      "records": [
+        {
+          "id": "f7afd208-208e-49cb-9d64-b9b788e7e358",
+          "objectVersion": 2,
+          "kind": "user",
+          "scope": "global",
+          "ownerAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+          "title": "E2E_MEMORY",
+          "markdown": "E2E_MEMORY_CORRECTED",
+          "unresolvedConflictIds": [],
+          "nature": "user-statement",
+          "event": null,
+          "state": "active",
+          "retention": "persistent",
+          "createdAt": "2026-09-07T11:29:07.137Z",
+          "updatedAt": "2026-09-07T11:29:07.148Z",
+          "sources": [
+            {
+              "type": "manual",
+              "id": "9bae342b-6b1b-484c-b99d-81d3e73a4305",
+              "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+              "version": 1
+            },
+            {
+              "type": "manual",
+              "id": "39efe121-9931-48c1-820d-03f1b51cee3c",
+              "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+              "version": 1
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    },
+    "inspect": {
+      "record": {
+        "id": "f7afd208-208e-49cb-9d64-b9b788e7e358",
+        "objectVersion": 2,
+        "kind": "user",
+        "scope": "global",
+        "ownerAssistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+        "title": "E2E_MEMORY",
+        "markdown": "E2E_MEMORY_CORRECTED",
+        "unresolvedConflictIds": [],
+        "nature": "user-statement",
+        "event": null,
+        "state": "active",
+        "retention": "persistent",
+        "createdAt": "2026-09-07T11:29:07.137Z",
+        "updatedAt": "2026-09-07T11:29:07.148Z",
+        "sources": [
+          {
+            "type": "manual",
+            "id": "9bae342b-6b1b-484c-b99d-81d3e73a4305",
+            "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+            "version": 1
+          },
+          {
+            "type": "manual",
+            "id": "39efe121-9931-48c1-820d-03f1b51cee3c",
+            "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+            "version": 1
+          }
+        ]
+      },
+      "changes": [
+        {
+          "operationId": "39efe121-9931-48c1-820d-03f1b51cee3c",
+          "action": "correct",
+          "objectVersion": 2,
+          "createdAt": "2026-09-07T11:29:07.148Z",
+          "actor": "user"
+        },
+        {
+          "operationId": "9bae342b-6b1b-484c-b99d-81d3e73a4305",
+          "action": "remember",
+          "objectVersion": 1,
+          "createdAt": "2026-09-07T11:29:07.137Z",
+          "actor": "user"
+        }
+      ],
+      "receipts": [
+        {
+          "operationId": "39efe121-9931-48c1-820d-03f1b51cee3c",
+          "objectId": "f7afd208-208e-49cb-9d64-b9b788e7e358",
+          "objectVersion": 2,
+          "state": "SUCCEEDED",
+          "summary": "记忆已保存并立即生效",
+          "confirmationId": null
+        },
+        {
+          "operationId": "9bae342b-6b1b-484c-b99d-81d3e73a4305",
+          "objectId": "f7afd208-208e-49cb-9d64-b9b788e7e358",
+          "objectVersion": 1,
+          "state": "SUCCEEDED",
+          "summary": "记忆已保存并立即生效",
+          "confirmationId": null
+        }
+      ],
+      "providedToRequests": [],
+      "cleanupPending": false,
+      "organizationPending": true
+    },
+    "permissions": {
+      "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+      "scope": "global",
+      "version": 1,
+      "read": true,
+      "write": true,
+      "writeInferences": true,
+      "receive": true,
+      "endpointDisplay": "https://open.bigmodel.cn/api/paas/v4",
+      "endpointFingerprint": "8822708c61ba1a72d8dd01ddee8a44d15dc6f63a1dcd5049fba9c24f62f6122d"
+    },
+    "temporaryRejected": true
+  },
+  "memoryUi": {
+    "enteredViaDom": true,
+    "objectsAdded": 1,
+    "receiptCount": 1,
+    "objectId": "36ad144d-62de-47a1-86fb-a25664a3ef5b",
+    "objectVersion": 1
+  },
+  "memoryIpcLifecycleVerified": true,
+  "retention": {
+    "priorJobId": "169cdf2e-0314-4f3e-a285-f4ebbbda8b78",
+    "jobId": "a3116a1d-d515-471d-bae7-2a12c3615643",
+    "assistantId": "670c9d31-dd8f-42cd-b5e1-fa9e4e7e5400",
+    "state": "COMPLETED"
+  },
+  "retentionThreeZoneCleanupRestartVerified": true,
+  "toolOperationRecovered": true,
+  "temporaryToolProtocolNotPersisted": true,
+  "toolOperationId": "a843f103-b38b-4115-99b2-a82ce27f3f42",
+  "selectedContextVerified": true,
+  "recoveryTransportCalls": 0,
+  "explicitSendTransportCalls": 1,
+  "chat": {
+    "requestId": "6cd3023f-c1f9-4daf-99fb-c1735b196a15",
+    "assistantId": "13e30d37-b7d7-444d-b1f9-aa662fbd47a7",
+    "status": "completed",
+    "text": "E2E_VERIFY_ASSISTANT",
+    "usage": {
+      "promptTokens": 2,
+      "completionTokens": 1,
+      "totalTokens": 3
+    }
+  }
+}

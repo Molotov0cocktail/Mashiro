@@ -1,0 +1,20 @@
+[
+  {
+    "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+    "hash": "280C368DF1A64A74A886BA6F49EB9AF62F4127B7DB810F31EC99427E78CBB27A",
+    "replacements": [
+      [
+        "  async function refreshAfterMutation(\n    objectId: string,\n    expectedGovernance = governanceVersion.current\n  ): Promise<void> {\n    await loadRecords()\n    if (expectedGovernance !== governanceVersion.current) return\n    setSelectedId(objectId)\n    await loadInspection(objectId)\n    if (expectedGovernance === governanceVersion.current) onMemoryChanged?.()\n  }",
+        "  async function refreshAfterMutation(\n    objectId: string,\n    expectedGovernance = governanceVersion.current\n  ): Promise<void> {\n    onMemoryChanged?.()\n    await loadRecords()\n    if (expectedGovernance !== governanceVersion.current) return\n    setSelectedId(objectId)\n    await loadInspection(objectId)\n  }"
+      ],
+      [
+        "    const key = `${openTarget.assistantId}:${openTarget.id}:${openTarget.nonce}:${String(refreshKey ?? '')}`",
+        "    const key = `${openTarget.assistantId}:${openTarget.id}:${openTarget.nonce}`"
+      ],
+      [
+        "  }, [assistantId, loadInspection, openTarget, refreshKey])",
+        "  }, [assistantId, loadInspection, openTarget])"
+      ]
+    ]
+  }
+]

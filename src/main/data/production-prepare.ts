@@ -36,6 +36,7 @@ export async function prepareProductionData(options: {
   lease: ProductionLease
   signal: AbortSignal
   assertQuiescent(): void
+  authorizeReplacement?(candidatePath: string): void
 }): Promise<ProductionPreparationResult> {
   const dataPath = canonicalProductionDirectory(options.dataDirectory)
   const assertCurrent = () => {
@@ -121,6 +122,8 @@ export async function prepareProductionData(options: {
     inspectProductionDataSet(dataPath, identity.manifest.dataSetId)
     // No older snapshot can overwrite intervening user corrections/deletions or new receipts.
     assertProductionDataMatchesBackup(dataPath, receipt)
+    options.authorizeReplacement?.(temporary)
+    assertCurrent()
     const descriptor = openSync(temporary, 'r+')
     try {
       fsyncSync(descriptor)

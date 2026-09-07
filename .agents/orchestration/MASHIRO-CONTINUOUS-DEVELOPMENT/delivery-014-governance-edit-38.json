@@ -1,0 +1,22 @@
+[
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "BF6276DA6EFF1035C81114F46A4B141D44CD882D78D46A49FED11EAD453C88DD",
+    "edits": [
+      [
+        "    for (const p of projections)\n      if (p.table === 'provider_connections' && (p.deleted || p.values[2] === 0)) {\n        markRestoredCredentialRevoked(directory, String(p.keys[0]))\n        database\n          .prepare('UPDATE provider_connections SET has_persistent_credential=0 WHERE id=?')\n          .run(...p.keys)\n      }",
+        "    for (const p of projections)\n      if (p.table === 'provider_connections') {\n        const restored = database.prepare('SELECT version FROM provider_connections WHERE id=?').get(...p.keys)\n        // A later connection/credential generation cannot authorize a blob copied from an older one.\n        // Conservatively require a new Key when the backup generation cannot be confirmed current.\n        if (p.deleted || p.values[2] === 0 || (restored && Number(restored.version) < Number(p.values[0]))) {\n          markRestoredCredentialRevoked(directory, String(p.keys[0]))\n          database\n            .prepare('UPDATE provider_connections SET has_persistent_credential=0 WHERE id=?')\n            .run(...p.keys)\n        }\n        database.prepare('UPDATE provider_connections SET version=max(version,?) WHERE id=?').run(Number(p.values[0]), ...p.keys)\n      }"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-check.ts",
+    "hash": "BEEAA1C9007AC7C01A69CE29353ADB7FEEA7251D663E3394EAA50C4B70FA1DCD",
+    "edits": [
+      [
+        "    if (prior.table === 'provider_connections' && values[1] === 0) continue",
+        "    if (prior.table === 'provider_connections' && values[1] === 0 && Number(values[0]) >= Number(old[0]) && (!(prior.deleted || old[2] === 0) || values[2] === 0)) continue"
+      ]
+    ]
+  }
+]

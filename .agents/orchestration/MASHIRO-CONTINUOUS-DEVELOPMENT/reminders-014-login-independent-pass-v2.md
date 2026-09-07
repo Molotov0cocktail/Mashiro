@@ -1,0 +1,11 @@
+# Login startup v2 — independent limited PASS
+
+Root independently reviewed the two production changes, the frozen v2 manifest, the actual Electron 44.1.1 probe and the compensation assertions. Root did not implement either production file. The original identity mismatch and v1 REPAIR findings remain historical evidence.
+
+The candidate uses the application identity consistently, quotes the executable lookup path, validates the complete registration through `openAtLogin`, and separately requires the current executable's enabled user entry. It does not mistake Electron's omitted switch array for the stored command. SQL failure retains the mutation receipt until commit; compensation preserves observable concurrent changes. An unobservable post-disable registration returns UNKNOWN without writing, including a concurrent same-identity registration moved to another executable path.
+
+Independent execution on 2026-09-07: [raw result](reminders-014-root-login-v2-final-01.json), **4 files / 20 tests passed**, exit 0, maximum one test worker. This includes root's independently authored hidden-registration oracle, which was run after the author repair and is not claimed as a recorded RED run. All 13 source, test, helper and evidence entries in [manifest v2](reminders-014-login-repair-manifest-v2.json) matched their recorded SHA-256 before execution. Manifest SHA-256: `39A939875EA448F574A4D90EC98ACABE2D637DFAB5FA793A34957EED48B3179F`.
+
+The [actual Electron probe](reminders-014-login-electron-probe-02.json) verifies quoted Chinese/space path lookup, enabled/disabled state and exact-owned registry cleanup. Root read the raw evidence: every check true, no failures, both owned values absent after cleanup. Probe 01's incorrect oracle remains a failure; it is not relabeled as PASS. The author's scoped static checks are supporting evidence, not described as a new root execution.
+
+Verdict: **PASS for this source-level login registration and failure-compensation delta**. It does not qualify the old installed executable as containing the repair. New installer registration, process restart/login behavior, notification-center display, click and cold activation remain required native acceptance. No release or PROGRAM_DONE is asserted.

@@ -1,0 +1,12 @@
+[
+  {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-manifest-v1.json",
+    "hash": "F04BC0656F47A8C2991603F3C467D22F8CA35267779D7D4707216EA457A3D678",
+    "replacements": [
+      [
+        "a2f0b80f09a2e99e9596d106c70e4e66a2770de96a1dee99334b2fdaaedbdd1",
+        "a2f0b80f09a2e99e9596d106c70e4e66a2770de96a1dee99334b2fdaaedbdd1d"
+      ]
+    ]
+  }
+]

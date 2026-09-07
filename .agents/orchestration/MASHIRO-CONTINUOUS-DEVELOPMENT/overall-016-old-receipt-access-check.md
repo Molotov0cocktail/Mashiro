@@ -1,0 +1,9 @@
+# 016 follow-up: old-round business receipt access
+
+Status: **OPEN — source-level concern requiring a bounded independent user-flow check**, not a demonstrated runtime failure or a reason to retract prior module review.
+
+Root observed that `ToolRepository.read` selects the latest 384 operations when no request ID is supplied. Its existing trusted API supports an exact `requestId`, and `ProviderPanel.loadOperations` can make that query. The current `ToolExecutionPanel` exposes refresh/confirmation controls for operations already present. Source inspection of `HistoryContextPanel` did not find a corresponding control to load an older round's tool receipts. The new 017 round-memory panel shows pending/unknown memory changes and can open an existing memory object, but this is distinct from opening its original tool confirmation or unknown-result receipt.
+
+Overall acceptance should check a real preserved old round with a still-relevant pending/unknown receipt after more than 384 newer operations, followed by application restart: can a user find that old round and inspect/resolve its original receipt without manually entering an internal identifier or reissuing the business command? Check existing running/record views before concluding there is no alternative entry. The concern maps to the continuous program's stable operation recovery and complete user flows; it must not be silently discarded because 007/017's earlier local tests passed.
+
+If confirmed, prefer a small UI integration using the existing strict request-scoped read API, with current assistant/mode/permission checks, stale-response invalidation and original operation identity. No new provider call or business side effect is needed merely to inspect a receipt. Do not change the established limits to an unbounded global query. Record a decisive user-flow oracle before accepting a repair.

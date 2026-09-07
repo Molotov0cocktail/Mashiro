@@ -1,0 +1,46 @@
+[
+  {
+    "path": "src/main/data/production-governance-database.ts",
+    "hash": "8AE65CBE873967F293528B12B17A6B0FE062D9FF16959517C44BEC099104059B",
+    "edits": [
+      [
+        "before(table: string, keys: SQLInputValue[]): void",
+        "before(table: string, keys: SQLInputValue[]): string"
+      ],
+      [
+        "    observer.before(String(table), keys)\n    return null",
+        "    const token = observer.before(String(table), keys)\n    if (!token || token.length > 200) throw Error('GOVERNANCE_INVALID_TOKEN')\n    return token"
+      ],
+      [
+        "BEGIN SELECT mashiro_governance_before('${watch.table}',${watch.keys.map((key) => row + '.' + key).join(',')}); END",
+        "BEGIN INSERT INTO production_governance_commits(token) VALUES(mashiro_governance_before('${watch.table}',${watch.keys.map((key) => row + '.' + key).join(',')})); END"
+      ]
+    ]
+  },
+  {
+    "path": "tests/unit/production-governance-mechanism.test.ts",
+    "hash": "62E43D2B28F5E2B1EB8DC6E923A547201A9E8BDCAD7BF623DA38E55A0946AB57",
+    "edits": [
+      [
+        "import { DatabaseSync } from 'node:sqlite'",
+        "import { DatabaseSync } from 'node:sqlite'\nimport { randomUUID } from 'node:crypto'"
+      ],
+      [
+        "CREATE TABLE governed(id TEXT PRIMARY KEY, version INTEGER NOT NULL);",
+        "CREATE TABLE production_governance_commits(token TEXT PRIMARY KEY); CREATE TABLE governed(id TEXT PRIMARY KEY, version INTEGER NOT NULL);"
+      ],
+      [
+        "      try { writeFileSync(fd, JSON.stringify({ table, keys }) + '\\n'); fsyncSync(fd) } finally { closeSync(fd) }",
+        "      try { writeFileSync(fd, JSON.stringify({ table, keys }) + '\\n'); fsyncSync(fd) } finally { closeSync(fd) }\n      return randomUUID()"
+      ],
+      [
+        "  expect(f.events).toEqual(['before', 'settled:1'])",
+        "  expect(f.events).toEqual(['before', 'settled:1'])\n  expect(f.raw.prepare('SELECT token FROM production_governance_commits').all()).toEqual([])"
+      ],
+      [
+        "  expect(committed.events).toEqual(['before'])",
+        "  expect(committed.events).toEqual(['before'])\n  expect(committed.raw.prepare('SELECT token FROM production_governance_commits').all()).toHaveLength(1)"
+      ]
+    ]
+  }
+]

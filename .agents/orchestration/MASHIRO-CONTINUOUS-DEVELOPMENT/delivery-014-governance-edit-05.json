@@ -1,0 +1,32 @@
+[
+  {
+    "path": "src/main/data/production-governance-database.ts",
+    "hash": "F54F2118EF9915BE2722A06D0B3C8265C423E9127D3C1DFBBA9689FE6B08EF52",
+    "edits": [
+      [
+        "  let dirty = false",
+        "  let dirty = false\n  let activeIterators = 0"
+      ],
+      [
+        "if (dirty && !database.isTransaction)",
+        "if (dirty && !database.isTransaction && activeIterators === 0)"
+      ],
+      [
+        "                  const iterator = Reflect.apply(value, prepared, values) as Iterator<unknown>\n                  return {",
+        "                  const iterator = Reflect.apply(value, prepared, values) as Iterator<unknown>\n                  let active = true\n                  activeIterators++\n                  const complete = () => {\n                    if (active) { active = false; activeIterators-- }\n                    settle()\n                  }\n                  return {"
+      ],
+      [
+        "                        if (result.done) settle()",
+        "                        if (result.done) complete()"
+      ],
+      [
+        "                      } catch (error) {\n                        settle()\n                        throw error",
+        "                      } catch (error) {\n                        complete()\n                        throw error"
+      ],
+      [
+        "                      return finish(() => iterator.return?.() ?? { done: true, value: undefined })",
+        "                      try { return iterator.return?.() ?? { done: true, value: undefined } } finally { complete() }"
+      ]
+    ]
+  }
+]

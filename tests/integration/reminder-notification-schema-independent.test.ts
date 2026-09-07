@@ -35,7 +35,7 @@ it('rolls back a v14 notification-table collision before advancing the schema ve
   raw.close()
 
   const migrated = new SqliteStore(path)
-  expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 16 })
+  expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 18 })
   expect(
     String(
       migrated.database

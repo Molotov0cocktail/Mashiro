@@ -1,0 +1,82 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/RoundMemoryPanel.tsx",
+    "hash": "9D2EE30981F45EFBF268DA640E543339E47913109D0D35F1AAA81338C2B20C40",
+    "replacements": [
+      [
+        "type SectionState = {\n  entries: SectionEntry[]",
+        "type SectionState = {\n  route: string\n  entries: SectionEntry[]"
+      ],
+      [
+        "const emptySection: SectionState = {\n  entries: [],\n  nextCursor: null,\n  loading: false,\n  loaded: false,\n  error: ''\n}",
+        "function emptySection(route = ''): SectionState {\n  return {\n    route,\n    entries: [],\n    nextCursor: null,\n    loading: false,\n    loaded: false,\n    error: ''\n  }\n}"
+      ],
+      [
+        "  const [provided, setProvided] = useState<SectionState>(emptySection)\n  const [changes, setChanges] = useState<SectionState>(emptySection)",
+        "  const [providedState, setProvided] = useState<SectionState>(() => emptySection())\n  const [changesState, setChanges] = useState<SectionState>(() => emptySection())"
+      ],
+      [
+        "  const routeRef = useRef(route)\n",
+        ""
+      ],
+      [
+        "      update((current) => ({\n        ...(append ? current : emptySection),\n        loading: true,\n        error: ''\n      }))",
+        "      update((current) => ({\n        ...(append && current.route === expectedRoute ? current : emptySection(expectedRoute)),\n        route: expectedRoute,\n        loading: true,\n        error: ''\n      }))"
+      ],
+      [
+        "        if (version !== versions.current[section] || routeRef.current !== expectedRoute) return\n        if (!result.ok) {",
+        "        if (version !== versions.current[section]) return\n        if (!result.ok) {"
+      ],
+      [
+        "          update({\n            ...emptySection,\n            loaded: true,\n            error: roundError(result.error.code, result.error.message)\n          })",
+        "          update({\n            ...emptySection(expectedRoute),\n            loaded: true,\n            error: roundError(result.error.code, result.error.message)\n          })"
+      ],
+      [
+        "          update({\n            ...emptySection,\n            loaded: true,\n            error: '本轮详情归属不一致，已拒绝显示。'\n          })",
+        "          update({\n            ...emptySection(expectedRoute),\n            loaded: true,\n            error: '本轮详情归属不一致，已拒绝显示。'\n          })"
+      ],
+      [
+        "        update((current) => ({\n          entries: append ? mergeEntries(current.entries, incoming) : incoming,\n          nextCursor: result.data.nextCursor,\n          loading: false,\n          loaded: true,\n          error: ''\n        }))",
+        "        update((current) =>\n          current.route !== expectedRoute\n            ? current\n            : {\n                route: expectedRoute,\n                entries: append ? mergeEntries(current.entries, incoming) : incoming,\n                nextCursor: result.data.nextCursor,\n                loading: false,\n                loaded: true,\n                error: ''\n              }\n        )"
+      ],
+      [
+        "      } catch {\n        if (version !== versions.current[section] || routeRef.current !== expectedRoute) return",
+        "      } catch {\n        if (version !== versions.current[section]) return"
+      ],
+      [
+        "        update({\n          ...emptySection,\n          loaded: true,\n          error: '本轮记忆详情暂时无法读取；已移除此前显示的详情。'\n        })",
+        "        update({\n          ...emptySection(expectedRoute),\n          loaded: true,\n          error: '本轮记忆详情暂时无法读取；已移除此前显示的详情。'\n        })"
+      ],
+      [
+        "    setProvided(emptySection)\n    setChanges(emptySection)",
+        "    setProvided(emptySection())\n    setChanges(emptySection())"
+      ],
+      [
+        "    routeRef.current = route\n",
+        ""
+      ],
+      [
+        "  if (!api || !assistantId || !requestId || mode !== 'normal') return null\n\n  const noEvidence =",
+        "  if (!api || !assistantId || !requestId || mode !== 'normal') return null\n\n  const provided = providedState.route === route ? providedState : emptySection(route)\n  const changes = changesState.route === route ? changesState : emptySection(route)\n  const noEvidence ="
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/App.tsx",
+    "hash": "E54D95418F7A8BC79EA28038D032E52282C4CDC6CCC6785A99EBE10F4906CB21",
+    "replacements": [
+      [
+        "  const [memoryOpenTarget, setMemoryOpenTarget] = useState<{\n    assistantId: string\n    id: string\n    nonce: number\n  } | null>(null)",
+        "  const [memoryOpenTarget, setMemoryOpenTarget] = useState<{\n    assistantId: string\n    id: string\n    nonce: number\n    snapshotRevision: number\n  } | null>(null)"
+      ],
+      [
+        "      setMemoryOpenTarget((current) => ({\n        ...target,\n        nonce: (current?.nonce ?? 0) + 1\n      }))",
+        "      setMemoryOpenTarget((current) => ({\n        ...target,\n        nonce: (current?.nonce ?? 0) + 1,\n        snapshotRevision: assistantSnapshot.stateRevision\n      }))"
+      ],
+      [
+        "          openTarget={memoryOpenTarget}\n          onPermissionsChanged={receiveMemoryChange}",
+        "          openTarget={\n            memoryOpenTarget &&\n            memoryOpenTarget.assistantId === assistantSnapshot?.currentAssistantId &&\n            memoryOpenTarget.snapshotRevision === assistantSnapshot.stateRevision\n              ? memoryOpenTarget\n              : null\n          }\n          onPermissionsChanged={receiveMemoryChange}"
+      ]
+    ]
+  }
+]

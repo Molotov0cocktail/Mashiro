@@ -202,6 +202,43 @@ button:disabled {
   margin: 6px 0;
 }
 
+.round-memory {
+  margin-top: 10px;
+  border-top: 1px solid #52666c;
+  padding-top: 8px;
+  white-space: normal;
+}
+.round-memory > summary {
+  cursor: pointer;
+  color: #d9f3eb;
+  font-weight: 700;
+}
+.round-memory > section {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.round-memory-list {
+  display: grid;
+  gap: 8px;
+}
+.round-memory-list > article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid #46565d;
+  border-radius: 9px;
+  padding: 10px;
+  background: rgb(18 29 32 / 64%);
+}
+.round-memory-record {
+  display: grid;
+  gap: 6px;
+}
+.round-memory-record ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
 .history-context {
   display: grid;
   gap: 14px;

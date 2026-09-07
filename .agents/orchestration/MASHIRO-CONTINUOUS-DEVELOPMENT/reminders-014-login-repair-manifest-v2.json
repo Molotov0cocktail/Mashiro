@@ -1,0 +1,80 @@
+{
+  "candidate": "Windows login-startup quoted-path, effective-state and compensation repair v2",
+  "files": [
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "sha256": "9015453516B5DC1CDB1FB977EDB7736821A4D6EBC2EA8C45ADC9AB509320C7A8"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "FF2C6D0444EDE8C25532DEA4AE9E9A9749A0BD422697533D958BC22234A86411"
+    },
+    {
+      "path": "tests/unit/reminder-boundaries.test.ts",
+      "sha256": "63686741E57985DC6707C6BF4D37285BF00DBE9FB310AE2428741EBFCA345450"
+    },
+    {
+      "path": "tests/unit/windows-reminder-login.test.ts",
+      "sha256": "FD0E580968C46CB4812049E162AFD1DF06309319663457240F9E50064DC8800F"
+    },
+    {
+      "path": "tests/integration/reminder-login-compensation.test.ts",
+      "sha256": "6F2D6585181D1D0F6294B81C4BCC29B762876FA62C8A68475169662E39351501"
+    }
+  ],
+  "supportingFiles": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe.cjs",
+      "sha256": "33B3FEEDCA52DC85D5CE9CEA8B1F5C70F3022D7CF6212ED64192B6E732FCB704"
+    }
+  ],
+  "independentReviewFiles": [
+    {
+      "path": "tests/unit/login-hidden-registration-independent.test.ts",
+      "sha256": "71B686769F0D18D2197ECC19D1221CA67ABBF3D0B3F61B264F75C5896DB4CC76"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-root-hidden-registration-01.json",
+      "sha256": "F9ECD02F719D8E2F24635E398472E8E0E38D93BC95A1DECDB780212600D95B32",
+      "result": "independent hidden different-path registration test passed 1/1"
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-tests-03.json",
+      "sha256": "FFB865C23FDD7B13F0090C76E5B7C6F94D5E0A62AC74630DA5BB32D3D047D2D9",
+      "result": "3 files / 19 tests passed"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe-02.json",
+      "sha256": "BC3C656770A4726B5B6EBC1C77B34F1DE97165BAA02EB19C7C6779AEC82C5619",
+      "result": "Electron 44.1.1 actual API PASS with unique owned AppUserModelID and zero registry residue"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe-01.json",
+      "sha256": "E853413C981981C3729A7696EB059B4046C271A115AF5BAFDC8CDC9CCFDB7396",
+      "result": "historical failed oracle retained"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-independent-repair-01.md",
+      "sha256": "1AE44289320DE508CEA8D66F4113D0DAF930C31CA396D13EB2A179CAE09E0A05",
+      "result": "independent v1 REPAIR findings"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-handoff-v2.md",
+      "sha256": "AABD25B35CE837FA00C34A78DDD24FD8B9BA44E2CD5C4467FFDACCB13FC04EC3"
+    }
+  ],
+  "static": {
+    "eslint": "PASS (5 candidate files)",
+    "prettier": "PASS (5 candidate files plus probe)",
+    "wholeTypecheck": "PASS (node and web)"
+  },
+  "nativeBoundary": {
+    "actualElectronApi": "PASS",
+    "newInstallerMashiroRegistration": "NOT_RUN",
+    "loginRestart": "NOT_RUN",
+    "notificationCenterDisplayClickColdActivation": "NOT_RUN"
+  },
+  "reviewState": "CANDIDATE_ONLY_REQUIRES_INDEPENDENT_REVIEW_AND_NEW_INSTALLER_NATIVE_VALIDATION"
+}

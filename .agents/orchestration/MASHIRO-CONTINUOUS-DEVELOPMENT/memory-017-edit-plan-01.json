@@ -1,0 +1,82 @@
+[
+  {
+    "path": "src/shared/memory-round-contract.ts",
+    "hash": "297DAA16249CFBDE0FEC0082581C5727F23AB93B902838EE7556594A34E7CE65",
+    "replacements": [
+      [
+        "  section: z.enum(['provided', 'changes']),",
+        "  mode: z.enum(['normal', 'temporary']),\n  section: z.enum(['provided', 'changes']),"
+      ],
+      [
+        "z.enum(['DISPATCHED', 'UNKNOWN', 'PREPARED'])",
+        "z.enum(['RESPONSE_OBSERVED', 'DISPATCH_STARTED', 'PREPARED'])"
+      ],
+      [
+        "  operationId: uuid,",
+        "  objectId: uuid.nullable(),\n  objectVersion: version.nullable(),\n  operationId: uuid,"
+      ],
+      [
+        "      requestId: uuid,",
+        "      requestId: uuid,\n      evidenceCoverage: z.literal('recorded-only'),"
+      ]
+    ]
+  },
+  {
+    "path": "src/shared/memory-contract.ts",
+    "hash": "271FF9AE662FAB99DDCB8665A308E5AB6C36A501C0B416B0A99CEB50A3A1A992",
+    "replacements": [
+      [
+        "export interface MemoryApi {",
+        "export interface MemoryApi {\n  round(input: import('./memory-round-contract.js').MemoryRoundInput): Promise<import('./memory-round-contract.js').MemoryRoundResult>"
+      ]
+    ]
+  },
+  {
+    "path": "src/shared/memory-channels.ts",
+    "hash": "C90D4D9E260E4A3343959235530BFEE21A1952B266E8B1BDC9AD4F9FB0FA1429",
+    "replacements": [
+      [
+        "export const memoryChannels = {",
+        "export const memoryChannels = {\n  round: 'memory:round',"
+      ]
+    ]
+  },
+  {
+    "path": "src/preload/index.ts",
+    "hash": "B3A24E7088C532361476A546EA9E959DD46D594CD430D343AE272265B9E62BC4",
+    "replacements": [
+      [
+        "const memory: MemoryApi = {",
+        "const memory: MemoryApi = {\n  round: (input) => ipcRenderer.invoke(memoryChannels.round, input),"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/ipc/register-memory-ipc.ts",
+    "hash": "D55CBEC929DA24DFD48DDBF93403D5D096EE7746FC8DEE8AD62A212F7A217C7E",
+    "replacements": [
+      [
+        "import type { ZodType } from 'zod'",
+        "import type { ZodType } from 'zod'\nimport { memoryRoundResultSchema } from '../../shared/memory-round-contract.js'"
+      ],
+      [
+        "  const methods = {",
+        "  const methods = {\n    round: memoryRoundResultSchema,"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/memory/memory-service.ts",
+    "hash": "35CB0082F27BF5B7958C4E0260178776BAC7E4DE9F16D9A7011FBA3457DF69CF",
+    "replacements": [
+      [
+        "import { z } from 'zod'",
+        "import { z } from 'zod'\nimport { memoryRoundInputSchema } from '../../shared/memory-round-contract.js'\nimport { queryMemoryRound, type RoundObjectView } from './memory-round-query.js'"
+      ],
+      [
+        "  inspect(input: unknown) {",
+        "  round(input: unknown) {\n    return this.handle(memoryRoundInputSchema, input, (value) => {\n      // A temporary view performs no normal-data reads and creates no durable trace.\n      if (value.mode === 'temporary') return {\n        assistantId: value.assistantId, requestId: value.requestId,\n        evidenceCoverage: 'recorded-only' as const, entries: [], nextCursor: null\n      }\n      this.activeAssistant(value.assistantId)\n      const owners = this.store.database.prepare(\n        'SELECT DISTINCT assistant_id FROM timeline_messages WHERE request_id=?'\n      ).all(value.requestId)\n      if (owners.length !== 1 || owners[0]!.assistant_id !== value.assistantId)\n        throw new MemoryError('NOT_FOUND')\n      const source = { type: 'round' as const, id: value.requestId, assistantId: value.assistantId, version: 1 }\n      const grant = this.store.database.prepare(\n        'SELECT read_history FROM history_permissions WHERE assistant_id=?'\n      ).get(value.assistantId)\n      if (grant?.read_history !== 1 || this.withdrawn(source) ||\n        this.withdrawn({ ...source, type: 'user-round' }) ||\n        this.store.database.prepare(\"SELECT 1 FROM content_tombstones WHERE kind='round' AND id=?\").get(value.requestId) ||\n        this.store.database.prepare('SELECT 1 FROM retention_original_trash WHERE request_id=?').get(value.requestId))\n        throw new MemoryError('PERMISSION_DENIED')\n      return queryMemoryRound(this.store, value, (id, version): RoundObjectView => {\n        const hidden: RoundObjectView = { availability: 'unavailable', record: null, canInspect: false }\n        try {\n          const record = this.owned(value.assistantId, id)\n          const fingerprint = this.endpoint(value.assistantId).fingerprint\n          if (!fingerprint || this.retired(id)) return hidden\n          this.assertRecord(record, value.assistantId, fingerprint)\n          if (record.objectVersion !== version) return { ...hidden, availability: 'obsolete', canInspect: true }\n          const visible = this.visible(record)\n          if (visible.state !== 'active') return hidden\n          return { availability: 'available', record: visible, canInspect: true }\n        } catch { return hidden }\n      })\n    })\n  }\n  inspect(input: unknown) {"
+      ]
+    ]
+  }
+]

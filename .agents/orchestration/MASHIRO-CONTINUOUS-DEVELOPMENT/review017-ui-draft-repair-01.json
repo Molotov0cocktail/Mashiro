@@ -1,0 +1,7 @@
+{
+  "chunk_id": "b43bd1",
+  "wall_time_seconds": 2.2985292,
+  "exit_code": 0,
+  "original_token_count": 53,
+  "output": "\n RUN  v4.1.11 D:/Mashiro\n\n\n Test Files  1 passed (1)\n      Tests  1 passed | 4 skipped (5)\n   Start at  19:01:17\n   Duration  1.29s (transform 96ms, setup 132ms, import 113ms, tests 154ms, environment 726ms)\n\n"
+}

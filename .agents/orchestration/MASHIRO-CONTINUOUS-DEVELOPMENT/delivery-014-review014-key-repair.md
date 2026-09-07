@@ -1,0 +1,9 @@
+# 014 independent repair R014-P2 — obsolete Key resurrection
+
+Fresh independent Reviewer review_014_governance, gpt-6-astra / medium, 2026-09-07. Production code read-only. This finding adds to [v2 review](delivery-014-review014-repair-v2.md); P1 repair v3 does not change this affected apply path.
+
+The [new independent credential oracle](../../../tests/integration/production-governance-review014-credential.test.ts) creates a real governed session and complete backup with a synthetic protected Key, records a subsequent deletion, then explicitly saves a different synthetic persistent Key on the same connection. Restoring the old backup returns the obsolete Key from CredentialVault instead of refusing decryption. [Raw red result](delivery-014-review014-key-red-01.json) contains the exact value assertion failure. No protected blob was physically deleted and no real personal credential or network was accessed.
+
+The latest-only provider projection ends with `has_persistent_credential=1`; `applyProductionGovernance` treats this as permission for the old snapshot blob, losing the distinction between a newly authorized Key and an obsolete Key. The existing provider version increments on every persistent-Key mutation and is already available as a conservative stale-snapshot discriminator.
+
+Required repair: prevent restoration of older protected credential bytes after later credential replacement/deletion followed by replacement. Keep the approved non-destructive marker mechanism. Do not interpret a later new-Key authorization as permission to decrypt the old Key. A conservative old-provider-version check is acceptable within the current contract if clearly documented; an unchanged healthy connection credential should retain its existing behavior. Preserve the independent oracle and add healthy-current-version coverage, then freeze the new candidate. Verdict remains REPAIR.

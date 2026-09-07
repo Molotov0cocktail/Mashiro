@@ -1,0 +1,12 @@
+[
+  {
+    "path": "tests/integration/production-governance-upgrade.test.ts",
+    "hash": "ED76E4D32A3EF729F7BC249B4C7F842C586A54C6D965846398D0EED79BE72A33",
+    "edits": [
+      [
+        "      expect(() => journal.assertAnchor(anchor)).not.toThrow()",
+        "      expect(() => journal.assertAnchor(beforeAnchor)).not.toThrow()"
+      ]
+    ]
+  }
+]

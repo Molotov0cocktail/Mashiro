@@ -1,0 +1,22 @@
+[
+  {
+    "path": "src/renderer/src/App.tsx",
+    "hash": "1781A02FB8B560648F52BBEB3BC2B5401733935BFBB666179D35FB9DAD0CF7E4",
+    "replacements": [
+      [
+        "  const receiveMemoryPermissionChange = useCallback(() => {\n    setMemoryPermissionEpoch((value) => value + 1)\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])",
+        "  const receiveMemoryPermissionChange = useCallback(() => {\n    setMemoryOpenTarget(null)\n    setMemoryPermissionEpoch((value) => value + 1)\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])"
+      ]
+    ]
+  },
+  {
+    "path": "tests/renderer/RoundMemoryPanel.test.tsx",
+    "hash": "C3ED19B85BE41AF7A1BA2E68599BFA75E674C4C2C75253659006881CC855B5B1",
+    "replacements": [
+      [
+        "    } as TimelineApi\n    const round = vi.fn<MemoryApi['round']>(async (input) =>\n      result(input.assistantId, input.requestId, input.section === 'changes' ? [change()] : [])\n    )",
+        "    } as unknown as TimelineApi\n    const round = vi.fn<MemoryApi['round']>(async (input) =>\n      result(input.assistantId, input.requestId, input.section === 'changes' ? [change()] : [])\n    )"
+      ]
+    ]
+  }
+]

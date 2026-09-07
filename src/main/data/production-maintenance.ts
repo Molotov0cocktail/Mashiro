@@ -3,7 +3,6 @@ import { randomUUID } from 'node:crypto'
 import { join } from 'node:path'
 import { canonicalProductionDirectory, inspectProductionDataSet } from './production-location.js'
 import { verifyProductionBackup, type ProductionBackupReceipt } from './production-backup.js'
-import { restoreProductionBackup } from './production-restore.js'
 import type { ProductionSession } from './production-session.js'
 import type { ProductionDialogs } from './production-selection.js'
 
@@ -41,7 +40,7 @@ export async function prepareProductionMaintenance(options: {
     detail =
       '备份时间：' +
       receipt.createdAt +
-      '\n恢复的是该时间的完整状态，之后的修改和删除不会包含在副本内。当前数据仍保留原位，不会覆盖。受保护凭据仅限原Windows用户，其他用户需重新提供。'
+      '\n恢复副本会应用本机已知的后来删除、纠正和撤权；无法取回的后来正文不会恢复旧版本。连接及自动后台工作将暂停，请检查后重新启用。当前数据仍保留原位，不会覆盖。受保护凭据仅限原Windows用户，其他用户需重新提供。'
   }
   const directory = await pick(
     kind === 'backup'
@@ -93,13 +92,7 @@ export async function prepareProductionMaintenance(options: {
         mkdirSync(backup)
         approvedReceipt = await session.backup(backup, assertQuiescent)
       }
-      if (backup)
-        await restoreProductionBackup({
-          backupDirectory: backup,
-          destinationDirectory: directory,
-          signal: new AbortController().signal,
-          expectedReceipt: approvedReceipt
-        })
+      if (backup) await session.restore(backup, directory, approvedReceipt, assertQuiescent)
       assertQuiescent()
       await session.select(directory, assertQuiescent)
       return true

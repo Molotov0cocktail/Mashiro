@@ -1,0 +1,11 @@
+{
+  "command": "D:/nodejs/node.exe node_modules/vitest/vitest.mjs run tests/integration/review016-old-receipt-persistence.test.ts --maxWorkers=1",
+  "exitCode": 0,
+  "testFiles": 1,
+  "tests": 1,
+  "testSeconds": 6.66,
+  "durationSeconds": 7.32,
+  "start": "2026-09-07 19:28:49 +08:00",
+  "toolChunk": "41487d",
+  "change": "Only per-test timeout 5000ms to 20000ms; behavioral assertions unchanged."
+}

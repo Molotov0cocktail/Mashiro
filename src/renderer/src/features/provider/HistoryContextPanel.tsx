@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { MemoryApi } from '../../../../shared/memory-contract'
 import type { ContextIntent } from '../../../../shared/provider-contract'
 import type { RetentionChanged } from '../../../../shared/retention-contract'
 import type {
@@ -7,6 +8,7 @@ import type {
   TimelineApi,
   TimelineMessage
 } from '../../../../shared/timeline-contract'
+import { RoundMemoryPanel } from './RoundMemoryPanel'
 
 const protocolVersion = 1 as const
 
@@ -97,6 +99,9 @@ export function HistoryContextPanel({
   mode,
   bindingKey,
   timelineApi,
+  memoryApi,
+  roundMemoryRefreshKey,
+  onOpenMemory,
   contextIntent,
   selectedRequestIds,
   focusRequest,
@@ -109,6 +114,9 @@ export function HistoryContextPanel({
   mode: ChatMode
   bindingKey: string
   timelineApi: TimelineApi
+  memoryApi?: MemoryApi
+  roundMemoryRefreshKey?: string | number
+  onOpenMemory?: (target: { assistantId: string; id: string }) => void
   contextIntent: ContextIntent
   selectedRequestIds: string[]
   focusRequest?: { requestId: string; nonce: number }
@@ -546,6 +554,16 @@ export function HistoryContextPanel({
                 {turn.user && turn.assistant ? ' · ' : ''}
                 {turn.assistant ? '助手：' + historyStatusText(turn.assistant.status) : ''}
               </small>
+              {turn.assistant ? (
+                <RoundMemoryPanel
+                  assistantId={assistantId}
+                  requestId={turn.requestId}
+                  mode={mode}
+                  api={memoryApi}
+                  refreshKey={roundMemoryRefreshKey}
+                  onOpenMemory={onOpenMemory}
+                />
+              ) : null}
               {view.query && focusedByAssistant[assistantId] !== turn.requestId ? (
                 <button
                   type="button"

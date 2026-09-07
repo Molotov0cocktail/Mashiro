@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/main/data/production-governance-redaction.ts",
+    "hash": "A8092BE5BB23F7B112730BA9D591BD6269CE19357110D4576FF8D2C04E9CE6B1",
+    "edits": [
+      [
+        "  for (const row of database.prepare('SELECT * FROM tool_operations').all())\n    if (references(row)) {\n      database\n        .prepare(\"UPDATE tool_operations SET arguments_json='{}',record_json=? WHERE id=?\")\n        .run(scrubReceipt(row.record_json), String(row.id))\n      database\n        .prepare(\"UPDATE protocol_results SET result_json='{}' WHERE operation_id=?\")\n        .run(String(row.id))\n    }",
+        "  // A protocol transcript can copy results and reasoning from any earlier call in its segment.\n  // Discover all affected segments before clearing any evidence, including search results whose\n  // object IDs never appeared in tool arguments.\n  const operations = database.prepare('SELECT * FROM tool_operations').all()\n  const segments = new Set<string>()\n  for (const row of operations)\n    if (references(row)) segments.add(String(row.segment_id))\n  for (const row of database.prepare(\n    'SELECT o.segment_id,r.result_json FROM protocol_results r JOIN tool_operations o ON o.id=r.operation_id'\n  ).all())\n    if (references(row)) segments.add(String(row.segment_id))\n  for (const row of database.prepare('SELECT id,messages_json FROM protocol_segments').all())\n    if (references(row)) segments.add(String(row.id))\n  for (const id of segments)\n    database.prepare(\"UPDATE protocol_segments SET messages_json='[]',status='interrupted' WHERE id=?\").run(id)\n  for (const row of operations)\n    if (segments.has(String(row.segment_id))) {\n      database\n        .prepare(\"UPDATE tool_operations SET arguments_json='{}',record_json=? WHERE id=?\")\n        .run(scrubReceipt(row.record_json), String(row.id))\n      database\n        .prepare(\"UPDATE protocol_results SET result_json='{}' WHERE operation_id=?\")\n        .run(String(row.id))\n    }"
+      ]
+    ]
+  }
+]

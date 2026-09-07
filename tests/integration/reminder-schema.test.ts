@@ -27,7 +27,7 @@ it('v9 reminder migration rolls back a collision, preserves previous rows and st
     raw.exec('DROP TABLE reminder_commands')
     raw.close()
     const migrated = new SqliteStore(path)
-    expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 16 })
+    expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 18 })
     expect(migrated.database.prepare('SELECT * FROM assistant_state').all()).toEqual(previous)
     expect(migrated.database.prepare('SELECT * FROM reminder_settings').get()).toEqual({
       singleton: 1,

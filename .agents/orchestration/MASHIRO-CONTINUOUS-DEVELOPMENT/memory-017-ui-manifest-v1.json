@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "candidate": "memory-017-ui-v1",
+  "status": "CANDIDATE_INDEPENDENT_REVIEW_PENDING",
+  "generatedAt": "2026-09-07T11:14:30.8397297Z",
+  "model": "gpt-5.6-sol/high",
+  "baseHead": "a3550888d4d6d001f441fb73e806eef4729ca315",
+  "committed": false,
+  "files": [
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "a2f0b80f09a2e99e9596d106c70e4e66a2770de96a1dee99334b2fdaaedbdd1d",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "bb6fa05439534cd131d2cd7051c4ae9cd447f5ec202639dcfce8745dedaa2b93",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "sha256": "1e61a07afd7e71ce6c58c3ef583d64d305da08d46afeaafe5abb60fef41bbd57",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "sha256": "dd5f4d3ccf4799084c1729328ef8b7412129e289072105e8a6d0365491df6579",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/features/provider/RoundMemoryPanel.tsx",
+      "sha256": "a1c6bd268357fda8650c58454f3084c907556f26a771d20fd687bddc8fa0ae57",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "f2fef30e72f011352f8cdcae10709a5779aeacf94beb8252e97b0904dd402c7b",
+      "role": "product"
+    },
+    {
+      "path": "tests/renderer/RoundMemoryPanel.test.tsx",
+      "sha256": "c6b097212cea32695b4ac8ab819f29b299c7d3ac7e21678c73e997ea12f50f96",
+      "role": "author-test"
+    }
+  ],
+  "independentOracleFiles": [
+    "tests/renderer/review017-round-boundary.test.tsx",
+    "tests/renderer/review017-app-target.test.tsx",
+    "tests/renderer/review017-app-correction.test.tsx"
+  ],
+  "verification": [
+    {
+      "scope": "independent boundary oracle after final product edit",
+      "result": "3 files passed; 9 tests passed"
+    },
+    {
+      "scope": "author Task 017 renderer tests",
+      "result": "1 file passed; 8 tests passed"
+    },
+    {
+      "scope": "complete renderer suite before final permission-target one-line repair",
+      "result": "40 files passed; 167 tests passed",
+      "deltaCoverage": "The final one-line App repair is directly covered by the post-edit independent permission-target oracle."
+    },
+    {
+      "scope": "tsconfig.web.json typecheck after final product edit",
+      "result": "passed"
+    },
+    {
+      "scope": "exact scoped ESLint after final product edit",
+      "result": "passed with zero warnings"
+    },
+    {
+      "scope": "exact seven-file Prettier check after final product edit",
+      "result": "passed"
+    }
+  ]
+}

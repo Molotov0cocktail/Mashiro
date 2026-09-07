@@ -1,0 +1,34 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+    "hash": "06519291C6BBB8E431865ACFEA2628CAE97984479964C5B742474F769895F2D1",
+    "replacements": [
+      [
+        "  onOpenMemory,\n  retentionChange,",
+        "  onOpenMemory,\n  memoryEvidenceRefreshKey,\n  retentionChange,"
+      ],
+      [
+        "  onOpenMemory?: (target: { assistantId: string; id: string }) => void\n  retentionChange?: RetentionChanged | null",
+        "  onOpenMemory?: (target: { assistantId: string; id: string }) => void\n  memoryEvidenceRefreshKey?: number\n  retentionChange?: RetentionChanged | null"
+      ],
+      [
+        "            roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${retentionChange?.epoch ?? ''}`}",
+        "            roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}"
+      ],
+      [
+        "                    refreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${retentionChange?.epoch ?? ''}`}",
+        "                    refreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}"
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/App.tsx",
+    "hash": "9632C26A36A77E815415E9937F3C6AA9685C7819BCAF636661F608BFC2472916",
+    "replacements": [
+      [
+        "          onOpenMemory={openMemory}\n          retentionChange={retentionChange}",
+        "          onOpenMemory={openMemory}\n          memoryEvidenceRefreshKey={memoryRefreshKey}\n          retentionChange={retentionChange}"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/main/data/production-governance-index.ts",
+    "hash": "CB82C1F34818DDEE49D52A7473D34CCCC403C1DBDC7BC399F8FE8FBCA3734101",
+    "edits": [
+      [
+        "journalId = randomUUID()): Registry",
+        "journalId: string = randomUUID()): Registry"
+      ]
+    ]
+  }
+]

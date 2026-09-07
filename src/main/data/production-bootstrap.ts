@@ -60,13 +60,14 @@ export async function openProductionApplicationData(options: {
               options.paths.defaultDataDirectory,
               options.dialogs
             ),
-      async prepareExisting(_databasePath, dataPath, signal, lease) {
+      async prepareExisting(_databasePath, dataPath, signal, lease, authorizeReplacement) {
         await prepareProductionData({
           dataDirectory: dataPath,
           backupParentDirectory: options.paths.backupParentDirectory,
           lease,
           signal,
-          assertQuiescent: options.assertQuiescent
+          assertQuiescent: options.assertQuiescent,
+          authorizeReplacement
         })
       },
       onOwnershipLost(error) {
@@ -91,7 +92,10 @@ export async function openProductionApplicationData(options: {
     })
     if (selected.response === 1) return open(true)
     if (selected.response === 2) {
-      const restored = await restoreProductionAtStartup(options.dialogs)
+      const restored = await restoreProductionAtStartup(
+        options.dialogs,
+        options.paths.configurationDirectory
+      )
       if (restored) return open(true, restored)
     }
     return null

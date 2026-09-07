@@ -106,7 +106,10 @@ export function MemoryPanel({
   pendingCommands,
   retentionChange,
   onPrepareRetention,
-  configurationFocusNonce
+  configurationFocusNonce,
+  openTarget,
+  onPermissionsChanged,
+  onMemoryChanged
 }: {
   assistantId: string
   assistantName: string
@@ -121,6 +124,9 @@ export function MemoryPanel({
     intent?: RetentionPreview['intent']
   ) => void
   configurationFocusNonce?: number | null
+  openTarget?: { assistantId: string; id: string; nonce: number } | null
+  onPermissionsChanged?: () => void
+  onMemoryChanged?: () => void
 }): React.JSX.Element {
   const [records, setRecords] = useState<MemoryRecord[]>([])
   const [nextCursor, setNextCursor] = useState<number | null>(null)
@@ -177,6 +183,7 @@ export function MemoryPanel({
   const governanceVersion = useRef(0)
   const lastRefreshKey = useRef(refreshKey)
   const lastAssistantId = useRef<string | undefined>(undefined)
+  const handledOpenTarget = useRef('')
 
   const loadRecords = useCallback(
     async (append = false, cursor?: number): Promise<void> => {
@@ -214,21 +221,23 @@ export function MemoryPanel({
   )
 
   const loadInspection = useCallback(
-    async (id: string): Promise<void> => {
-      if (!assistantId || !id) return
+    async (id: string): Promise<InspectData | null> => {
+      if (!assistantId || !id) return null
       const version = ++inspectVersion.current
       setInspectLoading(true)
       setError('')
       try {
         const result = await api.inspect({ protocolVersion, assistantId, id })
-        if (version !== inspectVersion.current) return
+        if (version !== inspectVersion.current) return null
         if (!result.ok) {
           setError(memoryError(result))
-          return
+          return null
         }
         setInspection(result.data)
+        return result.data
       } catch {
         if (version === inspectVersion.current) setError('记录详情暂时无法读取')
+        return null
       } finally {
         if (version === inspectVersion.current) setInspectLoading(false)
       }
@@ -341,6 +350,7 @@ export function MemoryPanel({
   useEffect(() => {
     if (refreshKey === undefined || lastRefreshKey.current === refreshKey) return
     lastRefreshKey.current = refreshKey
+    inspectVersion.current += 1
     if (!assistantId) return
     let active = true
     queueMicrotask(() => {
@@ -348,7 +358,11 @@ export function MemoryPanel({
       void loadRecords()
       void loadPermissions()
       if (action === 'correct') {
-        setNotice('列表与授权已刷新；正在编辑的版本未自动替换，保存时会校验版本以避免覆盖新修改。')
+        setNotice(
+          (current) =>
+            current ||
+            '列表与授权已刷新；正在编辑的版本未自动替换，保存时会校验版本以避免覆盖新修改。'
+        )
       }
     })
     return () => {
@@ -360,6 +374,7 @@ export function MemoryPanel({
     objectId: string,
     expectedGovernance = governanceVersion.current
   ): Promise<void> {
+    onMemoryChanged?.()
     await loadRecords()
     if (expectedGovernance !== governanceVersion.current) return
     setSelectedId(objectId)
@@ -559,6 +574,7 @@ export function MemoryPanel({
         return
       }
       setPermissions((values) => ({ ...values, [permissionScope]: result.data }))
+      onPermissionsChanged?.()
     } catch {
       if (version === permissionVersion.current)
         setPermissionError('授权更新结果未确认，请刷新后核查')
@@ -618,6 +634,37 @@ export function MemoryPanel({
       setMutationBusy(false)
     }
   }
+
+  useEffect(() => {
+    if (!openTarget || openTarget.assistantId !== assistantId) return
+    const key = `${openTarget.assistantId}:${openTarget.id}:${openTarget.nonce}`
+    if (handledOpenTarget.current === key) return
+    handledOpenTarget.current = key
+    let active = true
+    queueMicrotask(() => {
+      void loadInspection(openTarget.id).then((data) => {
+        if (!active || !data || handledOpenTarget.current !== key) return
+        const record = data.record
+        setEditTarget(record)
+        setAction('correct')
+        setSelectedId(record.id)
+        setTitle(record.title)
+        setMarkdown(record.markdown)
+        setKind(record.kind)
+        setScope(record.scope)
+        setNature(record.nature)
+        if (record.event) {
+          setEventStatus(record.event.status)
+          setOccurredAt(localEventInput(record.event.occurredAt))
+          setTimeZone(record.event.timeZone ?? '')
+        }
+        document.getElementById('memory-editor')?.scrollIntoView?.({ block: 'start' })
+      })
+    })
+    return () => {
+      active = false
+    }
+  }, [assistantId, loadInspection, openTarget])
 
   function editRecord(record: MemoryRecord): void {
     setAction('correct')
@@ -816,7 +863,7 @@ export function MemoryPanel({
           ) : null}
         </section>
 
-        <section className="memory-editor" aria-label="写入或纠正记忆">
+        <section id="memory-editor" className="memory-editor" aria-label="写入或纠正记忆">
           <div className="operation-title">
             <h2>{action === 'remember' ? '新增记忆或事件' : '纠正当前版本'}</h2>
             {action === 'correct' ? (

@@ -1,0 +1,12 @@
+[
+  {
+    "path": "tests/renderer/RoundMemoryPanel.test.tsx",
+    "hash": "7ADB64B6FD291151FFE4CDEA6FEDCEE69577252D1C40A37D1DDEA37394D8EDDB",
+    "replacements": [
+      [
+        "      within(providedSection).getByText(/search_memory 实际外发正文最多截断为 1000 字符/)",
+        "      within(providedSection).getByText(/模型收到的正文可能是节选.*最多 1000 字符.*不代表完整外发内容/)"
+      ]
+    ]
+  }
+]

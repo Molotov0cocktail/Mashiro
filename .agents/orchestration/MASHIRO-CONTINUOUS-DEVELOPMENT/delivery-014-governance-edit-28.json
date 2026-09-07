@@ -1,0 +1,56 @@
+[
+  {
+    "path": "src/main/data/production-session.ts",
+    "hash": "D9A964897DF997DB9E3BC96E57EDE458ADE515F1C70323F8583E9F6EB215ABA0",
+    "edits": [
+      [
+        "import { join } from 'node:path'",
+        "import { join } from 'node:path'\nimport { authorizeProductionGovernanceMigration } from './production-governance-migration.js'"
+      ],
+      [
+        "    lease: ProductionLease\n  ): Promise<void>",
+        "    lease: ProductionLease,\n    authorizeReplacement: (candidatePath: string) => void\n  ): Promise<void>"
+      ],
+      [
+        "        cancellation.signal,\n        dataLease\n",
+        "        cancellation.signal,\n        dataLease,\n        (candidate) => authorizeProductionGovernanceMigration(governance, dataSetId, dataPath, candidate, assertHeld)\n"
+      ],
+      [
+        "          cancellation.signal,\n          dataLease\n",
+        "          cancellation.signal,\n          dataLease,\n          (candidate) => authorizeProductionGovernanceMigration(governance, dataSetId, dataPath, candidate, assertHeld)\n"
+      ],
+      [
+        "            cancellation.signal,\n            target\n",
+        "            cancellation.signal,\n            target,\n            (candidate) => authorizeProductionGovernanceMigration(governance, selected.manifest.dataSetId, target.dataPath, candidate, assertHeld)\n"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-prepare.ts",
+    "hash": "BEEFEAD659D1E7A211722144486ECD64DB1C3CA864F1469B0F1288D58323B56B",
+    "edits": [
+      [
+        "  assertQuiescent(): void\n",
+        "  assertQuiescent(): void\n  authorizeReplacement?(candidatePath: string): void\n"
+      ],
+      [
+        "    const descriptor = openSync(temporary, 'r+')",
+        "    options.authorizeReplacement?.(temporary)\n    assertCurrent()\n    const descriptor = openSync(temporary, 'r+')"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-bootstrap.ts",
+    "hash": "307E4DE4A29790DA25B040E43EE7CFD8CBDB55A4605AEB9BDD9062B3A1291BA7",
+    "edits": [
+      [
+        "async prepareExisting(_databasePath, dataPath, signal, lease)",
+        "async prepareExisting(_databasePath, dataPath, signal, lease, authorizeReplacement)"
+      ],
+      [
+        "          assertQuiescent: options.assertQuiescent",
+        "          assertQuiescent: options.assertQuiescent,\n          authorizeReplacement"
+      ]
+    ]
+  }
+]

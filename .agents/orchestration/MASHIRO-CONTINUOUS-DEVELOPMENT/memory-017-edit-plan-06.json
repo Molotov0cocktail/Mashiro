@@ -1,0 +1,12 @@
+[
+  {
+    "path": "tests/integration/memory-round-provider.test.ts",
+    "hash": "005BE6CE1E191C68DBFC403997EF2C1D25BF8875ECB2F52CC12140199584D7ED",
+    "replacements": [
+      [
+        "it('strict temporary performs",
+        "it('records memory included by actual prior protocol replay under the new request identity', async () => {\n  let calls = 0\n  const f = setup(async () => {\n    calls++\n    return calls === 1 ? search : { status: 'completed', text: '合成回答', usage: null, finishReason: 'stop' }\n  })\n  expect((await f.service.startChat(f.request, () => undefined)).ok).toBe(true)\n  const nextId = randomUUID()\n  expect((await f.service.startChat({ ...f.request, requestId: nextId, context: { kind: 'recent' } }, () => undefined)).ok).toBe(true)\n  expect(calls).toBe(3)\n  expect(f.service.memory.round({ protocolVersion: 1, assistantId: f.assistantId, requestId: nextId, mode: 'normal', section: 'provided' })).toMatchObject({ ok: true, data: { entries: [{ objectId: f.memoryId, evidence: 'RESPONSE_OBSERVED' }] } })\n})\nit('strict temporary performs"
+      ]
+    ]
+  }
+]

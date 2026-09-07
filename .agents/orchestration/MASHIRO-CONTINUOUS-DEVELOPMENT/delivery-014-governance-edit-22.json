@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "BD511B00434A99CAFEB4F6B30D39995573F506DFCB455D27EF58B6D38EF67AD8",
+    "edits": [
+      [
+        "    for (const id of assistants) {\n      const now = new Date().toISOString()\n      database.prepare(\"UPDATE assistants SET display_name='已删除助手',persona='',avatar_key='mashiro',archived_at=?,updated_at=?,version=version+1 WHERE id=?\").run(now, now, id)\n    }\n    const replacement = database.prepare('SELECT id FROM assistants WHERE archived_at IS NULL AND id NOT IN(SELECT id FROM assistant_tombstones) ORDER BY created_at,id LIMIT 1').get()?.id ?? null\n    database.prepare('UPDATE assistant_state SET primary_assistant_id=CASE WHEN primary_assistant_id IN(SELECT id FROM assistant_tombstones) THEN ? ELSE primary_assistant_id END,current_assistant_id=CASE WHEN current_assistant_id IN(SELECT id FROM assistant_tombstones) THEN ? ELSE current_assistant_id END,revision=revision+1 WHERE singleton=1').run(replacement, replacement)",
+        "    const replacement = database.prepare('SELECT id FROM assistants WHERE archived_at IS NULL AND id NOT IN(SELECT id FROM assistant_tombstones) ORDER BY created_at,id LIMIT 1').get()?.id ?? null\n    database.prepare('UPDATE assistant_state SET primary_assistant_id=CASE WHEN primary_assistant_id IN(SELECT id FROM assistant_tombstones) THEN ? ELSE primary_assistant_id END,current_assistant_id=CASE WHEN current_assistant_id IN(SELECT id FROM assistant_tombstones) THEN ? ELSE current_assistant_id END,revision=revision+1 WHERE singleton=1').run(replacement, replacement)\n    for (const id of assistants) {\n      const now = new Date().toISOString()\n      database.prepare(\"UPDATE assistants SET display_name='已删除助手',persona='',avatar_key='mashiro',archived_at=?,updated_at=?,version=version+1 WHERE id=?\").run(now, now, id)\n    }"
+      ]
+    ]
+  }
+]

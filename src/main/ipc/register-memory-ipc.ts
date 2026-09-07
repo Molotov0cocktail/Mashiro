@@ -1,4 +1,5 @@
 import type { ZodType } from 'zod'
+import { memoryRoundResultSchema } from '../../shared/memory-round-contract.js'
 import { memoryChannels } from '../../shared/memory-channels.js'
 import {
   memoryQueryResultSchema,
@@ -14,6 +15,7 @@ interface IpcMainLike {
 }
 export function registerMemoryIpc(ipc: IpcMainLike, service: MemoryService): () => void {
   const methods = {
+    round: memoryRoundResultSchema,
     query: memoryQueryResultSchema,
     mutate: memoryMutationResultSchema,
     inspect: memoryInspectResultSchema,

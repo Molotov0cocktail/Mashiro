@@ -1,0 +1,72 @@
+[
+  {
+    "path": "src/main/data/schema.ts",
+    "hash": "BDB12788562765ADA057244491A3E11A56E550F270EC648A429F7890A21D69BC",
+    "edits": [
+      [
+        "import { migrateProductionGovernance } from './production-governance-schema.js'",
+        "import { migrateProductionGovernance } from './production-governance-schema.js'\nimport { migrateMemoryRound } from '../memory/memory-round-schema.js'"
+      ],
+      [
+        "export const schemaVersion = 17",
+        "export const schemaVersion = 18"
+      ],
+      [
+        "  migrateProductionGovernance(database)\n",
+        "  migrateProductionGovernance(database)\n  migrateMemoryRound(database)\n"
+      ]
+    ]
+  },
+  {
+    "path": "tests/integration/governance-legacy-fixture.ts",
+    "hash": "0AB6E59C3DAB22D8CC562E7EFD926B6CBE10AD49160BC69C7988E115FDE0391A",
+    "edits": [
+      [
+        "export function removeGovernanceFixture(database: DatabaseSync): void {",
+        "export function removeGovernanceFixture(database: DatabaseSync): void {\n  if (database.prepare(\"SELECT 1 FROM sqlite_master WHERE name='memory_round_evidence'\").get()) {\n    if (database.prepare('SELECT 1 FROM memory_round_evidence LIMIT 1').get()) throw Error('CANNOT_DOWNGRADE_MEMORY_ROUND_FIXTURE')\n    database.exec('DROP TABLE memory_round_evidence')\n  }"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-index.ts",
+    "hash": "63CDE7EB3E9A74BB68DD22321BEF742BCB60DB12FF0C8704513E6059447DC71C",
+    "edits": [
+      [
+        "import type { GovernanceProjection } from './production-governance-catalog.js'",
+        "import { parseGovernanceProjection, type GovernanceProjection } from './production-governance-catalog.js'"
+      ],
+      [
+        "  journalId: z.uuid().nullable(),",
+        "  journalId: z.uuid().nullable(),\n  seed: z.strictObject({ id: z.uuid(), hash: z.string().regex(/^[a-f0-9]{64}$/) }).optional(),"
+      ],
+      [
+        "  known(dataSetId: string): ProductionGovernanceJournal | undefined {",
+        "  private seedEntry(dataSetId: string, anchor: GovernanceAnchor, projections: GovernanceProjection[], journalId = randomUUID()): Registry['entries'][number] {\n    const id = randomUUID()\n    const value = { dataSetId, journalId, anchor, projections: projections.map(parseGovernanceProjection) }\n    const path = join(this.directory, 'seed-' + id + '.json')\n    durableWrite(path, value, false)\n    return { dataSetId, state: 'PREPARING', journalId, anchor, seed: { id, hash: hash(readMetadata(path)) } }\n  }\n  known(dataSetId: string): ProductionGovernanceJournal | undefined {"
+      ],
+      [
+        "    const journal = ProductionGovernanceJournal.open(this.directory, dataSetId)\n    if (entry.journalId",
+        "    let journal: ProductionGovernanceJournal\n    try { journal = ProductionGovernanceJournal.open(this.directory, dataSetId) }\n    catch (error) {\n      if (entry.state !== 'PREPARING' || !entry.seed) throw error\n      const bytes = readMetadata(join(this.directory, 'seed-' + entry.seed.id + '.json'))\n      if (hash(bytes) !== entry.seed.hash) throw Error('GOVERNANCE_SEED_CHANGED')\n      const seed = z.strictObject({\n        dataSetId: z.uuid(), journalId: z.uuid(), anchor: entrySchema.shape.anchor,\n        projections: z.array(z.unknown())\n      }).parse(JSON.parse(bytes.toString('utf8')))\n      if (seed.dataSetId !== dataSetId || seed.journalId !== entry.journalId ||\n          JSON.stringify(seed.anchor) !== JSON.stringify(entry.anchor)) throw Error('GOVERNANCE_SEED_MISMATCH')\n      const projections = seed.projections.map(parseGovernanceProjection)\n      // No writer is exposed before READY. Only this durable, hash-bound initial seed may be replayed.\n      const path = join(this.directory, 'governance-' + dataSetId + '.jsonl')\n      if (lstatSync(path, { throwIfNoEntry: false })) {\n        readMetadata(path)\n        renameSync(path, path + '.initialization-' + randomUUID() + '.incomplete')\n      }\n      journal = ProductionGovernanceJournal.create(this.directory, dataSetId, seed.anchor, projections, seed.journalId)\n    }\n    if (entry.journalId"
+      ],
+      [
+        "      journal.assertAnchor(entry.anchor)\n      entry.state",
+        "      journal.assertAnchor(entry.anchor)\n      journal.snapshot()\n      entry.state"
+      ],
+      [
+        "    const entry: Registry['entries'][number] = {\n      dataSetId,\n      state: 'PREPARING',\n      journalId: null,\n      anchor\n    }",
+        "    const entry = this.seedEntry(dataSetId, anchor, projections)"
+      ],
+      [
+        "      anchor,\n      projections\n    )\n    entry.state = 'READY'\n    entry.journalId = journal.journalId\n    this.persist()\n    this.stamp(dataDirectory, journal)\n    return journal",
+        "      anchor,\n      projections,\n      entry.journalId!\n    )\n    entry.state = 'READY'\n    entry.journalId = journal.journalId\n    this.persist()\n    this.stamp(dataDirectory, journal)\n    return journal"
+      ],
+      [
+        "    const entry: Registry['entries'][number] = { dataSetId, state: 'PREPARING', journalId, anchor }",
+        "    const entry = this.seedEntry(dataSetId, anchor, projections, journalId)"
+      ],
+      [
+        "    const marker = join(canonicalProductionDirectory(dataDirectory), '.mashiro-governance.json')\n    try {",
+        "    if (entry.seed) {\n      const journal = this.known(dataSetId)!\n      this.stamp(dataDirectory, journal)\n      return\n    }\n    const marker = join(canonicalProductionDirectory(dataDirectory), '.mashiro-governance.json')\n    try {"
+      ]
+    ]
+  }
+]

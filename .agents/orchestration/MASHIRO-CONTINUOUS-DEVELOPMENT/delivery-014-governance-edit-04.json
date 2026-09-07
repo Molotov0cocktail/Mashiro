@@ -1,0 +1,20 @@
+[
+  {
+    "path": "src/main/data/production-governance-database.ts",
+    "hash": "A4ACD527BD69AC315EB397775212C859EA6101D343BBB94DEAC661F955327DDD",
+    "edits": [
+      [
+        "  keys: readonly string[]",
+        "  keys: readonly string[]\n  values?: readonly { column: string; json?: string }[]"
+      ],
+      [
+        "before(table: string, keys: SQLInputValue[]): string",
+        "before(table: string, keys: SQLInputValue[], values: SQLInputValue[], deleted: boolean): string"
+      ],
+      [
+        "  database.function('mashiro_governance_before', { varargs: true }, (...args) => {\n    const [table, ...keys] = args\n    const watch = typeof table === 'string' ? names.get(table) : undefined\n    if (!watch || keys.length !== watch.keys.length) throw Error('GOVERNANCE_INVALID_EVENT')\n    dirty = true\n    const token = observer.before(String(table), keys)\n    if (!token || token.length > 200) throw Error('GOVERNANCE_INVALID_TOKEN')\n    return token\n  })\n  for (const watch of watches)\n    for (const action of ['INSERT', 'UPDATE', 'DELETE']) {\n      const row = action === 'DELETE' ? 'OLD' : 'NEW'\n      database.exec(`CREATE TEMP TRIGGER mashiro_governance_${watch.table}_${action}\n        BEFORE ${action} ON main.${watch.table}\n        BEGIN INSERT INTO production_governance_commits(token) VALUES(mashiro_governance_before('${watch.table}',${watch.keys.map((key) => row + '.' + key).join(',')})); END`)\n    }\n",
+        "  database.function('mashiro_governance_before', { varargs: true }, (...args) => {\n    const [table, deleted, ...data] = args\n    const watch = typeof table === 'string' ? names.get(table) : undefined\n    if (!watch || ![0, 1].includes(Number(deleted)) || data.length !== watch.keys.length + (watch.values?.length ?? 0))\n      throw Error('GOVERNANCE_INVALID_EVENT')\n    dirty = true\n    const token = observer.before(String(table), data.slice(0, watch.keys.length), data.slice(watch.keys.length), deleted === 1)\n    if (!token || token.length > 200) throw Error('GOVERNANCE_INVALID_TOKEN')\n    return token\n  })\n  for (const watch of watches) {\n    const expression = (row: string, value: { column: string; json?: string }) => value.json\n      ? \"json_extract(\" + row + '.' + value.column + \",'$.\" + value.json + \"')\"\n      : row + '.' + value.column\n    for (const value of watch.values ?? [])\n      if (!/^[a-z_]+$/.test(value.column) || (value.json !== undefined && !/^[A-Za-z_]+$/.test(value.json)))\n        throw Error('GOVERNANCE_INVALID_PROJECTION')\n    const insertion = (row: string, deleted: boolean, condition = '') =>\n      \"INSERT INTO production_governance_commits(token) SELECT mashiro_governance_before('\" + watch.table + \"',\" + Number(deleted) + ',' +\n      [...watch.keys.map((key) => row + '.' + key), ...(watch.values ?? []).map((value) => expression(row, value))].join(',') + ')' + condition + ';'\n    for (const action of ['INSERT', 'UPDATE', 'DELETE']) {\n      const row = action === 'DELETE' ? 'OLD' : 'NEW'\n      const oldKey = action === 'UPDATE' ? insertion('OLD', true, ' WHERE ' + watch.keys.map((key) => 'OLD.' + key + ' IS NOT NEW.' + key).join(' OR ')) : ''\n      database.exec('CREATE TEMP TRIGGER mashiro_governance_' + watch.table + '_' + action + ' BEFORE ' + action + ' ON main.' + watch.table + ' BEGIN ' + oldKey + insertion(row, action === 'DELETE') + ' END')\n    }\n  }\n"
+      ]
+    ]
+  }
+]

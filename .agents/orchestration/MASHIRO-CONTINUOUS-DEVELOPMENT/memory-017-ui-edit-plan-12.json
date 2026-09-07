@@ -1,0 +1,86 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/RoundMemoryPanel.tsx",
+    "hash": "9D2EE30981F45EFBF268DA640E543339E47913109D0D35F1AAA81338C2B20C40",
+    "replacements": [
+      [
+        "export function RoundMemoryPanel({\n  assistantId,\n  requestId,\n  mode,\n  api,\n  refreshKey,\n  onOpenMemory\n}: {\n  assistantId: string\n  requestId: string\n  mode: ChatMode\n  api?: MemoryApi\n  refreshKey?: string | number\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void\n}): React.JSX.Element | null {",
+        "type RoundMemoryPanelProps = {\n  assistantId: string\n  requestId: string\n  mode: ChatMode\n  api?: MemoryApi\n  refreshKey?: string | number\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void\n}\n\nexport function RoundMemoryPanel(props: RoundMemoryPanelProps): React.JSX.Element | null {\n  const { assistantId, requestId, mode, api, refreshKey } = props\n  if (!api || !assistantId || !requestId || mode !== 'normal') return null\n  const route = `${assistantId}:${requestId}:${mode}:${String(refreshKey ?? '')}`\n  return <RoundMemoryPanelContent key={route} {...props} />\n}\n\nfunction RoundMemoryPanelContent({\n  assistantId,\n  requestId,\n  mode,\n  api,\n  refreshKey,\n  onOpenMemory\n}: RoundMemoryPanelProps): React.JSX.Element | null {"
+      ],
+      [
+        "  useEffect(() => {\n    routeRef.current = route\n    if (open && api && assistantId && requestId && mode === 'normal') {\n      queueMicrotask(loadInitial)\n    }\n  }, [assistantId, api, loadInitial, mode, open, requestId, route])",
+        "  useEffect(() => {\n    let active = true\n    routeRef.current = route\n    if (open && api && assistantId && requestId && mode === 'normal') {\n      queueMicrotask(() => {\n        if (active) loadInitial()\n      })\n    }\n    return () => {\n      active = false\n    }\n  }, [assistantId, api, loadInitial, mode, open, requestId, route])"
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+    "hash": "1FBE2D79B894D7447700197B34865A9625074A13E0812C3B88C71AD338709545",
+    "replacements": [
+      [
+        "    (binding?.model ?? '')",
+        "    (binding?.model ?? '') +\n    ':' +\n    (binding?.version ?? '') +\n    ':' +\n    (executionConnection?.version ?? '') +\n    ':' +\n    String(executionConnection?.enabled ?? '')"
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+    "hash": "97ADAD3307F5C47A4B93CCD3B3FA62406C167E90918CDA9791F0273CBF90D4DB",
+    "replacements": [
+      [
+        "  openTarget,\n  onPermissionsChanged\n}: {",
+        "  openTarget,\n  onPermissionsChanged,\n  onMemoryChanged\n}: {"
+      ],
+      [
+        "  onPermissionsChanged?: () => void\n}): React.JSX.Element {",
+        "  onPermissionsChanged?: () => void\n  onMemoryChanged?: () => void\n}): React.JSX.Element {"
+      ],
+      [
+        "    lastRefreshKey.current = refreshKey\n    if (!assistantId) return\n    let active = true",
+        "    lastRefreshKey.current = refreshKey\n    inspectVersion.current += 1\n    if (!assistantId) return\n    let active = true"
+      ],
+      [
+        "    await loadInspection(objectId)\n  }",
+        "    await loadInspection(objectId)\n    if (expectedGovernance === governanceVersion.current) onMemoryChanged?.()\n  }"
+      ],
+      [
+        "    const key = `${openTarget.assistantId}:${openTarget.id}:${openTarget.nonce}`",
+        "    const key = `${openTarget.assistantId}:${openTarget.id}:${openTarget.nonce}:${String(refreshKey ?? '')}`"
+      ],
+      [
+        "  }, [assistantId, loadInspection, openTarget])",
+        "  }, [assistantId, loadInspection, openTarget, refreshKey])"
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/App.tsx",
+    "hash": "E54D95418F7A8BC79EA28038D032E52282C4CDC6CCC6785A99EBE10F4906CB21",
+    "replacements": [
+      [
+        "  const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)\n  const [memoryOpenTarget",
+        "  const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)\n  const [memoryPermissionEpoch, setMemoryPermissionEpoch] = useState(0)\n  const [memoryOpenTarget"
+      ],
+      [
+        "    nonce: number\n  } | null>(null)\n  const [itemRefreshKey",
+        "    nonce: number\n    snapshotRevision: number\n  } | null>(null)\n  const [itemRefreshKey"
+      ],
+      [
+        "  const receiveMemoryChange = useCallback(() => {\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])\n\n  const openMemory",
+        "  const receiveMemoryChange = useCallback(() => {\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])\n\n  const receiveMemoryPermissionChange = useCallback(() => {\n    setMemoryPermissionEpoch((value) => value + 1)\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])\n\n  const openMemory"
+      ],
+      [
+        "        nonce: (current?.nonce ?? 0) + 1\n      }))",
+        "        nonce: (current?.nonce ?? 0) + 1,\n        snapshotRevision: assistantSnapshot.stateRevision\n      }))"
+      ],
+      [
+        "          key={assistantSnapshot?.currentAssistantId ?? ''}",
+        "          key={`${assistantSnapshot?.currentAssistantId ?? ''}:${memoryPermissionEpoch}`}"
+      ],
+      [
+        "          openTarget={memoryOpenTarget}\n          onPermissionsChanged={receiveMemoryChange}",
+        "          openTarget={\n            memoryOpenTarget &&\n            memoryOpenTarget.assistantId === assistantSnapshot?.currentAssistantId &&\n            memoryOpenTarget.snapshotRevision === assistantSnapshot.stateRevision\n              ? memoryOpenTarget\n              : null\n          }\n          onPermissionsChanged={receiveMemoryPermissionChange}\n          onMemoryChanged={receiveMemoryChange}"
+      ]
+    ]
+  }
+]

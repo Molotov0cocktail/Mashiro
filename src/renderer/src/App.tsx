@@ -55,6 +55,13 @@ export function App(): React.JSX.Element {
     nonce: number
   } | null>(null)
   const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)
+  const [memoryPermissionEpoch, setMemoryPermissionEpoch] = useState(0)
+  const [memoryOpenTarget, setMemoryOpenTarget] = useState<{
+    assistantId: string
+    id: string
+    nonce: number
+    snapshotRevision: number
+  } | null>(null)
   const [itemRefreshKey, setItemRefreshKey] = useState(0)
   const [itemRecoveryTarget, setItemRecoveryTarget] = useState<{
     assistantId: string
@@ -141,6 +148,30 @@ export function App(): React.JSX.Element {
   const receiveMemoryChange = useCallback(() => {
     setMemoryRefreshKey((value) => value + 1)
   }, [])
+
+  const receiveMemoryPermissionChange = useCallback(() => {
+    setMemoryOpenTarget(null)
+    setMemoryPermissionEpoch((value) => value + 1)
+    setMemoryRefreshKey((value) => value + 1)
+  }, [])
+
+  const openMemory = useCallback(
+    (target: { assistantId: string; id: string }): void => {
+      if (!assistantSnapshot || assistantSnapshot.currentAssistantId !== target.assistantId) {
+        setNavigationError('本轮记忆归属已变化，请在当前回答中重新打开。')
+        return
+      }
+      setNavigationError('')
+      setMemoryOpenTarget((current) => ({
+        ...target,
+        nonce: (current?.nonce ?? 0) + 1,
+        snapshotRevision: assistantSnapshot.stateRevision
+      }))
+      setMemoryRefreshKey((value) => value + 1)
+      setActiveView('memory')
+    },
+    [assistantSnapshot]
+  )
 
   const receiveItemChange = useCallback(() => {
     setItemRefreshKey((value) => value + 1)
@@ -615,6 +646,8 @@ export function App(): React.JSX.Element {
           onReminderChanged={() => setReminderRefreshKey((value) => value + 1)}
           onOpenItems={openItems}
           onLocateMemorySource={locateMemorySource}
+          onOpenMemory={openMemory}
+          memoryEvidenceRefreshKey={memoryRefreshKey}
           retentionChange={retentionChange}
           onPrepareRetention={prepareRetention}
           chapterContextTarget={chapterContextTarget}
@@ -684,7 +717,7 @@ export function App(): React.JSX.Element {
       </section>
       <section hidden={activeView !== 'memory'} aria-label="记忆与事件页面">
         <MemoryPanel
-          key={assistantSnapshot?.currentAssistantId ?? ''}
+          key={`${assistantSnapshot?.currentAssistantId ?? ''}:${memoryPermissionEpoch}`}
           assistantId={assistantSnapshot?.currentAssistantId ?? ''}
           assistantName={
             assistantSnapshot?.assistants.find(
@@ -694,6 +727,15 @@ export function App(): React.JSX.Element {
           api={window.mashiro.memory}
           onLocateRound={locateMemorySource}
           refreshKey={memoryRefreshKey}
+          openTarget={
+            memoryOpenTarget &&
+            memoryOpenTarget.assistantId === assistantSnapshot?.currentAssistantId &&
+            memoryOpenTarget.snapshotRevision === assistantSnapshot.stateRevision
+              ? memoryOpenTarget
+              : null
+          }
+          onPermissionsChanged={receiveMemoryPermissionChange}
+          onMemoryChanged={receiveMemoryChange}
           pendingCommands={pendingMemoryCommands}
           retentionChange={retentionChange}
           onPrepareRetention={prepareRetention}

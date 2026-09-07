@@ -1,0 +1,92 @@
+[
+  {
+    "path": "src/main/data/production-restore.ts",
+    "hash": "5E6D25250689733CFA4591A2B941825F37D1CEB48460E801362181B964D64BFD",
+    "edits": [
+      [
+        "  expectedReceipt?: ProductionBackupReceipt",
+        "  expectedReceipt?: ProductionBackupReceipt\n  governCopy?(directory: string, receipt: ProductionBackupReceipt, assertCurrent: () => void): void"
+      ],
+      [
+        "      // A partial or failed copy retains the marker and cannot be opened as a dataset.",
+        "      options.governCopy?.(destination, receipt, assertCurrent)\n      assertCurrent()\n      // A partial or failed copy retains the marker and cannot be opened as a dataset."
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-session.ts",
+    "hash": "7CDF0A6F5E6D1D9175CA52BCDF922923422BDDEBF13483DD2B961821BDC47BA8",
+    "edits": [
+      [
+        "import { join } from 'node:path'",
+        "import { join } from 'node:path'\nimport { restoreProductionBackup } from './production-restore.js'\nimport { governRestoredProductionCopy } from './production-governance-restore.js'"
+      ],
+      [
+        "  select(directory: string, assertQuiescent: () => void): Promise<void>",
+        "  select(directory: string, assertQuiescent: () => void): Promise<void>\n  restore(backupDirectory: string, destinationDirectory: string, expectedReceipt: ProductionBackupReceipt | undefined, assertQuiescent: () => void): Promise<void>"
+      ],
+      [
+        "      async select(directory: string, assertQuiescent: () => void) {",
+        "      async restore(backupDirectory: string, destinationDirectory: string, expectedReceipt: ProductionBackupReceipt | undefined, assertQuiescent: () => void) {\n        assertMaintenance(assertQuiescent)\n        settleProductionGovernance(governance, dataSetId, dataPath)\n        await restoreProductionBackup({\n          backupDirectory, destinationDirectory, expectedReceipt, signal: cancellation.signal,\n          governCopy: (directory, receipt, check) => governRestoredProductionCopy(governance, receipt.dataSetId, directory, () => { check(); assertMaintenance(assertQuiescent) })\n        })\n      },\n      async select(directory: string, assertQuiescent: () => void) {"
+      ],
+      [
+        "          const selected = inspectProductionDataSet(target.dataPath)\n          await",
+        "          const selected = inspectProductionDataSet(target.dataPath)\n          settleProductionGovernance(governance, selected.manifest.dataSetId, target.dataPath)\n          await"
+      ],
+      [
+        "          locations.bind(target.dataPath, openedFingerprint, selected.manifest.dataSetId)",
+        "          const unregisterTarget = registerPreparedProductionGovernance({ index: governance, dataSetId: selected.manifest.dataSetId, dataDirectory: target.dataPath, assertOwnership: assertHeld, onUncertain: () => lost(new Error('GOVERNANCE_STATE_UNCERTAIN')) })\n          unregisterTarget()\n          locations.bind(target.dataPath, openedFingerprint, selected.manifest.dataSetId)"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-maintenance.ts",
+    "hash": "24F1AF0C5632C19C7F68CD56A167283CFD786337C4A41A0CEC4F5F58D02CA829",
+    "edits": [
+      [
+        "import { restoreProductionBackup } from './production-restore.js'\n",
+        ""
+      ],
+      [
+        "        await restoreProductionBackup({\n          backupDirectory: backup,\n          destinationDirectory: directory,\n          signal: new AbortController().signal,\n          expectedReceipt: approvedReceipt\n        })",
+        "        await session.restore(backup, directory, approvedReceipt, assertQuiescent)"
+      ],
+      [
+        "恢复的是该时间的完整状态，之后的修改和删除不会包含在副本内。当前数据仍保留原位，不会覆盖。",
+        "恢复副本会应用本机已知的后来删除、纠正和撤权；无法取回的后来正文不会恢复旧版本。连接及自动后台工作将暂停，请检查后重新启用。当前数据仍保留原位，不会覆盖。"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-startup-restore.ts",
+    "hash": "D595ABFA6E764279154978CF1456CF5D13977BF19DCDBC2CC2487A9B5F7C7649",
+    "edits": [
+      [
+        "import { readdirSync } from 'node:fs'",
+        "import { readdirSync } from 'node:fs'\nimport { acquireProductionLease, assertProductionLease } from './production-lease.js'\nimport { ProductionGovernanceIndex } from './production-governance-index.js'\nimport { governRestoredProductionCopy } from './production-governance-restore.js'"
+      ],
+      [
+        "  dialogs: ProductionDialogs\n",
+        "  dialogs: ProductionDialogs,\n  configurationDirectory?: string\n"
+      ],
+      [
+        "原数据保留原位；备份时间之后的修改和删除不包含在副本中。",
+        "原数据保留原位；副本应用本机已知的后来删除、纠正和撤权，缺失的后来正文不会用旧版本替代。连接及自动后台工作暂停，请检查后重新启用。"
+      ],
+      [
+        "  await restoreProductionBackup({\n    backupDirectory,\n    destinationDirectory,\n    signal: new AbortController().signal,\n    expectedReceipt: receipt\n  })",
+        "  const lease = configurationDirectory ? await acquireProductionLease(configurationDirectory, () => {}) : undefined\n  try {\n    const index = lease ? new ProductionGovernanceIndex(configurationDirectory!, lease) : undefined\n    await restoreProductionBackup({\n      backupDirectory, destinationDirectory, signal: new AbortController().signal, expectedReceipt: receipt,\n      governCopy: index ? (directory, snapshot, check) => governRestoredProductionCopy(index, snapshot.dataSetId, directory, () => { check(); assertProductionLease(lease!, configurationDirectory!) }) : undefined\n    })\n  } finally { await lease?.release() }"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-bootstrap.ts",
+    "hash": "196B10AA6DCFC287BC4135028EB126D53A9FAEDA4A919CB841EDD8ACED59A858",
+    "edits": [
+      [
+        "restoreProductionAtStartup(options.dialogs)",
+        "restoreProductionAtStartup(options.dialogs, options.paths.configurationDirectory)"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "path": "src/renderer/src/App.tsx",
+    "hash": "E54D95418F7A8BC79EA28038D032E52282C4CDC6CCC6785A99EBE10F4906CB21",
+    "replacements": [
+      [
+        "  const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)\n  const [memoryOpenTarget",
+        "  const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)\n  const [memoryPermissionEpoch, setMemoryPermissionEpoch] = useState(0)\n  const [memoryOpenTarget"
+      ],
+      [
+        "  const [memoryOpenTarget, setMemoryOpenTarget] = useState<{\n    assistantId: string\n    id: string\n    nonce: number\n  } | null>(null)",
+        "  const [memoryOpenTarget, setMemoryOpenTarget] = useState<{\n    assistantId: string\n    id: string\n    nonce: number\n    snapshotRevision: number\n  } | null>(null)"
+      ],
+      [
+        "  const receiveMemoryChange = useCallback(() => {\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])\n\n  const openMemory",
+        "  const receiveMemoryChange = useCallback(() => {\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])\n\n  const receiveMemoryPermissionChange = useCallback(() => {\n    setMemoryPermissionEpoch((value) => value + 1)\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])\n\n  const openMemory"
+      ],
+      [
+        "      setMemoryOpenTarget((current) => ({\n        ...target,\n        nonce: (current?.nonce ?? 0) + 1\n      }))\n      setMemoryRefreshKey",
+        "      setMemoryOpenTarget((current) => ({\n        ...target,\n        nonce: (current?.nonce ?? 0) + 1,\n        snapshotRevision: assistantSnapshot.stateRevision\n      }))\n      setMemoryRefreshKey"
+      ],
+      [
+        "        <MemoryPanel\n          key={assistantSnapshot?.currentAssistantId ?? ''}\n          assistantId=",
+        "        <MemoryPanel\n          key={`${assistantSnapshot?.currentAssistantId ?? ''}:${memoryPermissionEpoch}`}\n          assistantId="
+      ],
+      [
+        "          openTarget={memoryOpenTarget}\n          onPermissionsChanged={receiveMemoryChange}\n          pendingCommands=",
+        "          openTarget={\n            memoryOpenTarget &&\n            memoryOpenTarget.assistantId === assistantSnapshot?.currentAssistantId &&\n            memoryOpenTarget.snapshotRevision === assistantSnapshot.stateRevision\n              ? memoryOpenTarget\n              : null\n          }\n          onPermissionsChanged={receiveMemoryPermissionChange}\n          onMemoryChanged={receiveMemoryChange}\n          pendingCommands="
+      ]
+    ]
+  }
+]

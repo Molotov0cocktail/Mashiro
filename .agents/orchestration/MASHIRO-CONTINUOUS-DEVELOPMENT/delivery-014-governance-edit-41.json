@@ -1,0 +1,32 @@
+[
+  {
+    "path": "src/main/data/production-governance-index.ts",
+    "hash": "832284A009BD75A67707BBF2E72346C4A39B2681633C8723F39FEB2F1F32A43A",
+    "edits": [
+      [
+        "import { join } from 'node:path'",
+        "import { join } from 'node:path'\nimport { readGovernanceSeed } from './production-governance-seed.js'"
+      ],
+      [
+        "seed: z.strictObject({ id: z.uuid(), hash: z.string().regex(/^[a-f0-9]{64}$/) }).optional(),",
+        "seed: z.strictObject({ id: z.uuid(), hash: z.string().regex(/^[a-f0-9]{64}$/), bytes: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER).optional() }).optional(),"
+      ],
+      [
+        "    durableWrite(path, value, false)\n    return {",
+        "    const serialized = Buffer.from(JSON.stringify(value))\n    const bytes = serialized.length, expectedHash = hash(serialized)\n    durableWrite(path, value, false)\n    readGovernanceSeed(path, expectedHash, bytes)\n    return {"
+      ],
+      [
+        "seed: { id, hash: hash(readMetadata(path)) }",
+        "seed: { id, hash: expectedHash, bytes }"
+      ],
+      [
+        "const bytes = readMetadata(join(this.directory, 'seed-' + entry.seed.id + '.json'))",
+        "const bytes = readGovernanceSeed(join(this.directory, 'seed-' + entry.seed.id + '.json'), entry.seed.hash, entry.seed.bytes)"
+      ],
+      [
+        "      if (lstatSync(path, { throwIfNoEntry: false })) {\n        readMetadata(path)",
+        "      if (lstatSync(path, { throwIfNoEntry: false })) {\n        const partial = lstatSync(path)\n        if (!partial.isFile() || partial.isSymbolicLink()) throw Error('GOVERNANCE_PARTIAL_INVALID', { cause: error })"
+      ]
+    ]
+  }
+]

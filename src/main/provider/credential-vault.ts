@@ -1,4 +1,12 @@
-import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs'
 import { join } from 'node:path'
 
 export interface CredentialProtector {
@@ -41,6 +49,8 @@ export class CredentialVault {
       rmSync(temporary, { force: true })
       throw error
     }
+    // The explicit new persistent Key has replaced the old encrypted bytes successfully.
+    rmSync(this.path(connectionId) + '.revoked', { force: true })
     this.temporary.delete(connectionId)
   }
 
@@ -48,6 +58,24 @@ export class CredentialVault {
     const temporary = this.temporary.get(connectionId)
     if (temporary !== undefined) return temporary
     const path = this.path(connectionId)
+    const revocation = path + '.revoked'
+    // Only a genuinely absent marker permits decryption; dangling links and I/O errors do not.
+    try {
+      const stat = lstatSync(revocation, { throwIfNoEntry: false })
+      if (stat) {
+        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 512) return undefined
+        const marker = JSON.parse(readFileSync(revocation, 'utf8'))
+        if (
+          marker.format !== 1 ||
+          marker.connectionId !== connectionId ||
+          marker.reason !== 'restored-deletion'
+        )
+          return undefined
+        return undefined
+      }
+    } catch {
+      return undefined
+    }
     if (!existsSync(path) || !this.protector.isEncryptionAvailable()) return undefined
     try {
       return this.protector.decryptString(readFileSync(path))

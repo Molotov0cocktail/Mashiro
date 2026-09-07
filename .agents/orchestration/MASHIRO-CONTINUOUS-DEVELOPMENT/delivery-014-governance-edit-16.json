@@ -1,0 +1,72 @@
+[
+  {
+    "path": "src/main/data/production-governance-journal.ts",
+    "hash": "C6C8B269E341EB57B6A2E9B54DDCDACE4A8BDDFD04C2879AA2C58C0579583F81",
+    "edits": [
+      [
+        "    projections: GovernanceProjection[]\n  ): ProductionGovernanceJournal {",
+        "    projections: GovernanceProjection[],\n    journalId: string = randomUUID()\n  ): ProductionGovernanceJournal {"
+      ],
+      [
+        "journal.append({ kind: 'header', format: 1, dataSetId, journalId: randomUUID() })",
+        "journal.append({ kind: 'header', format: 1, dataSetId, journalId: z.uuid().parse(journalId) })"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-index.ts",
+    "hash": "9E6927F5EAC4DA8CEBEE847D100C451508DB381527010DEA1F4CF24AA727272F",
+    "edits": [
+      [
+        "  stamp(dataDirectory: string, journal: ProductionGovernanceJournal): void {",
+        "  importVerified(dataSetId: string, dataDirectory: string, anchor: GovernanceAnchor, projections: GovernanceProjection[], journalId: string): ProductionGovernanceJournal {\n    this.assertHeld()\n    if (this.registry.entries.some((entry) => entry.dataSetId === dataSetId)) throw Error('GOVERNANCE_IMPORT_ALREADY_KNOWN')\n    const locatorPath = join(this.configurationDirectory, 'location.json')\n    if (existsSync(locatorPath)) {\n      const locator = JSON.parse(readMetadata(locatorPath).toString('utf8'))\n      if (locator.dataSetId === dataSetId) throw Error('GOVERNANCE_KNOWN_LOCATOR_REQUIRES_LEDGER')\n    }\n    const markerPath = join(canonicalProductionDirectory(dataDirectory), '.mashiro-governance.json')\n    if (existsSync(markerPath)) {\n      const marker = markerSchema.parse(JSON.parse(readMetadata(markerPath).toString('utf8')))\n      if (marker.dataSetId !== dataSetId || marker.journalId !== journalId) throw Error('GOVERNANCE_IMPORT_MARKER_MISMATCH')\n    }\n    const entry: Registry['entries'][number] = { dataSetId, state: 'PREPARING', journalId, anchor }\n    this.registry.entries.push(entry); this.persist()\n    const journal = ProductionGovernanceJournal.create(this.directory, dataSetId, anchor, projections, journalId)\n    entry.state = 'READY'; this.persist(); this.stamp(dataDirectory, journal)\n    return journal\n  }\n  stamp(dataDirectory: string, journal: ProductionGovernanceJournal): void {"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-backup.ts",
+    "hash": "FFB99DE8407ED5ABC36F90DF49AA8433E659604EB0D287134D6E5ADC51E25B38",
+    "edits": [
+      [
+        "  const files = ['.mashiro-dataset.json', 'mashiro.sqlite']",
+        "  const files = ['.mashiro-dataset.json', 'mashiro.sqlite']\n  for (const name of ['.mashiro-governance.json', '.mashiro-governance-backup.json']) if (existsSync(join(root, name))) files.push(name)"
+      ],
+      [
+        "(?:\\.mashiro-dataset\\.json|mashiro\\.sqlite|",
+        "(?:\\.mashiro-dataset\\.json|\\.mashiro-governance(?:-backup)?\\.json|mashiro\\.sqlite|"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-session.ts",
+    "hash": "A6FC955D22A4A09AB98D6B732A08FC85C572BAC93E4BA6F17657A949CF885F46",
+    "edits": [
+      [
+        "import { join } from 'node:path'",
+        "import { join } from 'node:path'\nimport { writePortableGovernance } from './production-governance-portable.js'"
+      ],
+      [
+        "        return createProductionBackup({",
+        "        settleProductionGovernance(governance, dataSetId, dataPath)\n        writePortableGovernance(dataPath, governance.known(dataSetId)!)\n        return createProductionBackup({"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-restore.ts",
+    "hash": "B380646BA7447B487910B5A8C340CC33CAADE6E031AD0F63E4F8CCC56FF10362",
+    "edits": [
+      [
+        "import { existsSync } from 'node:fs'",
+        "import { existsSync } from 'node:fs'\nimport { readPortableGovernance, writePortableGovernance } from './production-governance-portable.js'\nimport { governanceKey } from './production-governance-catalog.js'"
+      ],
+      [
+        "  const snapshot = journal?.snapshot()",
+        "  const portable = readPortableGovernance(directory, dataSetId)\n  const snapshot = journal?.snapshot() ?? portable"
+      ],
+      [
+        "    if (journal) {\n      journal.enrollInstance(anchor)\n      index.stamp(directory, journal)\n    } else index.initialize(dataSetId, directory, anchor, baseline)",
+        "    let enrolled = journal\n    if (enrolled) {\n      enrolled.enrollInstance(anchor)\n      index.stamp(directory, enrolled)\n    } else if (portable) {\n      const combined = new Map(portable.projections.map((p) => [governanceKey(p), p]))\n      for (const row of baseline) combined.set(governanceKey(row), row)\n      enrolled = index.importVerified(dataSetId, directory, anchor, [...combined.values()], portable.journalId)\n    } else enrolled = index.initialize(dataSetId, directory, anchor, baseline)\n    writePortableGovernance(directory, enrolled)"
+      ]
+    ]
+  }
+]

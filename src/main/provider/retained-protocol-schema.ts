@@ -88,6 +88,6 @@ export function migrateRetainedProtocol(database: DatabaseSync): void {
       database.exec('PRAGMA foreign_keys=ON')
     }
   }
-  if (Number(database.prepare('PRAGMA user_version').get()!.user_version) === 16)
+  if (Number(database.prepare('PRAGMA user_version').get()!.user_version) >= 16)
     verify(database, true)
 }

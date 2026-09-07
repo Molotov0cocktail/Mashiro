@@ -28,6 +28,8 @@
 
 独立只读预审plan_007发现MEM-002缺本轮具体记忆来源/提供版本和对象导航，root已核proposal §3.3及Provider/MemoryPanel实际路径，纳入必需[017](017-round-memory-provenance.md)实施。既有008单对象来源详情不被作废，但D03不能再以此整体结算。预审未发现整类确认需求被总表排除；已有013积压响应性和015有限兼容证据不被误报遗漏。该预审不是整体或制品PASS，实际模型元数据未披露，角色历史参与007规划也如实保留。
 
+另有[root源码待验证点](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/overall-016-old-receipt-access-check.md)：超过默认384条业务回执后，旧轮次未确认/结果未知操作是否仍有直接用户入口。既有可信API支持按requestId读取；先检查其他运行记录入口并建立实际用户流反例，不把源码疑点提前写成已证实FAIL，也不静默遗漏。
+
 ## 完成条件
 
 - [ ] 总覆盖每项必需功能均有实现、用户入口和相称验收；原始后置/可选项清楚保留。

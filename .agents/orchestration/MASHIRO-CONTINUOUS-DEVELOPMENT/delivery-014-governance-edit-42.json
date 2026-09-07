@@ -1,0 +1,1 @@
+{"path":"src/main/data/production-governance-seed.ts","hash":"D10B0A448ABF6C3FB47431FC86B38C13EC023DFFF5AEF30BE88DD3226904725C","old":"      current.dev !== opened.dev ||","new":"      !current.isFile() ||\n      current.size !== length ||\n      current.mtimeMs !== opened.mtimeMs ||\n      current.dev !== opened.dev ||"}

@@ -3,6 +3,16 @@ import { createHash } from 'node:crypto'
 import type { ReminderPlatform } from './reminder-service.js'
 
 export const reminderAppId = 'Mashiro.Desktop'
+export const quoteLoginExecutablePath = (path: string) => `"${path}"`
+type LoginItem = ReturnType<typeof app.getLoginItemSettings>['launchItems'][number]
+type LoginSnapshot = {
+  openAtLogin: boolean
+  executableWillLaunchAtLogin: boolean
+  item: Pick<LoginItem, 'name' | 'path' | 'args' | 'scope' | 'enabled'> | null
+}
+
+const sameLoginSnapshot = (left: LoginSnapshot, right: LoginSnapshot) =>
+  JSON.stringify(left) === JSON.stringify(right)
 export function parseReminderActivation(argumentsText: string): { id: string; version: number }[] {
   if (argumentsText.length > 6000 || !argumentsText.startsWith('mashiro-reminders:')) return []
   const values = argumentsText.slice('mashiro-reminders:'.length).split(',')
@@ -24,14 +34,77 @@ export function parseReminderGroupActivation(argumentsText: string): string | nu
 }
 export function createWindowsReminderPlatform(): ReminderPlatform {
   const supported = () => process.platform === 'win32' && app.isPackaged
-  const settings = () => ({ path: process.execPath, args: ['--mashiro-login'] })
+  const settings = () => ({
+    path: quoteLoginExecutablePath(process.execPath),
+    args: ['--mashiro-login']
+  })
+  const snapshot = (): LoginSnapshot => {
+    const current = app.getLoginItemSettings(settings())
+    const item = current.launchItems.find(
+      (candidate) => candidate.name === reminderAppId && candidate.scope === 'user'
+    )
+    return {
+      openAtLogin: current.openAtLogin,
+      executableWillLaunchAtLogin: current.executableWillLaunchAtLogin,
+      item: item
+        ? {
+            name: item.name,
+            path: item.path,
+            args: [...item.args],
+            scope: item.scope,
+            enabled: item.enabled
+          }
+        : null
+    }
+  }
   return {
     notificationSupported: () => Notification.isSupported(),
     loginStartupSupported: supported,
-    getLoginStartup: () => supported() && app.getLoginItemSettings(settings()).openAtLogin,
+    getLoginStartup: () => {
+      if (!supported()) return false
+      const current = snapshot()
+      return (
+        current.openAtLogin &&
+        current.executableWillLaunchAtLogin &&
+        current.item?.path.toLocaleLowerCase('en-US') ===
+          process.execPath.toLocaleLowerCase('en-US') &&
+        current.item.enabled
+      )
+    },
     setLoginStartup: (value) => {
       if (!supported()) throw new Error('Login startup unavailable in development')
-      app.setLoginItemSettings({ ...settings(), openAtLogin: value, name: 'Mashiro' })
+      const before = snapshot()
+      app.setLoginItemSettings({ ...settings(), openAtLogin: value, enabled: value })
+      const after = snapshot()
+      return {
+        rollbackIfUnchanged: () => {
+          try {
+            const current = snapshot()
+            if (!sameLoginSnapshot(current, after)) return 'CONCURRENT_CHANGE'
+            if (sameLoginSnapshot(before, after)) return 'UNCHANGED'
+            // A successful disable and a concurrent move to another path are identical
+            // through this API. Never write a compensating registration without the exact
+            // entry created by this operation still being observable.
+            if (!after.openAtLogin || !after.item) return 'UNKNOWN'
+            if (before.openAtLogin && before.item) {
+              app.setLoginItemSettings({
+                ...settings(),
+                openAtLogin: true,
+                enabled: before.item.enabled
+              })
+              return sameLoginSnapshot(snapshot(), before) ? 'RESTORED' : 'UNKNOWN'
+            }
+            // Electron omits command-line switches from launchItems.args and only enumerates
+            // entries at the queried path. Remove this call's exact entry, but do not claim
+            // an earlier different-path or different-arguments registration was restored.
+            app.setLoginItemSettings({ ...settings(), openAtLogin: false, enabled: false })
+            snapshot()
+            return 'UNKNOWN'
+          } catch {
+            return 'UNKNOWN'
+          }
+        }
+      }
     },
     show: (input, event) => {
       if (input.groupId !== undefined && !/^[a-f0-9]{64}$/.test(input.groupId))

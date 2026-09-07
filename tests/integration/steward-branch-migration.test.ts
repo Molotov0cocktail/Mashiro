@@ -24,7 +24,7 @@ it('migrates populated v12 branch metadata to a persistent v13 guard without rep
   prior.close()
   try {
     store = new SqliteStore(path)
-    expect(store.database.prepare('PRAGMA user_version').get()!.user_version).toBe(16)
+    expect(store.database.prepare('PRAGMA user_version').get()!.user_version).toBe(18)
     expect(store.database.prepare('SELECT * FROM memory_branches').get()).toMatchObject({
       id,
       version: 17,

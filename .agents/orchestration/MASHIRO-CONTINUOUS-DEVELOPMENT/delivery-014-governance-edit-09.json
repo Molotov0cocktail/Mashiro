@@ -1,0 +1,40 @@
+[
+  {
+    "path": "src/main/data/production-session.ts",
+    "hash": "FB7509E184FFB435E1F06DD4206DE6F4F46967C809305C4F6281ACF7FE84B302",
+    "edits": [
+      [
+        "import { initializeProductionDataSet } from './production-initialize.js'",
+        "import { initializeProductionDataSet } from './production-initialize.js'\nimport { ProductionGovernanceIndex } from './production-governance-index.js'\nimport { registerPreparedProductionGovernance, settleProductionGovernance } from './production-governance-lifecycle.js'"
+      ],
+      [
+        "  let released = false\n  try {",
+        "  let released = false\n  let unregisterGovernance: (() => void) | undefined\n  try {\n    const governance = new ProductionGovernanceIndex(options.configurationDirectory, configurationLease)"
+      ],
+      [
+        "      dataSetId = checked.manifest.dataSetId\n      await options.prepareExisting(",
+        "      dataSetId = checked.manifest.dataSetId\n      settleProductionGovernance(governance, dataSetId, dataPath)\n      await options.prepareExisting("
+      ],
+      [
+        "        dataSetId = checked.manifest.dataSetId\n        await options.prepareExisting(",
+        "        dataSetId = checked.manifest.dataSetId\n        settleProductionGovernance(governance, dataSetId, dataPath)\n        await options.prepareExisting("
+      ],
+      [
+        "      locations.bind(dataPath, initial.fingerprint, dataSetId)",
+        "      unregisterGovernance = registerPreparedProductionGovernance({ index: governance, dataSetId, dataDirectory: dataPath, assertOwnership: assertHeld, onUncertain: () => lost(new Error('GOVERNANCE_STATE_UNCERTAIN')) })\n      locations.bind(dataPath, initial.fingerprint, dataSetId)"
+      ],
+      [
+        "    const heldData = dataLease",
+        "    unregisterGovernance ??= registerPreparedProductionGovernance({ index: governance, dataSetId, dataDirectory: dataPath, assertOwnership: assertHeld, onUncertain: () => lost(new Error('GOVERNANCE_STATE_UNCERTAIN')) })\n    const heldData = dataLease"
+      ],
+      [
+        "        if (released) return\n        released = true",
+        "        if (released) return\n        unregisterGovernance?.()\n        released = true"
+      ],
+      [
+        "    if (!returned) {\n      try {",
+        "    if (!returned) {\n      unregisterGovernance?.()\n      try {"
+      ]
+    ]
+  }
+]

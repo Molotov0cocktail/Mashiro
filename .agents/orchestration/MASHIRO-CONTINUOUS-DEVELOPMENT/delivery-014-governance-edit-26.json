@@ -1,0 +1,16 @@
+[
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "697815DBAFEF27D3CAD972B18F6E31CC02EF10BB73CE1C494B3F7BE30CB795D1",
+    "edits": [
+      [
+        "import { createHash } from 'node:crypto'",
+        "import { createHash } from 'node:crypto'\nimport { expandRestoredMemoryBarriers } from './production-governance-dependencies.js'"
+      ],
+      [
+        "  // Facts derived from corrected/withdrawn facts are suppressed; retained raw-source edges are different.\n  let changed = true\n  while (changed) {\n    changed = false\n    for (const row of database\n      .prepare(\n        \"SELECT node_id,source_id,source_type FROM memory_dependencies WHERE node_type='memory'\"\n      )\n      .all()) {\n      if (\n        row.source_type === 'memory' &&\n        memories.has(at(row.source_id)) &&\n        !memories.has(at(row.node_id))\n      ) {\n        memories.add(at(row.node_id))\n        changed = true\n      }\n    }\n  }",
+        "  expandRestoredMemoryBarriers(database, projections, memories, rounds, floor)"
+      ]
+    ]
+  }
+]

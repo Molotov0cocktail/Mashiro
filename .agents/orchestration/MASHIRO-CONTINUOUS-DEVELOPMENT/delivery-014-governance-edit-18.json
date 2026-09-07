@@ -1,0 +1,40 @@
+[
+  {
+    "path": "src/main/data/production-governance-catalog.ts",
+    "hash": "2E3E5AC5F312C88AA0AB37EE0246212B352A96604B51D3EEE3B38C25196DE14B",
+    "edits": [
+      [
+        "import { itemSourceSchema } from '../../shared/item-contract.js'",
+        "import { itemSourceSchema } from '../../shared/item-contract.js'\nimport { reminderStateSchema } from '../../shared/reminder-contract.js'"
+      ],
+      [
+        "  retained_source_edges: {",
+        "  reminders: {\n    keys: [identifier('id')],\n    values: [identifier('item_id'), revision(), field('state', reminderStateSchema), field('due_at', z.iso.datetime({ offset: true })), jsonField('itemVersion', version), jsonField('timeZone', z.string().max(100))]\n  },\n  reminder_occurrences: { keys: [identifier('reminder_id'), revision()], values: [field('state', reminderStateSchema)] },\n  retained_source_edges: {"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "593E8FED770DFE3106F51623671DCBFD4C1E8B3720866D3C3538831510699D29",
+    "edits": [
+      [
+        "import { createHash } from 'node:crypto'",
+        "import { createHash } from 'node:crypto'\nimport { applyRestoredReminderGovernance } from './production-governance-reminders.js'"
+      ],
+      [
+        "    mergePermissions(database, projections)",
+        "    applyRestoredReminderGovernance(database, projections, items)\n    mergePermissions(database, projections)"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-check.ts",
+    "hash": "459ACE94D3F32938018812EACBFE70A2464E938643DFD995D594F6FAF5EE5D77",
+    "edits": [
+      [
+        "    if (prior.table === 'provider_connections'",
+        "    if (prior.table === 'reminders' && ['RESULT_UNKNOWN', 'CANCELLED', 'HANDLED'].includes(String(values[2])) && Number(values[1]) >= Number(old[1])) continue\n    if (prior.table === 'provider_connections'"
+      ]
+    ]
+  }
+]

@@ -21,10 +21,24 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['scripts/**/*.mjs'],
+    files: [
+      'scripts/**/*.mjs',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-current-source-snapshot.mjs',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-verify.mjs',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-format.mjs',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-guarded-writer.mjs',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe.cjs'
+    ],
     languageOptions: {
       globals: { ...globals.node }
     }
+  },
+  {
+    files: [
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe.cjs'
+    ],
+    languageOptions: { sourceType: 'commonjs' },
+    rules: { '@typescript-eslint/no-require-imports': 'off' }
   },
   {
     files: ['src/**/*.{ts,tsx}', 'tests/**/*.{ts,tsx}'],

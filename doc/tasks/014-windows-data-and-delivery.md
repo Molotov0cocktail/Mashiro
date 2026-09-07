@@ -15,6 +15,10 @@
 
 ## 最新实际制品进展
 
+最新源码状态（2026-09-07）：治理v4已[独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-final-v4.md)，原P1协议正文与P2旧凭据复活均关闭，26文件65tests及65路径哈希核对通过。新增大seed容量v5的最终文件截短竞态由独立Reviewer发现，v6已修并获[原Reviewer独立增量PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-seed-v6-final-pass.md)，4文件9tests；不撤销适用的v4证据。登录启动v2已[root独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-independent-pass-v2.md)，4文件20tests与实际Electron隔离probe有效，尚非新安装版验收。安装执行者继续普通退出后保存当前完整合成备份；旧备份早于提醒修改，不能冒充升级前数据现状。升级前新全域备份be252177-5477-4b80-916a-862399a8e04c已由旧安装正式菜单生成并退出；root独立核对13项源/payload大小与SHA全部一致，见[证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-root-hashes-01.json)。后续通知实验如再改源，必须记录差异并更新升级基线。以下保留原始失败与阶段记录。
+
+当前治理恢复独立审核尚为REPAIR：v3已关闭协议续接正文残留R014-P1，独立两文件5项通过；新R014-P2证明“旧Key删除→新Key提供→恢复旧备份”仍会重新解密旧blob，作者继续修凭据版本屏障及版本不倒退，不能以latest persistent=true取消旧屏障。原始失败与修复记录保留于[独立修复报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-repair-v2.md)及review014-key-red原始证据。正式session 17→18重开、提交token结算和坏账本还原拒绝已有独立反例；整套最终PASS及制品验证仍待。
+
 2026-09-07旧版全域安装限定节点已完成：`0.0.9-internal.1`（8154d0e/schema15）通过原生窗口选择全域合成数据并完成完整备份后退出。备份ID为1827d1e6-580e-402f-a596-3b0922e0b2ed；root独立逐项核验13项payload与源文件的大小/SHA一致。见[实际安装备份证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-baseline-selection-backup-01.json)。这不覆盖升级、最终通知、凭据实际解密、卸载或发布；旧制品保持未签名内部验收用途。
 
 已完成[原生限定资格](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-native-qualified-01.md)：新空目录还原后同助手、schema15、完整性和位置核对成功，受保护凭据落盘及重开状态已验，实际解密另待。2026-09-07进一步确认[旧备份治理缺口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-governance-gap.md)：当前实现只还原旧快照，未合并后来已知撤回/纠正/权限屏障。E04/E06和009闭环5仍待实现及独立反例，不以回退确认取消要求。015已审提交后，该增量由steward_013_trusted（实际gpt-6-astra/medium）单写实施schema17及生产治理接线，root独立复核；保留已审015协议行为。以下保留原生过程记录。

@@ -1,0 +1,12 @@
+[
+  {
+    "path": "tests/integration/production-governance-credential-generation.test.ts",
+    "hash": "1647F6260F4E212A0B7C554157F037C7395F812A8DE1F76DAD89986398C72FB4",
+    "edits": [
+      [
+        "saveConnection({ id, displayName:",
+        "saveConnection({ connectionId: id, expectedVersion: Number(later.database.prepare('SELECT version FROM provider_connections WHERE id=?').get(id)!.version), displayName:"
+      ]
+    ]
+  }
+]

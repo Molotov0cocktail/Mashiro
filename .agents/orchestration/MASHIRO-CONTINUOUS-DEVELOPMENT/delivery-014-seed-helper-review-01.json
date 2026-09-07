@@ -1,0 +1,36 @@
+{
+  "scope": "proportionate read-only review of three synthetic delivery helpers; no helper execution, Provider call, product change, or installation claim",
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-014-staged-bytes.mjs",
+      "sha256": "11834C1C47368F1ACCE85F0BE01F50B19F9018D658D278E726CD55F11D90050B",
+      "nodeCheck": "PASS",
+      "finding": "Buffer and process are explicit node:buffer and node:process imports; staged blobs are obtained with exact git index paths and compared byte-for-byte, with documented CRLF normalization only for staged Markdown."
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-proposal.mjs",
+      "sha256": "0856C6016D4699674E750A66A1CB553DB1C4CD27DC47A85AF5FBB100C0FBCE13",
+      "nodeCheck": "PASS",
+      "finding": "process is an explicit node:process import. Every bundled src/** load is intercepted and read with git show from exact commit 8154d0e09fc95014b8d205f8ed70c0028557208e. Synthetic run/data-set identity, READY state, schema 15, integrity, foreign keys, active assistant, real production lease, before/after domain counts, one DRAFT_PROPOSAL, store close and lease release are checked. No source provider is called."
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-full-domain-seed.mjs",
+      "sha256": "B673D9EA3B7988BF6D8667F5D02AC535608AC0217D5E095D8099BC256E7F0B35",
+      "nodeCheck": "PASS",
+      "finding": "The source must be an owned top-level mashiro-f1-e2e temp root with matching run marker and successful seed/verify results. SQLite is opened read-only, integrity/schema/foreign keys and nine table counts are checked, symlinks and special entries are rejected, copied bytes are hashed, non-empty WAL/SHM is rejected, the target is a fresh mkdtemp scene, production initialization creates the data-set marker under a real lease, and the lease is released. The source path is never opened for write."
+    }
+  ],
+  "proposalReceiptObserved": {
+    "sourceFiles": 14,
+    "schemaVersion": 15,
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "proposalId": "d918a464-d6da-4813-9fdb-8b09e22521c2",
+    "onlyItemProposalCountChanged": true
+  },
+  "limitations": [
+    "This review relies on the recorded successful receipts for the one-time mutations and does not rerun either seed helper.",
+    "The full-domain converter bundles the then-current production initializer rather than reconstructing that initializer from the baseline commit; its output is therefore a synthetic installation input, not evidence that the old installer created the data set.",
+    "The proposal helper records the exact loaded src file list but does not hard-code an expected dependency list; the recorded 14-file list was inspected and every src load is nevertheless git-show pinned."
+  ],
+  "result": "PASS_WITHIN_SCOPE"
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "B297AE7343AAA203BED2713BF45D8EC6F2368649D57D5406903752FF8956EC4E",
+    "edits": [
+      [
+        "  const files = new Set<string>()",
+        "  const files = new Set<string>(), retiredItems = new Set<string>()"
+      ],
+      [
+        "    if (p.table === 'item_tombstones')\n      (p.keys[0] === 'proposal' ? proposals : items).add(at(p.keys[1]))",
+        "    if (p.table === 'item_tombstones') {\n      (p.keys[0] === 'proposal' ? proposals : items).add(at(p.keys[1]))\n      if (p.keys[0] === 'item') retiredItems.add(at(p.keys[1]))\n    }"
+      ],
+      [
+        "    if (p.table === 'items' || p.table === 'item_proposals') {",
+        "    if (p.table === 'items' && p.deleted) retiredItems.add(at(p.keys[0]))\n    if (p.table === 'items' || p.table === 'item_proposals') {"
+      ],
+      [
+        "    for (const id of items) {\n      const row",
+        "    for (const id of items) {\n      if (retiredItems.has(id)) {\n        database.prepare(\"INSERT OR IGNORE INTO item_tombstones VALUES('item',?)\").run(id)\n        database.prepare('DELETE FROM items WHERE id=?').run(id)\n        database.prepare(\"DELETE FROM item_sources WHERE node_type='item' AND node_id=?\").run(id)\n        continue\n      }\n      const row"
+      ]
+    ]
+  }
+]

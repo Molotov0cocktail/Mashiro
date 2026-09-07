@@ -1,0 +1,26 @@
+[
+  {
+    "path": "src/main/data/production-governance-catalog.ts",
+    "hash": "1D6CEEEE06B27D697DDEA2F3A515BA344672B717DA97F68F56AB7B41C4611F37",
+    "edits": [
+      [
+        "z.enum(['withdrawal', 'correction'])",
+        "z.enum(['withdrawal', 'representation'])"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-journal.ts",
+    "hash": "0400524C0B37088EE91DE121692CFD2914936E59BB2D528DD8C48144043EA221",
+    "edits": [
+      [
+        "    if (JSON.stringify(this.instances.get(anchor.instanceId)) !== JSON.stringify(anchor)) throw Error('GOVERNANCE_INSTANCE_MISMATCH')",
+        "    const expected = this.instances.get(anchor.instanceId)\n    if (!expected || expected.device !== anchor.device || expected.inode !== anchor.inode) throw Error('GOVERNANCE_INSTANCE_MISMATCH')"
+      ],
+      [
+        "    if ([...committed, ...rolledBack].some((token) => this.pending.get(token)?.instanceId !== anchor.instanceId)) throw Error('GOVERNANCE_PENDING_OWNER_MISMATCH')",
+        "    const tokens = [...committed, ...rolledBack]\n    if (new Set(tokens).size !== tokens.length || tokens.some((token) => this.pending.get(token)?.instanceId !== anchor.instanceId)) throw Error('GOVERNANCE_PENDING_OWNER_MISMATCH')"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "path": "tests/renderer/RoundMemoryPanel.test.tsx",
+    "hash": "D406E25D969B54622CBA85C65F5DBA960BEEF8372EA483548C7F35991C67E826",
+    "replacements": [
+      [
+        "import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'",
+        "import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'"
+      ],
+      [
+        "    expect(await screen.findAllByText('称呼偏好')).toHaveLength(2)\n    expect(screen.getByText(/search_memory 实际外发正文最多截断为 1000 字符/)).toBeInTheDocument()\n    expect(screen.getByText(/已观察到 Provider 响应/)).toBeInTheDocument()\n    expect(screen.getByText(/仍不能证明模型采用/)).toBeInTheDocument()\n    expect(screen.getByText(/用户明确陈述.*接受版本 v4/)).toBeInTheDocument()\n    expect(screen.getByText(/本轮用户原话.*来源版本 v1/)).toBeInTheDocument()",
+        "    const providedSection = await screen.findByRole('region', { name: '本轮实际提供的记忆' })\n    expect(within(providedSection).getByText('称呼偏好')).toBeInTheDocument()\n    expect(\n      within(providedSection).getByText(/search_memory 实际外发正文最多截断为 1000 字符/)\n    ).toBeInTheDocument()\n    expect(within(providedSection).getByText(/已观察到 Provider 响应/)).toBeInTheDocument()\n    expect(within(providedSection).getByText(/仍不能证明模型采用/)).toBeInTheDocument()\n    expect(\n      within(providedSection).getByText(/用户明确陈述.*接受版本 v4/)\n    ).toBeInTheDocument()\n    expect(within(providedSection).getByText(/本轮用户原话.*来源版本 v1/)).toBeInTheDocument()"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+# Windows login-startup repair handoff
+
+The installed `0.0.9-internal.1` build reproduced a real name/readback mismatch. It created `HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Mashiro`, while Electron reads `openAtLogin` through the current AppUserModelID, `Mashiro.Desktop`. The UI therefore stayed system-confirmed off and SQLite version `0` remained unchanged. The exact Run value created by this attempt was removed with a preimage guard and is confirmed absent.
+
+The candidate omits the custom registration name so Electron uses `Mashiro.Desktop`. Readback now requires the exact user-scope AppUserModelID entry, current executable path, exact `--mashiro-login` argument, `openAtLogin`, `executableWillLaunchAtLogin`, and `launchItems[].enabled`. A disabled Windows startup entry is reported as disabled.
+
+`ReminderService.configure` now holds an opaque platform mutation token until SQLite commits. Compensation compares the current system snapshot to this call's exact post-write snapshot before restoring. Concurrent Windows changes remain untouched. An old enabled AppUserModelID registration is restored with its original path and arguments; a prior disabled entry, post-write read failure, or failed/unverifiable rollback returns `STORAGE_UNAVAILABLE` with the existing user-facing “提醒结果未确认，请核查原操作” message instead of claiming atomic success.
+
+Focused validation passed: 3 files / 15 tests, scoped ESLint, and scoped Prettier. The whole TypeScript command initially exposed the independently owned `memory-api-fixture.ts` missing `round` and `production-entry-independent.test.ts` constructor arity errors. After those owners resolved both blockers, the full node and web TypeScript command passed. Final installed-package login enable/disable and effective-state readback remain required because this source candidate is not present in the old installed build.
+
+Native reminder evidence is deliberately narrower. Reminder `70a8cb12-b0e3-42f6-b261-b08e6febcfb6` reached persisted state `DISPLAY_OBSERVED` at its exact due time and restored the minimized app. Two bounded UIA samples did not capture the transient Windows toast, so user-visible toast, click activation, and cold activation remain unproven. A final installer should use the different persistent Windows notification-center route already selected for those checks.

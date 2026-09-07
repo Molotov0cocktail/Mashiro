@@ -1,0 +1,36 @@
+[
+  {
+    "path": "tests/integration/production-governance-session.test.ts",
+    "hash": "933C48197E97F8F36620FB365A60AF60A4A1852B7DC188A2FCB1A98BCA1BCE9D",
+    "edits": [
+      [
+        "  registry.entries[0].journalId = null\n",
+        "  // Keep the journal ID and hash-bound seed written by current PREPARING initialization.\n"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-backup.ts",
+    "hash": "6CEEA1B2145BA55A4E99EAA4A664CA4BBCE1296C9735E34F6260C9ADDB31A854",
+    "edits": [
+      [
+        "      files.push(name + '/' + entry)",
+        "        if (name === 'credentials' && entry.endsWith('.credential.revoked')) {\n          const path = join(directory, entry)\n          const stat = lstatSync(path)\n          if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 512) throw Error('BACKUP_CREDENTIAL_MARKER_INVALID')\n          const marker = z.strictObject({ format: z.literal(1), connectionId: z.uuid(), reason: z.literal('restored-deletion') }).parse(JSON.parse(readFileSync(path, 'utf8')))\n          if (entry !== marker.connectionId + '.credential.revoked') throw Error('BACKUP_CREDENTIAL_MARKER_INVALID')\n        }\n        files.push(name + '/' + entry)"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-lifecycle.ts",
+    "hash": "98AED203A0A99EBCCB391E9F8914F1904A89C7991FE2FAABEBB9016FFF51653C",
+    "edits": [
+      [
+        "import { lstatSync } from 'node:fs'",
+        "import { lstatSync } from 'node:fs'\nimport { writePortableGovernance } from './production-governance-portable.js'"
+      ],
+      [
+        "    journal.snapshot()\n",
+        "    journal.snapshot()\n    writePortableGovernance(dataDirectory, journal)\n"
+      ]
+    ]
+  }
+]

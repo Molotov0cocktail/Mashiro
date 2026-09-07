@@ -64,6 +64,8 @@ function fileDigest(path: string): BackupFile {
 
 function inventory(root: string): BackupFile[] {
   const files = ['.mashiro-dataset.json', 'mashiro.sqlite']
+  for (const name of ['.mashiro-governance.json', '.mashiro-governance-backup.json'])
+    if (existsSync(join(root, name))) files.push(name)
   for (const name of ['memory', 'credentials']) {
     const directory = join(root, name)
     if (!existsSync(directory)) continue
@@ -74,8 +76,23 @@ function inventory(root: string): BackupFile[] {
       const allowed =
         name === 'memory'
           ? /^[a-f0-9-]+\.md(?:\.tmp)?$/.test(entry)
-          : /^[a-f0-9-]+\.credential(?:\.tmp)?$/.test(entry)
+          : /^[a-f0-9-]+\.credential(?:\.tmp|\.revoked)?$/.test(entry)
       if (!allowed) throw new Error('BACKUP_UNRECOGNIZED_DOMAIN_FILE')
+      if (name === 'credentials' && entry.endsWith('.credential.revoked')) {
+        const path = join(directory, entry)
+        const stat = lstatSync(path)
+        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 512)
+          throw Error('BACKUP_CREDENTIAL_MARKER_INVALID')
+        const marker = z
+          .strictObject({
+            format: z.literal(1),
+            connectionId: z.uuid(),
+            reason: z.literal('restored-deletion')
+          })
+          .parse(JSON.parse(readFileSync(path, 'utf8')))
+        if (entry !== marker.connectionId + '.credential.revoked')
+          throw Error('BACKUP_CREDENTIAL_MARKER_INVALID')
+      }
       files.push(name + '/' + entry)
     }
   }
@@ -133,7 +150,7 @@ const backupReceiptSchema = z
           path: z
             .string()
             .regex(
-              /^(?:\.mashiro-dataset\.json|mashiro\.sqlite|memory\/[a-f0-9-]+\.md(?:\.tmp)?|credentials\/[a-f0-9-]+\.credential(?:\.tmp)?)$/
+              /^(?:\.mashiro-dataset\.json|\.mashiro-governance(?:-backup)?\.json|mashiro\.sqlite|memory\/[a-f0-9-]+\.md(?:\.tmp)?|credentials\/[a-f0-9-]+\.credential(?:\.tmp|\.revoked)?)$/
             ),
           bytes: z.number().int().nonnegative(),
           sha256: z.string().regex(/^[a-f0-9]{64}$/)

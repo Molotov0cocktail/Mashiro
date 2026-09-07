@@ -35,11 +35,14 @@ export class ReminderError extends Error {
     super(code)
   }
 }
+export interface ReminderLoginStartupMutation {
+  rollbackIfUnchanged(): 'RESTORED' | 'UNCHANGED' | 'CONCURRENT_CHANGE' | 'UNKNOWN'
+}
 export interface ReminderPlatform {
   notificationSupported(): boolean
   loginStartupSupported(): boolean
   getLoginStartup(): boolean
-  setLoginStartup(value: boolean): void
+  setLoginStartup(value: boolean): void | ReminderLoginStartupMutation
   show(
     input: { identities: { id: string; version: number }[]; count: number; groupId?: string },
     event: (kind: 'show' | 'failed' | 'click') => void
@@ -232,18 +235,38 @@ export class ReminderService {
       if (value.loginStartup !== previous.loginStartup && !previous.loginStartupSupported)
         throw new ReminderError('UNSUPPORTED')
       // Registration is external: query actual state on every receipt, never infer success from SQLite.
-      if (value.loginStartup !== previous.loginStartup)
-        this.platform.setLoginStartup(value.loginStartup)
-      if (this.platform.getLoginStartup() !== value.loginStartup)
-        throw new ReminderError('STORAGE_UNAVAILABLE')
-      this.store.transaction(() => {
-        const result = this.store.database
-          .prepare(
-            'UPDATE reminder_settings SET version=version+1,policy_json=? WHERE singleton=1 AND version=?'
-          )
-          .run(JSON.stringify(value.policy), value.expectedVersion)
-        if (Number(result.changes) !== 1) throw new ReminderError('STALE_WRITE')
-      })
+      let loginMutation: ReminderLoginStartupMutation | undefined
+      let loginChanged = false
+      try {
+        if (value.loginStartup !== previous.loginStartup) {
+          loginChanged = true
+          loginMutation = this.platform.setLoginStartup(value.loginStartup) ?? undefined
+          this.fault?.('after-login-startup')
+        }
+        if (this.platform.getLoginStartup() !== value.loginStartup)
+          throw new ReminderError('STORAGE_UNAVAILABLE')
+        this.store.transaction(() => {
+          this.fault?.('before-login-config-commit')
+          const result = this.store.database
+            .prepare(
+              'UPDATE reminder_settings SET version=version+1,policy_json=? WHERE singleton=1 AND version=?'
+            )
+            .run(JSON.stringify(value.policy), value.expectedVersion)
+          if (Number(result.changes) !== 1) throw new ReminderError('STALE_WRITE')
+        })
+      } catch (error) {
+        // Restore only when Windows still exposes this call's exact post-write snapshot.
+        // Concurrent user changes remain untouched; an unverified restore is reported as unknown.
+        const restoration = loginMutation?.rollbackIfUnchanged()
+        if (
+          loginChanged &&
+          (restoration === undefined ||
+            restoration === 'CONCURRENT_CHANGE' ||
+            restoration === 'UNKNOWN')
+        )
+          throw new ReminderError('STORAGE_UNAVAILABLE')
+        throw error
+      }
       this.tick(true)
       this.notify(true)
       return this.runtimeValue()

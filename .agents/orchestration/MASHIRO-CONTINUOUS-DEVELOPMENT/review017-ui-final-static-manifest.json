@@ -1,0 +1,32 @@
+[
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "017894",
+      "wall_time_seconds": 4.4051877,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "18d1c2",
+      "wall_time_seconds": 1.2260475,
+      "exit_code": 0,
+      "original_token_count": 17,
+      "output": "Checking formatting...\nAll matched files use Prettier code style!\n"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "77dfc4",
+      "wall_time_seconds": 0.6156375,
+      "exit_code": 0,
+      "original_token_count": 841,
+      "output": "[\r\n  {\r\n    \"path\": \"src/renderer/src/App.tsx\",\r\n    \"sha256\": \"A2F0B80F09A2E99E9596D106C70E4E66A2770DE96A1DEE99334B2FDAAEDBDD1D\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/memory/MemoryPanel.tsx\",\r\n    \"sha256\": \"BB6FA05439534CD131D2CD7051C4AE9CD447F5EC202639DCFCE8745DEDAA2B93\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/provider/HistoryContextPanel.tsx\",\r\n    \"sha256\": \"1E61A07AFD7E71CE6C58C3EF583D64D305DA08D46AFEAAFE5ABB60FEF41BBD57\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/provider/ProviderPanel.tsx\",\r\n    \"sha256\": \"DD5F4D3CCF4799084C1729328EF8B7412129E289072105E8A6D0365491DF6579\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/provider/RoundMemoryPanel.tsx\",\r\n    \"sha256\": \"A1C6BD268357FDA8650C58454F3084C907556F26A771D20FD687BDDC8FA0AE57\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/styles.css\",\r\n    \"sha256\": \"F2FEF30E72F011352F8CDCAE10709A5779AEACF94BEB8252E97B0904DD402C7B\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/renderer/RoundMemoryPanel.test.tsx\",\r\n    \"sha256\": \"C6B097212CEA32695B4AC8AB819F29B299C7D3AC7E21678C73E997EA12F50F96\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/shared/memory-round-contract.ts\",\r\n    \"sha256\": \"37CF28E225ABAFDE2282944E04DA727BC5971918068A55FED752D977555EDB2B\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/shared/memory-contract.ts\",\r\n    \"sha256\": \"235A42B99729AC9C5A598A95A4A25A26CB0B88360CD62AD00F42A1DED4CE0657\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/shared/memory-channels.ts\",\r\n    \"sha256\": \"25A6A6F9EB73424EB2FB8EFE9FDB3E9085A4C2EA92056747FD7473C6EB2D25F0\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-round-schema.ts\",\r\n    \"sha256\": \"0466DB57A234E4419379C9921A24103EA23BA314598EF0013B7545010719FDAD\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-round-evidence.ts\",\r\n    \"sha256\": \"997553D5CE5332B66E514E0718C963C40D7773BE3F5BB2C0B674F6D3EB73099E\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-round-query.ts\",\r\n    \"sha256\": \"5080DD03A81FE30D201087CE6799CBB3AF1348EE7EAA3896DE667DD8DCB2E5F0\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-service.ts\",\r\n    \"sha256\": \"C9BFB287810F43838271AB2BBA79FCD969EC49E93403140C03CC8A2F81F6624F\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/provider/provider-service.ts\",\r\n    \"sha256\": \"FAB662795314BF74EF0F3764145117CF150F877F4AC02828F08F4F4C22FF0336\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/ipc/register-memory-ipc.ts\",\r\n    \"sha256\": \"7C9171CDE0BA5801CE2E884257A7C03310EE51F529A1464695B0908A7B683973\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/preload/index.ts\",\r\n    \"sha256\": \"356CFBC868C77026397A4726FF23196A8550F5CFD0340AD8BC2E0100F05FA0D1\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/integration/memory-round.test.ts\",\r\n    \"sha256\": \"874D6494652CAC76793B38C1391E3B6F01F87752AFE61F1F8EBBBEE9B4858108\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/integration/memory-round-provider.test.ts\",\r\n    \"sha256\": \"7F9CBAB7583290E84169ED25DA70A0E882BD48C350020BB5BB785C65FC12B353\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/unit/memory-round-ipc.test.ts\",\r\n    \"sha256\": \"CC176EC5C73CBB287CD89BA4E3A0EF4A559CAF69A1A5ADBF85DCE6213FC83212\",\r\n    \"match\": true\r\n  }\r\n]\r\n"
+    }
+  }
+]

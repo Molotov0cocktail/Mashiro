@@ -1,0 +1,12 @@
+{
+  "candidate": "014 seed S1 final path consistency repair",
+  "status": "AUTHOR_FROZEN_PENDING_DELTA_REVIEW",
+  "base": "v4 PASS plus v5 delta; v5 S1 REPAIR retained",
+  "files": [
+    {
+      "path": "src/main/data/production-governance-seed.ts",
+      "sha256": "3059EF92932FAA73B3FA6B4F57119ADD89D36BC3D29D1AFAC425D9C9FC42ED08",
+      "bytes": 1901
+    }
+  ]
+}

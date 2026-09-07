@@ -1,0 +1,1532 @@
+{
+  "stagedPaths": 303,
+  "reviewedManifestPaths": 91,
+  "failures": [],
+  "secretFindings": [],
+  "canonicalMarkdownOnly": [
+    "doc/tasks/014-windows-data-and-delivery.md",
+    "doc/tasks/016-overall-product-acceptance.md",
+    "doc/tasks/017-round-memory-provenance.md",
+    "doc/tasks/program-docs-to-release.md",
+    "doc/tasks/progress.md",
+    "doc/user-guide.md"
+  ],
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-current-source-snapshot.mjs",
+      "bytes": 3610,
+      "sha256": "85be2dc44c0211317c852160d04d9fa914fff20896e9f4991cb26e254485992e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-candidate-v2.md",
+      "bytes": 3528,
+      "sha256": "9f8f843cc9e03b4ee68320dab6cdf3bda3340363718f5faf34473c885bd20287"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-candidate-v3.md",
+      "bytes": 1521,
+      "sha256": "662022fc5c37995a3d81e805f88198d03d01f4b5ee3ece7b270ec0da4dff473b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-candidate-v4.md",
+      "bytes": 1587,
+      "sha256": "bb34f9c6bf6014cdf326d68579f4fe7203f82b9302e15c45f4926b56a094f251"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-candidate-v5.md",
+      "bytes": 1896,
+      "sha256": "2c44e6faedc6f77f3d02ed2143a418171ee4abfbbdf5d4f03e35d4b7bdfb247b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-candidate-v6.md",
+      "bytes": 806,
+      "sha256": "a4b07ed0fc2b97e4e1259a46fd604e28d2180b50b439af26c122d01e7abfd058"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-credential-01.json",
+      "bytes": 1032,
+      "sha256": "2e6f975bb1367cf2a40d49da8a12ac7b5f920653aca31c4e6aead2652e4960cc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-credential-02.json",
+      "bytes": 1718,
+      "sha256": "b693a593d2599674b673f2be6f787f2130c500da4988adca2dad68618e3ebb3f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-01.json",
+      "bytes": 2238,
+      "sha256": "c407c5231321f848f8235d280366b5bc4a26c9ef371a3771cc42d97c265c0947"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-02.json",
+      "bytes": 1760,
+      "sha256": "614bf89388b8ae87a752f78a692478ca09c8d66dab0eb440b0d790788dee2307"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-03.json",
+      "bytes": 1260,
+      "sha256": "705065579cb01a44ad9adccb520d8741479be51db4bceded865d898d623346a7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-04.json",
+      "bytes": 3427,
+      "sha256": "641aa941bf72c6f9d17bd16f9b735163fd3592415b557f2db7b59516d094f6be"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-05.json",
+      "bytes": 1597,
+      "sha256": "68b3167aae053cbdc5950ae25e63f64958f78b1abcdb5511e06a13bcc6e1906f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-06.json",
+      "bytes": 1101,
+      "sha256": "ee8d0192bb8db9f4cd3104a275850a533fdbae45611542c51b98dfe3e61f6179"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-07.json",
+      "bytes": 1439,
+      "sha256": "ceab9a619b59faad594b257da25a232dc4dd0e95b6ede6a25677201802031ca5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-08.json",
+      "bytes": 209567,
+      "sha256": "0bfcdbefb65aa0dd44053ca710d3176c2075525aae97f2cc90cfae7783c60676"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-09.json",
+      "bytes": 2384,
+      "sha256": "f10d3a2f73bbcce5427dc95d1a8783f2cef0e6506034ee9314e1e3c60e4316ee"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-10.json",
+      "bytes": 2925,
+      "sha256": "9331676ad98054f7b1e895433c7d5916b9c213cf9b128835bdfc95ccfb491fca"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-11.json",
+      "bytes": 1346,
+      "sha256": "4faa33f202e130e180247b3cc218f518834a83a55677c07d824e18920ca0c070"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-12.json",
+      "bytes": 1637,
+      "sha256": "f468b470c501af975dfa7ad9cdfd8693dc462d35a4d0160561a85328f1d94c52"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-13.json",
+      "bytes": 6226,
+      "sha256": "920af5f480acaaaf0fd1f481fd205caba05b974d757d14ec53ae5ddd1b3efe2c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-14.json",
+      "bytes": 987,
+      "sha256": "3e7e1d3d6c5f69d6d3c23fe7c9990662712392dfb8d87a8122aa5a29a1da29dd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-15.json",
+      "bytes": 835,
+      "sha256": "c7e4f6b1155d2c4f2fc254821c281695901c148e02bc46ff9ebab9204965969f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-16.json",
+      "bytes": 4979,
+      "sha256": "93dc0a327631baf45b0765f340a68fb0954f783e7eaca7b873180ceebcc1268c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-17.json",
+      "bytes": 491,
+      "sha256": "b1557dab7fea00ed83f52431c648d04149540df8ed0eff12f86536885ef2255a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-18.json",
+      "bytes": 1930,
+      "sha256": "cb1d7ce2ccb352f76e01f3e4df48f519b35ca07dfad38b7ae2cdda38e768efa7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-19.json",
+      "bytes": 1187,
+      "sha256": "f85c2c1bf59482be520647e94958f119ea5f89835d56e3e4365fdccd1e8e80fd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-20.json",
+      "bytes": 3335,
+      "sha256": "c166f34fdd75deae9027321e8ecf2c500ad7082f1eecdc36de59c6d3fa59335b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-21.json",
+      "bytes": 1248,
+      "sha256": "2fd217deb8eae2b3fe70595717550a09bfce22f9155590613e4dbb0bf3b06036"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-22.json",
+      "bytes": 1908,
+      "sha256": "26c82e24c79f5854df1c5b62581d8f9cddb4135769b1ef72eea0dc5ec090ce61"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-24.json",
+      "bytes": 3120,
+      "sha256": "c28cbd92266f165f42eca1af46ac1d7ffa438560c830c1d0b50806abd8116358"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-25.json",
+      "bytes": 1342,
+      "sha256": "6b29e98e1849b8bbcaffdcb4343461ea1c8baa8c8e5276d64e19c5648e2667ea"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-26.json",
+      "bytes": 1075,
+      "sha256": "ff49f354643ef7c5ab323a66aeedfe01f81255111cb06402cbe3b8c08e17e110"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-27.json",
+      "bytes": 1655,
+      "sha256": "783b1716ac830431ceaeb597c629f960ba638af9b80da4d0e900c4364d101eb0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-28.json",
+      "bytes": 2408,
+      "sha256": "2576faf57af6b53ec281fe07301317b146a8fb1893223f8bcafeeba8e6f97eb5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-29.json",
+      "bytes": 5609,
+      "sha256": "f14496cc5adc74ae844cbf4648e607822321512e19a494bc70a150062e1dc59b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-30.json",
+      "bytes": 290,
+      "sha256": "533cefecdfb3ee03eb69850a1a8864c749c9e824e95ad9fcb068db3ed61717f0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-31.json",
+      "bytes": 353,
+      "sha256": "a7d12a2d86ab440dc2d375883b5fe9984554796e70db6bbf6b8e2c9b3b5b90a6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-32.json",
+      "bytes": 219775,
+      "sha256": "3234582cbe0e20364ad4fda8ed8fa61c2f9725a7911530dabe894774b4f2c052"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-33.json",
+      "bytes": 1728,
+      "sha256": "3b43503b644ae91128c924d2b3a6f054f5d20ccc19bda647d0be4a1d9cbf48a4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-34.json",
+      "bytes": 1726,
+      "sha256": "e7eaef06c570ee042088daf29bf2466687d9699a406c288edfbb0ecaf4937359"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-35.json",
+      "bytes": 77954,
+      "sha256": "eff4d05c4b943d61a8bcfbb771b8aed6d6f91d099e9ad676c60fedf2f716264c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-36.json",
+      "bytes": 2006,
+      "sha256": "df5ac566303eabc9f8bb978960adbe6cbbc69f2469f4348aff51fff6eb2af911"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-37.json",
+      "bytes": 1300,
+      "sha256": "0d90c50f4c814de27f0dee9f3fb82d2c6e1c273fa268d2885f447e8e5bc835e2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-38.json",
+      "bytes": 1877,
+      "sha256": "a31140c2c8281b84bcd4694af9f4bb25adaa615a1c625dfb5ee76653305d2138"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-39.json",
+      "bytes": 438,
+      "sha256": "cf7a03040a49fb27c1ab270bede151dd1cc9d9990da64d935e6e6e15d555d71e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-40.json",
+      "bytes": 248,
+      "sha256": "d24ee44a97202faae9c43d37b0a7a4bc63b09e59205fed1597ecb76832db3aaa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-41.json",
+      "bytes": 1678,
+      "sha256": "883890aca3de7b34c095f6289c150f7a35a09a0dd2ef1332688f2bfd9b4b4f9b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-42.json",
+      "bytes": 324,
+      "sha256": "6e4a9a90ffdcc8a03c5e92f4c91aa5b1b091537ff692384c520aad882aeadf0b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-entry-01.json",
+      "bytes": 3444,
+      "sha256": "ab664f4d6465f202a32a56c162cd23a61e0dd38a050ff0a8fb411bfb058ba259"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-final-contract-addendum.md",
+      "bytes": 2741,
+      "sha256": "d00ee55293578e8e3bb032d55fc90477320d92c362dd65f2b83e2b8d5d1170af"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-ignore-red-01.json",
+      "bytes": 1878,
+      "sha256": "6d4df8edce040ee1b43b52fa04c2562baaac21ec9ace6c3a4fab5dfd6d6f34f4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-ignore-repair-01.json",
+      "bytes": 4907,
+      "sha256": "4e6e3e6f1526e2c1e33f8245c69a179ef484bab11b77397a21979703f042408b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-key-repair-01.json",
+      "bytes": 3559,
+      "sha256": "83b9df997474feecc2945ebdacd6281b3e2136f3201e45f3877f55f7c3682d08"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-legacy-01.json",
+      "bytes": 23024,
+      "sha256": "1e861bfd90416888305eface2d2f22eb40921dc987147917ddca1f93bc7f752e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-manifest-v1.json",
+      "bytes": 11322,
+      "sha256": "51558ab251e82f73438e84c2e3a1a90549740542ffaad40e3776c5b8dda415fb"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-manifest-v2.json",
+      "bytes": 11352,
+      "sha256": "603c3dfb5c00c6f32d9d6c5c57528ed7587003a419ea15f180f92c59debadf03"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-manifest-v3.json",
+      "bytes": 11670,
+      "sha256": "1432810e63e455a8c893541f32ba525bc9f14f7895b0263839dbca1109747dab"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-manifest-v4.json",
+      "bytes": 12084,
+      "sha256": "88f7055bc6171b3b1108db715c09f565d8a5097da1ae365c599392f29d14e237"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-manifest-v5-delta.json",
+      "bytes": 762,
+      "sha256": "e237e6b026f6b97547fc3815a8b49d2c26cecbdde0277ee09bee458f0c3cd317"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-manifest-v6-delta.json",
+      "bytes": 366,
+      "sha256": "6666eb0ae6336f53f12a93184b81cea7a77d8a93ce54e267a2ba77a4eab803c2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-mechanism-01.json",
+      "bytes": 1585,
+      "sha256": "d7be1d8379608746ce222022fb770feecd2a888088caf8a93b4e90435beaebbc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-mechanism-02.json",
+      "bytes": 3076,
+      "sha256": "b8f937d197978ee4627f6a9d897ed137fcf2d5463c1a5c010b44e909dfa07b99"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-mechanism-03.json",
+      "bytes": 4166,
+      "sha256": "25b1fea99886ab0cd918d832863311968457876d967fba86b44c5c156de4f75c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-permission-01.json",
+      "bytes": 991,
+      "sha256": "58d6c71f2df9bca5221eca7b6b4101ca37db79b0453d236248965d4da2423ac2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-portable-01.json",
+      "bytes": 1505,
+      "sha256": "550e3629469cc4f37994c6236c6b94bed02c794470070bf6a8783966db8e3120"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-product-01.json",
+      "bytes": 2543,
+      "sha256": "9c42107a6b5638d8631c9f84d4a560d01bd87d02523dc9d8fab9b07cace5a3b1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-projection-01.json",
+      "bytes": 1719,
+      "sha256": "d039550cbeea8f729f9028fa200fce44d6ff23f6d0748b1048188fb83af75da7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-protocol-repair-01.json",
+      "bytes": 3919,
+      "sha256": "1156e603ab393863d06bb78cf4ba97554ed05591a61b7a99d0e6e4cf7a46cad1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-protocol-repair-02.json",
+      "bytes": 3173,
+      "sha256": "98553b5d98777481ab183a2ebcf0dba26d6298eb0a19ec2773729258174c8b1d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-purge-01.json",
+      "bytes": 1623,
+      "sha256": "ece89f30f7b442badad0b55b9dc2beeaa7682ddd6e2fe95014b9f1c1e14026ef"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-purge-02.json",
+      "bytes": 985,
+      "sha256": "4caeff1741a7ba6e1b693a4f6448d056c49ed3308e8625102f8c5c8464bb0810"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-restore-01.json",
+      "bytes": 1644,
+      "sha256": "362a9683d388a9b9579cf062026da446585b1524a4a6547b27b61b97b2ef81cf"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-restore-02.json",
+      "bytes": 1841,
+      "sha256": "26b7c613adfe0b834739285bd6f7c9c02cd6396fc99560ac6ffd943d00b3928a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-restore-03.json",
+      "bytes": 3564,
+      "sha256": "cc7af2ad76dd61efa506059bb39bbaedd1cca718fe61d054646892696346f039"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-restore-contract.md",
+      "bytes": 5862,
+      "sha256": "204bcbb9279da249fb40f5fc1b8f3114daeff23ecfe47c9fa3448f135e7eb3ac"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-session-01.json",
+      "bytes": 3174,
+      "sha256": "a0c717651f631e60e14346bda66658d1a038d21fdee0f60177b05a12294d964c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-session-02.json",
+      "bytes": 1598,
+      "sha256": "b77c00b4af5e238ca79b1c6fc1bafbe96e73eb530fa9efbefbe12c5a7d162498"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-suite-01.json",
+      "bytes": 11668,
+      "sha256": "490862052bde8cbaea270a880412390135a69c896ccabd4eb8d8be6f5f7443d6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-suite-02.json",
+      "bytes": 24118,
+      "sha256": "4dab14b3bf3514ff373d63044166db12f7b2fe92ddab3af3052afa0fbcdc2fe5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-suite-03.json",
+      "bytes": 23358,
+      "sha256": "d443e9ee9355579e259c48c56afe4ea280359bb3f1f63c398d6b0367e6b26a2b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-upgrade-01.json",
+      "bytes": 1992,
+      "sha256": "2fb38f093aed1652276c703b88e960f64c0a6cb963c5cc060ec643e11b9a3259"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-upgrade-02.json",
+      "bytes": 1367,
+      "sha256": "0f597ba56df6467469aa40cd7a861c91ab76a4a33e75d9ce5db2ea151ab9a229"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-final-v4-tests.json",
+      "bytes": 26082,
+      "sha256": "9a5092ba1862dee1c22bdc2261727a20fa2b219b9427e1bdd54c7ce6ac838d8e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-final-v4.md",
+      "bytes": 6192,
+      "sha256": "52a83b434a272ca51daa201b7a5dcfaa78141794f593c65f7a7b355b365a16aa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-independent-01.json",
+      "bytes": 8133,
+      "sha256": "c7141167f38c810060810757c3c2b73e57086ee322f757cab00c4194660053cc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-independent-02.json",
+      "bytes": 5767,
+      "sha256": "ff4885561232ebd8087ca271a5645001f110f39616f0c7fa7252e8c68899648c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-key-red-01.json",
+      "bytes": 1321,
+      "sha256": "09b3125ad123504c2ee40f44222de0f364eb4977a2999b8bc9682ecbd204130d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-key-repair.md",
+      "bytes": 1898,
+      "sha256": "481e53d4a9483312f15423e90adf13e11c838f58ff43016852ae4d725ce2d6fb"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-p1-green-01.json",
+      "bytes": 2610,
+      "sha256": "3cd656976b61520dfd97f86e4effaaafa5acc7bd8366bb78b59080c7f6165ee5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-protocol-red-01.json",
+      "bytes": 1929,
+      "sha256": "8eb488a03dc0a0bd296553a19d673756b344749adcb3efcef90f3147905f9578"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-protocol-red-02.json",
+      "bytes": 4464,
+      "sha256": "a574f4281c668b2d15fa2f0b2bfb52e09d5208f19e51f07cad3fa654d93e0f14"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-repair-v2.md",
+      "bytes": 4459,
+      "sha256": "40fb918915ef45e78a23e59a6f6a23bc21c96508c5e07dac2151822fae2ed1e1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-seed-red-01.json",
+      "bytes": 3570,
+      "sha256": "c6bc9472845ee0089327c8b9ef752cf47d62b2c881a6eff2f8d29c74ce526d19"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-seed-red-02.json",
+      "bytes": 2507,
+      "sha256": "773beec09da87f40d284517bc96199cc322fd0dc5b7d408b4af1066d8b963479"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-seed-v5-repair.md",
+      "bytes": 1990,
+      "sha256": "7c8d8515a0f368da8da42710f70810227d13b74806a6490986235cae157ff7de"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-seed-v6-final-pass.md",
+      "bytes": 3499,
+      "sha256": "bd160f34f17c8c8495f3e0ef6151ce426411828fb43cf73c5f15da486051c019"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-seed-v6-final-tests.json",
+      "bytes": 4096,
+      "sha256": "55a5bec3a66016a6ab865991642f23801037d55a82971bcb5171b1affd72bb6b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-ignore-01.json",
+      "bytes": 2113,
+      "sha256": "70c123d873d7bcba38bf7cf657d87121281d4b0012faea7592a0cbebb2c5eea6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-ignored-write-red.md",
+      "bytes": 2228,
+      "sha256": "d65d310b3b1ec24e974aadbf7583ac69ad9f9b4f5e1e90597c9e5a1711ff439e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-reminder-01.json",
+      "bytes": 967,
+      "sha256": "e5323e02e5003206ec434a93ec6567648b41308268aac644bf48e40e99e6b496"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-reminder-02.json",
+      "bytes": 1628,
+      "sha256": "fa17b50a90c9a84954237994c03866066ec2f319dce120732b01bce5725c90fd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-seams-01.json",
+      "bytes": 3238,
+      "sha256": "9ac76cc9b4f8becb6104af71ada1bc00c892ce26563792ee979afe656b89d267"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-seams-review-01.md",
+      "bytes": 2066,
+      "sha256": "0ac7f6f6ea64c0e41bbc86296455bfebce5a2cd8ce6e10ec60513cf0b494b942"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-capacity-green-01.json",
+      "bytes": 2977,
+      "sha256": "e7c1e66373db03bea7df131bbddcc1393f94092ba978f93df1bf23615a8bf1f5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-capacity-red-01.json",
+      "bytes": 1294,
+      "sha256": "eec6ae1d44fd97806481478a87ed5f95ad9f2c88614acf0c0f3cdcdd32562068"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-capacity-red-02.json",
+      "bytes": 1635,
+      "sha256": "8218f1b862bad63edf4474185ebefde30f9c8275eb43f4420dc4a17cb1bf12fe"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-final-check-green-01.json",
+      "bytes": 2119,
+      "sha256": "579edb190ed31f05749772fd179dfe010615fced652dbbdde27910ff06cc56bc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-helper-review-01.json",
+      "bytes": 2927,
+      "sha256": "8a1a5db39c755be634cf1268cc7f4bc445e03274289636696c7eb88bb781c440"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-proposal.mjs",
+      "bytes": 4524,
+      "sha256": "0856c6016d4699674e750a66a1cb553db1c4cd27dc47a85af5fbb100c0fbce13"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-01.json",
+      "bytes": 12296,
+      "sha256": "461b3999dc10c8d53fd720cee3c55252af60285535ad0329a2728af2f1b8f0db"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-manifest-v1.json",
+      "bytes": 2553,
+      "sha256": "633479b1453eab262ee4ba59b3174f0c7df87b2d1b73dc2f64ea6fa2634f8486"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-root-hashes-01.json",
+      "bytes": 2278,
+      "sha256": "407dea4ebdf99d297b849879a3d2a2edaacc811b3de36a87f57fd066c320632e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-verify.mjs",
+      "bytes": 6541,
+      "sha256": "41b92f712d69505bd5dc1635dfe61fea646ac8b06250283e8aca928c67ae145c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-source-snapshot-01.json",
+      "bytes": 6567,
+      "sha256": "c1909f385f6a98a17dfc3ebd3d27d4eb1f36af1a2ab9bf670e71c960e4696d26"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-built-output-01.json",
+      "bytes": 775,
+      "sha256": "287abc48a86af63ab9a94aff94b2fe82e7094623c94fe3d10c94f5d0ff996704"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-build-final-01.json",
+      "bytes": 1790,
+      "sha256": "c18fb47c6d675a228451856c22a2f447a0bf9b60ddae6aef22c01941e1f0e41e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-daily-verify-01.png",
+      "bytes": 69454,
+      "sha256": "2b8eb871a3c0e2f64607a5e90e230d71047a6609e3d738a0c86aab4bb29179c6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-electron-final-01.json",
+      "bytes": 22223,
+      "sha256": "6d686f4d57d3a0dc815ee5ce6de489b0016ecbc1ab2fb76c1e5f2bdb1153671e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-failure-diagnostic-01.json",
+      "bytes": 3515,
+      "sha256": "117e40a13a9c2ae84529a2d4674df51af748abceb5e9c0fbb47a23238b10acbd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-full-01.json",
+      "bytes": 261074,
+      "sha256": "0f1ab368e98c0ef419d60153ee787d5f2a5baf1912b572517badbf4de5d9c25d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-integration-01.md",
+      "bytes": 1689,
+      "sha256": "14511cf10783eaefe96fe932820951916e519e19bad4deecfba3c28cc98313a8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-integration-close-01.md",
+      "bytes": 3910,
+      "sha256": "a84b4687f6fe936cd22e721f63bff78ed4d58d3bf0757903787ec37422ce7513"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-lint-route-02.md",
+      "bytes": 1217,
+      "sha256": "1df68a59da10fe923cfabf8249011c5f14354734ef09633b2566650a7d2d1c9d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-preclose-checks-01.md",
+      "bytes": 1866,
+      "sha256": "49ab7f02a03b3b80b70901568ecf46f29cff614670d3af406116205e7a29ceae"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-renderer-final-01.json",
+      "bytes": 65430,
+      "sha256": "b6629139554a7f06da3c49778876d862de08740fa139dd0fc50290016c2a9437"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-static-initial-01.json",
+      "bytes": 3412,
+      "sha256": "bda6d5ccc050b6bff43281440e44dc45961e649dec2ecb172524029eddd59bcd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-trusted-integrated-01.json",
+      "bytes": 206173,
+      "sha256": "eedc47cbfec081e749e239dd89a195882cd91a5ed6b188c8441b8d72b9303a1b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-trusted-integrated-pass-01.md",
+      "bytes": 1513,
+      "sha256": "3b345e330c8c11b879cc3d98621f36696fd895d6b3c9736cef7f082aefd7ca99"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-edit-plan-01.json",
+      "bytes": 5006,
+      "sha256": "752dc281f8dbf386e3447780183d5582e5883be188e18dc98e68a8154f83333b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-edit-plan-02.json",
+      "bytes": 2154,
+      "sha256": "caad8ce138928c362dae56940b89d8c1d8232fdc957fadb7fdd3090a2fffd4c1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-edit-plan-03.json",
+      "bytes": 1878,
+      "sha256": "10c49332631e2ba7e0a5ad58938a6d11f189251d9ef1d412decb5fc37d7d0dc0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-edit-plan-04.json",
+      "bytes": 280,
+      "sha256": "25fdca5dba2c1f630e88139b709947642ba3880c85d52c6ef67a4cad262ba84c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-edit-plan-05.json",
+      "bytes": 1689,
+      "sha256": "98f143d8b1c936480fe82241c474f25db2632a1cb78ee3888b9980471385fa20"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-edit-plan-06.json",
+      "bytes": 1098,
+      "sha256": "d59165773af3a2babdd3407bd5b631e576c410dc5fa1d01aeab0e2314b6987fe"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-format.mjs",
+      "bytes": 1853,
+      "sha256": "f86249e552a4c094daed902be6e39f7560c958004a941d1bcc1a67e44ba72fa5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-guarded-writer.mjs",
+      "bytes": 1650,
+      "sha256": "8a7bb95e054a57cf4fd767cd3027e555590320035e0d6b2483756cf7bca373a9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-trusted-candidate-v1.md",
+      "bytes": 4517,
+      "sha256": "18c0e302379546f1fe82d70e5ba1dfeac843369d37f284569433332e7ff1000f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-trusted-manifest-v1.json",
+      "bytes": 1834,
+      "sha256": "3ee7be3fcad7d5ccdae7256259e76c044825858a9db6b1409a8498505c5fcb88"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-trusted-verification-01-tail.json",
+      "bytes": 519,
+      "sha256": "29cfcfca5daf2528cef648b714a4f5803cb0bdef79a02b9bf42afa71ff3aa613"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-trusted-verification-01.json",
+      "bytes": 4189,
+      "sha256": "3580d2b520f493ad59de7cb566a8a0b62218d11f2e96a653cf6cab9f5e5ef5d6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-candidate-v1.md",
+      "bytes": 3033,
+      "sha256": "d99f56f040fee13e323902843e3deab520bee84663568bcb8e63ed538a5a53c2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-01.json",
+      "bytes": 12689,
+      "sha256": "cf43fa6d2868869a637d9cd471bf914294acbdeafedd17ce52d760db0e90b9dd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-02.json",
+      "bytes": 13005,
+      "sha256": "95084208b536bc55831ed9f30bba75eb4d70c7b9aab85abcc35f23529025a46a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-03.json",
+      "bytes": 1336,
+      "sha256": "0577fb3ff92d250ca0e10a7d5eedd769d082ed5c4cb4241eeaf3c7e9b98bcd8c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-04.json",
+      "bytes": 466,
+      "sha256": "064b96c8e02f0ba71585518c7f3d2b39fdef1edba3749abdde3e1d2cc126f56e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-05.json",
+      "bytes": 828,
+      "sha256": "fa5cd7b67ef0c95a74f4a021b5218ea0a53956d0a09e6d061b8a7e377dfa5a9c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-06.json",
+      "bytes": 1707,
+      "sha256": "d11d3995d455475b0f067e04c81a88cb283b4875155259e4b34796e3a4b7d2ad"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-07.json",
+      "bytes": 1634,
+      "sha256": "5707bcbaf5297f51146438e136a018161ada3a7ad336a4c6832b46b3bb911482"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-08.json",
+      "bytes": 6762,
+      "sha256": "3f7ef133f4590f619283d62bdffb325a82020c469f233a88efff24ce162476fa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-09.json",
+      "bytes": 5671,
+      "sha256": "3333e8eb91a8afe15fa4ffd47755d5b32ecc3fe928c58d086f789bcc2e7035b7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-10.json",
+      "bytes": 5759,
+      "sha256": "2c8f6711c7d3088be4ae352d092b55a83dad0acfe0e42a9ba98013761f2eefbd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-12.json",
+      "bytes": 5772,
+      "sha256": "1716c8bf06cfba6e38f6d05091ac35dde20ce712e3332e5a87395737d35eff53"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-13.json",
+      "bytes": 2522,
+      "sha256": "b5c076cd9f56f59a55099c1d12998126a0b605e64e19892c635d5607a6f796bc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-15.json",
+      "bytes": 2537,
+      "sha256": "636bdef3c4cae0108caacd2558de9ed81e6e7986433986d135d0efa24cd63396"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-16.json",
+      "bytes": 1293,
+      "sha256": "74af0e3f497de587b90ade6a910ba4b6c54af29673cd08ce8e666af2bccf48de"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-17.json",
+      "bytes": 445,
+      "sha256": "131a6c48aa363b3ab4dc57a1db4e9843dae5174295040d0d16d161fc085254b1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-18.json",
+      "bytes": 544,
+      "sha256": "59b4bc3254957682a22610d8755f299285f8d413a9fbda8d8b63a63223ff73d2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-19.json",
+      "bytes": 1161,
+      "sha256": "6b3758b4e0a6b2bed0697fbf231633b4a014e1687afd7e82c66e5e7f5f6f6fc6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-edit-plan-20.json",
+      "bytes": 385,
+      "sha256": "6bf05be5e5750cc473dcd75beccf80f7af6af4bb3a2cebfe85f5663ab465a342"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-ui-manifest-v1.json",
+      "bytes": 2662,
+      "sha256": "bd109c854e40316bef3007af696538fa8671c7082767b86eb2a5da0bc8a7283f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/overall-016-old-receipt-access-check.md",
+      "bytes": 1876,
+      "sha256": "51f77b44e7dafe3d54f06f2953a764e1d7964c36a83b465ed328257cac4384d7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe-01.json",
+      "bytes": 2640,
+      "sha256": "e853413c981981c3729a7696eb059b4046c271a115af5bafdc8cdc9ccfdb7396"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe-02.json",
+      "bytes": 3123,
+      "sha256": "bc3c656770a4726b5b6ebc1c77b34f1de97165baa02eb19c7c6779aec82c5619"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-electron-probe.cjs",
+      "bytes": 7621,
+      "sha256": "33b3feedca52dc85d5ce9cea8b1f5c70f3022d7cf6212ed64192b6e732fcb704"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-independent-pass-v2.md",
+      "bytes": 2250,
+      "sha256": "727623de2f80daa659722f6b47de078effedefe9340380e031edbd0004128952"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-independent-repair-01.md",
+      "bytes": 2493,
+      "sha256": "1ae44289320de508cea8d66f4113d0daf930c31ca396d13eb2a179cae09e0a05"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-handoff-v2.md",
+      "bytes": 4766,
+      "sha256": "aabd25b35ce837fa00c34a78ddd24fd8b9ba44e2cd5c4467ffdaccb13fc04ec3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-handoff.md",
+      "bytes": 2380,
+      "sha256": "779d682c45826582d5d6123a4ec9435cefb80d04b95e5f03bd158f9ea875baf8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-manifest-v1.json",
+      "bytes": 1873,
+      "sha256": "502ef007182ec7b64c0ec0b8943c27a684193e1bb1d1d4315feda83e0cd272e0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-manifest-v2.json",
+      "bytes": 3415,
+      "sha256": "39a939875ea448f574a4d90ec98acabe2d637dfab5fa793a34957eed48b3179f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-tests-01.json",
+      "bytes": 5567,
+      "sha256": "c394418732add47688aaaca3645d33de5777b3358d3b25d1f2cdd31da8b6d84d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-tests-02.json",
+      "bytes": 6367,
+      "sha256": "aa2f0210232070a98debeabf02bb6b542f9e562bfc1353fc38f33809b89d4c64"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-tests-03.json",
+      "bytes": 6648,
+      "sha256": "ffb865c23fdd7b13f0090c76e5b7c6f94d5e0a62ac74630da5bb32d3d047d2d9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-root-hidden-registration-01.json",
+      "bytes": 1006,
+      "sha256": "f9ecd02f719d8e2f24635e398472e8e0e38d93bc95a1decdb780212600d95b32"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-old-receipt-persistence-pass.json",
+      "bytes": 401,
+      "sha256": "2691e80425cbd640d7b0c3376c4fdec8b27baa2adab5fe340224e30c128a6c03"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-old-receipt-run01.json",
+      "bytes": 4770,
+      "sha256": "c0720c77f0f9fcfb434c608e848052afd6857630439e3c2bedf10435ccd0e251"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-overall-preacceptance-repair.md",
+      "bytes": 10292,
+      "sha256": "fc2aba6cf797933bfea42382c9b3c537cb22a54ed92974022f2458dee20cb08d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-eslint-config-independent-pass.md",
+      "bytes": 1509,
+      "sha256": "b1e22c96328319e28a666621f58160f30fb5b177f3195ee2eb69d18acf6c2c30"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-eslint-config-independent.json",
+      "bytes": 1880,
+      "sha256": "b5cfa14ccfc6e8fd764de94f88373ff07c82588fe311d135b015aab3cc2becc9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-independent-run-01.json",
+      "bytes": 333,
+      "sha256": "19f074f55f9f3026cb89348f8514c8cf5c2e8dcc6107ee5a24852f194b513f7c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-independent-run-02.json",
+      "bytes": 333,
+      "sha256": "0fb91e9bc94287da74f3a5b558e5e6db64331f222d642c64cc6328de508e070b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-independent-static-manifest.json",
+      "bytes": 3752,
+      "sha256": "cf4ba75a6c7371839baff2fb100bfe371b2f5cdce249d59592641719bee988d0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-trusted-independent-pass.md",
+      "bytes": 5075,
+      "sha256": "009ba464c88d74c2c82df42f2c80e43f2f8995b9d8f9e3382bd0c1423bcbaaf1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-app-red-01.json",
+      "bytes": 1229,
+      "sha256": "8f4b3af3b49dba0c7bf22c7bb84bbf7780ac1357ef9c656a87cca74836ef03c1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-boundary-red-01.json",
+      "bytes": 3188,
+      "sha256": "6d04d48b0d3d518f2920e8419bd7b61a59d597dbe4517995371f9c52d6e99097"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-correction-red-01.json",
+      "bytes": 1479,
+      "sha256": "54a1d8fc2dcde30b9aa84e1e433b6fcaf83cc2a386c38cbb23ee8f57f0bac5c2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-draft-repair-01.json",
+      "bytes": 344,
+      "sha256": "7418a99b966b69ee02eaf6cbd6fb893e632d8da9574141a6d0ad8d40e7544c22"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-final-static-manifest.json",
+      "bytes": 4431,
+      "sha256": "7f6a5e85b56100f22cbbc1c62e5ca8b2862e3bf7e6a7bc9a0d4b153eba88203b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-final-verification-01-tail.json",
+      "bytes": 308,
+      "sha256": "4dd7c59b5f6ea4771bf395f7bf3cc9b0357f7f9764d20e87e5fe6e9dbe882778"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-final-verification-01.json",
+      "bytes": 2035,
+      "sha256": "ee441e622e0937e1f7da6b961f0551a838782a720ed54bc431804a980e4535ee"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-independent-final-pass.md",
+      "bytes": 6523,
+      "sha256": "1294bde6d15aefeb8b1fc0449271bcf62bc97785fcef36a3598cb04974490000"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-permission-target-01.json",
+      "bytes": 1232,
+      "sha256": "63a5fc17e68b8a589b2498fa3a83c8ff6d2532db90d4272546de024dcc635a96"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-queued-red-01.json",
+      "bytes": 1970,
+      "sha256": "4a720a003ede5da7e9d1e0b3182c8306eb0808cb8bf0aedb116b6700b06698df"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review017-ui-working-repair.md",
+      "bytes": 3487,
+      "sha256": "629913b7d4d5feb63a8b32d6c6e22d1ac814cfc2da1fe03b22ffef5df29bbe1e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-scan-governance017-preclose-01.json",
+      "bytes": 55646,
+      "sha256": "8edbf85af2a41ae40e616b12072fb545497c3f72734b0c68e615998dcba29288"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 3823,
+      "sha256": "3128d4a8e438446d7823a172afafaa5f33cc542d9b76b3f3cdc5736584c2fd69"
+    },
+    {
+      "path": "doc/tasks/014-windows-data-and-delivery.md",
+      "bytes": 11924,
+      "sha256": "b79e1109d3541fe4c4b80ec014ffcf5ab196a89fce93b7a2649d43ec04c25bc7"
+    },
+    {
+      "path": "doc/tasks/016-overall-product-acceptance.md",
+      "bytes": 5200,
+      "sha256": "280e45e1fffdcdaccac32eb5caf5ea0857ae014fe935604aba5ddda4b7ff9c94"
+    },
+    {
+      "path": "doc/tasks/017-round-memory-provenance.md",
+      "bytes": 5034,
+      "sha256": "b0bcb79b589638dabbed0c2457e6ee05602fb4e30fd71e8c7a8bd41e8b72e609"
+    },
+    {
+      "path": "doc/tasks/018-old-round-business-receipts.md",
+      "bytes": 3167,
+      "sha256": "f1836d5be6f96dfa7ca1ddc8dff2d2d4bead162ccf469417f8a49e81547fdc99"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "bytes": 42592,
+      "sha256": "be67393976a9f3ee68cae8a2fcb47193226c7243e5d6dad0bb9582af8939fe74"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "bytes": 34273,
+      "sha256": "717f6682c1e32ceea5c5b322f66996063a589ff74353438b7a817ecb254bfed5"
+    },
+    {
+      "path": "doc/user-guide.md",
+      "bytes": 6690,
+      "sha256": "cfb91aee236ff5912929b9f15974f44d5dde0c8bca4d97e1453c956270349558"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "bytes": 1982,
+      "sha256": "b79f295b783817ba837876a52263affe565295c47eb501d984bae9b5bd8146bd"
+    },
+    {
+      "path": "src/main/data/production-backup.ts",
+      "bytes": 12594,
+      "sha256": "b4d3987488a6f597f03a67db970e152168689608ddaa4152702dbae3c784c93b"
+    },
+    {
+      "path": "src/main/data/production-bootstrap.ts",
+      "bytes": 3908,
+      "sha256": "054d869ef39af160f8f41a8a200f1a64b278e0efbe68a8c7fa8f9ebeb03ea59b"
+    },
+    {
+      "path": "src/main/data/production-governance-apply.ts",
+      "bytes": 14660,
+      "sha256": "9fd631c9e79acb6454b3eb48760bf073e97187ff1abc487f2d7d9cf6e8365e1d"
+    },
+    {
+      "path": "src/main/data/production-governance-catalog.ts",
+      "bytes": 6259,
+      "sha256": "4d6e4f59053a050a83ddc5073969b437bfad909a64969e5eba232b43ba0b0662"
+    },
+    {
+      "path": "src/main/data/production-governance-check.ts",
+      "bytes": 1980,
+      "sha256": "a6a595acc00afaeb22456917192e9eed3fe65e9db914258aea1809c428c0440e"
+    },
+    {
+      "path": "src/main/data/production-governance-connection.ts",
+      "bytes": 4762,
+      "sha256": "3ff052c1a969dc6f31a64b862d11eaa0914fc7aaa86cd73dadb6823afe2f300a"
+    },
+    {
+      "path": "src/main/data/production-governance-credentials.ts",
+      "bytes": 1390,
+      "sha256": "0e3ad0dac70847a18b6603561c20f7f68dddd9159ba1f81785e40f82e43caecc"
+    },
+    {
+      "path": "src/main/data/production-governance-database.ts",
+      "bytes": 6154,
+      "sha256": "92d37763ffacff09326f3d56b41b41fce32de224c11f640531efc2667dd3ad43"
+    },
+    {
+      "path": "src/main/data/production-governance-dependencies.ts",
+      "bytes": 2344,
+      "sha256": "9f452b4a4532b1ef61faa3c86107ec72f0af4df73766875a5108f4760c0bc2ec"
+    },
+    {
+      "path": "src/main/data/production-governance-index.ts",
+      "bytes": 11269,
+      "sha256": "7c1897d38126868a01b27b943a2934187732361f7f543e385fb13bf47b084b36"
+    },
+    {
+      "path": "src/main/data/production-governance-journal.ts",
+      "bytes": 9234,
+      "sha256": "bfab7a5000272ed55f68dac9ef8bac72f65221dbbe381d9895def9615ddac9c4"
+    },
+    {
+      "path": "src/main/data/production-governance-lifecycle.ts",
+      "bytes": 3605,
+      "sha256": "ec7be59239bf7e121bd231a7339ea62aca6900c776eca8cb185fef525303597a"
+    },
+    {
+      "path": "src/main/data/production-governance-migration.ts",
+      "bytes": 2550,
+      "sha256": "e9d2f85fa4b20781b8db7710ea95e6f760bce996a642601b96d4b440c9d3b9c8"
+    },
+    {
+      "path": "src/main/data/production-governance-portable.ts",
+      "bytes": 2385,
+      "sha256": "eadfdf723e58b9e52f801f85d2cfefa5e1a708a01185c146065b72345747e7cc"
+    },
+    {
+      "path": "src/main/data/production-governance-redaction.ts",
+      "bytes": 5586,
+      "sha256": "c07bb8757b56cdbab95dad20249fa49d903682571ec3d20da1481ab0a9a572d2"
+    },
+    {
+      "path": "src/main/data/production-governance-registry.ts",
+      "bytes": 2818,
+      "sha256": "1158031e497a94b0f22f51dd22c7abe2b218144802ea6d06ad3d14e1abccbabc"
+    },
+    {
+      "path": "src/main/data/production-governance-reminders.ts",
+      "bytes": 2306,
+      "sha256": "d7e510fe49052fc0b26634ff541bd0333a79569eb97310cdd160d794ab186872"
+    },
+    {
+      "path": "src/main/data/production-governance-restore.ts",
+      "bytes": 2719,
+      "sha256": "89c66ad70c9c1e85b367b6ae6cf09a960bdc5b16fb201f8867e149bbdd130a62"
+    },
+    {
+      "path": "src/main/data/production-governance-schema.ts",
+      "bytes": 2619,
+      "sha256": "7bfbbe5119fbb68afe4bb03427d13030dad9ac8f721c64d595c1dcd8fe935adf"
+    },
+    {
+      "path": "src/main/data/production-governance-seed.ts",
+      "bytes": 1901,
+      "sha256": "3059ef92932faa73b3fa6b4f57119add89d36bc3d29d1afac425d9c9fc42ed08"
+    },
+    {
+      "path": "src/main/data/production-maintenance.ts",
+      "bytes": 4310,
+      "sha256": "259040e939010d2364938eea79fbfa53c46e53d44454e00028ea13db73788122"
+    },
+    {
+      "path": "src/main/data/production-prepare.ts",
+      "bytes": 5168,
+      "sha256": "09d8ac811e8f52c796e67cd60d4147382ce70d2e23909dc187c450dd9d452743"
+    },
+    {
+      "path": "src/main/data/production-restore.ts",
+      "bytes": 3819,
+      "sha256": "a76015530bebe44ae7ff1481ce5f8ba9f5abd07cf11fcdd994f56277b7073c8c"
+    },
+    {
+      "path": "src/main/data/production-session.ts",
+      "bytes": 11257,
+      "sha256": "d1f83dbfdb219c44e93993dec1ee493365a601eb05cefdc068799f1e8e4f0948"
+    },
+    {
+      "path": "src/main/data/production-startup-restore.ts",
+      "bytes": 2999,
+      "sha256": "95bef8e64857ee91201a4557f9c0e90174a541ae6d34cbe8defc4f6cf0aa3c7d"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "bytes": 20037,
+      "sha256": "54a4b6e3a9039a720892241dd41fd474985263aaf05167031b894e8a3e6d75a7"
+    },
+    {
+      "path": "src/main/data/sqlite.ts",
+      "bytes": 1053,
+      "sha256": "7edd18aa593a1a388a17cdfde072bf0de212ec15b2c12f7bb2b47bfaee24e823"
+    },
+    {
+      "path": "src/main/ipc/register-memory-ipc.ts",
+      "bytes": 1727,
+      "sha256": "7c9171cde0ba5801ce2e884257a7c03310ee51f529a1464695b0908a7b683973"
+    },
+    {
+      "path": "src/main/memory/memory-round-evidence.ts",
+      "bytes": 2815,
+      "sha256": "997553d5ce5332b66e514e0718c963c40d7773be3f5bb2c0b674f6d3eb73099e"
+    },
+    {
+      "path": "src/main/memory/memory-round-query.ts",
+      "bytes": 3558,
+      "sha256": "5080dd03a81fe30d201087ce6799cbb3af1348ee7eaa3896de667dd8dcb2e5f0"
+    },
+    {
+      "path": "src/main/memory/memory-round-schema.ts",
+      "bytes": 1686,
+      "sha256": "0466db57a234e4419379c9921a24103ea23ba314598ef0013b7545010719fdad"
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "bytes": 56239,
+      "sha256": "c9bfb287810f43838271ab2bba79fcd969ec49e93403140c03cc8a2f81f6624f"
+    },
+    {
+      "path": "src/main/provider/credential-vault.ts",
+      "bytes": 2908,
+      "sha256": "d6101596585e7dffcaffa5d382512d031467233c2a4b6b047f3505be4170042d"
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "bytes": 70416,
+      "sha256": "fab662795314bf74ef0f3764145117cf150f877f4ac02828f08f4f4c22ff0336"
+    },
+    {
+      "path": "src/main/provider/retained-protocol-schema.ts",
+      "bytes": 4416,
+      "sha256": "95ba2175e6986405035ed17dc127748907a8e5df3f28fd0f7315997074da99d8"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "bytes": 29931,
+      "sha256": "ff2c6d0444ede8c25532dea4ae9e9a9749a0bd422697533d958bc22234a86411"
+    },
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "bytes": 5715,
+      "sha256": "9015453516b5dc1cdb1fb977edb7736821a4d6ebc2ea8c45adc9ab509320c7a8"
+    },
+    {
+      "path": "src/preload/index.ts",
+      "bytes": 9820,
+      "sha256": "356cfbc868c77026397a4726ff23196a8550f5cfd0340ad8bc2e0100f05fa0d1"
+    },
+    {
+      "path": "src/renderer/src/App.tsx",
+      "bytes": 31488,
+      "sha256": "a2f0b80f09a2e99e9596d106c70e4e66a2770de96a1dee99334b2fdaaedbdd1d"
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "bytes": 45631,
+      "sha256": "bb6fa05439534cd131d2cd7051c4ae9cd447f5ec202639dcfce8745dedaa2b93"
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "bytes": 24221,
+      "sha256": "1e61a07afd7e71ce6c58c3ef583d64d305da08d46afeaafe5abb60fef41bbd57"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "bytes": 72803,
+      "sha256": "dd5f4d3ccf4799084c1729328ef8b7412129e289072105e8a6d0365491df6579"
+    },
+    {
+      "path": "src/renderer/src/features/provider/RoundMemoryPanel.tsx",
+      "bytes": 14012,
+      "sha256": "a1c6bd268357fda8650c58454f3084c907556f26a771d20fd687bddc8fa0ae57"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "bytes": 28372,
+      "sha256": "f2fef30e72f011352f8cdcae10709a5779aeacf94beb8252e97b0904dd402c7b"
+    },
+    {
+      "path": "src/shared/memory-channels.ts",
+      "bytes": 340,
+      "sha256": "25a6a6f9eb73424eb2fb8efe9fdb3e9085a4c2ea92056747fd7473c6eb2d25f0"
+    },
+    {
+      "path": "src/shared/memory-contract.ts",
+      "bytes": 8006,
+      "sha256": "235a42b99729ac9c5a598a95a4a25a26cb0b88360cd62ad00f42a1ded4ce0657"
+    },
+    {
+      "path": "src/shared/memory-round-contract.ts",
+      "bytes": 2284,
+      "sha256": "37cf28e225abafde2282944e04da727bc5971918068a55fed752d977555edb2b"
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "bytes": 19511,
+      "sha256": "2301f77436318140900c20491b9479494e5c12b740b4bc7e4bf2d7639011d01c"
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "bytes": 1679,
+      "sha256": "2e2bb36ecf881adcb7e635cdc60482e7222bf08ef333e027f4432cc15910dc94"
+    },
+    {
+      "path": "tests/integration/governance-legacy-fixture.ts",
+      "bytes": 863,
+      "sha256": "03a7fb0a3092e31192ba20d4366ad627c85247255e8bca807ba31456e7ee433e"
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "bytes": 2200,
+      "sha256": "8c08ec63c997d51ae7c967acacffae014cba1ef84cd571939cfa3952caa5e8da"
+    },
+    {
+      "path": "tests/integration/memory-round-provider.test.ts",
+      "bytes": 7730,
+      "sha256": "7f9cbab7583290e84169ed25da70a0e882bd48c350020bb5bb785c65fc12b353"
+    },
+    {
+      "path": "tests/integration/memory-round.test.ts",
+      "bytes": 13237,
+      "sha256": "874d6494652cac76793b38c1391e3b6f01f87752afe61f1f8ebbbee9b4858108"
+    },
+    {
+      "path": "tests/integration/production-governance-corrupt-source.test.ts",
+      "bytes": 2608,
+      "sha256": "42048e49acc1e943a523c177efc8861f13a2f54b67cf49ac5be56619ff60a34b"
+    },
+    {
+      "path": "tests/integration/production-governance-credential-generation.test.ts",
+      "bytes": 5075,
+      "sha256": "3183da9488f902c85986070821dbcc4c21fe0d2705682550ecdaec95ea00d3a7"
+    },
+    {
+      "path": "tests/integration/production-governance-credential.test.ts",
+      "bytes": 4080,
+      "sha256": "da286513c66d98d3220cafdaf1106b838ce186a42d7441ad555af5bcc3f70c1a"
+    },
+    {
+      "path": "tests/integration/production-governance-migration.test.ts",
+      "bytes": 2589,
+      "sha256": "d1012f7af10f8441f6149790a2c518d806eb36636726dd35bd36e1097402b815"
+    },
+    {
+      "path": "tests/integration/production-governance-portable.test.ts",
+      "bytes": 3292,
+      "sha256": "b90b3e330ec0354e66a77c39dedcb86c190721e99f5ed3db3748148c136ae0bb"
+    },
+    {
+      "path": "tests/integration/production-governance-projection.test.ts",
+      "bytes": 4698,
+      "sha256": "7905f3db4b525a6d72d41effcf3b902db30294589bd5222e58e5c4bdc0427f76"
+    },
+    {
+      "path": "tests/integration/production-governance-protocol-copy.test.ts",
+      "bytes": 4362,
+      "sha256": "a416c5ac1edf0a28b2897b84ba479062d13931f1ba4496c4c134e6467e796dcf"
+    },
+    {
+      "path": "tests/integration/production-governance-purge.test.ts",
+      "bytes": 6313,
+      "sha256": "082eafc5d94c8c423b0249b57794207975bd4943e8e0e7cc400f83115a0cebd1"
+    },
+    {
+      "path": "tests/integration/production-governance-reminder-independent.test.ts",
+      "bytes": 5339,
+      "sha256": "d4844d98ab0473931525a7763c041ebd943fa84575852a430d9ed15448944080"
+    },
+    {
+      "path": "tests/integration/production-governance-restore.test.ts",
+      "bytes": 5719,
+      "sha256": "69165678712a56833e4bca62f2482f0bd4ac5472fdc8a7eae46f6b95a8efcb28"
+    },
+    {
+      "path": "tests/integration/production-governance-review014-credential.test.ts",
+      "bytes": 3380,
+      "sha256": "782e7666efe358d541cabfd3b3339a793fe141355dc8e5bc47dee6dbaed43338"
+    },
+    {
+      "path": "tests/integration/production-governance-review014-independent.test.ts",
+      "bytes": 7251,
+      "sha256": "8c41a32af153f4a6df0af29fc0678c320d2df5d8bec9a126159263476f2bbc54"
+    },
+    {
+      "path": "tests/integration/production-governance-review014-protocol.test.ts",
+      "bytes": 4314,
+      "sha256": "65fad28df5c558610d8b9a330d2f92953d4fc6ab1e92c686aa58c96ed187ab75"
+    },
+    {
+      "path": "tests/integration/production-governance-session.test.ts",
+      "bytes": 3690,
+      "sha256": "fcd01907af68a35e88543aed36eecc7ced81a9bdc423a311c3c0aa9a0e135e4b"
+    },
+    {
+      "path": "tests/integration/production-governance-upgrade.test.ts",
+      "bytes": 5906,
+      "sha256": "e4f4bb30acab6e065d35025e1befd7be88ebc4d5ea3e34851308324741d86a35"
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "bytes": 6069,
+      "sha256": "bb251af89df73129941d2dcb3b129583124830d28246cc3f27eea570cf0e24cb"
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "bytes": 26561,
+      "sha256": "d7903bad082817d97f7053cd5810f124143198a8bd42668d16c5ebcb70eeb9ac"
+    },
+    {
+      "path": "tests/integration/reminder-login-compensation.test.ts",
+      "bytes": 4711,
+      "sha256": "6f2d6585181d1d0f6294b81c4bcc29b762876fa62c8a68475169662e39351501"
+    },
+    {
+      "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+      "bytes": 2305,
+      "sha256": "a96b4946ac0c30e24f353250d5dc6fdb362ba7a349542df87ef4136aeff2f0af"
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "bytes": 2063,
+      "sha256": "f7fca192fcd591965abf21c4d0accb8c6ce1f8b844f409054d65a2b739347386"
+    },
+    {
+      "path": "tests/integration/retained-protocol-legacy-fixture.ts",
+      "bytes": 2462,
+      "sha256": "5874ea716500e5e9f37e788b207c6d7561290d76042dad89099b6a2ce31d2f24"
+    },
+    {
+      "path": "tests/integration/retained-protocol-migration.test.ts",
+      "bytes": 6139,
+      "sha256": "9d4eb96364018a6f0accd187087d0ec32b1d2b1bdf9290d67a94318f0ff48c5d"
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "bytes": 2190,
+      "sha256": "cef15648b08d01d05def0858612421390d4665a38a3109ef91add0c1ab51a135"
+    },
+    {
+      "path": "tests/integration/review017-independent.test.ts",
+      "bytes": 8447,
+      "sha256": "46db6d715e4ab7422d9877c8c3e1c4c0fc4e20de1c87282f30a7d761e131f241"
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "bytes": 1717,
+      "sha256": "e83c29c9d8bfa8bdda191b8e2b61d7ccb1527377482a7b67f1c6c64845c88d85"
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "bytes": 995,
+      "sha256": "2f836efbcca6d7eb67b9ffde1cc2b885ff4b5f0bafb8ecbce3c0c0f763ba7bf3"
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "bytes": 26462,
+      "sha256": "d78900349895be369a375549d51d7efc9b21a5a44ee578189e6cfc89bc0186b7"
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "bytes": 7732,
+      "sha256": "501513ec80877173fb725adcba970626f6b5e0cc5d354f874b21e46673d2afdc"
+    },
+    {
+      "path": "tests/renderer/RoundMemoryPanel.test.tsx",
+      "bytes": 17458,
+      "sha256": "c6b097212cea32695b4ac8ab819f29b299c7d3ac7e21678c73e997ea12f50f96"
+    },
+    {
+      "path": "tests/renderer/memory-api-fixture.ts",
+      "bytes": 1609,
+      "sha256": "c807a207c158e5f4bf9c8e23e7914850d6ba8223349c483fbf4771e97566e1a6"
+    },
+    {
+      "path": "tests/renderer/review017-app-correction.test.tsx",
+      "bytes": 8645,
+      "sha256": "78508ffdf96ce8d560e406abc4f449fdf3b122a72f7ec4094e6561c71a4270b9"
+    },
+    {
+      "path": "tests/renderer/review017-app-target.test.tsx",
+      "bytes": 4032,
+      "sha256": "6c84bc5ab7784ec108b2806e8032024bd1908d65aae0f83b1bb4a2494a061712"
+    },
+    {
+      "path": "tests/renderer/review017-round-boundary.test.tsx",
+      "bytes": 7081,
+      "sha256": "9bceac64bc9e1ea49ffe204147cbc637e795dea903b28271e576d4ae8310e61a"
+    },
+    {
+      "path": "tests/unit/credential-revocation-boundary.test.ts",
+      "bytes": 1898,
+      "sha256": "bcbfe1e11c31b9fa853b2cdbef958a173a3299678ecff207baff0410386eeab2"
+    },
+    {
+      "path": "tests/unit/login-hidden-registration-independent.test.ts",
+      "bytes": 1933,
+      "sha256": "71b686769f0d18d2197ecc19d1221ca67abbf3d0b3f61b264f75c5896db4cc76"
+    },
+    {
+      "path": "tests/unit/memory-round-ipc.test.ts",
+      "bytes": 1153,
+      "sha256": "cc176ec5c73cbb287cd89ba4e3a0ef4a559caf69a1a5adbf85dce6213fc83212"
+    },
+    {
+      "path": "tests/unit/production-entry-independent.test.ts",
+      "bytes": 4384,
+      "sha256": "403e6a11b6ef419f3b0785f2d5d4421004e387483b522e68362bf300ca994215"
+    },
+    {
+      "path": "tests/unit/production-governance-connection.test.ts",
+      "bytes": 3355,
+      "sha256": "e94fd734347c3fe761b7e252a4742c49cd645f6123e75e7da586f57191947860"
+    },
+    {
+      "path": "tests/unit/production-governance-ignored-write.test.ts",
+      "bytes": 1428,
+      "sha256": "872cf078c9a23e413839dd846945cdb8259c3ee2b9fec00381c08f262a77bf7c"
+    },
+    {
+      "path": "tests/unit/production-governance-journal.test.ts",
+      "bytes": 3650,
+      "sha256": "d7c8652eb7a27f467ef62f80ab95561b84698e34364de6c00b82746a193d9edd"
+    },
+    {
+      "path": "tests/unit/production-governance-mechanism.test.ts",
+      "bytes": 4367,
+      "sha256": "8899878a3fa3380a79cc2b5809ba004648459cf30aa923bdaa0c3abe26638156"
+    },
+    {
+      "path": "tests/unit/production-governance-seed-capacity.test.ts",
+      "bytes": 3339,
+      "sha256": "e01fe3b8648f2203cc91a68de85f9bdb6413d2362f74bccc3c0ee05e38b1e5ec"
+    },
+    {
+      "path": "tests/unit/production-governance-seed-review014-independent.test.ts",
+      "bytes": 2593,
+      "sha256": "7e5a28bf3c448d98ebaaf847c63537d96c793c176132ee111b78b9f51d0a3f40"
+    },
+    {
+      "path": "tests/unit/reminder-boundaries.test.ts",
+      "bytes": 4638,
+      "sha256": "63686741e57985dc6707c6bf4d37285bf00dbe9fb310ae2428741ebfca345450"
+    },
+    {
+      "path": "tests/unit/windows-reminder-login.test.ts",
+      "bytes": 7122,
+      "sha256": "fd0e580968c46cb4812049e162afd1df06309319663457240f9e50064dc8800f"
+    }
+  ],
+  "scope": "staged017 source/evidence; ongoing018 remains unstaged"
+}

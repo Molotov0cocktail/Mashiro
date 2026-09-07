@@ -1,0 +1,46 @@
+{
+  "candidate": "Windows login-startup effective-state and compensation repair",
+  "files": [
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "sha256": "CCC2CEECA77341942E066007BD8B62B35B77A7D116049F14761D720740107E25"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "FF2C6D0444EDE8C25532DEA4AE9E9A9749A0BD422697533D958BC22234A86411"
+    },
+    {
+      "path": "tests/unit/reminder-boundaries.test.ts",
+      "sha256": "7E7B46A0E6AE0EB36845D4E9C85055CC053A8957B5AFBFA53F67540FA32C3526"
+    },
+    {
+      "path": "tests/unit/windows-reminder-login.test.ts",
+      "sha256": "D65D7BA3703A760A62AB96242C9C663929751C9A4698F0220EE2C90D3116D639"
+    },
+    {
+      "path": "tests/integration/reminder-login-compensation.test.ts",
+      "sha256": "6F2D6585181D1D0F6294B81C4BCC29B762876FA62C8A68475169662E39351501"
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-tests-01.json",
+      "sha256": "C394418732ADD47688AAACA3645D33DE5777B3358D3B25D1F2CDD31DA8B6D84D",
+      "result": "3 files / 15 tests passed"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-installed-native-01.json",
+      "sha256": "BD746775EDF97BA20A4FD345124725DDFD6B9ADEE95FF8B49F0AAD0A8F1977B5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-repair-handoff.md",
+      "sha256": "779D682C45826582D5D6123A4EC9435CEFB80D04B95E5F03BD158F9EA875BAF8"
+    }
+  ],
+  "static": {
+    "eslint": "PASS (5 candidate files)",
+    "prettier": "PASS (5 candidate files)",
+    "wholeTypecheck": "PASS after independently owned round mock and production-entry fixture repairs"
+  },
+  "reviewState": "CANDIDATE_ONLY_REQUIRES_INDEPENDENT_REVIEW_AND_NEW_INSTALLER_NATIVE_VALIDATION"
+}

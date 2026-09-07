@@ -1,0 +1,209 @@
+{
+  "scope": "offline snapshot of exited schema-15 synthetic full-domain data before upgrade",
+  "observedAt": "2026-09-07T10:47:30.269Z",
+  "source": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 15,
+  "integrity": [
+    "ok"
+  ],
+  "files": [
+    {
+      "relative": ".mashiro-dataset.json",
+      "length": 143,
+      "sha256": "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F"
+    },
+    {
+      "relative": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+      "length": 49,
+      "sha256": "31FFBA797A347D393768A6D1F0C155CA779C9477E0DB2583E647A8E8AF4D65B1"
+    },
+    {
+      "relative": "mashiro.sqlite",
+      "length": 790528,
+      "sha256": "E7BB3B9E60CA6B4F9522AB42095D5C202DBE550A3260027B2F3786B5E382FD36"
+    },
+    {
+      "relative": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+      "length": 50,
+      "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92"
+    },
+    {
+      "relative": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+      "length": 50,
+      "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D"
+    },
+    {
+      "relative": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+      "length": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    },
+    {
+      "relative": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+      "length": 20,
+      "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5"
+    },
+    {
+      "relative": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+      "length": 48,
+      "sha256": "731F9E4073F458A6D9F0A6DD6754340238EC47B55D46718020E675EE43638ABD"
+    },
+    {
+      "relative": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+      "length": 50,
+      "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0"
+    },
+    {
+      "relative": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+      "length": 26,
+      "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292"
+    },
+    {
+      "relative": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+      "length": 71,
+      "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C"
+    },
+    {
+      "relative": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+      "length": 69,
+      "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F"
+    },
+    {
+      "relative": "memory/f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+      "length": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    }
+  ],
+  "counts": {
+    "assistant_provider_bindings": 1,
+    "assistant_state": 1,
+    "assistant_tombstones": 1,
+    "assistants": 3,
+    "background_attempts": 1,
+    "background_chapters": 1,
+    "background_configs": 1,
+    "background_controls": 0,
+    "background_jobs": 4,
+    "branch_members": 1,
+    "content_tombstones": 1,
+    "daily_commands": 2,
+    "daily_configs": 1,
+    "daily_item_changes": 6,
+    "daily_item_checkpoints": 0,
+    "daily_jobs": 1,
+    "daily_reports": 1,
+    "daily_suppressions": 0,
+    "discovery_configs": 1,
+    "history_permissions": 1,
+    "history_recipient_grants": 1,
+    "item_commands": 7,
+    "item_confirmations": 0,
+    "item_permissions": 0,
+    "item_proposals": 1,
+    "item_recipients": 0,
+    "item_rejections": 0,
+    "item_retained_edges": 0,
+    "item_sources": 0,
+    "item_tombstones": 0,
+    "items": 6,
+    "memory_branches": 1,
+    "memory_cleanup": 0,
+    "memory_commands": 12,
+    "memory_conflicts": 0,
+    "memory_dependencies": 25,
+    "memory_index": 7,
+    "memory_objects": 9,
+    "memory_pending": 7,
+    "memory_permissions": 2,
+    "memory_previews": 1,
+    "memory_recipients": 2,
+    "memory_suppressions": 3,
+    "memory_versions": 15,
+    "operation_events": 52,
+    "protocol_results": 1,
+    "protocol_segments": 1,
+    "provider_capability_evidence": 0,
+    "provider_connections": 1,
+    "reminder_activations": 0,
+    "reminder_commands": 7,
+    "reminder_notification_members": 5,
+    "reminder_occurrences": 5,
+    "reminder_previews": 0,
+    "reminder_settings": 1,
+    "reminders": 3,
+    "retained_source_edges": 0,
+    "retention_commands": 5,
+    "retention_job_items": 5,
+    "retention_jobs": 2,
+    "retention_original_trash": 0,
+    "retention_previews": 2,
+    "retention_state": 1,
+    "steward_attempts": 2,
+    "steward_configs": 1,
+    "steward_consumptions": 2,
+    "steward_controls": 0,
+    "steward_jobs": 5,
+    "steward_slots": 1,
+    "timeline_messages": 12,
+    "timeline_sources": 6,
+    "tool_operations": 1,
+    "usage_attempts": 10
+  },
+  "assistants": [
+    {
+      "id": "134229af-c116-4a5d-bd96-9331ef89f6f5",
+      "version": 2,
+      "archived": true,
+      "tombstoned": true
+    },
+    {
+      "id": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "version": 4,
+      "archived": false,
+      "tombstoned": false
+    },
+    {
+      "id": "77cf15db-79cf-493e-a14a-96a0495f27f0",
+      "version": 2,
+      "archived": true,
+      "tombstoned": false
+    }
+  ],
+  "assistantState": {
+    "primaryAssistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+    "currentAssistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+    "revision": 10
+  },
+  "proposals": [
+    {
+      "id": "d918a464-d6da-4813-9fdb-8b09e22521c2",
+      "version": 1,
+      "state": "DRAFT_PROPOSAL",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+    }
+  ],
+  "reminders": [
+    {
+      "id": "10b5b779-9f2e-479a-93f0-34077170e1f7",
+      "version": 2,
+      "state": "HANDLED",
+      "dueAt": "2026-09-07T06:35:23.450Z"
+    },
+    {
+      "id": "55c6b6af-038b-40d9-afc5-f495db3e9f17",
+      "version": 2,
+      "state": "HANDLED",
+      "dueAt": "2026-09-07T06:35:14.303Z"
+    },
+    {
+      "id": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 3,
+      "state": "DISPLAY_OBSERVED",
+      "dueAt": "2026-09-07T17:21:00+08:00"
+    }
+  ],
+  "sourceReparsePoints": 0,
+  "installedMashiroProcesses": 0,
+  "externalCalls": 0,
+  "personalDataAccessed": false
+}

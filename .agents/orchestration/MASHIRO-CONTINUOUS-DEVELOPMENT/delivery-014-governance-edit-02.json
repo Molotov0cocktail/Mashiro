@@ -1,0 +1,20 @@
+[
+  {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-restore-contract.md",
+    "hash": "3E38B58E8DBD7B9A803FD713BC2E51B50A8BB277EE4A1AC027818915AA15492A",
+    "edits": [
+      [
+        "015 的 28 文件候选冻结，本增量不修改它或 schema16。",
+        "015 的 28 文件候选冻结，本增量不修改它或 schema16；root 已同意在015审核提交后，以独立schema17增加无正文提交token与实例锚点。"
+      ],
+      [
+        "只有重新读取已提交的无正文投影后才晋升已结算屏障。SQL 回滚的意图被精确消除，不永久扩大已完成删除。",
+        "TEMP trigger 同时把待决事件token写入schema17提交表，和业务变更同事务提交/回滚。只有核对当前原实例锚点、持久token与配置意图绑定后才晋升已结算屏障；不以“当前行看起来没变化”猜测回滚。SQL 回滚的意图被精确消除，不永久扩大已完成删除。"
+      ],
+      [
+        "随后新建治理 journal / registry / projection / apply 模块；必要改 SqliteStore、生产 session/bootstrap/restore/startup/maintenance/backup 和入口错误说明。原 schema 与 015 Provider 域不改，若必须变更先协调。",
+        "随后新建治理 journal / registry / projection / apply 模块；必要改 SqliteStore、生产 session/bootstrap/restore/startup/maintenance/backup 和入口错误说明。原schema16与015 Provider域不改；015提交后独立schema17迁移保留真实旧版本约束。新恢复副本取得新实例锚点，不得凭复制的旧实例记录清除原实例待决token。当前原库损坏时已结算屏障仍可用，存在未结算事件则保持待核验。"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "path": "src/main/provider/provider-service.ts",
+    "hash": "46BA21FA6D388063230AAD9703D87A64DCFE7FCBDC04A87EE00E46F4DE4E1C33",
+    "replacements": [
+      [
+        "import { randomUUID, createHash } from 'node:crypto'",
+        "import { randomUUID, createHash } from 'node:crypto'\nimport { dispatchedMemorySources, recordMemoryEvidence } from '../memory/memory-round-evidence.js'"
+      ],
+      [
+        "        try {\n          const result = await this.transport(request)\n          this.operations.settle(attempt, result.usage)",
+        "        try {\n          const sources = value.mode === 'normal' ? dispatchedMemorySources(request.messages) : []\n          const evidence = (state: 'DISPATCH_STARTED' | 'RESPONSE_OBSERVED') => {\n            if (sources.length) recordMemoryEvidence(this.store, value.assistantId, value.requestId, sources, state)\n          }\n          evidence('DISPATCH_STARTED')\n          let observed = false\n          const observe = () => {\n            if (!observed) { evidence('RESPONSE_OBSERVED'); observed = true }\n          }\n          const result = await this.transport({\n            ...request,\n            onDelta: request.onDelta ? (delta) => { observe(); request.onDelta!(delta) } : undefined\n          })\n          if (result.status === 'completed' || result.text.length > 0) observe()\n          this.operations.settle(attempt, result.usage)"
+      ],
+      [
+        "                  providedMemory.push(\n                    ...records.map",
+        "                  recordMemoryEvidence(this.store, value.assistantId, value.requestId,\n                    records.map((record) => ({ type: 'memory', id: record.id,\n                      assistantId: record.ownerAssistantId, version: record.objectVersion })), 'PREPARED')\n                  providedMemory.push(\n                    ...records.map"
+      ],
+      [
+        "summary: '已提供 ' + records.length + ' 条获准记忆（不代表模型实际使用）'",
+        "summary: '已准备 ' + records.length + ' 条获准记忆，派发状态见本轮来源（不代表模型实际使用）'"
+      ]
+    ]
+  }
+]

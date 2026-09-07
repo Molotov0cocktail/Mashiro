@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "F4C9DA9A1D7195A9ED51C42A4326457BFBA16704F6A06DCD27804E1263C484BC",
+    "edits": [
+      [
+        "    // Reversible restoration of originals is honored only when the later journal records it.",
+        "    for (const id of assistants) {\n      const now = new Date().toISOString()\n      database.prepare(\"UPDATE assistants SET display_name='已删除助手',persona='',avatar_key='mashiro',archived_at=?,updated_at=?,version=version+1 WHERE id=?\").run(now, now, id)\n    }\n    const replacement = database.prepare('SELECT id FROM assistants WHERE archived_at IS NULL AND id NOT IN(SELECT id FROM assistant_tombstones) ORDER BY created_at,id LIMIT 1').get()?.id ?? null\n    database.prepare('UPDATE assistant_state SET primary_assistant_id=CASE WHEN primary_assistant_id IN(SELECT id FROM assistant_tombstones) THEN ? ELSE primary_assistant_id END,current_assistant_id=CASE WHEN current_assistant_id IN(SELECT id FROM assistant_tombstones) THEN ? ELSE current_assistant_id END,revision=revision+1 WHERE singleton=1').run(replacement, replacement)\n    // Reversible restoration of originals is honored only when the later journal records it."
+      ]
+    ]
+  }
+]

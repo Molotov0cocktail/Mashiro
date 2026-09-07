@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+    "hash": "EA20F6FDA8025A75CB461FF0FB57F0BF0FDD48C0438B0D88C8E0DEAC0967F3A4",
+    "replacements": [
+      [
+        "        setNotice('列表与授权已刷新；正在编辑的版本未自动替换，保存时会校验版本以避免覆盖新修改。')",
+        "        setNotice((current) =>\n          current || '列表与授权已刷新；正在编辑的版本未自动替换，保存时会校验版本以避免覆盖新修改。'\n        )"
+      ]
+    ]
+  }
+]

@@ -59,6 +59,7 @@ const timeline: TimelineApi = {
   saveTemporary: (input) => ipcRenderer.invoke(timelineChannels.saveTemporary, input)
 }
 const memory: MemoryApi = {
+  round: (input) => ipcRenderer.invoke(memoryChannels.round, input),
   query: (input) => ipcRenderer.invoke(memoryChannels.query, input),
   mutate: (input) => ipcRenderer.invoke(memoryChannels.mutate, input),
   inspect: (input) => ipcRenderer.invoke(memoryChannels.inspect, input),

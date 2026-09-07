@@ -1,0 +1,51 @@
+{
+  "scope": "installed schema-15 synthetic full-domain normal exit and current pre-upgrade complete backup",
+  "runtime": {
+    "source": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+    "backup": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\完整备份-升级前全域-02",
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "backupId": "be252177-5477-4b80-916a-862399a8e04c",
+    "schemaVersion": 15,
+    "backupJsonSha256": "8A95AE73F1D57E93C0056BEB19E2EE3104277AF92B2D8596441AF269190C00B6",
+    "finalSourceSqliteSha256": "E5381791E8F08847812E983A7E74442A4A45DFCB824A319ABA7A09EC2D5BD46E",
+    "installedProcessesAfterExit": 0
+  },
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-current-source-snapshot.mjs",
+      "sha256": "85BE2DC44C0211317C852160D04D9FA914FFF20896E9F4991CB26E254485992E"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-source-snapshot-01.json",
+      "sha256": "C1909F385F6A98A17DFC3EBD3D27D4EB1F36AF1A2AB9BF670E71C960E4696D26",
+      "result": "offline source integrity ok before backup relaunch"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-verify.mjs",
+      "sha256": "41B92F712D69505BD5DC1635DFE61FEA646AC8B06250283E8ACA928C67AE145C"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-01.json",
+      "sha256": "461B3999DC10C8D53FD720CEE3C55252AF60285535AD0329A2728AF2F1B8F0DB",
+      "result": "PASS_WITHIN_INSTALLED_BACKUP_SCOPE"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-root-hashes-01.json",
+      "sha256": "407DEA4EBDF99D297B849879A3D2A2EDAACC811B3DE36A87F57FD066C320632E",
+      "result": "root independently matched 13 manifest/source/payload lengths and hashes"
+    }
+  ],
+  "checks": {
+    "menuExitAfterWindowCloseOnlyHid": "PASS",
+    "backupAddressReadBack": "PASS",
+    "visibleCompletionReceipt": "PASS",
+    "manifestSourcePayload": "13/13 match",
+    "sourceAndPayloadIntegrity": "ok",
+    "sourceAndPayloadTableCounts": "match",
+    "snapshotMarkerBound": true,
+    "reparsePoints": 0,
+    "externalCalls": 0,
+    "personalDataAccessed": false
+  },
+  "boundary": "The final source hash is the backup-time baseline. Any later synthetic notification interaction must record its own database delta before upgrade comparison."
+}

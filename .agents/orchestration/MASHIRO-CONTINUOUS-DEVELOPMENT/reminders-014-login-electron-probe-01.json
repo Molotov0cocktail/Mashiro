@@ -1,0 +1,96 @@
+{
+  "electron": "44.1.1",
+  "appId": "Mashiro.LoginProbe.20260907",
+  "executableSha256": "BA5AA5BD3A78EFB437A9F2FFF46CEB4E088204B0594BCDD0132B0CC72A1DE8E6",
+  "executablePathKind": "synthetic Chinese path with spaces",
+  "quotedQuery": {
+    "openAtLogin": true,
+    "executableWillLaunchAtLogin": true,
+    "item": {
+      "name": "Mashiro.LoginProbe.20260907",
+      "path": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+      "args": [],
+      "scope": "user",
+      "enabled": true
+    }
+  },
+  "unquotedQuery": {
+    "openAtLogin": true,
+    "executableWillLaunchAtLogin": false,
+    "item": null
+  },
+  "disabledQuery": {
+    "openAtLogin": true,
+    "executableWillLaunchAtLogin": false,
+    "item": {
+      "name": "Mashiro.LoginProbe.20260907",
+      "path": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+      "args": [],
+      "scope": "user",
+      "enabled": false
+    }
+  },
+  "registryBefore": {
+    "run": null,
+    "startupApproved": null
+  },
+  "registryEnabled": {
+    "run": {
+      "length": 155,
+      "sha256": "1122FD0D53818C552FF8FF5F286C1B16118B5B31F86C488BBC16964E28022C73",
+      "containsExecutable": false,
+      "containsArgument": true
+    },
+    "startupApproved": null
+  },
+  "registryDisabled": {
+    "run": {
+      "length": 155,
+      "sha256": "1122FD0D53818C552FF8FF5F286C1B16118B5B31F86C488BBC16964E28022C73",
+      "containsExecutable": false,
+      "containsArgument": true
+    },
+    "startupApproved": {
+      "length": 69,
+      "sha256": "623E9D25E59A39D34483F0F233AF2EE5DCBAC6096A76273D13E6C79EE7B47CA2"
+    }
+  },
+  "registryAfterElectronCleanup": {
+    "run": null,
+    "startupApproved": null
+  },
+  "registryAfterCleanup": {
+    "run": null,
+    "startupApproved": null
+  },
+  "cleanup": {
+    "openAtLogin": false,
+    "executableWillLaunchAtLogin": false,
+    "item": null
+  },
+  "checks": {
+    "quotedRegistered": true,
+    "quotedEffective": true,
+    "quotedItemPath": true,
+    "quotedItemEnabled": true,
+    "quotedSwitchOmittedFromLaunchItem": true,
+    "unquotedRejected": true,
+    "disabledRegistered": true,
+    "disabledNotEffective": true,
+    "disabledItem": true,
+    "enabledRunPresent": true,
+    "enabledRunCommandComplete": false,
+    "disabledRunPresent": true,
+    "disabledRunCommandComplete": false,
+    "disabledApprovalPresent": true,
+    "apiCleanup": true,
+    "rawCleanup": true
+  },
+  "failures": [
+    "enabledRunCommandComplete",
+    "disabledRunCommandComplete"
+  ],
+  "passed": false,
+  "externalCalls": 0,
+  "personalDataAccessed": false
+}

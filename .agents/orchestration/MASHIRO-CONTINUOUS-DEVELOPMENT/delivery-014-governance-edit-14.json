@@ -1,0 +1,24 @@
+[
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "CEA34A8D831D5464676E8F57DE59D3BE0B0574D793B97530FB074E4FC9DE9E6C",
+    "edits": [
+      [
+        "import { createHash } from 'node:crypto'",
+        "import { createHash } from 'node:crypto'\nimport { redactGovernanceCopies } from './production-governance-redaction.js'"
+      ],
+      [
+        "const redacted = { ...record, version,",
+        "const redacted = { ...record, objectVersion: version,"
+      ],
+      [
+        "    mergePermissions(database, projections)",
+        "    redactGovernanceCopies(database, new Set([...memories, ...rounds, ...assistants, ...proposals, ...items]))\n    mergePermissions(database, projections)"
+      ],
+      [
+        "UPDATE provider_connections SET enabled=0; DELETE FROM provider_capability_evidence",
+        "UPDATE provider_connections SET enabled=0; DELETE FROM assistant_provider_bindings; DELETE FROM provider_capability_evidence"
+      ]
+    ]
+  }
+]

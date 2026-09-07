@@ -1,7 +1,9 @@
 import type { DatabaseSync } from 'node:sqlite'
+import { removeGovernanceFixture } from './governance-legacy-fixture.js'
 
 /** Synthetic fixtures only: restore the actual pre-v16 CHECK, not just its version number. */
 export function removeRetainedProtocolFixture(database: DatabaseSync): void {
+  removeGovernanceFixture(database)
   const table = database
     .prepare("SELECT sql FROM sqlite_master WHERE name='protocol_segments'")
     .get()

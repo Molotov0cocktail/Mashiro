@@ -1,5 +1,6 @@
 import { DatabaseSync } from 'node:sqlite'
 import { initializeOrVerifySchema } from './schema.js'
+import { attachProductionGovernance } from './production-governance-registry.js'
 
 export class SqliteStore {
   readonly database: DatabaseSync
@@ -10,6 +11,7 @@ export class SqliteStore {
       this.database.exec('PRAGMA foreign_keys = ON')
       this.database.exec('PRAGMA busy_timeout = 5000')
       initializeOrVerifySchema(this.database)
+      this.database = attachProductionGovernance(databasePath, this.database)
     } catch (error) {
       this.database.close()
       throw error

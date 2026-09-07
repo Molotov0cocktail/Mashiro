@@ -1,0 +1,7 @@
+{
+  "chunk_id": "a4bfab",
+  "wall_time_seconds": 6.7815792,
+  "exit_code": 0,
+  "original_token_count": 50,
+  "output": "\n RUN  v4.1.11 D:/Mashiro\n\n\n Test Files  4 passed (4)\n      Tests  23 passed (23)\n   Start at  17:38:39\n   Duration  5.36s (transform 823ms, setup 473ms, import 1.38s, tests 6.88s, environment 0ms)\n\n"
+}

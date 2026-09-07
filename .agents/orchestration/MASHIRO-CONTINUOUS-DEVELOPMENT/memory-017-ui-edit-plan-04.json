@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/RoundMemoryPanel.tsx",
+    "hash": "73A6362DC1BF5F6D72432B05BD2C156E00369E8C02ABF3AA35064DB6B01D4530",
+    "replacements": [
+      [
+        "    return () => {\n      versions.current.provided += 1\n      versions.current.changes += 1\n    }\n  }, [assistantId, api, loadInitial, mode, open, requestId, route])",
+        "  }, [assistantId, api, loadInitial, mode, open, requestId, route])"
+      ]
+    ]
+  }
+]

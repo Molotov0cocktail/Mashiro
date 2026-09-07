@@ -10,6 +10,8 @@ import {
 } from 'node:fs'
 import { join } from 'node:path'
 import { z } from 'zod'
+import { memoryRoundInputSchema } from '../../shared/memory-round-contract.js'
+import { queryMemoryRound, type RoundObjectView } from './memory-round-query.js'
 import type { SqliteStore } from '../data/sqlite.js'
 import {
   memoryRecordSchema,
@@ -367,6 +369,66 @@ export class MemoryService {
         records: found.slice(0, value.limit).map((row) => row.record),
         nextCursor: found.length > value.limit ? found[value.limit - 1]!.cursor : null
       }
+    })
+  }
+  round(input: unknown) {
+    return this.handle(memoryRoundInputSchema, input, (value) => {
+      // A temporary view performs no normal-data reads and creates no durable trace.
+      if (value.mode === 'temporary')
+        return {
+          assistantId: value.assistantId,
+          requestId: value.requestId,
+          evidenceCoverage: 'recorded-only' as const,
+          entries: [],
+          nextCursor: null
+        }
+      this.activeAssistant(value.assistantId)
+      const owners = this.store.database
+        .prepare('SELECT DISTINCT assistant_id FROM timeline_messages WHERE request_id=?')
+        .all(value.requestId)
+      if (owners.length !== 1 || owners[0]!.assistant_id !== value.assistantId)
+        throw new MemoryError('NOT_FOUND')
+      const source = {
+        type: 'round' as const,
+        id: value.requestId,
+        assistantId: value.assistantId,
+        version: 1
+      }
+      const grant = this.store.database
+        .prepare('SELECT read_history FROM history_permissions WHERE assistant_id=?')
+        .get(value.assistantId)
+      if (
+        grant?.read_history !== 1 ||
+        this.withdrawn(source) ||
+        this.withdrawn({ ...source, type: 'user-round' }) ||
+        this.store.database
+          .prepare("SELECT 1 FROM content_tombstones WHERE kind='round' AND id=?")
+          .get(value.requestId) ||
+        this.store.database
+          .prepare('SELECT 1 FROM retention_original_trash WHERE request_id=?')
+          .get(value.requestId)
+      )
+        throw new MemoryError('PERMISSION_DENIED')
+      return queryMemoryRound(this.store, value, (id, version): RoundObjectView => {
+        const hidden: RoundObjectView = {
+          availability: 'unavailable',
+          record: null,
+          canInspect: false
+        }
+        try {
+          const record = this.owned(value.assistantId, id)
+          const fingerprint = this.endpoint(value.assistantId).fingerprint
+          if (!fingerprint || this.retired(id)) return hidden
+          this.assertRecord(record, value.assistantId, fingerprint)
+          if (record.objectVersion !== version)
+            return { ...hidden, availability: 'obsolete', canInspect: true }
+          const visible = this.visible(record)
+          if (visible.state !== 'active') return hidden
+          return { availability: 'available', record: visible, canInspect: true }
+        } catch {
+          return hidden
+        }
+      })
     })
   }
   inspect(input: unknown) {

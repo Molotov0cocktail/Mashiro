@@ -1,0 +1,12 @@
+[
+  {
+    "path": "tests/integration/memory-round-provider.test.ts",
+    "hash": "35B3171AAC4F88AD2C0C334BBA17C29FC1D57B076D09F4077F649CD3B3749983",
+    "replacements": [
+      [
+        "tools: 'clock-history-and-memory'",
+        "tools: 'clock-and-memory'"
+      ]
+    ]
+  }
+]

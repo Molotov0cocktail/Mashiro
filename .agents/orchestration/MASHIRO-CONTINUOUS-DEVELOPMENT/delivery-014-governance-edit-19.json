@@ -1,0 +1,30 @@
+[
+  {
+    "path": "src/main/data/production-governance-reminders.ts",
+    "hash": "7C21C9BFB3231373EE55F4D1D71282F13B02E5D18AA0459263338BC1F3237813",
+    "edits": [
+      [
+        "SELECT record_json FROM reminders",
+        "SELECT version,record_json FROM reminders"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "94A29EC4A2D52F56E85EFFAF08E8CA15D4E68B9A79D76527F16CBF504E4A9A23",
+    "edits": [
+      [
+        "  database.exec('BEGIN IMMEDIATE')",
+        "  database.exec('PRAGMA secure_delete=ON; BEGIN IMMEDIATE')"
+      ],
+      [
+        "record_json=json_set(record_json,'$.summary','内容已被后续治理阻止','$.citations',json('[]'))",
+        "record_json=json_remove(json_set(record_json,'$.summary','内容已被后续治理阻止','$.citations',json('[]')),'$.memoryReceipt','$.retentionIntent','$.retentionPreview')"
+      ],
+      [
+        "  return { unavailableMemories: memories.size, retiredRounds: rounds.size, unavailableItems: items.size }",
+        "  database.exec('VACUUM')\n  return { unavailableMemories: memories.size, retiredRounds: rounds.size, unavailableItems: items.size }"
+      ]
+    ]
+  }
+]

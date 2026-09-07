@@ -1,4 +1,5 @@
 export const memoryChannels = {
+  round: 'memory:round',
   query: 'memory:query',
   mutate: 'memory:mutate',
   inspect: 'memory:inspect',

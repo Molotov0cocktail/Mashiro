@@ -1,0 +1,7 @@
+{
+  "chunk_id": "e4110b",
+  "wall_time_seconds": 3.2984291,
+  "exit_code": 1,
+  "original_token_count": 330,
+  "output": "\n RUN  v4.1.11 D:/Mashiro\n\n ❯ tests/renderer/review017-app-correction.test.tsx (1 test | 1 failed) 335ms\n   × real memory correction invalidates the hidden answer panel before returning to chat 334ms\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  tests/renderer/review017-app-correction.test.tsx > real memory correction invalidates the hidden answer panel before returning to chat\nError: expect(element).not.toBeInTheDocument()\n\nexpected document not to contain element, found <p\n  class=\"memory-markdown\"\n>\n  REVIEW017_BEFORE_CORRECTION\n</p> instead\n ❯ tests/renderer/review017-app-correction.test.tsx:46:79\n     44|   await screen.findByRole('heading', { name: '当前记录 v2' })\n     45|   fireEvent.click(screen.getByRole('tab', { name: '对话' }))\n     46|   expect(within(conversation).queryByText('REVIEW017_BEFORE_CORRECTION…\n       |                                                                               ^\n     47|   expect(await within(conversation).findByText(/当时的 v1 已不可用/)).toBeInT…\n     48| })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n\n Test Files  1 failed (1)\n      Tests  1 failed (1)\n   Start at  18:51:06\n   Duration  2.02s (transform 283ms, setup 219ms, import 324ms, tests 335ms, environment 957ms)\n\n"
+}

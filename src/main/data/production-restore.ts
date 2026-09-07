@@ -25,6 +25,7 @@ export async function restoreProductionBackup(options: {
   destinationDirectory: string
   signal: AbortSignal
   expectedReceipt?: ProductionBackupReceipt
+  governCopy?(directory: string, receipt: ProductionBackupReceipt, assertCurrent: () => void): void
 }): Promise<ProductionBackupReceipt> {
   const approvedReceipt = options.expectedReceipt ? JSON.stringify(options.expectedReceipt) : null
   const source = canonicalProductionDirectory(options.backupDirectory)
@@ -87,6 +88,8 @@ export async function restoreProductionBackup(options: {
       if (JSON.stringify(verifyProductionBackup(source)) !== JSON.stringify(receipt))
         throw new Error('RESTORE_SNAPSHOT_CHANGED')
       assertProductionFilesMatchBackup(destination, receipt)
+      options.governCopy?.(destination, receipt, assertCurrent)
+      assertCurrent()
       // A partial or failed copy retains the marker and cannot be opened as a dataset.
       unlinkSync(marker)
       inspectProductionDataSet(destination, receipt.dataSetId)

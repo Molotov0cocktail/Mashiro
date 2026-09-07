@@ -206,6 +206,9 @@ export type MemorySource = z.infer<typeof memorySourceSchema>
 export type MemoryReceipt = z.infer<typeof memoryReceiptSchema>
 export type MemoryPermissions = z.infer<typeof memoryPermissionsSchema>
 export interface MemoryApi {
+  round(
+    input: import('./memory-round-contract.js').MemoryRoundInput
+  ): Promise<import('./memory-round-contract.js').MemoryRoundResult>
   query(
     input: z.input<typeof memoryQueryInputSchema>
   ): Promise<z.infer<typeof memoryQueryResultSchema>>

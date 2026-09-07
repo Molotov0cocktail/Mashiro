@@ -1,0 +1,28 @@
+[
+  {
+    "path": "src/main/data/production-governance-connection.ts",
+    "hash": "E5A41F285C4B27D9E19854265E5B33DDE872BE604019FBC0F41F388821BB96D5",
+    "edits": [
+      [
+        "  assertFileIdentity: () => void\n): DatabaseSync {",
+        "  assertFileIdentity: () => void,\n  onUncertain?: () => void\n): DatabaseSync {"
+      ],
+      [
+        "  const pending = new Set<string>()",
+        "  const pending = new Set<string>()\n  const protect = <T>(operation: () => T): T => {\n    try { return operation() } catch (error) { onUncertain?.(); throw error }\n  }"
+      ],
+      [
+        "      before(table, keys, values, deleted) {\n        assertInstance(database, journal, anchor, assertFileIdentity)",
+        "      before(table, keys, values, deleted) {\n        return protect(() => {\n        assertInstance(database, journal, anchor, assertFileIdentity)"
+      ],
+      [
+        "        return token\n      },",
+        "        return token\n        })\n      },"
+      ],
+      [
+        "      settle(raw) {\n        assertInstance(raw, journal, anchor, assertFileIdentity)\n        resolveTokens(raw, journal, anchor, [...pending])\n        pending.clear()\n      }",
+        "      settle(raw) {\n        protect(() => {\n        assertInstance(raw, journal, anchor, assertFileIdentity)\n        resolveTokens(raw, journal, anchor, [...pending])\n        pending.clear()\n        })\n      }"
+      ]
+    ]
+  }
+]

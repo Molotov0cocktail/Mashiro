@@ -1,4 +1,5 @@
 import { randomUUID, createHash } from 'node:crypto'
+import { dispatchedMemorySources, recordMemoryEvidence } from '../memory/memory-round-evidence.js'
 import { BackgroundService } from '../background/background-service.js'
 import { StewardService, type StewardProvider } from '../background/steward-service.js'
 import { BackgroundError } from '../background/background-sources.js'
@@ -1220,7 +1221,29 @@ export class ProviderService {
           owner: { domain: 'provider', id: value.requestId, assistantId: value.assistantId }
         })
         try {
-          const result = await this.transport(request)
+          const sources = value.mode === 'normal' ? dispatchedMemorySources(request.messages) : []
+          const evidence = (state: 'DISPATCH_STARTED' | 'RESPONSE_OBSERVED') => {
+            if (sources.length)
+              recordMemoryEvidence(this.store, value.assistantId, value.requestId, sources, state)
+          }
+          evidence('DISPATCH_STARTED')
+          let observed = false
+          const observe = () => {
+            if (!observed) {
+              evidence('RESPONSE_OBSERVED')
+              observed = true
+            }
+          }
+          const result = await this.transport({
+            ...request,
+            onDelta: request.onDelta
+              ? (delta) => {
+                  observe()
+                  request.onDelta!(delta)
+                }
+              : undefined
+          })
+          if (result.status === 'completed' || result.text.length > 0) observe()
           this.operations.settle(attempt, result.usage)
           return result
         } catch (error) {
@@ -1443,6 +1466,18 @@ export class ProviderService {
                     args.query,
                     args.limit
                   )
+                  recordMemoryEvidence(
+                    this.store,
+                    value.assistantId,
+                    value.requestId,
+                    records.map((record) => ({
+                      type: 'memory',
+                      id: record.id,
+                      assistantId: record.ownerAssistantId,
+                      version: record.objectVersion
+                    })),
+                    'PREPARED'
+                  )
                   providedMemory.push(
                     ...records.map((record) => ({
                       type: 'memory' as const,
@@ -1453,7 +1488,10 @@ export class ProviderService {
                   )
                   return {
                     body: JSON.stringify({ records }),
-                    summary: '已提供 ' + records.length + ' 条获准记忆（不代表模型实际使用）'
+                    summary:
+                      '已准备 ' +
+                      records.length +
+                      ' 条获准记忆，派发状态见本轮来源（不代表模型实际使用）'
                   }
                 }
                 const mutation =

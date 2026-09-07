@@ -1,0 +1,24 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/RoundMemoryPanel.tsx",
+    "hash": "EE1167338FF2AE5558FB714B738C43C0F7478AE74A3BB100BBF2235959F37538",
+    "replacements": [
+      [
+        "  const route = `${assistantId}:${requestId}:${mode}`\n  const routeRef = useRef(route)\n  routeRef.current = route",
+        "  const route = `${assistantId}:${requestId}:${mode}:${String(refreshKey ?? '')}`\n  const routeRef = useRef(route)"
+      ],
+      [
+        "      const expectedRoute = `${assistantId}:${requestId}:${mode}`",
+        "      const expectedRoute = route"
+      ],
+      [
+        "    [api, assistantId, mode, requestId]",
+        "    [api, assistantId, mode, requestId, route]"
+      ],
+      [
+        "  useEffect(() => {\n    invalidate()\n    if (open && api && assistantId && requestId && mode === 'normal') {\n      queueMicrotask(loadInitial)\n    }\n  }, [assistantId, api, loadInitial, mode, open, refreshKey, requestId, invalidate])",
+        "  useEffect(() => {\n    routeRef.current = route\n    if (open && api && assistantId && requestId && mode === 'normal') {\n      queueMicrotask(loadInitial)\n    }\n    return () => {\n      versions.current.provided += 1\n      versions.current.changes += 1\n    }\n  }, [assistantId, api, loadInitial, mode, open, requestId, route])"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "chunk_id": "1fe6a4",
+  "wall_time_seconds": 2.8777703,
+  "exit_code": 1,
+  "original_token_count": 270,
+  "output": "\n RUN  v4.1.11 D:/Mashiro\n\n ❯ tests/renderer/review017-app-target.test.tsx (2 tests | 1 failed | 1 skipped) 133ms\n   × permission revocation retires the previous object target across the permission-keyed remount 132ms\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  tests/renderer/review017-app-target.test.tsx > permission revocation retires the previous object target across the permission-keyed remount\nAssertionError: expected \"vi.fn()\" to be called 1 times, but got 2 times\n ❯ tests/renderer/review017-app-target.test.tsx:87:26\n     85|   await waitFor(() => expect(memory.setPermissions).toHaveBeenCalledTi…\n     86|   await new Promise(resolve => setTimeout(resolve, 0))\n     87|   expect(memory.inspect).toHaveBeenCalledTimes(1)\n       |                          ^\n     88| })\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n\n Test Files  1 failed (1)\n      Tests  1 failed | 1 skipped (2)\n   Start at  19:11:19\n   Duration  1.79s (transform 284ms, setup 192ms, import 311ms, tests 133ms, environment 966ms)\n\n"
+}

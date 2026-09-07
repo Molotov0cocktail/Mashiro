@@ -1,0 +1,20 @@
+[
+  {
+    "path": "tests/integration/memory-round.test.ts",
+    "hash": "043C2A4AFF179A189A56B42215DD831FBA79AC4C986AC4145B31EED927C28665",
+    "replacements": [
+      [
+        "  assistants.close()\n  const store",
+        "  const other = assistants.create({ protocolVersion: 1, displayName: '另一个合成助手', expectedStateRevision: result.data.stateRevision })\n  if (!other.ok) throw Error('second assistant')\n  const otherId = other.data.assistants.find((assistant) => assistant.id !== assistantId)!.id\n  assistants.close()\n  const store"
+      ],
+      [
+        "return { root, path, store, memory, assistantId, requestId, input, save, source }",
+        "return { root, path, store, memory, assistantId, otherId, requestId, input, save, source }"
+      ],
+      [
+        "it('temporary query",
+        "it('denies another active assistant and hides foreign private objects even if evidence exists', () => {\n  const f = setup(), saved = f.save()\n  recordMemoryEvidence(f.store, f.assistantId, f.requestId, [f.source(saved.objectId)], 'RESPONSE_OBSERVED')\n  expect(f.memory.round({ ...f.input, assistantId: f.otherId })).toMatchObject({ ok: false, error: { code: 'NOT_FOUND' } })\n  expect(() => recordMemoryEvidence(f.store, f.otherId, f.requestId, [f.source(saved.objectId)], 'PREPARED')).toThrow('MEMORY_ROUND_OWNER')\n  f.store.database.prepare(\"UPDATE memory_objects SET record_json=json_set(record_json,'$.scope','assistant','$.ownerAssistantId',?) WHERE id=?\").run(f.otherId, saved.objectId)\n  expect(f.memory.round(f.input)).toMatchObject({ ok: true, data: { entries: [{ record: null, canInspect: false }] } })\n})\nit('temporary query"
+      ]
+    ]
+  }
+]

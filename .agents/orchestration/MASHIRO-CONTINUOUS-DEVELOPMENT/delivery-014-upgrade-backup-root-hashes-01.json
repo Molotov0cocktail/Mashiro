@@ -1,0 +1,75 @@
+{
+  "backupId": "be252177-5477-4b80-916a-862399a8e04c",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schema": 15,
+  "manifestSha256": "8a95ae73f1d57e93c0056beb19e2ee3104277af92b2d8596441af269190c00b6",
+  "checks": [
+    {
+      "path": ".mashiro-dataset.json",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "mashiro.sqlite",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+      "payload": true,
+      "source": true
+    },
+    {
+      "path": "memory/f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+      "payload": true,
+      "source": true
+    }
+  ],
+  "passed": true,
+  "credentialBodyPrinted": false
+}

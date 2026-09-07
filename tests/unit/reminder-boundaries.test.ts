@@ -2,6 +2,7 @@ import { beforeEach, expect, it, vi } from 'vitest'
 const host = vi.hoisted(() => ({
   packaged: false,
   startup: false,
+  startupEnabled: false,
   set: vi.fn(),
   options: [] as unknown[],
   callbacks: new Map<string, () => void>()
@@ -11,10 +12,25 @@ vi.mock('electron', () => ({
     get isPackaged() {
       return host.packaged
     },
-    getLoginItemSettings: () => ({ openAtLogin: host.startup }),
-    setLoginItemSettings: (value: { openAtLogin: boolean }) => {
+    getLoginItemSettings: () => ({
+      openAtLogin: host.startup,
+      executableWillLaunchAtLogin: host.startup && host.startupEnabled,
+      launchItems: host.startup
+        ? [
+            {
+              name: 'Mashiro.Desktop',
+              path: process.execPath,
+              args: ['--mashiro-login'],
+              scope: 'user',
+              enabled: host.startupEnabled
+            }
+          ]
+        : []
+    }),
+    setLoginItemSettings: (value: { openAtLogin: boolean; enabled?: boolean }) => {
       host.set(value)
       host.startup = value.openAtLogin
+      host.startupEnabled = value.openAtLogin
     }
   },
   Notification: class {
@@ -44,6 +60,7 @@ import type { ReminderService } from '../../src/main/reminder/reminder-service.j
 beforeEach(() => {
   host.packaged = false
   host.startup = false
+  host.startupEnabled = false
   host.set.mockClear()
   host.options = []
   host.callbacks.clear()
@@ -67,10 +84,10 @@ it('development never registers login startup; packaged settings target this exe
   host.packaged = true
   platform.setLoginStartup(true)
   expect(host.set).toHaveBeenCalledWith({
-    path: process.execPath,
+    path: `"${process.execPath}"`,
     args: ['--mashiro-login'],
     openAtLogin: true,
-    name: 'Mashiro'
+    enabled: true
   })
   expect(platform.getLoginStartup()).toBe(true)
   platform.setLoginStartup(false)

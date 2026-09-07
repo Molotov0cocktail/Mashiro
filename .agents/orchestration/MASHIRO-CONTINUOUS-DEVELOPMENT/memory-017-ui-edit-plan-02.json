@@ -1,0 +1,162 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/RoundMemoryPanel.tsx",
+    "hash": "6F4D9923E91C5B3FFBD70F5CB67E91B737D61B4F130439EDD1717685C882E7E2",
+    "replacements": [
+      [
+        "function ObjectAction({\n  entry,\n  onOpenMemory\n}: {\n  entry: SectionEntry\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void",
+        "function ObjectAction({\n  entry,\n  assistantId,\n  onOpenMemory\n}: {\n  entry: SectionEntry\n  assistantId: string\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void"
+      ],
+      [
+        "      onClick={() => onOpenMemory({ assistantId: entry.record?.ownerAssistantId ?? '', id: entry.objectId! })}",
+        "      onClick={() => onOpenMemory({ assistantId, id: entry.objectId! })}"
+      ],
+      [
+        "        if (nextOpen) loadInitial()\n        else invalidate()",
+        "        if (!nextOpen) invalidate()"
+      ],
+      [
+        "                    : '只证明应用观察到响应，仍不能证明模型采用。'}\n                </p>\n                <Availability entry={raw} />\n                <ObjectAction entry={raw} onOpenMemory={onOpenMemory} />",
+        "                    : '只证明应用观察到响应，仍不能证明模型采用。'}\n                </p>\n                <Availability entry={raw} />\n                <ObjectAction\n                  entry={raw}\n                  assistantId={assistantId}\n                  onOpenMemory={onOpenMemory}\n                />"
+      ],
+      [
+        "                <ObjectAction entry={raw} onOpenMemory={onOpenMemory} />",
+        "                <ObjectAction\n                  entry={raw}\n                  assistantId={assistantId}\n                  onOpenMemory={onOpenMemory}\n                />"
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+    "hash": "7153B5ACF640B9BC4E219FC13475C543BFBD173F19FDCBFF3192D66F4F7AF50A",
+    "replacements": [
+      [
+        "import { HistoryContextPanel } from './HistoryContextPanel'\nimport { ToolExecutionPanel } from './ToolExecutionPanel'",
+        "import { HistoryContextPanel } from './HistoryContextPanel'\nimport { RoundMemoryPanel } from './RoundMemoryPanel'\nimport { ToolExecutionPanel } from './ToolExecutionPanel'"
+      ],
+      [
+        "  onOpenItems,\n  onLocateMemorySource,\n  retentionChange,",
+        "  onOpenItems,\n  onLocateMemorySource,\n  onOpenMemory,\n  retentionChange,"
+      ],
+      [
+        "  onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>\n  retentionChange?: RetentionChanged | null",
+        "  onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void\n  retentionChange?: RetentionChanged | null"
+      ],
+      [
+        "  const [historyFocus, setHistoryFocus] = useState<HistoryFocusMap>({})",
+        "  const [historyFocus, setHistoryFocus] = useState<HistoryFocusMap>({})\n  const [roundMemoryRefresh, setRoundMemoryRefresh] = useState(0)"
+      ],
+      [
+        "            timelineApi={timelineApi}\n            contextIntent={contextIntent}",
+        "            timelineApi={timelineApi}\n            memoryApi={memoryApi}\n            roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${retentionChange?.epoch ?? ''}`}\n            onOpenMemory={onOpenMemory}\n            contextIntent={contextIntent}"
+      ],
+      [
+        "            onPermissionsChange={() => refreshOperationPermissions(currentAssistantId)}",
+        "            onPermissionsChange={() => {\n              setRoundMemoryRefresh((value) => value + 1)\n              refreshOperationPermissions(currentAssistantId)\n            }}"
+      ],
+      [
+        "            onMemoryChanged={onMemoryChanged}",
+        "            onMemoryChanged={() => {\n              setRoundMemoryRefresh((value) => value + 1)\n              onMemoryChanged?.()\n            }}"
+      ],
+      [
+        "                </small>\n                {mode === 'normal' && onPrepareRetention ? (",
+        "                </small>\n                {item.role === 'assistant' ? (\n                  <RoundMemoryPanel\n                    assistantId={currentAssistantId}\n                    requestId={item.requestId}\n                    mode={mode}\n                    api={memoryApi}\n                    refreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${retentionChange?.epoch ?? ''}`}\n                    onOpenMemory={onOpenMemory}\n                  />\n                ) : null}\n                {mode === 'normal' && onPrepareRetention ? ("
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+    "hash": "B1024A979348CC6BA50DC4D0FC24FC1F96EC60F82063ACB60F051C06F7650EDD",
+    "replacements": [
+      [
+        "import type { ContextIntent } from '../../../../shared/provider-contract'",
+        "import type { MemoryApi } from '../../../../shared/memory-contract'\nimport type { ContextIntent } from '../../../../shared/provider-contract'"
+      ],
+      [
+        "} from '../../../../shared/timeline-contract'\n\nconst protocolVersion",
+        "} from '../../../../shared/timeline-contract'\nimport { RoundMemoryPanel } from './RoundMemoryPanel'\n\nconst protocolVersion"
+      ],
+      [
+        "  timelineApi,\n  contextIntent,",
+        "  timelineApi,\n  memoryApi,\n  roundMemoryRefreshKey,\n  onOpenMemory,\n  contextIntent,"
+      ],
+      [
+        "  timelineApi: TimelineApi\n  contextIntent: ContextIntent",
+        "  timelineApi: TimelineApi\n  memoryApi?: MemoryApi\n  roundMemoryRefreshKey?: string | number\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void\n  contextIntent: ContextIntent"
+      ],
+      [
+        "              </small>\n              {view.query && focusedByAssistant[assistantId] !== turn.requestId ? (",
+        "              </small>\n              {turn.assistant ? (\n                <RoundMemoryPanel\n                  assistantId={assistantId}\n                  requestId={turn.requestId}\n                  mode={mode}\n                  api={memoryApi}\n                  refreshKey={roundMemoryRefreshKey}\n                  onOpenMemory={onOpenMemory}\n                />\n              ) : null}\n              {view.query && focusedByAssistant[assistantId] !== turn.requestId ? ("
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+    "hash": "C4FB41C5FD3957E221D6B66DCC9614599D436FB4E42A9FDDA50FB6A555078589",
+    "replacements": [
+      [
+        "  onPrepareRetention,\n  configurationFocusNonce\n}: {",
+        "  onPrepareRetention,\n  configurationFocusNonce,\n  openTarget,\n  onPermissionsChanged\n}: {"
+      ],
+      [
+        "  configurationFocusNonce?: number | null\n}): React.JSX.Element {",
+        "  configurationFocusNonce?: number | null\n  openTarget?: { assistantId: string; id: string; nonce: number } | null\n  onPermissionsChanged?: () => void\n}): React.JSX.Element {"
+      ],
+      [
+        "  const lastAssistantId = useRef<string | undefined>(undefined)",
+        "  const lastAssistantId = useRef<string | undefined>(undefined)\n  const handledOpenTarget = useRef('')"
+      ],
+      [
+        "  const loadInspection = useCallback(\n    async (id: string): Promise<void> => {\n      if (!assistantId || !id) return",
+        "  const loadInspection = useCallback(\n    async (id: string): Promise<InspectData | null> => {\n      if (!assistantId || !id) return null"
+      ],
+      [
+        "        if (version !== inspectVersion.current) return\n        if (!result.ok) {\n          setError(memoryError(result))\n          return\n        }\n        setInspection(result.data)\n      } catch {\n        if (version === inspectVersion.current) setError('记录详情暂时无法读取')",
+        "        if (version !== inspectVersion.current) return null\n        if (!result.ok) {\n          setError(memoryError(result))\n          return null\n        }\n        setInspection(result.data)\n        return result.data\n      } catch {\n        if (version === inspectVersion.current) setError('记录详情暂时无法读取')\n        return null"
+      ],
+      [
+        "      setPermissions((values) => ({ ...values, [permissionScope]: result.data }))",
+        "      setPermissions((values) => ({ ...values, [permissionScope]: result.data }))\n      onPermissionsChanged?.()"
+      ],
+      [
+        "  function editRecord(record: MemoryRecord): void {",
+        "  useEffect(() => {\n    if (!openTarget || openTarget.assistantId !== assistantId) return\n    const key = `${openTarget.assistantId}:${openTarget.id}:${openTarget.nonce}`\n    if (handledOpenTarget.current === key) return\n    handledOpenTarget.current = key\n    let active = true\n    queueMicrotask(() => {\n      void loadInspection(openTarget.id).then((data) => {\n        if (!active || !data || handledOpenTarget.current !== key) return\n        const record = data.record\n        setEditTarget(record)\n        setAction('correct')\n        setSelectedId(record.id)\n        setTitle(record.title)\n        setMarkdown(record.markdown)\n        setKind(record.kind)\n        setScope(record.scope)\n        setNature(record.nature)\n        if (record.event) {\n          setEventStatus(record.event.status)\n          setOccurredAt(localEventInput(record.event.occurredAt))\n          setTimeZone(record.event.timeZone ?? '')\n        }\n        document.getElementById('memory-editor')?.scrollIntoView?.({ block: 'start' })\n      })\n    })\n    return () => {\n      active = false\n    }\n  }, [assistantId, loadInspection, openTarget])\n\n  function editRecord(record: MemoryRecord): void {"
+      ],
+      [
+        "        <section className=\"memory-editor\" aria-label=\"写入或纠正记忆\">",
+        "        <section id=\"memory-editor\" className=\"memory-editor\" aria-label=\"写入或纠正记忆\">"
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/App.tsx",
+    "hash": "49F7C0FA6E4FFA81AAFCD025E6D73D875A99D6E667FEB8FB512E68A67E3710A4",
+    "replacements": [
+      [
+        "  const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)\n  const [itemRefreshKey",
+        "  const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)\n  const [memoryOpenTarget, setMemoryOpenTarget] = useState<{\n    assistantId: string\n    id: string\n    nonce: number\n  } | null>(null)\n  const [itemRefreshKey"
+      ],
+      [
+        "  const receiveMemoryChange = useCallback(() => {\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])",
+        "  const receiveMemoryChange = useCallback(() => {\n    setMemoryRefreshKey((value) => value + 1)\n  }, [])\n\n  const openMemory = useCallback(\n    (target: { assistantId: string; id: string }): void => {\n      if (!assistantSnapshot || assistantSnapshot.currentAssistantId !== target.assistantId) {\n        setNavigationError('本轮记忆归属已变化，请在当前回答中重新打开。')\n        return\n      }\n      setNavigationError('')\n      setMemoryOpenTarget((current) => ({\n        ...target,\n        nonce: (current?.nonce ?? 0) + 1\n      }))\n      setMemoryRefreshKey((value) => value + 1)\n      setActiveView('memory')\n    },\n    [assistantSnapshot]\n  )"
+      ],
+      [
+        "          onLocateMemorySource={locateMemorySource}\n          retentionChange={retentionChange}",
+        "          onLocateMemorySource={locateMemorySource}\n          onOpenMemory={openMemory}\n          retentionChange={retentionChange}"
+      ],
+      [
+        "          refreshKey={memoryRefreshKey}\n          pendingCommands={pendingMemoryCommands}",
+        "          refreshKey={memoryRefreshKey}\n          openTarget={memoryOpenTarget}\n          onPermissionsChanged={receiveMemoryChange}\n          pendingCommands={pendingMemoryCommands}"
+      ]
+    ]
+  },
+  {
+    "path": "src/renderer/src/styles.css",
+    "hash": "540FC7745B7A82C9593B724AF2DAB4945C35FD5681D44325439A3AA5FE747824",
+    "replacements": [
+      [
+        ".transcript article p {\n  margin: 6px 0;\n}\n\n.history-context {",
+        ".transcript article p {\n  margin: 6px 0;\n}\n\n.round-memory {\n  margin-top: 10px;\n  border-top: 1px solid #52666c;\n  padding-top: 8px;\n  white-space: normal;\n}\n.round-memory > summary {\n  cursor: pointer;\n  color: #d9f3eb;\n  font-weight: 700;\n}\n.round-memory > section {\n  display: grid;\n  gap: 8px;\n  margin-top: 12px;\n}\n.round-memory-list {\n  display: grid;\n  gap: 8px;\n}\n.round-memory-list > article {\n  display: grid;\n  gap: 7px;\n  border: 1px solid #46565d;\n  border-radius: 9px;\n  padding: 10px;\n  background: rgb(18 29 32 / 64%);\n}\n.round-memory-record {\n  display: grid;\n  gap: 6px;\n}\n.round-memory-record ul {\n  margin: 0;\n  padding-left: 20px;\n}\n\n.history-context {"
+      ]
+    ]
+  }
+]

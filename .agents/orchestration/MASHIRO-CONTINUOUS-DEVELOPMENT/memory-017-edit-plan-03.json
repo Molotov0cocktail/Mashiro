@@ -1,0 +1,28 @@
+[
+  {
+    "path": "tests/integration/memory-round.test.ts",
+    "hash": "F4CA41E59E663DE97884122859736BC36ACF0772A92A4CD74834CE89A3839159",
+    "replacements": [
+      [
+        "}, randomUUID(), mutation())",
+        "}, mutation())"
+      ],
+      [
+        "  const pending = f.memory.toolMutation({ assistantId: f.assistantId, requestId: f.requestId, fingerprint: 'synthetic', assertCurrent: () => undefined, sources: [] }, randomUUID(), { action: 'delete', targetId: receipt.objectId, expectedVersion: 1 })",
+        "  const pendingRequest = randomUUID()\n  f.store.database.prepare(\"INSERT INTO timeline_messages(id,assistant_id,request_id,role,content,status,created_at) VALUES(?,?,?,'user','合成','completed',?)\").run(randomUUID(), f.assistantId, pendingRequest, new Date().toISOString())\n  const pending = f.memory.toolMutation({ assistantId: f.assistantId, requestId: pendingRequest, fingerprint: 'synthetic', assertCurrent: () => undefined, sources: [] }, { action: 'delete', targetId: receipt.objectId, expectedVersion: 1 })"
+      ],
+      [
+        "entries: [{ state: 'SUCCEEDED', objectId: receipt.objectId }, { state: 'PENDING_CONFIRMATION', confirmationId: pending.confirmationId }]",
+        "entries: [{ state: 'SUCCEEDED', objectId: receipt.objectId }]"
+      ],
+      [
+        "  f.store.database.prepare(\"UPDATE memory_commands SET state='NOT_APPLIED'",
+        "  expect(f.memory.round({ ...f.input, requestId: pendingRequest, section: 'changes' })).toMatchObject({ ok: true, data: { entries: [{ state: 'PENDING_CONFIRMATION', confirmationId: pending.confirmationId }] } })\n  f.store.database.prepare(\"UPDATE memory_commands SET state='NOT_APPLIED'"
+      ],
+      [
+        "entries: [{ state: 'NOT_APPLIED', objectId: null, record: null }, {}]",
+        "entries: [{ state: 'NOT_APPLIED', objectId: null, record: null }]"
+      ]
+    ]
+  }
+]

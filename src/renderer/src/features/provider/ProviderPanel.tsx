@@ -29,6 +29,7 @@ import type {
 } from '../../../../shared/tool-contract'
 import { AssistantAvatar, avatarLabel } from '../assistants/AssistantAvatar'
 import { HistoryContextPanel } from './HistoryContextPanel'
+import { RoundMemoryPanel } from './RoundMemoryPanel'
 import { ToolExecutionPanel } from './ToolExecutionPanel'
 
 const protocolVersion = 1 as const
@@ -119,6 +120,8 @@ export function ProviderPanel({
   onReminderChanged,
   onOpenItems,
   onLocateMemorySource,
+  onOpenMemory,
+  memoryEvidenceRefreshKey,
   retentionChange,
   onPrepareRetention,
   configurationFocus,
@@ -147,6 +150,8 @@ export function ProviderPanel({
     confirmationAction?: 'replace-content'
   }) => void
   onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>
+  onOpenMemory?: (target: { assistantId: string; id: string }) => void
+  memoryEvidenceRefreshKey?: number
   retentionChange?: RetentionChanged | null
   onPrepareRetention?: (
     assistantId: string,
@@ -222,6 +227,7 @@ export function ProviderPanel({
   const [capabilityLoading, setCapabilityLoading] = useState<BooleanMap>({})
   const [capabilityErrors, setCapabilityErrors] = useState<TextMap>({})
   const [historyFocus, setHistoryFocus] = useState<HistoryFocusMap>({})
+  const [roundMemoryRefresh, setRoundMemoryRefresh] = useState(0)
 
   const currentAssistantId = assistantSnapshot?.currentAssistantId ?? ''
   const currentAssistant = assistantSnapshot?.assistants.find(
@@ -325,7 +331,13 @@ export function ProviderPanel({
     ':' +
     (executionConnection?.baseUrl ?? '') +
     ':' +
-    (binding?.model ?? '')
+    (binding?.model ?? '') +
+    ':' +
+    (binding?.version ?? '') +
+    ':' +
+    (executionConnection?.version ?? '') +
+    ':' +
+    String(executionConnection?.enabled ?? '')
   const transcript = timelines[currentKey] ?? []
   const currentRejectedDrafts = rejectedDrafts[currentKey] ?? []
   const activeRequest = activeRequests[currentAssistantId]
@@ -1422,10 +1434,16 @@ export function ProviderPanel({
             mode={mode}
             bindingKey={historyBindingKey}
             timelineApi={timelineApi}
+            memoryApi={memoryApi}
+            roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
+            onOpenMemory={onOpenMemory}
             contextIntent={contextIntent}
             selectedRequestIds={selectedRequestIds}
             focusRequest={historyFocus[currentAssistantId]}
-            onPermissionsChange={() => refreshOperationPermissions(currentAssistantId)}
+            onPermissionsChange={() => {
+              setRoundMemoryRefresh((value) => value + 1)
+              refreshOperationPermissions(currentAssistantId)
+            }}
             retentionChange={retentionChange}
             onContextIntentChange={(value) => {
               setContextByAssistant((items) => ({ ...items, [currentAssistantId]: value }))
@@ -1475,7 +1493,10 @@ export function ProviderPanel({
                 (autoOperationReadVersions.current[currentKey] ?? 0) + 1
               void loadOperations(currentAssistantId, mode, requestId)
             }}
-            onMemoryChanged={onMemoryChanged}
+            onMemoryChanged={() => {
+              setRoundMemoryRefresh((value) => value + 1)
+              onMemoryChanged?.()
+            }}
             onItemChanged={onItemChanged}
             onReminderChanged={onReminderChanged}
             onOpenItems={onOpenItems}
@@ -1565,6 +1586,16 @@ export function ProviderPanel({
                   {uncertainRequests[item.requestId] || statusText(item.status)}
                   {mode === 'temporary' ? ' · ' + (item.saved ? '已保存' : '未保存') : ''}
                 </small>
+                {item.role === 'assistant' ? (
+                  <RoundMemoryPanel
+                    assistantId={currentAssistantId}
+                    requestId={item.requestId}
+                    mode={mode}
+                    api={memoryApi}
+                    refreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
+                    onOpenMemory={onOpenMemory}
+                  />
+                ) : null}
                 {mode === 'normal' && onPrepareRetention ? (
                   <div className="message-retention-actions">
                     <button

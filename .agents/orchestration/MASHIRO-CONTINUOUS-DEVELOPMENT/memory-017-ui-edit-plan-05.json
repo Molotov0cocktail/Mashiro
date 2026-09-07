@@ -1,0 +1,20 @@
+[
+  {
+    "path": "tests/renderer/RoundMemoryPanel.test.tsx",
+    "hash": "63BC4467595135E47DB048BC1C3EDE24DEEEE9F056B55A5C1CDE3CBFF54D300F",
+    "replacements": [
+      [
+        "import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'",
+        "import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'\nimport { useState } from 'react'"
+      ],
+      [
+        "    expect(await screen.findByText('称呼偏好')).toBeInTheDocument()",
+        "    expect(await screen.findAllByText('称呼偏好')).toHaveLength(2)"
+      ],
+      [
+        "      const [target, setTarget] = React.useState<{ assistantId: string; id: string } | null>(null)",
+        "      const [target, setTarget] = useState<{ assistantId: string; id: string } | null>(null)"
+      ]
+    ]
+  }
+]

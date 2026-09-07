@@ -1,0 +1,20 @@
+[
+  {
+    "path": "src/main/data/production-governance-catalog.ts",
+    "hash": "101F3EE1E4B2C0B05781942F84F4B94CFB3228121E30C9CC9F4EBB3410FBA610",
+    "edits": [
+      [
+        "import { z } from 'zod'",
+        "import { z } from 'zod'\nimport { itemSourceSchema } from '../../shared/item-contract.js'"
+      ],
+      [
+        "const identifier = (column: string)",
+        "const encoded = (schema: z.ZodType) => z.string().max(65536).superRefine((value, ctx) => {\n  try { schema.parse(JSON.parse(value)) } catch { ctx.addIssue({ code: 'custom', message: 'Invalid governance metadata' }) }\n})\nconst recipients = encoded(z.array(z.tuple([id, fingerprint])).max(4096))\nconst identifier = (column: string)"
+      ],
+      [
+        "  content_tombstones: {",
+        "  retained_source_edges: {\n    keys: [identifier('object_id'), revision('object_version'), field('source_type', z.enum(['round', 'user-round', 'memory', 'manual', 'item', 'proposal'])), identifier('source_id'), revision('source_version')],\n    values: [identifier('source_assistant'), field('recipients_json', recipients)]\n  },\n  item_retained_edges: {\n    keys: [identifier('item_id'), revision('item_version'), field('source_json', encoded(itemSourceSchema))],\n    values: [field('recipients_json', recipients)]\n  },\n  content_tombstones: {"
+      ]
+    ]
+  }
+]

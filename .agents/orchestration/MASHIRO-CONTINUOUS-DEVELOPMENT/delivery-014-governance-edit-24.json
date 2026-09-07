@@ -1,0 +1,58 @@
+[
+  {
+    "path": "src/main/provider/credential-vault.ts",
+    "hash": "97DB47840FBA59686863A87BF48642FE78C485C5898117498215886D43BADD74",
+    "edits": [
+      [
+        "import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'",
+        "import { existsSync, lstatSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'"
+      ],
+      [
+        "    this.temporary.delete(connectionId)\n  }\n\n  get(connectionId",
+        "    // The explicit new persistent Key has replaced the old encrypted bytes successfully.\n    rmSync(this.path(connectionId) + '.revoked', { force: true })\n    this.temporary.delete(connectionId)\n  }\n\n  get(connectionId"
+      ],
+      [
+        "    const path = this.path(connectionId)\n    if (!existsSync(path)",
+        "    const path = this.path(connectionId)\n    const revocation = path + '.revoked'\n    if (existsSync(revocation)) {\n      // Invalid markers also fail closed; no protector/decryption call occurs.\n      try {\n        const stat = lstatSync(revocation)\n        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 512) return undefined\n        const marker = JSON.parse(readFileSync(revocation, 'utf8'))\n        if (marker.format !== 1 || marker.connectionId !== connectionId || marker.reason !== 'restored-deletion') return undefined\n      } catch { return undefined }\n      return undefined\n    }\n    if (!existsSync(path)"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-backup.ts",
+    "hash": "47FFE2451206914B3C71F8A7FBC81E72AC0B706F5FFB769F4F9B8BD1B317E37F",
+    "edits": [
+      [
+        "/^[a-f0-9-]+\\.credential(?:\\.tmp)?$/",
+        "/^[a-f0-9-]+\\.credential(?:\\.tmp|\\.revoked)?$/"
+      ],
+      [
+        "credentials\\/[a-f0-9-]+\\.credential(?:\\.tmp)?",
+        "credentials\\/[a-f0-9-]+\\.credential(?:\\.tmp|\\.revoked)?"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-catalog.ts",
+    "hash": "8BDB7BF998851B7FC73261155A18B029BB7764C3CEFA7B5E2140B9DF05AF85C0",
+    "edits": [
+      [
+        "provider_connections: { keys: [identifier('id')], values: [revision(), flag('enabled')] }",
+        "provider_connections: { keys: [identifier('id')], values: [revision(), flag('enabled'), flag('has_persistent_credential')] }"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/data/production-governance-apply.ts",
+    "hash": "5D3627EB7F0EDC6FFCA8A87AC09668116C6C1D48CD43211F1300835BD32A4515",
+    "edits": [
+      [
+        "import { createHash } from 'node:crypto'",
+        "import { createHash } from 'node:crypto'\nimport { markRestoredCredentialRevoked } from './production-governance-credentials.js'"
+      ],
+      [
+        "    pauseRestoredWork(database)",
+        "    for (const p of projections) if (p.table === 'provider_connections' && (p.deleted || p.values[2] === 0)) {\n      markRestoredCredentialRevoked(directory, String(p.keys[0]))\n      database.prepare('UPDATE provider_connections SET has_persistent_credential=0 WHERE id=?').run(...p.keys)\n    }\n    pauseRestoredWork(database)"
+      ]
+    ]
+  }
+]

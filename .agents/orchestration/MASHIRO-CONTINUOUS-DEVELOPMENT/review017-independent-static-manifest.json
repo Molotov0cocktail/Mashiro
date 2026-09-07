@@ -1,0 +1,32 @@
+[
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "c0cd42",
+      "wall_time_seconds": 4.3405654,
+      "exit_code": 1,
+      "original_token_count": 174,
+      "output": "tests/renderer/memory-api-fixture.ts(23,10): error TS2352: Conversion of type '{ query: Mock<() => Promise<{ ok: true; data: { records: never[]; nextCursor: null; }; }>>; inspect: Mock<Procedure>; mutate: Mock<Procedure>; ... 4 more ...; setPermissions: Mock<...>; }' to type 'MemoryApi' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\r\n  Property 'round' is missing in type '{ query: Mock<() => Promise<{ ok: true; data: { records: never[]; nextCursor: null; }; }>>; inspect: Mock<Procedure>; mutate: Mock<Procedure>; ... 4 more ...; setPermissions: Mock<...>; }' but required in type 'MemoryApi'.\r\n"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "32f4d8",
+      "wall_time_seconds": 2.6539356,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "8a8d04",
+      "wall_time_seconds": 0.6556059,
+      "exit_code": 0,
+      "original_token_count": 548,
+      "output": "[\r\n  {\r\n    \"path\": \"src/shared/memory-round-contract.ts\",\r\n    \"sha256\": \"37CF28E225ABAFDE2282944E04DA727BC5971918068A55FED752D977555EDB2B\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/shared/memory-contract.ts\",\r\n    \"sha256\": \"235A42B99729AC9C5A598A95A4A25A26CB0B88360CD62AD00F42A1DED4CE0657\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/shared/memory-channels.ts\",\r\n    \"sha256\": \"25A6A6F9EB73424EB2FB8EFE9FDB3E9085A4C2EA92056747FD7473C6EB2D25F0\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-round-schema.ts\",\r\n    \"sha256\": \"0466DB57A234E4419379C9921A24103EA23BA314598EF0013B7545010719FDAD\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-round-evidence.ts\",\r\n    \"sha256\": \"997553D5CE5332B66E514E0718C963C40D7773BE3F5BB2C0B674F6D3EB73099E\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-round-query.ts\",\r\n    \"sha256\": \"5080DD03A81FE30D201087CE6799CBB3AF1348EE7EAA3896DE667DD8DCB2E5F0\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/memory/memory-service.ts\",\r\n    \"sha256\": \"C9BFB287810F43838271AB2BBA79FCD969EC49E93403140C03CC8A2F81F6624F\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/provider/provider-service.ts\",\r\n    \"sha256\": \"FAB662795314BF74EF0F3764145117CF150F877F4AC02828F08F4F4C22FF0336\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/main/ipc/register-memory-ipc.ts\",\r\n    \"sha256\": \"7C9171CDE0BA5801CE2E884257A7C03310EE51F529A1464695B0908A7B683973\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/preload/index.ts\",\r\n    \"sha256\": \"356CFBC868C77026397A4726FF23196A8550F5CFD0340AD8BC2E0100F05FA0D1\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/integration/memory-round.test.ts\",\r\n    \"sha256\": \"874D6494652CAC76793B38C1391E3B6F01F87752AFE61F1F8EBBBEE9B4858108\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/integration/memory-round-provider.test.ts\",\r\n    \"sha256\": \"7F9CBAB7583290E84169ED25DA70A0E882BD48C350020BB5BB785C65FC12B353\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/unit/memory-round-ipc.test.ts\",\r\n    \"sha256\": \"CC176EC5C73CBB287CD89BA4E3A0EF4A559CAF69A1A5ADBF85DCE6213FC83212\",\r\n    \"match\": true\r\n  }\r\n]\r\na3550888d4d6d001f441fb73e806eef4729ca315\n"
+    }
+  }
+]

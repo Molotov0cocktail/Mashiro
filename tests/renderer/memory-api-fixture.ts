@@ -21,6 +21,16 @@ export function memoryPermission(
 
 export function memoryApi008Defaults(): MemoryApi {
   return {
+    round: vi.fn(async (input) => ({
+      ok: true as const,
+      data: {
+        assistantId: input.assistantId,
+        requestId: input.requestId,
+        evidenceCoverage: 'recorded-only' as const,
+        entries: [],
+        nextCursor: null
+      }
+    })),
     query: vi.fn(async () => ({ ok: true as const, data: { records: [], nextCursor: null } })),
     inspect: vi.fn(),
     mutate: vi.fn(),

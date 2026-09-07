@@ -1,0 +1,32 @@
+[
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "edf824",
+      "wall_time_seconds": 10.001644,
+      "session_id": 69188,
+      "original_token_count": 7,
+      "output": "\n RUN  v4.1.11 D:/Mashiro\n\n"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "d1c944",
+      "wall_time_seconds": 4.1829965,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "chunk_id": "32f3f3",
+      "wall_time_seconds": 0.570322,
+      "exit_code": 0,
+      "original_token_count": 315,
+      "output": "[\r\n  {\r\n    \"path\": \"src/renderer/src/App.tsx\",\r\n    \"sha256\": \"A2F0B80F09A2E99E9596D106C70E4E66A2770DE96A1DEE99334B2FDAAEDBDD1D\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/memory/MemoryPanel.tsx\",\r\n    \"sha256\": \"BB6FA05439534CD131D2CD7051C4AE9CD447F5EC202639DCFCE8745DEDAA2B93\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/provider/HistoryContextPanel.tsx\",\r\n    \"sha256\": \"1E61A07AFD7E71CE6C58C3EF583D64D305DA08D46AFEAAFE5ABB60FEF41BBD57\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/provider/ProviderPanel.tsx\",\r\n    \"sha256\": \"DD5F4D3CCF4799084C1729328EF8B7412129E289072105E8A6D0365491DF6579\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/features/provider/RoundMemoryPanel.tsx\",\r\n    \"sha256\": \"A1C6BD268357FDA8650C58454F3084C907556F26A771D20FD687BDDC8FA0AE57\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"src/renderer/src/styles.css\",\r\n    \"sha256\": \"F2FEF30E72F011352F8CDCAE10709A5779AEACF94BEB8252E97B0904DD402C7B\",\r\n    \"match\": true\r\n  },\r\n  {\r\n    \"path\": \"tests/renderer/RoundMemoryPanel.test.tsx\",\r\n    \"sha256\": \"C6B097212CEA32695B4AC8AB819F29B299C7D3AC7E21678C73E997EA12F50F96\",\r\n    \"match\": true\r\n  }\r\n]\r\na3550888d4d6d001f441fb73e806eef4729ca315\n"
+    }
+  }
+]
