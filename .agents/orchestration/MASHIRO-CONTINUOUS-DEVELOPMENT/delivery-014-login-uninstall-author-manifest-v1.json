@@ -1,0 +1,34 @@
+{
+  "candidate": "delivery-014-login-uninstall-cleanup",
+  "status": "FROZEN_AWAITING_INDEPENDENT_REVIEW",
+  "files": [
+    {
+      "path": "build/after-pack.mjs",
+      "beforeSha256": "CC4C651934CD48A59736FE207BE81AD08D34267A02CA7E28510668612FA851E0",
+      "sha256": "CA24E74DD6DD25A04A60A98A964D0B44E1B5EE7FF2D90E814D570B6C6A8A111E"
+    },
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "beforeSha256": null,
+      "sha256": "1628102798733062E36541447F9D7E091963D29094A0B75437BAADA4AAE0289E"
+    },
+    {
+      "path": "tests/unit/installer-login-uninstall.test.ts",
+      "beforeSha256": null,
+      "sha256": "9C527D9DC5A504312CCF0661A2744BB87E7F468797E9887B98155CA34152B53E"
+    }
+  ],
+  "validation": {
+    "oracleBeforeImplementation": "7/7 failed because renderOwnedFilesNsis was absent",
+    "focused": "2 files, 11 tests passed",
+    "nodeTypecheck": "passed",
+    "scopedLint": "passed",
+    "scopedFormat": "passed"
+  },
+  "notRun": [
+    "full application build",
+    "packaged Mashiro install or uninstall",
+    "production Mashiro.Desktop registry mutation",
+    "desktop mutation"
+  ]
+}

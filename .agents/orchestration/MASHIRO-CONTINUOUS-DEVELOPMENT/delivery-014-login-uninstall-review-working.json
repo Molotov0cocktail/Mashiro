@@ -1,0 +1,21 @@
+{
+  "status": "REPAIR_OBSERVATION_BEFORE_FREEZE",
+  "reviewer": "review_017_trusted",
+  "product": "build/installer-login-cleanup.mjs",
+  "observation": "Both Run ownership comparisons call kernel32::lstrcmpW, which uses linguistic equality rather than exact UTF-16 identity.",
+  "actualProbe": {
+    "method": "PowerShell Add-Type PInvoke kernel32.dll lstrcmpW; no Registry/filesystem/app access",
+    "toolChunk": "04f04e",
+    "exitCode": 0,
+    "left": "\"C:\\Å\\Mashiro.exe\" --mashiro-login",
+    "right": "\"C:\\Å\\Mashiro.exe\" --mashiro-login",
+    "equalLength": true,
+    "ordinalEqual": false,
+    "lstrcmpW": 0
+  },
+  "risk": "Same-length, differently encoded installation paths can satisfy the current ownership comparison and delete another installation's Run and approval values.",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-lstrcmpw",
+  "repair": "Compare exact complete UTF-16 bytes, including terminator, or use explicit ordinal comparison plus independent termination and byte-length validation.",
+  "additionalReadOnlyObservation": "After RegQueryValueExW returns ERROR_FILE_NOT_FOUND for the deleted Run, RtlZeroMemory uses that failed call's R7 output as approval-buffer length. Use a known allocation length; failed Win32 output must not control a memory write.",
+  "nativeUninstall": "NOT RUN by this reviewer"
+}

@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, lstatSync } from 'node:fs'
 import { join, resolve, relative, sep } from 'node:path'
 import { inspectPackagedRuntime } from './inspect-runtime.mjs'
+import { renderOwnedFilesNsis } from './installer-login-cleanup.mjs'
 
 const hash = (value) => createHash('sha256').update(value).digest('hex')
 
@@ -71,24 +72,7 @@ export async function afterPack(context) {
     join(output, 'resources', 'mashiro-program-files.json'),
     JSON.stringify({ formatVersion: 1, files: owned }, null, 2) + '\n'
   )
-  const lines = ['!macro customRemoveFiles', '  SetOutPath $TEMP']
-  for (const [index, path] of owned.entries()) {
-    const windows = path.replaceAll('/', '\\')
-    const done = 'mashiro_remove_done_' + index
-    lines.push(
-      `  IfFileExists "$INSTDIR\\${windows}" 0 ${done}`,
-      '  ClearErrors',
-      `  Delete "$INSTDIR\\${windows}"`,
-      `  IfErrors 0 ${done}`,
-      '  Abort "Mashiro program file is busy; data has been preserved."',
-      done + ':'
-    )
-  }
-  lines.push('  Delete "$INSTDIR\\${UNINSTALL_FILENAME}"')
-  for (const directory of directories.sort((a, b) => b.length - a.length))
-    lines.push(`  RMDir "$INSTDIR\\${directory.replaceAll('/', '\\')}"`)
-  lines.push('  RMDir "$INSTDIR"', '!macroend', '')
   const generated = resolve(root, '.cache', 'packaging')
   mkdirSync(generated, { recursive: true })
-  writeFileSync(join(generated, 'owned-files.nsh'), lines.join('\n'))
+  writeFileSync(join(generated, 'owned-files.nsh'), renderOwnedFilesNsis(owned, directories))
 }

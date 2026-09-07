@@ -1,0 +1,31 @@
+{
+  "scope": "no Registry reads/writes; synthetic executable only",
+  "fixture": "D:\\Mashiro\\.cache\\review014-login-flag\\probe-spoIak",
+  "compile": "",
+  "cases": [
+    {
+      "args": [
+        "/S"
+      ],
+      "actual": "uninstall|sentinel",
+      "expected": "uninstall|sentinel"
+    },
+    {
+      "args": [
+        "/S",
+        "--updated"
+      ],
+      "actual": "updated|sentinel",
+      "expected": "updated|sentinel"
+    },
+    {
+      "args": [
+        "/S",
+        "--updated-other"
+      ],
+      "actual": "uninstall|sentinel",
+      "expected": "uninstall|sentinel"
+    }
+  ],
+  "verdict": "PASS"
+}

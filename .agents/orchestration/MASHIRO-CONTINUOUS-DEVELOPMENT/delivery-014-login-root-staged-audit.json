@@ -1,0 +1,76 @@
+{
+  "scope": "Reviewed installer cleanup only; RET and native evidence WIP excluded",
+  "files": [
+    {
+      "path": "build/after-pack.mjs",
+      "sha256": "ca24e74dd6dd25a04a60a98a964d0b44e1b5ee7ff2d90e814d570b6c6a8a111e",
+      "exact": true
+    },
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "sha256": "1628102798733062e36541447f9d7e091963d29094a0b75437baada4aae0289e",
+      "exact": true
+    },
+    {
+      "path": "tests/unit/installer-login-uninstall.test.ts",
+      "sha256": "9c527d9dc5a504312ccf0661a2744bb87e7f468797e9887b98155ca34152b53e",
+      "exact": true
+    },
+    {
+      "path": "tests/unit/review014-login-uninstall-boundary.test.ts",
+      "sha256": "74d2c89af831322c84be0be8a81877ecb7532af744cef7ef0b4d8736db8d7a42",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-author-manifest-v1.json",
+      "sha256": "45389e0fc4d1ef5bab60abd077603f7a69d6b2c3ac2df4fcd84da68d3c7ff68e",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-author-result.md",
+      "sha256": "3891b6411a5c2895c146454fb88b51ab73f9adddc44caa6829e01c228c6796ba",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-review-pass-v1.md",
+      "sha256": "630cc899950d04564d4dbf4dedcd920f55ca86c3c00a8207fc5984ca96479f0f",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-review-run-01.json",
+      "sha256": "8ec025012ebec2b40420bf4602a808ecbc5efaad704940adce3e6425f29e6de8",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-review-run-02.json",
+      "sha256": "d6976054ff1d14a4455298dd2816c929ce669612c2ca09d6e761ed094dab2ec4",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-review-working.json",
+      "sha256": "009b743c53e7cff1e7d8a17cfc8f6804bd935bb075fc62efdb8cbf68c03d2028",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-route.md",
+      "sha256": "ec63f5308e2c907b59c5a1b51a1f2808fa52da81e60ae6d90aa827fca8b37e99",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-updated-review-probe.json",
+      "sha256": "24956277f025d8313eb47c67247c4c2b85b4158dc146f7b16d281a78dddbcac8",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-updated-review-probe.mjs",
+      "sha256": "5109a3554af5940637fac665c15451ddc6bc8cc0800ee5573b06b9642d144481",
+      "exact": true
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-updated-review.md",
+      "sha256": "1cfcd1f14f19936e1876c98019cce0a0e2305fc5dde9931e67987ec1ddd45d71",
+      "exact": true
+    }
+  ],
+  "secretPatternFindings": []
+}
