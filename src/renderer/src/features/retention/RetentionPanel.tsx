@@ -627,7 +627,7 @@ export function RetentionPanel({
             </label>
             <p className="scope-note">
               将删除“{purgeTarget?.displayName ?? '所选助手'}
-              ”的私有聊天、关系和连续性记忆；全局共享记忆保留，并标明原助手已删除且不再展开私有来源。
+              ”的私有聊天及全部私有记忆/事件（个人、关系、连续性与事件）；全部未接受提案永久删除。全局共享记忆、其他助手私有记录和正式事项保留，保留对象会标明原助手已删除且不再展开私有来源。
             </p>
           </div>
         ) : intent === 'empty-trash' ? (

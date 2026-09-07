@@ -1,0 +1,74 @@
+{
+  "status": "LOCAL_SCOPED_PASS_PENDING_INDEPENDENT_REVIEW",
+  "base": "8154d0e09fc95014b8d205f8ed70c0028557208e",
+  "fileCount": 9,
+  "files": [
+    {
+      "path": "src/main/retention/retention-service.ts",
+      "owner": "ui-agent",
+      "sha256": "168616633D58293CF2A3156EAD9AD97F9EA8762155458EED22B981E224D1E3DA",
+      "bytes": 61149
+    },
+    {
+      "path": "src/renderer/src/features/retention/RetentionPanel.tsx",
+      "owner": "ui-agent",
+      "sha256": "32B4E68CCF1709EBD96706FA0EB09354CBFA1D2A9CF88939B4A061CE444AA053",
+      "bytes": 32708
+    },
+    {
+      "path": "src/renderer/src/features/daily/DailyPanel.tsx",
+      "owner": "ui-agent",
+      "sha256": "085BE19C415B7685054D874A60D756C0D33792F5EE6170BB3D10692109131A84",
+      "bytes": 66650
+    },
+    {
+      "path": "tests/integration/retention-service.test.ts",
+      "owner": "ui-agent",
+      "sha256": "2325B0E0A720575B4F2E9341795E12AFEA1765BD7A352CC9791FC8C4322A18D4",
+      "bytes": 22620
+    },
+    {
+      "path": "tests/integration/item-retention.test.ts",
+      "owner": "ui-agent",
+      "sha256": "457623EE87C88C5CFA5A0A01D296E1E4837D68C0B2F4C65FDDBB6EDD7FD4AF2F",
+      "bytes": 6659
+    },
+    {
+      "path": "tests/renderer/RetentionPanel.test.tsx",
+      "owner": "ui-agent",
+      "sha256": "715684A6405C32D7796E48B77AE964258378E1E77F52797989074A4A4B0B719B",
+      "bytes": 15082
+    },
+    {
+      "path": "tests/renderer/DailyPanel.test.tsx",
+      "owner": "ui-agent",
+      "sha256": "BAD909CDD971F9239BF9E506E836C19466A6CBDC813173DE74AD1960ED6996DE",
+      "bytes": 15805
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-tests-01.json",
+      "owner": "ui-agent",
+      "sha256": "53B3235F96D9CB252B39E79FA1A2409083430C19CBC9D1728621F9746155D1ED",
+      "bytes": 828
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-handoff-v1.md",
+      "owner": "ui-agent",
+      "sha256": "504E04777AB2ECE1A0423C1F22CE30DBEDAC0EA8969B01D096C5A34B51C65908",
+      "bytes": 2867
+    }
+  ],
+  "validation": {
+    "focused": "4 files / 25 tests PASS; maxWorkers=2",
+    "scopedEslint": "exit 0",
+    "scopedPrettier": "exit 0",
+    "nodeTypecheck": "exit 0",
+    "webTypecheck": "exit 0",
+    "relatedBroad": "19/20 files and 79/80 tests passed; only concurrent 015 retained protocol schema migration failed with PROTOCOL_SCHEMA_INVALID"
+  },
+  "limits": [
+    "No full suite or Electron rerun.",
+    "No DDL, ProviderService, global docs, commit, push, or packaged artifact changes.",
+    "Independent root review pending."
+  ]
+}

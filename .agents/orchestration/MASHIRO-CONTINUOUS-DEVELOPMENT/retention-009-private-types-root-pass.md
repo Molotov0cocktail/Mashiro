@@ -1,0 +1,11 @@
+# AST-006 private user/event independent review
+
+Root did not implement the three product changes. The user's 2026-09-07 decision authorizes deleting every memory kind privately owned by the target assistant, while preserving global/shared records, other assistants' private records and formal items. Every originating unaccepted proposal is deleted.
+
+Independent code review confirms the only trusted change removes the old undecided user/event blocker. The existing all-private selection, source closure, tombstones, versioned cleanup inventory, file safety and transactional confirmation remain unchanged. UI text exposes the complete approved scope. The accompanying Daily labels translate the five existing statuses without changing actions or governance.
+
+The nine-path author manifest has zero hash drift. Root independently ran [five files / 27 tests](retention-009-private-types-root-01.json), all passed. These cover the four private kinds, both old and accepted Markdown versions, late correction rejection, neutral command replay, preservation of global/other-assistant memory and formal items, removal of pending/rejected proposals, and the affected UI. Root added two separate counterexamples: creating a private user or event record after preview makes the old confirmation STALE_PREVIEW, creates no cleanup job or assistant tombstone, and the refreshed preview includes the new record. These verify the existing memory-trigger epoch and final transaction check rather than relying on the removal of the blocker alone.
+
+Only the independent test cleanup was subsequently extracted into a checked helper to satisfy ESLint; its [two counterexamples were rerun](retention-009-private-types-root-02.json) and passed. Scoped lint passed. No product change followed the independent run.
+
+Verdict: scoped independent PASS for AST-006 private user/event completion and the small Chinese UI labels. This does not qualify concurrent task015 migration, RET-007 defaults, backup restoration of later known governance, final packaged behavior or release. Those remain explicit program work.

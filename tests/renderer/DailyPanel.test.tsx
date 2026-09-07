@@ -193,6 +193,48 @@ describe('DailyPanel', () => {
     )
   })
 
+  it('uses a neutral observation heading and translates every persisted status', async () => {
+    const api = dailyApiDefaults()
+    const detail = dailyDetail()
+    const statuses = [
+      ['pending-verification', '待核验'],
+      ['active', '已接受'],
+      ['disputed', '有争议'],
+      ['withdrawn', '已撤回'],
+      ['suppressed', '已抑制']
+    ] as const
+    api.inspect = vi.fn(async () => ({
+      ok: true as const,
+      data: dailyDetail({
+        observations: statuses.map(([status], index) => ({
+          ...detail.observations[0]!,
+          id: `00000000-0000-4000-8000-0000000031${String(index).padStart(2, '0')}`,
+          title: `状态 ${index}`,
+          status,
+          nature: status === 'active' ? ('user-statement' as const) : ('faithful-summary' as const),
+          memoryId: status === 'active' ? '00000000-0000-4000-8000-000000003199' : null,
+          memoryVersion: status === 'active' ? 1 : null
+        }))
+      })
+    })) as DailyApi['inspect']
+    render(
+      <DailyPanel
+        assistantSnapshot={snapshot}
+        api={api}
+        operationsApi={operationsApiDefaults()}
+        providerApi={providerApi()}
+      />
+    )
+
+    fireEvent.click(await screen.findByRole('button', { name: '查看报告' }))
+    const report = await screen.findByRole('region', { name: '日常报告详情' })
+    expect(within(report).getByRole('heading', { name: '观察与处理' })).toBeVisible()
+    for (const [status, label] of statuses) {
+      expect(report).toHaveTextContent(label)
+      expect(report).not.toHaveTextContent(status)
+    }
+    expect(report).toHaveTextContent('用户陈述 · 已接受')
+  })
   it('clears governed body immediately and blocks a late inspect response after a change', async () => {
     let changed!: (event: DailyChanged) => void
     let resolveInspect!: (value: Awaited<ReturnType<DailyApi['inspect']>>) => void
@@ -384,7 +426,7 @@ describe('DailyPanel', () => {
 
     fireEvent.click(await screen.findByRole('button', { name: '查看报告' }))
     const detail = await screen.findByRole('region', { name: '日常报告详情' })
-    expect(detail).toHaveTextContent('用户陈述 · disputed')
+    expect(detail).toHaveTextContent('用户陈述 · 有争议')
     expect(within(detail).getByRole('button', { name: '接受并保存' })).toBeVisible()
     expect(within(detail).getByRole('button', { name: '纠正后保存' })).toBeVisible()
     expect(within(detail).getByRole('button', { name: '拒绝' })).toBeVisible()

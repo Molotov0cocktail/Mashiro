@@ -6,6 +6,10 @@
 
 ## 当前工作与直接下一动作
 
+- AST-006私有user/event增量已[独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-root-pass.md)，五文件27tests及最终两条独立预览变化反例通过；准备单独提交该范围，不混入实施中的015。014内部旧版已普通桌面安装，79应有文件齐全、精确ASAR一致，主PID173968从隔离安装路径启动；选择全域合成数据的原生交互由Sol接续。root继续014治理恢复，PROGRAM ACTIVE。
+
+- 当前已审产品提交8154d0e09fc95014b8d205f8ed70c0028557208e已非force同步github/gitee并实查同值。302候选暂存路径源码/raw字节均一致，仅设计Markdown按Git文本规则规范换行；另纳入核验证据共303文件。内部旧版0.0.9-internal.1/schema15安装包构建成功，位于dist/windows-baseline-schema15，仅升级验收用、不发布。Astra已开始实施015保留协议/schema16，Sol已开始实施009私有user/event删除与小UI修正；root继续014全域安装和已知治理屏障恢复。RET-007仍待答，PROGRAM ACTIVE。
+
 - 2026-09-07最新决议：AST-006助手私有user/event也随所属助手永久删除，009对应增量已解除门禁；全局共享记忆、正式事项和其他助手私有记录保留。RET-007仍待答。013原生双PID业务链已通过；root截图复核发现已完成作业预算快照仍为调用前零值，已由作者修复并获独立4文件12tests PASS，最终原生run813ded0c-1e7f-4b44-8442-fdcd19ffe20d已通过且截图人工复核通过，保留合成根YSASSE；全域正式合成副本Zbzmgp/schema15已建，准备冻结当前候选，建立schema15内部旧安装包再推进015。程序保持ACTIVE。
 
 - 五角色真实服务资格已[SUPPORTED](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-product.md)：观察实际接受Memory；专属提示词修复后简报/复盘/周规划/截止变更全部COMPLETED，周规划真实DRAFT_PROPOSAL，分类用量及无Key重开0调用；本组7请求10808tokens，程序54请求90162已知tokens、历史5次usage未知。014原生已迁移至中文空格安装data、创建助手、托盘复用进程、退出重启恢复、完整备份，Astra继续新目录还原；尚非完整安装发布PASS。新增[015](015-provider-retained-protocol.md)补B02/B04/B07有限DeepSeek保留协议缺口，不能以007GLM模式冒称兼容；不阻止当前014验证。

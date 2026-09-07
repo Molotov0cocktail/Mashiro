@@ -1,0 +1,99 @@
+{
+  "scope": "staged candidate before this evidence file; source and raw evidence exact bytes; text policy may normalize documented Markdown only",
+  "base": "8154d0e09fc95014b8d205f8ed70c0028557208e",
+  "stagedPaths": 18,
+  "mismatches": [],
+  "normalizedDocs": [],
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-handoff-v1.md",
+      "bytes": 2867,
+      "sha256": "504e04777ab2ece1a0423c1f22ce30dbedac0ea8969b01d096c5a34b51c65908"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-manifest-v1.json",
+      "bytes": 2707,
+      "sha256": "2ae2728e109967cc4283bc78c6e60a19ac359e6b41b68fca07170a015ba2f5d1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-root-01.json",
+      "bytes": 10392,
+      "sha256": "4599dbffd7745b52b9239d7010aa247c3e97cec25facc25862d818daa96c0c6f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-root-02.json",
+      "bytes": 1237,
+      "sha256": "6b6d389fb40e3a97a82a1e2efb6f95eae55dc04b68fc0a46e9051532bfc92391"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-root-pass.md",
+      "bytes": 2093,
+      "sha256": "b2283a10b0907ccb132c9b22ba9154118467765af7f867dcd372dc7571fc4819"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-tests-01.json",
+      "bytes": 828,
+      "sha256": "53b3235f96d9cb252b39e79fa1a2409083430c19cbc9d1728621f9746155d1ed"
+    },
+    {
+      "path": "doc/tasks/009-retention-and-cleanup.md",
+      "bytes": 9123,
+      "sha256": "ba8a0b29bca24004752e51629fd7916ac09686d06ce3d1dccedd4e9ef74c3d74"
+    },
+    {
+      "path": "doc/tasks/015-provider-retained-protocol.md",
+      "bytes": 3031,
+      "sha256": "b3502da521d72458c9ae238a2e3550d7aac6a795598655ab6abc9f6f582205ce"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "bytes": 40339,
+      "sha256": "877ec0a92538e32c27f138ee107f5d22f1729405826f6cd71ebf4ff7807a317a"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "bytes": 27738,
+      "sha256": "08294c6b4e9ae0b34a315afb6eae80c4104564adf0111f27f6e1f6b97f0c4d41"
+    },
+    {
+      "path": "src/main/retention/retention-service.ts",
+      "bytes": 61149,
+      "sha256": "168616633d58293cf2a3156ead9ad97f9ea8762155458eed22b981e224d1e3da"
+    },
+    {
+      "path": "src/renderer/src/features/daily/DailyPanel.tsx",
+      "bytes": 66650,
+      "sha256": "085be19c415b7685054d874a60d756c0d33792f5ee6170bb3d10692109131a84"
+    },
+    {
+      "path": "src/renderer/src/features/retention/RetentionPanel.tsx",
+      "bytes": 32708,
+      "sha256": "32b4e68ccf1709ebd96706fa0eb09354cbfa1d2a9cf88939b4a061ce444aa053"
+    },
+    {
+      "path": "tests/integration/item-retention.test.ts",
+      "bytes": 6659,
+      "sha256": "457623ee87c88c5cfa5a0a01d296e1e4837d68c0b2f4c65fddbb6edd7fd4af2f"
+    },
+    {
+      "path": "tests/integration/retention-private-types-independent.test.ts",
+      "bytes": 4114,
+      "sha256": "612c4e13cedda9d86265d76285c0b8fcd4f03359f79851f66dd0d46fea6a1d75"
+    },
+    {
+      "path": "tests/integration/retention-service.test.ts",
+      "bytes": 22620,
+      "sha256": "2325b0e0a720575b4f2e9341795e12afea1765bd7a352cc9791fc8c4322a18d4"
+    },
+    {
+      "path": "tests/renderer/DailyPanel.test.tsx",
+      "bytes": 15805,
+      "sha256": "bad909cdd971f9239bf9e506e836c19466a6cbdc813173de74ad1960ed6996de"
+    },
+    {
+      "path": "tests/renderer/RetentionPanel.test.tsx",
+      "bytes": 15082,
+      "sha256": "715684a6405c32d7796e48b77ae964258378e1e77f52797989074a4a4b0b719b"
+    }
+  ]
+}

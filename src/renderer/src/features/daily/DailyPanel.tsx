@@ -38,6 +38,18 @@ function observationNatureLabel(value: DailyObservation['nature']): string {
   return value === 'inference' ? '推测' : '忠实摘要'
 }
 
+function observationStatusLabel(value: DailyObservation['status']): string {
+  return (
+    {
+      'pending-verification': '待核验',
+      active: '已接受',
+      disputed: '有争议',
+      withdrawn: '已撤回',
+      suppressed: '已抑制'
+    } as const
+  )[value]
+}
+
 const usageFeatureOrder: UsageFeature[] = [
   'conversation',
   'tool-chain',
@@ -1668,13 +1680,14 @@ export function DailyPanel({
               ))}
               {detail.observations.length ? (
                 <section aria-label="观察确认">
-                  <h3>待确认观察</h3>
+                  <h3>观察与处理</h3>
                   {detail.observations.map((observation) => (
                     <article className="daily-card" key={observation.id}>
                       <div className="daily-card-heading">
                         <strong>{observation.title}</strong>
                         <span>
-                          {observationNatureLabel(observation.nature)} · {observation.status}
+                          {observationNatureLabel(observation.nature)} ·{' '}
+                          {observationStatusLabel(observation.status)}
                         </span>
                       </div>
                       <p>{observation.markdown}</p>

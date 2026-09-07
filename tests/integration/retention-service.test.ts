@@ -120,26 +120,31 @@ function setup(fault?: (phase: string) => void) {
   const remember = (
     owner = ids[0]!,
     scope: 'global' | 'assistant' = 'global',
-    body = 'SYNTHETIC_BODY_' + randomUUID()
+    body = 'SYNTHETIC_BODY_' + randomUUID(),
+    kind: MemoryRecord['kind'] = scope === 'global' ? 'user' : 'continuity'
   ) => {
+    const commandId = randomUUID()
     const result = memory.mutate({
       protocolVersion: 1,
       assistantId: owner,
-      commandId: randomUUID(),
+      commandId,
       mutation: {
         action: 'remember',
         targetId: null,
         expectedVersion: null,
-        kind: scope === 'global' ? 'user' : 'continuity',
+        kind,
         scope,
         title: 'SYNTHETIC_TITLE_' + body,
         markdown: body,
         nature: 'faithful-summary',
-        event: null
+        event:
+          kind === 'event'
+            ? { status: 'reported-happened', occurredAt: null, timeZone: null }
+            : null
       }
     })
     if (!result.ok) throw Error('fixture save')
-    return { id: result.data.objectId, version: result.data.objectVersion, body }
+    return { id: result.data.objectId, version: result.data.objectVersion, body, commandId }
   }
   const round = (owner = ids[0]!, body = 'ROUND_' + randomUUID()) => {
     const requestId = randomUUID()
@@ -442,6 +447,138 @@ describe('retention trusted lifecycle', () => {
       ok: true,
       data: { records: [{ id: shared.id, markdown: shared.body, deletedSourceAssistantIds: [a] }] }
     })
+  })
+  it('purges every private memory kind and old body while retaining global and other-assistant records', async () => {
+    const f = setup(),
+      [a, b] = f.ids as [string, string, string],
+      kinds = ['user', 'relationship', 'continuity', 'event'] as const,
+      privateRecords = kinds.map((kind) =>
+        f.remember(a, 'assistant', `PRIVATE_${kind}_${randomUUID()}`, kind)
+      ),
+      privateUser = privateRecords[0]!,
+      correctedBody = 'PRIVATE_user_corrected_' + randomUUID(),
+      correction = f.memory.mutate({
+        protocolVersion: 1,
+        assistantId: a,
+        commandId: randomUUID(),
+        mutation: {
+          action: 'correct',
+          targetId: privateUser.id,
+          expectedVersion: 1,
+          kind: 'user',
+          scope: 'assistant',
+          title: '私有个人记忆已纠正',
+          markdown: correctedBody,
+          nature: 'user-statement',
+          event: null
+        }
+      }),
+      otherPrivate = f.remember(b, 'assistant', 'OTHER_PRIVATE_' + randomUUID(), 'event'),
+      shared = f.remember(a, 'global', 'GLOBAL_RETAINED_' + randomUUID(), 'user')
+    expect(correction).toMatchObject({ ok: true, data: { objectVersion: 2 } })
+    f.grant(b)
+    const source: MemorySource = {
+      type: 'memory',
+      id: privateUser.id,
+      assistantId: a,
+      version: 2
+    }
+    const sharedRow = f.store.database
+      .prepare('SELECT record_json FROM memory_objects WHERE id=?')
+      .get(shared.id) as { record_json: string }
+    const sharedRecord = JSON.parse(sharedRow.record_json) as MemoryRecord
+    sharedRecord.sources = [source]
+    f.store.database
+      .prepare('UPDATE memory_objects SET record_json=? WHERE id=?')
+      .run(JSON.stringify(sharedRecord), shared.id)
+    f.store.database
+      .prepare("DELETE FROM memory_dependencies WHERE node_type='memory' AND node_id=?")
+      .run(shared.id)
+    f.memory.addDependencies('memory', shared.id, shared.version, [source])
+
+    const privateIds = privateRecords.map((record) => record.id)
+    const privateFiles = privateIds.flatMap((id) =>
+      (
+        f.store.database
+          .prepare("SELECT file_name FROM memory_versions WHERE object_id=? AND file_name<>''")
+          .all(id) as { file_name: string }[]
+      ).map((row) => row.file_name)
+    )
+    expect(privateFiles).toHaveLength(5)
+
+    const preview = await f.preview('purge-assistant', {
+      type: 'assistant',
+      replacementAssistantId: b
+    })
+    expect(preview.blockers).toEqual([])
+    expect(preview.memoryIds).toEqual(expect.arrayContaining(privateIds))
+    expect(preview.retainedMemoryIds).toContain(shared.id)
+    expect(preview.memoryIds).not.toContain(shared.id)
+    expect(preview.memoryIds).not.toContain(otherPrivate.id)
+
+    const accepted = await f.confirm(preview)
+    if (!accepted.ok || !accepted.data.jobId) throw Error(JSON.stringify(accepted))
+    expect(
+      f.memory.mutate({
+        protocolVersion: 1,
+        assistantId: a,
+        commandId: randomUUID(),
+        mutation: {
+          action: 'correct',
+          targetId: privateUser.id,
+          expectedVersion: 2,
+          kind: 'user',
+          scope: 'assistant',
+          title: '迟到纠正',
+          markdown: 'LATE_PRIVATE_WRITE',
+          nature: 'user-statement',
+          event: null
+        }
+      })
+    ).toMatchObject({ ok: false, error: { code: 'PERMISSION_DENIED' } })
+    expect(await f.settle(accepted.data.jobId)).toMatchObject({ state: 'COMPLETED' })
+
+    const replay = f.memory.mutate({
+      protocolVersion: 1,
+      assistantId: a,
+      commandId: privateUser.commandId,
+      mutation: {
+        action: 'remember',
+        targetId: null,
+        expectedVersion: null,
+        kind: 'user',
+        scope: 'assistant',
+        title: 'SYNTHETIC_TITLE_' + privateUser.body,
+        markdown: privateUser.body,
+        nature: 'faithful-summary',
+        event: null
+      }
+    })
+    expect(replay).toMatchObject({
+      ok: true,
+      data: { operationId: privateUser.commandId, objectId: privateUser.id }
+    })
+
+    const filesAfter = readdirSync(join(f.root, 'memory'))
+    expect(privateFiles.every((file) => !filesAfter.includes(file))).toBe(true)
+    const privateMarkers = [...privateRecords.map((record) => record.body), correctedBody]
+    for (const table of ['memory_objects', 'memory_versions', 'memory_commands']) {
+      const serialized = JSON.stringify(f.store.database.prepare(`SELECT * FROM ${table}`).all())
+      for (const marker of privateMarkers) expect(serialized).not.toContain(marker)
+      expect(serialized).not.toContain('LATE_PRIVATE_WRITE')
+    }
+    const visible = f.memory.query({ protocolVersion: 1, assistantId: b })
+    expect(visible).toMatchObject({ ok: true })
+    if (!visible.ok) throw Error('query')
+    expect(visible.data.records.find((record) => record.id === shared.id)).toMatchObject({
+      markdown: shared.body,
+      deletedSourceAssistantIds: [a]
+    })
+    expect(visible.data.records.find((record) => record.id === otherPrivate.id)).toMatchObject({
+      markdown: otherPrivate.body,
+      ownerAssistantId: b
+    })
+    expect(visible.data.records.some((record) => privateIds.includes(record.id))).toBe(false)
   })
   it('keeps changed files suppressed and reports retryable failure; retries exact originals idempotently', async () => {
     let fail = true

@@ -1,6 +1,6 @@
 # 015 有限Provider兼容与保留协议
 
-状态：PLANNED；属于MASHIRO-CONTINUOUS-DEVELOPMENT，PROGRAM ACTIVE。入口仍为[progress](progress.md)，覆盖总表B02/B04/B07，不替代014安装发行工作。
+状态：IMPLEMENTING；属于MASHIRO-CONTINUOUS-DEVELOPMENT，PROGRAM ACTIVE。入口仍为[progress](progress.md)，覆盖总表B02/B04/B07，不替代014安装发行工作。
 
 ## 必须闭合的行为
 
@@ -19,6 +19,10 @@ DeepSeek官方Chat Completions当前工具思考协议要求后续请求回传�
 - [ ] 未参与实现的复杂独立审核；实际支持边界说明。不将DOCUMENTED或LOCAL_TESTED写成LIVE_VERIFIED。
 
 核心GLM角色真实资格已有各任务证据，不能要求每家可选高级能力全部真实通过才交付；如本任务某必需资格确需新Key，再具体索取，不搜索私人目录。当前未发起新厂商请求。
+
+## 当前执行
+
+2026-09-07，已审基线8154d0e09fc95014b8d205f8ed70c0028557208e双远程同步；schema15内部旧版0.0.9-internal.1安装包已冻结构建。steward_013_trusted实际gpt-6-astra/medium单写015可信协议和schema16，root独立审核；Sol的009删除/UI和root014数据恢复不重叠，必要DDL先协调。
 
 ## 当前来源
 

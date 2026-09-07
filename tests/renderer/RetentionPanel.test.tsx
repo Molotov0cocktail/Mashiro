@@ -184,6 +184,27 @@ describe('RetentionPanel', () => {
     expect(api.confirm).not.toHaveBeenCalled()
   })
 
+  it('describes the approved complete private purge and retained boundaries', async () => {
+    render(
+      <RetentionPanel
+        api={retentionApi()}
+        memoryApi={memoryApi()}
+        assistantSnapshot={snapshot}
+        fallbackAssistantId={assistantId}
+        pendingCommands={new Map()}
+        onRefreshAssistants={vi.fn()}
+      />
+    )
+    await screen.findByRole('checkbox', { name: /选择“旅行偏好”/ })
+    fireEvent.change(screen.getByLabelText('操作意图'), {
+      target: { value: 'purge-assistant' }
+    })
+
+    const note = screen.getByText(/全部私有记忆\/事件/)
+    expect(note).toHaveTextContent('个人、关系、连续性与事件')
+    expect(note).toHaveTextContent('全部未接受提案永久删除')
+    expect(note).toHaveTextContent('全局共享记忆、其他助手私有记录和正式事项保留')
+  })
   it('reuses the same command id when a confirmation receipt is unknown', async () => {
     const api = retentionApi()
     vi.mocked(api.confirm)

@@ -82,8 +82,21 @@ it('purges only originating unaccepted proposals while formal items retain exact
     a = f.ids[0]!,
     b = f.ids[1]!
   const pending = f.items.proposeLocal(a, randomUUID(), emptyItem('task', '私有待确认'), [f.source])
+  const rejected = f.items.proposeLocal(a, randomUUID(), emptyItem('task', '私有已拒绝'), [
+    f.source
+  ])
   const accepted = f.items.proposeLocal(a, randomUUID(), emptyItem('task', '正式保留'), [f.source])
   const foreign = f.items.proposeLocal(b, randomUUID(), emptyItem('task', '其他助手待确认'), [])
+  expect(
+    f.items.proposalAction({
+      protocolVersion: 1,
+      assistantId: a,
+      commandId: randomUUID(),
+      id: rejected.objectId,
+      expectedVersion: 1,
+      action: 'reject'
+    }).ok
+  ).toBe(true)
   expect(
     f.items.proposalAction({
       protocolVersion: 1,
@@ -108,7 +121,10 @@ it('purges only originating unaccepted proposals while formal items retain exact
     data: {
       itemImpact: {
         items: [{ id: formal.id }],
-        proposals: expect.arrayContaining([{ id: pending.objectId, version: 1, delete: true }])
+        proposals: expect.arrayContaining([
+          { id: pending.objectId, version: 1, delete: true },
+          { id: rejected.objectId, version: 2, delete: true }
+        ])
       }
     }
   })
@@ -125,6 +141,9 @@ it('purges only originating unaccepted proposals while formal items retain exact
   expect(confirmation.ok).toBe(true)
   expect(
     f.store.database.prepare('SELECT 1 FROM item_proposals WHERE id=?').get(pending.objectId!)
+  ).toBeUndefined()
+  expect(
+    f.store.database.prepare('SELECT 1 FROM item_proposals WHERE id=?').get(rejected.objectId!)
   ).toBeUndefined()
   expect(
     f.store.database.prepare('SELECT 1 FROM item_proposals WHERE id=?').get(foreign.objectId!)

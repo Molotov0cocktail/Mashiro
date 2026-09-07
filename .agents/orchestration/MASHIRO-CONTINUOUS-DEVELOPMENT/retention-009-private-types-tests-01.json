@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "009 private user/event purge plus RetentionPanel and Daily observation labels",
+  "base": "8154d0e09fc95014b8d205f8ed70c0028557208e",
+  "command": "D:\\nodejs\\npm.cmd exec vitest -- run tests/integration/retention-service.test.ts tests/integration/item-retention.test.ts tests/renderer/RetentionPanel.test.tsx tests/renderer/DailyPanel.test.tsx --maxWorkers=2",
+  "startedAt": "2026-09-07T07:02:23.2265589Z",
+  "endedAt": "2026-09-07T07:02:29.2544550Z",
+  "exitCode": 0,
+  "result": {
+    "files": 4,
+    "tests": 25,
+    "maxWorkers": 2
+  },
+  "output": "\r\n RUN  v4.1.11 D:/Mashiro\r\n\r\n\r\n Test Files  4 passed (4)\r\n      Tests  25 passed (25)\r\n   Start at  15:02:24\r\n   Duration  4.30s (transform 453ms, setup 535ms, import 743ms, tests 4.23s, environment 1.65s)"
+}

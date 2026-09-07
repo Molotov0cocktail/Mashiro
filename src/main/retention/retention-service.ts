@@ -681,16 +681,6 @@ export class RetentionService {
     )
       blockers.push('所选范围没有可治理的记录')
     let accepted: Manifest['accepted'] = []
-    if (
-      input.intent === 'purge-assistant' &&
-      records.some(
-        (record) =>
-          record.ownerAssistantId === input.assistantId &&
-          record.scope === 'assistant' &&
-          (record.kind === 'user' || record.kind === 'event')
-      )
-    )
-      blockers.push('该助手尚有私有个人记忆或事件；其永久删除范围待用户确认，当前未执行')
     if (input.intent === 'restore-original') {
       if (!requestIds.size) blockers.push('没有可恢复的原文垃圾')
       for (const id of requestIds) {
