@@ -75,7 +75,7 @@
 | --- | --- | --- | --- |
 | D01 MEM-001/004/005；P2.1/3.3；D3.2/7.1 | 全局用户记忆与助手关系/连续性分责；陈述/忠实归纳低干扰生效，新增推断保留性质 | 008即时记忆已审；013仓储/观察及五角色真实服务、最终原生入口已验；制品联测Q11 | 全局user与私有relationship/continuity、陈述/忠实归纳/推测有UI和工具入口；新增推测单独授权，后台角色仍待Q9 |
 | D02 MEM-005/006；H4；D8.3 | Markdown语义正文与事务身份/来源/权限/版本/抑制一致；内编辑优先、外改显式重载和差异验证 | 008 Markdown接受版本与治理已审；完整备份Q10 | 不可变版本+hash+SQL接受指针，故障孤儿不接受，内编辑CAS/外改显式重载；文件清单仅备份输入，不称完整备份 |
-| D03 MEM-002；P3.3 | 默认收起来源/变更面板，区分“本轮提供”与无法证明的“实际使用” | 008已审 | 来源/变更默认收起、原轮次可定位、提供过的request列表不等于模型实际使用；不可展开来源后续009治理 |
+| D03 MEM-002；P3.3 | 默认收起来源/变更面板，区分“本轮提供”与无法证明的“实际使用” | 008单对象详情已审；016发现按回答查看具体提供对象/版本及导航缺口，[017](017-round-memory-provenance.md)可信实施中 | 本轮具体提供/真实变更、对象导航、重启与当前权限/撤回边界必须闭合；反向request UUID列表不能替代本轮面板 |
 | D04 MEM-001/003；D7.1/7.2 | 明确记住/纠正/删除即时生效及真实回执、适用撤销，不等待仓储员 | 008 TASK_DONE / FINAL PASS；物理清理/保留009 | 自然中文创建与下一轮真实检索通过；纠正、删除表示/撤回预览确认与抑制即时生效，恢复受后续撤回保护；旧副本清理仍009 |
 | D05 MEM-004/USE-002；H5.3；D9 | 待整理增量来源保真，仓储员去重/归并/Markdown分支整理/冲突识别 | 013 STEWARD_CORE独立PASS，已提交2307e490；整体联测Q11 | 待整理区与预算配置、整理状态/冲突入口；并发版本核对、权限不扩大、来源不丢、达到预算停调用 |
 | D06 EVT-001；P3.3；D3.2 | 可追溯个人事件区分意向/计划/安排/报告发生/完成/取消/未知 | 008事件与010事项已审；013多事件观察真实接受及原生入口已验 | 七种事件状态、来源/性质和正常对话变更，UI编辑保留原时刻含秒毫秒；不冒称真实日历 |
@@ -148,8 +148,8 @@
 | Q7 统一事项提案 | 五类事项、对话执行、提案协商确认；依赖Q3/Q4 | [010](010-items-and-proposals.md)TASK_DONE / [独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)，51/301与131文件清单，精确产品ab11110a45c6ddb65bd114547225dd4e329bba11，双远程已核验 |
 | Q8 提醒/托盘/用量健康 | 确定性提醒、可选登录启动、休眠重启补发、运行状况/分类用量；依赖Q7，补发需REM-002 | [012](012-deterministic-reminders.md)已实现核心独立PASS并双远程同步f34c543，61/360及实际双PID/DOM通过；REM默认和014安装联测未完，分类用量/运行健康由013继续 |
 | Q9 仓储员与日常后台 | 去重分支冲突、章节压缩/未完成话题、事件观察、简报/复盘/周规划；依赖Q3–Q8 | [013正式任务](013-background-and-steward.md)INTEGRATION_PENDING / DAILY_CORE_PASS；章节、仓储、五类日常真实服务及最终原生入口已验，整体制品验收由Q11接续；[实际服务合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-contract.md)明确真实Memory接受引用、后台origin、预算及完整用户入口 |
-| Q10 位置/安装更新恢复 | 普通用户路径选择/失效恢复、完整迁移备份、隔离安装升级卸载重装；依赖Q1与各schema | [014正式任务](014-windows-data-and-delivery.md)FOUNDATION_IMPLEMENTING；[NSIS路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)已SUPPORTED：精确程序清单/未知与data保护；正式安装应用启动、不同版本/schema升级、失败回滚与完整领域数据仍NOT RUN |
-| Q11 整体功能与制品验收 | 独立从三文档/覆盖表反查用户场景与安全恢复，真实Provider关键角色，所有必需行闭合 | 未参与实现的胜任审核者；有缺口回任务而非改NON-GOALS |
+| Q10 位置/安装更新恢复 | 普通用户路径选择/失效恢复、完整迁移备份、隔离安装升级卸载重装；依赖Q1与各schema | [014正式任务](014-windows-data-and-delivery.md)PACKAGED_ACCEPTANCE / GOVERNANCE_RESTORE_PENDING；旧版已安装启动、选择全域数据及完成完整备份；schema17恢复和安装登录修复进行中，跨版本升级/失败恢复/最终制品及发布仍未完成 |
+| Q11 整体功能与制品验收 | 独立从三文档/覆盖表反查用户场景与安全恢复，真实Provider关键角色，所有必需行闭合 | 016只读预审发现MEM-002，已纳入017必做；未参与对应实现的胜任审核者继续，不能改NON-GOALS消除缺口 |
 | Q12 发布下载闭合 | 冻结版本/精确源码/资产hash、说明/声明、新tag/Release、下载hash、两remote | [只读REST传输预检](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-preflight-v1.md)已确认路线；实际发布上传下载仍NOT RUN，仅Q11 PASS后按既有授权执行 |
 
 ## 关键待决与范围结算
