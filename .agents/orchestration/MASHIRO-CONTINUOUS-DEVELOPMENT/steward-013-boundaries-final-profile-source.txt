@@ -1,0 +1,24 @@
+import { writeFileSync } from 'node:fs'
+import { afterAll, beforeEach, vi } from 'vitest'
+import { StewardOrganization } from '../../src/main/background/steward-organization.js'
+import './steward-boundaries.test.js'
+
+const samples: number[] = []
+beforeEach(() => {
+  const original = StewardOrganization.prototype.refreshGovernance
+  vi.spyOn(StewardOrganization.prototype, 'refreshGovernance').mockImplementation(function (
+    this: StewardOrganization,
+    id?: string
+  ) {
+    const before = performance.now()
+    try { return original.call(this, id) }
+    finally { samples.push(performance.now() - before) }
+  })
+})
+afterAll(() => {
+  writeFileSync('D:/Mashiro/.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-profile.json', JSON.stringify({
+    note: 'Temporary diagnostic wrapper only; original pagination/version oracle imported unchanged. Diagnostic timeout 15000ms is not a proposed gate change.',
+    calls: samples.length, totalMs: samples.reduce((a,b) => a+b,0), maxMs: Math.max(...samples), samples
+  }, null, 2))
+  vi.restoreAllMocks()
+})

@@ -34,6 +34,7 @@ export const memoryRecordSchema = z.strictObject({
   title: z.string().min(1).max(160),
   markdown: z.string().max(16000),
   bodyTruncated: z.boolean().optional(),
+  unresolvedConflictIds: z.array(uuid).max(100).optional(),
   nature: memoryNatureSchema,
   event: memoryEventSchema.nullable(),
   state: z.enum(['active', 'pending', 'suppressed', 'integrity-blocked']),
@@ -155,7 +156,7 @@ export const memoryChangeSchema = z.strictObject({
   action: z.string().max(40),
   objectVersion: version,
   createdAt: timestamp,
-  actor: z.enum(['user', 'assistant', 'background'])
+  actor: z.enum(['user', 'assistant', 'background', 'steward'])
 })
 const errorSchema = z.strictObject({
   code: z.enum([

@@ -1,0 +1,12 @@
+{
+  "beforeSha256": "B95FCEE01F592BEA8DE85606A6A0FB3723B52EA481D91D82CBADA99CAB0780FD",
+  "afterSha256": "BC5F3D1B49F32684465E9590B31E4C71E41609A71F9C0D00C7E3A084E2342FFE",
+  "nodeExit": 0,
+  "lintExit": 0,
+  "formatExit": 0,
+  "diffExit": 0,
+  "files": 8,
+  "total": 20,
+  "passed": 20,
+  "paginationDuration": 3659.4937
+}

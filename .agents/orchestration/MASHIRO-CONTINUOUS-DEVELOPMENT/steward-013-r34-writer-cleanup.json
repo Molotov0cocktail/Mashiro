@@ -1,0 +1,6 @@
+{
+  "path": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\steward-013-r34-writer.cjs",
+  "sha256": "9B695F827CADACD776F4ECDF98F702926B026285C03A282844E94322EF163213",
+  "reason": "Author-owned one-time R3/R4 exact-match writer, removed at root request after applied repair; write-plan retained",
+  "removed": true
+}

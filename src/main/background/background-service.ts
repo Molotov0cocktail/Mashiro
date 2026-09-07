@@ -36,7 +36,9 @@ export interface BackgroundRecipient {
   identity: string
 }
 export interface BackgroundProvider {
-  resolve(configuration: BackgroundConfiguration): BackgroundRecipient
+  resolve(
+    configuration: Pick<BackgroundConfiguration, 'connectionId' | 'model'>
+  ): BackgroundRecipient
   send(
     recipient: BackgroundRecipient,
     messages: ProtocolMessage[],

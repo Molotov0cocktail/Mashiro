@@ -1,0 +1,45 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/steward-service.test.ts (12 tests | 2 failed) 4942ms
+   × discovers shared candidates from ordinary dialogue without manual global writes, then accepts real branch Markdown 1221ms
+   × retains partial receipts and resumes the frozen local slots without an extra model call 1165ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/steward-service.test.ts > discovers shared candidates from ordinary dialogue without manual global writes, then accepts real branch Markdown
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/integration/steward-service.test.ts:13:103
+     11|   expect(f.snapshot().pending[0]).toMatchObject({entryKind:'shared-can…
+     12|   expect(f.configure().ok).toBe(true)
+     13|   await vi.waitFor(()=>expect(f.snapshot().jobs.some((j)=>j.role==='st…
+       |                                                                                                       ^
+     14|   expect(f.send).toHaveBeenCalledTimes(2)
+     15|   const branch=f.snapshot().branches[0]!
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/steward-service.test.ts > retains partial receipts and resumes the frozen local slots without an extra model call
+AssertionError: expected 'STALE' to be 'PARTIAL' // Object.is equality
+
+Expected: "PARTIAL"
+Received: "STALE"
+
+ ❯ tests/integration/steward-service.test.ts:54:87
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 11 passed (13)
+   Start at  09:40:45
+   Duration  5.51s (transform 245ms, setup 255ms, import 341ms, tests 5.03s, environment 0ms)
+

@@ -1,0 +1,14 @@
+{
+  "state": "SUPPORTED",
+  "platform": "win32",
+  "node": "24.18.0",
+  "firstPid": 149072,
+  "contender": {
+    "state": "error",
+    "code": "EADDRINUSE"
+  },
+  "afterTerminatedOwnerPid": 152768,
+  "localNamedPipeOnly": true,
+  "realDataAccess": false,
+  "productionIntegration": false
+}

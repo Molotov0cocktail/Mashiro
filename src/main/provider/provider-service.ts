@@ -1,5 +1,6 @@
 import { randomUUID, createHash } from 'node:crypto'
 import { BackgroundService } from '../background/background-service.js'
+import { StewardService, type StewardProvider } from '../background/steward-service.js'
 import { BackgroundError } from '../background/background-sources.js'
 import { ItemService, ItemError } from '../item/item-service.js'
 import { ReminderService, ReminderError } from '../reminder/reminder-service.js'
@@ -207,6 +208,7 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
 
 export class ProviderService {
   readonly background: BackgroundService
+  readonly steward: StewardService
   readonly retention: RetentionService
   readonly memory: MemoryService
   readonly items: ItemService
@@ -281,67 +283,74 @@ export class ProviderService {
     this.memory.setDomainSourceCheck((source, assistantId, fingerprint, visited) =>
       this.items.assertSource(source, assistantId, fingerprint, visited)
     )
+    const backgroundProvider: StewardProvider = {
+      resolve: (configuration, requireCredential = true) => {
+        const connection = this.repository
+          .snapshot(this.vault.temporaryIds())
+          .connections.find((c) => c.id === configuration.connectionId)
+        if (
+          !connection ||
+          !connection.enabled ||
+          !configuration.model ||
+          (requireCredential && !this.vault.get(connection.id))
+        )
+          throw new BackgroundError('CONFIGURATION')
+        const fingerprint = createHash('sha256')
+          .update('chat-completions-v1|' + connection.baseUrl)
+          .digest('hex')
+        return {
+          connectionId: connection.id,
+          fingerprint,
+          model: configuration.model,
+          identity: JSON.stringify([
+            connection.id,
+            connection.version,
+            fingerprint,
+            configuration.model
+          ])
+        }
+      },
+      send: async (recipient, messages, signal) => {
+        const connection = this.repository
+          .snapshot(this.vault.temporaryIds())
+          .connections.find((c) => c.id === recipient.connectionId)
+        const apiKey = this.vault.get(recipient.connectionId)
+        if (
+          !connection ||
+          !connection.enabled ||
+          !apiKey ||
+          recipient.identity !==
+            JSON.stringify([
+              connection.id,
+              connection.version,
+              createHash('sha256')
+                .update('chat-completions-v1|' + connection.baseUrl)
+                .digest('hex'),
+              recipient.model
+            ])
+        )
+          throw new BackgroundError('PERMISSION_DENIED')
+        return this.transport({
+          baseUrl: connection.baseUrl,
+          apiKey,
+          model: recipient.model,
+          messages,
+          stream: false,
+          signal,
+          maxOutputTokens: 2048
+        })
+      }
+    }
     this.background = new BackgroundService(
       store,
       this.memory,
-      {
-        resolve: (configuration) => {
-          const connection = this.repository
-            .snapshot(this.vault.temporaryIds())
-            .connections.find((c) => c.id === configuration.connectionId)
-          if (
-            !connection ||
-            !connection.enabled ||
-            !configuration.model ||
-            !this.vault.get(connection.id)
-          )
-            throw new BackgroundError('CONFIGURATION')
-          const fingerprint = createHash('sha256')
-            .update('chat-completions-v1|' + connection.baseUrl)
-            .digest('hex')
-          return {
-            connectionId: connection.id,
-            fingerprint,
-            model: configuration.model,
-            identity: JSON.stringify([
-              connection.id,
-              connection.version,
-              fingerprint,
-              configuration.model
-            ])
-          }
-        },
-        send: async (recipient, messages, signal) => {
-          const connection = this.repository
-            .snapshot(this.vault.temporaryIds())
-            .connections.find((c) => c.id === recipient.connectionId)
-          const apiKey = this.vault.get(recipient.connectionId)
-          if (
-            !connection ||
-            !connection.enabled ||
-            !apiKey ||
-            recipient.identity !==
-              JSON.stringify([
-                connection.id,
-                connection.version,
-                createHash('sha256')
-                  .update('chat-completions-v1|' + connection.baseUrl)
-                  .digest('hex'),
-                recipient.model
-              ])
-          )
-            throw new BackgroundError('PERMISSION_DENIED')
-          return this.transport({
-            baseUrl: connection.baseUrl,
-            apiKey,
-            model: recipient.model,
-            messages,
-            stream: false,
-            signal,
-            maxOutputTokens: 2048
-          })
-        }
-      },
+      backgroundProvider,
+      this.toolOptions.clock
+    )
+    this.steward = new StewardService(
+      store,
+      this.memory,
+      backgroundProvider,
       this.toolOptions.clock
     )
     this.retention = new RetentionService(
@@ -356,8 +365,28 @@ export class ProviderService {
         for (const id of this.sessions.keys()) this.temporaryToolLedger.clear(id)
         this.sessions.clear()
         this.background.abort()
+        this.steward.abort()
       },
-      this.background
+      {
+        inspectOriginal: (assistantId, requestIds) => {
+          const chapters = this.background.inspectOriginal(assistantId, requestIds)
+          const steward = this.steward.inspectOriginal(assistantId, requestIds)
+          return {
+            blockers: [...chapters.blockers, ...steward.blockers],
+            accepted: chapters.accepted
+          }
+        },
+        inspectAssistant: (assistantId) => ({
+          blockers: [
+            ...this.background.inspectAssistant(assistantId).blockers,
+            ...this.steward.inspectAssistant(assistantId).blockers
+          ]
+        }),
+        purgeAssistant: (assistantId) => {
+          this.background.purgeAssistant(assistantId)
+          this.steward.purgeAssistant(assistantId)
+        }
+      }
     )
   }
 
@@ -1491,7 +1520,10 @@ export class ProviderService {
       }
       const status = result.status
       finish(status, result.text || response.content)
-      if (status === 'completed' && value.mode === 'normal') this.background.notify()
+      if (status === 'completed' && value.mode === 'normal') {
+        this.background.notify()
+        this.steward.notify()
+      }
       emit({ type: status, requestId: value.requestId, assistantId: value.assistantId })
       if (status === 'failed') return chatFailure(transportError(result.error ?? 'temporary'))
       return providerChatResultSchema.parse({
@@ -1570,6 +1602,7 @@ export class ProviderService {
       if (request.mode === 'normal') this.timeline.finish(request.assistantId, request.response)
     }
     this.background.close()
+    this.steward.close()
     this.reminders.close()
     this.retention.close()
     this.closed = true
@@ -1581,6 +1614,7 @@ export class ProviderService {
 
   cancelArchivedRequests(): void {
     this.background.abort()
+    this.steward.abort()
     for (const request of this.inflight.values()) {
       const assistant = this.store.database
         .prepare('SELECT archived_at FROM assistants WHERE id = ?')
@@ -1591,6 +1625,7 @@ export class ProviderService {
 
   private cancelConnection(connectionId: string): void {
     this.background.abort()
+    this.steward.abort()
     for (const request of this.inflight.values()) {
       if (request.connectionId === connectionId) request.controller.abort()
     }

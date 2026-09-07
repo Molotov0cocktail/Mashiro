@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { stewardChannels } from '../shared/steward-channels.js'
+import type { StewardApi, StewardChanged } from '../shared/steward-contract.js'
 import { backgroundChannels } from '../shared/background-channels.js'
 import type { BackgroundApi, BackgroundChanged } from '../shared/background-contract.js'
 import { reminderChannels, reminderChangedChannel } from '../shared/reminder-channels.js'
@@ -113,7 +115,23 @@ const background: BackgroundApi = {
     return () => ipcRenderer.removeListener(backgroundChannels.changed, handler)
   }
 }
+const steward: StewardApi = {
+  query: (input) => ipcRenderer.invoke(stewardChannels.query, input),
+  configure: (input) => ipcRenderer.invoke(stewardChannels.configure, input),
+  run: (input) => ipcRenderer.invoke(stewardChannels.run, input),
+  control: (input) => ipcRenderer.invoke(stewardChannels.control, input),
+  pending: (input) => ipcRenderer.invoke(stewardChannels.pending, input),
+  branch: (input) => ipcRenderer.invoke(stewardChannels.branch, input),
+  organize: (input) => ipcRenderer.invoke(stewardChannels.organize, input),
+  resolveConflict: (input) => ipcRenderer.invoke(stewardChannels.resolveConflict, input),
+  onChanged: (listener) => {
+    const handler = (_event: unknown, value: unknown): void => listener(value as StewardChanged)
+    ipcRenderer.on(stewardChannels.changed, handler)
+    return () => ipcRenderer.removeListener(stewardChannels.changed, handler)
+  }
+}
 contextBridge.exposeInMainWorld('mashiro', {
+  steward,
   background,
   reminders,
   assistants,

@@ -67,7 +67,7 @@ function api(overrides: Partial<MemoryApi> = {}): MemoryApi {
 }
 
 describe('MemoryPanel', () => {
-  it('labels the actual background actor in the collapsed source and change panel', async () => {
+  it('labels the actual background and steward actors in the collapsed source and change panel', async () => {
     const current = record()
     const details = inspection(current)
     render(
@@ -80,10 +80,15 @@ describe('MemoryPanel', () => {
             ok: true,
             data: {
               ...details,
-              changes: details.changes.map((change) => ({
-                ...change,
-                actor: 'background' as const
-              }))
+              changes: [
+                { ...details.changes[0]!, actor: 'background' as const },
+                {
+                  ...details.changes[0]!,
+                  operationId: '00000000-0000-4000-8000-000000000302',
+                  action: 'correct',
+                  actor: 'steward' as const
+                }
+              ]
             }
           })
         })}
@@ -95,6 +100,7 @@ describe('MemoryPanel', () => {
     expect(summary.closest('details')).not.toHaveAttribute('open')
     fireEvent.click(summary)
     expect(await screen.findByText(/后台整理/)).toHaveTextContent('remember')
+    expect(await screen.findByText(/仓储员/)).toHaveTextContent('correct')
   })
 
   it('reuses an unresolved manual operation across remounts and creates a new identity after success', async () => {

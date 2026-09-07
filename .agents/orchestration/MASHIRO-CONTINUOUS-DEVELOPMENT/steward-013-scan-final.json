@@ -1,0 +1,985 @@
+{
+  "recordedAt": "2026-09-07T03:05:06.416Z",
+  "scannedFiles": 195,
+  "secretFindings": [],
+  "residuals": [],
+  "generated": [],
+  "diffCheck": 0,
+  "hashes": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-daily-observation-contract.md",
+      "bytes": 21445,
+      "sha256": "db830dfec181d59443189ad6686fdc66fd8194fa7bd6de255645f5042e9a4fac"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-plan.md",
+      "bytes": 9818,
+      "sha256": "706af6ba6926c251fe34746a12533fad82b3a23ca83afef36f399d84f794bc0d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-backup-preparation.md",
+      "bytes": 2867,
+      "sha256": "238da54f8b1a44d72bbbc3bc2929c1cabf222d2a43235f479a62e6c5bcba6f61"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-foundation-review-r1.md",
+      "bytes": 4896,
+      "sha256": "6e9ec020d94f86690ac3fa6325aa20d5c9e2edf64141ca61abafdfa6afbdee86"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-foundation-review-r2.md",
+      "bytes": 3489,
+      "sha256": "3502d43ab545c85d764008ec9e9463936475967bff4f6bd490d2a45b18ec26d0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-initialize-tests-01.json",
+      "bytes": 8516,
+      "sha256": "74db92d2d52476ff22e9330ced25074b8fdb9441b5f0d7621799d25ca7427aba"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lease-foundation-candidate-r2.json",
+      "bytes": 2406,
+      "sha256": "be0e5750f07d61aae13154adea3422da6edb9dc2a25930fdeddea6149711c1a4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lease-initialize-stage.md",
+      "bytes": 5919,
+      "sha256": "64cf3d2737eddcf4c08fe4c996cd0475731943ea82cb9e4050f8ceb61e4cbad4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lease-tests-01.json",
+      "bytes": 6594,
+      "sha256": "459c74ec862e61f5dded2b87a261634bfdad4e3a8d9b585ebc874fc0e3213458"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-lock-tests-01.json",
+      "bytes": 10053,
+      "sha256": "edeacdae0658a8a65ff53607c029ecf97418ebf5f2a8bc16a428a49d1075d596"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lock-repair-01.json",
+      "bytes": 10061,
+      "sha256": "6edd65993b9d8ac16fbb32384b2601e9f89e7fed32eabbb01df619aa6ec3c0ae"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lock-spike-result.json",
+      "bytes": 290,
+      "sha256": "421251cd8e86dc5dfd89dccc8261b434562cfd7055bdc9fade2995d925150ea5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lock-spike.mjs",
+      "bytes": 3034,
+      "sha256": "757e62d248178f24ff2def12ef03eb8829ac2c56e88f85adc60f51c646b064ce"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-independent-01.json",
+      "bytes": 3081,
+      "sha256": "bfeb61a24268da444fcca2dc16df4443620a1fd79adaaabdcad1bb1d6982ba6a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-independent-green-02.json",
+      "bytes": 3311,
+      "sha256": "4c0adfada223ba20ff67bafbf7429e21c1782b02a7c01cf51867cee62211aa9a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-independent-pass.md",
+      "bytes": 2683,
+      "sha256": "869f6475d88b83032ab9593e093026ea98025d34213da5301eee38f631863f0d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-independent-review.md",
+      "bytes": 3174,
+      "sha256": "1f0df6ba2464f1a54067de012fba95f6128404062bb58aa2d6fa3a31db3091c3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-independent-static-02.json",
+      "bytes": 229,
+      "sha256": "6d0dd485dfa9203708f1680074f7710a0842b46101a80dc1f251d57fe4eedbab"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-repair-01.json",
+      "bytes": 3313,
+      "sha256": "7e610b5e11916db03adda70312c8efca70c85cde71cf4ae07fa3c4b0a15e4ce1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-stage.md",
+      "bytes": 2202,
+      "sha256": "775a6e2ae318ada69ecb7d15cc40236d5eb4241c16905e09206491f4af882d4b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-tests-01.json",
+      "bytes": 1945,
+      "sha256": "4d10c98b669e66755fc403d38fd4fa598ec94a6c624cf11dce9f7a1e12145319"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/distribution-notices-preflight-v1.md",
+      "bytes": 3101,
+      "sha256": "bce7f7882becf6a7a60b0faf66958ac972b1141f317f218b74099748daeda06d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/distribution-notices-v1.mjs",
+      "bytes": 3456,
+      "sha256": "c76a2fb6eb983855f9f9cbfe4ca5c48777ff9a070496bff09ea23c4d90666fbf"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-adversarial-01.raw.txt",
+      "bytes": 208,
+      "sha256": "cd8036d0e17144351a2646831a33124635ae3ad84b8a14c6d111f7e23d7fbbef"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-01.raw.txt",
+      "bytes": 1161,
+      "sha256": "e4d8ee41a1f965c4be52814e80e7a5e682dae6a1ee5206b737af16f047c50263"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-02.raw.txt",
+      "bytes": 206,
+      "sha256": "fe5a71d82e20513a78dc1503d2ddb2014a7186868dc3bad90e35a92f9eedb23d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-before.ts.txt",
+      "bytes": 5037,
+      "sha256": "b95fcee01f592bea8de85606a6a0fb3723b52ea481d91d82cbada99cab0780fd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-cleanup.json",
+      "bytes": 188,
+      "sha256": "90c1396826c653c766ec4bb19de445ff83bcce543bcbf0d3919eac9fd426fa36"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-diagnostic-02.json",
+      "bytes": 2109,
+      "sha256": "d8b35b53ef262fbd4675019db26e20a963db0a2779486c16ca64c410abf70def"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-diagnostic-03.json",
+      "bytes": 2100,
+      "sha256": "90470554800d367f48e397abd73a4ad08773f44da94dcae017d89334451bbd4a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-exact.diff",
+      "bytes": 7216,
+      "sha256": "73a79555a8134c8e531853151a355e9cd81663f470a906a4a8c051cca3d733d7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-green-04.json",
+      "bytes": 7905,
+      "sha256": "7cc9bbd8ead14f59d1bcbc3db857a1a62bec7a3e73452defd4fd84dd37cb61a8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-isolated-01.json",
+      "bytes": 2092,
+      "sha256": "5a86bb4ace4e0bd91fe0664010d345c3c1d6ce5fa7161276814fbe330ca5e8d0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-profile-after-result.json",
+      "bytes": 2099,
+      "sha256": "d7570f0d75892aa14258902b8643f3be77442e7cf6bc42ed264a19a60562b4b0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-profile-after.json",
+      "bytes": 2963,
+      "sha256": "f00d84b7e153a38a34b36241930d0e989b29998026b85654caa6c140d37ab631"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-profile-before.json",
+      "bytes": 2799,
+      "sha256": "e9d2c416b35daa28c4727577f6b361f00b83988c1e6ffde1fc705c4f60d8a0f9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-profile-source.txt",
+      "bytes": 1089,
+      "sha256": "2a1188dde27fca5f3b039a808809b70302f129d56d5c78fc176f12348c564d7f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-profile.json",
+      "bytes": 2788,
+      "sha256": "81194a26020e6ecd6861a362b38f316be81ea2d506b41808be62481d1381aa71"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-repair.md",
+      "bytes": 3133,
+      "sha256": "8c888b38b919546ec99c07ee44b9c76577d2086ee46cd2401062bca0a945cb36"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-boundaries-final-static.json",
+      "bytes": 336,
+      "sha256": "23216ed1e495a08456d06eead16dbb219de2a7bb6dbce059b76f7990d58e619b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-core-tests-02.raw.txt",
+      "bytes": 208,
+      "sha256": "e9d3179473306dba127f48c853f58f8a5a6b535d6de2e9d7db0e62571313e666"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-dependencies-01.json",
+      "bytes": 79177,
+      "sha256": "1b468ac98df347518754d6914689ae9319c4fdd2b894d455e357833dfcc310c2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-discovery-nature-green.raw.txt",
+      "bytes": 208,
+      "sha256": "99e41d6c410b72147b1b2467a0cd2913c53cea47e52171e39100cdf067ec907d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-discovery-nature-red.raw.txt",
+      "bytes": 895,
+      "sha256": "66257a2d26ee4d095c66f90d4c62bdedf86dae3b12e275602ceb89ff4d27bc21"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-electron-01-ui.png",
+      "bytes": 36907,
+      "sha256": "265289dc0b78eebf59baca24e7fc606a2dc33de14a5d5f3c95fc4d0d1f8c24bd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-electron-01.json",
+      "bytes": 19347,
+      "sha256": "63c1dfd0ae75fba49345ba309f42f9346de719e1d9ba7cfdc57d7eed84dafdce"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-electron-02-ui.png",
+      "bytes": 36924,
+      "sha256": "a385f56fcabe2ff26bc43b0fad05e1c0e1b3768d9d298640a85cd513be4cb441"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-electron-02.json",
+      "bytes": 19510,
+      "sha256": "e55456ea1faa899cb3c3317e73d7b6c5c50e77daa42bd7a3c84c4a6f7c3c88ec"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final-build.raw.txt",
+      "bytes": 1654,
+      "sha256": "0f20716c661fb246dad8f4a80f32f5d9a370bb46c7f6baf718d65bba5eb8a5b4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final-format-check.raw.txt",
+      "bytes": 225,
+      "sha256": "2dd0c08ab9218b653e1fd423adf3fd00ab869e5a549d7bdb81cbbb9885e5d965"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final-lint.raw.txt",
+      "bytes": 1286,
+      "sha256": "1e0560f9be6c665bff8784d82e6ed5414f8a584230c3d4ec51e4685b6c523c52"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final-manifest-v1.json",
+      "bytes": 10400,
+      "sha256": "ad484fabe5e80266b2794ce270930fe2db9c9eec374e371379f0ef85ab76120c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final-manifest-v2.json",
+      "bytes": 10934,
+      "sha256": "16de8203866927726bb47cddf1d9ae5a5da662a8f6c1a9101819ce4017c3d5f7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final-static.json",
+      "bytes": 223,
+      "sha256": "642efdb0f07277efbbd7fd0dc3dd27b15f24d36a5750751b6a0d96043c5f21e6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final-typecheck.raw.txt",
+      "bytes": 106,
+      "sha256": "f4842de794457d66ee087c2e916891cb0195be63915602b8aa8d62ada0c6d3fd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final2-format-check.raw.txt",
+      "bytes": 124,
+      "sha256": "eeef8f1fe204866b4b4cce1f4b31e14c51f91a41d0f10abe415f05ae51be3ff1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final2-lint.raw.txt",
+      "bytes": 55,
+      "sha256": "4d27dfa379cd84a7c62f8f5b47e52839d82d8d666f26b5df840290555c6a72ea"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final2-static.json",
+      "bytes": 171,
+      "sha256": "1c4be25f4a96f6c4a9bd995ed80ba3602d81613d24daad34121c638ae4ee98bd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final2-typecheck.raw.txt",
+      "bytes": 106,
+      "sha256": "f4842de794457d66ee087c2e916891cb0195be63915602b8aa8d62ada0c6d3fd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-final3-build.raw.txt",
+      "bytes": 1654,
+      "sha256": "4421864b91e948960e2b6d62a90f5ad14cd35d4c4657116280412446a4bca2e2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-foundation-01.json",
+      "bytes": 855,
+      "sha256": "e9ac8ade4b8bd323201085090b3f65c2e2ed96858f952c2046e0912c015152ab"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-full-01.raw.txt",
+      "bytes": 1901,
+      "sha256": "87a234541c553f2da42d8e12a08dfe51ceba08bf4c0ab6e573c720fe935b5e82"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-initial-tests.raw.txt",
+      "bytes": 1853,
+      "sha256": "40b36c01650b928f8ea4aa6977c92e3b614118258f1631b42b9892dcb7864321"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-live-preflight-01.json",
+      "bytes": 1369,
+      "sha256": "62590f3fd9e754542d14e089ec893263121281e08f3c4de2ed36a27b66e385f3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-live-preflight-02.json",
+      "bytes": 1369,
+      "sha256": "48c1515dbc88970715aa539b41d6720c1d3597d8fff6afb6d425b4085839511f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-live-product.md",
+      "bytes": 2566,
+      "sha256": "5ce5c94908d59039c8017dbfc9b863c294e1fc6767beac6b283bb9ce86ac38c7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-live-product.mjs",
+      "bytes": 11403,
+      "sha256": "3b21a2940a7a52841550dae539e7f2789c174b540b6d310e9454ebe2471972ff"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-live-run1.json",
+      "bytes": 1656,
+      "sha256": "c4874886afa371f439c72ed86ad6499af535dc92f38941e34ca33e6e0b4940b7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-owner-retention-01.raw.txt",
+      "bytes": 206,
+      "sha256": "19b68fd77cc863c7220328e6d2bd055e1a74b219738d945dbfb5d74e2a602dce"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r3-repair-tests.json",
+      "bytes": 3137,
+      "sha256": "1f9afe317ac7e9a36e8f0e9dc87a620ae2153c9eacf27e000d3efb864de98cea"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-green-01.json",
+      "bytes": 2961,
+      "sha256": "fea4c10ecd05365aa0d48b23faf7eb3df32bea35c1843186c6d445aad2dc236f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-green-02.json",
+      "bytes": 8436,
+      "sha256": "9a55f6bd1e10df4fbe65e12cb49cff5340e67a1e835a703d3787840711758b44"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-green-03.json",
+      "bytes": 8093,
+      "sha256": "69e072952335796acd2890f45e37ca069d263147b7e3e6094ff222ca3a74613d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-handoff.md",
+      "bytes": 2578,
+      "sha256": "81db495a2eefedf453980b2bc49d440ea50320c95734fcda3536e6c9d5ef9938"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-static.json",
+      "bytes": 60,
+      "sha256": "c6f9743ba349f3d3c396f87f657e81976b3bc39631c1395849847fb310fa0490"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-steward-suite.json",
+      "bytes": 47468,
+      "sha256": "c9d5ca8bfaf6ef923c45d890d0ef58e90645d3e513c807c5518736920046874f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-trusted-green.json",
+      "bytes": 17824,
+      "sha256": "951421c41f317524a46a5e920432835b846739b0c99e962135b4314476476319"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-write-plan.json",
+      "bytes": 1669,
+      "sha256": "cb860c998e773d1cd2860cf28a7d7d56e336f748ebc908510977b9f21304a76b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r34-writer-cleanup.json",
+      "bytes": 346,
+      "sha256": "ecde3c93c0c604fa8c7e6b930718d53bedfc5e1e79147f3a9861fa92221badbf"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r5-focused.json",
+      "bytes": 11809,
+      "sha256": "8394a9ffd65ec04a06aac3dc7e56719798ed423d23963f345264ae459b510244"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-r5-handoff.md",
+      "bytes": 1477,
+      "sha256": "1e0bd684430d548c956a7ac5876ae977f807b868c4b414877a19323ccd69b89e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-recovery-01.raw.txt",
+      "bytes": 210,
+      "sha256": "8565dbac7844c66c528f8ace2141e09e26fde318d1f3b6e995b1cc6a26807920"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-retrieval-02.raw.txt",
+      "bytes": 206,
+      "sha256": "70ca4dbf68d523331ead13489d5af2ae80820aaa0eb9ce81e0c2f372b506205b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-branch-version-red-01.json",
+      "bytes": 1960,
+      "sha256": "88fec36792dee003d9442d8857f50dd4a69bb213b3cfdbe90423355960fced63"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-conflict-red-01.json",
+      "bytes": 1576,
+      "sha256": "6e6f73161030373e02cb2120decc2d5283208bff3511436b48ffe13f2f9ad4d3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-electron-01.raw.txt",
+      "bytes": 21703,
+      "sha256": "9df3b07e5939dc1f8b6a9349e1b0534d46187f8468823fc4caa08866ad633747"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-electron-02.raw.txt",
+      "bytes": 20126,
+      "sha256": "ae739cef6fbd9fcdf4d669f208958d61bd08ab668cbac7c06356080d7cc6a1ea"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-final-pass.md",
+      "bytes": 4863,
+      "sha256": "51e8f2a762f16654f854a39e0204b7b0c4075d6e3604fd09c5df57517fabc9f3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-full-01.json",
+      "bytes": 175172,
+      "sha256": "2e6b52d40a8cca49a595bacd94e96ba21f4e05dd51d23d86cabee83acdee5dd6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-full-02.json",
+      "bytes": 197397,
+      "sha256": "81d053882a3b5cffdf679a6a35cbbdb4292c361e69fec24dc76aa9a955611b74"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-full-03.json",
+      "bytes": 186895,
+      "sha256": "308d72756d5f6a889dc303577f228a90ecfab3b2d9fdf830da36c10e1a444c87"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-full-04.json",
+      "bytes": 185860,
+      "sha256": "7dd3d4748c1100fabd74bf2483a84d3fffbf1e7cc89e97e4424ccd86b8718983"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-integrity-red-01.json",
+      "bytes": 1822,
+      "sha256": "a4cb346ebe09026fb78d446bf088c972a4fbd608ca73ec4ed995b53dd7bbaa27"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-repair-01.raw.txt",
+      "bytes": 206,
+      "sha256": "940ed1121d27dabcddc72dd38c7ca7883f1e4c43b330f632eadc6c5208023239"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-review-green-01.json",
+      "bytes": 1517,
+      "sha256": "5ae80e6d5456685c5ecbc942bce73beb1b50d4d6ae55368fd4ebf22797366cf7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-review-red-01.json",
+      "bytes": 2698,
+      "sha256": "d01b9df2a0527db8e911226461c59af5437b8f500eed72407256edb01d086714"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-review-working.md",
+      "bytes": 4116,
+      "sha256": "765bc2bddb2159afbe3036492606f0bbbe7f2507e61e6b13977e062c1ed81990"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-ui-review-01.json",
+      "bytes": 26453,
+      "sha256": "91471ab753e59ecb1016da16904054ce5ec175f8b5138e61a5e8d8dce77af550"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-ui-review-green-01.json",
+      "bytes": 1256,
+      "sha256": "c9730fcf01b65f03e2b2fb7ab1eb7886dd5071e335d0b067ac7797c027f68e09"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-scan-preclose.json",
+      "bytes": 28013,
+      "sha256": "46026c615e226055b3ead100b94aaebb07dc4ea6e5545edc739821ac4e7a2e16"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-scan.mjs",
+      "bytes": 2366,
+      "sha256": "b6d465b9f4672c796b83c01f2af2fe233624c594845d9df56130c68ad8333ee8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-schema-compat-repair.json",
+      "bytes": 17947,
+      "sha256": "9f28068859f44b421220cf70224c6f3299d1a59a58d68026e0a5acd9ca773cfb"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-schema-red.raw.txt",
+      "bytes": 1266,
+      "sha256": "68664a6d0c5f6333e5bc68c54927c63a93c8f3e9dcb7fea5806477ff2345768f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-trusted-final-static.json",
+      "bytes": 392,
+      "sha256": "5e8e0a52524aef34a1316c17db461dae36c5d492a409e5b6d93a4a64685b862f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-trusted-final-tests.raw.txt",
+      "bytes": 209,
+      "sha256": "86311dc02becc307272d8000f6e57344fee657b123702f87252ddac25e0bd1cc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-trusted-handoff-v1.md",
+      "bytes": 6748,
+      "sha256": "0d1ef5c7b7d3e594c1c94a9e3ba877e3e9541841a87b603f5c3311e96a21750c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-trusted-manifest-v1.json",
+      "bytes": 6475,
+      "sha256": "052b4f18a2dd25a0b376b58ae5d1c37a581e62422c59c4c1bfcdac049191bea0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-trusted-manifest-v2.json",
+      "bytes": 7269,
+      "sha256": "327bdd08b500682a2322f4ba8e2a55bc48a24bcdea461aa894b32ef94e57d3d6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-trusted-manifest-v3.json",
+      "bytes": 7486,
+      "sha256": "ba8fb56b65e4b79cc504a254a163b16cf343e54fdcb48e7773ec9370a51c5bf4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-build.raw.txt",
+      "bytes": 1654,
+      "sha256": "3bd8c6f00b7f42f1e71e685753c8500112eb5e8c30f1c9cc29e90afee79dcd46"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-candidate-manifest-v1.json",
+      "bytes": 1737,
+      "sha256": "fc8c3d00f5d7d6ce26992c39bfdea5f797a5f74972c414cf02a6023c5d70b27b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-candidate-manifest-v3.json",
+      "bytes": 1686,
+      "sha256": "0b4fe609568939ab7a13b8f9cee65f86ae91fb75a694999af9dda08a8546fdc3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-final-validation-v3.json",
+      "bytes": 2306,
+      "sha256": "f75ffd09f44beb02703d059f9e494cf363683b85eaa7375c439da66e77a0a82a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-format-after-trusted.raw.txt",
+      "bytes": 124,
+      "sha256": "eeef8f1fe204866b4b4cce1f4b31e14c51f91a41d0f10abe415f05ae51be3ff1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-format.raw.txt",
+      "bytes": 355,
+      "sha256": "a1c88873594fe0dc0ff7db6306d1b4c4da767c196913275cb15211e8cb10e17f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-handoff-v1.md",
+      "bytes": 4583,
+      "sha256": "03fd6b8ab9f07cb3d3c623b6cbecd692f25c8cf9e3a4cd3b327c4f6d5590be97"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-handoff-v3.md",
+      "bytes": 2694,
+      "sha256": "1fa7f184256bb29a0dde2b5e51b0cf96380a2c4d9d9268dce0345d9b4d7daeb1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-lint.raw.txt",
+      "bytes": 55,
+      "sha256": "4d27dfa379cd84a7c62f8f5b47e52839d82d8d666f26b5df840290555c6a72ea"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-renderer-tests.raw.txt",
+      "bytes": 217,
+      "sha256": "05ed39ecbc78d37f132682509aa87316e774398dacf16b5d40468a79b9fdd449"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-ui-typecheck.raw.txt",
+      "bytes": 106,
+      "sha256": "f4842de794457d66ee087c2e916891cb0195be63915602b8aa8d62ada0c6d3fd"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 2742,
+      "sha256": "0917fa647a751455293cc566e0d3971a0eeead0777466d16fc7abfff771925f9"
+    },
+    {
+      "path": "doc/tasks/013-background-and-steward.md",
+      "bytes": 8845,
+      "sha256": "77020a0eb477b696b5db69d87398809d854d9df14c94ff16621d935da7b7f3a8"
+    },
+    {
+      "path": "doc/tasks/014-windows-data-and-delivery.md",
+      "bytes": 6468,
+      "sha256": "72f88d3dfc44b0bddb495b5a1c47f28244094edd348ee78a8239c59678047aee"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "bytes": 38300,
+      "sha256": "6447f73586d0554920ad7394a1ec8e43097e3623f3b772cdd9f9bc0c88b44337"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "bytes": 19585,
+      "sha256": "f619e4b1d4158823ccacda88b8cb00e6c1f8fafdc6063b74f3ea2257a1daf434"
+    },
+    {
+      "path": "scripts/electron-f1-harness.mjs",
+      "bytes": 20556,
+      "sha256": "a10328b6cc945933cd700faa1cfbb9b4e5c722dc548dbf776acb9bf88fff6beb"
+    },
+    {
+      "path": "src/main/background/background-service.ts",
+      "bytes": 37702,
+      "sha256": "14956b8a997dbb1b1fef35ce4c383b8c2efc90ed543764875c04de96acee726b"
+    },
+    {
+      "path": "src/main/background/steward-branch-guard.ts",
+      "bytes": 5156,
+      "sha256": "bc5f3d1b49f32684465e9590b31e4c71e41609a71f9c0d00c7e3a084e2342ffe"
+    },
+    {
+      "path": "src/main/background/steward-model.ts",
+      "bytes": 3574,
+      "sha256": "a4c4d3a9b8c831b74f8908c61b9666a0eb156f7be0444cb258373e12a3219830"
+    },
+    {
+      "path": "src/main/background/steward-organization.ts",
+      "bytes": 9240,
+      "sha256": "1f5f765f479d9aace78f4d16e69fb7a3a02682043c301e28adbaf2de5bfb3bc8"
+    },
+    {
+      "path": "src/main/background/steward-schema.ts",
+      "bytes": 6015,
+      "sha256": "2d349174d19b6c4078a7757aef02b3cbf316452d57f5c92c087f5445976ef18b"
+    },
+    {
+      "path": "src/main/background/steward-service.ts",
+      "bytes": 58740,
+      "sha256": "d2e4aac2bf5100f6a80e6bd2cd3ee939e24ff3a6acb8ef16ff5a3210242a85e0"
+    },
+    {
+      "path": "src/main/data/production-initialize.ts",
+      "bytes": 3822,
+      "sha256": "a523370544bbb1daca41bcdf77d3acf0b87d80e3f1858c9a6cedb0ec9e812de5"
+    },
+    {
+      "path": "src/main/data/production-lease.ts",
+      "bytes": 2835,
+      "sha256": "bcb210e8fb3457975fe215c03ac025d4504b3319df4970bfcc5adf1009b2a4b5"
+    },
+    {
+      "path": "src/main/data/production-location-lock.ts",
+      "bytes": 976,
+      "sha256": "d49d068abeeb634b9c542878dac55f1284f35efe2cf23c260456601d53752f9b"
+    },
+    {
+      "path": "src/main/data/production-location.ts",
+      "bytes": 8603,
+      "sha256": "e76b08ca0fe4b7036e3ae64fce98a2d8d351f365dd2aeaea65eb898fe93f5824"
+    },
+    {
+      "path": "src/main/data/production-session.ts",
+      "bytes": 5369,
+      "sha256": "0b2be02f761b4873fa61a4d3d57ece12ff5a875103a80223c64991a52804f9a9"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "bytes": 19478,
+      "sha256": "67853c68ab9a6f9f71a9694314d85eb4d39c348e61a79331dc0c82e2e197b7b2"
+    },
+    {
+      "path": "src/main/index.ts",
+      "bytes": 5924,
+      "sha256": "25fd27161fee4215b80614f0ce05f036d2ea8470d05405c0ca97c334f975a9c9"
+    },
+    {
+      "path": "src/main/ipc/register-steward-ipc.ts",
+      "bytes": 2016,
+      "sha256": "6adefa3ec0b69664109f2bb89d4b49b81c3406332b28db5e9700b4e562ab5663"
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "bytes": 52600,
+      "sha256": "761e717add8ba8061c7d24befce96aab041dc07a7a1614c0010d8c2680f65fc1"
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "bytes": 64096,
+      "sha256": "75eb3596725ce85f736cd50ffef54fa04557eb1750b6d3b7b20d60f551783b83"
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "bytes": 38738,
+      "sha256": "76377fc0a791240c65924a2b493d2943bc3255014137159f978786cbf8e23240"
+    },
+    {
+      "path": "src/main/testing/e2e-steward.ts",
+      "bytes": 7650,
+      "sha256": "eeafced655e471b6a08df0d314f1977f5f7a682bc2f2b1a50bc735ba2b393ae2"
+    },
+    {
+      "path": "src/preload/index.d.ts",
+      "bytes": 888,
+      "sha256": "b6cd934b58f077b9a45eb4f3684a967f0aa29093ddc79878a00106bbf4818afa"
+    },
+    {
+      "path": "src/preload/index.ts",
+      "bytes": 8152,
+      "sha256": "786eff9cc3f7e7bea0ea5b723166da9b8908d0987af88f74c2174a4253cab39a"
+    },
+    {
+      "path": "src/renderer/src/App.tsx",
+      "bytes": 26352,
+      "sha256": "a1d9eac83fde07f377e0b0f82ec407c2411b60f6fb59ac8c273aef0114e002b0"
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "bytes": 44020,
+      "sha256": "c4fb41c5fd3957e221d6b66dcc9614599d436fb4e42a9fdda50fb6a555078589"
+    },
+    {
+      "path": "src/renderer/src/features/steward/StewardPanel.tsx",
+      "bytes": 81160,
+      "sha256": "962d34de1672d4808dc9d9208c6886ea69bbda485756fd4ca008e61fec603c3d"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "bytes": 25797,
+      "sha256": "582c31e9705d588523f2a2a2f95c2fff73cc796ab107f7ae5d30bb6896ccbba6"
+    },
+    {
+      "path": "src/shared/memory-contract.ts",
+      "bytes": 7863,
+      "sha256": "271ff9ae662fab99ddcb8665a308e5ab6c36a501c0b416b0a99ceb50a3a1a992"
+    },
+    {
+      "path": "src/shared/steward-channels.ts",
+      "bytes": 322,
+      "sha256": "2f21d3607bec5b63db6ae3a8558f9facb64baf8950c5e5978204515f57dcf225"
+    },
+    {
+      "path": "src/shared/steward-contract.ts",
+      "bytes": 7683,
+      "sha256": "7d1545294f834a6a8bc523ff87946131c626a6fbff948ab3c382390cfe490d7c"
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "bytes": 19511,
+      "sha256": "33f490dee597fc14f6ff38e736f06463b187f64d05e473475123c2626e89cb64"
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "bytes": 1679,
+      "sha256": "fd96eaa0242833a5395a0e4f5c08b2a42070730c40e11cda136c0b31075bd537"
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "bytes": 2200,
+      "sha256": "05bce3c63a701798d701c5628e05b3175c2d1f836ce6d49aebf391f6769b11e1"
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "bytes": 6069,
+      "sha256": "71843091ba38de2d48977e2186c7cd50cd1ea216e167bc795653ee526ef017d1"
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "bytes": 26177,
+      "sha256": "143f8ec84042becb846df1303f2fb9be7239ffbc4c7a9136414d79a6195c6945"
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "bytes": 2063,
+      "sha256": "06f56b8e009357bec2dd1f2b9183d076e9e0a31269fcfb61cb3a2c86b98a87d2"
+    },
+    {
+      "path": "tests/integration/retention-legacy-fixture.ts",
+      "bytes": 2973,
+      "sha256": "9df3977825cf680488b55106a8c74a0d3ad38d213211f304ad17d64bfbb5de31"
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "bytes": 2190,
+      "sha256": "cea3c5a56bb59bb2aea75edac2611b7a998997668af568b18e1f9b1a8094ee2b"
+    },
+    {
+      "path": "tests/integration/steward-adversarial.test.ts",
+      "bytes": 8518,
+      "sha256": "ed5564c86a86d4c61ce93939def833128af41f58ec8a3676c90665a744d70d70"
+    },
+    {
+      "path": "tests/integration/steward-boundaries.test.ts",
+      "bytes": 6028,
+      "sha256": "20ea27279ae824b6090dc8823d71552155ffee42562c7a3b3811db4fda8d91b0"
+    },
+    {
+      "path": "tests/integration/steward-branch-governance.test.ts",
+      "bytes": 3569,
+      "sha256": "ea0ebdc10eb6409529cd039fc6cf743b0e4d010257ab8d31f699788858bd8728"
+    },
+    {
+      "path": "tests/integration/steward-branch-integrity.test.ts",
+      "bytes": 2013,
+      "sha256": "452320e8f0d0133eb9d01cdf40d45a86362202c2ffd804619ede35f0e782ce4c"
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "bytes": 1622,
+      "sha256": "bea8962f2e94efafcc7aeaae5f2d7982ef42486c5ea40c824dd5b4177129f7fe"
+    },
+    {
+      "path": "tests/integration/steward-discovery-nature.test.ts",
+      "bytes": 991,
+      "sha256": "e0501d9a478d0bcf7fcd609b74de60a7c940abb02fd9f179ac2dff5b850164f9"
+    },
+    {
+      "path": "tests/integration/steward-fixture.ts",
+      "bytes": 6320,
+      "sha256": "2e3e63e992246c75ad4d53bd780654c53c496aff6cb958ae2aed5b98e33ca76b"
+    },
+    {
+      "path": "tests/integration/steward-owner-retention.test.ts",
+      "bytes": 4249,
+      "sha256": "4ff8f461dca63cac54b511e0fe2bb3253a87c1fadb9e82a4431cd93720eb078b"
+    },
+    {
+      "path": "tests/integration/steward-recovery.test.ts",
+      "bytes": 4795,
+      "sha256": "143fa6f336e2ebd038e0a156f06258948acf17c131cd5ba03b35d68afa1a8846"
+    },
+    {
+      "path": "tests/integration/steward-resolved-governance.test.ts",
+      "bytes": 2845,
+      "sha256": "4460673edf6da0fc3b4078afd2019ab9a5b7b6a658720870226428c128d20dd5"
+    },
+    {
+      "path": "tests/integration/steward-retrieval.test.ts",
+      "bytes": 1365,
+      "sha256": "d36099db7de6778105797cf959d5b8d637a7b867db8c241a58be6210641a7a7d"
+    },
+    {
+      "path": "tests/integration/steward-root-branch-version-review.test.ts",
+      "bytes": 1469,
+      "sha256": "db8276a2439a63bc2d4598193351558420d77480d3a75fd9c1afb645ffe623bc"
+    },
+    {
+      "path": "tests/integration/steward-root-conflict-review.test.ts",
+      "bytes": 2044,
+      "sha256": "6c646ab277d1ccf0800b9bd428e87432ac00244d1a009254bf7c731c0605c8e6"
+    },
+    {
+      "path": "tests/integration/steward-root-integrity-review.test.ts",
+      "bytes": 1100,
+      "sha256": "06b33bc03ffa5d1028e45aaee5451a894bfee28632dc99109ac1c8fc9444a385"
+    },
+    {
+      "path": "tests/integration/steward-root-review.test.ts",
+      "bytes": 2430,
+      "sha256": "40dbc7deefc465639e1da0c51e336b45edde55e152cc3f7a091521e4d19b5f91"
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "bytes": 995,
+      "sha256": "e571f105a8b064f95c8f49dd53294b61f2fc7ca3ad7cfea407f4779e38ac6380"
+    },
+    {
+      "path": "tests/integration/steward-service.test.ts",
+      "bytes": 9343,
+      "sha256": "18e0b4761037fa199562693f8fa139498344ee68f700b8038bdb17fb728314b6"
+    },
+    {
+      "path": "tests/integration/steward-source-metadata.test.ts",
+      "bytes": 2004,
+      "sha256": "da7f54349cf42a74f7850aac0170ff6750aafab7407709215707cc3d6fa4d426"
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "bytes": 26462,
+      "sha256": "5521ef31b3c74239a83a162bb47043c16d9b85632958407658b1c85d36a23f86"
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "bytes": 7732,
+      "sha256": "600a6c433fd84dc00f90408c5d0ca5f64af5087d48ebb1919d71c9ddeba781f6"
+    },
+    {
+      "path": "tests/renderer/App-steward.test.tsx",
+      "bytes": 3287,
+      "sha256": "e683fd41d04b85a1789d4cafa78d75c784c2667b7eea4241f82af7d5830d5423"
+    },
+    {
+      "path": "tests/renderer/MemoryPanel.test.tsx",
+      "bytes": 19213,
+      "sha256": "b27c8501aba080fbbf3de03fa0f7a7646e893722becc06e494acddb72b6ba24a"
+    },
+    {
+      "path": "tests/renderer/StewardPanel-recovery.test.tsx",
+      "bytes": 7771,
+      "sha256": "37b7b389da8febcd8693e865e541ed50510c8db6a285fd51b4942240dc39feb0"
+    },
+    {
+      "path": "tests/renderer/StewardPanel-root-review.test.tsx",
+      "bytes": 3328,
+      "sha256": "6a26218a4afc82fb809299684bf1351172cc9c774d89b911a3d5310a3ea542ba"
+    },
+    {
+      "path": "tests/renderer/StewardPanel.test.tsx",
+      "bytes": 17600,
+      "sha256": "3a0c307c1f72692de63db5e5c98eafe517d3f75f4ca9135a5590874576bfda5e"
+    },
+    {
+      "path": "tests/renderer/steward-api-fixture.ts",
+      "bytes": 5547,
+      "sha256": "49a112b99a44a2c8065162fa4aa1786cbefa4de58043247cfdeb5ff71038b8bc"
+    },
+    {
+      "path": "tests/unit/delivery-014-location-review.test.ts",
+      "bytes": 4512,
+      "sha256": "661ced22097e075e273bd0513304f0ed510eab77935ab66b7c1d723c776a2658"
+    },
+    {
+      "path": "tests/unit/production-initialize.test.ts",
+      "bytes": 5577,
+      "sha256": "7c58bfc463498d786c4c8787b98b574d47879a663d543b47710687bc00858b2f"
+    },
+    {
+      "path": "tests/unit/production-lease.test.ts",
+      "bytes": 2636,
+      "sha256": "4632d774170e6803524af686feb1edda4c498fe14c9a85bcb45263e7199e2610"
+    },
+    {
+      "path": "tests/unit/production-location-lease-review.test.ts",
+      "bytes": 5580,
+      "sha256": "fd8cac21f0d7bbc07330a27b55b24af05eec54744e455b285df72a956d3f7b51"
+    },
+    {
+      "path": "tests/unit/production-location-lock.test.ts",
+      "bytes": 4285,
+      "sha256": "55d77737da4bec279b2beafff7105e0e5b27238c511239bcbc1a7f4aef0c8c3e"
+    },
+    {
+      "path": "tests/unit/production-location.test.ts",
+      "bytes": 8026,
+      "sha256": "0c8e37ddb33d9ffde5cbcbe83f941aedacb0eaea2c2113797a3949cc67a51cbf"
+    },
+    {
+      "path": "tests/unit/production-session-independent.test.ts",
+      "bytes": 4975,
+      "sha256": "3a0121a537733a822415f742bfbe6897ced67b2b987492b666d2a9ddcb9d690f"
+    },
+    {
+      "path": "tests/unit/production-session.test.ts",
+      "bytes": 5419,
+      "sha256": "ed791c54afef2edefc8bbbe6d46c52dd02be4673766c9581de13f60862b57922"
+    }
+  ]
+}

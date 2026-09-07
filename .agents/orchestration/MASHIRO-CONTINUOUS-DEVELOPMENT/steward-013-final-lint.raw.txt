@@ -1,0 +1,24 @@
+
+> mashiro@0.1.0 lint
+> eslint . --max-warnings=0
+
+
+D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\steward-013-live-product.mjs
+  26:49  error  The value assigned to 'restoredCalls' is not used in subsequent statements              no-useless-assignment
+  26:71  error  The value assigned to 'pendingExcludedFromRecall' is not used in subsequent statements  no-useless-assignment
+
+D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\steward-013-r34-writer.cjs
+   1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   1:12  error  'require' is not defined                 no-undef
+   2:16  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   2:16  error  'require' is not defined                 no-undef
+   3:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   3:14  error  'require' is not defined                 no-undef
+  62:36  error  'Buffer' is not defined                  no-undef
+  68:14  error  'Buffer' is not defined                  no-undef
+
+D:\Mashiro\src\main\data\production-location.ts
+  232:27  error  Unsafe usage of ThrowStatement  no-unsafe-finally
+
+✖ 11 problems (11 errors, 0 warnings)
+

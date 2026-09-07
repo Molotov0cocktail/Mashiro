@@ -431,7 +431,38 @@ try {
     seed.background.memoryId !== verify.background.memoryId
   )
     throw new Error('Background chapter identity changed after restart')
+  for (const [phase, result] of [
+    ['seed', seed],
+    ['verify', verify]
+  ]) {
+    const steward = result.steward
+    if (
+      !steward ||
+      steward.discoveryBudgetCalls !== 1 ||
+      steward.stewardBudgetCalls !== 1 ||
+      !steward.bodyReadThroughDom ||
+      !steward.sourcesInitiallyCollapsed ||
+      steward.priorIdentityRestored !== (phase === 'verify') ||
+      result.stewardTransportCalls !== (phase === 'seed' ? 2 : 0)
+    )
+      throw new Error('Steward DOM/lifecycle evidence missing')
+  }
+  if (
+    !verify.steward.governance?.oldExportRejected ||
+    !verify.steward.governance.cachedBodyCleared ||
+    verify.steward.governance.correctedMemoryVersion !== seed.steward.memoryVersion + 1
+  )
+    throw new Error('Steward correction/export governance missing')
+  for (const key of ['branchId', 'branchVersion', 'memoryId', 'memoryVersion', 'commandId'])
+    if (seed.steward[key] !== verify.steward[key])
+      throw new Error('Steward restart identity changed')
   summary = {
+    steward: {
+      seed: seed.steward,
+      restored: verify.steward,
+      seedTransportCalls: seed.stewardTransportCalls,
+      verifyTransportCalls: verify.stewardTransportCalls
+    },
     background: {
       seed: seed.background,
       restored: verify.background,
@@ -470,6 +501,11 @@ try {
     chat: verify.chat
   }
   mkdirSync(join(projectRoot, 'test-results'), { recursive: true })
+  for (const phase of ['seed', 'verify'])
+    copyFileSync(
+      join(testRoot, 'results', phase + '-steward-ui.png'),
+      join(projectRoot, 'test-results', 'steward-013-' + phase + '-ui.png')
+    )
   for (const phase of ['seed', 'verify'])
     copyFileSync(
       join(testRoot, 'results', phase + '-background-ui.png'),

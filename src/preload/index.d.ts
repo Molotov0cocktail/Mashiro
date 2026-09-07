@@ -1,3 +1,4 @@
+import type { StewardApi } from '../shared/steward-contract'
 import type { BackgroundApi } from '../shared/background-contract'
 import type { ReminderApi } from '../shared/reminder-contract'
 import type { ItemApi } from '../shared/item-contract'
@@ -12,6 +13,7 @@ declare global {
   interface Window {
     mashiro: {
       background: BackgroundApi
+      steward: StewardApi
       reminders: ReminderApi
       items: ItemApi
       retention: RetentionApi

@@ -557,7 +557,7 @@ button:disabled {
   top: 0;
   z-index: 3;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
   margin-top: 24px;
   border: 1px solid #514568;
@@ -1416,6 +1416,180 @@ button:disabled {
 @media (max-width: 720px) {
   .background-budget-grid,
   .background-usage dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+.steward-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.steward-panel h2,
+.steward-panel h3,
+.steward-panel p {
+  margin-top: 0;
+}
+
+.steward-config-grid,
+.steward-usage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.steward-configuration,
+.steward-usage,
+.steward-card,
+.steward-editor,
+.branch-detail,
+.branch-member,
+.reload-preview {
+  border: 1px solid #514568;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #1c1826;
+}
+
+.steward-configuration,
+.steward-editor,
+.branch-detail,
+.reload-preview {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.steward-configuration > label:not(.inline-check),
+.steward-budget-grid label,
+.steward-editor > label,
+.branch-detail > label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.steward-configuration input:not([type='checkbox']),
+.steward-configuration select,
+.steward-editor input,
+.steward-editor textarea,
+.branch-detail > label input {
+  width: 100%;
+  color: #f7f4ff;
+  background: #211c2c;
+  border: 1px solid #665879;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.steward-configuration fieldset {
+  display: grid;
+  gap: 0.45rem;
+  border: 1px solid #514568;
+  border-radius: 0.6rem;
+  padding: 0.75rem;
+}
+
+.steward-budget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.steward-usage dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 0;
+}
+
+.steward-usage dl div {
+  padding: 0.65rem;
+  border-radius: 0.5rem;
+  background: #211c2c;
+}
+
+.steward-usage dt {
+  color: #c7bed8;
+  font-size: 0.9rem;
+}
+
+.steward-usage dd {
+  margin: 0.2rem 0 0;
+  font-weight: 650;
+}
+
+.steward-section-heading,
+.steward-card-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.steward-card {
+  margin-block: 0.75rem;
+}
+
+.steward-card.state-remote_unknown,
+.steward-card.state-failed_confirmed,
+.steward-card.state-permission_blocked,
+.steward-card.state-configuration_blocked,
+.steward-card.state-partial,
+.steward-card.conflict-open {
+  border-color: #a96055;
+}
+
+.steward-card.state-budget_paused {
+  border-color: #a7812d;
+}
+
+.steward-card.pending-pending {
+  border-color: #77609e;
+}
+
+.count-badge {
+  border: 1px solid #77609e;
+  border-radius: 999px;
+  padding: 0.3rem 0.65rem;
+  color: #d8c8ff;
+  background: #2d263b;
+}
+
+.steward-markdown {
+  max-height: 28rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  background: #211c2c;
+  border-radius: 0.5rem;
+}
+
+.steward-markdown.compact {
+  max-height: 12rem;
+}
+
+.branch-detail,
+.steward-editor {
+  margin-top: 0.8rem;
+  background: rgb(24 21 34 / 72%);
+}
+
+.branch-member {
+  margin-block: 0.6rem;
+  background: #211c2c;
+}
+
+.reload-preview {
+  background: #30251d;
+}
+
+@media (max-width: 820px) {
+  .steward-config-grid,
+  .steward-usage-grid,
+  .steward-budget-grid,
+  .steward-usage dl {
     grid-template-columns: 1fr;
   }
 }

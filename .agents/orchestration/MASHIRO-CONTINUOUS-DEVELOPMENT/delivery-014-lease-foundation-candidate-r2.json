@@ -1,0 +1,71 @@
+{
+  "kind": "delivery-014-lease-foundation-candidate",
+  "review": "R2",
+  "head": "01a4d8c68dcad371d1bf6f0779d058e5b2fa39fe",
+  "files": [
+    {
+      "path": "src/main/data/production-location.ts",
+      "sha256": "E76B08CA0FE4B7036E3AE64FCE98A2D8D351F365DD2AEAEA65EB898FE93F5824",
+      "bytes": 8603
+    },
+    {
+      "path": "src/main/data/production-lease.ts",
+      "sha256": "BCB210E8FB3457975FE215C03AC025D4504B3319DF4970BFCC5ADF1009B2A4B5",
+      "bytes": 2835
+    },
+    {
+      "path": "src/main/data/production-initialize.ts",
+      "sha256": "A523370544BBB1DACA41BCDF77D3ACF0B87D80E3F1858C9A6CEDB0EC9E812DE5",
+      "bytes": 3822
+    },
+    {
+      "path": "src/main/data/production-location-lock.ts",
+      "sha256": "D49D068ABEEB634B9C542878DAC55F1284F35EFE2CF23C260456601D53752F9B",
+      "bytes": 976
+    },
+    {
+      "path": "tests/unit/production-location.test.ts",
+      "sha256": "0C8E37DDB33D9FFDE5CBCBE83F941AEDACB0EAEA2C2113797A3949CC67A51CBF",
+      "bytes": 8026
+    },
+    {
+      "path": "tests/unit/delivery-014-location-review.test.ts",
+      "sha256": "661CED22097E075E273BD0513304F0ED510EAB77935AB66B7C1D723C776A2658",
+      "bytes": 4512
+    },
+    {
+      "path": "tests/unit/production-lease.test.ts",
+      "sha256": "4632D774170E6803524AF686FEB1EDDA4C498FE14C9A85BCB45263E7199E2610",
+      "bytes": 2636
+    },
+    {
+      "path": "tests/unit/production-initialize.test.ts",
+      "sha256": "7C58BFC463498D786C4C8787B98B574D47879A663D543B47710687BC00858B2F",
+      "bytes": 5577
+    },
+    {
+      "path": "tests/unit/production-location-lock.test.ts",
+      "sha256": "55D77737DA4BEC279B2BEAFFF7105E0E5B27238C511239BCBC1A7F4AEF0C8C3E",
+      "bytes": 4285
+    },
+    {
+      "path": "tests/unit/production-location-lease-review.test.ts",
+      "sha256": "FD8CAC21F0D7BBC07330A27B55B24AF05EEC54744E455B285DF72A956D3F7B51",
+      "bytes": 5580
+    }
+  ],
+  "verification": {
+    "focusedTests": "6 files / 33 tests passed in 1.51 seconds",
+    "scopedStrictNodeNextTypeScript": "passed",
+    "scopedEslint": "passed",
+    "scopedPrettier": "passed"
+  },
+  "excluded": [
+    "src/main/data/production-session.ts",
+    "tests/unit/production-session.test.ts",
+    "production main/bootstrap integration",
+    "full production schema initialization",
+    "packaged Electron and Windows installer lifecycle",
+    "backup, migration, update, uninstall and release"
+  ]
+}

@@ -1,7 +1,32 @@
 import type { DatabaseSync } from 'node:sqlite'
 
 /** Only for constructing synthetic pre-v7 migration fixtures from a fresh current database. */
+export function removeStewardFixture(database: DatabaseSync): void {
+  for (const table of [
+    'memory_conflicts',
+    'branch_members',
+    'memory_branches',
+    'steward_controls',
+    'steward_consumptions',
+    'steward_slots',
+    'steward_attempts',
+    'steward_jobs',
+    'discovery_configs',
+    'steward_configs'
+  ])
+    database.exec('DROP TABLE ' + table)
+  for (const column of [
+    'created_at',
+    'candidate_json',
+    'sources_json',
+    'source_digest',
+    'authority_assistant',
+    'entry_kind'
+  ])
+    database.exec('ALTER TABLE memory_pending DROP COLUMN ' + column)
+}
 export function removeBackgroundFixture(database: DatabaseSync): void {
+  removeStewardFixture(database)
   for (const table of [
     'background_controls',
     'background_chapters',

@@ -1,3 +1,4 @@
+import { runStewardE2e } from './e2e-steward.js'
 import { runBackgroundE2e } from './e2e-background.js'
 import { runReminderE2e } from './e2e-reminder.js'
 import { app, type BrowserWindow } from 'electron'
@@ -53,6 +54,46 @@ export async function e2eProviderTransport(request: TransportRequest): Promise<T
     stream: request.stream,
     messages: request.messages.map((message) => ({ role: message.role, content: message.content }))
   })
+  if (request.messages[0]?.content.startsWith('你是当前助手的共享增量识别角色。')) {
+    if (request.maxOutputTokens !== 2048) throw Error('steward-output-limit')
+    return {
+      status: 'completed',
+      text: JSON.stringify({
+        sharedCandidates: [
+          {
+            title: 'E2E仓储候选',
+            markdown: 'E2E_STEWARD_ACCEPTED：合成正常对话偏好。',
+            nature: 'faithful-summary',
+            sourceHandles: ['source0']
+          }
+        ]
+      }),
+      usage: { promptTokens: 14, completionTokens: 6, totalTokens: 20 }
+    }
+  }
+  if (request.messages[0]?.content.startsWith('你是内置仓储员。')) {
+    if (request.maxOutputTokens !== 2048) throw Error('steward-output-limit')
+    const input = JSON.parse(request.messages[1]!.content)
+    if (input.targets.length !== 0 || !input.entry.markdown.includes('E2E_STEWARD_ACCEPTED'))
+      throw Error('steward-source-range')
+    return {
+      status: 'completed',
+      text: JSON.stringify({
+        slots: [
+          {
+            action: 'remember',
+            title: 'E2E仓储结果',
+            markdown: input.entry.markdown,
+            nature: 'faithful-summary',
+            branchTitle: 'E2E仓储分支',
+            targetHandle: null,
+            sourceHandles: ['entry']
+          }
+        ]
+      }),
+      usage: { promptTokens: 15, completionTokens: 7, totalTokens: 22 }
+    }
+  }
   if (request.messages[0]?.content.startsWith('你是当前助手的章节整理角色。')) {
     if (request.maxOutputTokens !== 2048) throw Error('background-output-limit')
     return {
@@ -407,12 +448,18 @@ const verifyRestoreScript = `
   if(!historyPage.ok) throw new Error(historyPage.error.code)
   const allMemory=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
   const restoredBackground=await window.mashiro.background.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
-  if(!allMemory.ok||!restoredBackground.ok||allMemory.data.records.length!==2||
+  const restoredSteward=await window.mashiro.steward.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
+  const stewardMemoryId=restoredSteward.ok?restoredSteward.data.jobs.find(j=>j.role==='steward'&&j.state==='COMPLETED')?.slots[0]?.memoryId:null
+  if(!stewardMemoryId||!allMemory.ok||!allMemory.data.records.some(r=>r.id===stewardMemoryId&&r.markdown.includes('E2E_STEWARD_ACCEPTED')))throw Error('steward-restored-memory')
+  if(!allMemory.ok||!restoredBackground.ok||allMemory.data.records.length!==3||
     restoredBackground.data.chapters.length!==1||
     !allMemory.data.records.some(record=>record.id===restoredBackground.data.chapters[0].memoryId))
     throw new Error('memory-background-cardinality')
   const memoryQuery=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
-  if(!memoryQuery.ok||memoryQuery.data.records.length!==1)throw new Error('memory-restored-query')
+  if(!memoryQuery.ok||memoryQuery.data.records.length!==2||!memoryQuery.data.records.some(r=>r.id===stewardMemoryId))throw new Error('memory-steward-restored-query')
+  // Preserve the original memory oracle separately from the additional steward object.
+  memoryQuery.data.records=memoryQuery.data.records.filter(r=>r.id!==stewardMemoryId)
+  if(memoryQuery.data.records.length!==1)throw new Error('memory-restored-query')
   const memoryInspect=await window.mashiro.memory.inspect({protocolVersion:1,assistantId:assistant.data.currentAssistantId,id:memoryQuery.data.records[0].id})
   const memoryPermissions=await window.mashiro.memory.permissions({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
   if(!memoryInspect.ok||!memoryPermissions.ok)throw new Error('memory-restored-inspect')
@@ -725,9 +772,20 @@ export async function runE2ePhase(
       captureFailure = { stage: 'background-dom-lifecycle', code: 'FAILED' }
     }
   }
+  const transportAfterBackground = e2eTransportEvidence().count
+  let steward: Awaited<ReturnType<typeof runStewardE2e>> | undefined
+  if (!('failure' in evidence) && !captureFailure) {
+    try {
+      steward = await runStewardE2e(window, dataRoot)
+    } catch {
+      captureFailure = { stage: 'steward-dom-lifecycle', code: 'FAILED' }
+    }
+  }
   const result = {
+    steward,
+    stewardTransportCalls: e2eTransportEvidence().count - transportAfterBackground,
     background,
-    backgroundTransportCalls: e2eTransportEvidence().count - transportAfterExplicit.count,
+    backgroundTransportCalls: transportAfterBackground - transportAfterExplicit.count,
     reminders,
     runId: dataRoot.runId,
     phase: dataRoot.phase,

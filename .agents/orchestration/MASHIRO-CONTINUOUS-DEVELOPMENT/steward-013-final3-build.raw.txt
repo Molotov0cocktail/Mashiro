@@ -1,0 +1,36 @@
+
+> mashiro@0.1.0 build
+> electron-vite build
+
+vite v7.3.6 building ssr environment for production...
+transforming...
+✓ 72 modules transformed.
+rendering chunks...
+out/main/index.js  589.26 kB
+✓ built in 493ms
+vite v7.3.6 building ssr environment for production...
+transforming...
+✓ 10 modules transformed.
+rendering chunks...
+out/preload/index.cjs  9.83 kB
+✓ built in 22ms
+vite v7.3.6 building client environment for production...
+transforming...
+node_modules/zod/v4/core/util.js (330:0): A comment
+
+"// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+
+in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+node_modules/zod/v4/core/regexes.js (70:0): A comment
+
+"/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+ * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+ * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+
+in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+✓ 135 modules transformed.
+rendering chunks...
+../../out/renderer/index.html                     0.63 kB
+../../out/renderer/assets/index-BUZrmlmV.css     25.80 kB
+../../out/renderer/assets/index-BQr95aqe.js   1,207.65 kB
+✓ built in 858ms

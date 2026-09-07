@@ -1,4 +1,10 @@
 import { randomUUID } from 'node:crypto'
+import { realpathSync } from 'node:fs'
+import { basename, dirname } from 'node:path'
+import {
+  acquireProductionLease,
+  type ProductionLease
+} from '../../src/main/data/production-lease.js'
 import {
   existsSync,
   mkdirSync,
@@ -29,17 +35,29 @@ vi.mock('node:fs', async (original) => {
   }
 })
 const roots: string[] = []
-afterEach(() => {
+const leases: ProductionLease[] = []
+afterEach(async () => {
+  await Promise.all(leases.splice(0).map((lease) => lease.release()))
   fault.rename = false
-  for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
+  for (const root of roots.splice(0)) {
+    const resolved = realpathSync.native(root)
+    if (
+      dirname(resolved) !== realpathSync.native(tmpdir()) ||
+      !basename(resolved).startsWith('mashiro-location-014-')
+    )
+      throw Error('UNOWNED_TEST_ROOT')
+    rmSync(resolved, { recursive: true, force: true })
+  }
 })
 
-function fixture() {
+async function fixture() {
   const root = mkdtempSync(join(tmpdir(), 'mashiro-location-014-'))
   roots.push(root)
   const config = join(root, '配置 settings')
   mkdirSync(config)
-  const store = new ProductionLocationStore(config)
+  const lease = await acquireProductionLease(config, vi.fn())
+  leases.push(lease)
+  const store = new ProductionLocationStore(config, lease)
   function data(name: string, id = randomUUID()) {
     const path = join(root, name)
     mkdirSync(path, { recursive: true })
@@ -63,8 +81,8 @@ function fixture() {
 }
 
 describe('production location authority', () => {
-  it('binds a Chinese installation/data directory and reopens exactly the same identity', () => {
-    const f = fixture()
+  it('binds a Chinese installation/data directory and reopens exactly the same identity', async () => {
+    const f = await fixture()
     const data = f.data('安装 Mashiro/data')
     expect(f.store.inspect()).toEqual({ state: 'UNCONFIGURED', fingerprint: null })
     const bound = f.store.bind(data.path, null, data.id)
@@ -73,8 +91,8 @@ describe('production location authority', () => {
     expect(readdirSync(f.config)).toEqual(['location.json'])
   })
 
-  it('keeps the locator byte-for-byte when the data path disappears, with no empty replacement', () => {
-    const f = fixture()
+  it('keeps the locator byte-for-byte when the data path disappears, with no empty replacement', async () => {
+    const f = await fixture()
     const data = f.data('original')
     f.store.bind(data.path, null, data.id)
     const before = readFileSync(f.locator)
@@ -84,8 +102,8 @@ describe('production location authority', () => {
     expect(existsSync(data.path)).toBe(false)
   })
 
-  it('relocates a moved dataset, but rejects a different identity without replacing the binding', () => {
-    const f = fixture()
+  it('relocates a moved dataset, but rejects a different identity without replacing the binding', async () => {
+    const f = await fixture()
     const data = f.data('original')
     f.store.bind(data.path, null, data.id)
     const before = readFileSync(f.locator)
@@ -100,8 +118,8 @@ describe('production location authority', () => {
     expect(f.store.inspect()).toMatchObject({ state: 'READY', locator: { dataPath: moved } })
   })
 
-  it('does not treat missing configuration or malformed locator as first use', () => {
-    const f = fixture()
+  it('does not treat missing configuration or malformed locator as first use', async () => {
+    const f = await fixture()
     const missing = join(f.root, 'missing')
     expect(new ProductionLocationStore(missing).inspect()).toMatchObject({ state: 'RECOVERY' })
     expect(existsSync(missing)).toBe(false)
@@ -112,8 +130,8 @@ describe('production location authority', () => {
     expect(readFileSync(f.locator, 'utf8')).toBe('truncated{')
   })
 
-  it('fails closed on missing database and a PREPARING manifest', () => {
-    const f = fixture()
+  it('fails closed on missing database and a PREPARING manifest', async () => {
+    const f = await fixture()
     const data = f.data('data')
     f.store.bind(data.path, null, data.id)
     unlinkSync(join(data.path, 'mashiro.sqlite'))
@@ -127,8 +145,8 @@ describe('production location authority', () => {
     )
   })
 
-  it('rejects a non-SQLite file without initializing over it', () => {
-    const f = fixture()
+  it('rejects a non-SQLite file without initializing over it', async () => {
+    const f = await fixture()
     const data = f.data('invalid database')
     const database = join(data.path, 'mashiro.sqlite')
     const bytes = Buffer.alloc(512, 42)
@@ -138,8 +156,8 @@ describe('production location authority', () => {
     expect(existsSync(f.locator)).toBe(false)
   })
 
-  it('rejects stale selection after another explicit binding', () => {
-    const f = fixture()
+  it('rejects stale selection after another explicit binding', async () => {
+    const f = await fixture()
     const one = f.data('one')
     const two = f.data('two')
     f.store.bind(one.path, null, one.id)
@@ -147,8 +165,8 @@ describe('production location authority', () => {
     expect(f.store.inspect()).toMatchObject({ state: 'READY', locator: { dataSetId: one.id } })
   })
 
-  it('preserves old locator and cleans owned temporary files on atomic replacement failure', () => {
-    const f = fixture()
+  it('preserves old locator and cleans owned temporary files on atomic replacement failure', async () => {
+    const f = await fixture()
     const one = f.data('one')
     const two = f.data('two')
     f.store.bind(one.path, null, one.id)
@@ -159,8 +177,8 @@ describe('production location authority', () => {
     expect(readdirSync(f.config)).toEqual(['location.json'])
   })
 
-  it('does not remove an existing ownership lock or change the locator', () => {
-    const f = fixture()
+  it('does not remove an existing ownership lock or change the locator', async () => {
+    const f = await fixture()
     const data = f.data('data')
     mkdirSync(join(f.config, '.location-write-lock'))
     expect(() => f.store.bind(data.path, null, data.id)).toThrow()
@@ -168,8 +186,8 @@ describe('production location authority', () => {
     expect(existsSync(join(f.config, '.location-write-lock'))).toBe(true)
   })
 
-  it('rejects an ancestor junction and leaves its real target intact', () => {
-    const f = fixture()
+  it('rejects an ancestor junction and leaves its real target intact', async () => {
+    const f = await fixture()
     const data = f.data('real/data')
     const link = join(f.root, 'linked')
     symlinkSync(join(f.root, 'real'), link, 'junction')

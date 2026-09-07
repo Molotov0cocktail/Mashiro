@@ -1,0 +1,22 @@
+[
+  {
+    "exitCode": 0,
+    "output": "",
+    "name": "typecheck-node"
+  },
+  {
+    "exitCode": 0,
+    "output": "",
+    "name": "typecheck-web"
+  },
+  {
+    "exitCode": 0,
+    "output": "",
+    "name": "lint-trusted"
+  },
+  {
+    "exitCode": 0,
+    "output": "Checking formatting...\r\nAll matched files use Prettier code style!\r\n",
+    "name": "format-trusted"
+  }
+]

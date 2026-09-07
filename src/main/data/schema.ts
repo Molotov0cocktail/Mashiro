@@ -3,8 +3,9 @@ import { migrateRetention, verifyRetention } from '../retention/retention-schema
 import { migrateItems, verifyItems } from '../item/item-schema.js'
 import { migrateReminders } from '../reminder/reminder-schema.js'
 import { migrateBackground } from '../background/background-schema.js'
+import { migrateSteward } from '../background/steward-schema.js'
 
-export const schemaVersion = 11
+export const schemaVersion = 13
 
 const requiredTables = [
   'assistants',
@@ -355,6 +356,7 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
   verifyAssistantProfile(database)
   migrateReminders(database)
   migrateBackground(database)
+  migrateSteward(database)
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )

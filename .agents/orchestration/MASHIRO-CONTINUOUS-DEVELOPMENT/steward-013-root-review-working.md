@@ -1,0 +1,20 @@
+# 013 independent root review — historical repair record
+
+Updated 2026-09-07: R1–R5 and the subsequently measured SQL preparation performance failure are closed by the [final independent STEWARD_CORE PASS](steward-013-root-final-pass.md). The dated intermediate findings and failures below remain historical evidence. PROGRAM ACTIVE.
+
+2026-09-07. Root did not implement the steward trusted/renderer product code; its writes are independent tests, synthetic live/native qualification runners, global records and separate 014 data modules. New reviewer spawning and reuse of the historical review_012 agent both actually failed with `agent thread limit reached`. Existing agent contexts remain usable. Root therefore independently reviews steward; steward_013_ui independently reviews root's unrelated 014 data code using its actual Sol/high configuration. The root model setting is not exposed here and is not claimed to have switched.
+
+Read surfaces include the accepted steward contract, trusted authorization/source freezing/slot acceptance/recovery, organizational reads and resolution, Memory integration, schema12 migration, strict IPC/preload boundaries and renderer draft/read/export controls. Independent tests are formal tests under tests/integration; original failures remain archived.
+
+| Finding | Independent oracle/evidence | Current disposition |
+| --- | --- | --- |
+| R1 accepted-memory reading disabled but target text still sent | steward-root-review.test.ts; [RED](steward-013-root-review-red-01.json) | Author repaired target discovery/dispatch to honor the range switch; [unchanged GREEN](steward-013-root-review-green-01.json) |
+| R2 branches beyond 100 had no cursor | Same file/RED | Author repaired branches and conflicts pagination; unchanged independent 103-branch oracle GREEN |
+| R3 resolved conflict becomes STALE/null through public API because old side is necessarily superseded | steward-root-conflict-review.test.ts; [RED](steward-013-root-conflict-red-01.json) | Author repair requested; must preserve actual resolution after refresh/reopen and still invalidate genuinely obsolete resolution |
+| R4 member correction does not invalidate branch export version | steward-root-branch-version-review.test.ts; [RED](steward-013-root-branch-version-red-01.json) | Author repair requested; old page token must fail and UI/read/export must observe governance changes |
+
+The extra independent Chinese target-ranking oracle passed; it is not reported as a defect. Author separately fixed its earlier escaped Unicode expression with its own retained evidence.
+
+Actual [native result](steward-013-electron-01.json), SHA-256 63C1DFD0AE75FBA49345BA309F42F9346DE719E1D9BA7CFDC57D7EED84DAFDCE, run e5684b71-e6fd-4a1a-b28d-33ab0d9e615e, PIDs150236/160396, Electron44.1.1 / Node24.19.0 / SQLite3.53.3: new seed discovery+steward calls=2, restored calls=0; exact branch/memory/version/command survived; actual DOM navigation/read and initially folded sources passed. Original assistant/profile/provider/history/partial/tool/retention/memory/item/reminder/chapter assertions remained required and passed. Additional steward objects are counted separately by their actual accepted receipt, preserving the original memory assertions. [Screenshot](steward-013-electron-01-ui.png) SHA-256 265289DC0B78EEBF59BACA24E7FC606A2DC33DE14A5D5F3C95FC4D0D1F8C24BD was actually viewed: branch Markdown and member content readable, navigation and editing entry present. This precedes R3/R4 repairs and later optional source-list rendering; it is not final candidate qualification by itself.
+
+[Real role evidence](steward-013-live-product.md) proves three HTTP200 requests /1361tokens and exact accepted/reopened Markdown. [Full run before R3/R4](steward-013-root-full-01.json) passed all 482 tests; a green suite did not prevent the independent public-state/export findings. Final independent PASS must await repairs and risk-proportionate new evidence. No steward product commit/push or complete 013/PROGRAM claim has occurred. Remaining observations/daily functions and Windows delivery/release remain required.

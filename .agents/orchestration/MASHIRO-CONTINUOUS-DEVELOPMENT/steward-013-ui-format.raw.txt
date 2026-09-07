@@ -1,0 +1,10 @@
+
+> mashiro@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+[warn] src/main/background/steward-schema.ts
+[warn] src/main/background/steward-service.ts
+[warn] tests/integration/steward-boundaries.test.ts
+[warn] tests/integration/steward-recovery.test.ts
+[warn] Code style issues found in 4 files. Run Prettier with --write to fix.

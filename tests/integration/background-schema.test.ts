@@ -26,7 +26,7 @@ it('upgrades genuine v10 additively and rolls back a DDL collision without accep
     raw.exec('DROP TABLE background_jobs')
     raw.close()
     const migrated = new SqliteStore(path)
-    expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 11 })
+    expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 13 })
     expect(migrated.database.prepare('SELECT * FROM assistant_state').all()).toEqual(before)
     migrated.close()
   } finally {

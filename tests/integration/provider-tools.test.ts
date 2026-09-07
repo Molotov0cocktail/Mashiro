@@ -241,7 +241,7 @@ describe('007 actual trusted tool conversation', () => {
     checked.exec('DROP TABLE tool_operations')
     checked.close()
     const upgraded = new SqliteStore(f.db)
-    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 11 })
+    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 13 })
     expect(upgraded.database.prepare('SELECT * FROM timeline_messages').all()).toEqual(before)
     upgraded.close()
   })

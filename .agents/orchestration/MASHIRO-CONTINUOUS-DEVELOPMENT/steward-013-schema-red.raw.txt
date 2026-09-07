@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/steward-schema.test.ts (1 test | 1 failed) 77ms
+   × persists independent steward actor and shared candidate schema without inventing an assistant 76ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/steward-schema.test.ts > persists independent steward actor and shared candidate schema without inventing an assistant
+AssertionError: expected 11 to be 12 // Object.is equality
+
+- Expected
++ Received
+
+- 12
++ 11
+
+ ❯ tests/integration/steward-schema.test.ts:10:79
+      8|   const store = new SqliteStore(join(directory, 'state.sqlite'))
+      9|   try {
+     10|     expect(store.database.prepare('PRAGMA user_version').get()!.user_v…
+       |                                                                               ^
+     11|     expect(store.database.prepare('SELECT count(*) AS n FROM assistant…
+     12|     expect(store.database.prepare('SELECT count(*) AS n FROM steward_c…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  09:20:35
+   Duration  415ms (transform 69ms, setup 125ms, import 60ms, tests 77ms, environment 0ms)
+

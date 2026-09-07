@@ -75,7 +75,7 @@ interface VersionRow {
   metadata_json: string
 }
 export interface MemoryExecution {
-  origin?: { kind: 'background'; jobId: string }
+  origin?: { kind: 'background' | 'steward'; jobId: string }
   assistantId: string
   requestId: string
   fingerprint: string
@@ -93,6 +93,10 @@ interface MutationContext {
 
 /** All paths and accepted versions are derived on the trusted side. */
 export class MemoryService {
+  private conflictLookup: (id: string) => string[] = () => []
+  setConflictLookup(lookup: (id: string) => string[]): void {
+    this.conflictLookup = lookup
+  }
   private domainSourceCheck?: (
     source: MemorySource,
     assistantId: string,
@@ -251,7 +255,11 @@ export class MemoryService {
     )
       return { ...record, state: 'suppressed', markdown: '' }
     try {
-      return { ...record, markdown: this.body(record) }
+      return {
+        ...record,
+        markdown: this.body(record),
+        unresolvedConflictIds: this.conflictLookup(record.id)
+      }
     } catch {
       return { ...record, state: 'integrity-blocked', markdown: '' }
     }
@@ -375,7 +383,7 @@ export class MemoryService {
           receipt: this.safeReceipt(JSON.parse(row.receipt_json)),
           intent: JSON.parse(row.intent_json) as {
             mutation: MemoryMutation
-            actor: 'user' | 'assistant' | 'background'
+            actor: 'user' | 'assistant' | 'background' | 'steward'
           }
         }))
         .filter((row) => row.receipt.objectId === value.id)
@@ -499,7 +507,7 @@ export class MemoryService {
         JSON.stringify({
           mutation,
           actor: context.execution?.origin
-            ? 'background'
+            ? context.execution.origin.kind
             : context.execution
               ? 'assistant'
               : 'user',
@@ -694,10 +702,19 @@ export class MemoryService {
         this.store.database
           .prepare('INSERT INTO memory_index VALUES(?,?,?,?)')
           .run(objectId, nextVersion, record.title, body)
-      if (record.scope === 'global' && write)
+      if (record.scope === 'global' && write && context.execution?.origin?.kind !== 'steward')
         this.store.database
-          .prepare("INSERT OR REPLACE INTO memory_pending VALUES(?,?,'pending')")
-          .run(objectId, nextVersion)
+          .prepare(
+            "INSERT OR REPLACE INTO memory_pending(object_id,version,state,entry_kind,authority_assistant,source_digest,sources_json,candidate_json,created_at) VALUES(?,?,'pending','accepted-memory',?,?,?,NULL,?)"
+          )
+          .run(
+            objectId,
+            nextVersion,
+            record.ownerAssistantId,
+            bodyHash,
+            JSON.stringify(sources),
+            now
+          )
       this.store.database
         .prepare("UPDATE memory_commands SET state='SUCCEEDED',receipt_json=? WHERE id=?")
         .run(JSON.stringify(receipt), context.commandId)
@@ -708,9 +725,7 @@ export class MemoryService {
     // A new background object cannot invalidate an already selected source/version.
     // Corrections, removals and permission changes retain the existing revocation barrier.
     const createsBackgroundObject =
-      context.execution?.origin?.kind === 'background' &&
-      mutation.action === 'remember' &&
-      target === undefined
+      !!context.execution?.origin && mutation.action === 'remember' && target === undefined
     if (!createsBackgroundObject)
       this.changed(context.execution?.origin ? undefined : context.execution?.requestId)
     return receipt
@@ -1139,7 +1154,12 @@ export class MemoryService {
       if (!record.title.includes(query) && !body.includes(query)) continue
       const provided = {
         ...record,
-        markdown: body.slice(0, 1000),
+        markdown:
+          body.slice(0, 1000) +
+          (this.conflictLookup(record.id).length
+            ? '\n[未决冲突：此资料与另一接受版本存在矛盾；不得作为已确认一致事实。]'
+            : ''),
+        unresolvedConflictIds: this.conflictLookup(record.id),
         bodyTruncated: body.length > 1000
       }
       if (Buffer.byteLength(JSON.stringify([...found, provided]), 'utf8') > 24000) break
@@ -1162,7 +1182,11 @@ export class MemoryService {
   }
   /** Background slots never create a fictitious user-round dependency. */
   backgroundMutation(
-    execution: Omit<MemoryExecution, 'requestId' | 'origin'> & { jobId: string; commandId: string },
+    execution: Omit<MemoryExecution, 'requestId' | 'origin'> & {
+      jobId: string
+      commandId: string
+      actor?: 'background' | 'steward'
+    },
     mutation: MemoryMutation
   ): MemoryReceipt {
     if (mutation.action !== 'remember') throw new MemoryError('INVALID_INPUT')
@@ -1174,7 +1198,7 @@ export class MemoryService {
         execution: {
           ...execution,
           requestId: '',
-          origin: { kind: 'background', jobId: execution.jobId }
+          origin: { kind: execution.actor ?? 'background', jobId: execution.jobId }
         }
       })
     } catch (error) {
@@ -1188,13 +1212,16 @@ export class MemoryService {
     }
   }
   acceptedBackgroundMemory(assistantId: string, id: string, expectedVersion: number): MemoryRecord {
-    const record = this.visible(this.owned(assistantId, id))
+    const current = this.owned(assistantId, id)
     if (
-      record.objectVersion !== expectedVersion ||
-      record.state !== 'active' ||
-      record.retention === 'trash'
+      current.objectVersion !== expectedVersion ||
+      current.state !== 'active' ||
+      current.retention === 'trash'
     )
       throw new MemoryError('PERMISSION_DENIED')
+    const record = this.visible(current)
+    if (record.state === 'integrity-blocked') throw new MemoryError('INTEGRITY')
+    if (record.state !== 'active') throw new MemoryError('PERMISSION_DENIED')
     return record
   }
   toolMutation(execution: MemoryExecution, mutation: MemoryMutation): MemoryReceipt {

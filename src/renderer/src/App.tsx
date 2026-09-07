@@ -19,6 +19,7 @@ import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
 import { ReminderPanel } from './features/reminders/ReminderPanel'
 import { RetentionPanel } from './features/retention/RetentionPanel'
+import { StewardPanel } from './features/steward/StewardPanel'
 
 type RetentionTarget = RetentionIntent['target']
 type DiscussResult = Awaited<ReturnType<ItemApi['proposalAction']>>
@@ -44,7 +45,7 @@ export function App(): React.JSX.Element {
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
   const [activeView, setActiveView] = useState<
-    'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'retention'
+    'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'retention'
   >('chat')
   const [configurationFocus, setConfigurationFocus] = useState<ConfigurationFocus | null>(null)
   const [chapterContextTarget, setChapterContextTarget] = useState<{
@@ -494,7 +495,9 @@ export function App(): React.JSX.Element {
   }, [])
 
   const selectPrimaryView = useCallback(
-    (view: 'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'retention'): void => {
+    (
+      view: 'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'retention'
+    ): void => {
       assistantRequestVersion.current += 1
       setConfigurationFocus(null)
       setNavigationError('')
@@ -554,6 +557,14 @@ export function App(): React.JSX.Element {
           onClick={() => selectPrimaryView('background')}
         >
           章节后台
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeView === 'steward'}
+          onClick={() => selectPrimaryView('steward')}
+        >
+          资料整理
         </button>
         <button
           type="button"
@@ -693,6 +704,19 @@ export function App(): React.JSX.Element {
           />
         ) : (
           <p role="alert">本机章节后台尚未就绪。</p>
+        )}
+      </section>
+      <section hidden={activeView !== 'steward'} aria-label="资料整理页面">
+        {window.mashiro.steward ? (
+          <StewardPanel
+            assistantSnapshot={assistantSnapshot}
+            api={window.mashiro.steward}
+            memoryApi={window.mashiro.memory}
+            providerApi={window.mashiro.provider}
+            onMemoryChanged={receiveMemoryChange}
+          />
+        ) : (
+          <p role="alert">本机资料整理服务尚未就绪。</p>
         )}
       </section>
       <section hidden={activeView !== 'retention'} aria-label="保留与清理页面">

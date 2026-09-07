@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/assistant-profile.test.ts (9 tests | 1 failed) 1809ms
+   × upgrades populated exact v8 with safe defaults, preserves every prior table row, rejects broken schema and rolls back collision 468ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/assistant-profile.test.ts > upgrades populated exact v8 with safe defaults, preserves every prior table row, rejects broken schema and rolls back collision
+AssertionError: expected [Function] to throw an error
+ ❯ tests/integration/assistant-profile.test.ts:412:39
+    410|   migrated.database.exec('PRAGMA user_version=12')
+    411|   migrated.close()
+    412|   expect(() => new SqliteStore(f.db)).toThrow()
+       |                                       ^
+    413| })
+    414| it('freezes an in-flight tool segment persona; next request and restor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/assistant-profile.test.ts > upgrades populated exact v8 with safe defaults, preserves every prior table row, rejects broken schema and rolls back collision
+Error: EPERM, Permission denied: \\?\C:\Users\30910\AppData\Local\Temp\mashiro-profile-WrgzJn '\\?\C:\Users\30910\AppData\Local\Temp\mashiro-profile-WrgzJn'
+ ❯ tests/integration/assistant-profile.test.ts:111:39
+    109|       /* explicitly reopened tests */
+    110|     }
+    111|   for (const root of roots.splice(0)) rmSync(root, { recursive: true, …
+       |                                       ^
+    112| })
+    113|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 80 passed (81)
+      Tests  1 failed | 461 passed (462)
+   Start at  09:50:21
+   Duration  70.26s (transform 2.12s, setup 8.72s, import 8.52s, tests 90.67s, environment 19.85s)
+

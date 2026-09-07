@@ -72,6 +72,9 @@ function canonicalDirectory(path: string): string {
   return canonical
 }
 
+// Lifecycle ownership uses the same path validation before opening any SQLite connection.
+export const canonicalProductionDirectory = canonicalDirectory
+
 function readRegularFile(path: string, maximumBytes: number): Buffer {
   const entry = lstatSync(path)
   if (!entry.isFile() || entry.isSymbolicLink() || entry.size > maximumBytes)
@@ -125,9 +128,14 @@ export function inspectProductionDataSet(
   return { dataPath, manifest }
 }
 
+import { assertProductionLease, type ProductionLease } from './production-lease.js'
+
 /** Only the trusted setup/maintenance coordinator supplies paths and expected fingerprints. */
 export class ProductionLocationStore {
-  constructor(private readonly configurationDirectory: string) {}
+  constructor(
+    private readonly configurationDirectory: string,
+    private readonly lease?: ProductionLease
+  ) {}
 
   inspect(): LocationInspection {
     let bytes: Buffer
@@ -176,6 +184,8 @@ export class ProductionLocationStore {
     expectedFingerprint: string | null,
     expectedDataSetId: string
   ): ProductionLocator {
+    if (!this.lease) throw new Error('CONFIGURATION_LEASE_REQUIRED')
+    assertProductionLease(this.lease, this.configurationDirectory)
     const directory = canonicalDirectory(this.configurationDirectory)
     const lock = join(directory, '.location-write-lock')
     // A stale lock is not removed automatically: recovery must verify ownership first.
@@ -212,7 +222,13 @@ export class ProductionLocationStore {
       try {
         if (temporaryOwned) unlinkSync(temporary)
       } finally {
-        rmdirSync(lock)
+        try {
+          rmdirSync(lock)
+        } catch {
+          // Preserve the original operation outcome: a failed bind already throws above,
+          // while a renamed locator is committed. A leftover empty reserved lock can be
+          // recovered under the same OS lease before another attempt.
+        }
       }
     }
   }

@@ -15,7 +15,11 @@
 
 ## 当前源码准备
 
-root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-actual-plan.md)：生产bootstrap/locator与开发隔离、完整静止备份和接受Markdown/治理状态、安装文件清理、失败恢复及实际发行下载。root现已并行新增[独立locator底座](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-foundation.md)和10个定向反例，已修独立发现的正斜杠UNC绕过；[独立FOUNDATION_CANDIDATE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-review-final-pass.md)确认原10+独立5共15通过，类型/格式/lint通过，尚未接入正式启动；不改013单写文件。初始化、生命周期数据锁、恢复UI、完整备份与安装发行继续必做；不以底座或早期实验代替最终制品。
+root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-actual-plan.md)：生产bootstrap/locator与开发隔离、完整静止备份和接受Markdown/治理状态、安装文件清理、失败恢复及实际发行下载。root现已并行新增[独立locator底座](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-foundation.md)和10个定向反例，已修独立发现的正斜杠UNC绕过；[独立FOUNDATION_CANDIDATE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-review-final-pass.md)确认原10+独立5共15通过，类型/格式/lint通过，尚未接入正式启动；不改013单写文件。root现已新增[生命周期锁与显式初始化候选](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lease-initialize-stage.md)：实际Windows命名管道排他/进程终止后释放路线SUPPORTED，29定向测试通过，配置锁恢复已新增真实占用权令牌校验；未参与实现的steward_013_ui（实际Sol/high）已接独立复核，尚未接入生产main。原生选择/恢复UI、完整备份与安装发行继续必做；不以底座或早期实验代替最终制品。
+
+## 独立底座审核进展
+
+2026-09-07：[lease/location R2 PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-foundation-review-r2.md)由未实现该范围的Sol/high给出，6文件33tests、限定TS/lint/format通过；[session独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-independent-pass.md)由未实现该协调器的Astra/medium给出，2文件8tests通过。准备回调期间数据集UUID或locator指向改变的独立反例已红转绿，持有真实双租约再返回。上述限定PASS不包含正式native/main、prepareExisting备份迁移、安装更新或发布，后续仍必做。
 
 ## 验证路线与边界
 

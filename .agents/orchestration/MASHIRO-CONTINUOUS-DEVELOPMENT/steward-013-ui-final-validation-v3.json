@@ -1,0 +1,38 @@
+{
+  "kind": "steward-013-ui-final-validation",
+  "version": 3,
+  "date": "2026-09-07",
+  "head": "01a4d8c68dcad371d1bf6f0779d058e5b2fa39fe",
+  "finalChecks": [
+    {
+      "command": "npm exec vitest -- run tests/renderer/StewardPanel.test.tsx tests/renderer/StewardPanel-recovery.test.tsx tests/renderer/StewardPanel-root-review.test.tsx tests/renderer/App-steward.test.tsx tests/renderer/MemoryPanel.test.tsx --maxWorkers=2",
+      "exitCode": 0,
+      "result": "5 files / 22 tests passed",
+      "durationSeconds": 5.01
+    },
+    {
+      "command": "npm exec tsc -- -p tsconfig.web.json --noEmit",
+      "exitCode": 0,
+      "result": "Complete web TypeScript project passed."
+    },
+    {
+      "command": "npm exec eslint -- src/renderer/src/features/steward/StewardPanel.tsx tests/renderer/StewardPanel.test.tsx tests/renderer/StewardPanel-recovery.test.tsx --max-warnings=0",
+      "exitCode": 0,
+      "result": "Scoped ESLint passed."
+    },
+    {
+      "command": "npm exec prettier -- --check src/renderer/src/features/steward/StewardPanel.tsx tests/renderer/StewardPanel.test.tsx tests/renderer/StewardPanel-recovery.test.tsx",
+      "exitCode": 0,
+      "result": "All three files use Prettier code style."
+    }
+  ],
+  "recoveryEvidence": [
+    "The first incremental typecheck command, npm run typecheck:web, failed because that package script does not exist. The existing tsconfig.web.json command replaced it.",
+    "Before the root-owned StewardPanel-root-review.test.tsx fixture was completed, its two assertions passed but Vitest reported two unhandled missing-provider-list exceptions and web TypeScript reported three fixture typing errors. Root repaired only that independent fixture; the final five-file tests and full web TypeScript then passed.",
+    "A first guarded edit attempt was decoded by Windows PowerShell 5.1 with the system code page and produced mojibake only in the two edited files. Both files were restored from SHA-256-verified backups before testing. The successful edit used UTF-8 Node content generation plus File.Replace, post-write inspection and cleanup."
+  ],
+  "limitations": [
+    "No full-project rerun was performed for this additive UI follow-up.",
+    "No Electron, Provider, paid call, personal data, commit or push operation was performed."
+  ]
+}

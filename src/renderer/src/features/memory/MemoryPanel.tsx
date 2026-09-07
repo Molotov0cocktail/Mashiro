@@ -1064,7 +1064,9 @@ export function MemoryPanel({
                           ? '用户'
                           : change.actor === 'background'
                             ? '后台整理'
-                            : '助手'}{' '}
+                            : change.actor === 'steward'
+                              ? '仓储员'
+                              : '助手'}{' '}
                         · {formatTime(change.createdAt)}
                       </li>
                     ))}

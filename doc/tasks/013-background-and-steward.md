@@ -24,6 +24,12 @@ root在012并行实施期间已形成[实际接入方案](../../.agents/orchestr
 
 直接接续[仓储员实施合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-steward-contract.md)。steward_013_trusted实际Astra/medium已释放可信写锁并开始实施，共享DTO已落盘，steward_013_ui实际Sol/high已并行接renderer；root单写全局入口。全局增量/分支冲突、观察、日常及运行中心继续必需，不能以本增量结束013。
 
+## 仓储核心已审核增量
+
+2026-09-07：[root独立STEWARD_CORE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-final-pass.md)对应57文件manifest-v2、独立100文件511项全绿、最后build及比例静态通过。独立关闭范围泄露、完整分页、已解决冲突刷新、纠正后分支版本/UI缓存、损坏正文被吞五类缺陷；最后SQL编译复用修复保留全部实时治理检查和默认测试超时。原生Electron02双PID157852/154732、真实DOM和重启0仓储调用通过，真实角色3请求1361tokens通过。提交同步由root执行后在入口记录。
+
+仓储核心PASS后直接实施[多事件观察与日常合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-daily-observation-contract.md)及[UI六入口计划](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-plan.md)，补齐观察、简报、复盘、周规划、截止变更、分类用量，不能在此关闭013或PROGRAM。
+
 ## 当前真实角色证据
 
 [真实章节角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-live-product.md)已SUPPORTED：GLM-5.3-FLASH实际3请求849tokens，正常轮→预算1次且真实max_tokens2048→接受Markdown/事务回执→选章节续答→无Key服务重开0调用。结果JSON SHA-256 E3572FCFF6E974363CD714DB74BBDAB36DF2B1FC1AA420F38A7072F08A086A33；非renderer/跨进程/PACKAGED。定向对抗与独立审核仍在继续，仓储/观察/日常角色仍必须分别完成。

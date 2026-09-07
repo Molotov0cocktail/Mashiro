@@ -1,0 +1,52 @@
+{
+  "kind": "steward-013-ui-candidate",
+  "version": 3,
+  "head": "01a4d8c68dcad371d1bf6f0779d058e5b2fa39fe",
+  "files": [
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "A1D9EAC83FDE07F377E0B0F82EC407C2411B60F6FB59AC8C273AEF0114E002B0",
+      "bytes": 26352
+    },
+    {
+      "path": "src/renderer/src/features/steward/StewardPanel.tsx",
+      "sha256": "962D34DE1672D4808DC9D9208C6886EA69BBDA485756FD4CA008E61FEC603C3D",
+      "bytes": 81160
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "C4FB41C5FD3957E221D6B66DCC9614599D436FB4E42A9FDDA50FB6A555078589",
+      "bytes": 44020
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "582C31E9705D588523F2A2A2F95C2FFF73CC796AB107F7AE5D30BB6896CCBBA6",
+      "bytes": 25797
+    },
+    {
+      "path": "tests/renderer/steward-api-fixture.ts",
+      "sha256": "49A112B99A44A2C8065162FA4AA1786CBEFA4DE58043247CFDEB5FF71038B8BC",
+      "bytes": 5547
+    },
+    {
+      "path": "tests/renderer/StewardPanel.test.tsx",
+      "sha256": "3A0C307C1F72692DE63DB5E5C98EAFE517D3F75F4CA9135A5590874576BFDA5E",
+      "bytes": 17600
+    },
+    {
+      "path": "tests/renderer/StewardPanel-recovery.test.tsx",
+      "sha256": "37B7B389DA8FEBCD8693E865E541ED50510C8DB6A285FD51B4942240DC39FEB0",
+      "bytes": 7771
+    },
+    {
+      "path": "tests/renderer/App-steward.test.tsx",
+      "sha256": "E683FD41D04B85A1789D4CAFA78D75C784C2667B7EEA4241F82AF7D5830D5423",
+      "bytes": 3287
+    },
+    {
+      "path": "tests/renderer/MemoryPanel.test.tsx",
+      "sha256": "B27C8501ABA080FBBF3DE03FA0F7A7646E893722BECC06E494ACDDB72B6BA24A",
+      "bytes": 19213
+    }
+  ]
+}

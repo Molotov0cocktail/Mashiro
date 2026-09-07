@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ tests/integration/steward-boundaries.test.ts (5 tests | 1 failed) 7248ms
+   × keeps an inaccessible prefix from starving later ordinary source recognition 5016ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/steward-boundaries.test.ts > keeps an inaccessible prefix from starving later ordinary source recognition
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/integration/steward-boundaries.test.ts:52:1
+     50|   release();expect(handlers.size).toBe(0)
+     51| })
+     52| it('keeps an inaccessible prefix from starving later ordinary source r…
+       | ^
+     53|   const f=stewardFixture()
+     54|   for(let i=0;i<72;i++){const id=f.round();f.store.database.prepare("I…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  09:48:38
+   Duration  7.85s (transform 231ms, setup 128ms, import 314ms, tests 7.25s, environment 0ms)
+

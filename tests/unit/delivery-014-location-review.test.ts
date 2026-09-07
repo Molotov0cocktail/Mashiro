@@ -1,4 +1,10 @@
 import { randomUUID } from 'node:crypto'
+import { realpathSync } from 'node:fs'
+import { basename, dirname } from 'node:path'
+import {
+  acquireProductionLease,
+  type ProductionLease
+} from '../../src/main/data/production-lease.js'
 import {
   mkdtempSync,
   mkdirSync,
@@ -32,17 +38,29 @@ vi.mock('node:fs', async (original) => {
   }
 })
 const roots: string[] = []
-afterEach(() => {
+const leases: ProductionLease[] = []
+afterEach(async () => {
+  await Promise.all(leases.splice(0).map((lease) => lease.release()))
   probe.capture = false
   probe.paths = []
-  for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
+  for (const root of roots.splice(0)) {
+    const resolved = realpathSync.native(root)
+    if (
+      dirname(resolved) !== realpathSync.native(tmpdir()) ||
+      !basename(resolved).startsWith('mashiro-014-review-')
+    )
+      throw Error('UNOWNED_TEST_ROOT')
+    rmSync(resolved, { recursive: true, force: true })
+  }
 })
-function setup() {
+async function setup() {
   const root = mkdtempSync(join(tmpdir(), 'mashiro-014-review-'))
   roots.push(root)
   const config = join(root, 'config'),
     data = join(root, 'data')
   mkdirSync(config)
+  const lease = await acquireProductionLease(config, vi.fn())
+  leases.push(lease)
   mkdirSync(data)
   const db = new DatabaseSync(join(data, 'mashiro.sqlite'))
   db.exec('CREATE TABLE sentinel(value TEXT)')
@@ -58,16 +76,16 @@ function setup() {
       createdAt: '2030-01-01T00:00:00.000Z'
     })
   )
-  return { root, config, data, id, manifest, store: new ProductionLocationStore(config) }
+  return { root, config, data, id, manifest, store: new ProductionLocationStore(config, lease) }
 }
-it('rejects slash-spelled UNC before any filesystem access', () => {
+it('rejects slash-spelled UNC before any filesystem access', async () => {
   probe.capture = true
   expect(() => inspectProductionDataSet('//review.invalid/share/data')).toThrow(
     'LOCATION_UNSUPPORTED'
   )
   expect(probe.paths).toEqual([])
 })
-it('rejects mixed-slash UNC before any filesystem access', () => {
+it('rejects mixed-slash UNC before any filesystem access', async () => {
   probe.capture = true
   for (const path of [
     String.raw`/\review.invalid/share\data`,
@@ -78,15 +96,15 @@ it('rejects mixed-slash UNC before any filesystem access', () => {
   }
   expect(probe.paths).toEqual([])
 })
-it('strictly rejects unknown manifest authority fields without producing a locator', () => {
-  const f = setup()
+it('strictly rejects unknown manifest authority fields without producing a locator', async () => {
+  const f = await setup()
   const original = JSON.parse(readFileSync(f.manifest, 'utf8'))
   writeFileSync(f.manifest, JSON.stringify({ ...original, overrideOwnership: true }))
   expect(() => f.store.bind(f.data, null, f.id)).toThrow()
   expect(readdirSync(f.config)).toEqual([])
 })
-it('a locator identity mismatch enters recovery and preserves both database and locator bytes', () => {
-  const f = setup()
+it('a locator identity mismatch enters recovery and preserves both database and locator bytes', async () => {
+  const f = await setup()
   f.store.bind(f.data, null, f.id)
   const locator = join(f.config, 'location.json'),
     before = readFileSync(locator),
@@ -97,8 +115,8 @@ it('a locator identity mismatch enters recovery and preserves both database and 
   expect(readFileSync(locator)).toEqual(before)
   expect(readFileSync(join(f.data, 'mashiro.sqlite'))).toEqual(db)
 })
-it('a locator directory or junction cannot be misclassified as an absent first-use locator', () => {
-  const f = setup(),
+it('a locator directory or junction cannot be misclassified as an absent first-use locator', async () => {
+  const f = await setup(),
     locator = join(f.config, 'location.json')
   symlinkSync(f.data, locator, 'junction')
   expect(f.store.inspect()).toMatchObject({ state: 'RECOVERY', reason: 'LOCATOR_UNREADABLE' })

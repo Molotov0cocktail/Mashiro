@@ -1,0 +1,14 @@
+[
+  {
+    "step": "typecheck",
+    "exitCode": 0
+  },
+  {
+    "step": "lint",
+    "exitCode": 0
+  },
+  {
+    "step": "format:check",
+    "exitCode": 0
+  }
+]

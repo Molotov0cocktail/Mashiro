@@ -1,0 +1,203 @@
+{
+  "productBaseline": "95db9cfa93673ff6975ddb75ccba56b2d0264828",
+  "observedHead": "01a4d8c68dcad371d1bf6f0779d058e5b2fa39fe",
+  "scope": "steward-013 trusted R3/R4 repaired candidate; author verification, independent review pending",
+  "files": [
+    {
+      "path": "src/shared/steward-contract.ts",
+      "sha256": "7D1545294F834A6A8BC523FF87946131C626A6FBFF948AB3C382390CFE490D7C",
+      "bytes": 7683
+    },
+    {
+      "path": "src/shared/steward-channels.ts",
+      "sha256": "2F21D3607BEC5B63DB6AE3A8558F9FACB64BAF8950C5E5978204515F57DCF225",
+      "bytes": 322
+    },
+    {
+      "path": "src/shared/memory-contract.ts",
+      "sha256": "271FF9AE662FAB99DDCB8665A308E5AB6C36A501C0B416B0A99CEB50A3A1A992",
+      "bytes": 7863
+    },
+    {
+      "path": "src/main/background/steward-service.ts",
+      "sha256": "CD5E60478940748C3C05D278BE15130E7A6FB0F22025C2C36F6646450D6C2CF2",
+      "bytes": 58502
+    },
+    {
+      "path": "src/main/background/steward-schema.ts",
+      "sha256": "2D349174D19B6C4078A7757AEF02B3CBF316452D57F5C92C087F5445976EF18B",
+      "bytes": 6015
+    },
+    {
+      "path": "src/main/background/steward-model.ts",
+      "sha256": "A4C4D3A9B8C831B74F8908C61B9666A0EB156F7BE0444CB258373E12A3219830",
+      "bytes": 3574
+    },
+    {
+      "path": "src/main/background/steward-organization.ts",
+      "sha256": "D9A5B8B003B6AF2F4CC36128EA38F6F69FAA43D02A86800D04190919A7EE0007",
+      "bytes": 8950
+    },
+    {
+      "path": "src/main/background/background-service.ts",
+      "sha256": "14956B8A997DBB1B1FEF35CE4C383B8C2EFC90ED543764875C04DE96ACEE726B",
+      "bytes": 37702
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "sha256": "A4D6C2BBB7C96D24407529F8931F68BD69584E7BE098A8DBE56954EDCE34F0BB",
+      "bytes": 52410
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "sha256": "75EB3596725CE85F736CD50FFEF54FA04557EB1750B6D3B7B20D60F551783B83",
+      "bytes": 64096
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "67853C68AB9A6F9F71A9694314D85EB4D39C348E61A79331DC0C82E2E197B7B2",
+      "bytes": 19478
+    },
+    {
+      "path": "src/main/index.ts",
+      "sha256": "25FD27161FEE4215B80614F0CE05F036D2EA8470D05405C0CA97C334F975A9C9",
+      "bytes": 5924
+    },
+    {
+      "path": "src/main/ipc/register-steward-ipc.ts",
+      "sha256": "6ADEFA3EC0B69664109F2BB89D4B49B81C3406332B28DB5E9700B4E562AB5663",
+      "bytes": 2016
+    },
+    {
+      "path": "src/preload/index.ts",
+      "sha256": "786EFF9CC3F7E7BEA0EA5B723166DA9B8908D0987AF88F74C2174A4253CAB39A",
+      "bytes": 8152
+    },
+    {
+      "path": "src/preload/index.d.ts",
+      "sha256": "B6CD934B58F077B9A45EB4F3684A967F0AA29093DDC79878A00106BBF4818AFA",
+      "bytes": 888
+    },
+    {
+      "path": "tests/integration/steward-fixture.ts",
+      "sha256": "2E3E63E992246C75AD4D53BD780654C53C496AFF6CB958AE2AED5B98E33CA76B",
+      "bytes": 6320
+    },
+    {
+      "path": "tests/integration/steward-service.test.ts",
+      "sha256": "18E0B4761037FA199562693F8FA139498344EE68F700B8038BDB17FB728314B6",
+      "bytes": 9343
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "sha256": "E571F105A8B064F95C8F49DD53294B61F2FC7CA3AD7CFEA407F4779E38AC6380",
+      "bytes": 995
+    },
+    {
+      "path": "tests/integration/steward-adversarial.test.ts",
+      "sha256": "ED5564C86A86D4C61CE93939DEF833128AF41F58EC8A3676C90665A744D70D70",
+      "bytes": 8518
+    },
+    {
+      "path": "tests/integration/retention-legacy-fixture.ts",
+      "sha256": "9DF3977825CF680488B55106A8C74A0D3AD38D213211F304AD17D64BFBB5DE31",
+      "bytes": 2973
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "sha256": "BA3F5EABAE31D68B85E722D7F3A6783AEF7D1E86D26BEB0C169D902CFCD6A97E",
+      "bytes": 1679
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "sha256": "8B51B212546056F0B70416AEA38E4F71C3ACAA1B58A8E5CB062321598A62DAB3",
+      "bytes": 2200
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "sha256": "33F490DEE597FC14F6FF38E736F06463B187F64D05E473475123C2626E89CB64",
+      "bytes": 19511
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "sha256": "C3F2FF2F33227B3A551FA1446C6C2BD4A027441ECF6B7BD436AEFA63B39D97E2",
+      "bytes": 6069
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "16D3050B18E8C476FB90DCC700F475BD4919382DEE2613EDEBF0B93C0EB3C10E",
+      "bytes": 26177
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "sha256": "EE1F25F8FCF091ACE0A17728D6FD6F393E5CE4D19F8A48FD1902F9AE4E06982D",
+      "bytes": 2063
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "sha256": "4F02F3C839011E2EF8CCE8F46E85CA0988200AA2F3C1F64A83943A86CA9467AF",
+      "bytes": 2190
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "sha256": "2EBDF318EF6AC0620F4ECFD3020273E81F91E465E29ECA0CA58C806F42F78E04",
+      "bytes": 26462
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "sha256": "E523BC33B14852EE2DB80A0D17DE9637E100CA2C5CFA0741F58CECAD63F63DEF",
+      "bytes": 7732
+    },
+    {
+      "path": "tests/integration/steward-boundaries.test.ts",
+      "sha256": "20EA27279AE824B6090DC8823D71552155FFEE42562C7A3B3811DB4FDA8D91B0",
+      "bytes": 6028
+    },
+    {
+      "path": "tests/integration/steward-recovery.test.ts",
+      "sha256": "143FA6F336E2EBD038E0A156F06258948ACF17C131CD5BA03B35D68AFA1A8846",
+      "bytes": 4795
+    },
+    {
+      "path": "tests/integration/steward-owner-retention.test.ts",
+      "sha256": "4FF8F461DCA63CAC54B511E0FE2BB3253A87C1FADB9E82A4431CD93720EB078B",
+      "bytes": 4249
+    },
+    {
+      "path": "tests/integration/steward-retrieval.test.ts",
+      "sha256": "D36099DB7DE6778105797CF959D5B8D637A7B867DB8C241A58BE6210641A7A7D",
+      "bytes": 1365
+    },
+    {
+      "path": "tests/integration/steward-source-metadata.test.ts",
+      "sha256": "DA7F54349CF42A74F7850AAC0170FF6750AAFAB7407709215707CC3D6FA4D426",
+      "bytes": 2004
+    },
+    {
+      "path": "tests/integration/steward-discovery-nature.test.ts",
+      "sha256": "E0501D9A478D0BCF7FCD609B74DE60A7C940ABB02FD9F179AC2DFF5B850164F9",
+      "bytes": 991
+    },
+    {
+      "path": "src/main/background/steward-branch-guard.ts",
+      "sha256": "B95FCEE01F592BEA8DE85606A6A0FB3723B52EA481D91D82CBADA99CAB0780FD",
+      "bytes": 5037
+    },
+    {
+      "path": "tests/integration/steward-resolved-governance.test.ts",
+      "sha256": "4460673EDF6DA0FC3B4078AFD2019AB9A5B7B6A658720870226428C128D20DD5",
+      "bytes": 2845
+    },
+    {
+      "path": "tests/integration/steward-branch-governance.test.ts",
+      "sha256": "EA0EBDC10EB6409529CD039FC6CF743B0E4D010257AB8D31F699788858BD8728",
+      "bytes": 3569
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "sha256": "BEA8962F2E94EFAFCC7AEAAE5F2D7982EF42486C5EA40C824DD5B4177129F7FE",
+      "bytes": 1622
+    }
+  ],
+  "formatExit": 0
+}
