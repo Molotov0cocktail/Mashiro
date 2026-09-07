@@ -74,5 +74,11 @@ export async function afterPack(context) {
   )
   const generated = resolve(root, '.cache', 'packaging')
   mkdirSync(generated, { recursive: true })
-  writeFileSync(join(generated, 'owned-files.nsh'), renderOwnedFilesNsis(owned, directories))
+  const productFilename = context.packager.appInfo?.productFilename
+  if (typeof productFilename !== 'string' || !/^[A-Za-z0-9 ._-]+$/.test(productFilename))
+    throw new Error('PACKAGING_EXECUTABLE_FILENAME_UNAVAILABLE')
+  writeFileSync(
+    join(generated, 'owned-files.nsh'),
+    renderOwnedFilesNsis(owned, directories, { executableFilename: productFilename + '.exe' })
+  )
 }

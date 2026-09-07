@@ -1,7 +1,8 @@
 const defaults = {
   runKey: 'Software\\Microsoft\\Windows\\CurrentVersion\\Run',
   approvalKey: 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run',
-  valueName: 'Mashiro.Desktop'
+  valueName: 'Mashiro.Desktop',
+  executableFilename: '${APP_EXECUTABLE_FILENAME}'
 }
 
 function assertNsisRegistryLiteral(value) {
@@ -9,8 +10,13 @@ function assertNsisRegistryLiteral(value) {
 }
 
 export function renderLoginCleanupNsis(options = {}) {
-  const { runKey, approvalKey, valueName } = { ...defaults, ...options }
+  const { runKey, approvalKey, valueName, executableFilename } = { ...defaults, ...options }
   for (const value of [runKey, approvalKey, valueName]) assertNsisRegistryLiteral(value)
+  if (
+    executableFilename !== defaults.executableFilename &&
+    (!/^[A-Za-z0-9 ._-]+\.exe$/i.test(executableFilename) || executableFilename.length > 180)
+  )
+    throw new Error('PACKAGING_UNSAFE_EXECUTABLE_FILENAME')
   return [
     '!macro MashiroRemoveOwnedLogin',
     '  Push $0',
@@ -70,7 +76,7 @@ export function renderLoginCleanupNsis(options = {}) {
     '  StrCpy $9 0',
     '  StrCpy $R5 0',
     '  StrCpy $R9 0',
-    `  StrCpy $R3 '"$INSTDIR\\\${APP_EXECUTABLE_FILENAME}" --mashiro-login'`,
+    `  StrCpy $R3 '"$INSTDIR\\${executableFilename}" --mashiro-login'`,
     '  StrLen $R4 $R3',
     '  IntOp $R4 $R4 + 1',
     '  IntOp $R4 $R4 * ${NSIS_CHAR_SIZE}',

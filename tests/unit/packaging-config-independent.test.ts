@@ -75,7 +75,10 @@ it('locks distribution settings and generates an exact nonrecursive uninstall al
   expect(packageJson.scripts['dist:windows']).toContain('--publish never')
 
   const f = await fixture()
-  await afterPack({ packager: { projectDir: f.project }, appOutDir: f.output })
+  await afterPack({
+    packager: { projectDir: f.project, appInfo: { productFilename: 'Mashiro' } },
+    appOutDir: f.output
+  })
   const manifest = JSON.parse(
     readFileSync(join(f.output, 'resources', 'mashiro-program-files.json'), 'utf8')
   )
@@ -95,6 +98,8 @@ it('locks distribution settings and generates an exact nonrecursive uninstall al
     .filter((path) => path !== '$' + '{UNINSTALL_FILENAME}')
   expect(deleted.sort()).toEqual([...manifest.files].sort())
   expect(macro).not.toContain('RMDir /r')
+  expect(macro).toContain('"$INSTDIR\\Mashiro.exe" --mashiro-login')
+  expect(macro).not.toContain('APP_EXECUTABLE_FILENAME')
   expect(macro).toContain('Abort "Mashiro program file is busy; data has been preserved."')
 
   const notices = JSON.parse(
@@ -112,7 +117,10 @@ it('locks distribution settings and generates an exact nonrecursive uninstall al
 it('blocks an unreviewed package found in the actual ASAR inventory', async () => {
   const f = await fixture('unexpected-runtime')
   await expect(
-    afterPack({ packager: { projectDir: f.project }, appOutDir: f.output })
+    afterPack({
+      packager: { projectDir: f.project, appInfo: { productFilename: 'Mashiro' } },
+      appOutDir: f.output
+    })
   ).rejects.toThrow('PACKAGING_RUNTIME_NOTICE_COVERAGE')
 })
 
@@ -120,6 +128,9 @@ it('refuses to turn a top-level data directory into uninstall-owned content', as
   const f = await fixture()
   mkdirSync(join(f.output, 'data'))
   await expect(
-    afterPack({ packager: { projectDir: f.project }, appOutDir: f.output })
+    afterPack({
+      packager: { projectDir: f.project, appInfo: { productFilename: 'Mashiro' } },
+      appOutDir: f.output
+    })
   ).rejects.toThrow('PACKAGING_UNSAFE_REMOVAL_PATH')
 })

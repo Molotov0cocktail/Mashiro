@@ -110,7 +110,8 @@ function runScenario(scenario: Scenario) {
   const generated = renderOwnedFilesNsis([], [], {
     runKey,
     approvalKey,
-    valueName
+    valueName,
+    executableFilename: 'Mashiro Test.exe'
   })
   writeFileSync(
     script,
@@ -124,7 +125,6 @@ InstallDir "${nsisPath(install)}"
 !addplugindir /x86-unicode "${nsisPath(findStdUtilsPlugins())}"
 !include LogicLib.nsh
 !include StdUtils.nsh
-!define APP_EXECUTABLE_FILENAME "Mashiro Test.exe"
 !define UNINSTALL_FILENAME "probe-uninstaller.exe"
 !macro _isUpdated _a _b _t _f
   \${StdUtils.TestParameter} $R9 "updated"

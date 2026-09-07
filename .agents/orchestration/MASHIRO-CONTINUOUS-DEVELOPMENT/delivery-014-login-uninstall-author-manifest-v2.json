@@ -1,0 +1,21 @@
+{
+  "candidate": "delivery-014-login-uninstall-production-include-v2",
+  "files": [
+    {
+      "path": "build/after-pack.mjs",
+      "sha256": "7DACC906AF9C1E7492E8AAC07178CBF22917C83B55D7414899C78A53C9B57A48"
+    },
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "sha256": "1D573253F30EFA2A60E2A04EC8C79298D95A62D4832B981855972022D3715C3A"
+    },
+    {
+      "path": "tests/unit/installer-login-uninstall.test.ts",
+      "sha256": "0CB735B3835E6C136B0B8E8B3AC0192D3CDBF1C444E3E7ED74E13004D0F6470C"
+    },
+    {
+      "path": "tests/unit/packaging-config-independent.test.ts",
+      "sha256": "A2F4599278D05E61132A3ACC4BE8144BDBFFD4FFEB618CF3F7C9C29B4FA92819"
+    }
+  ]
+}
