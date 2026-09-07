@@ -40,7 +40,10 @@ it.each(['user', 'event'] as const)(
       if (!second.ok) throw Error('fixture replacement')
       const replacementAssistantId = second.data.assistants.find((a) => a.id !== assistantId)!.id
       store = new SqliteStore(databasePath)
-      const memory = new MemoryService(store, join(root, 'memory'), () => null)
+      const memory = new MemoryService(store, join(root, 'memory'), () => ({
+        fingerprint: 'independent-review',
+        display: '合成接收方'
+      }))
       retention = new RetentionService(store, join(root, 'memory'), memory)
       const input = {
         protocolVersion: 1,
