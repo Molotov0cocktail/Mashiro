@@ -1,0 +1,17 @@
+file:///C:/Users/30910/AppData/Local/Temp/mashiro-install-full-Zbzmgp/delivery-014-receipt-window-788ce6f0-3a93-4735-95e6-bb1cf7816fd8.mjs:20804
+    this.database.exec("BEGIN IMMEDIATE");
+                  ^
+
+Error: cannot start a transaction within a transaction
+    at SqliteStore.transaction (file:///C:/Users/30910/AppData/Local/Temp/mashiro-install-full-Zbzmgp/delivery-014-receipt-window-788ce6f0-3a93-4735-95e6-bb1cf7816fd8.mjs:20804:19)
+    at ToolRepository.update (file:///C:/Users/30910/AppData/Local/Temp/mashiro-install-full-Zbzmgp/delivery-014-receipt-window-788ce6f0-3a93-4735-95e6-bb1cf7816fd8.mjs:21630:23)
+    at file:///D:/Mashiro/.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-old-receipt-window.mjs:253:18
+    at SqliteStore.transaction (file:///C:/Users/30910/AppData/Local/Temp/mashiro-install-full-Zbzmgp/delivery-014-receipt-window-788ce6f0-3a93-4735-95e6-bb1cf7816fd8.mjs:20806:21)
+    at file:///D:/Mashiro/.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-old-receipt-window.mjs:221:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1,
+  errstr: 'SQL logic error'
+}
+
+Node.js v24.18.0

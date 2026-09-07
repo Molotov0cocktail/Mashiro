@@ -1,0 +1,14 @@
+{
+  "scope": "read-only rollback check after the first schema19 receipt-window seed failed",
+  "observedAt": "2026-09-07T19:17:54.751Z",
+  "schemaVersion": 19,
+  "integrity": "ok",
+  "foreignKeyViolations": 0,
+  "protocolSegments": 2,
+  "toolOperations": 2,
+  "protocolResults": 2,
+  "seededSegments": 0,
+  "providerUsageSha256": "68afb1c36da7681bc1efa0a504e7101319e6b35286109e6df74d2ebd64967077",
+  "installedMashiroProcesses": 0,
+  "externalCalls": 0
+}

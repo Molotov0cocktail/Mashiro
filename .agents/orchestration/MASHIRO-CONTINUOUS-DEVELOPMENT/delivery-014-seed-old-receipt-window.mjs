@@ -250,7 +250,7 @@ try {
         updatedAt: createdAt,
         summary: '本地合成时钟回执已开始'
       }
-      repository.update(dispatching)
+      repository.update(dispatching, undefined, true)
       const succeeded = {
         ...dispatching,
         state: 'SUCCEEDED',
@@ -258,7 +258,8 @@ try {
       }
       repository.update(
         succeeded,
-        JSON.stringify({ currentTime: createdAt, timeZone: 'UTC', synthetic: true })
+        JSON.stringify({ currentTime: createdAt, timeZone: 'UTC', synthetic: true }),
+        true
       )
       repository.messages(segment.id, [], true)
       createdOperationIds.push(succeeded.operationId)

@@ -23,15 +23,16 @@ it('an explicit empty dataset bridge restores the original backup with later ori
     const initial = await openProductionSession({
       configurationDirectory: config,
       choose: async () => ({ action: 'create', directory: data }),
-      prepareExisting: async (_path, directory, signal, lease, authorizeReplacement) =>
-        prepareProductionData({
+      prepareExisting: async (_path, directory, signal, lease, authorizeReplacement) => {
+        await prepareProductionData({
           dataDirectory: directory,
           backupParentDirectory: backups,
           signal,
           lease,
           authorizeReplacement,
           assertQuiescent() {}
-        }),
+        })
+      },
       onOwnershipLost() {}
     })
     if (!initial) throw Error('INITIAL_FIXTURE')
