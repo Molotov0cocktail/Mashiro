@@ -18,6 +18,7 @@ import { acquireProductionLease } from '../../src/main/data/production-lease.js'
 import { SqliteStore } from '../../src/main/data/sqlite.js'
 import { restoreProductionAtStartup } from '../../src/main/data/production-startup-restore.js'
 import { inspectProductionDataSet } from '../../src/main/data/production-location.js'
+import { removeRetentionPolicyFixture } from './governance-legacy-fixture.js'
 
 const roots: string[] = []
 const sessions: ProductionSession[] = []
@@ -63,14 +64,18 @@ function fixture() {
   return { root, config, data, backups, open }
 }
 
-it('review014: real session selection migrates governed17 to18 and a second real session preserves a later committed tombstone', async () => {
+it('review014: real session selection migrates governed17 to19 and a second real session preserves a later committed tombstone', async () => {
   const f = fixture()
   const initialized = await initializeProductionDataSet(
     f.data,
     (path) => {
       const store = new SqliteStore(path)
-      store.database.exec('DROP TABLE memory_round_evidence; PRAGMA user_version=17')
-      store.close()
+      try {
+        removeRetentionPolicyFixture(store.database)
+        store.database.exec('DROP TABLE memory_round_evidence; PRAGMA user_version=17')
+      } finally {
+        store.close()
+      }
     },
     () => {}
   )
@@ -92,7 +97,7 @@ it('review014: real session selection migrates governed17 to18 and a second real
   const store = new SqliteStore(first.databasePath)
   const id = randomUUID()
   try {
-    expect(store.database.prepare('PRAGMA user_version').get()!.user_version).toBe(18)
+    expect(store.database.prepare('PRAGMA user_version').get()!.user_version).toBe(19)
     store.database.prepare("INSERT INTO item_tombstones VALUES('proposal',?)").run(id)
   } finally {
     store.close()

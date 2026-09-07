@@ -397,6 +397,14 @@ const seedScript = `
     const saved = await memory.setPermissions({protocolVersion:1,assistantId:second.id,scope,expectedVersion:permission.data.version,read:true,write:true,writeInferences:true,receive:true})
     if(!saved.ok) throw new Error('memory-grant')
   }
+  let retentionPolicy
+  for(let attempt=0;attempt<100;attempt++){
+    retentionPolicy=await retention.policy({protocolVersion:1,assistantId:second.id})
+    if(!retentionPolicy.ok)throw new Error('retention-policy')
+    if(retentionPolicy.data.audit.state==='COMPLETE')break
+    await new Promise(resolve=>setTimeout(resolve,20))
+  }
+  if(retentionPolicy.data.audit.state!=='COMPLETE')throw new Error('retention-audit')
   const memoryDraft={action:'remember',targetId:null,expectedVersion:null,kind:'user',scope:'global',title:'E2E_MEMORY',markdown:'E2E_MEMORY_ORIGINAL',nature:'user-statement',event:null}
   const memorySaved=await memory.mutate({protocolVersion:1,assistantId:second.id,commandId:crypto.randomUUID(),mutation:memoryDraft})
   if(!memorySaved.ok) throw new Error('memory-save')

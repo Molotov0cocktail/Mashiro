@@ -4,8 +4,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { RetentionPanel } from '../../src/renderer/src/features/retention/RetentionPanel'
 import type { AssistantSnapshot } from '../../src/shared/assistant-contract'
 import type { MemoryApi, MemoryRecord } from '../../src/shared/memory-contract'
-import type { RetentionApi, RetentionPreview } from '../../src/shared/retention-contract'
+import type {
+  RetentionApi,
+  RetentionChanged,
+  RetentionPreview
+} from '../../src/shared/retention-contract'
 import { memoryApi008Defaults } from './memory-api-fixture'
+import { retentionPolicyApi009Defaults, retentionPolicySnapshot009 } from './retention-api-fixture'
 
 const assistantId = '00000000-0000-4000-8000-000000000001'
 const memoryId = '00000000-0000-4000-8000-000000000002'
@@ -95,18 +100,37 @@ function preview(blockers: string[] = []): RetentionPreview {
 
 function retentionApi(value = preview()): RetentionApi {
   return {
+    ...retentionPolicyApi009Defaults(),
     overview: vi.fn(async () => ({
       ok: true as const,
       data: {
         epoch: 7,
         zones: [
-          { zone: 'persistent' as const, objects: 1, acceptedBytes: 20 },
-          { zone: 'staging' as const, objects: 0, acceptedBytes: 0 },
-          { zone: 'trash' as const, objects: 0, acceptedBytes: 0 }
+          {
+            zone: 'persistent' as const,
+            objects: 1,
+            acceptedBytes: 20,
+            measurement: 'COMPLETE' as const,
+            unknownObjects: 0
+          },
+          {
+            zone: 'staging' as const,
+            objects: 0,
+            acceptedBytes: 0,
+            measurement: 'COMPLETE' as const,
+            unknownObjects: 0
+          },
+          {
+            zone: 'trash' as const,
+            objects: 0,
+            acceptedBytes: 0,
+            measurement: 'COMPLETE' as const,
+            unknownObjects: 0
+          }
         ],
         managedFileBytes: 32,
         databaseBytes: 64,
-        automaticPolicy: 'UNCONFIGURED' as const
+        automaticPolicy: 'ACTIVE' as const
       }
     })),
     move: vi.fn(async (input) => ({
@@ -165,7 +189,7 @@ describe('RetentionPanel', () => {
     expect(
       await screen.findByText(/受管 Markdown 文件占用：32 B · 数据库及运行文件占用：64 B/)
     ).toBeInTheDocument()
-    expect(screen.getByText(/当前只提供手动操作/)).toBeInTheDocument()
+    expect(screen.getByText(/垃圾区永不自动永久清空/)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('checkbox', { name: /选择“旅行偏好”/ }))
     fireEvent.change(screen.getByLabelText('操作意图'), {
       target: { value: 'withdraw-information' }
@@ -436,5 +460,118 @@ describe('RetentionPanel', () => {
         target: { type: 'message', messageId: '00000000-0000-4000-8000-000000000009' }
       })
     )
+  })
+  it('previews and saves global capacity and staging expiry settings before applying them', async () => {
+    const api = retentionApi()
+    render(
+      <RetentionPanel
+        api={api}
+        memoryApi={memoryApi()}
+        assistantSnapshot={snapshot}
+        fallbackAssistantId={assistantId}
+        pendingCommands={new Map()}
+        onRefreshAssistants={vi.fn()}
+      />
+    )
+
+    const capacity = await screen.findByLabelText('容量上限（MiB）')
+    expect(capacity).toHaveValue(100)
+    expect(screen.getByText(/已完成/)).toBeInTheDocument()
+    expect(screen.getByText(/手动核查会立即重试当前失败项/)).toBeInTheDocument()
+    fireEvent.change(capacity, { target: { value: '64' } })
+    fireEvent.click(screen.getByRole('button', { name: '查看设置影响' }))
+
+    await waitFor(() =>
+      expect(api.previewPolicy).toHaveBeenCalledWith({
+        protocolVersion: 1,
+        assistantId,
+        expectedRevision: 1,
+        settings: {
+          persistentCapacity: { enabled: true, limitBytes: 64 * 1024 * 1024 },
+          stagingExpiry: { enabled: true, days: 90 }
+        }
+      })
+    )
+    expect(await screen.findByRole('heading', { name: '设置影响预览' })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: '按此预览保存设置' }))
+
+    await waitFor(() =>
+      expect(api.configurePolicy).toHaveBeenCalledWith({
+        protocolVersion: 1,
+        assistantId,
+        commandId: expect.any(String),
+        expectedRevision: 1,
+        previewId: '00000000-0000-4000-8000-000000000091',
+        settings: {
+          persistentCapacity: { enabled: true, limitBytes: 64 * 1024 * 1024 },
+          stagingExpiry: { enabled: true, days: 90 }
+        }
+      })
+    )
+    expect(await screen.findByText(/自动保留策略已按预览保存/)).toBeInTheDocument()
+  })
+  it('refreshes policy audit status without replacing an unsaved settings draft', async () => {
+    const api = retentionApi()
+    const memory = memoryApi()
+    const view = render(
+      <RetentionPanel
+        api={api}
+        memoryApi={memory}
+        assistantSnapshot={snapshot}
+        fallbackAssistantId={assistantId}
+        pendingCommands={new Map()}
+        onRefreshAssistants={vi.fn()}
+      />
+    )
+    const capacity = await screen.findByLabelText('容量上限（MiB）')
+    fireEvent.change(capacity, { target: { value: '64' } })
+    vi.mocked(api.policy).mockResolvedValueOnce({
+      ok: true,
+      data: {
+        ...retentionPolicySnapshot009(),
+        audit: {
+          state: 'RUNNING',
+          checkedObjects: 1,
+          totalObjects: 5,
+          startedAt: '2026-09-06T01:00:00.000Z',
+          completedAt: null
+        }
+      }
+    })
+    const changed: RetentionChanged = {
+      epoch: 7,
+      assistantIds: [],
+      memoryIds: [],
+      requestIds: [],
+      reason: 'policy-status'
+    }
+    view.rerender(
+      <RetentionPanel
+        api={api}
+        memoryApi={memory}
+        assistantSnapshot={snapshot}
+        fallbackAssistantId={assistantId}
+        pendingCommands={new Map()}
+        onRefreshAssistants={vi.fn()}
+        changed={changed}
+      />
+    )
+    expect(await screen.findByText('核查中 1/5')).toBeInTheDocument()
+    expect(screen.getByLabelText('容量上限（MiB）')).toHaveValue(64)
+    expect(api.overview).toHaveBeenCalledTimes(1)
+
+    view.rerender(
+      <RetentionPanel
+        api={api}
+        memoryApi={memory}
+        assistantSnapshot={snapshot}
+        fallbackAssistantId={assistantId}
+        pendingCommands={new Map()}
+        onRefreshAssistants={vi.fn()}
+        changed={{ ...changed, epoch: 8, assistantIds: [assistantId], reason: 'job-status' }}
+      />
+    )
+    await waitFor(() => expect(api.overview).toHaveBeenCalledTimes(2))
+    expect(screen.getByLabelText('容量上限（MiB）')).toHaveValue(64)
   })
 })

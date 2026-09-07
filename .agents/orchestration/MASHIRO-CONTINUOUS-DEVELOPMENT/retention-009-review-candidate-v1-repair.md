@@ -1,0 +1,23 @@
+# RET candidate v1 independent review
+
+2026-09-08, Astra/medium independent reviewer. **REPAIR: default-capacity main-thread cost**. Functional checks passed, but the candidate is not ready for overall product acceptance.
+
+Frozen [author manifest](retention-009-author-manifest-v1.json) SHA256 `84E846EAAD8185B829519D9DFFF2973EFE23B02964FBD318A58A47665008126B`: all 43 paths matched before and after review. Policy service SHA256 `25014955DE89DAC952C1D54AA3713D9D5AF709370FFA00D5169140F232DF0D7B`.
+
+## Actual default-capacity observation
+
+[Raw execution](retention-009-review-measurement-default-cost-run-01.json), [measurements](retention-009-review-measurement-default-cost-result.json). A new external temporary dataset contained **25,599 accepted objects × 4,096 UTF-8 bytes = 104,853,504 bytes**, just below the default 100MiB. One final legitimate 4KiB acceptance exactly reached 100MiB. Setup used production MemoryService before installing the quota guard, avoiding quota rescans during seeding; setup took 324.47 seconds and is excluded from measured operation timings.
+
+Measured production operations: RetentionService construction **9,602 ms**, policy snapshot **9,577 ms**, guarded accepted write **6,389 ms**. This is an actual single warm-cache sample, not an extrapolation from the earlier 4MiB experiment. Synchronous accepted-body reads/hashes, source checks and per-object bookkeeping occupy the main thread. Multi-second pauses at the selected default capacity are a concrete everyday usability issue, despite correctness assertions passing.
+
+Required outcome: avoid unbounded synchronous whole-dataset work on constructor, routine snapshots and acceptance. A proportionate repair may use versioned measurement state, incremental totals and bounded asynchronous verification, with an explicit fail-closed dirty/UNKNOWN state. Preserve accepted version/hash, source permission/revocation and governance-generation invalidation, exact transaction capacity enforcement, reductions while over capacity, and external body-change detection. File watcher events can invalidate a cache but are not proof of completeness. Do not silently replace hash verification with metadata equivalence or postpone all external integrity discovery indefinitely. The root coordinates the exact repair contract; no reviewer product edits were made.
+
+## Functional evidence retained
+
+Independent frozen scope **12 files / 35 tests PASS**, exit 0: [raw run](retention-009-review-final-scope-run-01.json). This covers defaults, actual UTF-8 quota/UNKNOWN/reduction behavior, staging-age preservation, due-only recoverable trash, failed-leading-item progress and retry backoff, interrupted-run recovery, explicit run policy CAS after waiting, timer outer-error containment, restored pause/disabled-policy preservation, cross-assistant private-preview boundaries, Provider capacity-error continuation, renderer policy fences, and prior independent correction/move and schema17 baseline assertions.
+
+New discriminating reviewer oracles passed: a captured expiry candidate cannot overwrite a real correction made before commit; actual ProviderService expiry cancels an in-flight transport, and a transport that nevertheless returns a late completed answer cannot reintroduce that answer into result or timeline. The moved object remains active recoverable trash, not permanently deleted. Strict trusted policy IPC and existing six assistant channels were inspected. Policy events are expanded to existing assistant IDs before renderer invalidation and Provider cancellation.
+
+[Real approved schema18 copy migration](retention-009-review-real18-copy.md) passed, preserving all old table rows and all 16 original payload hashes; first measurement was COMPLETE/407 bytes and the restore hook paused automation. Its schema entry hash predates the final manifest, so this is supporting evidence rather than a final-hash migration claim. The policy migration module, memory service, policy service and restore-apply hashes match the final candidate. The separate repaired governed schema17→19 route and 18/19 fail-closed boundary passed at the current source. A final changed-candidate migration check remains appropriate after the performance repair.
+
+All cost/approved-backup diagnostics are opt-in environment-gated tests and skip during ordinary full-suite runs. Previous RED/fixture failures and successful raw outputs remain preserved. New reviewer tests passed scoped ESLint. No build, current app, real personal-data/key access, Registry mutation, Git or release action occurred. Packaging/native acceptance and the final integrated suite remain root responsibilities.

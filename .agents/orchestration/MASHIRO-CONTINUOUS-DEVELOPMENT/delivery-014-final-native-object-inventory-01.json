@@ -1,0 +1,46 @@
+{
+  "scope": "authorized-synthetic-final-native-object-inventory",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 18,
+  "integrity": "ok",
+  "activeAssistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+  "counts": {
+    "timelineMessages": 14,
+    "protocolSegments": 2,
+    "toolOperations": 2,
+    "memoryRoundEvidence": 0,
+    "memoryCommands": 13,
+    "items": 6,
+    "itemProposals": 1
+  },
+  "existingChangeRound": {
+    "requestId": "1895f71b-114b-41a5-898b-48e82fcf1443",
+    "memoryCommandId": "429a42c5-e9ff-4f53-8af4-2eb4ac61f10e",
+    "toolOperationId": "97bcb3b7-cff7-4434-92c6-b38435733918",
+    "action": "remember",
+    "state": "SUCCEEDED",
+    "objectId": "43c35979-ee88-4510-a699-7bb0bd8c026d",
+    "objectVersion": 1
+  },
+  "existingOldRound": {
+    "requestId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+    "toolOperationId": "65f43282-9144-4d5c-b5fb-8577e5336f56",
+    "toolName": "get_current_time",
+    "state": "SUCCEEDED",
+    "segmentState": "closed"
+  },
+  "preparation": {
+    "appendLocalSyntheticOperations": 384,
+    "expectedToolOperationTotalBeforeNewProviderRequest": 386,
+    "providerCallsForWindowPreparation": 0,
+    "newProviderSourceRoundRequired": true,
+    "reason": "The current two real Provider rounds predate the installed memory-round evidence writer, so memory_round_evidence is empty."
+  },
+  "firstAttempt": {
+    "result": "FAILED_BEFORE_READ_RESULT",
+    "error": "no such column: assistant_tombstones.assistant_id",
+    "effect": "read-only database opened and closed; no data was written",
+    "repair": "helper now uses assistant_tombstones.id"
+  },
+  "boundary": "IDs and states only; no message body, memory Markdown, credential, or Provider response was written to this evidence. The current data set was opened read-only."
+}

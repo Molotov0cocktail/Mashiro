@@ -1,0 +1,14 @@
+{
+  "scope": "isolated synthetic unknown install file preservation oracle",
+  "createdAt": "2026-09-08T00:32:15.6027995+08:00",
+  "path": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\user-preserved-synthetic.txt",
+  "bytes": 62,
+  "sha256": "EC149C6F29DD292C296D63E6B3F3E0F36E3B5B9B97D36A89B27580743268033A",
+  "uninstaller": {
+    "path": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Uninstall Mashiro.exe",
+    "bytes": 138118,
+    "sha256": "50F65C4F7932821B8381D555F424C639923B3AB7D3664A291369C83C08E7B1E2"
+  },
+  "mashiroProcessCount": 0,
+  "personalDataAccessed": false
+}

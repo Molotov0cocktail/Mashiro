@@ -246,7 +246,11 @@ export class ProviderService {
     credentialDirectory: string,
     protector: CredentialProtector,
     private readonly transport: ChatTransport,
-    private readonly toolOptions: { clock?: () => Date; backgroundClock?: () => Date }
+    private readonly toolOptions: {
+      clock?: () => Date
+      backgroundClock?: () => Date
+      retentionClock?: () => Date
+    }
   ) {
     this.operations = new OperationsService(store, this.toolOptions.backgroundClock)
     this.repository = new ProviderRepository(store)
@@ -440,7 +444,9 @@ export class ProviderService {
           this.steward.purgeAssistant(assistantId)
           this.daily.purgeAssistant(assistantId)
         }
-      }
+      },
+      undefined,
+      this.toolOptions.retentionClock
     )
   }
 
@@ -456,7 +462,11 @@ export class ProviderService {
     credentialDirectory: string,
     protector: CredentialProtector,
     transport: ChatTransport = chatCompletions,
-    toolOptions: { clock?: () => Date; backgroundClock?: () => Date } = {}
+    toolOptions: {
+      clock?: () => Date
+      backgroundClock?: () => Date
+      retentionClock?: () => Date
+    } = {}
   ): ProviderService {
     const store = new SqliteStore(databasePath)
     try {
@@ -1560,14 +1570,28 @@ export class ProviderService {
                   )
                 } catch (error) {
                   if (error instanceof MemoryMutationError && error.provenNotApplied) {
+                    const policyRejected = ['CAPACITY_EXCEEDED', 'MEASUREMENT_UNKNOWN'].includes(
+                      error.code
+                    )
+                    const summary =
+                      error.code === 'CAPACITY_EXCEEDED'
+                        ? '持久记忆容量已满，本次记忆未保存；普通回答可以继续'
+                        : error.code === 'MEASUREMENT_UNKNOWN'
+                          ? '持久记忆计量不完整，本次记忆未保存；普通回答可以继续'
+                          : '已核查业务未提交，请检查目标、版本或权限'
                     const rejected = {
                       ...operation,
                       state: 'CONFIRMED_NOT_APPLIED' as const,
-                      summary: '已核查业务未提交，请检查目标、版本或权限',
+                      summary,
                       updatedAt: new Date().toISOString()
                     }
-                    this.toolLedger.update(rejected)
+                    const body = JSON.stringify({
+                      state: 'CONFIRMED_NOT_APPLIED',
+                      error: { code: error.code, message: summary }
+                    })
+                    this.toolLedger.update(rejected, policyRejected ? body : undefined)
                     Object.assign(operation, rejected)
+                    if (policyRejected) return { body, summary }
                   }
                   throw error
                 }
@@ -1799,6 +1823,8 @@ function failureFrom(error: unknown): Extract<ProviderResult, { ok: false }> {
   if (error instanceof MemoryError || error instanceof ItemError) {
     if (error.code === 'CONFLICT') return failure('LIMIT')
     if (error.code === 'INTEGRITY') return failure('STORAGE_UNAVAILABLE')
+    if (error.code === 'CAPACITY_EXCEEDED' || error.code === 'MEASUREMENT_UNKNOWN')
+      return failure('LIMIT')
     return failure(error.code)
   }
   if (error instanceof InvalidProviderInputError) return failure('INVALID_INPUT')

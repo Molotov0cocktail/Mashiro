@@ -1,14 +1,21 @@
 import type { ZodType } from 'zod'
-import { reminderChannels, reminderChangedChannel } from '../../shared/reminder-channels.js'
+import {
+  reminderChannels,
+  reminderChangedChannel,
+  reminderNavigationChannels
+} from '../../shared/reminder-channels.js'
 import {
   reminderQueryResultSchema,
   reminderMutationResultSchema,
   reminderRuntimeResultSchema,
   reminderPreviewResultSchema,
   reminderChangedSchema,
+  reminderPendingNavigationResultSchema,
+  reminderAckNavigationResultSchema,
   type ReminderChanged
 } from '../../shared/reminder-contract.js'
 import type { ReminderService } from '../reminder/reminder-service.js'
+import type { ReminderNavigationBroker } from '../reminder/reminder-navigation.js'
 interface IpcMainLike {
   handle(channel: string, listener: (event: unknown, input: unknown) => unknown): void
   removeHandler(channel: string): void
@@ -16,6 +23,7 @@ interface IpcMainLike {
 export function registerReminderIpc(
   ipc: IpcMainLike,
   service: ReminderService,
+  navigation: ReminderNavigationBroker,
   trusted: (event: unknown) => boolean
 ): () => void {
   const methods = {
@@ -43,8 +51,34 @@ export function registerReminderIpc(
       }
     })
   }
+  const navigationMethods = {
+    pending: reminderPendingNavigationResultSchema,
+    ack: reminderAckNavigationResultSchema
+  } as const
+  for (const name of Object.keys(navigationMethods) as (keyof typeof navigationMethods)[]) {
+    ipc.handle(reminderNavigationChannels[name], (event, input) => {
+      if (!trusted(event))
+        return { ok: false, error: { code: 'PERMISSION_DENIED', message: '提醒导航来源无效' } }
+      try {
+        const value =
+          name === 'pending' ? navigation.pendingNavigation(input) : navigation.ackNavigation(input)
+        const result = navigationMethods[name].safeParse(value)
+        if (result.success) return result.data
+      } catch {
+        /* Navigation state and target details never cross IPC on failure. */
+      }
+      return {
+        ok: false,
+        error: { code: 'STORAGE_UNAVAILABLE', message: '提醒导航状态暂不可用，请重试' }
+      }
+    })
+  }
   return () => {
-    for (const channel of Object.values(reminderChannels)) ipc.removeHandler(channel)
+    for (const channel of [
+      ...Object.values(reminderChannels),
+      ...Object.values(reminderNavigationChannels)
+    ])
+      ipc.removeHandler(channel)
   }
 }
 export function emitReminderChanged(

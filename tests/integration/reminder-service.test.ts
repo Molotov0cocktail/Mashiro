@@ -216,7 +216,7 @@ it('crash after durable claim becomes unknown on recovery and never blindly rese
   expect(f.records()[0]!.state).toBe('RESULT_UNKNOWN')
   expect(f.shown).toHaveLength(0)
 })
-it('approved 24-hour default catches only the latest missed reminder per item without duplicate activation', () => {
+it('approved 24-hour default catches only the latest missed reminder while repeat clicks navigate without redispatch', () => {
   const f = fixture()
   f.create()
   const latest = f.create('2030-01-01T00:00:02+00:00')
@@ -236,7 +236,8 @@ it('approved 24-hour default catches only the latest missed reminder per item wi
   expect(f.shown).toHaveLength(1)
   f.shown[0]!.event('click')
   f.shown[0]!.event('click')
-  expect(f.events.filter((e) => e.kind === 'open-item')).toHaveLength(1)
+  expect(f.events.filter((e) => e.kind === 'open-item')).toHaveLength(2)
+  expect(f.shown).toHaveLength(1)
 })
 it('approved default expires reminders beyond 24 hours and preserves a user-selected disabled policy across service restart', () => {
   const f = fixture()
@@ -332,7 +333,8 @@ it('rescheduling creates a fresh occurrence identity and blocks previous callbac
   expect(f.events.filter((e) => e.kind === 'open-item')).toHaveLength(0)
   f.shown[1]!.event('click')
   f.service.activate(made.receipt.reminderId!, 2)
-  expect(f.events.filter((e) => e.kind === 'open-item')).toHaveLength(1)
+  expect(f.events.filter((e) => e.kind === 'open-item')).toHaveLength(2)
+  expect(f.shown).toHaveLength(2)
 })
 it('notification unsupported is known failure; native throw is honest unknown', () => {
   const f = fixture()

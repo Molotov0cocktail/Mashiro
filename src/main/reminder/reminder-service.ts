@@ -782,10 +782,11 @@ export class ReminderService {
         .map((r) => r.id + ':' + r.version)
         .sort()
         .join(',')
-      const result = this.store.database
+      this.store.database
         .prepare('INSERT OR IGNORE INTO reminder_activations VALUES(?)')
         .run(identity)
-      if (!Number(result.changes)) return
+      // The activation row deduplicates business/audit state. Each valid click is still a
+      // fresh navigation intent, including a retry after an earlier renderer or process loss.
       this.changed(
         current.length === 1
           ? { kind: 'open-item', itemId: current[0]!.itemId }

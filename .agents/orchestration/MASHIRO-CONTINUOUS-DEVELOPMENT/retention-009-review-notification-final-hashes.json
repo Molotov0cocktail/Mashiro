@@ -1,0 +1,50 @@
+[
+  {
+    "path": "src/shared/retention-contract.ts",
+    "sha256": "7895D4C0803FF028F27856B4F7B2281039D5534ADB2BCF00EAF43C9C94CDD2D7"
+  },
+  {
+    "path": "src/main/retention/retention-policy-service.ts",
+    "sha256": "C834EC22DF8D1FF8746E68C7DE8402C403913717DB5FAE67E87AF485BAC16F33"
+  },
+  {
+    "path": "src/main/retention/retention-service.ts",
+    "sha256": "2356C81DE10046100FC8281A686E5EB6F7FC6E1DC7F787A173E582125D0E129B"
+  },
+  {
+    "path": "src/renderer/src/App.tsx",
+    "sha256": "298CF4F435A227D17B50025D77D81B3CF67AF4D0863CC3FFCAB083C28EE90EA4"
+  },
+  {
+    "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+    "sha256": "A3D025265B2F55709418D31DDC7EA05A1E681382BEB47C6226A53E5CC563AF7D"
+  },
+  {
+    "path": "src/renderer/src/features/retention/RetentionPanel.tsx",
+    "sha256": "F9E942324A4EBF067030054360577195BF97610F55C333D01C97316245E8570F"
+  },
+  {
+    "path": "src/main/testing/e2e-controller.ts",
+    "sha256": "C6DDA90C11C11EE7443E015390C1C0A39E8CB474072C2F7DD562E6BB98A29F19"
+  },
+  {
+    "path": "tests/renderer/ProviderPanel-retention.test.tsx",
+    "sha256": "55A5E65B909FB2427FE585EBAD708CA4B273675E6E09805C898399DE7108EB2A"
+  },
+  {
+    "path": "tests/renderer/RetentionPanel.test.tsx",
+    "sha256": "636DBB04E5CD3DA43A5A5B83AC659AB0CB1E069DEE34B47006762585ECB02FE9"
+  },
+  {
+    "path": "tests/integration/review009-provider-audit-notification.test.ts",
+    "sha256": "003571496C7415F4E22912EE8427DF1D60F85328D3255F2270FB90D12719D2C7"
+  },
+  {
+    "path": "tests/renderer/review009-app-policy-status.test.tsx",
+    "sha256": "52FEAE0A6CC7045C7A925BD849BE1263150D03BDCC0110CB7A98FAC38C6C3F63"
+  },
+  {
+    "path": "tests/renderer/review009-retention-status-draft.test.tsx",
+    "sha256": "87B30C22A9231D5DBA4EB1C67250F2AA7456915B21BD497E14D47159AB09CF61"
+  }
+]

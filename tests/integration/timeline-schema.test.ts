@@ -154,7 +154,7 @@ describe('timeline schema v3', () => {
     const database = new DatabaseSync(item.path)
     expect(
       (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
-    ).toBe(18)
+    ).toBe(19)
     expect(readV2Evidence(database)).toEqual(item.evidence)
     expectCredentialPreserved(item)
     expect(database.prepare('SELECT count(*) AS value FROM timeline_messages').get()).toEqual({

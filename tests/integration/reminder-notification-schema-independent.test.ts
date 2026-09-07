@@ -29,23 +29,29 @@ it('rolls back a v14 notification-table collision before advancing the schema ve
   expect(() => new SqliteStore(path)).toThrow()
 
   const raw = new DatabaseSync(path)
-  expect(raw.prepare('PRAGMA user_version').get()).toEqual({ user_version: 14 })
-  expect(raw.prepare('PRAGMA table_info(reminder_notification_members)').all()).toHaveLength(3)
-  raw.exec('DROP TABLE reminder_notification_members')
-  raw.close()
+  try {
+    expect(raw.prepare('PRAGMA user_version').get()).toEqual({ user_version: 14 })
+    expect(raw.prepare('PRAGMA table_info(reminder_notification_members)').all()).toHaveLength(3)
+    raw.exec('DROP TABLE reminder_notification_members')
+  } finally {
+    raw.close()
+  }
 
   const migrated = new SqliteStore(path)
-  expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 18 })
-  expect(
-    String(
-      migrated.database
-        .prepare(
-          "SELECT sql FROM sqlite_master WHERE type='table' AND name='reminder_notification_members'"
-        )
-        .get()!.sql
-    )
-  ).toContain('CHECK(version>0)')
-  migrated.close()
+  try {
+    expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 19 })
+    expect(
+      String(
+        migrated.database
+          .prepare(
+            "SELECT sql FROM sqlite_master WHERE type='table' AND name='reminder_notification_members'"
+          )
+          .get()!.sql
+      )
+    ).toContain('CHECK(version>0)')
+  } finally {
+    migrated.close()
+  }
 })
 
 it('rejects a v15 notification table that keeps names but drops types, nullability, key and version check', () => {

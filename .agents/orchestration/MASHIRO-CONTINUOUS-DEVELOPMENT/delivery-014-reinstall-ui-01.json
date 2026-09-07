@@ -1,0 +1,51 @@
+{
+  "scope": "installed Mashiro UI recovery after ordinary uninstall and reinstall",
+  "observedAt": "2026-09-08T00:59:21.4683698+08:00",
+  "process": {
+    "pid": 215224,
+    "hwnd": {
+      "value": 10751274
+    },
+    "exeSha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472"
+  },
+  "dataLocation": {
+    "path": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+    "visibleInProductDialog": true,
+    "sourceAttempt": {
+      "path": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-reinstall-recovery-attempt-01.json",
+      "sha256": "9B2B7123BF197DE81C8E4DBADF811C62710ADDC3E047703262D9939CE507C93D",
+      "note": "only the live UI observations are reused; its live file hash attempt was invalid because SQLite was locked"
+    }
+  },
+  "ui": {
+    "featureNavigationComplete": true,
+    "missingFeatureLabels": [],
+    "actualSyntheticRecipientVisible": true,
+    "protectedCredentialStatusVisible": true,
+    "syntheticProviderMemoryTurnVisible": true,
+    "syntheticProviderMemoryReceiptVisible": true
+  },
+  "login": {
+    "runValue": null,
+    "productStatusOff": true,
+    "checkboxState": "Off",
+    "expectedAfterUninstall": true
+  },
+  "shortcut": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Mashiro.lnk",
+    "sha256": "3D37D6A0FD77D982DBC6F09F1A7971032056A4AAEB890DEA35910B18CBF3F947",
+    "target": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "arguments": "",
+    "appUserModelId": "Mashiro.Desktop",
+    "toastActivatorClsid": "{4750F408-E9BA-47B9-90F7-9F926B5DA47F}"
+  },
+  "toastRegistration": {
+    "scope": "current-user",
+    "path": "Software\\Classes\\CLSID\\{4750F408-E9BA-47B9-90F7-9F926B5DA47F}\\LocalServer32",
+    "value": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "referencesCurrentExecutable": true
+  },
+  "providerRequestsIssuedByThisVerification": 0,
+  "credentialContentRead": false,
+  "personalDataAccessed": false
+}

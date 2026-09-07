@@ -845,6 +845,19 @@ describe('corrected memory provenance regression', () => {
       transport
     )
     closers.push(() => service.close())
+    let policy = await service.retention.policy({
+      protocolVersion: 1,
+      assistantId: f.assistantId
+    })
+    for (let attempt = 0; attempt < 20; attempt++) {
+      if (policy.ok && policy.data.audit.state === 'COMPLETE') break
+      await new Promise((resolve) => setImmediate(resolve))
+      policy = await service.retention.policy({
+        protocolVersion: 1,
+        assistantId: f.assistantId
+      })
+    }
+    expect(policy).toMatchObject({ ok: true, data: { audit: { state: 'COMPLETE' } } })
     const connection = service.saveConnection({
       protocolVersion: 1,
       displayName: '合成端点',

@@ -1,0 +1,65 @@
+{
+  "scope": "isolated Mashiro ordinary uninstall comparison; exact project entries only",
+  "comparedAt": "2026-09-08T00:37:45.5615771+08:00",
+  "sourceEvidence": {
+    "dataPre": {
+      "sha256": "6058B9D2E29A91525ED8359D65D987B4A11C4C0D8F12575A17EDC3B935E1A6E7"
+    },
+    "dataPost": {
+      "sha256": "83586F16B955165570FE8A13BA91A83FDFD159A00EE29FAE07302638DD2BC717"
+    },
+    "systemPre": {
+      "sha256": "F0C69EA444F548D5F347FBFC3782254286F576B5CA20A722C59B81E5B0B086EB"
+    },
+    "systemPost": {
+      "sha256": "2D868561C04D392D815724C83BAAF555939A27095CE7CDDDDCEB95EB0736F643"
+    },
+    "unknownPre": {
+      "sha256": "46A761F5F9DB59E1E73FAA3D1A817E40DAA40FA109A8459C5535D63F68D25F9A"
+    }
+  },
+  "data": {
+    "dataSetIdEqual": true,
+    "schemaVersionEqual": true,
+    "schemaVersion": 18,
+    "fileCountBefore": 16,
+    "fileCountAfter": 16,
+    "fileDifferences": [],
+    "tableDifferences": [],
+    "integrityAfter": [
+      "ok"
+    ],
+    "foreignKeyErrorsAfter": 0,
+    "reparsePointsBefore": 0,
+    "reparsePointsAfter": 0,
+    "allPreserved": true
+  },
+  "uninstall": {
+    "executableRemoved": true,
+    "asarRemoved": true,
+    "uninstallerRemoved": true,
+    "runAppIdRemoved": true,
+    "legacyRunAbsent": true,
+    "shortcutRemoved": true,
+    "uninstallRegistrationRemoved": true,
+    "unknownFilePreserved": true,
+    "unknownFileSha256": "EC149C6F29DD292C296D63E6B3F3E0F36E3B5B9B97D36A89B27580743268033A"
+  },
+  "residual": {
+    "toastActivators": [
+      {
+        "clsid": "{B5051779-A11F-4603-BE81-C87C46CCB6C5}",
+        "localServer32": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+      },
+      {
+        "clsid": "{14AB9FD1-34ED-48E8-8F0C-906FA2009CFA}",
+        "localServer32": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+      }
+    ],
+    "count": 2,
+    "manualCleanupPerformed": false
+  },
+  "verdict": "REPAIR_TOAST_ACTIVATOR_RESIDUALS",
+  "personalDataAccessed": false,
+  "credentialContentRead": false
+}

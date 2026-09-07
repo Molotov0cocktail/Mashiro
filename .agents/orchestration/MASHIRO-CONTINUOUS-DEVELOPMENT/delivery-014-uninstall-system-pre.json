@@ -1,0 +1,65 @@
+{
+  "scope": "exact isolated Mashiro installation system state before/after uninstall",
+  "observedAt": "2026-09-08T00:31:41.9644256+08:00",
+  "phase": "pre",
+  "installDirectoryExists": true,
+  "executable": {
+    "exists": true,
+    "bytes": 245289984,
+    "sha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472"
+  },
+  "asar": {
+    "exists": true,
+    "bytes": 15431590,
+    "sha256": "7FDDAD7FDA3E7ED19E754FB9704B61B7AD1F0E0A9ECDF879AA41D836D30702BC"
+  },
+  "uninstaller": {
+    "exists": true,
+    "bytes": 138118,
+    "sha256": "50F65C4F7932821B8381D555F424C639923B3AB7D3664A291369C83C08E7B1E2"
+  },
+  "processIds": [],
+  "run": {
+    "appId": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+    "legacyName": null
+  },
+  "shortcut": {
+    "observedAt": "2026-09-08T00:31:41.9167324+08:00",
+    "shortcut": {
+      "path": "C:\\Users\\30910\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Mashiro.lnk",
+      "sha256": "27C625710CFA0BC0A185D0E1F58448267D5E9DE887AF5BA0731CEC19E3EFCF06",
+      "target": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+      "arguments": "",
+      "appUserModelId": "Mashiro.Desktop",
+      "toastActivatorClsid": "{14AB9FD1-34ED-48E8-8F0C-906FA2009CFA}"
+    },
+    "registration": {
+      "scope": "current-user",
+      "path": "Software\\Classes\\CLSID\\{14AB9FD1-34ED-48E8-8F0C-906FA2009CFA}\\LocalServer32",
+      "value": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+      "referencesCurrentExecutable": true
+    }
+  },
+  "toastActivator": {
+    "clsid": "{B5051779-A11F-4603-BE81-C87C46CCB6C5}",
+    "localServer32": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+  },
+  "toastActivators": [
+    {
+      "clsid": "{B5051779-A11F-4603-BE81-C87C46CCB6C5}",
+      "localServer32": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    },
+    {
+      "clsid": "{14AB9FD1-34ED-48E8-8F0C-906FA2009CFA}",
+      "localServer32": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    }
+  ],
+  "uninstallRegistration": {
+    "displayName": "Mashiro 0.1.0",
+    "displayVersion": "0.1.0",
+    "uninstallString": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Uninstall Mashiro.exe\" /currentuser",
+    "quietUninstallString": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Uninstall Mashiro.exe\" /currentuser /S"
+  },
+  "unrelatedRegistryValuesRead": false,
+  "personalDataAccessed": false
+}

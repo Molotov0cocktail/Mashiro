@@ -1,0 +1,30 @@
+{
+  "scope": "delivery-014-old-receipt-window-local-synthetic-helper-v2",
+  "helper": {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-old-receipt-window.mjs",
+    "sha256": "643706F896E29F1732387C246D69D06A4E8B7832BB392E84C44EE7878224DACB",
+    "bytes": 10991
+  },
+  "checks": {
+    "nodeSyntax": "PASS",
+    "scopedLint": "PASS",
+    "scopedFormat": "PASS",
+    "preparedOnly": {
+      "exitCode": 0,
+      "revision": "0b9328b5308a4042d3acb351c2cac9deafd29670",
+      "expectedSchema": 19,
+      "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "oldRequestId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+      "oldOperationId": "65f43282-9144-4d5c-b5fb-8577e5336f56",
+      "appendCount": 384,
+      "providerCalls": 0
+    }
+  },
+  "reviewRepairs": [
+    "After obtaining the production lease, lstat requires mashiro.sqlite to be a regular non-symlink and its native realpath must equal the expected database path.",
+    "A separate DatabaseSync read-only probe requires the already-present user_version to equal the final expected schema before SqliteStore can open; the helper cannot perform or stand in for installer migration.",
+    "Post-write integrity_check and foreign_key_check remain inside the seed transaction so either failure rolls back all 384 rows."
+  ],
+  "boundary": "PREPARED_ONLY checked the current scene, dataset, stopped process state, and existing Git revision. Revision 0b9328b does not contain schema 19 and is not execution-qualified. The helper was not run with --execute and did not open or modify the schema-18 database."
+}

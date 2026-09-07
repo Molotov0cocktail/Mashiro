@@ -11,8 +11,9 @@ import { migrateReminderNotifications } from '../reminder/reminder-notification-
 import { migrateRetainedProtocol } from '../provider/retained-protocol-schema.js'
 import { migrateProductionGovernance } from './production-governance-schema.js'
 import { migrateMemoryRound } from '../memory/memory-round-schema.js'
+import { migrateRetentionPolicy } from '../retention/retention-policy-schema.js'
 
-export const schemaVersion = 18
+export const schemaVersion = 19
 
 const requiredTables = [
   'assistants',
@@ -369,6 +370,7 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
   migrateRetainedProtocol(database)
   migrateProductionGovernance(database)
   migrateMemoryRound(database)
+  migrateRetentionPolicy(database)
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )

@@ -6,7 +6,9 @@ import {
   renameSync,
   openSync,
   fsyncSync,
-  closeSync
+  closeSync,
+  lstatSync,
+  watch
 } from 'node:fs'
 import { join } from 'node:path'
 import { z } from 'zod'
@@ -40,6 +42,8 @@ type FailureCode =
   | 'PERMISSION_DENIED'
   | 'INTEGRITY'
   | 'CONFLICT'
+  | 'CAPACITY_EXCEEDED'
+  | 'MEASUREMENT_UNKNOWN'
   | 'STORAGE_UNAVAILABLE'
 export class MemoryError extends Error {
   constructor(readonly code: FailureCode) {
@@ -62,6 +66,8 @@ const safeMessages: Record<FailureCode, string> = {
   PERMISSION_DENIED: '当前记忆、来源或接收方权限不允许此操作',
   INTEGRITY: '正文与接受版本不一致，已停止使用，请检查并重新载入',
   CONFLICT: '本轮已有不同记忆操作，请在新一轮继续',
+  CAPACITY_EXCEEDED: '持久区已达到容量上限；本次记忆未保存，可在保留与清理中调整上限或移出内容',
+  MEASUREMENT_UNKNOWN: '持久区有正文缺失或校验异常，无法确认剩余容量；本次增加未保存',
   STORAGE_UNAVAILABLE: '记忆存储暂不可用，未确认成功'
 }
 interface CommandRow {
@@ -86,6 +92,17 @@ export interface MemoryExecution {
   toolOperationId?: string
   commitReceipt?: (receipt: MemoryReceipt) => void
 }
+export interface MemoryRetentionPolicyGuard {
+  invalidateAudit(): void
+  assertTransition(previous: MemoryRecord | undefined, next: MemoryRecord, bodyBytes: number): void
+  recordTransition(
+    previous: MemoryRecord | undefined,
+    next: MemoryRecord,
+    bodyBytes: number,
+    bodyHash: string
+  ): void
+}
+
 interface MutationContext {
   assistantId: string
   commandId: string
@@ -95,6 +112,10 @@ interface MutationContext {
 
 /** All paths and accepted versions are derived on the trusted side. */
 export class MemoryService {
+  private retentionPolicy?: MemoryRetentionPolicyGuard
+  setRetentionPolicyGuard(policy: MemoryRetentionPolicyGuard | undefined): void {
+    this.retentionPolicy = policy
+  }
   private conflictLookup: (id: string) => string[] = () => []
   setConflictLookup(lookup: (id: string) => string[]): void {
     this.conflictLookup = lookup
@@ -329,6 +350,7 @@ export class MemoryService {
             )
             .run(value.assistantId, value.scope, current.endpointFingerprint, +value.receive)
       })
+      this.retentionPolicy?.invalidateAudit()
       this.changed()
       return this.permissionState(value.assistantId, value.scope)
     })
@@ -660,7 +682,11 @@ export class MemoryService {
       nature: write ? mutation.nature : target!.nature,
       event: write ? mutation.event : target!.event,
       state: ['delete', 'withdraw'].includes(mutation.action) ? 'suppressed' : 'active',
-      retention: ['delete', 'withdraw'].includes(mutation.action) ? 'trash' : 'persistent',
+      retention: ['delete', 'withdraw'].includes(mutation.action)
+        ? 'trash'
+        : mutation.action === 'restore'
+          ? 'persistent'
+          : (target?.retention ?? 'persistent'),
       createdAt: target?.createdAt ?? now,
       updatedAt: now,
       sources
@@ -708,6 +734,7 @@ export class MemoryService {
         for (const source of sources)
           if (this.withdrawn(source)) throw new MemoryError('PERMISSION_DENIED')
       }
+      this.retentionPolicy?.assertTransition(target, record, Buffer.byteLength(body, 'utf8'))
       this.store.database
         .prepare('INSERT INTO memory_versions VALUES(?,?,?,?,?)')
         .run(objectId, nextVersion, fileName, bodyHash, JSON.stringify(record))
@@ -759,6 +786,12 @@ export class MemoryService {
               .run(dependent.id)
         }
       }
+      this.retentionPolicy?.recordTransition(
+        target,
+        record,
+        Buffer.byteLength(body, 'utf8'),
+        bodyHash
+      )
       this.store.database.prepare('DELETE FROM memory_index WHERE object_id=?').run(objectId)
       if (record.state === 'active')
         this.store.database
@@ -784,6 +817,7 @@ export class MemoryService {
       this.fault?.('before-commit')
     })
     this.fault?.('after-commit')
+    if (mutation.action === 'withdraw') this.retentionPolicy?.invalidateAudit()
     // A new background object cannot invalidate an already selected source/version.
     // Corrections, removals and permission changes retain the existing revocation barrier.
     const createsBackgroundObject =
@@ -1348,6 +1382,84 @@ export class MemoryService {
       )
     }
   }
+  retentionIdentityForFile(fileName: string): string | null {
+    try {
+      if (!/^[a-f0-9-]+\.md$/.test(fileName)) return null
+      const stat = lstatSync(join(this.directory, fileName), { bigint: true })
+      if (!stat.isFile() || stat.isSymbolicLink()) return null
+      return [stat.dev, stat.ino, stat.size, stat.mtimeNs, stat.ctimeNs].join(':')
+    } catch {
+      return null
+    }
+  }
+
+  retentionIdentity(record: MemoryRecord): { fileName: string; identity: string } | null {
+    try {
+      const row = this.version(record)
+      const identity = this.retentionIdentityForFile(row.file_name)
+      return identity ? { fileName: row.file_name, identity } : null
+    } catch {
+      return null
+    }
+  }
+
+  watchRetentionFiles(listener: (fileName: string | null) => void): () => void {
+    try {
+      const watcher = watch(this.directory, { persistent: false }, (_event, fileName) =>
+        listener(typeof fileName === 'string' ? fileName : null)
+      )
+      return () => watcher.close()
+    } catch {
+      return () => undefined
+    }
+  }
+
+  retentionMeasurement(record: MemoryRecord): {
+    state: 'KNOWN' | 'UNKNOWN' | 'EXCLUDED'
+    bytes: number | null
+    bodyHash: string | null
+    fileName: string | null
+    fileIdentity: string | null
+  } {
+    if (
+      record.state !== 'active' ||
+      this.retired(record.id) ||
+      this.closure(record.sources).some((source) => this.withdrawn(source))
+    )
+      return { state: 'EXCLUDED', bytes: null, bodyHash: null, fileName: null, fileIdentity: null }
+    try {
+      const row = this.version(record)
+      const before = this.retentionIdentityForFile(row.file_name)
+      if (!before)
+        return {
+          state: 'UNKNOWN',
+          bytes: null,
+          bodyHash: row.body_hash,
+          fileName: row.file_name,
+          fileIdentity: null
+        }
+      const body = readFileSync(join(this.directory, row.file_name))
+      const after = this.retentionIdentityForFile(row.file_name)
+      if (before !== after || digest(body) !== row.body_hash)
+        return {
+          state: 'UNKNOWN',
+          bytes: null,
+          bodyHash: row.body_hash,
+          fileName: row.file_name,
+          fileIdentity: null
+        }
+      return {
+        state: 'KNOWN',
+        bytes: body.length,
+        bodyHash: row.body_hash,
+        fileName: row.file_name,
+        fileIdentity: after
+      }
+    } catch {
+      return { state: 'UNKNOWN', bytes: null, bodyHash: null, fileName: null, fileIdentity: null }
+    }
+  }
+
   rebuildIndex(): void {
     this.store.transaction(() => {
       this.store.database.exec('DELETE FROM memory_index')

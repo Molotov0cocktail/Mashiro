@@ -1,0 +1,47 @@
+{
+  "scope": "delivery-014-old-receipt-window-local-synthetic-helper",
+  "observedAt": "2026-09-08T02:24:43.1558643+08:00",
+  "helper": {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-old-receipt-window.mjs",
+    "sha256": "BEA7A29A031FEE1644598CFC860B7A8AF8FFA996FB3A1ED3FBC3EBC1BD49C7F1",
+    "bytes": 10408
+  },
+  "checks": [
+    {
+      "command": "node --check delivery-014-seed-old-receipt-window.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "eslint delivery-014-seed-old-receipt-window.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "prettier --check delivery-014-seed-old-receipt-window.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node delivery-014-seed-old-receipt-window.mjs --revision=0b9328b5308a4042d3acb351c2cac9deafd29670 --schema=19",
+      "exitCode": 0,
+      "result": "PREPARED_ONLY",
+      "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "oldRequestId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+      "oldOperationId": "65f43282-9144-4d5c-b5fb-8577e5336f56",
+      "appendCount": 384,
+      "providerCalls": 0
+    }
+  ],
+  "guards": [
+    "Exact scene marker and dataset ID",
+    "Exact frozen 40-character Git revision and git-show source bundle",
+    "No Mashiro.exe process before bundle, lease, and commit",
+    "Production data lease with loss detection",
+    "Expected schema, active assistant, integrity, and foreign keys",
+    "Existing real old request, operation ID, and SUCCEEDED state",
+    "Single transaction and deterministic request IDs preventing duplicate seeding",
+    "Only protocol_segments, tool_operations, and protocol_results may gain 384 rows",
+    "Unified/background/steward usage digest cannot change",
+    "Default 384 receipt window must exclude the unchanged real old operation"
+  ],
+  "boundary": "The helper was not executed with --execute and did not open or modify the schema-18 production database. Execution remains bound to the final reviewed revision and final migrated schema."
+}

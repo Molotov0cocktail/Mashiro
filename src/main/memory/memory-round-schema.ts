@@ -38,6 +38,6 @@ export function migrateMemoryRound(database: DatabaseSync): void {
       database.exec('ROLLBACK')
       throw error
     }
-  } else if (version !== 18) throw Error('MEMORY_ROUND_MIGRATION_VERSION')
+  } else if (version < 18) throw Error('MEMORY_ROUND_MIGRATION_VERSION')
   verifyMemoryRound(database)
 }

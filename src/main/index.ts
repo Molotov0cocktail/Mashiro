@@ -10,6 +10,7 @@ import { registerStewardIpc, emitStewardChanged } from './ipc/register-steward-i
 import { registerBackgroundIpc, emitBackgroundChanged } from './ipc/register-background-ipc.js'
 import { registerReminderIpc, emitReminderChanged } from './ipc/register-reminder-ipc.js'
 import { startReminderRuntime } from './reminder/reminder-runtime.js'
+import { ReminderNavigationBroker } from './reminder/reminder-navigation.js'
 import { registerItemIpc } from './ipc/register-item-ipc.js'
 import { registerRetentionIpc } from './ipc/register-retention-ipc.js'
 import { registerMemoryIpc } from './ipc/register-memory-ipc.js'
@@ -107,12 +108,29 @@ async function start(): Promise<void> {
       )
     }
   )
-  unregisterReminderIpc = registerReminderIpc(ipcMain, providerService.reminders, (event) => {
-    const call = event as IpcMainInvokeEvent
-    return (
-      !!BrowserWindow.fromWebContents(call.sender) && call.senderFrame === call.sender.mainFrame
-    )
-  })
+  const reminderNavigation = new ReminderNavigationBroker(
+    () => {
+      const result = assistantService?.list({ protocolVersion: 1 })
+      return result?.ok
+        ? { id: result.data.currentAssistantId, revision: result.data.stateRevision }
+        : { id: null, revision: -1 }
+    },
+    (delivery) =>
+      delivery.kind === 'open-reminders' ||
+      (!!delivery.itemId &&
+        providerService?.items.hasNavigableItem(delivery.assistantId, delivery.itemId) === true)
+  )
+  unregisterReminderIpc = registerReminderIpc(
+    ipcMain,
+    providerService.reminders,
+    reminderNavigation,
+    (event) => {
+      const call = event as IpcMainInvokeEvent
+      return (
+        !!BrowserWindow.fromWebContents(call.sender) && call.senderFrame === call.sender.mainFrame
+      )
+    }
+  )
   unregisterBackgroundIpc = registerBackgroundIpc(ipcMain, providerService.background, (event) => {
     const call = event as IpcMainInvokeEvent
     return (
@@ -164,11 +182,13 @@ async function start(): Promise<void> {
         app.quit()
       }
     })
-  reminderRuntime = startReminderRuntime(providerService.reminders, window, (event) =>
+  reminderRuntime = startReminderRuntime(providerService.reminders, window, (event) => {
+    const delivery = reminderNavigation.publish(event)
+    if (!delivery) return
     emitReminderChanged((channel, value) => {
       if (!window.isDestroyed()) window.webContents.send(channel, value)
-    }, event)
-  )
+    }, delivery)
+  })
   if (app.isPackaged && process.argv.includes('--mashiro-login')) window.hide()
   await runE2ePhase(
     window,

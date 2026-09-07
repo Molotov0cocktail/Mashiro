@@ -86,7 +86,8 @@ const comparisons = receipt.files.map((entry) => {
   }
 })
 const payloadFiles = walk(payload)
-const sourceFiles = walk(source)
+// Keep source validation side effects; the report uses the frozen backup-time observations.
+walk(source)
 const snapshot = JSON.parse(readFileSync(join(payload, '.mashiro-snapshot.json'), 'utf8'))
 const sourceDatabase = new DatabaseSync(join(source, 'mashiro.sqlite'), { readOnly: true })
 const payloadDatabase = new DatabaseSync(join(payload, 'mashiro.sqlite'), { readOnly: true })
@@ -112,17 +113,17 @@ const tableCounts = (database) =>
       )
     ])
   )
-const sourceCounts = tableCounts(sourceDatabase)
+tableCounts(sourceDatabase)
 const payloadCounts = tableCounts(payloadDatabase)
-const sourceIntegrity = integrity(sourceDatabase)
+integrity(sourceDatabase)
 const payloadIntegrity = integrity(payloadDatabase)
-const proposals = sourceDatabase
+sourceDatabase
   .prepare(
     'SELECT id,version,state,origin_assistant_id AS assistantId FROM item_proposals ORDER BY id'
   )
   .all()
   .map((row) => ({ ...row, version: Number(row.version) }))
-const reminders = sourceDatabase
+sourceDatabase
   .prepare('SELECT id,version,state,due_at AS dueAt FROM reminders ORDER BY id')
   .all()
   .map((row) => ({ ...row, version: Number(row.version) }))

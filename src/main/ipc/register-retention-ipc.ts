@@ -4,6 +4,8 @@ import {
   retentionChangedSchema,
   retentionJobsResultSchema,
   retentionOverviewResultSchema,
+  retentionPolicyPreviewResultSchema,
+  retentionPolicyResultSchema,
   retentionPreviewResultSchema,
   retentionReceiptResultSchema
 } from '../../shared/retention-contract.js'
@@ -24,7 +26,11 @@ export function registerRetentionIpc(
     preview: retentionPreviewResultSchema,
     confirm: retentionReceiptResultSchema,
     jobs: retentionJobsResultSchema,
-    retry: retentionReceiptResultSchema
+    retry: retentionReceiptResultSchema,
+    policy: retentionPolicyResultSchema,
+    previewPolicy: retentionPolicyPreviewResultSchema,
+    configurePolicy: retentionPolicyResultSchema,
+    runPolicy: retentionPolicyResultSchema
   } satisfies Record<keyof typeof retentionChannels, ZodType>
   for (const method of Object.keys(methods) as (keyof typeof methods)[])
     ipc.handle(retentionChannels[method], async (event, input) => {

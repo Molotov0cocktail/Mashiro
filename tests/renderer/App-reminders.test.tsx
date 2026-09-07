@@ -94,11 +94,36 @@ describe('App reminder navigation', () => {
 
     render(<App />)
     await waitFor(() => expect(reminders.onChanged).toHaveBeenCalledTimes(1))
-    await act(async () => changed({ kind: 'open-reminders', itemId: null }))
+    await act(async () =>
+      changed({
+        kind: 'open-item',
+        itemId,
+        deliveryId: '00000000-0000-4000-8000-000000000099'
+      })
+    )
+    expect(screen.getByRole('tab', { name: '对话' })).toHaveAttribute('aria-selected', 'true')
+
+    await act(async () =>
+      changed({
+        kind: 'open-reminders',
+        itemId: null,
+        deliveryId: '00000000-0000-4000-8000-000000000003',
+        assistantId: itemAssistantA,
+        assistantRevision: 1
+      })
+    )
     expect(screen.getByRole('tab', { name: '提醒' })).toHaveAttribute('aria-selected', 'true')
     expect(await screen.findByRole('region', { name: '提醒' })).toBeInTheDocument()
 
-    await act(async () => changed({ kind: 'open-item', itemId }))
+    await act(async () =>
+      changed({
+        kind: 'open-item',
+        itemId,
+        deliveryId: '00000000-0000-4000-8000-000000000004',
+        assistantId: itemAssistantA,
+        assistantRevision: 1
+      })
+    )
     expect(screen.getByRole('tab', { name: '事项' })).toHaveAttribute('aria-selected', 'true')
     await waitFor(() =>
       expect(items.inspect).toHaveBeenCalledWith({
@@ -113,5 +138,6 @@ describe('App reminder navigation', () => {
       protocolVersion: 1,
       assistantId: itemAssistantA
     })
+    await waitFor(() => expect(reminders.ackNavigation).toHaveBeenCalledTimes(2))
   })
 })

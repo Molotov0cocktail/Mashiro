@@ -16,6 +16,10 @@ import {
   retentionOverviewInputSchema,
   retentionPreviewInputSchema,
   retentionRetryInputSchema,
+  retentionPolicyInputSchema,
+  retentionPolicyPreviewInputSchema,
+  retentionPolicyConfigureInputSchema,
+  retentionPolicyRunInputSchema,
   type RetentionChanged,
   type RetentionIntent,
   type RetentionJob,
@@ -23,6 +27,7 @@ import {
   type RetentionReceipt
 } from '../../shared/retention-contract.js'
 import { retentionEpoch } from './retention-schema.js'
+import { RetentionPolicyError, RetentionPolicyService } from './retention-policy-service.js'
 
 type Code =
   | 'INVALID_INPUT'
@@ -32,6 +37,8 @@ type Code =
   | 'DEPENDENCY_BLOCKED'
   | 'NOT_RECOVERABLE'
   | 'CONFLICT'
+  | 'CAPACITY_EXCEEDED'
+  | 'MEASUREMENT_UNKNOWN'
   | 'STORAGE_UNAVAILABLE'
 class RetentionError extends Error {
   constructor(readonly code: Code) {
@@ -92,19 +99,28 @@ export class RetentionService {
   private readonly listeners = new Set<(event: RetentionChanged) => void>()
   private stopped = false
   private running = false
+  private readonly policyService: RetentionPolicyService
   constructor(
     private readonly store: SqliteStore,
     private readonly directory: string,
     private readonly memory: MemoryService,
     private readonly changed: (event: RetentionChanged) => void = () => undefined,
     private readonly deps: RetentionDependencies = dependencies,
-    private readonly fault?: (phase: string) => void
+    private readonly fault?: (phase: string) => void,
+    clock: () => Date = () => new Date()
   ) {
     this.store.database
       .prepare(
         "UPDATE retention_jobs SET state='CLEANUP_PENDING' WHERE state IN('CLEANING','FAILED_RETRYABLE')"
       )
       .run()
+    this.policyService = new RetentionPolicyService(
+      this.store,
+      this.memory,
+      (event) => this.emit(event),
+      clock
+    )
+    this.memory.setRetentionPolicyGuard(this.policyService)
     this.schedule()
   }
   get epoch(): number {
@@ -116,10 +132,12 @@ export class RetentionService {
   }
   close(): void {
     this.stopped = true
+    this.policyService.close()
+    this.memory.setRetentionPolicyGuard(undefined)
     this.listeners.clear()
   }
   private emit(event: RetentionChanged): void {
-    if (event.reason !== 'job-status') {
+    if (event.reason !== 'job-status' && event.reason !== 'policy-status') {
       event = {
         ...event,
         assistantIds: (
@@ -136,10 +154,11 @@ export class RetentionService {
     run: (value: z.infer<T>) => R | Promise<R>
   ) {
     try {
+      if (this.stopped) throw new RetentionError('STORAGE_UNAVAILABLE')
       return { ok: true as const, data: await run(schema.parse(input)) }
     } catch (error) {
       const code: Code =
-        error instanceof RetentionError
+        error instanceof RetentionError || error instanceof RetentionPolicyError
           ? error.code
           : error instanceof z.ZodError
             ? 'INVALID_INPUT'
@@ -156,6 +175,8 @@ export class RetentionService {
             DEPENDENCY_BLOCKED: '尚有未完成依赖，未执行清理',
             NOT_RECOVERABLE: '原文已清除、来源已撤回或原助手已删除，不能恢复',
             CONFLICT: '命令身份与原操作不一致',
+            CAPACITY_EXCEEDED: '持久区容量已满，本次增加未执行',
+            MEASUREMENT_UNKNOWN: '持久区计量不完整，本次增加未执行',
             STORAGE_UNAVAILABLE: '治理存储暂不可用，尚未确认完成'
           }[code]
         }
@@ -224,26 +245,21 @@ export class RetentionService {
       const zones = (['persistent', 'staging', 'trash'] as const).map((zone) => ({
         zone,
         objects: 0,
-        acceptedBytes: 0
+        acceptedBytes: 0,
+        measurement: 'COMPLETE' as 'COMPLETE' | 'UNKNOWN',
+        unknownObjects: 0
       }))
       for (const record of await this.records()) {
         if (record.scope === 'assistant' && record.ownerAssistantId !== value.assistantId) continue
         if (this.tombstone('memory', record.id)) continue
-        const zone = zones.find((zone) => zone.zone === record.retention)!
+        const zone = zones.find((item) => item.zone === record.retention)!
         zone.objects++
-        const row = this.store.database
-          .prepare(
-            'SELECT file_name,body_hash FROM memory_versions WHERE object_id=? AND version=?'
-          )
-          .get(record.id, record.objectVersion) as
-          { file_name: string; body_hash: string } | undefined
-        if (row)
-          try {
-            const bytes = await readFile(await this.safePath(row.file_name))
-            if (hash(bytes) === row.body_hash) zone.acceptedBytes += bytes.length
-          } catch {
-            /* Damaged or absent files are not accepted bytes. */
-          }
+        const measurement = this.memory.retentionMeasurement(record)
+        if (measurement.state === 'KNOWN') zone.acceptedBytes += measurement.bytes!
+        else if (measurement.state === 'UNKNOWN') {
+          zone.measurement = 'UNKNOWN'
+          zone.unknownObjects++
+        }
       }
       let managedFileBytes = 0
       for (const name of await readdir(this.directory))
@@ -268,74 +284,154 @@ export class RetentionService {
         } catch {
           /* A sidecar may not exist. */
         }
-      return {
-        epoch: this.epoch,
-        zones,
-        managedFileBytes,
-        databaseBytes,
-        automaticPolicy: 'UNCONFIGURED' as const
-      }
+      const policy = this.policyService.snapshot()
+      const automaticPolicy = policy.restoredPaused
+        ? ('RESTORED_PAUSED' as const)
+        : policy.settings.persistentCapacity.enabled && policy.settings.stagingExpiry.enabled
+          ? ('ACTIVE' as const)
+          : policy.settings.persistentCapacity.enabled || policy.settings.stagingExpiry.enabled
+            ? ('PARTIAL' as const)
+            : ('DISABLED' as const)
+      return { epoch: this.epoch, zones, managedFileBytes, databaseBytes, automaticPolicy }
     })
   }
+
+  async policy(input: unknown) {
+    return this.handle(retentionPolicyInputSchema, input, (value) => {
+      this.assistant(value.assistantId, true)
+      return this.policyService.snapshot()
+    })
+  }
+
+  async previewPolicy(input: unknown) {
+    return this.handle(retentionPolicyPreviewInputSchema, input, (value) => {
+      this.assistant(value.assistantId)
+      return this.policyService.preview(value.assistantId, value.expectedRevision, value.settings)
+    })
+  }
+
+  async configurePolicy(input: unknown) {
+    return this.handle(retentionPolicyConfigureInputSchema, input, (value) => {
+      this.assistant(value.assistantId)
+      return this.policyService.configure(
+        value.assistantId,
+        value.commandId,
+        value.expectedRevision,
+        value.previewId,
+        value.settings
+      )
+    })
+  }
+
+  async runPolicy(input: unknown) {
+    return this.handle(retentionPolicyRunInputSchema, input, async (value) => {
+      this.assistant(value.assistantId)
+      return this.policyService.run(value.expectedRevision)
+    })
+  }
+
   async move(input: unknown) {
     return this.handle(retentionMoveInputSchema, input, async (value) => {
-      const intentHash = hash(JSON.stringify(value)),
-        prior = this.prior(value.commandId, value.assistantId, intentHash)
+      const intentHash = hash(JSON.stringify(value))
+      const prior = this.prior(value.commandId, value.assistantId, intentHash)
       if (prior) return prior
       this.assistant(value.assistantId)
-      const current = this.owned(value.assistantId, value.id)
-      if (this.epoch !== value.expectedEpoch || current.objectVersion !== value.expectedVersion)
+      const selected = this.owned(value.assistantId, value.id)
+      const selectedPolicyRevision = this.policyService.revision
+      if (
+        this.epoch !== value.expectedEpoch ||
+        selected.objectVersion !== value.expectedVersion ||
+        selected.retention === value.zone
+      )
         throw new RetentionError('STALE_PREVIEW')
-      if (this.tombstone('memory', current.id) || current.state === 'suppressed')
+      if (this.tombstone('memory', selected.id) || selected.state === 'suppressed')
         throw new RetentionError('NOT_RECOVERABLE')
-      // Restoration is a new CAS transition; no source withdrawal is ever undone.
       if (
         value.zone !== 'trash' &&
-        this.closure(current.sources).some((source) => this.withdrawn(source))
+        this.closure(selected.sources).some((source) => this.withdrawn(source))
       )
         throw new RetentionError('NOT_RECOVERABLE')
-      const row = this.store.database
+      const selectedVersion = this.store.database
         .prepare('SELECT file_name,body_hash FROM memory_versions WHERE object_id=? AND version=?')
-        .get(current.id, current.objectVersion) as { file_name: string; body_hash: string }
-      const bytes = await readFile(await this.safePath(row.file_name))
-      if (hash(bytes) !== row.body_hash) throw new RetentionError('NOT_RECOVERABLE')
+        .get(selected.id, selected.objectVersion) as
+        { file_name: string; body_hash: string } | undefined
+      if (!selectedVersion) throw new RetentionError('NOT_RECOVERABLE')
+      const bytes = await readFile(await this.safePath(selectedVersion.file_name))
+      if (hash(bytes) !== selectedVersion.body_hash) throw new RetentionError('NOT_RECOVERABLE')
       const receipt = this.store.transaction(() => {
-        if (this.epoch !== value.expectedEpoch) throw new RetentionError('STALE_PREVIEW')
+        const currentRow = this.store.database
+          .prepare('SELECT version,record_json FROM memory_objects WHERE id=?')
+          .get(value.id) as { version: number; record_json: string } | undefined
+        if (
+          this.epoch !== value.expectedEpoch ||
+          this.policyService.revision !== selectedPolicyRevision ||
+          !currentRow ||
+          currentRow.version !== value.expectedVersion
+        )
+          throw new RetentionError('STALE_PREVIEW')
+        const current = memoryRecordSchema.parse(JSON.parse(currentRow.record_json))
+        if (
+          current.objectVersion !== selected.objectVersion ||
+          current.retention !== selected.retention ||
+          current.retention === value.zone
+        )
+          throw new RetentionError('STALE_PREVIEW')
+        const version = this.store.database
+          .prepare(
+            'SELECT file_name,body_hash FROM memory_versions WHERE object_id=? AND version=?'
+          )
+          .get(current.id, current.objectVersion) as
+          { file_name: string; body_hash: string } | undefined
+        if (
+          !version ||
+          version.file_name !== selectedVersion.file_name ||
+          version.body_hash !== selectedVersion.body_hash
+        )
+          throw new RetentionError('STALE_PREVIEW')
         const next = {
           ...current,
           objectVersion: current.objectVersion + 1,
           retention: value.zone,
           updatedAt: new Date().toISOString()
         }
+        this.policyService.assertTransition(current, next, bytes.length)
         this.store.database
           .prepare('UPDATE retention_state SET generation=generation+1 WHERE singleton=1')
           .run()
         this.store.database
           .prepare('INSERT INTO memory_versions VALUES(?,?,?,?,?)')
-          .run(current.id, next.objectVersion, row.file_name, row.body_hash, JSON.stringify(next))
-        this.store.database
-          .prepare('UPDATE memory_objects SET version=?,record_json=? WHERE id=?')
-          .run(next.objectVersion, JSON.stringify(next), current.id)
+          .run(
+            current.id,
+            next.objectVersion,
+            version.file_name,
+            version.body_hash,
+            JSON.stringify(next)
+          )
+        const updated = this.store.database
+          .prepare('UPDATE memory_objects SET version=?,record_json=? WHERE id=? AND version=?')
+          .run(next.objectVersion, JSON.stringify(next), current.id, current.objectVersion)
+        if (updated.changes !== 1) throw new RetentionError('STALE_PREVIEW')
         this.memory.addDependencies('memory', current.id, next.objectVersion, current.sources)
         this.store.database
           .prepare(
             'INSERT INTO retained_source_edges SELECT object_id,?,source_type,source_id,source_version,source_assistant,recipients_json,epoch FROM retained_source_edges WHERE object_id=? AND object_version=?'
           )
           .run(next.objectVersion, current.id, current.objectVersion)
+        this.policyService.recordTransition(current, next, bytes.length, version.body_hash)
         this.store.database.prepare('DELETE FROM memory_index WHERE object_id=?').run(current.id)
         if (value.zone !== 'trash')
           this.store.database
             .prepare('INSERT INTO memory_index VALUES(?,?,?,?)')
             .run(current.id, next.objectVersion, next.title, bytes.toString('utf8'))
-        const receipt: RetentionReceipt = {
+        const result: RetentionReceipt = {
           commandId: value.commandId,
           epoch: this.epoch,
           jobId: null,
           state: 'MOVED',
           objectVersion: next.objectVersion
         }
-        this.saveReceipt(value.assistantId, intentHash, receipt)
-        return receipt
+        this.saveReceipt(value.assistantId, intentHash, result)
+        return result
       })
       this.emit({
         epoch: receipt.epoch,
@@ -1093,12 +1189,14 @@ export class RetentionService {
         this.store.database
           .prepare("INSERT OR IGNORE INTO memory_suppressions VALUES(?,?,1,'withdrawal',?)")
           .run(type, id, id)
+    this.policyService.invalidateAudit()
   }
   private purgeAssistant(id: string, replacement: string | null): void {
     this.deps.purgeAssistant?.(id)
     this.store.database
       .prepare('UPDATE retention_state SET epoch=epoch+1,generation=generation+1 WHERE singleton=1')
       .run()
+    this.policyService.invalidateAudit()
     this.store.database.prepare('INSERT INTO assistant_tombstones VALUES(?,?)').run(id, this.epoch)
     this.store.database
       .prepare(

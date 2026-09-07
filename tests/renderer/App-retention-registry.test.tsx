@@ -7,6 +7,7 @@ import type { MemoryApi } from '../../src/shared/memory-contract'
 import type { RetentionApi, RetentionChanged } from '../../src/shared/retention-contract'
 import type { TimelineApi } from '../../src/shared/timeline-contract'
 import { memoryApi008Defaults } from './memory-api-fixture'
+import { retentionPolicyApi009Defaults } from './retention-api-fixture'
 import { providerApi007Defaults } from './provider-api-fixture'
 import { timelineApi006Defaults } from './timeline-api-fixture'
 
@@ -49,18 +50,37 @@ describe('App retention command registry', () => {
       archive: vi.fn()
     } as AssistantApi
     const retention = {
+      ...retentionPolicyApi009Defaults(),
       overview: vi.fn(async () => ({
         ok: true as const,
         data: {
           epoch: 1,
           zones: [
-            { zone: 'persistent' as const, objects: 0, acceptedBytes: 0 },
-            { zone: 'staging' as const, objects: 0, acceptedBytes: 0 },
-            { zone: 'trash' as const, objects: 0, acceptedBytes: 0 }
+            {
+              zone: 'persistent' as const,
+              objects: 0,
+              acceptedBytes: 0,
+              measurement: 'COMPLETE' as const,
+              unknownObjects: 0
+            },
+            {
+              zone: 'staging' as const,
+              objects: 0,
+              acceptedBytes: 0,
+              measurement: 'COMPLETE' as const,
+              unknownObjects: 0
+            },
+            {
+              zone: 'trash' as const,
+              objects: 0,
+              acceptedBytes: 0,
+              measurement: 'COMPLETE' as const,
+              unknownObjects: 0
+            }
           ],
           managedFileBytes: 0,
           databaseBytes: 0,
-          automaticPolicy: 'UNCONFIGURED' as const
+          automaticPolicy: 'ACTIVE' as const
         }
       })),
       move: vi.fn(),

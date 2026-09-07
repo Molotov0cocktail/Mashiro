@@ -1,8 +1,13 @@
 # 009 保留、原文清理、恢复与删除完成
 
-- TASK = 009；状态 = ACTIVE / POLICY_IMPLEMENTING（MANUAL_CORE PASS保留）；PROGRAM ACTIVE。
+- TASK = 009；状态 = ACTIVE / POLICY_SOURCE_VERIFIED（MANUAL_CORE PASS保留）；PROGRAM ACTIVE。
+- 当前最终：v4的48路径已冻结，独立事件修复7文件22tests通过；[root完整整合](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-root-final-verification-v4.md)206文件850tests中842通过/0失败/8项独立实验跳过，静态/build和两PID Electron原6→0通过。最终安装态仍待014，PROGRAM ACTIVE。
+- 历史v2：43路径已冻结，独立[原25,599对象副本实测](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-v2-batched-copy-result-01.json)constructor38.7ms、初次快照13.7ms、批审计60.49s且批间让出执行、最终快照122.8ms、真实新增至100MiB649.6ms；审计期间UNKNOWN/PENDING可见。每20项事务和最后对象占额清理修复已有独立证据；冻结候选已获[Astra独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-v2-final-pass.md)，15文件59tests；全域整合的同轮纠正接缝仍在核查，尚非最终安装态PASS。下条失败与诊断记录保留为先前阶段，不代表修复前结果已通过。
+- 2026-09-08 当前增量：RET-007 已按用户确认实施100 MiB/90天可调或关闭、垃圾不自动永久清空。v1功能反例已有独立证据，但[100 MiB实测阻塞](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-performance-repair-contract.md)要求修复；v2改增量账本与分批审计，独立[大样本首次复测](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-review-v2-default-copy-run-01.json)实际AUDIT_TIMEOUT，正在诊断逐对象事务开销并改批事务，不以延长超时替代修复。最后对象删除的旧占额残留也已被独立反例发现并进入修复；最终候选、性能、整合与安装态资格尚待，不沿用手动核心PASS冒称策略完成。
 - 编号已核对未占用。008已独立FINAL PASS，当前产品任务为本009；基线产品`cc9c729cd5b65597049f988c41e3def97fcb0515`、归档HEAD`c6a3363bd923be7ad540ce7e0502fb35aa06bd6b`均复核同步双remote，唯一入口为[progress](progress.md)。本任务承接总清单Q6和A07、E01–E06，不是程序停止点。
 - 来源：proposal §3.3/4及集中决议，high-level-design §7，detailed-design RET-001–007、MEM-003、AST-006、EXEC-002–004。008提供即时抑制和跨资源提交；本任务完成保留、原文/旧版本/协议副本的实际清理及恢复。
+
+2026-09-08 后续Electron揭示新产品回归：只读审计完成的 `policy` 事件进入原撤权回调，清空临时会话/取消请求。原源码限定PASS范围不扩展为此行为通过；实施者分离状态通知与真实治理撤权，独立审核保留临时对话连续性、在途回答及实际expiry撤权断言。原生命周期6条临时消息预期不修改为0。
 
 ## 用户闭环
 

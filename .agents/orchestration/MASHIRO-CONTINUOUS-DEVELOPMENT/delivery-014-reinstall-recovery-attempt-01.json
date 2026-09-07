@@ -1,0 +1,55 @@
+{
+  "scope": "isolated Mashiro reinstall recovery after first launch",
+  "observedAt": "2026-09-08T00:53:14.8494743+08:00",
+  "process": {
+    "pid": 215224,
+    "hwnd": {
+      "value": 65866966
+    },
+    "executableSha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472"
+  },
+  "data": {
+    "selectedPath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+    "selectedPathVisible": true,
+    "baselineEvidence": {
+      "path": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-uninstall-data-post.json",
+      "sha256": "83586F16B955165570FE8A13BA91A83FDFD159A00EE29FAE07302638DD2BC717",
+      "schemaVersion": 18,
+      "fileCount": 16
+    },
+    "currentFileCount": 16,
+    "fileDifferences": [
+      {
+        "path": "mashiro.sqlite",
+        "before": {
+          "bytes": 835584,
+          "sha256": "4C1961EA4913CAC37AF67105BF927315CDD01FF4B6205960E0D4F452DB8A0CDD"
+        },
+        "after": {
+          "bytes": 835584,
+          "sha256": null
+        }
+      }
+    ],
+    "exactFileSetAndHashesPreserved": false
+  },
+  "ui": {
+    "expectedRecipientVisible": true,
+    "protectedCredentialStatusVisible": true,
+    "syntheticProviderMemoryUserTurnVisible": true,
+    "syntheticProviderMemoryReceiptVisible": true,
+    "fullFeatureNavigationVisible": true
+  },
+  "login": {
+    "runValue": null,
+    "restored": false
+  },
+  "shortcut": {
+    "target": null,
+    "appUserModelId": null,
+    "toastActivatorClsid": null
+  },
+  "providerRequestsIssuedByThisVerification": 0,
+  "credentialContentRead": false,
+  "personalDataAccessed": false
+}

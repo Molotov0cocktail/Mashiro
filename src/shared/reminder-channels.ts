@@ -8,3 +8,7 @@ export const reminderChannels = {
   configure: 'reminders:configure'
 } as const
 export const reminderChangedChannel = 'reminders:changed'
+export const reminderNavigationChannels = {
+  pending: 'reminders:navigation:pending',
+  ack: 'reminders:navigation:ack'
+} as const

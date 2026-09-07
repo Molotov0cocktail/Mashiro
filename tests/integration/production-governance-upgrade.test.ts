@@ -12,6 +12,7 @@ import { anchorFor } from '../../src/main/data/production-governance-lifecycle.j
 import { readGovernanceBaseline } from '../../src/main/data/production-governance-connection.js'
 import { prepareProductionData } from '../../src/main/data/production-prepare.js'
 import { authorizeProductionGovernanceMigration } from '../../src/main/data/production-governance-migration.js'
+import { removeRetentionPolicyFixture } from './governance-legacy-fixture.js'
 
 it('real prepare upgrades a governed schema17 with a durable new instance anchor and unchanged old backup', async () => {
   const root = mkdtempSync(join(realpathSync.native(tmpdir()), 'mashiro-governance-upgrade-'))
@@ -23,6 +24,7 @@ it('real prepare upgrades a governed schema17 with a durable new instance anchor
     data,
     (path) => {
       const store = new SqliteStore(path)
+      removeRetentionPolicyFixture(store.database)
       store.database.exec('DROP TABLE memory_round_evidence; PRAGMA user_version=17')
       store.close()
     },
@@ -33,14 +35,19 @@ it('real prepare upgrades a governed schema17 with a durable new instance anchor
     const index = new ProductionGovernanceIndex(config, lease),
       path = join(data, 'mashiro.sqlite')
     const raw = new DatabaseSync(path)
-    const beforeAnchor = anchorFor(path, raw)
-    const journal = index.initialize(
-      initialized.manifest.dataSetId,
-      data,
-      beforeAnchor,
-      readGovernanceBaseline(raw)
-    )
-    raw.close()
+    let beforeAnchor!: ReturnType<typeof anchorFor>
+    let journal!: ReturnType<ProductionGovernanceIndex['initialize']>
+    try {
+      beforeAnchor = anchorFor(path, raw)
+      journal = index.initialize(
+        initialized.manifest.dataSetId,
+        data,
+        beforeAnchor,
+        readGovernanceBaseline(raw)
+      )
+    } finally {
+      raw.close()
+    }
     const before = readFileSync(path)
     const result = await prepareProductionData({
       dataDirectory: data,
@@ -58,7 +65,7 @@ it('real prepare upgrades a governed schema17 with a durable new instance anchor
         )
       }
     })
-    expect(result).toMatchObject({ state: 'MIGRATED', fromVersion: 17, toVersion: 18 })
+    expect(result).toMatchObject({ state: 'MIGRATED', fromVersion: 17, toVersion: 19 })
     expect(readFileSync(join(result.backupDirectory!, 'payload', 'mashiro.sqlite'))).toEqual(before)
     const after = new SqliteStore(path)
     try {

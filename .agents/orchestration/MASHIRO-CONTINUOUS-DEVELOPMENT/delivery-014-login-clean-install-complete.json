@@ -1,0 +1,13 @@
+{
+  "scope": "approved clean installer completed over synthetic installation",
+  "observedAt": "2026-09-08T00:18:39.5115650+08:00",
+  "installerPid": 211768,
+  "installerExited": true,
+  "mashiroProcessIds": [],
+  "executableSha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472",
+  "asarSha256": "7FDDAD7FDA3E7ED19E754FB9704B61B7AD1F0E0A9ECDF879AA41D836D30702BC",
+  "uninstallerSha256": "50F65C4F7932821B8381D555F424C639923B3AB7D3664A291369C83C08E7B1E2",
+  "runAppId": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+  "dataRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+  "personalDataAccessed": false
+}

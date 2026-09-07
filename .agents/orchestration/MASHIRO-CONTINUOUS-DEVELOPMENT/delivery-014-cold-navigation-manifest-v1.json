@@ -1,0 +1,122 @@
+{
+  "candidate": "delivery-014-cold-navigation-v1",
+  "status": "CODE_AND_LOCAL_SCOPE_READY_FOR_INDEPENDENT_REVIEW",
+  "generatedAt": "2026-09-07T16:09:02.8796119Z",
+  "files": [
+    {
+      "path": "src/shared/reminder-contract.ts",
+      "sha256": "AE7C6C5EBCD1E528511DEC52FAF04766C2F157C5E7155C59CEF809A465F1DED8"
+    },
+    {
+      "path": "src/shared/reminder-channels.ts",
+      "sha256": "47224B5C2ECFBF36E79D6E3198D444C6CA4F91923B1B48688CBA4B1C46E56C40"
+    },
+    {
+      "path": "src/main/reminder/reminder-navigation.ts",
+      "sha256": "3ED59919F5D3FC8DE42B96E5D8E3351E63103F5C23F7DD82F5F43AFA2D894858"
+    },
+    {
+      "path": "src/main/ipc/register-reminder-ipc.ts",
+      "sha256": "43BAE44D5C0DFD9F237AB098728348899F88BC1F07D82A5D28E009C17178E602"
+    },
+    {
+      "path": "src/main/index.ts",
+      "sha256": "D8D56D1B41646F9765FEC65AA034EE1EDF5BBD6A90D9DCDE25188E982ACF82D6"
+    },
+    {
+      "path": "src/preload/index.ts",
+      "sha256": "CB6894A0140F7FD71F03B3FF6D6B4BB588099FABFFD2F3909E82050A3BE1F55B"
+    },
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "DC5445F2CD9D34E40B5A582595967714B76930326D08ACBD9236675485E56F12"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "A76AF30304546CE3C966756C648FFF716E928DC1489665E80459598DCA0346DB"
+    },
+    {
+      "path": "src/main/item/item-service.ts",
+      "sha256": "72CCC0A4165DD069ACE122422A59D25F8AD59FD9885E94ABB4255B4FB1CD6F10"
+    },
+    {
+      "path": "tests/renderer/reminder-api-fixture.ts",
+      "sha256": "C4F7E6E86755E51CABE15EF2537DCB0C680A75CA83E533FE014E49F41963F950"
+    },
+    {
+      "path": "tests/renderer/review014-cold-activation-delivery.test.tsx",
+      "sha256": "F800CEC071A940887D628F15561C90616DAAB6AE68D89C32EF71F629955805A8"
+    },
+    {
+      "path": "tests/renderer/App-reminders.test.tsx",
+      "sha256": "76B1A681603781E0C0804F84D6A73F0742B94AD3BF35306F1FB34AA53E828E3E"
+    },
+    {
+      "path": "tests/unit/reminder-navigation.test.ts",
+      "sha256": "9E2FBF5ADD3C518F3BDDF0286DC28E45E3F89EA8E85F27820EBD755C32C7EFAE"
+    },
+    {
+      "path": "tests/unit/reminder-boundaries.test.ts",
+      "sha256": "CE56F52BA03265B2419FBD6822CD15D469604FA5629EDBF3AA656681576FA143"
+    },
+    {
+      "path": "tests/integration/reminder-approved-default-independent.test.ts",
+      "sha256": "7E529A1E203BC39464C1D18882C330EB25D89CE44DBCD8D801E00B7B13C14B42"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "009F9331F10855A9E7727E306036BF8DDCF0FF5DD41AA083874E9FCEEBDF801F"
+    },
+    {
+      "path": "tests/integration/item-navigation-validity.test.ts",
+      "sha256": "5365335C857EF86C4F24BCB79B0DA2EA9385FD7EE98D098DDEE696F90397CB56"
+    },
+    {
+      "path": "tests/renderer/review014-cold-generation.test.tsx",
+      "sha256": "3576F1684F2E231644FE4B2D9BDB868D73A03641AB1DA552411EE47ED92CA692"
+    },
+    {
+      "path": "tests/unit/review014-cold-ack-scope.test.ts",
+      "sha256": "D906002B4D174728739DDAA5DDA20BC2D33709BFEF7A03389B6605C6416183F4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-cold-navigation-tests-01.json",
+      "sha256": "8D580CE5DA07D5C04847FBA42FD9EC328940DE7142414C0DFBBA9EA12C077A19"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-cold-navigation-handoff.md",
+      "sha256": "02C232E2E9BBA9953A5B71AFB4AEEAECFE0B62FF5DD1D4E8E017221F5C09D434"
+    }
+  ],
+  "crossSlice": [
+    "src/preload/index.ts includes the four frozen RET policy invokes; retention business behavior is outside this candidate.",
+    "The two review014 cold oracle files retain the independent assertions; only strict contract fields/import suffix were adapted."
+  ],
+  "validation": {
+    "focusedTests": {
+      "files": 9,
+      "tests": 40,
+      "exitCode": 0,
+      "evidence": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-cold-navigation-tests-01.json"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    "scopedEslint": {
+      "exitCode": 0
+    },
+    "scopedPrettier": {
+      "exitCode": 0
+    },
+    "scopedDiffCheck": {
+      "exitCode": 0
+    }
+  },
+  "boundaries": [
+    "No packaged artifact contains this repair yet.",
+    "No packaged native cold-activation rerun was performed for this source candidate.",
+    "Main-process crash loses the in-memory pending delivery; a subsequent valid notification activation creates a fresh delivery.",
+    "COM activation evidence is not a physical notification-center click."
+  ]
+}

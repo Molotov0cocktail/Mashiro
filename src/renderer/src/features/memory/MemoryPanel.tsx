@@ -72,6 +72,8 @@ function memoryError(result: { error: { code: string; message: string } }): stri
     PERMISSION_DENIED: '当前领域授权不允许此操作',
     INTEGRITY: '正文完整性校验失败，已阻止读取或写入',
     CONFLICT: '同一操作位置已有不同业务操作',
+    CAPACITY_EXCEEDED: '持久记忆正文已达到容量上限；普通对话仍可继续',
+    MEASUREMENT_UNKNOWN: '部分持久记忆正文无法可靠计量；新增容量已暂停',
     STORAGE_UNAVAILABLE: '本地记忆存储暂时不可用'
   }
   return (prefix[result.error.code] ?? '操作失败') + '：' + result.error.message

@@ -1,0 +1,10 @@
+{"outcome":"E2E_FAILURE_RETAINED","runId":"2269677e-f54f-48af-a881-6ccbd54a7fd0","syntheticRoot":"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-YGGume"}
+file:///D:/Mashiro/scripts/electron-f1-harness.mjs:146
+    throw new Error('Electron stage ' + failure.stage + ' failed: ' + failure.code)
+          ^
+
+Error: Electron stage seed-core failed: FAILED
+    at file:///D:/Mashiro/scripts/electron-f1-harness.mjs:146:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.18.0

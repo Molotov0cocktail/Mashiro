@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { AssistantSnapshot } from '../../shared/assistant-contract'
 import type { ItemApi, ItemPermissions } from '../../shared/item-contract'
+import type { ReminderApi, ReminderNavigationDelivery } from '../../shared/reminder-contract'
 import type {
   RetentionChanged,
   RetentionIntent,
@@ -86,12 +87,15 @@ export function App(): React.JSX.Element {
     id: string
     nonce: number
   } | null>(null)
+  const [reminderNavigationAck, setReminderNavigationAck] =
+    useState<ReminderNavigationDelivery | null>(null)
   const [retentionChange, setRetentionChange] = useState<RetentionChanged | null>(null)
   const [retentionTarget, setRetentionTarget] = useState<PreparedRetention | null>(null)
   const [lastGovernanceAssistantId, setLastGovernanceAssistantId] = useState('')
   const governanceEpoch = useRef(0)
   const assistantRequestVersion = useRef(0)
   const reminderListenerVersion = useRef(0)
+  const deliveredReminderNavigationIds = useRef(new Set<string>())
 
   const receiveAssistantSnapshot = useCallback((value: AssistantSnapshot) => {
     assistantRequestVersion.current += 1
@@ -435,10 +439,10 @@ export function App(): React.JSX.Element {
     const retention = window.mashiro.retention
     if (!retention) return
     return retention.onChanged((event) => {
+      setRetentionChange(event)
+      if (event.reason === 'job-status' || event.reason === 'policy-status') return
       governanceEpoch.current = event.epoch
       assistantRequestVersion.current += 1
-      setRetentionChange(event)
-      if (event.reason === 'job-status') return
       setMemoryRefreshKey((value) => value + 1)
       setItemRefreshKey((value) => value + 1)
       setLastGovernanceAssistantId((value) => event.assistantIds.at(-1) ?? value)
@@ -480,17 +484,47 @@ export function App(): React.JSX.Element {
   useEffect(() => {
     const reminders = window.mashiro.reminders
     const assistantId = assistantSnapshot?.currentAssistantId
-    if (!reminders || !assistantId) return
+    const assistantRevision = assistantSnapshot?.stateRevision
+    if (!reminders || !assistantId || assistantRevision === undefined) return
     const listenerVersion = ++reminderListenerVersion.current
-    return reminders.onChanged((event) => {
-      if (listenerVersion !== reminderListenerVersion.current) return
+    let active = true
+    let liveNavigationVersion = 0
+    const receive = (
+      event: Parameters<ReminderApi['onChanged']>[0] extends (value: infer Value) => void
+        ? Value
+        : never,
+      origin: 'live' | 'pull'
+    ): void => {
+      if (!active || listenerVersion !== reminderListenerVersion.current) return
       if (event.kind === 'changed') {
         setReminderRefreshKey((value) => value + 1)
         return
       }
+      if (
+        !event.deliveryId ||
+        !event.assistantId ||
+        event.assistantRevision === undefined ||
+        event.assistantId !== assistantId ||
+        event.assistantRevision !== assistantRevision
+      )
+        return
+      if (origin === 'live') liveNavigationVersion += 1
+      if (deliveredReminderNavigationIds.current.has(event.deliveryId)) return
+      deliveredReminderNavigationIds.current.add(event.deliveryId)
+      if (deliveredReminderNavigationIds.current.size > 64) {
+        const oldest = deliveredReminderNavigationIds.current.values().next().value
+        if (oldest) deliveredReminderNavigationIds.current.delete(oldest)
+      }
       if (event.kind === 'open-reminders') {
         setReminderRefreshKey((value) => value + 1)
         setActiveView('reminders')
+        setReminderNavigationAck({
+          deliveryId: event.deliveryId,
+          assistantId: event.assistantId,
+          assistantRevision: event.assistantRevision,
+          kind: 'open-reminders',
+          itemId: null
+        })
         return
       }
       const itemId = event.itemId
@@ -503,8 +537,100 @@ export function App(): React.JSX.Element {
       }))
       setItemRefreshKey((value) => value + 1)
       setActiveView('items')
-    })
-  }, [assistantSnapshot?.currentAssistantId])
+      setReminderNavigationAck({
+        deliveryId: event.deliveryId,
+        assistantId: event.assistantId,
+        assistantRevision: event.assistantRevision,
+        kind: 'open-item',
+        itemId
+      })
+    }
+    const unsubscribe = reminders.onChanged((event) => receive(event, 'live'))
+    const pendingNavigationVersion = liveNavigationVersion
+    void reminders
+      .pendingNavigation({ protocolVersion: 1, assistantId, assistantRevision })
+      .then((result) => {
+        if (
+          !active ||
+          listenerVersion !== reminderListenerVersion.current ||
+          liveNavigationVersion !== pendingNavigationVersion
+        )
+          return
+        if (result.ok) {
+          if (result.data) receive(result.data, 'pull')
+        } else setNavigationError(result.error.message)
+      })
+      .catch(() => {
+        if (active && listenerVersion === reminderListenerVersion.current)
+          setNavigationError('提醒跳转状态暂不可用；可再次点击原通知，或从提醒列表打开事项。')
+      })
+    return () => {
+      active = false
+      unsubscribe()
+    }
+  }, [assistantSnapshot?.currentAssistantId, assistantSnapshot?.stateRevision])
+
+  useEffect(() => {
+    const delivery = reminderNavigationAck
+    const assistantId = assistantSnapshot?.currentAssistantId
+    const assistantRevision = assistantSnapshot?.stateRevision
+    if (!delivery || !assistantId || assistantRevision === undefined) return
+    if (delivery.assistantId !== assistantId || delivery.assistantRevision !== assistantRevision) {
+      deliveredReminderNavigationIds.current.delete(delivery.deliveryId)
+      queueMicrotask(() =>
+        setReminderNavigationAck((current) =>
+          current?.deliveryId === delivery.deliveryId ? null : current
+        )
+      )
+      return
+    }
+    const routeReady =
+      delivery.kind === 'open-reminders'
+        ? activeView === 'reminders'
+        : activeView === 'items' &&
+          itemOpenTarget?.assistantId === assistantId &&
+          itemOpenTarget.id === delivery.itemId
+    if (!routeReady) return
+    let active = true
+    void window.mashiro.reminders
+      .ackNavigation({
+        protocolVersion: 1,
+        assistantId,
+        assistantRevision,
+        deliveryId: delivery.deliveryId
+      })
+      .then((result) => {
+        if (!active) return
+        if (result.ok && result.data.acknowledged) {
+          setReminderNavigationAck((current) =>
+            current?.deliveryId === delivery.deliveryId ? null : current
+          )
+          return
+        }
+        deliveredReminderNavigationIds.current.delete(delivery.deliveryId)
+        setReminderNavigationAck((current) =>
+          current?.deliveryId === delivery.deliveryId ? null : current
+        )
+        setNavigationError(
+          result.ok ? '提醒目标已变化，请从当前提醒列表重新打开。' : result.error.message
+        )
+      })
+      .catch(() => {
+        if (active)
+          setNavigationError(
+            '提醒跳转已打开，但消费回执未确认；可再次点击原通知，或从提醒列表打开事项。'
+          )
+      })
+    return () => {
+      active = false
+    }
+  }, [
+    activeView,
+    assistantSnapshot?.currentAssistantId,
+    assistantSnapshot?.stateRevision,
+    itemOpenTarget,
+    reminderNavigationAck
+  ])
 
   const prepareRetention = useCallback(
     (assistantId: string, target: RetentionTarget, intent?: RetentionPreview['intent']): void => {

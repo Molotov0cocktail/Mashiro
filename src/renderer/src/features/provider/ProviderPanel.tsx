@@ -655,7 +655,12 @@ export function ProviderPanel({
   }, [api, clearActiveRequest, invalidateRead, onItemChanged, onMemoryChanged])
 
   useEffect(() => {
-    if (!retentionChange || retentionChange.reason === 'job-status') return
+    if (
+      !retentionChange ||
+      retentionChange.reason === 'job-status' ||
+      retentionChange.reason === 'policy-status'
+    )
+      return
     if (lastRetentionEpoch.current === retentionChange.epoch) return
     lastRetentionEpoch.current = retentionChange.epoch
     const affected = new Set(retentionChange.assistantIds)

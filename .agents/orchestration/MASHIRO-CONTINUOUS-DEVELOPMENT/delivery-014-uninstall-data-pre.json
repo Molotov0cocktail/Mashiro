@@ -1,0 +1,175 @@
+{
+  "scope": "isolated synthetic data before/after installed uninstall: pre",
+  "observedAt": "2026-09-07T16:31:40.788Z",
+  "phase": "pre",
+  "dataRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 18,
+  "files": [
+    {
+      "path": ".mashiro-dataset.json",
+      "bytes": 143,
+      "sha256": "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F"
+    },
+    {
+      "path": ".mashiro-governance-backup.json",
+      "bytes": 6460,
+      "sha256": "574B0712D0545FB4436972C12B5A0664C6EE413CC65096F610D423317049CD6D"
+    },
+    {
+      "path": ".mashiro-governance.json",
+      "bytes": 114,
+      "sha256": "57D4031ED1BE783BDD22BF20145246F01F32D9351F3118BC54DDFD72DC2AC39E"
+    },
+    {
+      "path": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+      "bytes": 80,
+      "sha256": "451D99DB9C192FA78D74BAF78B632743B3EB531E6727F9DF0110C5F1D9FB7920"
+    },
+    {
+      "path": "mashiro.sqlite",
+      "bytes": 835584,
+      "sha256": "4C1961EA4913CAC37AF67105BF927315CDD01FF4B6205960E0D4F452DB8A0CDD"
+    },
+    {
+      "path": "memory/43c35979-ee88-4510-a699-7bb0bd8c026d-1-429a42c5-e9ff-4f53-8af4-2eb4ac61f10e.md",
+      "bytes": 73,
+      "sha256": "376BE9FE9FAA1B414766D036E22763B8477EDC6A41E6D5FC9D8EF508B827F04B"
+    },
+    {
+      "path": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+      "bytes": 50,
+      "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92"
+    },
+    {
+      "path": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+      "bytes": 50,
+      "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D"
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+      "bytes": 20,
+      "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5"
+    },
+    {
+      "path": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+      "bytes": 48,
+      "sha256": "731F9E4073F458A6D9F0A6DD6754340238EC47B55D46718020E675EE43638ABD"
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+      "bytes": 50,
+      "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0"
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+      "bytes": 26,
+      "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292"
+    },
+    {
+      "path": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+      "bytes": 71,
+      "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C"
+    },
+    {
+      "path": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+      "bytes": 69,
+      "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F"
+    },
+    {
+      "path": "memory/f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    }
+  ],
+  "integrity": [
+    "ok"
+  ],
+  "foreignKeyErrors": 0,
+  "tableCounts": {
+    "assistant_provider_bindings": 1,
+    "assistant_state": 1,
+    "assistant_tombstones": 1,
+    "assistants": 3,
+    "background_attempts": 1,
+    "background_chapters": 1,
+    "background_configs": 1,
+    "background_controls": 0,
+    "background_jobs": 5,
+    "branch_members": 1,
+    "content_tombstones": 1,
+    "daily_commands": 2,
+    "daily_configs": 1,
+    "daily_item_changes": 6,
+    "daily_item_checkpoints": 0,
+    "daily_jobs": 1,
+    "daily_reports": 1,
+    "daily_suppressions": 0,
+    "discovery_configs": 1,
+    "history_permissions": 1,
+    "history_recipient_grants": 1,
+    "item_commands": 7,
+    "item_confirmations": 0,
+    "item_permissions": 0,
+    "item_proposals": 1,
+    "item_recipients": 0,
+    "item_rejections": 0,
+    "item_retained_edges": 0,
+    "item_sources": 0,
+    "item_tombstones": 0,
+    "items": 6,
+    "memory_branches": 1,
+    "memory_cleanup": 0,
+    "memory_commands": 13,
+    "memory_conflicts": 0,
+    "memory_dependencies": 32,
+    "memory_index": 8,
+    "memory_objects": 10,
+    "memory_pending": 7,
+    "memory_permissions": 2,
+    "memory_previews": 1,
+    "memory_recipients": 2,
+    "memory_round_evidence": 0,
+    "memory_suppressions": 3,
+    "memory_versions": 16,
+    "operation_events": 63,
+    "production_governance_commits": 7,
+    "production_governance_state": 1,
+    "protocol_results": 2,
+    "protocol_segments": 2,
+    "provider_capability_evidence": 4,
+    "provider_connections": 1,
+    "reminder_activations": 2,
+    "reminder_commands": 10,
+    "reminder_notification_members": 8,
+    "reminder_occurrences": 8,
+    "reminder_previews": 0,
+    "reminder_settings": 1,
+    "reminders": 3,
+    "retained_source_edges": 0,
+    "retention_commands": 5,
+    "retention_job_items": 5,
+    "retention_jobs": 2,
+    "retention_original_trash": 0,
+    "retention_previews": 2,
+    "retention_state": 1,
+    "steward_attempts": 2,
+    "steward_configs": 1,
+    "steward_consumptions": 2,
+    "steward_controls": 0,
+    "steward_jobs": 5,
+    "steward_slots": 1,
+    "timeline_messages": 14,
+    "timeline_sources": 11,
+    "tool_operations": 2,
+    "usage_attempts": 12
+  },
+  "reparsePoints": 0,
+  "credentialContentRead": false,
+  "personalDataAccessed": false
+}

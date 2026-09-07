@@ -81,6 +81,18 @@ export const governanceCatalog = {
     keys: [identifier('request_id')],
     values: [identifier('assistant_id')]
   },
+  retention_policy: {
+    keys: [field('singleton', z.literal(1))],
+    values: [
+      revision('revision'),
+      flag('capacity_enabled'),
+      field('capacity_bytes', z.number().int().min(1).max(1_099_511_627_776)),
+      flag('staging_enabled'),
+      field('staging_days', z.number().int().min(1).max(36500)),
+      flag('restored_paused'),
+      revision('scheduler_generation')
+    ]
+  },
   memory_objects: {
     keys: [identifier('id')],
     values: [

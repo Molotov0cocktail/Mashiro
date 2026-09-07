@@ -93,6 +93,11 @@ export function reminderApi012Defaults(records: ReminderRecord[] = []): Reminder
         loginStartup: input.loginStartup
       })
     })),
+    pendingNavigation: vi.fn(async () => ({ ok: true as const, data: null })),
+    ackNavigation: vi.fn(async (input) => ({
+      ok: true as const,
+      data: { deliveryId: input.deliveryId, acknowledged: true }
+    })),
     onChanged: vi.fn(() => () => undefined)
   }
 }

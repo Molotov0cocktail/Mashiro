@@ -658,6 +658,7 @@ button:disabled {
 }
 
 .retention-overview,
+.retention-policy,
 .retention-browser,
 .retention-preview-builder,
 .retention-confirmation,
@@ -668,6 +669,44 @@ button:disabled {
   border-radius: 12px;
   padding: 16px;
   background: rgb(24 21 34 / 72%);
+}
+
+.retention-policy-grid,
+.retention-policy-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.retention-policy-grid label {
+  display: grid;
+  gap: 7px;
+}
+
+.retention-policy-summary {
+  margin: 0;
+}
+
+.retention-policy-summary div,
+.retention-policy-preview {
+  border: 1px solid #665672;
+  border-radius: 8px;
+  padding: 10px;
+  background: rgb(18 16 27 / 52%);
+}
+
+.retention-policy-summary dt {
+  color: #c7afff;
+}
+
+.retention-policy-summary dd {
+  margin: 4px 0 0;
+  font-weight: 700;
+}
+
+.retention-policy-preview {
+  display: grid;
+  gap: 10px;
 }
 
 .retention-zones,
@@ -767,6 +806,8 @@ button:disabled {
 @media (max-width: 820px) {
   .retention-zones,
   .retention-records,
+  .retention-policy-grid,
+  .retention-policy-summary,
   .retention-confirmation dl {
     grid-template-columns: 1fr;
   }

@@ -1,0 +1,10 @@
+{
+  "scope": "Read-only specific-app notification permission; no show, XML, other apps or settings changes",
+  "appId": "Mashiro.Desktop",
+  "setting": "Enabled",
+  "observedAt": "2026-09-07T23:53:58.3881607+08:00",
+  "commandChunk": "1e74ae",
+  "exitCode": 0,
+  "method": "Windows PowerShell WinRT ToastNotificationManager.CreateToastNotifier('Mashiro.Desktop').Setting",
+  "boundary": "This reports the app notification permission enum. It does not prove a user-visible banner, notification-center click, or focus-assist behavior."
+}

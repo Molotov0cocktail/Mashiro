@@ -1,5 +1,6 @@
 import console from 'node:console'
 import process from 'node:process'
+import { setTimeout } from 'node:timers'
 import { resolve } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
 

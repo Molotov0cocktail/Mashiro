@@ -1,0 +1,11 @@
+{
+  "root": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-review009-default-cost-Vre6DR",
+  "objects": 25599,
+  "bodyBytesEach": 4096,
+  "acceptedBytes": 104853504,
+  "setupMs": 324473.25090000004,
+  "constructorMs": 9602.169500000018,
+  "snapshotMs": 9576.86089999997,
+  "acceptedWriteMs": 6389.40260000003,
+  "note": "Single warm-cache synthetic sample; seeding used production MemoryService before policy guard installation. Measured write used the installed production guard. No timing pass/fail threshold."
+}

@@ -6,6 +6,9 @@ import type {
   RetentionChanged,
   RetentionIntent,
   RetentionJob,
+  RetentionPolicyPreview,
+  RetentionPolicySettings,
+  RetentionPolicySnapshot,
   RetentionPreview
 } from '../../../../shared/retention-contract'
 
@@ -39,6 +42,17 @@ const jobLabels: Record<RetentionJob['state'], string> = {
   FAILED_RETRYABLE: '清理失败，可重试',
   COMPLETED: '受管副本清理完成'
 }
+const automaticPolicyLabels: Record<Overview['automaticPolicy'], string> = {
+  ACTIVE: '容量与暂存期限均启用',
+  PARTIAL: '部分启用',
+  DISABLED: '已关闭',
+  RESTORED_PAUSED: '恢复备份后已暂停'
+}
+const policyRunLabels: Record<'RUNNING' | 'COMPLETED' | 'FAILED', string> = {
+  RUNNING: '正在核查',
+  COMPLETED: '核查完成',
+  FAILED: '核查失败'
+}
 
 function retentionError(result: { error: { code: string; message: string } }): string {
   const labels: Record<string, string> = {
@@ -49,6 +63,8 @@ function retentionError(result: { error: { code: string; message: string } }): s
     DEPENDENCY_BLOCKED: '依赖尚未满足',
     NOT_RECOVERABLE: '正文已经清理，不能恢复',
     CONFLICT: '同一位置已有不同操作',
+    CAPACITY_EXCEEDED: '持久记忆正文已达到容量上限',
+    MEASUREMENT_UNKNOWN: '部分持久记忆正文无法可靠计量',
     STORAGE_UNAVAILABLE: '本地数据存储暂时不可用'
   }
   return `${labels[result.error.code] ?? '操作失败'}：${result.error.message}`
@@ -100,6 +116,18 @@ export function RetentionPanel({
   const [preview, setPreview] = useState<RetentionPreview | null>(null)
   const [understood, setUnderstood] = useState(false)
   const [jobs, setJobs] = useState<RetentionJob[]>([])
+  const [policy, setPolicy] = useState<RetentionPolicySnapshot | null>(null)
+  const [policyDraft, setPolicyDraft] = useState<RetentionPolicySettings | null>(null)
+  const [policyPreview, setPolicyPreview] = useState<{
+    assistantId: string
+    snapshotRevision: number
+    data: RetentionPolicyPreview
+  } | null>(null)
+  const activePolicyPreview =
+    policyPreview?.assistantId === assistantId &&
+    policyPreview.snapshotRevision === (assistantSnapshot?.stateRevision ?? -1)
+      ? policyPreview.data
+      : null
   const [jobNextCursor, setJobNextCursor] = useState<number | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -107,6 +135,7 @@ export function RetentionPanel({
   const readVersion = useRef(0)
   const previewVersion = useRef(0)
   const actionVersion = useRef(0)
+  const policyVersion = useRef(0)
   const lastPreparedNonce = useRef(0)
 
   useEffect(() => {
@@ -127,6 +156,7 @@ export function RetentionPanel({
     lastPreparedNonce.current = preparedTarget.nonce
     previewVersion.current += 1
     actionVersion.current += 1
+    policyVersion.current += 1
     queueMicrotask(() => {
       setAssistantId(preparedTarget.assistantId)
       setConversationTarget(preparedTarget.target)
@@ -144,7 +174,12 @@ export function RetentionPanel({
   }, [preparedTarget])
 
   const load = useCallback(
-    async (targetAssistantId: string, append = false, cursor?: number): Promise<void> => {
+    async (
+      targetAssistantId: string,
+      append = false,
+      cursor?: number,
+      preservePolicyDraft = false
+    ): Promise<void> => {
       if (!targetAssistantId) {
         const version = ++readVersion.current
         setOverview(null)
@@ -166,7 +201,7 @@ export function RetentionPanel({
       const version = ++readVersion.current
       setError('')
       try {
-        const [overviewResult, recordsResult, jobsResult] = await Promise.all([
+        const [overviewResult, recordsResult, jobsResult, policyResult] = await Promise.all([
           api.overview({ protocolVersion, assistantId: targetAssistantId }),
           memoryApi.query({
             protocolVersion,
@@ -178,7 +213,8 @@ export function RetentionPanel({
             ...(append && cursor !== undefined ? { cursor } : {}),
             limit: 100
           }),
-          api.jobs({ protocolVersion, assistantId: targetAssistantId })
+          api.jobs({ protocolVersion, assistantId: targetAssistantId }),
+          api.policy({ protocolVersion, assistantId: targetAssistantId })
         ])
         if (version !== readVersion.current) return
         if (!overviewResult.ok) setError(retentionError(overviewResult))
@@ -195,6 +231,11 @@ export function RetentionPanel({
           setJobs(jobsResult.data.jobs)
           setJobNextCursor(jobsResult.data.nextCursor)
         }
+        if (!policyResult.ok) setError(retentionError(policyResult))
+        else {
+          setPolicy(policyResult.data)
+          if (!preservePolicyDraft) setPolicyDraft(policyResult.data.settings)
+        }
       } catch {
         if (version === readVersion.current) setError('保留与清理状态暂时无法读取')
       }
@@ -206,11 +247,13 @@ export function RetentionPanel({
     readVersion.current += 1
     previewVersion.current += 1
     actionVersion.current += 1
+    policyVersion.current += 1
     let active = true
     queueMicrotask(() => {
       if (!active) return
       setBusy(false)
       setPreview(null)
+      setPolicyPreview(null)
       setUnderstood(false)
       setSelectedMemoryIds([])
       setJobNextCursor(null)
@@ -222,17 +265,47 @@ export function RetentionPanel({
   }, [assistantId, load])
 
   useEffect(() => {
-    if (!changed || !changed.assistantIds.includes(assistantId)) return
+    if (!changed || changed.reason !== 'policy-status' || !assistantId) return
+    let active = true
+    queueMicrotask(() => {
+      void api
+        .policy({ protocolVersion, assistantId })
+        .then((result) => {
+          if (!active) return
+          if (!result.ok) setError(retentionError(result))
+          else
+            setPolicy((current) =>
+              !current || result.data.revision >= current.revision ? result.data : current
+            )
+        })
+        .catch(() => {
+          if (active) setError('自动保留策略状态暂时无法读取')
+        })
+    })
+    return () => {
+      active = false
+    }
+  }, [api, assistantId, changed])
+
+  useEffect(() => {
+    if (
+      !changed ||
+      changed.reason === 'policy-status' ||
+      !changed.assistantIds.includes(assistantId)
+    )
+      return
     if (changed.reason === 'job-status') {
-      queueMicrotask(() => void load(assistantId))
+      queueMicrotask(() => void load(assistantId, false, undefined, true))
       return
     }
     readVersion.current += 1
     previewVersion.current += 1
     actionVersion.current += 1
+    policyVersion.current += 1
     queueMicrotask(() => {
       setBusy(false)
       setPreview(null)
+      setPolicyPreview(null)
       setUnderstood(false)
       setSelectedMemoryIds((values) => values.filter((id) => !changed.memoryIds.includes(id)))
       setNotice('数据已变化，旧预览已经失效。请重新查看完整影响。')
@@ -419,6 +492,119 @@ export function RetentionPanel({
     }
   }
 
+  function invalidatePolicyPreview(): void {
+    policyVersion.current += 1
+    setPolicyPreview(null)
+  }
+
+  async function requestPolicyPreview(): Promise<void> {
+    if (!assistantId || !policy || !policyDraft) return
+    const targetAssistantId = assistantId
+    const snapshotRevision = assistantSnapshot?.stateRevision ?? -1
+    const version = ++policyVersion.current
+    setBusy(true)
+    setError('')
+    setNotice('')
+    setPolicyPreview(null)
+    try {
+      const result = await api.previewPolicy({
+        protocolVersion,
+        assistantId: targetAssistantId,
+        expectedRevision: policy.revision,
+        settings: policyDraft
+      })
+      if (version !== policyVersion.current) return
+      if (!result.ok) setError(retentionError(result))
+      else
+        setPolicyPreview({
+          assistantId: targetAssistantId,
+          snapshotRevision,
+          data: result.data
+        })
+    } catch {
+      if (version === policyVersion.current) {
+        setError('策略影响预览未返回，没有保存任何设置')
+      }
+    } finally {
+      if (version === policyVersion.current) setBusy(false)
+    }
+  }
+
+  async function configurePolicy(): Promise<void> {
+    if (!assistantId || !activePolicyPreview) return
+    const targetAssistantId = assistantId
+    const previewToSave = activePolicyPreview
+    const registryKey = JSON.stringify({
+      domain: 'retention-policy',
+      assistantId: targetAssistantId,
+      expectedRevision: previewToSave.expectedRevision,
+      previewId: previewToSave.id
+    })
+    const commandId = pendingCommands.get(registryKey) ?? crypto.randomUUID()
+    pendingCommands.set(registryKey, commandId)
+    const version = ++policyVersion.current
+    setBusy(true)
+    setError('')
+    try {
+      const result = await api.configurePolicy({
+        protocolVersion,
+        assistantId: targetAssistantId,
+        commandId,
+        expectedRevision: previewToSave.expectedRevision,
+        previewId: previewToSave.id,
+        settings: previewToSave.settings
+      })
+      if (version !== policyVersion.current) return
+      if (!result.ok) {
+        setError(retentionError(result))
+        if (result.error.code !== 'STORAGE_UNAVAILABLE') pendingCommands.delete(registryKey)
+        if (result.error.code === 'STALE_PREVIEW') setPolicyPreview(null)
+        return
+      }
+      pendingCommands.delete(registryKey)
+      setPolicy(result.data)
+      setPolicyDraft(result.data.settings)
+      setPolicyPreview(null)
+      setNotice('自动保留策略已按预览保存。垃圾区仍不会自动永久清空。')
+      await load(targetAssistantId)
+    } catch {
+      if (version === policyVersion.current) {
+        setError('策略保存回执未知。再次保存同一预览会复用操作标识。')
+      }
+    } finally {
+      if (version === policyVersion.current) setBusy(false)
+    }
+  }
+
+  async function runPolicy(): Promise<void> {
+    if (!assistantId || !policy) return
+    const targetAssistantId = assistantId
+    const version = ++policyVersion.current
+    setBusy(true)
+    setError('')
+    setNotice('')
+    setPolicyPreview(null)
+    try {
+      const result = await api.runPolicy({
+        protocolVersion,
+        assistantId: targetAssistantId,
+        expectedRevision: policy.revision
+      })
+      if (version !== policyVersion.current) return
+      if (!result.ok) setError(retentionError(result))
+      else {
+        setPolicy(result.data)
+        setPolicyDraft(result.data.settings)
+        setNotice('本次有界核查已完成；下方显示可信服务的最近结果。')
+        await load(targetAssistantId)
+      }
+    } catch {
+      if (version === policyVersion.current) setError('策略核查结果未知，请刷新后查看最近结果')
+    } finally {
+      if (version === policyVersion.current) setBusy(false)
+    }
+  }
+
   async function loadMoreJobs(): Promise<void> {
     if (jobNextCursor === null) return
     const version = ++readVersion.current
@@ -459,7 +645,8 @@ export function RetentionPanel({
         <p className="privacy-note">先看完整影响，再由你在本机确认执行。</p>
       </div>
       <p className="scope-note">
-        当前只提供手动操作。自动容量上限、暂存期限和垃圾自动清空策略尚未配置；这里的计量不代表总磁盘占用上限。
+        持久区容量按当前接受版本 Markdown 的 UTF-8
+        字节全局计量；暂存到期只会转入可恢复的垃圾区。垃圾区永不自动永久清空。
       </p>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
@@ -494,7 +681,8 @@ export function RetentionPanel({
           <h2>容量与分区</h2>
           <p>
             受管 Markdown 文件占用：{formatBytes(overview.managedFileBytes)} ·
-            数据库及运行文件占用：{formatBytes(overview.databaseBytes)} · 自动策略：未配置
+            数据库及运行文件占用：{formatBytes(overview.databaseBytes)} · 自动策略：
+            {automaticPolicyLabels[overview.automaticPolicy]}
           </p>
           <div className="retention-zones">
             {overview.zones.map((zone) => (
@@ -502,10 +690,223 @@ export function RetentionPanel({
                 <strong>{zoneLabels[zone.zone]}</strong>
                 <span>
                   {zone.objects} 项 · 当前有效正文 {formatBytes(zone.acceptedBytes)}
+                  {zone.measurement === 'UNKNOWN'
+                    ? '（另有 ' + zone.unknownObjects + ' 项无法可靠计量）'
+                    : ''}
                 </span>
               </article>
             ))}
           </div>
+        </section>
+      ) : null}
+
+      {policy && policyDraft ? (
+        <section aria-label="自动保留策略" className="retention-policy">
+          <div>
+            <h2>自动保留策略</h2>
+            <p className="scope-note">
+              这是全数据集设置。容量只计算持久区当前接受版本正文；无法可靠计量时显示“未知”，不会按 0
+              继续接受新增正文。
+            </p>
+          </div>
+          <dl className="retention-policy-summary">
+            <div>
+              <dt>持久正文用量</dt>
+              <dd>
+                {formatBytes(policy.usage.acceptedBytes)}
+                {policy.usage.measurement === 'UNKNOWN'
+                  ? '（计量未知，' + policy.usage.unknownObjects + ' 项待核查）'
+                  : policy.usage.overLimit
+                    ? '（已超过当前上限）'
+                    : '（计量完整）'}
+              </dd>
+            </div>
+            <div>
+              <dt>正文完整性核查</dt>
+              <dd>
+                {policy.audit.state === 'RUNNING'
+                  ? `核查中 ${policy.audit.checkedObjects}/${policy.audit.totalObjects}`
+                  : policy.audit.state === 'PENDING'
+                    ? `等待核查（共 ${policy.audit.totalObjects} 项）`
+                    : policy.audit.completedAt
+                      ? '已完成 · ' + new Date(policy.audit.completedAt).toLocaleString('zh-CN')
+                      : '已完成'}
+              </dd>
+            </div>
+            <div>
+              <dt>暂存对象</dt>
+              <dd>
+                {policy.staging.trackedObjects} 项 · 已到期 {policy.staging.dueObjects} 项 ·
+                校验失败 {policy.staging.failedObjects} 项
+              </dd>
+            </div>
+            <div>
+              <dt>下次到期</dt>
+              <dd>
+                {policy.staging.nextDueAt
+                  ? new Date(policy.staging.nextDueAt).toLocaleString('zh-CN')
+                  : '当前没有已知到期对象'}
+              </dd>
+            </div>
+            <div>
+              <dt>下次核查/重试</dt>
+              <dd>
+                {policy.staging.nextCheckAt
+                  ? new Date(policy.staging.nextCheckAt).toLocaleString('zh-CN')
+                  : '未安排'}
+                {policy.staging.nextRetryAt
+                  ? ' · 失败项最早重试 ' +
+                    new Date(policy.staging.nextRetryAt).toLocaleString('zh-CN')
+                  : ''}
+              </dd>
+            </div>
+          </dl>
+          {policy.restoredPaused ? (
+            <p role="alert">
+              已恢复旧备份，自动移动暂时暂停。查看影响并重新保存当前设置后才会恢复自动资格；后来明确关闭的策略仍保持关闭。
+            </p>
+          ) : null}
+          <div className="retention-policy-grid">
+            <label className="inline-check">
+              <input
+                type="checkbox"
+                checked={policyDraft.persistentCapacity.enabled}
+                onChange={(event) => {
+                  const enabled = event.currentTarget.checked
+                  invalidatePolicyPreview()
+                  setPolicyDraft((value) =>
+                    value
+                      ? {
+                          ...value,
+                          persistentCapacity: { ...value.persistentCapacity, enabled }
+                        }
+                      : value
+                  )
+                }}
+              />
+              启用持久记忆正文容量上限
+            </label>
+            <label>
+              容量上限（MiB）
+              <input
+                type="number"
+                min="1"
+                max="1048576"
+                step="1"
+                value={Math.max(1, Math.round(policyDraft.persistentCapacity.limitBytes / 1048576))}
+                disabled={!policyDraft.persistentCapacity.enabled}
+                onChange={(event) => {
+                  const amount = Number(event.currentTarget.value)
+                  if (!Number.isSafeInteger(amount) || amount < 1 || amount > 1048576) return
+                  invalidatePolicyPreview()
+                  setPolicyDraft((value) =>
+                    value
+                      ? {
+                          ...value,
+                          persistentCapacity: {
+                            ...value.persistentCapacity,
+                            limitBytes: amount * 1048576
+                          }
+                        }
+                      : value
+                  )
+                }}
+              />
+            </label>
+            <label className="inline-check">
+              <input
+                type="checkbox"
+                checked={policyDraft.stagingExpiry.enabled}
+                onChange={(event) => {
+                  const enabled = event.currentTarget.checked
+                  invalidatePolicyPreview()
+                  setPolicyDraft((value) =>
+                    value ? { ...value, stagingExpiry: { ...value.stagingExpiry, enabled } } : value
+                  )
+                }}
+              />
+              到期后把暂存记忆移入可恢复垃圾区
+            </label>
+            <label>
+              暂存期限（UTC 自入区起，天）
+              <input
+                type="number"
+                min="1"
+                max="36500"
+                step="1"
+                value={policyDraft.stagingExpiry.days}
+                disabled={!policyDraft.stagingExpiry.enabled}
+                onChange={(event) => {
+                  const days = Number(event.currentTarget.value)
+                  if (!Number.isSafeInteger(days) || days < 1 || days > 36500) return
+                  invalidatePolicyPreview()
+                  setPolicyDraft((value) =>
+                    value ? { ...value, stagingExpiry: { ...value.stagingExpiry, days } } : value
+                  )
+                }}
+              />
+            </label>
+          </div>
+          <div className="button-row">
+            <button type="button" disabled={busy} onClick={() => void requestPolicyPreview()}>
+              查看设置影响
+            </button>
+            <button type="button" disabled={busy} onClick={() => void runPolicy()}>
+              立即核查一批
+            </button>
+          </div>
+          <p className="scope-note">
+            手动核查会立即重试当前失败项，不等待上方自动重试时间；每批最多处理 20 项。
+          </p>
+          {activePolicyPreview ? (
+            <section className="retention-policy-preview" aria-label="策略设置影响">
+              <h3>设置影响预览</h3>
+              <p>
+                保存后当前已到期 {activePolicyPreview.dueObjects} 项；本批最多列出并处理 20 项。
+                {activePolicyPreview.capacityAfterSave.measurement === 'UNKNOWN'
+                  ? ' 持久正文计量仍为未知，新增容量会保持受阻。'
+                  : activePolicyPreview.capacityAfterSave.overLimit
+                    ? ' 当前用量高于新上限；减少正文的操作仍可进行。'
+                    : ' 当前持久正文用量没有超过新上限。'}
+              </p>
+              {activePolicyPreview.restoredPauseWillClear ? (
+                <p role="alert">保存这份预览会解除恢复备份后的自动暂停。</p>
+              ) : null}
+              {activePolicyPreview.firstBatch.length > 0 ? (
+                <ul className="impact-list">
+                  {activePolicyPreview.firstBatch.map((item) => (
+                    <li key={item.id}>
+                      <strong>{item.title}</strong>
+                      <span>
+                        v{item.version} · 到期 {new Date(item.dueAt).toLocaleString('zh-CN')}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="scope-note">当前预览没有到期对象。</p>
+              )}
+              <button type="button" disabled={busy} onClick={() => void configurePolicy()}>
+                按此预览保存设置
+              </button>
+            </section>
+          ) : null}
+          {policy.recentRun ? (
+            <p className="scope-note">
+              最近结果：{policyRunLabels[policy.recentRun.state]} · 移入垃圾区{' '}
+              {policy.recentRun.moved} 项 · 跳过 {policy.recentRun.skipped} 项 · 失败{' '}
+              {policy.recentRun.failed} 项 ·
+              {policy.recentRun.completedAt
+                ? new Date(policy.recentRun.completedAt).toLocaleString('zh-CN')
+                : '仍在运行'}
+              {policy.recentRun.error ? ' · ' + policy.recentRun.error : ''}
+            </p>
+          ) : (
+            <p className="scope-note">尚无自动策略运行结果。</p>
+          )}
+          <p className="scope-note">
+            自动策略只会把到期暂存对象移入可恢复垃圾区；用户新操作会优先，垃圾区内容只能经单独完整影响预览和本机确认后永久清理。
+          </p>
         </section>
       ) : null}
 

@@ -101,7 +101,10 @@ export const reminderPrepareToolSchema = z.strictObject({
 })
 export const reminderChangedSchema = z.strictObject({
   kind: z.enum(['changed', 'open-item', 'open-reminders']),
-  itemId: id.nullable()
+  itemId: id.nullable(),
+  deliveryId: id.optional(),
+  assistantId: id.optional(),
+  assistantRevision: z.number().int().nonnegative().optional()
 })
 export const reminderErrorSchema = z.strictObject({
   code: z.enum([
@@ -120,6 +123,39 @@ const result = <T extends z.ZodType>(data: T) =>
     z.strictObject({ ok: z.literal(true), data }),
     z.strictObject({ ok: z.literal(false), error: reminderErrorSchema })
   ])
+export const reminderNavigationDeliverySchema = z.discriminatedUnion('kind', [
+  z.strictObject({
+    deliveryId: id,
+    assistantId: id,
+    assistantRevision: z.number().int().nonnegative(),
+    kind: z.literal('open-item'),
+    itemId: id
+  }),
+  z.strictObject({
+    deliveryId: id,
+    assistantId: id,
+    assistantRevision: z.number().int().nonnegative(),
+    kind: z.literal('open-reminders'),
+    itemId: z.null()
+  })
+])
+export const reminderPendingNavigationInputSchema = z.strictObject({
+  protocolVersion: z.literal(1),
+  assistantId: id,
+  assistantRevision: z.number().int().nonnegative()
+})
+export const reminderAckNavigationInputSchema = z.strictObject({
+  protocolVersion: z.literal(1),
+  assistantId: id,
+  assistantRevision: z.number().int().nonnegative(),
+  deliveryId: id
+})
+export const reminderPendingNavigationResultSchema = result(
+  reminderNavigationDeliverySchema.nullable()
+)
+export const reminderAckNavigationResultSchema = result(
+  z.strictObject({ deliveryId: id, acknowledged: z.boolean() })
+)
 export const reminderQueryResultSchema = result(
   z.strictObject({ records: z.array(reminderRecordSchema), runtime: reminderRuntimeSchema })
 )
@@ -133,6 +169,7 @@ export type ReminderPolicy = z.infer<typeof reminderPolicySchema>
 export type ReminderReceipt = z.infer<typeof reminderReceiptSchema>
 export type ReminderRuntime = z.infer<typeof reminderRuntimeSchema>
 export type ReminderChanged = z.infer<typeof reminderChangedSchema>
+export type ReminderNavigationDelivery = z.infer<typeof reminderNavigationDeliverySchema>
 export interface ReminderApi {
   preview(
     input: z.input<typeof reminderPreviewInputSchema>
@@ -155,5 +192,11 @@ export interface ReminderApi {
   configure(
     input: z.input<typeof reminderConfigureInputSchema>
   ): Promise<z.infer<typeof reminderRuntimeResultSchema>>
+  pendingNavigation(
+    input: z.input<typeof reminderPendingNavigationInputSchema>
+  ): Promise<z.infer<typeof reminderPendingNavigationResultSchema>>
+  ackNavigation(
+    input: z.input<typeof reminderAckNavigationInputSchema>
+  ): Promise<z.infer<typeof reminderAckNavigationResultSchema>>
   onChanged(listener: (event: ReminderChanged) => void): () => void
 }

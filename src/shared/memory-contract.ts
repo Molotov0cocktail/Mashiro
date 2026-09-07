@@ -166,6 +166,8 @@ const errorSchema = z.strictObject({
     'PERMISSION_DENIED',
     'INTEGRITY',
     'CONFLICT',
+    'CAPACITY_EXCEEDED',
+    'MEASUREMENT_UNKNOWN',
     'STORAGE_UNAVAILABLE'
   ]),
   message: z.string().max(200)

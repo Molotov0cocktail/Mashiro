@@ -16,7 +16,9 @@ import { verifyProductionGovernanceSchema } from './production-governance-schema
 /** A verified healthy initial dataset contributes metadata only, never record_json or file bodies. */
 export function readGovernanceBaseline(database: DatabaseSync): GovernanceProjection[] {
   const result: GovernanceProjection[] = []
+  const schemaVersion = Number(database.prepare('PRAGMA user_version').get()!.user_version)
   for (const table of Object.keys(governanceCatalog) as GovernanceTable[]) {
+    if (table === 'retention_policy' && schemaVersion < 19) continue
     const definition = governanceCatalog[table]
     const fields = [...definition.keys, ...definition.values]
     const rows = database

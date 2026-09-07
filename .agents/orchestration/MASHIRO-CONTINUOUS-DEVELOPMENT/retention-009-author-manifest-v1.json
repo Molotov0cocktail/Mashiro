@@ -1,0 +1,211 @@
+{
+  "candidate": "retention-009-policy-v1",
+  "status": "CODE_AND_LOCAL_SCOPE_READY_FOR_INDEPENDENT_REVIEW",
+  "generatedAt": "2026-09-07T16:45:43.375955Z",
+  "files": [
+    {
+      "path": "src/main/data/production-governance-apply.ts",
+      "sha256": "D236CC3CCE509BCAD63559AC71DB813CF92973DC418BC9437DDBE471DC038ACA"
+    },
+    {
+      "path": "src/main/data/production-governance-catalog.ts",
+      "sha256": "1FD7BCB1F8D62EB822DD8B03961A63B8E0C2F7374695B5F823984F1E7717D95B"
+    },
+    {
+      "path": "src/main/data/production-governance-check.ts",
+      "sha256": "2AC176AEB72EC2020F6A7538E1C05464799E718C1734A238AA408AFB06850975"
+    },
+    {
+      "path": "src/main/data/production-governance-connection.ts",
+      "sha256": "7A21E952ADF7939D0074552194BA869B214877C1E160FEEB43B0BAE8F6F72A93"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "617A3CDCF0AB70018A7D229D925C91C2E8FE198199DE99912E9A7F9FFC87C149"
+    },
+    {
+      "path": "src/main/ipc/register-retention-ipc.ts",
+      "sha256": "7EF0E27AE4FD717B6F8DB764739F1FA690902DBE25E68368A827ECF775A7598A"
+    },
+    {
+      "path": "src/main/memory/memory-round-schema.ts",
+      "sha256": "6174A82F47124CEEAD9BCF3E8787EE5D039D5EE36B351F52A25B01B4936112FB"
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "sha256": "09546314A5455BB16622E0393EBFBD2940089097E294DC6D7D41E01965274FE4"
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "sha256": "C58A151355EA257D4F53004B1D5485DF8F544DFE507A80F787ABF230A419A0AF"
+    },
+    {
+      "path": "src/main/retention/retention-policy-schema.ts",
+      "sha256": "5C33C1E274F5080D639CD43EC86AA60679CF9903ADE7CBE05A353F12E9C34ED4"
+    },
+    {
+      "path": "src/main/retention/retention-policy-service.ts",
+      "sha256": "25014955DE89DAC952C1D54AA3713D9D5AF709370FFA00D5169140F232DF0D7B"
+    },
+    {
+      "path": "src/main/retention/retention-service.ts",
+      "sha256": "DF05EA4867004BE550FA4E073560EEABF2C2B936C9DE7DFDD3829CE933CE59A8"
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "E6B531116510BAF1061FE12000748B08A5947171D774D7C21297C483FF25A026"
+    },
+    {
+      "path": "src/renderer/src/features/retention/RetentionPanel.tsx",
+      "sha256": "E668C710ACBEBCDBD5B6BBD277892CA382C0C082CEC912DB2FE612183FBE13F1"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "E0576BDC96DE8B8CD57620237DDA4D778289E5B89D8F3A370C89FA98C10830FC"
+    },
+    {
+      "path": "src/shared/memory-contract.ts",
+      "sha256": "59E5983CF8557983628720254CB7FCB06585007F28F31C5032F86E76C5144873"
+    },
+    {
+      "path": "src/shared/retention-channels.ts",
+      "sha256": "D108BD44B04E7C360C60A3CCD7FF0BD66AB2211C43A37CA5AC2B068F86A3A774"
+    },
+    {
+      "path": "src/shared/retention-contract.ts",
+      "sha256": "C2EF8D1A23903481485B5AA6DB1576D84FE2CDD44D090E70EE51EFBA67731ACB"
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "sha256": "C447385BB213D3CE9B2D51FBC5554B32885A5AD948F5158DF88D09947E07ED0A"
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "sha256": "1E204BA7BCD0CAB5103591E6B32FEC8494A79338210CEAF232E7F16B19D9164E"
+    },
+    {
+      "path": "tests/integration/governance-legacy-fixture.ts",
+      "sha256": "1F659624899A858C405DEB41931BE9D9AFB5D91A5872AAB43C90E1FC53C5E7D0"
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "sha256": "8950191934CC77471162931476295F106B3335A836487C3978943EC5FBA86541"
+    },
+    {
+      "path": "tests/integration/memory-round.test.ts",
+      "sha256": "1CAE843B9D880E2A8D32FD09668C91D2C3F397354BF308B0D08129E2BB2B719C"
+    },
+    {
+      "path": "tests/integration/production-governance-upgrade.test.ts",
+      "sha256": "729A8E288F28CDFB73870231F1F2B3DB32E30FA9C4B3F976DA556E0552BBA110"
+    },
+    {
+      "path": "tests/integration/provider-retention.test.ts",
+      "sha256": "7C3FE7EC089B02D8C1341DB74D8E5AE9D2AEFE7ABEFDF15A9514205254E96391"
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "sha256": "5553394D589036A19620A27B803228959E1E739AAF283BAFCA3986366C3A796A"
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "53ACFC7B76B4E2D572349B164BE03401FA09137A7BBF14F011DB719E9BC98ED4"
+    },
+    {
+      "path": "tests/integration/reminder-approved-default-independent.test.ts",
+      "sha256": "7E529A1E203BC39464C1D18882C330EB25D89CE44DBCD8D801E00B7B13C14B42"
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "sha256": "247BDA096F55D65CE0D06AB69DF1417370B39A5A1340EE801C5403760E765482"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "009F9331F10855A9E7727E306036BF8DDCF0FF5DD41AA083874E9FCEEBDF801F"
+    },
+    {
+      "path": "tests/integration/retained-protocol-migration.test.ts",
+      "sha256": "808436DEC3D7D116387B58FEAFF91981B01ACA33637CD9EB4767F683D417E06D"
+    },
+    {
+      "path": "tests/integration/retention-policy-schema.test.ts",
+      "sha256": "D2C638A300261440858DC7CE327A38952BC42A6739F6773B9A23F610C1199CD4"
+    },
+    {
+      "path": "tests/integration/retention-policy-service.test.ts",
+      "sha256": "49357AA308B5489EC7E8508180375AD23F468172AFAB7C2CEADEEFD348168FFF"
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "sha256": "E05473CB425A742E9A11F561E2AC3A42E916D060FC19AE492A2AE2786AD6942F"
+    },
+    {
+      "path": "tests/integration/retention-service.test.ts",
+      "sha256": "59FB5679282D4F4B04D6395EB3DA79E8E88C144206576DE34DA1C20E5488A18D"
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "sha256": "BCB4236A1538047AA11733CF3B399B4999CE7B62D6EEBD3D67D9C9E4F89134E7"
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "sha256": "7FA1075EBDED1D95E1CF516E5E4271A42262ED070B3B9C14DB5B9A2579B17C2C"
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "sha256": "DA54F1869A5E553EC50549DA0BBBBC56F59795EA7862A1A1E0733B157221DA10"
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "sha256": "33877DE7ED34A8CA47F0874819D8DB7AAA1E3439E20D54C6570D6A4BC8B1CD39"
+    },
+    {
+      "path": "tests/renderer/App-retention-fence.test.tsx",
+      "sha256": "9AD81699EFD4691829B668B0B92A8C5E46C93B2F66530A52B863C67FD32CE61C"
+    },
+    {
+      "path": "tests/renderer/App-retention-registry.test.tsx",
+      "sha256": "AEF7C7C0D29ECFAB4E2D81B18635F8C55BCFD030CFD06D31E13A1E2802596B9A"
+    },
+    {
+      "path": "tests/renderer/RetentionPanel.test.tsx",
+      "sha256": "9A95328243EC6CC3BB12CDE540D85A185D6DB56EA5732994FE50B9C4A7227243"
+    },
+    {
+      "path": "tests/renderer/retention-api-fixture.ts",
+      "sha256": "BD1D8D56CEFE09B3E74FF9C73C8F91479590FA5BE16E6F521B9E3A2B964B2103"
+    }
+  ],
+  "crossSlice": [
+    "src/preload/index.ts exposes the four exact RET policy invokes under the independently frozen delivery-014 cold manifest; its SHA-256 is CB6894A0140F7FD71F03B3FF6D6B4BB588099FABFFD2F3909E82050A3BE1F55B.",
+    "src/main/index.ts already closes ProviderService before its SqliteStore; ProviderService.close owns RetentionService.close, so no RET edit to that cold-owned file was required.",
+    "Reviewer-owned tests/integration/review009-policy-seams.test.ts and tests/integration/review009-legacy-governance-baseline.test.ts are excluded from this author manifest and passed unchanged assertions."
+  ],
+  "validation": {
+    "focusedTests": {
+      "files": 13,
+      "tests": 47,
+      "exitCode": 0,
+      "includes": "schema19, policy batching/recovery, Provider continuation, governance upgrade, independent seams, and renderer policy/memory boundaries"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    "scopedEslint": {
+      "exitCode": 0
+    },
+    "scopedPrettier": {
+      "exitCode": 0
+    },
+    "scopedDiffCheck": {
+      "exitCode": 0
+    }
+  },
+  "boundaries": [
+    "No npm build, Electron run, package output, Git index, commit, tag, remote, installation, Registry, or real user dataset was changed by this candidate.",
+    "The independent real schema18 backup-copy migration and measurement probe is external reviewer evidence and is not claimed as an author-run test.",
+    "Automatic policy never permanently deletes trash; the only automatic zone transition is due staging to recoverable trash.",
+    "Independent candidate review and root full-suite/build/package validation remain pending."
+  ]
+}

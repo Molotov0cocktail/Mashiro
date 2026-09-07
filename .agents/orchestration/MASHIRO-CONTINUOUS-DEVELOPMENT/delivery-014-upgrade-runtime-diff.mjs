@@ -3,6 +3,7 @@ import console from "node:console";
 import { writeFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 import process from "node:process";
+import { URL } from "node:url";
 
 const scene =
   "C:/Users/30910/AppData/Local/Temp/mashiro-install-full-Zbzmgp";

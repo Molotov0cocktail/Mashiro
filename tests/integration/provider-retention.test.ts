@@ -191,3 +191,115 @@ it('prepares a governance tool request but never treats a second model response 
     ])
   ).toThrow()
 })
+
+it('continues the ordinary answer after a capacity-rejected memory write with a bounded tool receipt', async () => {
+  const captured: TransportRequest[] = []
+  const f = fixture(async (request) => {
+    captured.push(request)
+    if (captured.length === 1)
+      return {
+        status: 'completed',
+        text: '',
+        usage: null,
+        finishReason: 'tool_calls',
+        toolCalls: [
+          {
+            id: 'capacity-write',
+            type: 'function',
+            function: {
+              name: 'write_memory',
+              arguments: JSON.stringify({
+                kind: 'user',
+                scope: 'global',
+                title: '容量测试',
+                markdown: '容量超限内容',
+                nature: 'user-statement',
+                event: null
+              })
+            }
+          }
+        ]
+      }
+    return {
+      status: 'completed',
+      text: '记忆没有保存，但我仍然回答了当前问题。',
+      usage: null,
+      finishReason: 'stop',
+      toolCalls: []
+    }
+  })
+  expect(
+    f.service.memory.setPermissions({
+      protocolVersion: 1,
+      assistantId: f.a,
+      scope: 'global',
+      expectedVersion: 0,
+      read: true,
+      write: true,
+      writeInferences: false,
+      receive: true
+    })
+  ).toMatchObject({ ok: true })
+  const current = await f.service.retention.policy({ protocolVersion: 1, assistantId: f.a })
+  if (!current.ok) throw Error('capacity policy fixture')
+  const settings = {
+    ...current.data.settings,
+    persistentCapacity: { enabled: true, limitBytes: 1 }
+  }
+  const preview = await f.service.retention.previewPolicy({
+    protocolVersion: 1,
+    assistantId: f.a,
+    expectedRevision: current.data.revision,
+    settings
+  })
+  if (!preview.ok) throw Error('capacity preview fixture')
+  expect(
+    await f.service.retention.configurePolicy({
+      protocolVersion: 1,
+      assistantId: f.a,
+      commandId: randomUUID(),
+      expectedRevision: current.data.revision,
+      previewId: preview.data.id,
+      settings
+    })
+  ).toMatchObject({ ok: true })
+
+  const requestId = randomUUID()
+  const result = await f.service.startChat(
+    f.request(f.a, {
+      requestId,
+      text: '请记住：容量超限内容，然后继续回答当前问题。',
+      tools: 'clock-and-memory'
+    }),
+    () => undefined
+  )
+  expect(result).toMatchObject({
+    ok: true,
+    data: { status: 'completed', text: '记忆没有保存，但我仍然回答了当前问题。' }
+  })
+  expect(captured).toHaveLength(2)
+  expect(JSON.stringify(captured[1]!.messages)).toContain('CAPACITY_EXCEEDED')
+  expect(JSON.stringify(captured[1]!.messages)).toContain('普通回答可以继续')
+  expect(f.store.database.prepare('SELECT count(*) AS total FROM memory_objects').get()).toEqual({
+    total: 0
+  })
+  expect(
+    f.service.tools({
+      protocolVersion: 1,
+      assistantId: f.a,
+      requestId,
+      mode: 'normal'
+    })
+  ).toMatchObject({
+    ok: true,
+    data: {
+      operations: [
+        {
+          toolName: 'write_memory',
+          state: 'CONFIRMED_NOT_APPLIED',
+          summary: expect.stringContaining('容量已满')
+        }
+      ]
+    }
+  })
+})

@@ -1,0 +1,55 @@
+{
+  "root": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-review009-v2-default-JYL8QJ",
+  "sourceHashes": {
+    "src/main/retention/retention-policy-service.ts": "0289950562727295f57c1fb23a8b4d8a568230cb84c80bd4d5cf6777d3565120",
+    "src/main/retention/retention-policy-schema.ts": "adca791edbdab5d72e9ae0314bc3c3d1272830eb95631000bbfe53c88f815a35",
+    "src/main/retention/retention-service.ts": "743581265759cec35b7ff71d1379794c1d12857439bd7b7e69560da3c9e4a82f",
+    "src/main/memory/memory-service.ts": "8d1ae1cba5714512d8f94e524b9eb165b20f94e296409a6f71fbf099c2c80ba7",
+    "src/main/data/schema.ts": "617a3cdcf0ab70018a7d229d925c91c2e8fe198199de99912e9a7f9ffc87c149"
+  },
+  "sourceDbHash": "b74d551618f55939496f58d55fb1c653835ea1c9800f22535275aaf766ab51de",
+  "copyMs": 28213.7212,
+  "constructorMs": 38.70839999999953,
+  "initialSnapshotMs": 13.745599999998376,
+  "initial": {
+    "ok": true,
+    "data": {
+      "revision": 1,
+      "settings": {
+        "persistentCapacity": {
+          "enabled": true,
+          "limitBytes": 104857600
+        },
+        "stagingExpiry": {
+          "enabled": true,
+          "days": 90
+        }
+      },
+      "activatedAt": "2026-09-07T17:34:48.972Z",
+      "updatedAt": "2026-09-07T17:34:48.972Z",
+      "restoredPaused": false,
+      "usage": {
+        "acceptedBytes": 0,
+        "measurement": "UNKNOWN",
+        "unknownObjects": 25599,
+        "overLimit": false
+      },
+      "audit": {
+        "state": "PENDING",
+        "checkedObjects": 0,
+        "totalObjects": 25599,
+        "startedAt": null,
+        "completedAt": null
+      },
+      "staging": {
+        "trackedObjects": 0,
+        "dueObjects": 0,
+        "failedObjects": 0,
+        "nextDueAt": null,
+        "nextRetryAt": null,
+        "nextCheckAt": null
+      },
+      "recentRun": null
+    }
+  }
+}

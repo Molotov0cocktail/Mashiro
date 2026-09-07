@@ -45,6 +45,14 @@ export function assertGovernanceDominance(
     )
       continue
     if (
+      prior.table === 'retention_policy' &&
+      Number(values[0]) >= Number(old[0]) &&
+      Number(values[1]) <= Number(old[1]) &&
+      Number(values[3]) <= Number(old[3]) &&
+      values[5] === 1
+    )
+      continue
+    if (
       prior.table.endsWith('_permissions') ||
       prior.table === 'history_recipient_grants' ||
       prior.table.endsWith('_recipients')

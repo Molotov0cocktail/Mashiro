@@ -254,6 +254,27 @@ export function applyProductionGovernance(
           .prepare('UPDATE provider_connections SET version=max(version,?) WHERE id=?')
           .run(Number(p.values[0]), ...p.keys)
       }
+    for (const p of active)
+      if (p.table === 'retention_policy') {
+        const restored = database
+          .prepare(
+            'SELECT revision,capacity_enabled,capacity_bytes,staging_enabled,staging_days,scheduler_generation FROM retention_policy WHERE singleton=1'
+          )
+          .get()!
+        const later = Number(p.values[0]) >= Number(restored.revision)
+        database
+          .prepare(
+            'UPDATE retention_policy SET revision=max(revision,?),capacity_enabled=?,capacity_bytes=?,staging_enabled=?,staging_days=?,scheduler_generation=max(scheduler_generation,?) WHERE singleton=1'
+          )
+          .run(
+            Number(p.values[0]),
+            Math.min(Number(restored.capacity_enabled), Number(p.values[1])),
+            later ? Number(p.values[2]) : Number(restored.capacity_bytes),
+            Math.min(Number(restored.staging_enabled), Number(p.values[3])),
+            later ? Number(p.values[4]) : Number(restored.staging_days),
+            Number(p.values[6])
+          )
+      }
     pauseRestoredWork(database)
     database.exec(
       'UPDATE retention_state SET epoch=epoch+1,generation=generation+1 WHERE singleton=1; COMMIT'
@@ -330,6 +351,6 @@ function pauseRestoredWork(database: DatabaseSync) {
       'UPDATE ' + table + " SET record_json=json_set(record_json,'$.enabled',json('false'))"
     )
   database.exec(
-    "UPDATE memory_previews SET state='closed',payload_json='{}'; UPDATE retention_previews SET state='closed',manifest_json='{}'; UPDATE item_confirmations SET state='closed',payload_json='{}'"
+    "UPDATE memory_previews SET state='closed',payload_json='{}'; UPDATE retention_previews SET state='closed',manifest_json='{}'; UPDATE retention_policy_previews SET state='closed',impact_json='{}'; UPDATE item_confirmations SET state='closed',payload_json='{}'; UPDATE retention_policy SET restored_paused=1,scheduler_generation=scheduler_generation+1 WHERE singleton=1"
   )
 }

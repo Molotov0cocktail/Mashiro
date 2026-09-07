@@ -1,0 +1,37 @@
+{
+  "observedAt": "2026-09-08T02:32:29.4508396+08:00",
+  "status": "FROZEN_WORKTREE_OUTPUT_NOT_RELEASED",
+  "baseCommit": "0b9328b5308a4042d3acb351c2cac9deafd29670",
+  "retentionManifest": "retention-009-author-manifest-v4.json",
+  "retentionManifestSHA": "22A5DB709FDC4CA4EF69E36F4C3E09BB48C87877926B0BD2131C3557D0235BBB",
+  "electronRunId": "0564cace-6084-472a-926f-b3b76111b621",
+  "seedPid": 216688,
+  "verifyPid": 225880,
+  "files": [
+    {
+      "path": "out/main/index.js",
+      "bytes": 925167,
+      "sha256": "593666892D949B792DC9D90DEEFCB4BB627D6F176AD3E3413672340344623F14"
+    },
+    {
+      "path": "out/preload/index.cjs",
+      "bytes": 12501,
+      "sha256": "6FA45BB4625584B2A471BC8B187793BE84BD7487BBE258F0215D10628726971D"
+    },
+    {
+      "path": "out/renderer/assets/index-B1DhjySS.css",
+      "bytes": 29308,
+      "sha256": "E0576BDC96DE8B8CD57620237DDA4D778289E5B89D8F3A370C89FA98C10830FC"
+    },
+    {
+      "path": "out/renderer/assets/index-V2pEEo7A.js",
+      "bytes": 1340159,
+      "sha256": "D3C722D337CC388C8A8B2FF150288ACCFF70B993B761F8A7AC8FC7A44C4B9BEE"
+    },
+    {
+      "path": "out/renderer/index.html",
+      "bytes": 625,
+      "sha256": "8ABE0E306A1FC8EE683602286FA27E961B6785F67C416E1BC75DB16A7DA7BA95"
+    }
+  ]
+}

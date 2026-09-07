@@ -265,13 +265,13 @@ describe('retention trusted lifecycle', () => {
       }
     })
   })
-  it('never restores trash after an independent source withdrawal and never adopts automatic policy', async () => {
+  it('never restores trash after an independent source withdrawal and reports the active default policy', async () => {
     const f = setup(),
       a = f.ids[0]!,
       saved = f.remember()
     expect(await f.retention.overview({ protocolVersion: 1, assistantId: a })).toMatchObject({
       ok: true,
-      data: { automaticPolicy: 'UNCONFIGURED' }
+      data: { automaticPolicy: 'ACTIVE' }
     })
     await f.retention.move({
       protocolVersion: 1,

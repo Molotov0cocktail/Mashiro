@@ -511,6 +511,14 @@ export class ItemService {
       }
     })
   }
+  hasNavigableItem(assistantId: string, itemId: string): boolean {
+    try {
+      this.active(assistantId)
+      return Boolean(this.store.database.prepare('SELECT 1 FROM items WHERE id=?').get(itemId))
+    } catch {
+      return false
+    }
+  }
   inspect(input: unknown) {
     return this.handle(itemInspectInputSchema, input, (v) => {
       this.active(v.assistantId)

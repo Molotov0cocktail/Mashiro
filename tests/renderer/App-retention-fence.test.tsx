@@ -6,6 +6,7 @@ import type { AssistantApi, AssistantSnapshot } from '../../src/shared/assistant
 import type { RetentionApi, RetentionChanged } from '../../src/shared/retention-contract'
 import type { TimelineApi } from '../../src/shared/timeline-contract'
 import { memoryApi008Defaults } from './memory-api-fixture'
+import { retentionPolicyApi009Defaults } from './retention-api-fixture'
 import { providerApi007Defaults } from './provider-api-fixture'
 import { timelineApi006Defaults } from './timeline-api-fixture'
 
@@ -59,6 +60,7 @@ describe('App retention assistant snapshot fence', () => {
       archive: vi.fn()
     } as AssistantApi
     const retention = {
+      ...retentionPolicyApi009Defaults(),
       overview: vi.fn(),
       move: vi.fn(),
       preview: vi.fn(),

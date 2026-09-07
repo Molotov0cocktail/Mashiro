@@ -1,0 +1,257 @@
+{
+  "candidate": "retention-009-policy-v3-integrated-fixture",
+  "status": "CODE_AND_LOCAL_SCOPE_READY_FOR_INDEPENDENT_REVIEW",
+  "generatedAt": "2026-09-07T17:48:22.701373Z",
+  "files": [
+    {
+      "path": "src/main/data/production-governance-apply.ts",
+      "sha256": "D236CC3CCE509BCAD63559AC71DB813CF92973DC418BC9437DDBE471DC038ACA"
+    },
+    {
+      "path": "src/main/data/production-governance-catalog.ts",
+      "sha256": "1FD7BCB1F8D62EB822DD8B03961A63B8E0C2F7374695B5F823984F1E7717D95B"
+    },
+    {
+      "path": "src/main/data/production-governance-check.ts",
+      "sha256": "2AC176AEB72EC2020F6A7538E1C05464799E718C1734A238AA408AFB06850975"
+    },
+    {
+      "path": "src/main/data/production-governance-connection.ts",
+      "sha256": "7A21E952ADF7939D0074552194BA869B214877C1E160FEEB43B0BAE8F6F72A93"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "617A3CDCF0AB70018A7D229D925C91C2E8FE198199DE99912E9A7F9FFC87C149"
+    },
+    {
+      "path": "src/main/ipc/register-retention-ipc.ts",
+      "sha256": "7EF0E27AE4FD717B6F8DB764739F1FA690902DBE25E68368A827ECF775A7598A"
+    },
+    {
+      "path": "src/main/memory/memory-round-schema.ts",
+      "sha256": "6174A82F47124CEEAD9BCF3E8787EE5D039D5EE36B351F52A25B01B4936112FB"
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "sha256": "8D1AE1CBA5714512D8F94E524B9EB165B20F94E296409A6F71FBF099C2C80BA7"
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "sha256": "E08CE55427B34390A12085B5899DAB4071BBB5E6B59F7C6C82B2AEFE5231FF3F"
+    },
+    {
+      "path": "src/main/retention/retention-policy-schema.ts",
+      "sha256": "ADCA791EDBDAB5D72E9AE0314BC3C3D1272830EB95631000BBFE53C88F815A35"
+    },
+    {
+      "path": "src/main/retention/retention-policy-service.ts",
+      "sha256": "0289950562727295F57C1FB23A8B4D8A568230CB84C80BD4D5CF6777D3565120"
+    },
+    {
+      "path": "src/main/retention/retention-service.ts",
+      "sha256": "743581265759CEC35B7FF71D1379794C1D12857439BD7B7E69560DA3C9E4A82F"
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "E6B531116510BAF1061FE12000748B08A5947171D774D7C21297C483FF25A026"
+    },
+    {
+      "path": "src/renderer/src/features/retention/RetentionPanel.tsx",
+      "sha256": "8822BD4AEF182E84C41E5A8222AD3D60A1B1031312B5D61BFDC677BCC04261F9"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "E0576BDC96DE8B8CD57620237DDA4D778289E5B89D8F3A370C89FA98C10830FC"
+    },
+    {
+      "path": "src/shared/memory-contract.ts",
+      "sha256": "59E5983CF8557983628720254CB7FCB06585007F28F31C5032F86E76C5144873"
+    },
+    {
+      "path": "src/shared/retention-channels.ts",
+      "sha256": "D108BD44B04E7C360C60A3CCD7FF0BD66AB2211C43A37CA5AC2B068F86A3A774"
+    },
+    {
+      "path": "src/shared/retention-contract.ts",
+      "sha256": "2FCE3D22A1E93FF93C8414DBEE0EC5803B5BB9E2E25FB8A204D800C4E5870DCF"
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "sha256": "D396EFFBDCC3C2B5DB5DC748203F8889B317D42577E1DC9066FC3024316C0D9B"
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "sha256": "1E204BA7BCD0CAB5103591E6B32FEC8494A79338210CEAF232E7F16B19D9164E"
+    },
+    {
+      "path": "tests/integration/governance-legacy-fixture.ts",
+      "sha256": "1F659624899A858C405DEB41931BE9D9AFB5D91A5872AAB43C90E1FC53C5E7D0"
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "sha256": "8950191934CC77471162931476295F106B3335A836487C3978943EC5FBA86541"
+    },
+    {
+      "path": "tests/integration/memory-round.test.ts",
+      "sha256": "874D6494652CAC76793B38C1391E3B6F01F87752AFE61F1F8EBBBEE9B4858108"
+    },
+    {
+      "path": "tests/integration/production-governance-upgrade.test.ts",
+      "sha256": "729A8E288F28CDFB73870231F1F2B3DB32E30FA9C4B3F976DA556E0552BBA110"
+    },
+    {
+      "path": "tests/integration/provider-retention.test.ts",
+      "sha256": "7C3FE7EC089B02D8C1341DB74D8E5AE9D2AEFE7ABEFDF15A9514205254E96391"
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "sha256": "5553394D589036A19620A27B803228959E1E739AAF283BAFCA3986366C3A796A"
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "53ACFC7B76B4E2D572349B164BE03401FA09137A7BBF14F011DB719E9BC98ED4"
+    },
+    {
+      "path": "tests/integration/reminder-approved-default-independent.test.ts",
+      "sha256": "7E529A1E203BC39464C1D18882C330EB25D89CE44DBCD8D801E00B7B13C14B42"
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "sha256": "247BDA096F55D65CE0D06AB69DF1417370B39A5A1340EE801C5403760E765482"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "009F9331F10855A9E7727E306036BF8DDCF0FF5DD41AA083874E9FCEEBDF801F"
+    },
+    {
+      "path": "tests/integration/retained-protocol-migration.test.ts",
+      "sha256": "808436DEC3D7D116387B58FEAFF91981B01ACA33637CD9EB4767F683D417E06D"
+    },
+    {
+      "path": "tests/integration/retention-policy-schema.test.ts",
+      "sha256": "D233CA3CDF7882CC244C010FF2BACC0129A0DBFAF274B4191D51F0B16150B1A1"
+    },
+    {
+      "path": "tests/integration/retention-policy-service.test.ts",
+      "sha256": "7C3989413BE77F656C0202E7801EE8A3F132C23F5E25FF1D1C3062E81F8910AE"
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "sha256": "E05473CB425A742E9A11F561E2AC3A42E916D060FC19AE492A2AE2786AD6942F"
+    },
+    {
+      "path": "tests/integration/retention-service.test.ts",
+      "sha256": "59FB5679282D4F4B04D6395EB3DA79E8E88C144206576DE34DA1C20E5488A18D"
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "sha256": "BCB4236A1538047AA11733CF3B399B4999CE7B62D6EEBD3D67D9C9E4F89134E7"
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "sha256": "7FA1075EBDED1D95E1CF516E5E4271A42262ED070B3B9C14DB5B9A2579B17C2C"
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "sha256": "DA54F1869A5E553EC50549DA0BBBBC56F59795EA7862A1A1E0733B157221DA10"
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "sha256": "33877DE7ED34A8CA47F0874819D8DB7AAA1E3439E20D54C6570D6A4BC8B1CD39"
+    },
+    {
+      "path": "tests/renderer/App-retention-fence.test.tsx",
+      "sha256": "9AD81699EFD4691829B668B0B92A8C5E46C93B2F66530A52B863C67FD32CE61C"
+    },
+    {
+      "path": "tests/renderer/App-retention-registry.test.tsx",
+      "sha256": "AEF7C7C0D29ECFAB4E2D81B18635F8C55BCFD030CFD06D31E13A1E2802596B9A"
+    },
+    {
+      "path": "tests/renderer/RetentionPanel.test.tsx",
+      "sha256": "105FDE8AE933A8C2F1565D00E69B71CFA0554EED1E217E51683046FA35C32D4A"
+    },
+    {
+      "path": "tests/renderer/retention-api-fixture.ts",
+      "sha256": "2125854163F2CCD9F6DF84FFA1E599ADCE5E87CD9EA21023FA767FA6C0568807"
+    },
+    {
+      "path": "tests/integration/memory-service.test.ts",
+      "sha256": "7057AEA364F91C421429C6B70B6B3562A3962EB5F7935B729A2E23A3DD2E00E1"
+    }
+  ],
+  "performanceRepair": {
+    "sourceEvidence": "retention-009-review-measurement-default-cost-result.json",
+    "originalObservation": "The independent 25,599-object/100 MiB sample observed multi-second constructor, snapshot, and accepted-write blocking in v1.",
+    "implementation": [
+      "Trusted accepted writes maintain the byte ledger with accepted version, body hash, file identity, and governance generation.",
+      "Startup and invalidation mark the ledger UNKNOWN and schedule full SHA/closure verification in deterministic batches of 20 with event-loop yields.",
+      "File watching only invalidates known state. It never promotes UNKNOWN to KNOWN.",
+      "A capacity-increasing write first checks complete lightweight file identity metadata for every known persistent entry; any missing or changed identity becomes UNKNOWN and blocks the increase.",
+      "Snapshots aggregate the ledger in SQL and expose pending/running/complete audit progress without synchronously reading every Markdown body."
+    ],
+    "independentRetest": {
+      "evidence": "retention-009-review-v2-batched-copy-result-01.json",
+      "sourceHashesMatched": true,
+      "objectsBeforeAcceptedWrite": 25599,
+      "constructorMs": 38.7,
+      "initialPendingSnapshotMs": 13.7,
+      "fullYieldingAuditMs": 60491,
+      "maxObserved10msTimerGapMs": 167.4,
+      "completeSnapshotMs": 122.8,
+      "accepted4KiBWriteMs": 649.6,
+      "result": "The earlier multi-second synchronous constructor/snapshot/write blocking was removed. The full content audit remains asynchronous and user-visible as PENDING/RUNNING with capacity UNKNOWN until completion.",
+      "limits": "One independent warm-cache Windows sample; values are observations, not timing guarantees."
+    }
+  },
+  "crossSlice": [
+    "src/preload/index.ts exposes the four exact RET policy invokes under the independently frozen delivery-014 cold manifest; this RET v2 candidate did not edit preload.",
+    "src/main/index.ts already closes ProviderService before SqliteStore and ProviderService.close owns RetentionService.close; this RET v2 candidate did not edit main/index.ts.",
+    "Reviewer-owned review009 tests and performance probes are excluded from this author manifest and remain independently controlled."
+  ],
+  "validation": {
+    "focusedTests": {
+      "files": 14,
+      "tests": 67,
+      "exitCode": 0,
+      "includes": "schema19, policy audit/batching/recovery, Provider continuation and clocks, governance upgrade, independent seams/audit races, and renderer policy boundaries"
+    },
+    "previousIntegratedFailureFiles": {
+      "files": 5,
+      "tests": 45,
+      "exitCode": 0,
+      "includes": "assistant profile, standalone memory-round schema, two schema/governance fixtures, and Provider tool clock behavior"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    "scopedEslint": {
+      "files": 44,
+      "exitCode": 0
+    },
+    "scopedPrettier": {
+      "files": 44,
+      "exitCode": 0
+    },
+    "memoryServiceRegression": {
+      "files": 1,
+      "tests": 20,
+      "exitCode": 0,
+      "unchangedBusinessAssertions": "SUCCEEDED receipt, objectVersion 2 corrected body, and old historical replay rejection"
+    }
+  },
+  "boundaries": [
+    "UNKNOWN retains last-known accepted bytes and never becomes zero or a capacity grant.",
+    "Non-increasing transitions remain available while over limit or UNKNOWN; increases fail closed without cancelling ordinary Provider chat.",
+    "Trash is recoverable and is never automatically permanently deleted.",
+    "No build, Electron process, package output, Git index, commit, tag, remote, installation, Registry, or real user dataset was changed by this candidate.",
+    "Independent v2 performance, stale-audit, full-suite, build, packaging, and installation review remain pending."
+  ],
+  "integratedRepair": {
+    "sourceEvidence": "retention-009-root-integrated-domains-02.json",
+    "failure": "The pre-RET provenance fixture opened ProviderService over an existing accepted memory and immediately attempted a capacity-increasing correction while the required startup audit was still UNKNOWN.",
+    "resolution": "The fixture now waits through the production retention policy API, bounded by 20 event-loop turns, for audit COMPLETE before exercising its unchanged search -> correction -> continued-answer and historical-replay assertions.",
+    "productSemantics": "Startup remains fail-closed; MEASUREMENT_UNKNOWN was not weakened and no sleep or direct ledger mutation was introduced."
+  }
+}

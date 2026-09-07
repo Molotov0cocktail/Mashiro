@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 const uuid = z.string().uuid()
 const version = z.number().int().nonnegative()
+const positiveBytes = z.number().int().min(1).max(1_099_511_627_776)
 const base = { protocolVersion: z.literal(1), assistantId: uuid }
 export const retentionZoneSchema = z.enum(['persistent', 'staging', 'trash'])
 export const retentionTargetSchema = z.discriminatedUnion('type', [
@@ -55,12 +56,39 @@ export const retentionRetryInputSchema = z.strictObject({
   assistantId: uuid.optional(),
   jobId: uuid
 })
+export const retentionPolicySettingsSchema = z.strictObject({
+  persistentCapacity: z.strictObject({
+    enabled: z.boolean(),
+    limitBytes: positiveBytes
+  }),
+  stagingExpiry: z.strictObject({
+    enabled: z.boolean(),
+    days: z.number().int().min(1).max(36500)
+  })
+})
+export const retentionPolicyInputSchema = z.strictObject(base)
+export const retentionPolicyPreviewInputSchema = z.strictObject({
+  ...base,
+  expectedRevision: version,
+  settings: retentionPolicySettingsSchema
+})
+export const retentionPolicyConfigureInputSchema = z.strictObject({
+  ...base,
+  commandId: uuid,
+  expectedRevision: version,
+  previewId: uuid,
+  settings: retentionPolicySettingsSchema
+})
+export const retentionPolicyRunInputSchema = z.strictObject({
+  ...base,
+  expectedRevision: version
+})
 export const retentionChangedSchema = z.strictObject({
   epoch: version,
   assistantIds: z.array(uuid),
   memoryIds: z.array(uuid),
   requestIds: z.array(uuid),
-  reason: z.enum(['move', 'cleanup', 'purge', 'job-status'])
+  reason: z.enum(['move', 'cleanup', 'purge', 'job-status', 'policy', 'policy-status'])
 })
 export const retentionReceiptSchema = z.strictObject({
   commandId: uuid,
@@ -121,6 +149,69 @@ export const retentionPreviewSchema = z.strictObject({
   blockers: z.array(z.string().max(300)).max(20),
   warning: z.string().max(1000)
 })
+export const retentionPolicyRunSchema = z.strictObject({
+  id: uuid,
+  policyRevision: version,
+  state: z.enum(['RUNNING', 'COMPLETED', 'FAILED']),
+  startedAt: z.iso.datetime(),
+  completedAt: z.iso.datetime().nullable(),
+  moved: version,
+  skipped: version,
+  failed: version,
+  error: z.string().max(300).nullable()
+})
+export const retentionPolicySnapshotSchema = z.strictObject({
+  revision: version,
+  settings: retentionPolicySettingsSchema,
+  activatedAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+  restoredPaused: z.boolean(),
+  usage: z.strictObject({
+    acceptedBytes: version,
+    measurement: z.enum(['COMPLETE', 'UNKNOWN']),
+    unknownObjects: version,
+    overLimit: z.boolean()
+  }),
+  audit: z.strictObject({
+    state: z.enum(['PENDING', 'RUNNING', 'COMPLETE']),
+    checkedObjects: version,
+    totalObjects: version,
+    startedAt: z.iso.datetime().nullable(),
+    completedAt: z.iso.datetime().nullable()
+  }),
+  staging: z.strictObject({
+    trackedObjects: version,
+    dueObjects: version,
+    failedObjects: version,
+    nextDueAt: z.iso.datetime().nullable(),
+    nextRetryAt: z.iso.datetime().nullable(),
+    nextCheckAt: z.iso.datetime().nullable()
+  }),
+  recentRun: retentionPolicyRunSchema.nullable()
+})
+export const retentionPolicyPreviewSchema = z.strictObject({
+  id: uuid,
+  expectedRevision: version,
+  settings: retentionPolicySettingsSchema,
+  dueObjects: version,
+  firstBatch: z
+    .array(
+      z.strictObject({
+        id: uuid,
+        version,
+        ownerAssistantId: uuid,
+        title: z.string().max(160),
+        dueAt: z.iso.datetime()
+      })
+    )
+    .max(20),
+  capacityAfterSave: z.strictObject({
+    acceptedBytes: version,
+    measurement: z.enum(['COMPLETE', 'UNKNOWN']),
+    overLimit: z.boolean()
+  }),
+  restoredPauseWillClear: z.boolean()
+})
 const error = z.strictObject({
   code: z.enum([
     'INVALID_INPUT',
@@ -130,6 +221,8 @@ const error = z.strictObject({
     'DEPENDENCY_BLOCKED',
     'NOT_RECOVERABLE',
     'CONFLICT',
+    'CAPACITY_EXCEEDED',
+    'MEASUREMENT_UNKNOWN',
     'STORAGE_UNAVAILABLE'
   ]),
   message: z.string().max(300)
@@ -144,12 +237,18 @@ export const retentionOverviewResultSchema = result(
     epoch: version,
     zones: z
       .array(
-        z.strictObject({ zone: retentionZoneSchema, objects: version, acceptedBytes: version })
+        z.strictObject({
+          zone: retentionZoneSchema,
+          objects: version,
+          acceptedBytes: version,
+          measurement: z.enum(['COMPLETE', 'UNKNOWN']),
+          unknownObjects: version
+        })
       )
       .length(3),
     managedFileBytes: version,
     databaseBytes: version,
-    automaticPolicy: z.literal('UNCONFIGURED')
+    automaticPolicy: z.enum(['ACTIVE', 'PARTIAL', 'DISABLED', 'RESTORED_PAUSED'])
   })
 )
 export const retentionPreviewResultSchema = result(retentionPreviewSchema)
@@ -157,11 +256,16 @@ export const retentionReceiptResultSchema = result(retentionReceiptSchema)
 export const retentionJobsResultSchema = result(
   z.strictObject({ jobs: z.array(retentionJobSchema).max(100), nextCursor: version.nullable() })
 )
+export const retentionPolicyResultSchema = result(retentionPolicySnapshotSchema)
+export const retentionPolicyPreviewResultSchema = result(retentionPolicyPreviewSchema)
 export type RetentionPreview = z.infer<typeof retentionPreviewSchema>
 export type RetentionReceipt = z.infer<typeof retentionReceiptSchema>
 export type RetentionChanged = z.infer<typeof retentionChangedSchema>
 export type RetentionJob = z.infer<typeof retentionJobSchema>
 export type RetentionIntent = z.infer<typeof retentionPreviewInputSchema>
+export type RetentionPolicySettings = z.infer<typeof retentionPolicySettingsSchema>
+export type RetentionPolicySnapshot = z.infer<typeof retentionPolicySnapshotSchema>
+export type RetentionPolicyPreview = z.infer<typeof retentionPolicyPreviewSchema>
 export interface RetentionApi {
   overview(
     input: z.infer<typeof retentionOverviewInputSchema>
@@ -179,5 +283,17 @@ export interface RetentionApi {
   retry(
     input: z.infer<typeof retentionRetryInputSchema>
   ): Promise<z.infer<typeof retentionReceiptResultSchema>>
+  policy(
+    input: z.infer<typeof retentionPolicyInputSchema>
+  ): Promise<z.infer<typeof retentionPolicyResultSchema>>
+  previewPolicy(
+    input: z.infer<typeof retentionPolicyPreviewInputSchema>
+  ): Promise<z.infer<typeof retentionPolicyPreviewResultSchema>>
+  configurePolicy(
+    input: z.infer<typeof retentionPolicyConfigureInputSchema>
+  ): Promise<z.infer<typeof retentionPolicyResultSchema>>
+  runPolicy(
+    input: z.infer<typeof retentionPolicyRunInputSchema>
+  ): Promise<z.infer<typeof retentionPolicyResultSchema>>
   onChanged(listener: (event: RetentionChanged) => void): () => void
 }

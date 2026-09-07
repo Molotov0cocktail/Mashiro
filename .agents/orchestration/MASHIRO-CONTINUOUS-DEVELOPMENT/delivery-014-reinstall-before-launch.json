@@ -1,0 +1,27 @@
+{
+  "scope": "isolated Mashiro reinstall completed before first application launch",
+  "observedAt": "2026-09-08T00:42:44.7197097+08:00",
+  "setup": {
+    "sha256": "E615FFDC9BCD18DDF8A1D8BA83A9BC42DFA2B2B25A401113F9EF9797B082201B"
+  },
+  "executable": {
+    "exists": true,
+    "sha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472",
+    "bytes": 245289984
+  },
+  "asar": {
+    "exists": true,
+    "sha256": "7FDDAD7FDA3E7ED19E754FB9704B61B7AD1F0E0A9ECDF879AA41D836D30702BC",
+    "bytes": 15431590
+  },
+  "unknown": {
+    "exists": true,
+    "sha256": "EC149C6F29DD292C296D63E6B3F3E0F36E3B5B9B97D36A89B27580743268033A"
+  },
+  "run": {
+    "appId": null,
+    "legacy": null
+  },
+  "processCount": 0,
+  "personalDataAccessed": false
+}

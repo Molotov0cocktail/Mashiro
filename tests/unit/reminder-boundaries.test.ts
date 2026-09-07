@@ -54,9 +54,10 @@ import {
   createWindowsReminderPlatform,
   parseReminderActivation
 } from '../../src/main/reminder/windows-reminder-platform.js'
-import { reminderChannels } from '../../src/shared/reminder-channels.js'
+import { reminderChannels, reminderNavigationChannels } from '../../src/shared/reminder-channels.js'
 import { registerReminderIpc } from '../../src/main/ipc/register-reminder-ipc.js'
 import type { ReminderService } from '../../src/main/reminder/reminder-service.js'
+import type { ReminderNavigationBroker } from '../../src/main/reminder/reminder-navigation.js'
 beforeEach(() => {
   host.packaged = false
   host.startup = false
@@ -113,6 +114,11 @@ it('reminder IPC rejects subframe/untrusted callers before service access and va
   const handlers = new Map<string, (event: unknown, input: unknown) => unknown>()
   const query = vi.fn(() => ({ ok: true, data: { arbitraryPath: 'private' } }))
   const service = { query } as unknown as ReminderService
+  const pendingNavigation = vi.fn(() => ({ ok: true as const, data: null }))
+  const navigation = {
+    pendingNavigation,
+    ackNavigation: vi.fn()
+  } as unknown as ReminderNavigationBroker
   const remove = vi.fn()
   const unregister = registerReminderIpc(
     {
@@ -122,6 +128,7 @@ it('reminder IPC rejects subframe/untrusted callers before service access and va
       removeHandler: remove
     },
     service,
+    navigation,
     (event) => event === 'trusted'
   )
   expect(handlers.get(reminderChannels.query)!('untrusted', {})).toMatchObject({
@@ -133,6 +140,20 @@ it('reminder IPC rejects subframe/untrusted callers before service access and va
     ok: false,
     error: { code: 'STORAGE_UNAVAILABLE' }
   })
+  expect(handlers.get(reminderNavigationChannels.pending)!('untrusted', {})).toMatchObject({
+    ok: false,
+    error: { code: 'PERMISSION_DENIED' }
+  })
+  expect(pendingNavigation).not.toHaveBeenCalled()
+  expect(
+    handlers.get(reminderNavigationChannels.pending)!('trusted', {
+      protocolVersion: 1,
+      assistantId: '01234567-89ab-4def-8123-456789abcdef',
+      assistantRevision: 1
+    })
+  ).toEqual({ ok: true, data: null })
   unregister()
-  expect(remove).toHaveBeenCalledTimes(Object.keys(reminderChannels).length)
+  expect(remove).toHaveBeenCalledTimes(
+    Object.keys(reminderChannels).length + Object.keys(reminderNavigationChannels).length
+  )
 })

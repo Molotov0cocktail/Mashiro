@@ -207,4 +207,91 @@ describe('ProviderPanel retention epochs', () => {
     )
     expect(screen.queryByText(/private marker/)).not.toBeInTheDocument()
   })
+  it('keeps a temporary stream through policy status and still consumes a same-epoch cleanup', async () => {
+    let listener: ((event: ProviderEvent) => void) | undefined
+    const startChat = vi.fn<ProviderApi['startChat']>(() => new Promise(() => undefined))
+    const api = {
+      ...providerApi007Defaults(),
+      list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
+      saveConnection: vi.fn(),
+      setCredential: vi.fn(),
+      deleteCredential: vi.fn(),
+      bindAssistant: vi.fn(),
+      clearChat: vi.fn(),
+      cancelChat: vi.fn(),
+      startChat,
+      onEvent: vi.fn((value: (event: ProviderEvent) => void) => {
+        listener = value
+        return () => undefined
+      })
+    } as ProviderApi
+    const timelineApi = {
+      ...timelineApi006Defaults(),
+      read: vi.fn(async (input) => ({
+        ok: true as const,
+        data: { assistantId: input.assistantId, mode: input.mode, messages: [], hasMore: false }
+      })),
+      saveTemporary: vi.fn()
+    } as TimelineApi
+    const view = render(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+      />
+    )
+    await screen.findByText(/实际接收方：Receiver/)
+    fireEvent.click(screen.getByRole('radio', { name: /严格临时/ }))
+    fireEvent.change(screen.getByLabelText('临时消息'), {
+      target: { value: 'temporary status marker' }
+    })
+    fireEvent.click(screen.getByRole('button', { name: '发送' }))
+    await screen.findByText('temporary status marker')
+    const sent = startChat.mock.calls[0]![0]
+    act(() => {
+      listener?.({
+        type: 'delta',
+        requestId: sent.requestId,
+        assistantId: assistantA,
+        text: 'active stream marker'
+      })
+    })
+    await screen.findByText('active stream marker')
+
+    const status: RetentionChanged = {
+      epoch: 11,
+      assistantIds: [],
+      memoryIds: [],
+      requestIds: [],
+      reason: 'policy-status'
+    }
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+        retentionChange={status}
+      />
+    )
+    expect(screen.getByRole('radio', { name: /严格临时/ })).toBeChecked()
+    expect(screen.getByText('temporary status marker')).toBeInTheDocument()
+    expect(screen.getByText('active stream marker')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '取消' })).toBeEnabled()
+
+    view.rerender(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+        retentionChange={{
+          ...status,
+          assistantIds: [assistantA],
+          requestIds: [sent.requestId],
+          reason: 'cleanup'
+        }}
+      />
+    )
+    await waitFor(() => expect(screen.queryByText('active stream marker')).not.toBeInTheDocument())
+    expect(screen.queryByText('temporary status marker')).not.toBeInTheDocument()
+  })
 })

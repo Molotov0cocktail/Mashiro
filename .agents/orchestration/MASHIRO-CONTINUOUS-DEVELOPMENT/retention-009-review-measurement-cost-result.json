@@ -1,0 +1,10 @@
+{
+  "root": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-review009-cost-l32hu4",
+  "objects": 1000,
+  "bodyBytesEach": 4096,
+  "acceptedBytes": 4096000,
+  "constructorMs": 353.3959999999988,
+  "snapshotMs": 335.84959999999955,
+  "acceptedWriteMs": 248.0020999999997,
+  "note": "Single warm-cache synthetic sample; seeding used production MemoryService before policy guard installation. Measured write used the installed production guard. No timing pass/fail threshold."
+}

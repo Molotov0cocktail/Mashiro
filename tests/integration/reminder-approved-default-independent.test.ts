@@ -141,7 +141,7 @@ it('keeps the approved multi-item catch-up in one notification beyond one hundre
     groupId: expect.stringMatching(/^[a-f0-9]{64}$/)
   })
 })
-it('activates a durable large group once after service restart and ignores unknown or forged groups', () => {
+it('keeps durable group business activation unique while each valid click can navigate again', () => {
   const f = fixture()
   for (let index = 0; index < 101; index += 1) f.createReminder('重启事项 ' + index)
   f.setNow('2030-01-01T00:01:00Z')
@@ -159,7 +159,16 @@ it('activates a durable large group once after service restart and ignores unkno
 
   recovered.activateGroup(groupId)
   recovered.activateGroup(groupId)
-  expect(f.events).toEqual([{ kind: 'open-reminders', itemId: null }])
+  expect(f.events).toEqual([
+    { kind: 'open-reminders', itemId: null },
+    { kind: 'open-reminders', itemId: null }
+  ])
+  expect(
+    Number(
+      f.store.database.prepare('SELECT COUNT(*) AS count FROM reminder_activations').get()?.count ??
+        0
+    )
+  ).toBe(1)
 })
 
 it('opens only the surviving item when one durable group member was cancelled', () => {

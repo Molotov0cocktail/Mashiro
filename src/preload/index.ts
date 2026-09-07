@@ -7,7 +7,11 @@ import { stewardChannels } from '../shared/steward-channels.js'
 import type { StewardApi, StewardChanged } from '../shared/steward-contract.js'
 import { backgroundChannels } from '../shared/background-channels.js'
 import type { BackgroundApi, BackgroundChanged } from '../shared/background-contract.js'
-import { reminderChannels, reminderChangedChannel } from '../shared/reminder-channels.js'
+import {
+  reminderChannels,
+  reminderChangedChannel,
+  reminderNavigationChannels
+} from '../shared/reminder-channels.js'
 import type { ReminderApi, ReminderChanged } from '../shared/reminder-contract.js'
 import { itemChannels } from '../shared/item-channels.js'
 import type { ItemApi } from '../shared/item-contract.js'
@@ -76,6 +80,10 @@ const retention: RetentionApi = {
   confirm: (input) => ipcRenderer.invoke(retentionChannels.confirm, input),
   jobs: (input) => ipcRenderer.invoke(retentionChannels.jobs, input),
   retry: (input) => ipcRenderer.invoke(retentionChannels.retry, input),
+  policy: (input) => ipcRenderer.invoke(retentionChannels.policy, input),
+  previewPolicy: (input) => ipcRenderer.invoke(retentionChannels.previewPolicy, input),
+  configurePolicy: (input) => ipcRenderer.invoke(retentionChannels.configurePolicy, input),
+  runPolicy: (input) => ipcRenderer.invoke(retentionChannels.runPolicy, input),
   onChanged: (listener) => {
     const handler = (_event: unknown, value: unknown): void => listener(value as RetentionChanged)
     ipcRenderer.on(retentionChangedChannel, handler)
@@ -101,6 +109,8 @@ const reminders: ReminderApi = {
   configure: (input) => ipcRenderer.invoke(reminderChannels.configure, input),
   preview: (input) => ipcRenderer.invoke(reminderChannels.preview, input),
   confirm: (input) => ipcRenderer.invoke(reminderChannels.confirm, input),
+  pendingNavigation: (input) => ipcRenderer.invoke(reminderNavigationChannels.pending, input),
+  ackNavigation: (input) => ipcRenderer.invoke(reminderNavigationChannels.ack, input),
   onChanged: (listener) => {
     const handler = (_event: unknown, value: unknown): void => listener(value as ReminderChanged)
     ipcRenderer.on(reminderChangedChannel, handler)

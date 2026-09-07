@@ -72,7 +72,7 @@ it('migrates a real populated v15 schema preserving operation/result foreign key
   const store = new SqliteStore(f.path)
   try {
     expect(snapshot(store.database)).toEqual(f.oldRows)
-    expect(store.database.prepare('PRAGMA user_version').get()!.user_version).toBe(18)
+    expect(store.database.prepare('PRAGMA user_version').get()!.user_version).toBe(19)
     expect(store.database.prepare('PRAGMA foreign_keys').get()!.foreign_keys).toBe(1)
     expect(store.database.prepare('PRAGMA foreign_key_check').all()).toEqual([])
     expect(
