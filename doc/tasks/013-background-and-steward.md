@@ -1,6 +1,6 @@
 # 013 章节、仓储员与可预算日常后台
 
-- TASK = 013；ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。唯一入口为[progress](progress.md)，承接[总覆盖](program-docs-to-release.md)Q9及D02/D03/D05/D07、F06、G02/G03相关余项；实施时逐行复核实际覆盖，不以这些导航编号减少范围。
+- TASK = 013；INTEGRATION_PENDING / DAILY_CORE_PASS；PROGRAM ACTIVE。唯一入口为[progress](progress.md)，承接[总覆盖](program-docs-to-release.md)Q9及D02/D03/D05/D07、F06、G02/G03相关余项；实施时逐行复核实际覆盖，不以这些导航编号减少范围。
 - 来源：proposal §2.1、3.1–3.3、4.2–4.3、6；high-level-design §5.3、7、10；detailed-design §7、9及MEM-001–007、EVT-002、RET-003/004、USE决议。依赖008记忆、009清理、010事项和012运行生命周期；编号已核对未占用。
 
 ## 用户闭环与验收
