@@ -67,6 +67,36 @@ function api(overrides: Partial<MemoryApi> = {}): MemoryApi {
 }
 
 describe('MemoryPanel', () => {
+  it('labels the actual background actor in the collapsed source and change panel', async () => {
+    const current = record()
+    const details = inspection(current)
+    render(
+      <MemoryPanel
+        assistantId={assistantId}
+        assistantName="Alpha"
+        api={api({
+          query: async () => ({ ok: true, data: { records: [current], nextCursor: null } }),
+          inspect: async () => ({
+            ok: true,
+            data: {
+              ...details,
+              changes: details.changes.map((change) => ({
+                ...change,
+                actor: 'background' as const
+              }))
+            }
+          })
+        })}
+        onLocateRound={vi.fn()}
+      />
+    )
+    fireEvent.click(await screen.findByRole('button', { name: '查看与纠正' }))
+    const summary = await screen.findByText('来源与变更')
+    expect(summary.closest('details')).not.toHaveAttribute('open')
+    fireEvent.click(summary)
+    expect(await screen.findByText(/后台整理/)).toHaveTextContent('remember')
+  })
+
   it('reuses an unresolved manual operation across remounts and creates a new identity after success', async () => {
     const pendingCommands = new Map<string, string>()
     const accepted = new Set<string>()

@@ -1,0 +1,25 @@
+
+> mashiro@0.1.0 typecheck
+> tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.web.json --noEmit
+
+
+> mashiro@0.1.0 lint
+> eslint . --max-warnings=0
+
+
+D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\background-013-review-retention-proof.test.ts
+   1:31  error  'readFileSync' is defined but never used                    @typescript-eslint/no-unused-vars
+   1:45  error  'writeFileSync' is defined but never used                   @typescript-eslint/no-unused-vars
+  10:10  error  'roundSource' is defined but never used                     @typescript-eslint/no-unused-vars
+  10:23  error  'assertRoundSources' is defined but never used              @typescript-eslint/no-unused-vars
+  18:3   error  'backgroundConfigureInputSchema' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\background-013-review-retention-race.test.ts
+   1:31  error  'readFileSync' is defined but never used                    @typescript-eslint/no-unused-vars
+   1:45  error  'writeFileSync' is defined but never used                   @typescript-eslint/no-unused-vars
+  10:10  error  'roundSource' is defined but never used                     @typescript-eslint/no-unused-vars
+  10:23  error  'assertRoundSources' is defined but never used              @typescript-eslint/no-unused-vars
+  18:3   error  'backgroundConfigureInputSchema' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 10 problems (10 errors, 0 warnings)
+

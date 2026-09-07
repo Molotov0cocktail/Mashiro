@@ -1,0 +1,22 @@
+[
+  {
+    "Path": "D:\\Mashiro\\tests\\integration\\background-no-interruption.test.ts",
+    "Hash": "36137CEAE224EEA1B920349D9BBB37DEDE7EF2E224FE6D82C6099D7ABCD6C695"
+  },
+  {
+    "Path": "D:\\Mashiro\\tests\\integration\\background-retention-race.test.ts",
+    "Hash": "FCA243EDD4B4B8B411B55E67361DFD2BC85FCCDE5C37793CAF2E154581071DEC"
+  },
+  {
+    "Path": "D:\\Mashiro\\tests\\renderer\\BackgroundPanel-races.test.tsx",
+    "Hash": "E7D0B8C5C0476D18A804E48088C33CC68DA7C76DAF0CF4EA32E38271704C5E1B"
+  },
+  {
+    "Path": "D:\\Mashiro\\src\\main\\background\\background-sources.ts",
+    "Hash": "C8979C53FE3154D34971600BABCEB05BE71718EFA32D38FC682BDF6AC24E4D4B"
+  },
+  {
+    "Path": "D:\\Mashiro\\src\\main\\retention\\retention-service.ts",
+    "Hash": "74F8B6EF850F3A894B4977D968ABD6E63ACC693DAD519D92B139B7ABE5047B12"
+  }
+]

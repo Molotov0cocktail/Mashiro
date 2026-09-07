@@ -1,4 +1,6 @@
 import { randomUUID, createHash } from 'node:crypto'
+import { BackgroundService } from '../background/background-service.js'
+import { BackgroundError } from '../background/background-sources.js'
 import { ItemService, ItemError } from '../item/item-service.js'
 import { ReminderService, ReminderError } from '../reminder/reminder-service.js'
 import { ReminderToolSession } from '../reminder/reminder-tool-session.js'
@@ -204,6 +206,7 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
 }
 
 export class ProviderService {
+  readonly background: BackgroundService
   readonly retention: RetentionService
   readonly memory: MemoryService
   readonly items: ItemService
@@ -278,6 +281,69 @@ export class ProviderService {
     this.memory.setDomainSourceCheck((source, assistantId, fingerprint, visited) =>
       this.items.assertSource(source, assistantId, fingerprint, visited)
     )
+    this.background = new BackgroundService(
+      store,
+      this.memory,
+      {
+        resolve: (configuration) => {
+          const connection = this.repository
+            .snapshot(this.vault.temporaryIds())
+            .connections.find((c) => c.id === configuration.connectionId)
+          if (
+            !connection ||
+            !connection.enabled ||
+            !configuration.model ||
+            !this.vault.get(connection.id)
+          )
+            throw new BackgroundError('CONFIGURATION')
+          const fingerprint = createHash('sha256')
+            .update('chat-completions-v1|' + connection.baseUrl)
+            .digest('hex')
+          return {
+            connectionId: connection.id,
+            fingerprint,
+            model: configuration.model,
+            identity: JSON.stringify([
+              connection.id,
+              connection.version,
+              fingerprint,
+              configuration.model
+            ])
+          }
+        },
+        send: async (recipient, messages, signal) => {
+          const connection = this.repository
+            .snapshot(this.vault.temporaryIds())
+            .connections.find((c) => c.id === recipient.connectionId)
+          const apiKey = this.vault.get(recipient.connectionId)
+          if (
+            !connection ||
+            !connection.enabled ||
+            !apiKey ||
+            recipient.identity !==
+              JSON.stringify([
+                connection.id,
+                connection.version,
+                createHash('sha256')
+                  .update('chat-completions-v1|' + connection.baseUrl)
+                  .digest('hex'),
+                recipient.model
+              ])
+          )
+            throw new BackgroundError('PERMISSION_DENIED')
+          return this.transport({
+            baseUrl: connection.baseUrl,
+            apiKey,
+            model: recipient.model,
+            messages,
+            stream: false,
+            signal,
+            maxOutputTokens: 2048
+          })
+        }
+      },
+      this.toolOptions.clock
+    )
     this.retention = new RetentionService(
       store,
       join(dirname(credentialDirectory), 'memory'),
@@ -289,7 +355,9 @@ export class ProviderService {
         }
         for (const id of this.sessions.keys()) this.temporaryToolLedger.clear(id)
         this.sessions.clear()
-      }
+        this.background.abort()
+      },
+      this.background
     )
   }
 
@@ -671,6 +739,7 @@ export class ProviderService {
     let controller: AbortController | undefined
     let response: TimelineMessage | undefined
     let deltaLimitExceeded = false
+    let chapterSources: MemorySource[] = []
     const generation = this.governanceGeneration()
     const currentGeneration = () => !this.closed && this.governanceGeneration() === generation
     const finish = (status: TimelineMessage['status'], content: string): void => {
@@ -734,7 +803,7 @@ export class ProviderService {
         if (value.context.kind === 'selected')
           this.toolLedger.assertSelectedSources(value.assistantId, value.context.requestIds)
         previous =
-          value.context.kind === 'none' || !allowed
+          value.context.kind === 'none' || value.context.kind === 'chapters' || !allowed
             ? []
             : value.context.kind === 'selected'
               ? this.timeline.selectedContext(
@@ -744,7 +813,8 @@ export class ProviderService {
                 )
               : this.timeline.context(value.assistantId, inputLength)
       } else {
-        if (value.context.kind === 'selected') return chatFailure('INVALID_INPUT')
+        if (value.context.kind === 'selected' || value.context.kind === 'chapters')
+          return chatFailure('INVALID_INPUT')
         session ??= { id: randomUUID(), messages: [] }
         if (session.messages.length >= 64) return chatFailure('LIMIT')
         if (session.messages.some((message) => message.requestId === value.requestId))
@@ -806,6 +876,17 @@ export class ProviderService {
         120000
       )
         return chatFailure('LIMIT')
+      if (value.context.kind === 'chapters') {
+        const selected = this.background.context(
+          value.assistantId,
+          value.context.chapters,
+          contextFingerprint
+        )
+        previous = selected.messages
+        chapterSources = selected.sources
+        if (previous.reduce((n, m) => n + (m.content?.length ?? 0), inputLength) > 120000)
+          return chatFailure('LIMIT')
+      }
       const now = new Date().toISOString()
       const user: TimelineMessage = {
         id: randomUUID(),
@@ -828,6 +909,8 @@ export class ProviderService {
       // The user and pending response commit atomically BEFORE the transport starts.
       if (value.mode === 'normal') {
         this.timeline.insert(value.assistantId, [user, response])
+        if (chapterSources.length)
+          this.memory.addDependencies('round', value.requestId, 1, chapterSources)
         if (previous.length > 0) {
           this.memory.addDependencies(
             'round',
@@ -901,7 +984,7 @@ export class ProviderService {
       const endpointFingerprint = createHash('sha256')
         .update('chat-completions-v1|' + execution.connection.baseUrl)
         .digest('hex')
-      const providedMemory: MemorySource[] = []
+      const providedMemory: MemorySource[] = [...chapterSources]
       let itemSession: ItemToolSession | undefined
       let reminderSession: ReminderToolSession | undefined
       const correctedInThisRound: MemorySource[] = []
@@ -933,6 +1016,8 @@ export class ProviderService {
           if (!permissions.readHistory || !permissions.sendHistory)
             throw new ProviderDomainError('PERMISSION_DENIED')
         }
+        if (value.context.kind === 'chapters')
+          this.background.context(value.assistantId, value.context.chapters, endpointFingerprint)
         itemSession?.assertSources()
         reminderSession?.assertSources()
         if (value.mode === 'normal') {
@@ -1406,6 +1491,7 @@ export class ProviderService {
       }
       const status = result.status
       finish(status, result.text || response.content)
+      if (status === 'completed' && value.mode === 'normal') this.background.notify()
       emit({ type: status, requestId: value.requestId, assistantId: value.assistantId })
       if (status === 'failed') return chatFailure(transportError(result.error ?? 'temporary'))
       return providerChatResultSchema.parse({
@@ -1483,6 +1569,7 @@ export class ProviderService {
       request.controller.abort()
       if (request.mode === 'normal') this.timeline.finish(request.assistantId, request.response)
     }
+    this.background.close()
     this.reminders.close()
     this.retention.close()
     this.closed = true
@@ -1493,6 +1580,7 @@ export class ProviderService {
   }
 
   cancelArchivedRequests(): void {
+    this.background.abort()
     for (const request of this.inflight.values()) {
       const assistant = this.store.database
         .prepare('SELECT archived_at FROM assistants WHERE id = ?')
@@ -1502,6 +1590,7 @@ export class ProviderService {
   }
 
   private cancelConnection(connectionId: string): void {
+    this.background.abort()
     for (const request of this.inflight.values()) {
       if (request.connectionId === connectionId) request.controller.abort()
     }

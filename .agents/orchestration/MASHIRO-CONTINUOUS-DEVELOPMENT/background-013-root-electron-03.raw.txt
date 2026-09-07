@@ -1,0 +1,50 @@
+
+> mashiro@0.1.0 test:electron
+> npm run build && node scripts/electron-f1-harness.mjs
+
+
+> mashiro@0.1.0 build
+> electron-vite build
+
+vite v7.3.6 building ssr environment for production...
+transforming...
+✓ 63 modules transformed.
+rendering chunks...
+out/main/index.js  491.51 kB
+✓ built in 411ms
+vite v7.3.6 building ssr environment for production...
+transforming...
+✓ 9 modules transformed.
+rendering chunks...
+out/preload/index.cjs  8.58 kB
+✓ built in 18ms
+vite v7.3.6 building client environment for production...
+transforming...
+node_modules/zod/v4/core/util.js (330:0): A comment
+
+"// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+
+in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+node_modules/zod/v4/core/regexes.js (70:0): A comment
+
+"/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+ * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+ * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+
+in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+✓ 134 modules transformed.
+rendering chunks...
+../../out/renderer/index.html                     0.63 kB
+../../out/renderer/assets/index-mXNwUC4V.css     22.69 kB
+../../out/renderer/assets/index-tEVGuwCu.js   1,119.22 kB
+✓ built in 794ms
+{"outcome":"E2E_FAILURE_RETAINED","runId":"230451c9-6800-4f79-96e7-00cb8423e922","syntheticRoot":"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-s9JfZ1"}
+file:///D:/Mashiro/scripts/electron-f1-harness.mjs:284
+    throw new Error('Pending partial was not recovered as interrupted')
+          ^
+
+Error: Pending partial was not recovered as interrupted
+    at file:///D:/Mashiro/scripts/electron-f1-harness.mjs:284:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.18.0

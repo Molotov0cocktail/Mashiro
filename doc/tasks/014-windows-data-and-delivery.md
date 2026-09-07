@@ -1,6 +1,6 @@
 # 014 正式数据位置、备份与 Windows 交付生命周期
 
-- TASK = 014；PLANNED；PROGRAM ACTIVE。入口[progress](progress.md)，覆盖[总清单](program-docs-to-release.md)G04–G06及Q10。来源：high-level-design §8–9、detailed-design §5/10、ARC-003/004、DIST-001及用户2026-09-06发布验收。实际发行和下载在整体验收通过后继续执行，不以本任务产物宣布完整发布。
+- TASK = 014；FOUNDATION_IMPLEMENTING；PROGRAM ACTIVE。入口[progress](progress.md)，覆盖[总清单](program-docs-to-release.md)G04–G06及Q10。来源：high-level-design §8–9、detailed-design §5/10、ARC-003/004、DIST-001及用户2026-09-06发布验收。实际发行和下载在整体验收通过后继续执行，不以本任务产物宣布完整发布。
 - 现场：当前data-root仍主动拒绝isPackaged，只有development/test路径；package.json尚无正式构建配置。已成功[ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)和[精确NSIS清理探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)可复用路线，不能复用旧实验制品冒充当前版本。
 
 ## 可观察闭环
@@ -15,7 +15,7 @@
 
 ## 当前源码准备
 
-root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-actual-plan.md)：生产bootstrap/locator与开发隔离、完整静止备份和接受Markdown/治理状态、安装文件清理、失败恢复及实际发行下载。本任务仍PLANNED；不以方案或早期实验代替最终制品。
+root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-actual-plan.md)：生产bootstrap/locator与开发隔离、完整静止备份和接受Markdown/治理状态、安装文件清理、失败恢复及实际发行下载。root现已并行新增[独立locator底座](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-foundation.md)和10个定向反例，已修独立发现的正斜杠UNC绕过；[独立FOUNDATION_CANDIDATE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-review-final-pass.md)确认原10+独立5共15通过，类型/格式/lint通过，尚未接入正式启动；不改013单写文件。初始化、生命周期数据锁、恢复UI、完整备份与安装发行继续必做；不以底座或早期实验代替最终制品。
 
 ## 验证路线与边界
 

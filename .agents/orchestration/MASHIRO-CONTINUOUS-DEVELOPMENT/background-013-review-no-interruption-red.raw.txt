@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-no-interruption.test.ts (1 test | 1 failed) 282ms
+   × review: additive background chapter preserves normal stream while explicit user correction still cancels it 281ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-no-interruption.test.ts > review: additive background chapter preserves normal stream while explicit user correction still cancels it
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-no-interruption.test.ts:60:34
+     58|    expect(result.ok&&result.data.jobs.some(job=>job.state==='COMPLETED…
+     59|   })
+     60|   expect(pendingSignal!.aborted).toBe(false)
+       |                                  ^
+     61|   const snapshot=service.background.query(base)
+     62|   if(!snapshot.ok)throw Error('accepted chapter fixture')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  08:14:02
+   Duration  1.01s (transform 330ms, setup 139ms, import 434ms, tests 282ms, environment 0ms)
+

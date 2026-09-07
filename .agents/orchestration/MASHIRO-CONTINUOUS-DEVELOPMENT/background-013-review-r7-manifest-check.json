@@ -1,0 +1,43 @@
+{
+  "manifestHash": "5E36CF03CEFAAC82B345E588242301CAFBE0AE86AFF70C48362B6B37E54CA00F",
+  "count": 48,
+  "mismatches": [],
+  "delta": [
+    {
+      "path": ".gitattributes",
+      "sha256": "fb847d3385d92f3a371bccead995754427b05bcfb7097a6847913f5195293dc0",
+      "new": false
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sha256": "05d062b5695e7630b41397f7e9bf4697d0311fd95671cf5e8c7c97b04d32ef73",
+      "new": false
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "sha256": "6c686672abfc294edb43f17390fdd41b0e05b8552d749e138179b70c3f131562",
+      "new": false
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "d93785318485fc67b638be66f41cde5f51d8e6f761a687328f3f5fa30f5849a5",
+      "new": true
+    },
+    {
+      "path": "src/shared/memory-contract.ts",
+      "sha256": "c1aa68cc602c944f3fce12d61f4034b33212033b0292c73df5a2e1d7e60fad4f",
+      "new": true
+    },
+    {
+      "path": "tests/integration/background-service.test.ts",
+      "sha256": "d473df8e452b85fe00ba28db60aeff13913b0d72d0f8f8cf0a523f68acfca274",
+      "new": false
+    },
+    {
+      "path": "tests/renderer/MemoryPanel.test.tsx",
+      "sha256": "6f59324960aa256e2e3a9f078a8ea1cc742d6af22cc01562c5b561fc09d8b194",
+      "new": true
+    }
+  ],
+  "removed": []
+}

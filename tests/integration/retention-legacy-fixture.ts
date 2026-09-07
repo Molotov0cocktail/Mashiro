@@ -1,7 +1,18 @@
 import type { DatabaseSync } from 'node:sqlite'
 
 /** Only for constructing synthetic pre-v7 migration fixtures from a fresh current database. */
+export function removeBackgroundFixture(database: DatabaseSync): void {
+  for (const table of [
+    'background_controls',
+    'background_chapters',
+    'background_attempts',
+    'background_jobs',
+    'background_configs'
+  ])
+    database.exec('DROP TABLE ' + table)
+}
 export function removeReminderFixture(database: DatabaseSync): void {
+  removeBackgroundFixture(database)
   for (const table of [
     'reminders',
     'reminder_commands',

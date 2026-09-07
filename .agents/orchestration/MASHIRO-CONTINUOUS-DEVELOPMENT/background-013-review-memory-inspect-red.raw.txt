@@ -1,0 +1,46 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-memory-inspect.test.ts (1 test | 1 failed) 210ms
+   × actual accepted background chapter remains inspectable through the strict memory IPC DTO 209ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-memory-inspect.test.ts > actual accepted background chapter remains inspectable through the strict memory IPC DTO
+AssertionError: expected { ok: false, error: { …(2) } } to match object { ok: true, data: { …(2) } }
+(3 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "data": {
+-     "changes": [
+-       {
+-         "actor": "background",
+-       },
+-     ],
+-     "record": {
+-       "id": "59779952-4c29-4645-b8b0-abd2c4f75411",
+-     },
+-   },
+-   "ok": true,
++   "ok": false,
+  }
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-memory-inspect.test.ts:172:18
+    170|   expect(f.memory.inspect({...f.base,id:chapter.memoryId})).toMatchObj…
+    171|   const result=handlers.get(memoryChannels.inspect)!(null,{...f.base,i…
+    172|   expect(result).toMatchObject({ok:true,data:{record:{id:chapter.memor…
+       |                  ^
+    173|  }finally{remove()}
+    174| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  09:08:10
+   Duration  776ms (transform 195ms, setup 139ms, import 271ms, tests 210ms, environment 0ms)
+

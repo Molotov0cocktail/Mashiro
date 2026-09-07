@@ -1293,3 +1293,129 @@ button:disabled {
     display: grid;
   }
 }
+
+.background-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.background-configuration,
+.background-usage,
+.background-job,
+.background-chapter,
+.background-topic {
+  border: 1px solid #514568;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #1c1826;
+}
+
+.background-configuration {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.background-configuration > label:not(.inline-check),
+.background-budget-grid label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.background-configuration input:not([type='checkbox']),
+.background-configuration select {
+  width: 100%;
+  box-sizing: border-box;
+  color: #f7f4ff;
+  background: #211c2c;
+  border: 1px solid #665879;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.background-budget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.recipient-grant {
+  padding: 0.75rem;
+  border: 1px solid #aa9e78;
+  border-radius: 0.5rem;
+  background: #302640;
+}
+
+.background-usage dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0;
+}
+
+.background-usage dl div {
+  padding: 0.65rem;
+  border-radius: 0.5rem;
+  background: #211c2c;
+}
+
+.background-usage dt {
+  color: #c7bed8;
+  font-size: 0.9rem;
+}
+
+.background-usage dd {
+  margin: 0.2rem 0 0;
+  font-weight: 650;
+}
+
+.background-job,
+.background-chapter {
+  margin-block: 0.75rem;
+}
+
+.background-job.state-remote_unknown,
+.background-job.state-failed_confirmed,
+.background-job.state-permission_blocked,
+.background-job.state-configuration_blocked {
+  border-color: #a96055;
+}
+
+.background-job.state-budget_paused {
+  border-color: #a7812d;
+}
+
+.background-job details,
+.background-chapter details {
+  margin-block: 0.65rem;
+}
+
+.background-section-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.background-topic {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+}
+
+.chapter-markdown {
+  max-height: 24rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  background: #211c2c;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 720px) {
+  .background-budget-grid,
+  .background-usage dl {
+    grid-template-columns: 1fr;
+  }
+}

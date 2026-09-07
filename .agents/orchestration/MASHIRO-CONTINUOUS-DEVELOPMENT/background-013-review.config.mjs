@@ -1,0 +1,1 @@
+export default {test:{include:['.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-*.test.ts'],setupFiles:['./tests/setup.ts'],maxWorkers:2,restoreMocks:true}}

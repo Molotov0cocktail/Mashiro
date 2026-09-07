@@ -12,7 +12,10 @@ export default tseslint.config(
       'test-results/**',
       '.npm-cache/**',
       '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-*-oracle.{ts,tsx}',
-      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-*.test.{ts,tsx}'
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-review-*.test.{ts,tsx}',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-retention-proof.test.ts',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-retention-race.test.ts',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-memory-inspect.test.ts'
     ]
   },
   js.configs.recommended,

@@ -1,0 +1,56 @@
+[
+  {
+    "path": "src/renderer/src/App.tsx",
+    "expected": "37ce857222919ebc1e3c4195645b5a42998fcfb0089777f78818675426e8714e",
+    "actual": "37CE857222919EBC1E3C4195645B5A42998FCFB0089777F78818675426E8714E",
+    "match": true
+  },
+  {
+    "path": "src/renderer/src/features/background/BackgroundPanel.tsx",
+    "expected": "93c4a04a5a167f6bdf5ac766cd38fffd653ef5862019e9c723ee4b3ed341eee4",
+    "actual": "E5AA466E10CA5BE9B200D186B56CA659B43468C6D4515D59AAB11BC33643EF5A",
+    "match": false
+  },
+  {
+    "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+    "expected": "b1024a979348cc6ba50dc4d0fc24fc1f96ec60f82063acb60f051c06f7650edd",
+    "actual": "B1024A979348CC6BA50DC4D0FC24FC1F96EC60F82063ACB60F051C06F7650EDD",
+    "match": true
+  },
+  {
+    "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+    "expected": "7153b5acf640b9bc4e219fc13475c543bfbd173f19fdcbff3192d66f4f7af50a",
+    "actual": "7153B5ACF640B9BC4E219FC13475C543BFBD173F19FDCBFF3192D66F4F7AF50A",
+    "match": true
+  },
+  {
+    "path": "src/renderer/src/styles.css",
+    "expected": "116c4155a569b8d9bb744383dace13ec5516418ea0a647d03f8a56ee05fcae3c",
+    "actual": "ADDA2D9FBB9E9FFA38A799FC7444CE13BD4EB0813FD1E2B79247CFE91B6BB031",
+    "match": false
+  },
+  {
+    "path": "tests/renderer/App-background.test.tsx",
+    "expected": "9b4b26ad499ce50cdefb9cfa7907fa516dae60daf1e2f6ddd88b269251b0391b",
+    "actual": "9B4B26AD499CE50CDEFB9CFA7907FA516DAE60DAF1E2F6DDD88B269251B0391B",
+    "match": true
+  },
+  {
+    "path": "tests/renderer/BackgroundPanel.test.tsx",
+    "expected": "9e600ef21e80e7990f65a66a9e05b242218fd585fe4ff30c88bcce78e051ae52",
+    "actual": "9E600EF21E80E7990F65A66A9E05B242218FD585FE4FF30C88BCCE78E051AE52",
+    "match": true
+  },
+  {
+    "path": "tests/renderer/ProviderPanel-chapters.test.tsx",
+    "expected": "f0061e7c656ea1df02ff8c5dafcdb44d80bc5fdf8a8f7cc5d65b46c71e3e7b42",
+    "actual": "F0061E7C656EA1DF02FF8C5DAFCDB44D80BC5FDF8A8F7CC5D65B46C71E3E7B42",
+    "match": true
+  },
+  {
+    "path": "tests/renderer/background-api-fixture.ts",
+    "expected": "cd6157e482f1caee096678323996f236fe97e31e40b418f047cccd9ce7e3cb4f",
+    "actual": "CD6157E482F1CAEE096678323996F236FE97E31E40B418F047CCCD9CE7E3CB4F",
+    "match": true
+  }
+]

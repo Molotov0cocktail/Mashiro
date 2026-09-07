@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-09-07T09:01:35.1303307+08:00",
+  "files": 132,
+  "suspectedSecretFiles": [],
+  "generatedOrResidual": [],
+  "diffCheckExitCode": 0,
+  "diffCheckOutput": [],
+  "scope": "All currently changed or untracked nonignored paths; binary images excluded from text secret scan. No credential contents printed."
+}

@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-item-pending.test.ts (1 test | 1 failed) 112ms
+   × does not summarize a closed protocol while its item update still awaits user confirmation 111ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-item-pending.test.ts > does not summarize a closed protocol while its item update still awaits user confirmation
+Error: PROTOCOL
+ ❯ ToolRepository.update src/main/provider/tool-repository.ts:207:13
+    205|     }
+    206|     if (record.state !== current.state && !permitted[current.state].in…
+    207|       throw new ProviderDomainError('PROTOCOL')
+       |             ^
+    208|     if (
+    209|       record.state === current.state &&
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-item-pending.test.ts:29:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  08:23:40
+   Duration  643ms (transform 163ms, setup 138ms, import 236ms, tests 112ms, environment 0ms)
+

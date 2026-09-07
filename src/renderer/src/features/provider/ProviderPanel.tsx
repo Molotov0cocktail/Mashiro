@@ -121,7 +121,8 @@ export function ProviderPanel({
   onLocateMemorySource,
   retentionChange,
   onPrepareRetention,
-  configurationFocus
+  configurationFocus,
+  chapterContextTarget
 }: {
   assistantSnapshot: AssistantSnapshot | null
   api: ProviderApi
@@ -155,6 +156,11 @@ export function ProviderPanel({
   configurationFocus?: {
     assistantId: string
     target: 'provider' | 'history'
+    nonce: number
+  } | null
+  chapterContextTarget?: {
+    assistantId: string
+    chapters: Array<{ id: string; expectedVersion: number }>
     nonce: number
   } | null
 }): React.JSX.Element {
@@ -226,6 +232,7 @@ export function ProviderPanel({
   const configurationFocusTarget = configurationFocus?.target
   const configurationFocusNonce = configurationFocus?.nonce
   const handledConfigurationFocus = useRef('')
+  const handledChapterContext = useRef('')
 
   useEffect(() => {
     if (
@@ -269,6 +276,29 @@ export function ProviderPanel({
     configurationFocusTarget,
     currentAssistantId
   ])
+
+  useEffect(() => {
+    if (
+      !chapterContextTarget ||
+      chapterContextTarget.assistantId !== currentAssistantId ||
+      chapterContextTarget.chapters.length === 0
+    ) {
+      return
+    }
+    const key = `${chapterContextTarget.assistantId}:${chapterContextTarget.nonce}`
+    if (handledChapterContext.current === key) return
+    handledChapterContext.current = key
+    setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
+    setContextByAssistant((values) => ({
+      ...values,
+      [currentAssistantId]: { kind: 'chapters', chapters: chapterContextTarget.chapters }
+    }))
+    setNotices((values) => ({
+      ...values,
+      [timelineKey(currentAssistantId, 'normal')]:
+        `已选择 ${chapterContextTarget.chapters.length} 个章节作为下一次正常对话上下文。`
+    }))
+  }, [chapterContextTarget, currentAssistantId])
 
   const currentKey = timelineKey(currentAssistantId, mode)
   const selected = snapshot?.connections.find((item) => item.id === selectedId)
@@ -1366,6 +1396,23 @@ export function ProviderPanel({
                 }}
               >
                 结束事项上下文
+              </button>
+            </section>
+          ) : null}
+
+          {mode === 'normal' && contextIntent.kind === 'chapters' ? (
+            <section className="item-context-banner" aria-label="当前章节上下文">
+              <p>下一次正常对话将读取 {contextIntent.chapters.length} 个已接受章节及其精确版本。</p>
+              <button
+                type="button"
+                onClick={() =>
+                  setContextByAssistant((items) => ({
+                    ...items,
+                    [currentAssistantId]: { kind: 'recent' }
+                  }))
+                }
+              >
+                改用近期合格历史
               </button>
             </section>
           ) : null}

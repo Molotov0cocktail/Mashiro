@@ -602,6 +602,17 @@ export function HistoryContextPanel({
           />
           已选轮次（最多 16 轮）
         </label>
+        {contextIntent.kind === 'chapters' ? (
+          <label className="inline-check">
+            <input
+              type="radio"
+              name={'context-' + assistantId}
+              checked
+              onChange={() => undefined}
+            />
+            已选章节（{contextIntent.chapters.length} 章）
+          </label>
+        ) : null}
         <p className="scope-note">
           已选 {selectedRequestIds.length} 轮。近期历史与已选轮次都受 64,000 UTF-16
           字符总输入预算限制；服务不会静默删掉显式选择。

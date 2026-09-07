@@ -155,7 +155,7 @@ export const memoryChangeSchema = z.strictObject({
   action: z.string().max(40),
   objectVersion: version,
   createdAt: timestamp,
-  actor: z.enum(['user', 'assistant'])
+  actor: z.enum(['user', 'assistant', 'background'])
 })
 const errorSchema = z.strictObject({
   code: z.enum([

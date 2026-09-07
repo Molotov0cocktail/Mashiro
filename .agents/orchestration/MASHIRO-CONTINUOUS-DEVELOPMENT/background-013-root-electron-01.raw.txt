@@ -1,0 +1,10 @@
+{"outcome":"E2E_FAILURE_RETAINED","runId":"cb96eda1-fc67-43a8-8609-5fc481300490","syntheticRoot":"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-ag7m68"}
+file:///D:/Mashiro/scripts/electron-f1-harness.mjs:142
+    throw new Error('Electron stage ' + failure.stage + ' failed: ' + failure.code)
+          ^
+
+Error: Electron stage restore-core failed: FAILED
+    at file:///D:/Mashiro/scripts/electron-f1-harness.mjs:142:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.18.0

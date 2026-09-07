@@ -1,0 +1,52 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts (2 tests | 2 failed) 573ms
+   × switching assistants during a pending configure does not leave the new assistant permanently busy 373ms
+   × does not redisplay a deferred chapter body after its chapter becomes unavailable 199ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts > switching assistants during a pending configure does not leave the new assistant permanently busy
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <button
+  disabled=""
+  type="button"
+>
+  处理中…
+</button> instead
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts:29:59
+     27|   await waitFor(() => expect(api.query).toHaveBeenCalledWith(expect.ob…
+     28|   await act(async () => pending.resolve({ok:true,data:backgroundSnapsh…
+     29|   expect(screen.queryByRole('button', {name:'处理中…'})).not.toBeInTheDoc…
+       |                                                           ^
+     30|   await user.type(screen.getByLabelText('后台执行模型'),'another')
+     31|   expect(screen.getByRole('button', {name:'保存后台配置'})).toBeEnabled()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts > does not redisplay a deferred chapter body after its chapter becomes unavailable
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <pre
+  class="chapter-markdown"
+>
+  SYNTHETIC WITHDRAWN BODY
+</pre> instead
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts:50:62
+     48|   await screen.findByText('不可用章节')
+     49|   await act(async () => pending.resolve({ok:true,data:{chapter,markdow…
+     50|   expect(screen.queryByText('SYNTHETIC WITHDRAWN BODY')).not.toBeInThe…
+       |                                                              ^
+     51| })
+     52|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  08:20:32
+   Duration  1.69s (transform 85ms, setup 140ms, import 143ms, tests 573ms, environment 686ms)
+

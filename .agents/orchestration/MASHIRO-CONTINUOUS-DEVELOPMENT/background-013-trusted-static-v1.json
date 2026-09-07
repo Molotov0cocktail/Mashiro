@@ -1,0 +1,35 @@
+[
+  {
+    "status": "fulfilled",
+    "value": {
+      "check": "typecheck-node",
+      "chunk_id": "869a04",
+      "wall_time_seconds": 2.6812898,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "check": "lint",
+      "chunk_id": "b04723",
+      "wall_time_seconds": 1.9154819,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "check": "format",
+      "chunk_id": "a59289",
+      "wall_time_seconds": 1.093278,
+      "exit_code": 0,
+      "original_token_count": 17,
+      "output": "Checking formatting...\nAll matched files use Prettier code style!\n"
+    }
+  }
+]

@@ -1060,7 +1060,12 @@ export function MemoryPanel({
                     {inspection.changes.map((change) => (
                       <li key={change.operationId}>
                         {change.action} · v{change.objectVersion} ·{' '}
-                        {change.actor === 'user' ? '用户' : '助手'} · {formatTime(change.createdAt)}
+                        {change.actor === 'user'
+                          ? '用户'
+                          : change.actor === 'background'
+                            ? '后台整理'
+                            : '助手'}{' '}
+                        · {formatTime(change.createdAt)}
                       </li>
                     ))}
                   </ul>

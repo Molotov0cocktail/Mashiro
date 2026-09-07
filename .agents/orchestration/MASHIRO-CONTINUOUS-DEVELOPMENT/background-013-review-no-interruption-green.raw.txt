@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  08:17:36
+   Duration  1.07s (transform 353ms, setup 143ms, import 460ms, tests 318ms, environment 0ms)
+

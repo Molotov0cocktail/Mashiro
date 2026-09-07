@@ -42,7 +42,14 @@ export const bindAssistantInputSchema = z.strictObject({
 export const contextIntentSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('recent') }),
   z.strictObject({ kind: z.literal('none') }),
-  z.strictObject({ kind: z.literal('selected'), requestIds: z.array(uuid).min(1).max(16) })
+  z.strictObject({ kind: z.literal('selected'), requestIds: z.array(uuid).min(1).max(16) }),
+  z.strictObject({
+    kind: z.literal('chapters'),
+    chapters: z
+      .array(z.strictObject({ id: uuid, expectedVersion: z.number().int().positive() }))
+      .min(1)
+      .max(16)
+  })
 ])
 export type ContextIntent = z.infer<typeof contextIntentSchema>
 export const startChatInputSchema = z.strictObject({

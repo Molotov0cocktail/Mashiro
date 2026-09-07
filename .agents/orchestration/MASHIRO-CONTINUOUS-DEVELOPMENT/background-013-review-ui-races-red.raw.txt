@@ -1,0 +1,293 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts (2 tests | 2 failed) 1237ms
+   × switching assistants during a pending configure does not leave the new assistant permanently busy 1033ms
+   × does not redisplay a deferred chapter body after its chapter becomes unavailable 203ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts > switching assistants during a pending configure does not leave the new assistant permanently busy
+Error: expect(element).toBeEnabled()
+
+Received element is not enabled:
+  <button
+  disabled=""
+  type="button"
+/>
+
+Ignored nodes: comments, script, style
+<html>
+  <head />
+  <body>
+    <div>
+      <section
+        aria-label="章节后台"
+        class="panel background-panel"
+      >
+        <header>
+          <p
+            class="eyebrow"
+          >
+            当前助手 · 
+            00000000-0000-4000-8000-000000001301
+          </p>
+          <h2>
+            章节后台
+          </h2>
+          <p>
+            把已完成的正常对话整理成可核查章节。默认关闭、未授权或未设预算时不会外发。
+          </p>
+        </header>
+        <section
+          aria-label="后台配置"
+          class="background-configuration"
+        >
+          <h3>
+            执行与接收配置
+          </h3>
+          <label
+            class="inline-check"
+          >
+            <input
+              type="checkbox"
+            />
+            启用本助手的章节后台
+          </label>
+          <label>
+            后台执行连接
+            <select>
+              <option
+                value=""
+              >
+                未选择（零外发）
+              </option>
+            </select>
+          </label>
+          <label>
+            后台执行模型
+            <input
+              aria-label="后台执行模型"
+              maxlength="160"
+              value=""
+            />
+          </label>
+          <label
+            class="inline-check"
+          >
+            <input
+              type="checkbox"
+            />
+            允许读取本助手已完成的正常对话轮次
+          </label>
+          <label
+            class="inline-check"
+          >
+            <input
+              type="checkbox"
+            />
+            设置 UTC 日硬预算
+          </label>
+          <p
+            class="scope-note"
+          >
+            硬上限按 UTC 自然日计算调用次数和实际输入字符数；下方 token 仅为 Provider 返回的用量统计，不是本功能的硬预算。
+          </p>
+          <label
+            class="inline-check recipient-grant"
+          >
+            <input
+              disabled=""
+              type="checkbox"
+            />
+            允许所选连接接收本助手历史与私有记忆
+          </label>
+          <p
+            class="scope-note"
+          >
+            当前所选连接尚无有效接收授权。此勾选只授权本次保存所选的实际接收方接收本助手历史与私有记忆，不会改变聊天绑定，也不会自动打开记忆读写权限；本轮章节整理仍只读取已完成的正常对话轮次。
+          </p>
+          <div
+            class="button-row"
+          >
+            <button
+              disabled=""
+              type="button"
+            >
+              保存后台配置
+            </button>
+            <button
+              type="button"
+            >
+              刷新
+            </button>
+            <button
+              disabled=""
+              type="button"
+            >
+              立即检查并整理
+            </button>
+          </div>
+        </section>
+        <section
+          aria-label="UTC 日用量"
+          class="background-usage"
+        >
+          <h3>
+            UTC 日用量 · 
+            2026-09-07
+          </h3>
+          <dl>
+            <div>
+              <dt>
+                调用
+              </dt>
+              <dd>
+                0
+                 / 未配置
+              </dd>
+            </div>
+            <div>
+              <dt>
+                输入字符
+              </dt>
+              <dd>
+                0
+                 / 未配置
+              </dd>
+            </div>
+            <div>
+              <dt>
+                已知 token
+              </dt>
+              <dd>
+                0
+                （输入 
+                0
+                ，输出
+                 
+                0
+                ）
+              </dd>
+            </div>
+            <div>
+              <dt>
+                用量未知次数
+              </dt>
+              <dd>
+                0
+              </dd>
+            </div>
+          </dl>
+        </section>
+        <section
+          aria-label="后台任务"
+        >
+          <h3>
+            后台任务
+          </h3>
+          <p>
+            当前没有后台任务。
+          </p>
+        </section>
+        <section
+          aria-label="可用章节"
+        >
+          <div
+            class="background-section-heading"
+          >
+            <h3>
+              章节与未完成话题
+            </h3>
+            <button
+              disabled=""
+              type="button"
+            >
+              在对话中使用已选章节（
+              0
+              ）
+            </button>
+          </div>
+          <p>
+            尚无章节。正常完整轮次整理完成后会显示在这里。
+          </p>
+        </section>
+      </section>
+    </div>
+  </body>
+</html>
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts:21:76
+     19|   const element = (assistantId: string) => createElement(BackgroundPan…
+     20|   const view = render(element(A))
+     21|   await waitFor(() => expect(screen.getByRole('button', {name: '保存后台配置…
+       |                                                                            ^
+     22|   await user.click(screen.getByRole('button', {name: '保存后台配置'}))
+     23|   expect(api.configure).toHaveBeenCalledTimes(1)
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts > does not redisplay a deferred chapter body after its chapter becomes unavailable
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <pre
+  class="chapter-markdown"
+>
+  SYNTHETIC WITHDRAWN BODY
+</pre> instead
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts:47:62
+     45|   await screen.findByText('不可用章节')
+     46|   await act(async () => pending.resolve({ok:true,data:{chapter,markdow…
+     47|   expect(screen.queryByText('SYNTHETIC WITHDRAWN BODY')).not.toBeInThe…
+       |                                                              ^
+     48| })
+     49|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+TypeError: providerApi.list is not a function
+ ❯ src/renderer/src/features/background/BackgroundPanel.tsx:166:10
+    164|       void load(assistantId)
+    165|       void providerApi
+    166|         .list()
+       |          ^
+    167|         .then((result) => {
+    168|           if (active && routeRef.current === assistantId && result.ok)…
+ ❯ processTicksAndRejections node:internal/process/task_queues:104:5
+
+This error originated in ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "switching assistants during a pending configure does not leave the new assistant permanently busy". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+TypeError: providerApi.list is not a function
+ ❯ src/renderer/src/features/background/BackgroundPanel.tsx:166:10
+    164|       void load(assistantId)
+    165|       void providerApi
+    166|         .list()
+       |          ^
+    167|         .then((result) => {
+    168|           if (active && routeRef.current === assistantId && result.ok)…
+
+This error originated in ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "does not redisplay a deferred chapter body after its chapter becomes unavailable". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+     Errors  2 errors
+   Start at  08:19:26
+   Duration  2.38s (transform 82ms, setup 145ms, import 142ms, tests 1.24s, environment 709ms)
+

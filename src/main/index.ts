@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, safeStorage, type IpcMainInvokeEvent } from 'electron'
+import { registerBackgroundIpc, emitBackgroundChanged } from './ipc/register-background-ipc.js'
 import { registerReminderIpc, emitReminderChanged } from './ipc/register-reminder-ipc.js'
 import { startReminderRuntime } from './reminder/reminder-runtime.js'
 import { registerItemIpc } from './ipc/register-item-ipc.js'
@@ -13,6 +14,7 @@ import { registerProviderIpc } from './ipc/register-provider-ipc.js'
 import { ProviderService } from './provider/provider-service.js'
 import { e2eProviderTransport, runE2ePhase } from './testing/e2e-controller.js'
 
+let unregisterBackgroundIpc: (() => void) | undefined
 let reminderRuntime: ReturnType<typeof startReminderRuntime> | undefined
 let unregisterReminderIpc: (() => void) | undefined
 let assistantService: AssistantService | undefined
@@ -64,6 +66,17 @@ async function start(): Promise<void> {
       !!BrowserWindow.fromWebContents(call.sender) && call.senderFrame === call.sender.mainFrame
     )
   })
+  unregisterBackgroundIpc = registerBackgroundIpc(ipcMain, providerService.background, (event) => {
+    const call = event as IpcMainInvokeEvent
+    return (
+      !!BrowserWindow.fromWebContents(call.sender) && call.senderFrame === call.sender.mainFrame
+    )
+  })
+  providerService.background.onChanged((event) =>
+    emitBackgroundChanged((channel, value) => {
+      for (const window of BrowserWindow.getAllWindows()) window.webContents.send(channel, value)
+    }, event)
+  )
   const window = await createWindow()
   reminderRuntime = startReminderRuntime(providerService.reminders, window, (event) =>
     emitReminderChanged((channel, value) => {
@@ -90,6 +103,8 @@ app.on('before-quit', (event) => {
   }
   reminderRuntime?.stop()
   reminderRuntime = undefined
+  unregisterBackgroundIpc?.()
+  unregisterBackgroundIpc = undefined
   unregisterReminderIpc?.()
   unregisterReminderIpc = undefined
   unregisterItemIpc?.()

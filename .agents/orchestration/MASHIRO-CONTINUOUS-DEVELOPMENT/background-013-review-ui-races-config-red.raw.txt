@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts (5 tests | 1 failed) 1446ms
+   × does not silently rebase an edited configuration over a concurrently changed configuration 377ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts > does not silently rebase an edited configuration over a concurrently changed configuration
+AssertionError: expected true not to be true // Object.is equality
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-ui-races.test.ts:103:80
+    101|  if(!save.hasAttribute('disabled')) await user.click(save)
+    102|  const sent=vi.mocked(api.configure).mock.calls[0]?.[0]
+    103|  expect(sent?.expectedVersion===2 && sent?.settings.model==='local dra…
+       |                                                                                ^
+    104| })
+    105|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  08:25:48
+   Duration  2.58s (transform 83ms, setup 146ms, import 142ms, tests 1.45s, environment 685ms)
+

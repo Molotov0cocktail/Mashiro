@@ -10,6 +10,10 @@ import {
   AssistantPanel,
   type AssistantConfigurationTarget
 } from './features/assistants/AssistantPanel'
+import {
+  BackgroundPanel,
+  type ChapterContextSelection
+} from './features/background/BackgroundPanel'
 import { ItemPanel } from './features/items/ItemPanel'
 import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
@@ -40,9 +44,14 @@ export function App(): React.JSX.Element {
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
   const [activeView, setActiveView] = useState<
-    'chat' | 'items' | 'reminders' | 'memory' | 'retention'
+    'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'retention'
   >('chat')
   const [configurationFocus, setConfigurationFocus] = useState<ConfigurationFocus | null>(null)
+  const [chapterContextTarget, setChapterContextTarget] = useState<{
+    assistantId: string
+    chapters: ChapterContextSelection['chapters']
+    nonce: number
+  } | null>(null)
   const [memoryRefreshKey, setMemoryRefreshKey] = useState(0)
   const [itemRefreshKey, setItemRefreshKey] = useState(0)
   const [itemRecoveryTarget, setItemRecoveryTarget] = useState<{
@@ -475,8 +484,17 @@ export function App(): React.JSX.Element {
     []
   )
 
+  const useChapterContext = useCallback((selection: ChapterContextSelection): void => {
+    setChapterContextTarget((current) => ({
+      ...selection,
+      nonce: (current?.nonce ?? 0) + 1
+    }))
+    setNavigationError('')
+    setActiveView('chat')
+  }, [])
+
   const selectPrimaryView = useCallback(
-    (view: 'chat' | 'items' | 'reminders' | 'memory' | 'retention'): void => {
+    (view: 'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'retention'): void => {
       assistantRequestVersion.current += 1
       setConfigurationFocus(null)
       setNavigationError('')
@@ -532,6 +550,14 @@ export function App(): React.JSX.Element {
         <button
           type="button"
           role="tab"
+          aria-selected={activeView === 'background'}
+          onClick={() => selectPrimaryView('background')}
+        >
+          章节后台
+        </button>
+        <button
+          type="button"
+          role="tab"
           aria-selected={activeView === 'retention'}
           onClick={() => selectPrimaryView('retention')}
         >
@@ -567,6 +593,7 @@ export function App(): React.JSX.Element {
           onLocateMemorySource={locateMemorySource}
           retentionChange={retentionChange}
           onPrepareRetention={prepareRetention}
+          chapterContextTarget={chapterContextTarget}
           configurationFocus={
             configurationFocus &&
             (configurationFocus.target === 'provider' || configurationFocus.target === 'history')
@@ -650,6 +677,23 @@ export function App(): React.JSX.Element {
             configurationFocus?.target === 'memory' ? configurationFocus.nonce : null
           }
         />
+      </section>
+      <section hidden={activeView !== 'background'} aria-label="章节后台页面">
+        {window.mashiro.background ? (
+          <BackgroundPanel
+            assistantId={assistantSnapshot?.currentAssistantId ?? ''}
+            assistantName={
+              assistantSnapshot?.assistants.find(
+                (assistant) => assistant.id === assistantSnapshot.currentAssistantId
+              )?.displayName ?? ''
+            }
+            api={window.mashiro.background}
+            providerApi={window.mashiro.provider}
+            onUseChapters={useChapterContext}
+          />
+        ) : (
+          <p role="alert">本机章节后台尚未就绪。</p>
+        )}
       </section>
       <section hidden={activeView !== 'retention'} aria-label="保留与清理页面">
         {window.mashiro.retention ? (

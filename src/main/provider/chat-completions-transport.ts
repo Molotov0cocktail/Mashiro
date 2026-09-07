@@ -48,6 +48,7 @@ export interface TransportRequest {
   model: string
   messages: ProtocolMessage[]
   tools?: ToolScope
+  maxOutputTokens?: number
   stream: boolean
   signal?: AbortSignal
   onDelta?: (text: string) => void
@@ -142,6 +143,13 @@ export async function chatCompletions(
     if (controller.signal.aborted) throw new Failure('cancelled')
     if (!request.apiKey || !request.model || request.messages.length === 0)
       throw new Failure('configuration')
+    if (
+      request.maxOutputTokens !== undefined &&
+      (!Number.isSafeInteger(request.maxOutputTokens) ||
+        request.maxOutputTokens < 1 ||
+        request.maxOutputTokens > 8192)
+    )
+      throw new Failure('configuration')
     const endpoint = new URL(baseUrl)
     const bigModel =
       endpoint.hostname === 'open.bigmodel.cn' && endpoint.pathname === '/api/paas/v4'
@@ -164,6 +172,7 @@ export async function chatCompletions(
                 ...(request.stream ? { tool_stream: true } : {})
               }
             : {}),
+          ...(request.maxOutputTokens !== undefined ? { max_tokens: request.maxOutputTokens } : {}),
           ...(bigModel
             ? /^glm-5\.3(?:-flash)?$/i.test(request.model)
               ? {

@@ -410,7 +410,34 @@ try {
     )
       throw new Error('Reminder native runtime evidence missing')
   }
+  for (const [phase, result] of [
+    ['seed', seed],
+    ['verify', verify]
+  ]) {
+    const background = result.background
+    if (
+      !background ||
+      background.budgetCalls !== 1 ||
+      !background.bodyReadThroughDom ||
+      !background.contextSelectedThroughDom ||
+      result.backgroundTransportCalls !== 1 ||
+      background.contextSentThroughDom !== (phase === 'verify') ||
+      background.priorIdentityRestored !== (phase === 'verify')
+    )
+      throw new Error('Background chapter DOM/lifecycle evidence missing')
+  }
+  if (
+    seed.background.chapterId !== verify.background.chapterId ||
+    seed.background.memoryId !== verify.background.memoryId
+  )
+    throw new Error('Background chapter identity changed after restart')
   summary = {
+    background: {
+      seed: seed.background,
+      restored: verify.background,
+      seedTransportCalls: seed.backgroundTransportCalls,
+      verifyTransportCalls: verify.backgroundTransportCalls
+    },
     reminders: { seed: seed.reminders, restored: verify.reminders },
     runId,
     startupFailureSanitized: true,
@@ -443,6 +470,16 @@ try {
     chat: verify.chat
   }
   mkdirSync(join(projectRoot, 'test-results'), { recursive: true })
+  for (const phase of ['seed', 'verify'])
+    copyFileSync(
+      join(testRoot, 'results', phase + '-background-ui.png'),
+      join(projectRoot, 'test-results', 'background-013-' + phase + '-ui.png')
+    )
+  for (const phase of ['seed', 'verify'])
+    copyFileSync(
+      join(testRoot, 'results', phase + '-background-chapter-ui.png'),
+      join(projectRoot, 'test-results', 'background-013-' + phase + '-chapter-ui.png')
+    )
   for (const phase of ['seed', 'verify'])
     copyFileSync(
       join(testRoot, 'results', `${phase}-reminders-ui.png`),

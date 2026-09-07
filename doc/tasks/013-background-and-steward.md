@@ -16,7 +16,17 @@
 
 ## 当前源码准备
 
-root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-actual-plan.md)：基于memory_pending、接受版本/来源/抑制、RetentionDependencies真实ID/version/hash及现有Provider输出限制，明确角色预算、作业、章节与日常入口。background_013_design（实际gpt-6-astra/medium）随后已完成[实际服务合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-contract.md)，root已读并采纳为实施路线：后台origin不伪造round，章节引用真实Memory接受版本，预算持久预留且未知不归零，009依赖ID/version/hash稳定排序。012产品f34c543d287946ad9302f51577fe30c86a67bdf9已独立通过且双远程实查同步；现在background_013_trusted（实际gpt-6-astra/medium）已接手可信实施，主进程/共享DTO/存储单写，DTO冻结后由独立UI执行者并行；root维护全局记录。首个连贯增量为显式配置→正常完整轮→预算内真实章节/未完成话题→接受/可读/选上下文/可回收依赖；它不代表013全部完成，仓储分支/冲突/观察/日常/运行中心继续必做。
+root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-actual-plan.md)：基于memory_pending、接受版本/来源/抑制、RetentionDependencies真实ID/version/hash及现有Provider输出限制，明确角色预算、作业、章节与日常入口。background_013_design（实际gpt-6-astra/medium）随后已完成[实际服务合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-contract.md)，root已读并采纳为实施路线：后台origin不伪造round，章节引用真实Memory接受版本，预算持久预留且未知不归零，009依赖ID/version/hash稳定排序。012产品f34c543d287946ad9302f51577fe30c86a67bdf9已独立通过且双远程实查同步；现在background_013_trusted（实际gpt-6-astra/medium）已接手可信实施，主进程/共享DTO/存储单写，共享DTO已落盘，background_013_ui（实际gpt-5.6-sol/high）已接手renderer及对应测试并与可信执行者协调；root维护全局记录。首个连贯增量为显式配置→正常完整轮→预算内真实章节/未完成话题→接受/可读/选上下文/可回收依赖；它不代表013全部完成，仓储分支/冲突/观察/日常/运行中心继续必做。
+
+## 章节核心已审核增量
+
+2026-09-07：[独立CHAPTER_CORE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-final-pass.md)，报告SHA-256 BC709A02DD122825DCA0617AC094187C70A79D775CACCB845E5BDB1DEB29CC0F；45文件最终manifest-v2，73files/418tests、类型/lint/格式/build及实际Electron06 PIDs153292/152788通过。真实章节读取、上下文选择/发送、重启身份/预算和009原文回收依赖已验；独立关闭R1–R6，关键拒绝优先/迟到正文/草稿冲突回归进入默认套件。历史无精确确认proof的closed清理预览不被冒称结果已知，作为来源保守阻止。提交前R7后台记忆详情IPC类型遗漏已修，当前[增补审核](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-final-r7.md)覆盖真实IPC及后台标签；48文件manifest-v3、73/420和静态/build通过，Electron06先于此小修按明确范围复用。root正在提交双推，本任务仍ACTIVE。
+
+直接接续[仓储员实施合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-steward-contract.md)。新steward_013_trusted实际Astra/medium正在只读加载，提交后接手可信单写，DTO冻结后Sol/high接renderer；root单写全局入口。全局增量/分支冲突、观察、日常及运行中心继续必需，不能以本增量结束013。
+
+## 当前真实角色证据
+
+[真实章节角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-live-product.md)已SUPPORTED：GLM-5.3-FLASH实际3请求849tokens，正常轮→预算1次且真实max_tokens2048→接受Markdown/事务回执→选章节续答→无Key服务重开0调用。结果JSON SHA-256 E3572FCFF6E974363CD714DB74BBDAB36DF2B1FC1AA420F38A7072F08A086A33；非renderer/跨进程/PACKAGED。定向对抗与独立审核仍在继续，仓储/观察/日常角色仍必须分别完成。
 
 ## 工程闭环
 

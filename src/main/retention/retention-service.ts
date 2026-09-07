@@ -71,6 +71,7 @@ export interface RetentionDependencies {
     requestIds: string[]
   ): { blockers: string[]; accepted: { id: string; version: number; hash: string }[] }
   inspectAssistant(assistantId: string): { blockers: string[] }
+  purgeAssistant?(assistantId: string): void
 }
 const dependencies: RetentionDependencies = {
   inspectOriginal: () => ({
@@ -946,6 +947,14 @@ export class RetentionService {
         }
       const receipt = this.store.transaction(() => {
         this.fault?.('before-confirm')
+        // File verification above can yield. Another confirmation may have closed this preview.
+        const currentPreview = this.store.database
+          .prepare(
+            "SELECT manifest_json FROM retention_previews WHERE id=? AND assistant_id=? AND nonce=? AND state='pending'"
+          )
+          .get(value.previewId, value.assistantId, value.nonce)
+        if (!currentPreview || currentPreview.manifest_json !== row.manifest_json)
+          throw new RetentionError('STALE_PREVIEW')
         if (value.accept && this.epoch !== preview.epoch) throw new RetentionError('STALE_PREVIEW')
         const reversible = ['recycle-original', 'restore-original'].includes(preview.intent)
         if (value.accept && preview.intent !== 'restore-original' && manifest.itemPlan)
@@ -1028,14 +1037,25 @@ export class RetentionService {
           objectVersion: null
         }
         this.saveReceipt(value.assistantId, intentHash, receipt)
+        // Keep a small durable association after discarding the private preview manifest.
+        // Later confirmations must not overwrite an earlier command's proof.
         if (value.accept)
           this.store.database
-            .prepare("UPDATE retention_previews SET state='closed',manifest_json='{}'")
-            .run()
-        else
-          this.store.database
-            .prepare("UPDATE retention_previews SET state='closed',manifest_json='{}' WHERE id=?")
-            .run(value.previewId)
+            .prepare(
+              "UPDATE retention_previews SET state='closed',manifest_json=? WHERE state='pending' AND id<>?"
+            )
+            .run(JSON.stringify({ version: 1, kind: 'invalidated' }), value.previewId)
+        this.store.database
+          .prepare("UPDATE retention_previews SET state='closed',manifest_json=? WHERE id=?")
+          .run(
+            JSON.stringify({
+              version: 1,
+              kind: 'confirmation',
+              commandId: value.commandId,
+              accept: value.accept
+            }),
+            value.previewId
+          )
         return receipt
       })
       if (value.accept) {
@@ -1085,6 +1105,7 @@ export class RetentionService {
           .run(type, id, id)
   }
   private purgeAssistant(id: string, replacement: string | null): void {
+    this.deps.purgeAssistant?.(id)
     this.store.database
       .prepare('UPDATE retention_state SET epoch=epoch+1,generation=generation+1 WHERE singleton=1')
       .run()

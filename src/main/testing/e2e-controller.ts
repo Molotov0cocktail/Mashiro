@@ -1,3 +1,4 @@
+import { runBackgroundE2e } from './e2e-background.js'
 import { runReminderE2e } from './e2e-reminder.js'
 import { app, type BrowserWindow } from 'electron'
 import { seedProfileUiScript, verifyProfileUiScript } from './e2e-profile-scripts.js'
@@ -52,6 +53,34 @@ export async function e2eProviderTransport(request: TransportRequest): Promise<T
     stream: request.stream,
     messages: request.messages.map((message) => ({ role: message.role, content: message.content }))
   })
+  if (request.messages[0]?.content.startsWith('你是当前助手的章节整理角色。')) {
+    if (request.maxOutputTokens !== 2048) throw Error('background-output-limit')
+    return {
+      status: 'completed',
+      text: JSON.stringify({
+        title: 'E2E章节',
+        summary: 'E2E_BACKGROUND_ACCEPTED：用户与助手的合成正常对话记录。',
+        unfinishedTopics: []
+      }),
+      usage: { promptTokens: 12, completionTokens: 8, totalTokens: 20 }
+    }
+  }
+  if (request.messages.at(-1)?.content === 'E2E_BACKGROUND_CONTEXT') {
+    if (
+      !request.messages.some(
+        (message) =>
+          message.role === 'system' && message.content.includes('E2E_BACKGROUND_ACCEPTED')
+      )
+    )
+      throw Error('background-selected-summary')
+    const text = 'E2E_BACKGROUND_CONTEXT_REPLY'
+    if (request.stream) request.onDelta?.(text)
+    return {
+      status: 'completed',
+      text,
+      usage: { promptTokens: 12, completionTokens: 8, totalTokens: 20 }
+    }
+  }
   if (request.tools && request.tools !== 'off') {
     const last = request.messages.at(-1)
     if (last?.role === 'tool') {
@@ -376,7 +405,13 @@ const verifyRestoreScript = `
   if(!historyPermission.ok) throw new Error(historyPermission.error.code)
   const historyPage=await window.mashiro.timeline.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,query:'E2E_NORMAL'})
   if(!historyPage.ok) throw new Error(historyPage.error.code)
-  const memoryQuery=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
+  const allMemory=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
+  const restoredBackground=await window.mashiro.background.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
+  if(!allMemory.ok||!restoredBackground.ok||allMemory.data.records.length!==2||
+    restoredBackground.data.chapters.length!==1||
+    !allMemory.data.records.some(record=>record.id===restoredBackground.data.chapters[0].memoryId))
+    throw new Error('memory-background-cardinality')
+  const memoryQuery=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
   if(!memoryQuery.ok||memoryQuery.data.records.length!==1)throw new Error('memory-restored-query')
   const memoryInspect=await window.mashiro.memory.inspect({protocolVersion:1,assistantId:assistant.data.currentAssistantId,id:memoryQuery.data.records[0].id})
   const memoryPermissions=await window.mashiro.memory.permissions({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
@@ -680,7 +715,19 @@ export async function runE2ePhase(
       captureFailure = { stage: 'reminder-native-runtime', code: 'FAILED' }
     }
   }
+  // Preserve the established explicit-chat observation before the separate background scenario.
+  const transportAfterExplicit = e2eTransportEvidence()
+  let background: Awaited<ReturnType<typeof runBackgroundE2e>> | undefined
+  if (!('failure' in evidence) && !captureFailure) {
+    try {
+      background = await runBackgroundE2e(window, dataRoot)
+    } catch {
+      captureFailure = { stage: 'background-dom-lifecycle', code: 'FAILED' }
+    }
+  }
   const result = {
+    background,
+    backgroundTransportCalls: e2eTransportEvidence().count - transportAfterExplicit.count,
     reminders,
     runId: dataRoot.runId,
     phase: dataRoot.phase,
@@ -690,7 +737,7 @@ export async function runE2ePhase(
     node: process.versions.node,
     sqlite: process.versions.sqlite,
     security: secureWebPreferences,
-    transportAfterExplicit: e2eTransportEvidence(),
+    transportAfterExplicit,
     ...('failure' in evidence ? { failure: evidence.failure } : evidence),
     ...(captureFailure ? { failure: captureFailure } : {})
   }

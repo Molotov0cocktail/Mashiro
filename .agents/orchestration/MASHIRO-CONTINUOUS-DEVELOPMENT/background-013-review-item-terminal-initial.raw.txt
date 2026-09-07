@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 D:/Mashiro
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-item-terminal.test.ts (2 tests | 2 failed) 272ms
+   × allows actual accepted or rejected item confirmation terminal outcome: true 145ms
+   × allows actual accepted or rejected item confirmation terminal outcome: false 125ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-item-terminal.test.ts > allows actual accepted or rejected item confirmation terminal outcome: true
+ FAIL  .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-item-terminal.test.ts > allows actual accepted or rejected item confirmation terminal outcome: false
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-review-item-terminal.test.ts:38:55
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  08:28:03
+   Duration  861ms (transform 195ms, setup 142ms, import 267ms, tests 272ms, environment 0ms)
+

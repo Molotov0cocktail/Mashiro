@@ -75,6 +75,7 @@ interface VersionRow {
   metadata_json: string
 }
 export interface MemoryExecution {
+  origin?: { kind: 'background'; jobId: string }
   assistantId: string
   requestId: string
   fingerprint: string
@@ -374,7 +375,7 @@ export class MemoryService {
           receipt: this.safeReceipt(JSON.parse(row.receipt_json)),
           intent: JSON.parse(row.intent_json) as {
             mutation: MemoryMutation
-            actor: 'user' | 'assistant'
+            actor: 'user' | 'assistant' | 'background'
           }
         }))
         .filter((row) => row.receipt.objectId === value.id)
@@ -457,7 +458,12 @@ export class MemoryService {
         throw new MemoryError('PERMISSION_DENIED')
       if (target) this.assertRecord(target, context.assistantId, context.execution.fingerprint)
       for (const source of context.execution.sources) {
-        if (source.type === 'user-round' && source.id === context.execution.requestId) continue
+        if (
+          !context.execution.origin &&
+          source.type === 'user-round' &&
+          source.id === context.execution.requestId
+        )
+          continue
         this.assertSource(source, context.assistantId, context.execution.fingerprint)
       }
     }
@@ -478,7 +484,8 @@ export class MemoryService {
       if (prior.arguments_hash !== argumentHash) throw new MemoryError('CONFLICT')
       if (prior.receipt_json && !(confirmed && prior.state === 'PENDING_CONFIRMATION'))
         return this.safeReceipt(JSON.parse(prior.receipt_json))
-      if (!confirmed) throw new MemoryError('CONFLICT')
+      if (!confirmed && !(context.execution?.origin && prior.state === 'NOT_APPLIED'))
+        throw new MemoryError('CONFLICT')
     }
     const target = this.checkMutation(context)
     const objectId = target?.id ?? randomUUID()
@@ -487,11 +494,16 @@ export class MemoryService {
       this.store.database.prepare('INSERT INTO memory_commands VALUES(?,?,?,?,?,?,?,?)').run(
         context.commandId,
         context.assistantId,
-        context.execution?.requestId ?? null,
+        context.execution?.origin ? null : (context.execution?.requestId ?? null),
         argumentHash,
         JSON.stringify({
           mutation,
-          actor: context.execution ? 'assistant' : 'user',
+          actor: context.execution?.origin
+            ? 'background'
+            : context.execution
+              ? 'assistant'
+              : 'user',
+          origin: context.execution?.origin,
           toolOperationId: context.execution?.toolOperationId
         }),
         'PREPARED',
@@ -515,7 +527,7 @@ export class MemoryService {
         confirmationId
       }
       this.store.transaction(() => {
-        if (context.execution)
+        if (context.execution && !context.execution.origin)
           this.addDependencies('round', context.execution.requestId, 1, [
             {
               type: 'memory',
@@ -645,7 +657,7 @@ export class MemoryService {
             'INSERT INTO retained_source_edges SELECT object_id,?,source_type,source_id,source_version,source_assistant,recipients_json,epoch FROM retained_source_edges WHERE object_id=? AND object_version=?'
           )
           .run(nextVersion, objectId, target.objectVersion)
-      if (context.execution && record.state === 'active')
+      if (context.execution && !context.execution.origin && record.state === 'active')
         this.addDependencies('round', context.execution.requestId, 1, [
           {
             type: 'memory',
@@ -693,7 +705,14 @@ export class MemoryService {
       this.fault?.('before-commit')
     })
     this.fault?.('after-commit')
-    this.changed(context.execution?.requestId)
+    // A new background object cannot invalidate an already selected source/version.
+    // Corrections, removals and permission changes retain the existing revocation barrier.
+    const createsBackgroundObject =
+      context.execution?.origin?.kind === 'background' &&
+      mutation.action === 'remember' &&
+      target === undefined
+    if (!createsBackgroundObject)
+      this.changed(context.execution?.origin ? undefined : context.execution?.requestId)
     return receipt
   }
   private removalImpact(target: MemoryRecord, action: string) {
@@ -1140,6 +1159,43 @@ export class MemoryService {
       }))
     )
     return found
+  }
+  /** Background slots never create a fictitious user-round dependency. */
+  backgroundMutation(
+    execution: Omit<MemoryExecution, 'requestId' | 'origin'> & { jobId: string; commandId: string },
+    mutation: MemoryMutation
+  ): MemoryReceipt {
+    if (mutation.action !== 'remember') throw new MemoryError('INVALID_INPUT')
+    try {
+      return this.apply({
+        assistantId: execution.assistantId,
+        commandId: execution.commandId,
+        mutation,
+        execution: {
+          ...execution,
+          requestId: '',
+          origin: { kind: 'background', jobId: execution.jobId }
+        }
+      })
+    } catch (error) {
+      const prior = this.command(execution.commandId)
+      if (prior?.receipt_json && prior.state === 'SUCCEEDED')
+        return this.safeReceipt(JSON.parse(prior.receipt_json))
+      this.store.database
+        .prepare("UPDATE memory_commands SET state='NOT_APPLIED' WHERE id=? AND state='PREPARED'")
+        .run(execution.commandId)
+      throw error
+    }
+  }
+  acceptedBackgroundMemory(assistantId: string, id: string, expectedVersion: number): MemoryRecord {
+    const record = this.visible(this.owned(assistantId, id))
+    if (
+      record.objectVersion !== expectedVersion ||
+      record.state !== 'active' ||
+      record.retention === 'trash'
+    )
+      throw new MemoryError('PERMISSION_DENIED')
+    return record
   }
   toolMutation(execution: MemoryExecution, mutation: MemoryMutation): MemoryReceipt {
     // Deterministic original-user-round identity, independent of model request/call IDs.

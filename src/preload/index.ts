@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { backgroundChannels } from '../shared/background-channels.js'
+import type { BackgroundApi, BackgroundChanged } from '../shared/background-contract.js'
 import { reminderChannels, reminderChangedChannel } from '../shared/reminder-channels.js'
 import type { ReminderApi, ReminderChanged } from '../shared/reminder-contract.js'
 import { itemChannels } from '../shared/item-channels.js'
@@ -98,7 +100,21 @@ const reminders: ReminderApi = {
     return () => ipcRenderer.removeListener(reminderChangedChannel, handler)
   }
 }
+const background: BackgroundApi = {
+  query: (input) => ipcRenderer.invoke(backgroundChannels.query, input),
+  configure: (input) => ipcRenderer.invoke(backgroundChannels.configure, input),
+  run: (input) => ipcRenderer.invoke(backgroundChannels.run, input),
+  control: (input) => ipcRenderer.invoke(backgroundChannels.control, input),
+  chapter: (input) => ipcRenderer.invoke(backgroundChannels.chapter, input),
+  topic: (input) => ipcRenderer.invoke(backgroundChannels.topic, input),
+  onChanged: (listener) => {
+    const handler = (_event: unknown, value: unknown): void => listener(value as BackgroundChanged)
+    ipcRenderer.on(backgroundChannels.changed, handler)
+    return () => ipcRenderer.removeListener(backgroundChannels.changed, handler)
+  }
+}
 contextBridge.exposeInMainWorld('mashiro', {
+  background,
   reminders,
   assistants,
   provider,
