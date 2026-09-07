@@ -1,0 +1,20 @@
+{
+  "scope": "delivery-014-old-receipt-window-final-source-binding",
+  "helper": {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-old-receipt-window.mjs",
+    "sha256": "643706F896E29F1732387C246D69D06A4E8B7832BB392E84C44EE7878224DACB"
+  },
+  "result": {
+    "state": "PREPARED_ONLY",
+    "revision": "37620929a7f507bb31d41861114cf6f825d715fd",
+    "expectedSchema": 19,
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+    "oldRequestId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+    "oldOperationId": "65f43282-9144-4d5c-b5fb-8577e5336f56",
+    "appendCount": 384,
+    "providerCalls": 0,
+    "exitCode": 0
+  },
+  "boundary": "The final reviewed schema19 source commit exists and the synthetic scene/dataset/process guards passed. The database was not opened and the helper was not executed; installer migration and the mutating transaction remain pending the independently admitted package."
+}

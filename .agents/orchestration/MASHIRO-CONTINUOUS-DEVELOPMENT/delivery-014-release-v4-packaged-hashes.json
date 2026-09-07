@@ -1,0 +1,34 @@
+{
+  "observedAt": "2026-09-08T02:54:00.9567103+08:00",
+  "status": "BUILT_PENDING_INDEPENDENT_ARTIFACT_AND_NATIVE_ACCEPTANCE",
+  "commit": "37620929a7f507bb31d41861114cf6f825d715fd",
+  "buildLog": "delivery-014-release-v4-build-02.raw.txt",
+  "buildExitCode": 0,
+  "frozenOutput": "retention-009-root-frozen-output-v4.json",
+  "files": [
+    {
+      "path": "dist/windows-candidate-release-v4/Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112585917,
+      "sha256": "D352DD8AAD149D011405400476C2561C336768F076523E7DEDD2CCDB45D16EF4",
+      "signature": "NotSigned",
+      "fileVersion": "0.1.0"
+    },
+    {
+      "path": "dist/windows-candidate-release-v4/win-unpacked/Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "73A4AFA12FF36B758C0F8D450F6B6AACFC0F3566C63EFAD14F458173D8508E4D",
+      "signature": "NotSigned",
+      "fileVersion": "0.1.0"
+    },
+    {
+      "path": "dist/windows-candidate-release-v4/win-unpacked/resources/app.asar",
+      "bytes": 15512143,
+      "sha256": "F310B79143120BADF9BF7AEE4603A01C7F2C63963B43EBE1E80C4C906F5541FD"
+    },
+    {
+      "path": "dist/windows-candidate-release-v4/Mashiro-0.1.0-win-x64-setup.exe.blockmap",
+      "bytes": 118818,
+      "sha256": "C9C0809DD91F3AABB47885598556496058118E4F99325F5DFA3FF4847C85C9D6"
+    }
+  ]
+}

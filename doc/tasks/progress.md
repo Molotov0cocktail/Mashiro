@@ -6,6 +6,10 @@
 
 ## 当前工作与直接下一动作
 
+最新制品节点：已审源码 `37620929a7f507bb31d41861114cf6f825d715fd` 已实核 github/gitee main 同步；[Windows v4 构建02](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-build-02.raw.txt)退出0，[精确身份](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-packaged-hashes.json)记录 setup SHA256 `D352DD8AAD149D011405400476C2561C336768F076523E7DEDD2CCDB45D16EF4`、0.1.0、实际 NotSigned。[独立制品STATIC_PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-artifact-review.md)已核5份out、79文件、6声明和真实签名；唯一原生所有者正在执行新包18→19迁移、来源/旧回执导航、路径恢复、治理恢复、通知与卸载，随后016整体验收及实际发布下载。首次构建最终输出打开失败保留为FAIL；独占读成功、无候选进程、磁盘余量63.5GB且5份out哈希不变后一次重试成功，未归因防病毒、未改变系统防护。PROGRAM ACTIVE，尚未发布。
+
+以下为此前阶段观测，当前状态以上段为准。
+
 - 当前最新：009 v4、冷导航与Toast均已独立限定PASS，[最终源码整合](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-root-final-verification-v4.md)实际206文件850tests中842通过/0失败/8项独立实验跳过；类型/lint/格式/build通过，Electron两PID216688/225880、原临时6→0通过。48路径manifest SHA22A5DB709FDC4CA4EF69E36F4C3E09BB48C87877926B0BD2131C3557D0235BBB无漂移，5份out已冻结。此前纯audit撤权/草稿/就绪夹具问题已关闭，原RED保留。正在做精确范围整合提交和双推，随后构建最终Windows候选并交原生验收/016/发布；不是PROGRAM_DONE。以下为本次修复经过。
 
 - 当前已审提交：`0b9328b5308a4042d3acb351c2cac9deafd29670`（Toast完整注册值清理及独立反例），16路径暂存范围/字节/秘密模式检查通过；已非force同步并实核github/gitee main同值。RET/cold及全局文档工作区仍保留，未随此提交混入。
