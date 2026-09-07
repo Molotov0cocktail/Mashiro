@@ -26,7 +26,8 @@ export const TOOL_LIMITS = {
   chainBytes: 524288,
   timeoutMs: 120000
 } as const
-export const GLM_TOOL_ADAPTER = 'glm-5.3-flash-tools-v1'
+export { GLM_TOOL_ADAPTER } from './provider-profile.js'
+import { providerProfile } from './provider-profile.js'
 export const clockArgumentsSchema = z.strictObject({})
 export const historyArgumentsSchema = z.strictObject({
   query: z
@@ -67,9 +68,7 @@ export interface ProtocolMessage {
   tool_call_id?: string
 }
 export function toolsSupported(baseUrl: string, model: string): boolean {
-  return (
-    baseUrl === 'https://open.bigmodel.cn/api/paas/v4' && model.toLowerCase() === 'glm-5.3-flash'
-  )
+  return providerProfile(baseUrl, model) !== undefined
 }
 export function toolDefinitions(
   scope: ToolScope
@@ -242,10 +241,12 @@ export class ToolAccumulator {
     { id: string; type: string; name: string; arguments: string }
   >()
   private reasoning = ''
+  private reasoningSeen = false
   consume(value: unknown, stream: boolean): void {
     const message = object(value)
     if (message.reasoning_content != null) {
       if (typeof message.reasoning_content !== 'string') throw new ToolProtocolError()
+      this.reasoningSeen = true
       this.reasoning += message.reasoning_content
       if (this.reasoning.length > TOOL_LIMITS.reasoning) throw new ToolProtocolError('limit')
     }
@@ -283,7 +284,11 @@ export class ToolAccumulator {
       this.calls.set(index, call)
     }
   }
-  finish(reason: string | undefined): { reasoning: string; toolCalls: ToolCall[] } {
+  finish(
+    reason: string | undefined,
+    requireReasoning = false
+  ): { reasoning: string; toolCalls: ToolCall[] } {
+    if (requireReasoning && !this.reasoningSeen) throw new ToolProtocolError()
     if (!this.calls.size) {
       if (reason !== 'stop') throw new ToolProtocolError()
       return { reasoning: this.reasoning, toolCalls: [] }

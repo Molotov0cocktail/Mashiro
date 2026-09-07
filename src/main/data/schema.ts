@@ -8,7 +8,9 @@ import { migrateDaily } from '../background/daily-schema.js'
 
 import { migrateReminderNotifications } from '../reminder/reminder-notification-schema.js'
 
-export const schemaVersion = 15
+import { migrateRetainedProtocol } from '../provider/retained-protocol-schema.js'
+
+export const schemaVersion = 16
 
 const requiredTables = [
   'assistants',
@@ -362,6 +364,7 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
   migrateSteward(database)
   migrateDaily(database)
   migrateReminderNotifications(database)
+  migrateRetainedProtocol(database)
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )

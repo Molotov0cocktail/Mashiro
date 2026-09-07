@@ -55,5 +55,6 @@
 - [x] 手动核心独立审核MANUAL_CORE PASS；最终静态/构建/Electron与反例通过。
 - [x] 手动核心绑定提交`d6cd1fa4a27ccb418ffc3ff04503366acb133e2e`，github/gitee非force同步并ls-remote同值；110个源码/raw证据暂存字节一致。
 - [x] 额外AST私有user/event已确认、实现并独立限定PASS。
-- [ ] RET/Q9/Q10完成后结算整个009。
+- [x] Q9章节接受→可信回收→摘要继续可读→原文恢复已有真实服务链反例；并发否决优先也已验证。最新015整合全量136文件641tests再次覆盖，见tests/integration/background-service.test.ts与background-retention-race.test.ts。
+- [ ] RET/Q10完成后结算整个009；最终安装跨域场景仍待，不用服务测试代替。
 - [ ] 持续执行010及后续总任务，直到实际发布下载核验。

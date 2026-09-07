@@ -1,0 +1,515 @@
+{
+  "recordedAt": "2026-09-07T08:02:30.220Z",
+  "scannedFiles": 101,
+  "secretFindings": [],
+  "residuals": [],
+  "generated": [],
+  "diffCheck": 0,
+  "hashes": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-014-staged-bytes.mjs",
+      "bytes": 1732,
+      "sha256": "11834c1c47368f1acce85f0be01f50b19f9018d658d278e726cd55f11d90050b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-baseline-native-click.ps1",
+      "bytes": 3084,
+      "sha256": "6f714400dba2866150e02d16002cd8034d54e5f1989755d84cf0a72a37f60224"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-baseline-native-menu.ps1",
+      "bytes": 4887,
+      "sha256": "6d5294039877edd7b7d93e2e2bbb6a7f709fc842f6bd83801556bc46b4c4e8e1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-baseline-native-ui.ps1",
+      "bytes": 3419,
+      "sha256": "00e08893f1e533041af025c951698b5932c677669c66c5df18598a2aadb40929"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-01.json",
+      "bytes": 2238,
+      "sha256": "c407c5231321f848f8235d280366b5bc4a26c9ef371a3771cc42d97c265c0947"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-02.json",
+      "bytes": 1760,
+      "sha256": "614bf89388b8ae87a752f78a692478ca09c8d66dab0eb440b0d790788dee2307"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-03.json",
+      "bytes": 1260,
+      "sha256": "705065579cb01a44ad9adccb520d8741479be51db4bceded865d898d623346a7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-04.json",
+      "bytes": 3427,
+      "sha256": "641aa941bf72c6f9d17bd16f9b735163fd3592415b557f2db7b59516d094f6be"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-05.json",
+      "bytes": 1597,
+      "sha256": "68b3167aae053cbdc5950ae25e63f64958f78b1abcdb5511e06a13bcc6e1906f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-edit-06.json",
+      "bytes": 1101,
+      "sha256": "ee8d0192bb8db9f4cd3104a275850a533fdbae45611542c51b98dfe3e61f6179"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-mechanism-01.json",
+      "bytes": 1585,
+      "sha256": "d7be1d8379608746ce222022fb770feecd2a888088caf8a93b4e90435beaebbc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-mechanism-02.json",
+      "bytes": 3076,
+      "sha256": "b8f937d197978ee4627f6a9d897ed137fcf2d5463c1a5c010b44e909dfa07b99"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-mechanism-03.json",
+      "bytes": 4166,
+      "sha256": "25b1fea99886ab0cd918d832863311968457876d967fba86b44c5c156de4f75c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-projection-01.json",
+      "bytes": 1719,
+      "sha256": "d039550cbeea8f729f9028fa200fce44d6ff23f6d0748b1048188fb83af75da7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-governance-restore-contract.md",
+      "bytes": 5862,
+      "sha256": "204bcbb9279da249fb40f5fc1b8f3114daeff23ecfe47c9fa3448f135e7eb3ac"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-install-baseline.ps1",
+      "bytes": 2923,
+      "sha256": "e07088aa144323a610c21830558a59016fc869dc2184550d5f4ad1c91ec75023"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-selected-home.png",
+      "bytes": 103441,
+      "sha256": "a9dd4d43d19a528e6c97a4668f5d074ab304816f394176805178dcea18054a8a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-selected-proposal.png",
+      "bytes": 102252,
+      "sha256": "5ff865d4f6f5da5d05a71dcf54224440a28b21e18f51490693dc8c00e1c08038"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-proposal-seed-01.json",
+      "bytes": 1635,
+      "sha256": "39de92becae99ea46d015f11fb095cfaa6a5ce5fd2555d74ebc9983e00d026c1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-seed-proposal.mjs",
+      "bytes": 4524,
+      "sha256": "0856c6016d4699674e750a66a1cb553db1c4cd27dc47a85af5fbb100c0fbce13"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-chain-first-01.json",
+      "bytes": 22406,
+      "sha256": "e844aae74557df10b56f3df6980dffc5cc17282351b99ab05c31450cb14fb989"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-chain-migration-02.json",
+      "bytes": 4440,
+      "sha256": "40c92585877d54ab66f8bbe62dfd89cb25ffec9c3832cb72598b13e696a48514"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-dependency-tree-01.json",
+      "bytes": 164682,
+      "sha256": "e74ef65d683c67fccb874b24148e45bf79963083c018ed66431c470447a4904b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-01.json",
+      "bytes": 4004,
+      "sha256": "42641e91d1ae9596812da76ae403446c5d644a99df7451751a5d752d5a30d87e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-02.json",
+      "bytes": 4243,
+      "sha256": "5ab2aafed08376282d23ffd82fc6e2f661d3097d9e341ce62793576e6d0e4413"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-03.json",
+      "bytes": 11878,
+      "sha256": "679e2c1828dc1703e64c47e42757b885120500d316a3e97e8b12b768738399e6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-04.json",
+      "bytes": 7384,
+      "sha256": "9f622207e55fdff9a04bfdd0d0dafd6068badf948e363d0837f408dbf5940287"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-05.json",
+      "bytes": 609,
+      "sha256": "5a1bf853b66fe578a61add1aa7ad0a7084b09c50e33795cc8240922e1b356877"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-06.json",
+      "bytes": 207130,
+      "sha256": "41b560ce37ed8eca4bedb91ab07df5a33b8839680587e8c561887c479ebf1bdf"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-07.json",
+      "bytes": 1179,
+      "sha256": "abcc05f8ca306b3e2888f5e23531dc955f8fcdd7c512ca65c5ce05974e2c435d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-08.json",
+      "bytes": 870,
+      "sha256": "c254f2e2416d6c8fd8306d5bc0e6c4299c82b9b55778c678f80bbe9459fa8822"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-09.json",
+      "bytes": 1274,
+      "sha256": "30782953509467ee7724d236ed2de49dbf11696f6adb7cebbf8b0d4e037de554"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-10.json",
+      "bytes": 21568,
+      "sha256": "6a3527972c0a847822283782eedbb552448cbaef5174487cf2f0d9ec1f787b2a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-edit-11.json",
+      "bytes": 28577,
+      "sha256": "efd6d9c8e40aebb2cacda41dc6210fc927190f2f3fb8ddd78d51688d575aa588"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-filelist.json",
+      "bytes": 1326,
+      "sha256": "b6ff6e5be03ad777641e25f707ef5f3857e0edae0a5111ebc65302889b610b91"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-final-delta-05.json",
+      "bytes": 4867,
+      "sha256": "b0b9146036664867fcc0293484c2e0534ffa6a126c0a752b3cd4e53f7eb90f5d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-focused-03.json",
+      "bytes": 32532,
+      "sha256": "909b398b767d148ae0bd5ce7e3b0eca960090b9d464fca30a220d7a333939967"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-legacy-family-01.json",
+      "bytes": 18633,
+      "sha256": "410880e73679085a43affcb45daea7871f014f8e7da731c197229f4f1af857f2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-manifest-v1.json",
+      "bytes": 5253,
+      "sha256": "1b3bb6e6abba1b060176a001b5d6df1dd58824646ecd838eceec01e09525e673"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-migration-actual-01.json",
+      "bytes": 7874,
+      "sha256": "f75e6b8c647cdc947cc34e33bfd73b3441cfe5263f2e9596d420a8d0f6e9177b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-native-final-01.json",
+      "bytes": 22223,
+      "sha256": "eddde5d6f50560a30984138cad129980495d31fda866386a8ed6c3a417bf44f3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-native-first-failure.md",
+      "bytes": 2205,
+      "sha256": "92ed0bd25dfb03ff4b7343f9f9834fe69a00d324364c73c5b8e7499e556c9ba5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-replay-04.json",
+      "bytes": 1697,
+      "sha256": "d0f4bb5b2bc00973bdfbf29e9f353e854072683092dac78ad91c07e4d09ba0e4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-root-boundary-01.json",
+      "bytes": 1737,
+      "sha256": "cb816e81a3b5e556471a496358d7f46bb55f3617decc5380c56cc64e91e9a4f3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-root-daily-label-01.json",
+      "bytes": 3274,
+      "sha256": "6e818d439f43be075c50e2caf7674f1ab760855fde7c109c82eef213e46e32ce"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-root-focused-01.json",
+      "bytes": 8708,
+      "sha256": "61ede8a3e60ca486b1d87d73c0627f3475e44dfe6307be90d175a3454d5d988f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-root-full-01.json",
+      "bytes": 232359,
+      "sha256": "f4d1fde6378fa6117dad4f5b782c9e0ece8c33d988da68e338c0d4251833c1f2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-root-independent-review.md",
+      "bytes": 3972,
+      "sha256": "1e2d9262e4929d989360ae0dc84a2d9b1b66bbd8a63f925aa36369a512f45d6f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-schema-smoke-01.json",
+      "bytes": 1794,
+      "sha256": "97cbc511e1d07759df9298e9bd89a9633ede7e42cac838fb91ec0e49235f09b6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-staged-bytes-01.json",
+      "bytes": 14009,
+      "sha256": "c22b7cb4b3607850d46ef84989590bfba7976476e5623f4f5e3360d523d8bc74"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-static-01.json",
+      "bytes": 402,
+      "sha256": "4e1b58503f5c2772a45fe663f4c3eb1c271244f7e33b3adf2f5a58b0311ecba3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-timeline-recheck-02.json",
+      "bytes": 6123,
+      "sha256": "cd3e185be2359ea125524129ba2785969b34b272094c20b1d0fadca820ef051c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-transport-first-01.json",
+      "bytes": 27264,
+      "sha256": "b8d833d56471266aadc5eb158d369ec3d64c15127db99eff98bc567d50050b4c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-trusted-handoff-v1.md",
+      "bytes": 4939,
+      "sha256": "2d92072acd84fcf640162c93dab3f41efd7a3df53daad02a6db76d19e5f27d17"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-scan-provider015-01.json",
+      "bytes": 14996,
+      "sha256": "04ff36a760d7047a976c0b1c4caa898436d4d3eb14409d63fb848be42f736a51"
+    },
+    {
+      "path": "doc/tasks/009-retention-and-cleanup.md",
+      "bytes": 9454,
+      "sha256": "6437be34f53127933b8b799d0ac15c1e320f43ed7bd2db34249bb59fd8866d65"
+    },
+    {
+      "path": "doc/tasks/015-provider-retained-protocol.md",
+      "bytes": 3704,
+      "sha256": "db33881ba9854697e43ca14b69bde647c8d5085787dc97ac0cbbc1998e0bd006"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "bytes": 40494,
+      "sha256": "b193a5c9c4668f62db7e9fbdc9721c19ff89f07fcfdfa1ecf444f89e61aef371"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "bytes": 28396,
+      "sha256": "e65060553471cd43856f4efddfad4965adfcd823bdf94e483faec12fdac220a2"
+    },
+    {
+      "path": "doc/user-guide.md",
+      "bytes": 5632,
+      "sha256": "ed086888dc2fad341d85d1e2bb49396d978a9c6989de04d9a1e3c641580087fe"
+    },
+    {
+      "path": "src/main/data/production-governance-catalog.ts",
+      "bytes": 4713,
+      "sha256": "101f3ee1e4b2c0b05781942f84f4b94cfb3228121e30c9cc9f4ebb3410fba610"
+    },
+    {
+      "path": "src/main/data/production-governance-connection.ts",
+      "bytes": 4480,
+      "sha256": "e5a41f285c4b27d9e19854265e5b33dde872be604019fbc0f41f388821bb96d5"
+    },
+    {
+      "path": "src/main/data/production-governance-database.ts",
+      "bytes": 6152,
+      "sha256": "6d13f9c3bd58039324672676a2c741dce328ae17675573f4402157a0d124fceb"
+    },
+    {
+      "path": "src/main/data/production-governance-journal.ts",
+      "bytes": 9177,
+      "sha256": "c6c8b269e341eb57b6a2e9b54ddcdace4a8bddfd04c2879aa2c58c0579583f81"
+    },
+    {
+      "path": "src/main/data/production-governance-registry.ts",
+      "bytes": 2677,
+      "sha256": "4c8213c40f5f1904ad4fb18d507e2d0a520d06101a96d35e66d21bb78d7e1ebc"
+    },
+    {
+      "path": "src/main/data/production-governance-schema.ts",
+      "bytes": 2620,
+      "sha256": "74573359e4b45ab11260ce6d8c1a518e6959f85eb9fd61be3ef1f977c64a1e54"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "bytes": 19816,
+      "sha256": "f25b15e74c0130e3f26ffa879adc0349af25a7081c62ef9b36e1e87ab2b9ab01"
+    },
+    {
+      "path": "src/main/provider/chat-completions-transport.ts",
+      "bytes": 13162,
+      "sha256": "7a08aaafdbe3867c5ad2887122fcb6ce671993d4bce2c340b72fb4a6420a2c2d"
+    },
+    {
+      "path": "src/main/provider/provider-profile.ts",
+      "bytes": 2006,
+      "sha256": "6cc79a546f0c3b0dc4de6dff6a6785f0a2429430bd2603a30450693f21b117f9"
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "bytes": 68915,
+      "sha256": "46ba21fa6d388063230aad9703d87a64dcfe7fcbdc04a87ee00e46f4de4e1c33"
+    },
+    {
+      "path": "src/main/provider/retained-protocol-schema.ts",
+      "bytes": 4417,
+      "sha256": "1217fb057658af1881cb04ea2a71eb687406b691bc4bae770d2df101cf9c2d7f"
+    },
+    {
+      "path": "src/main/provider/retained-text.ts",
+      "bytes": 2211,
+      "sha256": "7ad491a5ddd1583eaebe16823d2bba6f2c7f4b8a33cf739c9ad399727e893ef9"
+    },
+    {
+      "path": "src/main/provider/tool-execution.ts",
+      "bytes": 13543,
+      "sha256": "19712dc4e53e7c1b0e92c05f0cd7807061b844facd22b0cf475040a98c437f2d"
+    },
+    {
+      "path": "src/main/provider/tool-protocol.ts",
+      "bytes": 12612,
+      "sha256": "f01b4fdcb64b90dccc71f8a19922cc688c0bbdb3c64ba943d627e2582311fbcd"
+    },
+    {
+      "path": "src/main/provider/tool-repository.ts",
+      "bytes": 18067,
+      "sha256": "ec33be2d24602f9a6a71d0f0b7a347120253bcb2b7f8cdb12329d2d5e81b777a"
+    },
+    {
+      "path": "src/main/testing/e2e-daily.ts",
+      "bytes": 14633,
+      "sha256": "84b8151b6c4d85b0b46d618647b5ad16281a474ac890bd9c4872aa131bb7b661"
+    },
+    {
+      "path": "src/shared/tool-contract.ts",
+      "bytes": 3657,
+      "sha256": "6e3394bcd3e5abcfb7149e20f8580879c38a3dc90547dfd8f2d96c4250dd3e59"
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "bytes": 19511,
+      "sha256": "443ab787d04e7a0bcc3b29ce34469b6eade50a76fc5c38fdaebef26484a9ab76"
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "bytes": 1679,
+      "sha256": "da53f1de0ec4210ff7719317ac550a782ebd7e4161d3a2a06d8262992bbfa09f"
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "bytes": 2200,
+      "sha256": "68140656bc5fd1f193272134a35252bb766789a94136d37b0345dcecf091e52f"
+    },
+    {
+      "path": "tests/integration/production-governance-projection.test.ts",
+      "bytes": 4698,
+      "sha256": "7905f3db4b525a6d72d41effcf3b902db30294589bd5222e58e5c4bdc0427f76"
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "bytes": 6069,
+      "sha256": "ffc1c1f6d998f210a3abecea80eac2bff7dd00396ca40c1ca32234c17bab0369"
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "bytes": 26561,
+      "sha256": "64ec3ca1d7d49e985e554b7c6423c268f8feec23f8fda52a394d5cbfd92e361d"
+    },
+    {
+      "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+      "bytes": 2305,
+      "sha256": "ee11444494c5f6e4688f3ab5504ce1d431de35e3345495002744ef8d5ce9a120"
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "bytes": 2063,
+      "sha256": "c91926efc76ff926afb303cd78e6060124d19836a2b2cf113949b995df450111"
+    },
+    {
+      "path": "tests/integration/retained-protocol-legacy-fixture.ts",
+      "bytes": 2353,
+      "sha256": "1fe176a658fa68cbf156ab1e7f8bef87a6a050d99f2185d2eacf2900b78aa8d7"
+    },
+    {
+      "path": "tests/integration/retained-protocol-migration.test.ts",
+      "bytes": 6139,
+      "sha256": "9cf2ddb843a645aecaa614b7e5fa43d90d82225c4dd8acff3ba64c15e44048f6"
+    },
+    {
+      "path": "tests/integration/retained-provider.test.ts",
+      "bytes": 14195,
+      "sha256": "c53fa07bdb20b4c0260ac163f90168e5f357f6141f0260b4f7ba78ea0dfb0c53"
+    },
+    {
+      "path": "tests/integration/retention-legacy-fixture.ts",
+      "bytes": 3540,
+      "sha256": "2618a5d65a5b4e2d98bff2ec2bb72a2eff3680df744b2b3ff0b2e7e6f7a22a1d"
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "bytes": 2190,
+      "sha256": "621ea905111c21ab158625995a2e5335ca3ff2c26fd37e5781ce592d73566d11"
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "bytes": 1717,
+      "sha256": "817a4c6c51af0292877c27b5fa0cc2eb928d5d5d86ca8e4c3938b0e87debee14"
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "bytes": 995,
+      "sha256": "f49c88474c235b4417e4d4f7897d41079d5d525971665879a0c3c8c491f8652a"
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "bytes": 26462,
+      "sha256": "5832eb3b850f93c417e4b1c1f29bfc628e8c23caea53ab22dde6ff48034973b7"
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "bytes": 7732,
+      "sha256": "aa2fdaa769ab840e838d071e78de470965fc3c8e80651712b35b81c48a4b640a"
+    },
+    {
+      "path": "tests/renderer/DailyPanel.test.tsx",
+      "bytes": 16851,
+      "sha256": "107bd02ad6dc26608c668844dfd004ec6801f83154b89dee6ed8bd1a0b08a395"
+    },
+    {
+      "path": "tests/unit/production-governance-connection.test.ts",
+      "bytes": 3355,
+      "sha256": "e94fd734347c3fe761b7e252a4742c49cd645f6123e75e7da586f57191947860"
+    },
+    {
+      "path": "tests/unit/production-governance-journal.test.ts",
+      "bytes": 3650,
+      "sha256": "d7c8652eb7a27f467ef62f80ab95561b84698e34364de6c00b82746a193d9edd"
+    },
+    {
+      "path": "tests/unit/production-governance-mechanism.test.ts",
+      "bytes": 4367,
+      "sha256": "8899878a3fa3380a79cc2b5809ba004648459cf30aa923bdaa0c3abe26638156"
+    },
+    {
+      "path": "tests/unit/retained-boundary-independent.test.ts",
+      "bytes": 3104,
+      "sha256": "599565787167d8d3b3a863b2d78c01834de82e8ea1917a96083bfe398be93b7f"
+    },
+    {
+      "path": "tests/unit/retained-provider-transport.test.ts",
+      "bytes": 4823,
+      "sha256": "66275ffb2067b871e7cb23c37c69b311ba97cf2b4dd3d3b588489bb7d79d60ba"
+    },
+    {
+      "path": "tests/unit/retained-replay.test.ts",
+      "bytes": 2696,
+      "sha256": "d723aa29004fb26130ef2bd3a414b585b1a7ea4edcba3ba40f21524e02a7a54c"
+    }
+  ]
+}

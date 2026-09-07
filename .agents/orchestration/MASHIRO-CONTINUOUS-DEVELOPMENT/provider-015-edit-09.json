@@ -1,0 +1,12 @@
+[
+  {
+    "path": "src/main/provider/tool-repository.ts",
+    "hash": "DEF5902A35589302D6719ABB17BAF928D65918C83F16FF459EAA30CDA2CFD0CA",
+    "edits": [
+      [
+        "      for (const message of turn) {",
+        "      if (profile?.retained) {\n        const pending = new Set<string>()\n        let finished = false\n        for (const message of turn.slice(1)) {\n          if (finished) throw new ProviderDomainError('PROTOCOL')\n          if (message.role === 'assistant') {\n            if (pending.size) throw new ProviderDomainError('PROTOCOL')\n            for (const call of message.tool_calls ?? []) {\n              if (pending.has(call.id)) throw new ProviderDomainError('PROTOCOL')\n              pending.add(call.id)\n            }\n            finished = pending.size === 0\n          } else if (message.role === 'tool') {\n            if (!message.tool_call_id || !pending.delete(message.tool_call_id))\n              throw new ProviderDomainError('PROTOCOL')\n          } else if (message.role !== 'system' || pending.size) {\n            throw new ProviderDomainError('PROTOCOL')\n          }\n        }\n        if (!finished || pending.size) throw new ProviderDomainError('PROTOCOL')\n      }\n      for (const message of turn) {"
+      ]
+    ]
+  }
+]

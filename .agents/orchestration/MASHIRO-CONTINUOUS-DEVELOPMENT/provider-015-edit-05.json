@@ -1,0 +1,16 @@
+[
+  {
+    "path": "tests/integration/retention-legacy-fixture.ts",
+    "hash": "81B6D144EFB64AC945D475CD4A0FB63EA315623F614B79FE51EF7317A6FC997C",
+    "edits": [
+      [
+        "import type { DatabaseSync } from 'node:sqlite'",
+        "import type { DatabaseSync } from 'node:sqlite'\nimport { removeRetainedProtocolFixture } from './retained-protocol-legacy-fixture.js'"
+      ],
+      [
+        "export function removeDailyFixture(database: DatabaseSync): void {",
+        "export function removeDailyFixture(database: DatabaseSync): void {\n  removeRetainedProtocolFixture(database)"
+      ]
+    ]
+  }
+]

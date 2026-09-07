@@ -1,0 +1,147 @@
+{
+  "files": [
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "F25B15E74C0130E3F26FFA879ADC0349AF25A7081C62EF9B36E1E87AB2B9AB01",
+      "bytes": 19816
+    },
+    {
+      "path": "src/main/provider/chat-completions-transport.ts",
+      "sha256": "7A08AAAFDBE3867C5AD2887122FCB6CE671993D4BCE2C340B72FB4A6420A2C2D",
+      "bytes": 13162
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "sha256": "46BA21FA6D388063230AAD9703D87A64DCFE7FCBDC04A87EE00E46F4DE4E1C33",
+      "bytes": 68915
+    },
+    {
+      "path": "src/main/provider/tool-execution.ts",
+      "sha256": "19712DC4E53E7C1B0E92C05F0CD7807061B844FACD22B0CF475040A98C437F2D",
+      "bytes": 13543
+    },
+    {
+      "path": "src/main/provider/tool-protocol.ts",
+      "sha256": "F01B4FDCB64B90DCCC71F8A19922CC688C0BBDB3C64BA943D627E2582311FBCD",
+      "bytes": 12612
+    },
+    {
+      "path": "src/main/provider/tool-repository.ts",
+      "sha256": "EC33BE2D24602F9A6A71D0F0B7A347120253BCB2B7F8CDB12329D2D5E81B777A",
+      "bytes": 18067
+    },
+    {
+      "path": "src/shared/tool-contract.ts",
+      "sha256": "6E3394BCD3E5ABCFB7149E20F8580879C38A3DC90547DFD8F2D96C4250DD3E59",
+      "bytes": 3657
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "sha256": "443AB787D04E7A0BCC3B29CE34469B6EADE50A76FC5C38FDAEBEF26484A9AB76",
+      "bytes": 19511
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "sha256": "DA53F1DE0EC4210FF7719317AC550A782EBD7E4161D3A2A06D8262992BBFA09F",
+      "bytes": 1679
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "sha256": "68140656BC5FD1F193272134A35252BB766789A94136D37B0345DCECF091E52F",
+      "bytes": 2200
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "sha256": "FFC1C1F6D998F210A3ABECEA80EAC2BFF7DD00396CA40C1CA32234C17BAB0369",
+      "bytes": 6069
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "64EC3CA1D7D49E985E554B7C6423C268F8FEEC23F8FDA52A394D5CBFD92E361D",
+      "bytes": 26561
+    },
+    {
+      "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+      "sha256": "EE11444494C5F6E4688F3AB5504CE1D431DE35E3345495002744EF8D5CE9A120",
+      "bytes": 2305
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "sha256": "C91926EFC76FF926AFB303CD78E6060124D19836A2B2CF113949B995DF450111",
+      "bytes": 2063
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "sha256": "621EA905111C21AB158625995A2E5335CA3FF2C26FD37E5781CE592D73566D11",
+      "bytes": 2190
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "sha256": "817A4C6C51AF0292877C27B5FA0CC2EB928D5D5D86CA8E4C3938B0E87DEBEE14",
+      "bytes": 1717
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "sha256": "F49C88474C235B4417E4D4F7897D41079D5D525971665879A0C3C8C491F8652A",
+      "bytes": 995
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "sha256": "5832EB3B850F93C417E4B1C1F29BFC628E8C23CAEA53AB22DDE6FF48034973B7",
+      "bytes": 26462
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "sha256": "AA2FDAA769AB840E838D071E78DE470965FC3C8E80651712B35B81C48A4B640A",
+      "bytes": 7732
+    },
+    {
+      "path": "tests/integration/retention-legacy-fixture.ts",
+      "sha256": "2618A5D65A5B4E2D98BFF2EC2BB72A2EFF3680DF744B2B3FF0B2E7E6F7A22A1D",
+      "bytes": 3540
+    },
+    {
+      "path": "src/main/provider/provider-profile.ts",
+      "sha256": "6CC79A546F0C3B0DC4DE6DFF6A6785F0A2429430BD2603A30450693F21B117F9",
+      "bytes": 2006
+    },
+    {
+      "path": "src/main/provider/retained-protocol-schema.ts",
+      "sha256": "1217FB057658AF1881CB04EA2A71EB687406B691BC4BAE770D2DF101CF9C2D7F",
+      "bytes": 4417
+    },
+    {
+      "path": "src/main/provider/retained-text.ts",
+      "sha256": "7AD491A5DDD1583EAEBE16823D2BBA6F2C7F4B8A33CF739C9AD399727E893EF9",
+      "bytes": 2211
+    },
+    {
+      "path": "tests/integration/retained-protocol-legacy-fixture.ts",
+      "sha256": "1FE176A658FA68CBF156AB1E7F8BEF87A6A050D99F2185D2EACF2900B78AA8D7",
+      "bytes": 2353
+    },
+    {
+      "path": "tests/integration/retained-protocol-migration.test.ts",
+      "sha256": "9CF2DDB843A645AECAA614B7E5FA43D90D82225C4DD8ACFF3BA64C15E44048F6",
+      "bytes": 6139
+    },
+    {
+      "path": "tests/integration/retained-provider.test.ts",
+      "sha256": "C53FA07BDB20B4C0260AC163F90168E5F357F6141F0260B4F7BA78EA0DFB0C53",
+      "bytes": 14195
+    },
+    {
+      "path": "tests/unit/retained-provider-transport.test.ts",
+      "sha256": "66275FFB2067B871E7CB23C37C69B311BA97CF2B4DD3D3B588489BB7D79D60BA",
+      "bytes": 4823
+    },
+    {
+      "path": "tests/unit/retained-replay.test.ts",
+      "sha256": "D723AA29004FB26130EF2BD3A414B585B1A7EA4EDCBA3BA40F21524E02A7A54C",
+      "bytes": 2696
+    }
+  ],
+  "schema": 1,
+  "observedHead": "09cd2014d67d02a9cdccee3c0e6cf2d5519027ea",
+  "productBaseline": "8154d0e09fc95014b8d205f8ed70c0028557208e"
+}

@@ -29,7 +29,7 @@ it('migrates a real v6-shaped database atomically and preserves legacy identitie
   raw.exec('DROP TABLE retention_jobs')
   raw.close()
   const upgraded = new SqliteStore(path)
-  expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 15 })
+  expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 16 })
   expect(new AssistantRepository(upgraded).snapshot()).toEqual(before)
   expect(upgraded.database.prepare('PRAGMA foreign_key_check').all()).toEqual([])
   upgraded.close()

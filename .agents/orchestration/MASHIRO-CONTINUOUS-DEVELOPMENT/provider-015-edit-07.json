@@ -1,0 +1,26 @@
+[
+  {
+    "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+    "hash": "31367542191AA519792B03E98A17D508F516419EA72DB0B1FBA5B5B6D99075B7",
+    "edits": [
+      [
+        "import { SqliteStore } from '../../src/main/data/sqlite.js'",
+        "import { SqliteStore } from '../../src/main/data/sqlite.js'\nimport { removeRetainedProtocolFixture } from './retained-protocol-legacy-fixture.js'"
+      ],
+      [
+        "  current.database.exec(\n    'DROP TABLE reminder_notification_members; PRAGMA user_version=14;",
+        "  removeRetainedProtocolFixture(current.database)\n  current.database.exec(\n    'DROP TABLE reminder_notification_members; PRAGMA user_version=14;"
+      ]
+    ]
+  },
+  {
+    "path": "tests/unit/retained-provider-transport.test.ts",
+    "hash": "961A46BEF1E454320AB725BDA92AAB6F43CFC03B75B12DF363FABF9ADEB23EF2",
+    "edits": [
+      [
+        "const fetch = vi.fn(async () => response({ content: '合成回答', reasoning_content: '协议专属推理' }))",
+        "const fetch = vi.fn<typeof globalThis.fetch>(async () => response({ content: '合成回答', reasoning_content: '协议专属推理' }))"
+      ]
+    ]
+  }
+]

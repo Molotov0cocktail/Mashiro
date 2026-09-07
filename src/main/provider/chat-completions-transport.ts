@@ -7,6 +7,7 @@ import {
   type ToolCall
 } from './tool-protocol.js'
 import type { ToolScope } from '../../shared/tool-contract.js'
+import { providerProfile, protocolInputCharacters } from './provider-profile.js'
 
 // Keep returned text representable in the service session and every delta below IPC limits.
 export const MAX_RESPONSE_TEXT_CHARS = 120_000
@@ -150,6 +151,17 @@ export async function chatCompletions(
         request.maxOutputTokens > 8192)
     )
       throw new Failure('configuration')
+    const profile = providerProfile(baseUrl, request.model)
+    if (profile?.retained && protocolInputCharacters(request.messages) > 120000)
+      throw new Failure('limit')
+    if (
+      profile?.retained &&
+      toolMode &&
+      request.messages.some(
+        (message) => message.role === 'assistant' && typeof message.reasoning_content !== 'string'
+      )
+    )
+      throw new Failure('configuration')
     const endpoint = new URL(baseUrl)
     const bigModel =
       endpoint.hostname === 'open.bigmodel.cn' && endpoint.pathname === '/api/paas/v4'
@@ -168,19 +180,20 @@ export async function chatCompletions(
             ? {
                 tools: toolDefinitions(request.tools!),
                 tool_choice: 'auto',
-                max_tokens: 2048,
-                ...(request.stream ? { tool_stream: true } : {})
+                max_tokens: 2048
               }
             : {}),
           ...(request.maxOutputTokens !== undefined ? { max_tokens: request.maxOutputTokens } : {}),
-          ...(bigModel
-            ? /^glm-5\.3(?:-flash)?$/i.test(request.model)
-              ? {
-                  thinking: { type: 'enabled', ...(toolMode ? { clear_thinking: true } : {}) },
-                  reasoning_effort: 'low'
-                }
-              : { thinking: { type: 'disabled' } }
-            : {})
+          ...(profile
+            ? profile.requestFields(toolMode, request.stream)
+            : bigModel
+              ? /^glm-5\.3(?:-flash)?$/i.test(request.model)
+                ? {
+                    thinking: { type: 'enabled', ...(toolMode ? { clear_thinking: true } : {}) },
+                    reasoning_effort: 'low'
+                  }
+                : { thinking: { type: 'disabled' } }
+              : {})
         })
       })
     )
@@ -229,7 +242,14 @@ export async function chatCompletions(
       if (choice.index !== 0) throw new Failure('protocol')
       if (finished) throw new Failure('protocol')
       const message = record(request.stream ? choice.delta : choice.message)
-      if (toolMode) toolAccumulator.consume(message, request.stream)
+      if (toolMode || profile?.retained) toolAccumulator.consume(message, request.stream)
+      if (
+        !toolMode &&
+        profile?.retained &&
+        message.tool_calls != null &&
+        (!Array.isArray(message.tool_calls) || message.tool_calls.length > 0)
+      )
+        throw new Failure('protocol')
       if (message.content != null && typeof message.content !== 'string')
         throw new Failure('protocol')
       if (typeof message.content === 'string' && message.content.length) {
@@ -310,8 +330,8 @@ export async function chatCompletions(
       done = true
     }
     if (!done || !finished) throw new Failure('protocol')
-    if (toolMode) {
-      const protocol = toolAccumulator.finish(finishReason)
+    if (toolMode || profile?.retained) {
+      const protocol = toolAccumulator.finish(finishReason, profile?.retained ?? false)
       return {
         status: 'completed',
         text,

@@ -1,0 +1,88 @@
+[
+  {
+    "path": "src/main/provider/provider-service.ts",
+    "hash": "64ADDFF6ABC0EDCE3736FE7732E124FA8967BD114A322CECA2BFFEE95989A883",
+    "edits": [
+      [
+        "import { ToolRepository } from './tool-repository.js'",
+        "import { ToolRepository, type ToolSegment } from './tool-repository.js'\nimport { providerProfile, protocolInputCharacters } from './provider-profile.js'\nimport { executeRetainedText } from './retained-text.js'"
+      ],
+      [
+        "      const supported =\n        !!connection && !!binding && toolsSupported(connection.baseUrl, binding.model)",
+        "      const profile = connection && binding ? providerProfile(connection.baseUrl, binding.model) : undefined\n      const supported = profile !== undefined"
+      ],
+      [
+        "              binding!.model.toLowerCase(),\n              GLM_TOOL_ADAPTER,\n              'standard-non-preserved'",
+        "              binding!.model.toLowerCase(),\n              profile!.adapterVersion,\n              profile!.mode"
+      ],
+      [
+        "          adapterVersion: supported ? GLM_TOOL_ADAPTER : 'text-v1',\n          mode: 'standard-non-preserved',",
+        "          adapterVersion: profile?.adapterVersion ?? 'text-v1',\n          mode: profile?.mode ?? 'standard-non-preserved',"
+      ],
+      [
+        "          reason: ready\n            ? '本轮可显式开启工具；记忆写入另受业务权限限制'",
+        "          reason: ready\n            ? profile!.retained\n              ? '保留式思考工具仅重放获准的同端点同模型完整协议；缺失旧协议时需选择不含旧轮的新上下文'\n              : '本轮可显式开启工具；记忆写入另受业务权限限制'"
+      ],
+      [
+        "                  ['text', 'stream', 'tools', 'json-object', 'usage'].includes(capability)",
+        "                  (['text', 'stream', 'tools', 'json-object', 'usage'].includes(capability) ||\n                    (profile!.retained && capability === 'preserved-thinking'))"
+      ],
+      [
+        "                ? '2026-09-06T00:00:00.000Z'",
+        "                ? profile?.retained ? '2026-09-07T00:00:00.000Z' : '2026-09-06T00:00:00.000Z'"
+      ],
+      [
+        "                ? '本片未启用跨轮保留思考；工具reasoning真实端点未观测'",
+        "                ? profile?.retained\n                  ? '普通、流式及无工具完成轮保留实际reasoning；只在授权工具上下文完整回传，不作为普通聊天正文'\n                  : '本模式不回传旧轮reasoning；GLM工具reasoning真实端点未观测'"
+      ],
+      [
+        "      // Authority and actual recipient are re-resolved in trusted code on every send.\n      const execution = this.repository.execution(value.assistantId)",
+        "      // Authority and actual recipient are re-resolved in trusted code on every send.\n      const execution = this.repository.execution(value.assistantId)\n      const profile = providerProfile(execution.connection.baseUrl, execution.binding.model)"
+      ],
+      [
+        "        contextFingerprint,\n        execution.binding.model\n      )",
+        "        contextFingerprint,\n        execution.binding.model,\n        profile,\n        value.tools !== 'off'\n      )"
+      ],
+      [
+        "        previous.reduce((total, message) => total + (message.content?.length ?? 0), inputLength) >\n        120000",
+        "        protocolInputCharacters(previous) + inputLength > 120000"
+      ],
+      [
+        "          !current.enabled ||\n          current.baseUrl !== execution.connection.baseUrl ||",
+        "          !current.enabled ||\n          current.version !== execution.connection.version ||\n          current.baseUrl !== execution.connection.baseUrl ||"
+      ],
+      [
+        "          throw new ProviderDomainError('PERMISSION_DENIED')\n        const assistant = this.store.database",
+        "          throw new ProviderDomainError('PERMISSION_DENIED')\n        const currentBinding = this.repository.execution(value.assistantId).binding\n        if (currentBinding.version !== execution.binding.version ||\n          currentBinding.connectionId !== execution.binding.connectionId ||\n          currentBinding.model !== execution.binding.model)\n          throw new ProviderDomainError('PERMISSION_DENIED')\n        const assistant = this.store.database"
+      ],
+      [
+        "      if (\n        transportRequest.messages.reduce(\n          (total, message) => total + (message.content?.length ?? 0),\n          0\n        ) > 120000\n      )",
+        "      if (protocolInputCharacters(transportRequest.messages) > 120000)"
+      ],
+      [
+        "        assertCurrent()\n        const attempt = this.operations.begin({",
+        "        assertCurrent()\n        if (protocolInputCharacters(request.messages) > 120000) throw new ProviderDomainError('LIMIT')\n        const attempt = this.operations.begin({"
+      ],
+      [
+        "          inputCharacters: request.messages.reduce(\n            (sum, message) => sum + (message.content?.length ?? 0),\n            0\n          ),",
+        "          inputCharacters: protocolInputCharacters(request.messages),"
+      ],
+      [
+        "      const result =\n        value.tools === 'off'\n          ? await measuredTransport(transportRequest)",
+        "      const ledger = value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger\n      const segment: ToolSegment = {\n        id: randomUUID(), assistantId: value.assistantId, requestId: value.requestId,\n        endpointFingerprint, model: execution.binding.model,\n        adapterVersion: profile?.adapterVersion ?? GLM_TOOL_ADAPTER,\n        mode: profile?.mode ?? 'standard-non-preserved',\n        messages: transportRequest.messages, createdAt: now\n      }\n      const result =\n        value.tools === 'off'\n          ? profile?.retained\n            ? await executeRetainedText({ request: transportRequest, segment, ledger, transport: measuredTransport, assertCurrent })\n            : await measuredTransport(transportRequest)"
+      ],
+      [
+        "              transport: itemTransport,\n              ledger: value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger,\n              segment: {\n                id: randomUUID(),\n                assistantId: value.assistantId,\n                requestId: value.requestId,\n                endpointFingerprint,\n                model: execution.binding.model,\n                adapterVersion: GLM_TOOL_ADAPTER,\n                messages: transportRequest.messages,\n                createdAt: now\n              },",
+        "              transport: profile?.retained ? measuredTransport : itemTransport,\n              localIntent: profile?.retained ? automatic : undefined,\n              ledger,\n              segment,"
+      ],
+      [
+        "            .some((o) => o.state === 'SUCCEEDED')",
+        "            .some((o) => o.state === 'SUCCEEDED' && o.origin !== 'local-user-intent')"
+      ],
+      [
+        "              execution.binding.model.toLowerCase(),\n              GLM_TOOL_ADAPTER,\n              'standard-non-preserved',",
+        "              execution.binding.model.toLowerCase(),\n              profile!.adapterVersion,\n              profile!.mode,"
+      ]
+    ]
+  }
+]

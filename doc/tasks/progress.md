@@ -6,7 +6,7 @@
 
 ## 当前工作与直接下一动作
 
-- AST-006私有user/event增量已[独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-root-pass.md)，五文件27tests及最终两条独立预览变化反例通过；准备单独提交该范围，不混入实施中的015。014内部旧版已普通桌面安装，79应有文件齐全、精确ASAR一致，主PID173968从隔离安装路径启动；选择全域合成数据的原生交互由Sol接续。root继续014治理恢复，PROGRAM ACTIVE。
+- AST-006私有user/event增量已[独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-private-types-root-pass.md)，五文件27tests及最终两条独立预览变化反例通过；该范围已提交41119aa2c5ce5969369a5771f477016919db57bc；独立夹具类型修正09cd2014d67d02a9cdccee3c0e6cf2d5519027ea已实查双远程同值，未混入015产品。014内部旧版已普通桌面安装，79应有文件齐全、精确ASAR一致，主PID173968从隔离安装路径启动；全域合成数据现有1条DRAFT_PROPOSAL，精确8154旧服务与独占租约生成，schema15及其他领域数量不变；原生选择由Sol接续。015可信28文件已冻结，root核对0哈希偏差并完成源码/本地限定PASS：136文件641tests及静态/build通过。原生两次中文组合状态夹具失败及root首修复核遗漏已保留；独立8项DOM回归后，最终run f8198eef/PIDs186136/171612通过，截图已人工复核。准备提交该已审范围并双推，继续014。Astra实施014治理恢复屏障/schema17独立模块，暂不改已冻结schema16。PROGRAM ACTIVE。
 
 - 当前已审产品提交8154d0e09fc95014b8d205f8ed70c0028557208e已非force同步github/gitee并实查同值。302候选暂存路径源码/raw字节均一致，仅设计Markdown按Git文本规则规范换行；另纳入核验证据共303文件。内部旧版0.0.9-internal.1/schema15安装包构建成功，位于dist/windows-baseline-schema15，仅升级验收用、不发布。Astra已开始实施015保留协议/schema16，Sol已开始实施009私有user/event删除与小UI修正；root继续014全域安装和已知治理屏障恢复。RET-007仍待答，PROGRAM ACTIVE。
 
@@ -59,7 +59,7 @@
 | [011](011-assistant-basic-configuration.md) | 稳定人设、基础形象与配置 | TASK_DONE / FINAL PASS | 072dd39771e01b29bbced93f49e20a996f1e2cab双远程已核验；54/320、独立3新增oracle、Electron08 |
 | [012](012-deterministic-reminders.md) | 确定性提醒与托盘运行承诺 | INTEGRATION_PENDING / CORE PASS | 核心已审同步；REM默认/101事项分组/schema15独立PASS v2，014安装后通知/登录/冷激活仍待 |
 | [013](013-background-and-steward.md) | 章节、仓储员及日常后台 | ACTIVE / STEWARD_CORE PASS | 章节独立CHAPTER_CORE PASS、73/418、实际双PID及849tokens；接续仓储/观察/日常 |
-| [015](015-provider-retained-protocol.md) | 有限Provider兼容与保留思考协议 | PLANNED | B02/B04/B07缺口；DeepSeek独立保留模式、权限/预算及GLM回归，核心GLM真实资格不外推 |
+| [015](015-provider-retained-protocol.md) | 有限Provider兼容与保留思考协议 | INDEPENDENT_REVIEW | 28文件可信候选已冻结、0哈希偏差；DeepSeek独立保留模式/schema16/权限预算及GLM回归，尚无DeepSeek LIVE |
 | [014](014-windows-data-and-delivery.md) | 正式数据位置、备份与Windows交付 | ACTIVE / PACKAGED_ACCEPTANCE | 生产main/备份还原独立限定PASS；真实原生迁移/托盘/助手重启/备份还原已验，完整安装升级及发行仍待 |
 
 ## 最近有效证据与边界

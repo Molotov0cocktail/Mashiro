@@ -1,0 +1,22 @@
+[
+  {
+    "exitCode": 0,
+    "output": "",
+    "check": "tsconfig.node.json"
+  },
+  {
+    "exitCode": 0,
+    "output": "",
+    "check": "tsconfig.web.json"
+  },
+  {
+    "exitCode": 0,
+    "output": "",
+    "check": "scope-eslint"
+  },
+  {
+    "exitCode": 0,
+    "output": "Checking formatting...\r\nAll matched files use Prettier code style!",
+    "check": "scope-prettier"
+  }
+]

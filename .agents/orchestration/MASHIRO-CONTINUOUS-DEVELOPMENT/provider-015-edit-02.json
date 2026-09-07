@@ -1,0 +1,68 @@
+[
+  {
+    "path": "src/main/provider/tool-repository.ts",
+    "hash": "B7BCC222BBA30BEB167F3E40EA3BC3EBD6C5B5BA8B2E9A770D20C595EB5FEFAA",
+    "edits": [
+      [
+        "import { TOOL_LIMITS } from './tool-protocol.js'",
+        "import { TOOL_LIMITS } from './tool-protocol.js'\nimport { GLM_TOOL_ADAPTER, protocolInputCharacters, type ProviderProfile, type ProtocolMode } from './provider-profile.js'"
+      ],
+      [
+        "  adapterVersion: string\n  messages:",
+        "  adapterVersion: string\n  mode?: ProtocolMode\n  messages:"
+      ],
+      [
+        "INSERT INTO protocol_segments(id,assistant_id,request_id,endpoint_fingerprint,model,adapter_version,status,messages_json,created_at) VALUES(?,?,?,?,?,?,'active',?,?)",
+        "INSERT INTO protocol_segments(id,assistant_id,request_id,endpoint_fingerprint,model,adapter_version,status,messages_json,created_at,mode) VALUES(?,?,?,?,?,?,'active',?,?,?)"
+      ],
+      [
+        "          JSON.stringify(segment.messages),\n          segment.createdAt",
+        "          JSON.stringify(segment.messages),\n          segment.createdAt,\n          segment.mode ?? 'standard-non-preserved'"
+      ],
+      [
+        "  prepare(segment: ToolSegment, modelRequestId: string, call: ToolCall): ToolOperation {",
+        "  prepare(segment: ToolSegment, modelRequestId: string, call: ToolCall, origin?: ToolOperation['origin']): ToolOperation {"
+      ],
+      [
+        "      toolName: call.function.name,\n      state: 'PREPARED',",
+        "      toolName: call.function.name,\n      ...(origin ? { origin } : {}),\n      state: 'PREPARED',"
+      ],
+      [
+        "    model: string\n  ): ProtocolMessage[] {",
+        "    model: string,\n    profile?: ProviderProfile,\n    tools = true\n  ): ProtocolMessage[] {"
+      ],
+      [
+        "SELECT id,endpoint_fingerprint,model,adapter_version,status,messages_json,created_at FROM protocol_segments",
+        "SELECT id,endpoint_fingerprint,model,adapter_version,mode,status,messages_json,created_at FROM protocol_segments"
+      ],
+      [
+        "              adapter_version: string\n              status:",
+        "              adapter_version: string\n              mode: ProtocolMode\n              status:"
+      ],
+      [
+        "            adapterVersion: row.adapter_version,\n            messages:",
+        "            adapterVersion: row.adapter_version,\n            mode: row.mode,\n            messages:"
+      ],
+      [
+        "      if (!segment) {\n        expanded.push",
+        "      if (!segment) {\n        if (profile?.retained && tools) throw new ProviderDomainError('CONFIGURATION')\n        expanded.push"
+      ],
+      [
+        "        segment.adapterVersion !== 'glm-5.3-flash-tools-v1'",
+        "        segment.adapterVersion !== (profile?.adapterVersion ?? GLM_TOOL_ADAPTER) ||\n        (segment.mode ?? 'standard-non-preserved') !== (profile?.mode ?? 'standard-non-preserved')"
+      ],
+      [
+        "      // The current turn begins at the last user message. Never pull the segment's old context\n      // into a selected slice. clear_thinking=true removes only past reasoning, not tools.\n      for (const message of segment.messages.slice(start)) {",
+        "      // Only this selected turn is replayed; prior context inside its segment is never imported.\n      const turn = segment.messages.slice(start)\n      if (turn[0]!.content !== previous[index * 2]!.content ||\n        turn.filter((message) => message.role === 'assistant').map((message) => message.content).join('') !== previous[index * 2 + 1]!.content)\n        throw new ProviderDomainError('PROTOCOL')\n      for (const message of turn) {"
+      ],
+      [
+        "        delete copy.reasoning_content",
+        "        if (profile?.retained && tools) {\n          if (copy.role === 'assistant' && typeof copy.reasoning_content !== 'string')\n            throw new ProviderDomainError('PROTOCOL')\n        } else delete copy.reasoning_content"
+      ],
+      [
+        "    this.checkMessages(expanded)\n    return expanded",
+        "    this.checkMessages(expanded)\n    if (protocolInputCharacters(expanded) > 120000) throw new ProviderDomainError('LIMIT')\n    return expanded"
+      ]
+    ]
+  }
+]

@@ -51,6 +51,7 @@ export const toolOperationSchema = z.strictObject({
   requestId: z.string().uuid(),
   assistantId: z.string().uuid(),
   toolName: toolNameSchema,
+  origin: z.literal('local-user-intent').optional(),
   state: operationStateSchema,
   createdAt: z.iso.datetime({ offset: true }),
   updatedAt: z.iso.datetime({ offset: true }),
@@ -83,7 +84,7 @@ export const capabilitySchema = z.strictObject({
   model: z.string().max(160).nullable(),
   protocol: z.literal('chat-completions-v1'),
   adapterVersion: z.string().max(80),
-  mode: z.literal('standard-non-preserved'),
+  mode: z.enum(['standard-non-preserved', 'retained-thinking']),
   toolsAvailable: z.boolean(),
   reason: z.string().max(200),
   evidence: z

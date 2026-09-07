@@ -28,7 +28,9 @@ import {
   type ToolReadResult,
   type CapabilityResult
 } from '../../shared/provider-contract.js'
-import { ToolRepository } from './tool-repository.js'
+import { ToolRepository, type ToolSegment } from './tool-repository.js'
+import { providerProfile, protocolInputCharacters } from './provider-profile.js'
+import { executeRetainedText } from './retained-text.js'
 import { executeToolChat } from './tool-execution.js'
 import { GLM_TOOL_ADAPTER, toolsSupported, type ProtocolMessage } from './tool-protocol.js'
 import { HistoryPermissionRepository } from './history-permission-repository.js'
@@ -600,8 +602,9 @@ export class ProviderService {
       const snapshot = this.repository.snapshot(this.vault.temporaryIds())
       const binding = snapshot.bindings.find((b) => b.assistantId === parsed.data.assistantId)
       const connection = snapshot.connections.find((c) => c.id === binding?.connectionId)
-      const supported =
-        !!connection && !!binding && toolsSupported(connection.baseUrl, binding.model)
+      const profile =
+        connection && binding ? providerProfile(connection.baseUrl, binding.model) : undefined
+      const supported = profile !== undefined
       const ready = supported && connection!.enabled && connection!.hasCredential
       const names: ProviderCapabilities['evidence'][number]['capability'][] = [
         'text',
@@ -622,8 +625,8 @@ export class ProviderService {
             .all(
               permissions.endpointFingerprint!,
               binding!.model.toLowerCase(),
-              GLM_TOOL_ADAPTER,
-              'standard-non-preserved'
+              profile!.adapterVersion,
+              profile!.mode
             ) as unknown as { capability: string; observed_at: string }[])
         : []
       return capabilityResultSchema.parse({
@@ -634,11 +637,13 @@ export class ProviderService {
           endpointDisplay: permissions.endpointDisplay,
           model: binding?.model ?? null,
           protocol: 'chat-completions-v1',
-          adapterVersion: supported ? GLM_TOOL_ADAPTER : 'text-v1',
-          mode: 'standard-non-preserved',
+          adapterVersion: profile?.adapterVersion ?? 'text-v1',
+          mode: profile?.mode ?? 'standard-non-preserved',
           toolsAvailable: ready,
           reason: ready
-            ? '本轮可显式开启工具；记忆写入另受业务权限限制'
+            ? profile!.retained
+              ? '保留式思考工具仅重放获准的同端点同模型完整协议；缺失旧协议时需选择不含旧轮的新上下文'
+              : '本轮可显式开启工具；记忆写入另受业务权限限制'
             : !supported
               ? '此实际端点与模型尚无内置工具适配'
               : !connection!.enabled
@@ -649,7 +654,8 @@ export class ProviderService {
             level: liveRows.some((r) => r.capability === capability)
               ? 'LIVE_VERIFIED'
               : supported &&
-                  ['text', 'stream', 'tools', 'json-object', 'usage'].includes(capability)
+                  (['text', 'stream', 'tools', 'json-object', 'usage'].includes(capability) ||
+                    (profile!.retained && capability === 'preserved-thinking'))
                 ? 'DOCUMENTED'
                 : supported && capability === 'local-strict'
                   ? 'LOCAL_TESTED'
@@ -660,12 +666,16 @@ export class ProviderService {
               ['text', 'stream', 'tools', 'json-object', 'local-strict', 'usage'].includes(
                 capability
               )
-                ? '2026-09-06T00:00:00.000Z'
+                ? profile?.retained
+                  ? '2026-09-07T00:00:00.000Z'
+                  : '2026-09-06T00:00:00.000Z'
                 : null),
             detail: liveRows.some((r) => r.capability === capability)
               ? '实际产品正常模式请求成功的端点证据；不等于所有能力均已验证'
               : capability === 'preserved-thinking'
-                ? '本片未启用跨轮保留思考；工具reasoning真实端点未观测'
+                ? profile?.retained
+                  ? '普通、流式及无工具完成轮保留实际reasoning；只在授权工具上下文完整回传，不作为普通聊天正文'
+                  : '本模式不回传旧轮reasoning；GLM工具reasoning真实端点未观测'
                 : capability === 'local-strict'
                   ? '本地严格参数验证；不代表厂商strict'
                   : capability === 'parallel'
@@ -835,6 +845,7 @@ export class ProviderService {
       const text = normalize(value.text, 16000)
       // Authority and actual recipient are re-resolved in trusted code on every send.
       const execution = this.repository.execution(value.assistantId)
+      const profile = providerProfile(execution.connection.baseUrl, execution.binding.model)
       const profileMessage: ChatMessage = {
         role: 'system',
         content:
@@ -949,13 +960,11 @@ export class ProviderService {
         previous,
         contextIds,
         contextFingerprint,
-        execution.binding.model
+        execution.binding.model,
+        profile,
+        value.tools !== 'off'
       )
-      if (
-        previous.reduce((total, message) => total + (message.content?.length ?? 0), inputLength) >
-        120000
-      )
-        return chatFailure('LIMIT')
+      if (protocolInputCharacters(previous) + inputLength > 120000) return chatFailure('LIMIT')
       if (value.context.kind === 'chapters') {
         const selected = this.background.context(
           value.assistantId,
@@ -1078,8 +1087,16 @@ export class ProviderService {
         if (
           !current ||
           !current.enabled ||
+          current.version !== execution.connection.version ||
           current.baseUrl !== execution.connection.baseUrl ||
           !this.vault.get(execution.connection.id)
+        )
+          throw new ProviderDomainError('PERMISSION_DENIED')
+        const currentBinding = this.repository.execution(value.assistantId).binding
+        if (
+          currentBinding.version !== execution.binding.version ||
+          currentBinding.connectionId !== execution.binding.connectionId ||
+          currentBinding.model !== execution.binding.model
         )
           throw new ProviderDomainError('PERMISSION_DENIED')
         const assistant = this.store.database
@@ -1184,15 +1201,12 @@ export class ProviderService {
         if (prepared.context)
           transportRequest.messages.unshift({ role: 'system', content: prepared.context })
       }
-      if (
-        transportRequest.messages.reduce(
-          (total, message) => total + (message.content?.length ?? 0),
-          0
-        ) > 120000
-      )
+      if (protocolInputCharacters(transportRequest.messages) > 120000)
         throw new ProviderDomainError('LIMIT')
       const measuredTransport: ChatTransport = async (request) => {
         assertCurrent()
+        if (protocolInputCharacters(request.messages) > 120000)
+          throw new ProviderDomainError('LIMIT')
         const attempt = this.operations.begin({
           chainId: value.requestId,
           actor: 'assistant',
@@ -1201,10 +1215,7 @@ export class ProviderService {
           recipientFingerprint: endpointFingerprint,
           model: execution.binding.model,
           feature: value.tools === 'off' ? 'conversation' : 'tool-chain',
-          inputCharacters: request.messages.reduce(
-            (sum, message) => sum + (message.content?.length ?? 0),
-            0
-          ),
+          inputCharacters: protocolInputCharacters(request.messages),
           persistent: value.mode === 'normal',
           owner: { domain: 'provider', id: value.requestId, assistantId: value.assistantId }
         })
@@ -1231,24 +1242,36 @@ export class ProviderService {
         }
         return measuredTransport(request)
       }
+      const ledger = value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger
+      const segment: ToolSegment = {
+        id: randomUUID(),
+        assistantId: value.assistantId,
+        requestId: value.requestId,
+        endpointFingerprint,
+        model: execution.binding.model,
+        adapterVersion: profile?.adapterVersion ?? GLM_TOOL_ADAPTER,
+        mode: profile?.mode ?? 'standard-non-preserved',
+        messages: transportRequest.messages,
+        createdAt: now
+      }
       const result =
         value.tools === 'off'
-          ? await measuredTransport(transportRequest)
+          ? profile?.retained
+            ? await executeRetainedText({
+                request: transportRequest,
+                segment,
+                ledger,
+                transport: measuredTransport,
+                assertCurrent
+              })
+            : await measuredTransport(transportRequest)
           : await executeToolChat({
               request: transportRequest,
               scope: value.tools,
-              transport: itemTransport,
-              ledger: value.mode === 'normal' ? this.toolLedger : this.temporaryToolLedger,
-              segment: {
-                id: randomUUID(),
-                assistantId: value.assistantId,
-                requestId: value.requestId,
-                endpointFingerprint,
-                model: execution.binding.model,
-                adapterVersion: GLM_TOOL_ADAPTER,
-                messages: transportRequest.messages,
-                createdAt: now
-              },
+              transport: profile?.retained ? measuredTransport : itemTransport,
+              localIntent: profile?.retained ? automatic : undefined,
+              ledger,
+              segment,
               assertCurrent,
               clock: this.toolOptions.clock ?? (() => new Date()),
               history: (query, limit) => {
@@ -1575,7 +1598,7 @@ export class ProviderService {
           ...(value.stream ? ['stream'] : []),
           ...(this.toolLedger
             .read(value.assistantId, value.requestId)
-            .some((o) => o.state === 'SUCCEEDED')
+            .some((o) => o.state === 'SUCCEEDED' && o.origin !== 'local-user-intent')
             ? ['tools']
             : []),
           ...(result.usage ? ['usage'] : [])
@@ -1588,8 +1611,8 @@ export class ProviderService {
             statement.run(
               endpointFingerprint,
               execution.binding.model.toLowerCase(),
-              GLM_TOOL_ADAPTER,
-              'standard-non-preserved',
+              profile!.adapterVersion,
+              profile!.mode,
               capability,
               new Date().toISOString()
             )

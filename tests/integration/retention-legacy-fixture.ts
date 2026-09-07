@@ -1,7 +1,9 @@
 import type { DatabaseSync } from 'node:sqlite'
+import { removeRetainedProtocolFixture } from './retained-protocol-legacy-fixture.js'
 
 /** Only for constructing synthetic pre-v7 migration fixtures from a fresh current database. */
 export function removeDailyFixture(database: DatabaseSync): void {
+  removeRetainedProtocolFixture(database)
   database.exec('DROP TABLE reminder_notification_members')
   for (const table of [
     'daily_configs',

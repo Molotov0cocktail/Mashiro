@@ -1,0 +1,32 @@
+[
+  {
+    "path": "tests/integration/retained-protocol-migration.test.ts",
+    "hash": "895DB86602382D71ED563000FF5B8DC8C09A4E181DD5AB313BFF2610AD05F00E",
+    "edits": [
+      [
+        "  op.state = 'SUCCEEDED'",
+        "  op.state = 'DISPATCHING'\n  ledger.update(op)\n  op.state = 'SUCCEEDED'"
+      ]
+    ]
+  },
+  {
+    "path": "tests/integration/retained-provider.test.ts",
+    "hash": "D961DD2512E3C42B3BABAF1224E7EDAA244EF58A80B0435327630E8BF89D7870",
+    "edits": [
+      [
+        "items: [{ title: '合成协议验收' }]",
+        "items: [{ content: { title: '合成协议验收' } }]"
+      ]
+    ]
+  },
+  {
+    "path": "tests/integration/assistant-profile.test.ts",
+    "hash": "0B403DD8F397BB34EB5625046E95B7B4A1E73C235798E008E36E3359E5F85D37",
+    "edits": [
+      [
+        "PRAGMA user_version=16",
+        "PRAGMA user_version=17"
+      ]
+    ]
+  }
+]

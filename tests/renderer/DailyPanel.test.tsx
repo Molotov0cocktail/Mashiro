@@ -235,6 +235,38 @@ describe('DailyPanel', () => {
     }
     expect(report).toHaveTextContent('用户陈述 · 已接受')
   })
+
+  it('renders an accepted inference with the exact combined nature and status label', async () => {
+    const api = dailyApiDefaults()
+    const detail = dailyDetail()
+    api.inspect = vi.fn(async () => ({
+      ok: true as const,
+      data: dailyDetail({
+        observations: [
+          {
+            ...detail.observations[0]!,
+            status: 'active',
+            memoryId: '00000000-0000-4000-8000-000000003198',
+            memoryVersion: 1
+          }
+        ]
+      })
+    })) as DailyApi['inspect']
+    render(
+      <DailyPanel
+        assistantSnapshot={snapshot}
+        api={api}
+        operationsApi={operationsApiDefaults()}
+        providerApi={providerApi()}
+      />
+    )
+
+    fireEvent.click(await screen.findByRole('button', { name: '查看报告' }))
+    const report = await screen.findByRole('region', { name: '日常报告详情' })
+    const status = report.querySelector('[aria-label="观察确认"] article .daily-card-heading span')
+    expect(status?.textContent.trim()).toBe('推测 · 已接受')
+  })
+
   it('clears governed body immediately and blocks a late inspect response after a change', async () => {
     let changed!: (event: DailyChanged) => void
     let resolveInspect!: (value: Awaited<ReturnType<DailyApi['inspect']>>) => void

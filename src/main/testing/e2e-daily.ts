@@ -185,7 +185,7 @@ export async function runDailyE2e(
     const captureStatus=acceptedCardForCapture.querySelector('.daily-card-heading span');
     const captureBody=[...acceptedCardForCapture.querySelectorAll('p')].find(value=>value.textContent.includes('两条合成事件'));
     const captureReceipt=acceptedCardForCapture.querySelector('.scope-note');
-    if(!captureTitle||!captureStatus||!captureBody||!captureReceipt||!captureStatus.textContent.includes('active')||!captureReceipt.textContent.includes(accepted.memoryId))throw Error('daily-capture-content');
+    if(!captureTitle||!captureStatus||!captureBody||!captureReceipt||captureStatus.textContent.trim()!=='推测 · 已接受'||!captureReceipt.textContent.includes(accepted.memoryId))throw Error('daily-capture-content');
     captureReceipt.scrollIntoView({block:'center',behavior:'instant'});
     await nextFrame();
     const capture={

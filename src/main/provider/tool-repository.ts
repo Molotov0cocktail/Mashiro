@@ -5,6 +5,12 @@ import { toolOperationSchema, type ToolOperation } from '../../shared/tool-contr
 import type { SqliteStore } from '../data/sqlite.js'
 import type { ProtocolMessage, ToolCall } from './tool-protocol.js'
 import { TOOL_LIMITS } from './tool-protocol.js'
+import {
+  GLM_TOOL_ADAPTER,
+  protocolInputCharacters,
+  type ProviderProfile,
+  type ProtocolMode
+} from './provider-profile.js'
 import { ProviderDomainError } from './provider-repository.js'
 
 export interface ToolSegment {
@@ -14,6 +20,7 @@ export interface ToolSegment {
   endpointFingerprint: string
   model: string
   adapterVersion: string
+  mode?: ProtocolMode
   messages: ProtocolMessage[]
   createdAt: string
 }
@@ -71,7 +78,7 @@ export class ToolRepository {
     if (this.store)
       this.store.database
         .prepare(
-          "INSERT INTO protocol_segments(id,assistant_id,request_id,endpoint_fingerprint,model,adapter_version,status,messages_json,created_at) VALUES(?,?,?,?,?,?,'active',?,?)"
+          "INSERT INTO protocol_segments(id,assistant_id,request_id,endpoint_fingerprint,model,adapter_version,status,messages_json,created_at,mode) VALUES(?,?,?,?,?,?,'active',?,?,?)"
         )
         .run(
           segment.id,
@@ -81,7 +88,8 @@ export class ToolRepository {
           segment.model,
           segment.adapterVersion,
           JSON.stringify(segment.messages),
-          segment.createdAt
+          segment.createdAt,
+          segment.mode ?? 'standard-non-preserved'
         )
     else {
       if (this.segments.has(segment.id)) throw new ProviderDomainError('PROTOCOL')
@@ -111,7 +119,12 @@ export class ToolRepository {
         .prepare("UPDATE protocol_segments SET status='interrupted' WHERE id=? AND status='active'")
         .run(segmentId)
   }
-  prepare(segment: ToolSegment, modelRequestId: string, call: ToolCall): ToolOperation {
+  prepare(
+    segment: ToolSegment,
+    modelRequestId: string,
+    call: ToolCall,
+    origin?: ToolOperation['origin']
+  ): ToolOperation {
     const existing = this.find(segment.id, modelRequestId, call.id)
     if (existing) {
       if (
@@ -130,6 +143,7 @@ export class ToolRepository {
       requestId: segment.requestId,
       assistantId: segment.assistantId,
       toolName: call.function.name,
+      ...(origin ? { origin } : {}),
       state: 'PREPARED',
       createdAt: now,
       updatedAt: now,
@@ -278,7 +292,9 @@ export class ToolRepository {
     previous: ProtocolMessage[],
     requestIds: string[],
     endpointFingerprint: string,
-    model: string
+    model: string,
+    profile?: ProviderProfile,
+    tools = true
   ): ProtocolMessage[] {
     if (previous.length !== requestIds.length * 2) throw new ProviderDomainError('PROTOCOL')
     const schema = z
@@ -300,7 +316,7 @@ export class ToolRepository {
       if (this.store) {
         const row = this.store.database
           .prepare(
-            'SELECT id,endpoint_fingerprint,model,adapter_version,status,messages_json,created_at FROM protocol_segments WHERE assistant_id=? AND request_id=?'
+            'SELECT id,endpoint_fingerprint,model,adapter_version,mode,status,messages_json,created_at FROM protocol_segments WHERE assistant_id=? AND request_id=?'
           )
           .get(assistantId, requestId) as
           | {
@@ -308,6 +324,7 @@ export class ToolRepository {
               endpoint_fingerprint: string
               model: string
               adapter_version: string
+              mode: ProtocolMode
               status: string
               messages_json: string
               created_at: string
@@ -321,6 +338,7 @@ export class ToolRepository {
             endpointFingerprint: row.endpoint_fingerprint,
             model: row.model,
             adapterVersion: row.adapter_version,
+            mode: row.mode,
             messages: schema.parse(JSON.parse(row.messages_json)),
             createdAt: row.created_at
           }
@@ -333,6 +351,7 @@ export class ToolRepository {
         closed = !!segment && this.closedSegments.has(segment.id)
       }
       if (!segment) {
+        if (profile?.retained && tools) throw new ProviderDomainError('CONFIGURATION')
         expanded.push(previous[index * 2]!, previous[index * 2 + 1]!)
         continue
       }
@@ -340,20 +359,54 @@ export class ToolRepository {
         !closed ||
         segment.endpointFingerprint !== endpointFingerprint ||
         segment.model.toLowerCase() !== model.toLowerCase() ||
-        segment.adapterVersion !== 'glm-5.3-flash-tools-v1'
+        segment.adapterVersion !== (profile?.adapterVersion ?? GLM_TOOL_ADAPTER) ||
+        (segment.mode ?? 'standard-non-preserved') !== (profile?.mode ?? 'standard-non-preserved')
       )
         throw new ProviderDomainError('CONFIGURATION')
       const start = segment.messages.findLastIndex((m) => m.role === 'user')
       if (start < 0) throw new ProviderDomainError('PROTOCOL')
-      // The current turn begins at the last user message. Never pull the segment's old context
-      // into a selected slice. clear_thinking=true removes only past reasoning, not tools.
-      for (const message of segment.messages.slice(start)) {
+      // Only this selected turn is replayed; prior context inside its segment is never imported.
+      const turn = segment.messages.slice(start)
+      if (
+        turn[0]!.content !== previous[index * 2]!.content ||
+        turn
+          .filter((message) => message.role === 'assistant')
+          .map((message) => message.content)
+          .join('') !== previous[index * 2 + 1]!.content
+      )
+        throw new ProviderDomainError('PROTOCOL')
+      if (profile?.retained) {
+        const pending = new Set<string>()
+        let finished = false
+        for (const message of turn.slice(1)) {
+          if (finished) throw new ProviderDomainError('PROTOCOL')
+          if (message.role === 'assistant') {
+            if (pending.size) throw new ProviderDomainError('PROTOCOL')
+            for (const call of message.tool_calls ?? []) {
+              if (pending.has(call.id)) throw new ProviderDomainError('PROTOCOL')
+              pending.add(call.id)
+            }
+            finished = pending.size === 0
+          } else if (message.role === 'tool') {
+            if (!message.tool_call_id || !pending.delete(message.tool_call_id))
+              throw new ProviderDomainError('PROTOCOL')
+          } else if (message.role !== 'system' || pending.size) {
+            throw new ProviderDomainError('PROTOCOL')
+          }
+        }
+        if (!finished || pending.size) throw new ProviderDomainError('PROTOCOL')
+      }
+      for (const message of turn) {
         const copy = { ...message }
-        delete copy.reasoning_content
+        if (profile?.retained && tools) {
+          if (copy.role === 'assistant' && typeof copy.reasoning_content !== 'string')
+            throw new ProviderDomainError('PROTOCOL')
+        } else delete copy.reasoning_content
         expanded.push(copy)
       }
     }
     this.checkMessages(expanded)
+    if (protocolInputCharacters(expanded) > 120000) throw new ProviderDomainError('LIMIT')
     return expanded
   }
   inheritSources(assistantId: string, requestId: string, selected?: string[]): void {

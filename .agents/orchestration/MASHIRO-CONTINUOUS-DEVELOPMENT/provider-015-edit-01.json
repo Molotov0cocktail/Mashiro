@@ -1,0 +1,86 @@
+[
+  {
+    "path": "src/main/data/schema.ts",
+    "hash": "CA5F84303AC0172E31FF1E45093C23BB9E7860CCA7222DA037B4FFEB1A52A893",
+    "edits": [
+      [
+        "export const schemaVersion = 15",
+        "import { migrateRetainedProtocol } from '../provider/retained-protocol-schema.js'\n\nexport const schemaVersion = 16"
+      ],
+      [
+        "  migrateReminderNotifications(database)",
+        "  migrateReminderNotifications(database)\n  migrateRetainedProtocol(database)"
+      ]
+    ]
+  },
+  {
+    "path": "src/shared/tool-contract.ts",
+    "hash": "1468F69E6376271467AF2B79360D0D7DD38D293B70E4E9D32EB90D45A6A2551D",
+    "edits": [
+      [
+        "  toolName: toolNameSchema,",
+        "  toolName: toolNameSchema,\n  origin: z.literal('local-user-intent').optional(),"
+      ],
+      [
+        "  mode: z.literal('standard-non-preserved'),",
+        "  mode: z.enum(['standard-non-preserved', 'retained-thinking']),"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/provider/tool-protocol.ts",
+    "hash": "A9C34BB393F07523277E8976469B28B4040C63D47592EA5BA6A8467EDEA622B7",
+    "edits": [
+      [
+        "export const GLM_TOOL_ADAPTER = 'glm-5.3-flash-tools-v1'",
+        "export { GLM_TOOL_ADAPTER } from './provider-profile.js'\nimport { providerProfile } from './provider-profile.js'"
+      ],
+      [
+        "  return (\n    baseUrl === 'https://open.bigmodel.cn/api/paas/v4' && model.toLowerCase() === 'glm-5.3-flash'\n  )",
+        "  return providerProfile(baseUrl, model) !== undefined"
+      ],
+      [
+        "  private reasoning = ''",
+        "  private reasoning = ''\n  private reasoningSeen = false"
+      ],
+      [
+        "      this.reasoning += message.reasoning_content",
+        "      this.reasoningSeen = true\n      this.reasoning += message.reasoning_content"
+      ],
+      [
+        "  finish(reason: string | undefined): { reasoning: string; toolCalls: ToolCall[] } {",
+        "  finish(reason: string | undefined, requireReasoning = false): { reasoning: string; toolCalls: ToolCall[] } {\n    if (requireReasoning && !this.reasoningSeen) throw new ToolProtocolError()"
+      ]
+    ]
+  },
+  {
+    "path": "src/main/provider/chat-completions-transport.ts",
+    "hash": "53040DF4E66851E2F2BD4DF71C735F15120F33DCAB76B1346D37F51C8D8653F9",
+    "edits": [
+      [
+        "import type { ToolScope } from '../../shared/tool-contract.js'",
+        "import type { ToolScope } from '../../shared/tool-contract.js'\nimport { providerProfile, protocolInputCharacters } from './provider-profile.js'"
+      ],
+      [
+        "    const endpoint = new URL(baseUrl)",
+        "    const profile = providerProfile(baseUrl, request.model)\n    if (profile?.retained && protocolInputCharacters(request.messages) > 120000)\n      throw new Failure('limit')\n    if (profile?.retained && toolMode && request.messages.some((message) =>\n      message.role === 'assistant' && typeof message.reasoning_content !== 'string'\n    )) throw new Failure('configuration')\n    const endpoint = new URL(baseUrl)"
+      ],
+      [
+        "                max_tokens: 2048,\n                ...(request.stream ? { tool_stream: true } : {})",
+        "                max_tokens: 2048"
+      ],
+      [
+        "          ...(bigModel\n            ? /^glm-5\\.3(?:-flash)?$/i.test(request.model)",
+        "          ...(profile ? profile.requestFields(toolMode, request.stream) : bigModel\n            ? /^glm-5\\.3(?:-flash)?$/i.test(request.model)"
+      ],
+      [
+        "      if (toolMode) toolAccumulator.consume(message, request.stream)",
+        "      if (toolMode || profile?.retained) toolAccumulator.consume(message, request.stream)\n      if (!toolMode && message.tool_calls != null) throw new Failure('protocol')"
+      ],
+      [
+        "    if (toolMode) {\n      const protocol = toolAccumulator.finish(finishReason)",
+        "    if (toolMode || profile?.retained) {\n      const protocol = toolAccumulator.finish(finishReason, profile?.retained ?? false)"
+      ]
+    ]
+  }
+]

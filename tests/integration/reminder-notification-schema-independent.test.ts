@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
 import { afterEach, expect, it } from 'vitest'
 import { SqliteStore } from '../../src/main/data/sqlite.js'
+import { removeRetainedProtocolFixture } from './retained-protocol-legacy-fixture.js'
 
 const roots: string[] = []
 afterEach(() => {
@@ -19,6 +20,7 @@ function databasePath(): string {
 it('rolls back a v14 notification-table collision before advancing the schema version', () => {
   const path = databasePath()
   const current = new SqliteStore(path)
+  removeRetainedProtocolFixture(current.database)
   current.database.exec(
     'DROP TABLE reminder_notification_members; PRAGMA user_version=14; CREATE TABLE reminder_notification_members(group_id TEXT,reminder_id TEXT,version TEXT);'
   )
@@ -33,7 +35,7 @@ it('rolls back a v14 notification-table collision before advancing the schema ve
   raw.close()
 
   const migrated = new SqliteStore(path)
-  expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 15 })
+  expect(migrated.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 16 })
   expect(
     String(
       migrated.database

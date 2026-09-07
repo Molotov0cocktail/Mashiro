@@ -1,6 +1,6 @@
 # 015 有限Provider兼容与保留协议
 
-状态：IMPLEMENTING；属于MASHIRO-CONTINUOUS-DEVELOPMENT，PROGRAM ACTIVE。入口仍为[progress](progress.md)，覆盖总表B02/B04/B07，不替代014安装发行工作。
+状态：TASK_DONE / FINAL_CANDIDATE_PASS；属于MASHIRO-CONTINUOUS-DEVELOPMENT，PROGRAM ACTIVE。入口仍为[progress](progress.md)，覆盖总表B02/B04/B07，不替代014安装发行工作。
 
 ## 必须闭合的行为
 
@@ -12,13 +12,17 @@ DeepSeek官方Chat Completions当前工具思考协议要求后续请求回传�
 
 ## 验收
 
-- [ ] 精确配置选取、未知厂商拒绝、普通/流式/工具/结构化与能力证据分别表达。
-- [ ] 保留工具链及跨用户轮完成消息完整回传，重启后身份/协议/来源一致；GLM回归。
-- [ ] 选择局部历史、撤权/来源删除/换接收方/预算不足时零非法外发，不复活已撤回数据。
-- [ ] 取消与业务稳定身份、重试副作用不重复，临时模式不新增持久协议。
-- [ ] 未参与实现的复杂独立审核；实际支持边界说明。不将DOCUMENTED或LOCAL_TESTED写成LIVE_VERIFIED。
+- [x] 精确配置选取、未知厂商拒绝、普通/流式/工具/结构化与能力证据分别表达。
+- [x] 保留工具链及跨用户轮完成消息完整回传，重启后身份/协议/来源一致；GLM回归。
+- [x] 选择局部历史、撤权/来源删除/换接收方/预算不足时零非法外发，不复活已撤回数据。
+- [x] 取消与业务稳定身份、重试副作用不重复，临时模式不新增持久协议。
+- [x] 未参与实现的复杂独立审核；实际支持边界说明。不将DOCUMENTED或LOCAL_TESTED写成LIVE_VERIFIED。
 
 核心GLM角色真实资格已有各任务证据，不能要求每家可选高级能力全部真实通过才交付；如本任务某必需资格确需新Key，再具体索取，不搜索私人目录。当前未发起新厂商请求。
+
+## 最新独立结果
+
+root对28文件manifest逐一核对0漂移并完成[源码/本地独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-015-root-independent-review.md)：定向4文件25tests、额外4个边界反例、全量136文件641tests通过，TypeScript/lint/format/build退出0。最终schema16原生run f8198eef、PIDs186136/171612通过，重启0日常调用；先前中文组合状态夹具失败及首修审核遗漏保留，新增8项renderer回归后已关闭。schema15实装升级仍由014验证；无DeepSeek LIVE，不代表014或PROGRAM完成。已批准009增量提交09cd201与当前候选分开。
 
 ## 当前执行
 
