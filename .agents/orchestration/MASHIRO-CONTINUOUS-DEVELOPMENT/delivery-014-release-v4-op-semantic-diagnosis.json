@@ -1,0 +1,103 @@
+{
+  "observedAt": "2026-09-07T21:37:11.041Z",
+  "scope": "readonly phase-row-bound semantic comparison; no plaintext except timestamps; all 17 immutable backup payload hashes checked without credential decryption",
+  "priorFailure": "root b148d6 before-to-SQL-to-after assertion FAILED; preserved",
+  "rows": [
+    {
+      "id": "7047bddd-41d8-44b6-a465-f9d67ca88c1f",
+      "beforeToAfter": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "4D1BB297A43EBCDD4650041425C8B9C4D800D928A085D94EEEAEA878641FA023",
+          "afterHash": "B88970D620FC6034D75C3813C453457E6CE36185EC8E64A52485834AB7537C8A"
+        }
+      ],
+      "backupToBefore": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "9B74E9051292208C8D62372A5BC896114DF0CE66947E4A8874513BC95DBFA78A",
+          "afterHash": "4D1BB297A43EBCDD4650041425C8B9C4D800D928A085D94EEEAEA878641FA023"
+        },
+        {
+          "key": "memoryReceipt",
+          "beforePresent": true,
+          "afterPresent": false,
+          "beforeHash": "C222B0CF51DFD434FD03ECD5A2033167C6F74EF6518792F10C971EC4565D291C",
+          "afterHash": null
+        }
+      ],
+      "backupToAfter": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "9B74E9051292208C8D62372A5BC896114DF0CE66947E4A8874513BC95DBFA78A",
+          "afterHash": "B88970D620FC6034D75C3813C453457E6CE36185EC8E64A52485834AB7537C8A"
+        },
+        {
+          "key": "memoryReceipt",
+          "beforePresent": true,
+          "afterPresent": false,
+          "beforeHash": "C222B0CF51DFD434FD03ECD5A2033167C6F74EF6518792F10C971EC4565D291C",
+          "afterHash": null
+        }
+      ],
+      "beforeSqlEqualsAfter": false,
+      "backupSqlEqualsAfter": false,
+      "transformedBackupRemainingDiff": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "9B8F80BF8FADC90A124554DA8DAE9A402482E62844805DF98651725D08606080",
+          "afterHash": "B88970D620FC6034D75C3813C453457E6CE36185EC8E64A52485834AB7537C8A"
+        }
+      ]
+    },
+    {
+      "id": "89bf8311-b044-47b7-907f-b928af63532a",
+      "beforeToAfter": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "4D1BB297A43EBCDD4650041425C8B9C4D800D928A085D94EEEAEA878641FA023",
+          "afterHash": "B88970D620FC6034D75C3813C453457E6CE36185EC8E64A52485834AB7537C8A"
+        }
+      ],
+      "backupToBefore": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "52418E698525DCA2C9F3AD90FE5354B0458F57AFE83430D69CD8552F100C7A85",
+          "afterHash": "4D1BB297A43EBCDD4650041425C8B9C4D800D928A085D94EEEAEA878641FA023"
+        }
+      ],
+      "backupToAfter": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "52418E698525DCA2C9F3AD90FE5354B0458F57AFE83430D69CD8552F100C7A85",
+          "afterHash": "B88970D620FC6034D75C3813C453457E6CE36185EC8E64A52485834AB7537C8A"
+        }
+      ],
+      "beforeSqlEqualsAfter": false,
+      "backupSqlEqualsAfter": false,
+      "transformedBackupRemainingDiff": [
+        {
+          "key": "summary",
+          "beforePresent": true,
+          "afterPresent": true,
+          "beforeHash": "9B8F80BF8FADC90A124554DA8DAE9A402482E62844805DF98651725D08606080",
+          "afterHash": "B88970D620FC6034D75C3813C453457E6CE36185EC8E64A52485834AB7537C8A"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "recordedDate": "2026-09-08",
+  "scope": "root read-only semantic normalization oracle, first attempt",
+  "commandChunk": "b148d6",
+  "exitCode": 1,
+  "verdict": "FAIL",
+  "error": "GOVERNANCE_RECORD_TRANSFORM_MISMATCH",
+  "actual": false,
+  "expected": true,
+  "assumptionTested": "Applying the restore SQL record transformation to the later-before-restore record yields the restored record exactly",
+  "firstComparedOperationId": "7047bddd-41d8-44b6-a465-f9d67ca88c1f",
+  "completedComparisonsBeforeFailure": 0,
+  "preconditionsPassedForFirstRow": [
+    "source implementation contains the exact SQL expression",
+    "before row matches frozen before phase row hash",
+    "after row matches frozen after phase row hash"
+  ],
+  "successfulOutputCreated": false,
+  "businessDatabaseWritten": false,
+  "plaintextPrinted": false,
+  "providerRequests": 0,
+  "nextDiagnostic": "Compare top-level field digests and the actual backup05 base record; do not ignore differing fields or declare a product defect without attribution"
+}

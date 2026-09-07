@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-09-07T21:38:26.905Z",
+  "priorDiagnosisSha256": "ACF271053802CB39CF5B24F9CF107048E016A2BCE647555E26244CA6363AA26A",
+  "originalSingleSqlEquality": false,
+  "timeFieldsChanged": false,
+  "beforeSummaryMatchesRetentionCleanupConstant": true,
+  "afterSummaryMatchesFinalGovernanceRedactionConstant": true,
+  "bothBackupSqlResultsWithFinalRedactionSummaryEqualAfter": true,
+  "scope": "The complete record comparison differs only in summary; fixed final scrubReceipt summary closes that difference. No ignored fields, no plaintext payload emitted."
+}

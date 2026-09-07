@@ -106,3 +106,21 @@ UIA名称/对象元数据及几何排列与PNG对应；此次JSON **未保存off
 [首次run01](delivery-014-formal-item-restore-review-run-01.json)1/1通过，无业务RED。首次静态Node类型通过，但新增测试finally直接throw触发no-unsafe-finally（工具f1bad8）；保留此失败事实，改为同义独立清理保护函数后原业务断言不变。[最终run02](delivery-014-formal-item-restore-review-run-02.json)1/1通过；格式、单文件ESLint及Node类型检查串行退出0（067b20）。没有重跑完整suite、Provider或桌面，也未修改src/out/package。
 
 此证据补齐上一节明确区分的formal item删除→session.restore实际接缝，结论为该窄fixture PASS；仍不称最终安装UI上执行过正式事项删除，不新增发布门禁循环。
+
+## 原前后快照的 operation 逐行差异补充
+
+独立只读helper与冻结摘要，并重新计算ID/行hash/字段hash差异，结果与root comparison相同。helper SHA256 5A6FFEEC9D8822EDD99A7EBE416ACD6E631078DDD3E8211B1D48D24838DD0D66；before SHA46918E5AF7EDA26829FA6FD258FE41C76CEEBCB2B7DA24B0E9B192BE4832792B；after SHAC696CB259D0BCAA2CD14222C4F31F984B66A4D6D9284F5EF5296277FB0A49577；comparison SHABC27BA42D32182A4918DC8AE0372C7AEA527A2AF26C530B5317F51D33601DDB8。
+
+脚本只读事务内读取三张固定表，三表count及canonical整表digest必须匹配原phase报告，输出wx；本次独立核实reference SHA及三表值均对应原冻结before/after，因而不以路径后来重命名或整DB文件hash改变猜测时点。388工具中386整行相同，仅7047bddd-41d8-44b6-a465-f9d67ca88c1f及89bf8311-b044-47b7-907f-b928af63532a的record_json字段变化；二者同395bf请求/2984eef9-129a-49a5-9a78-b9c017698020 segment，SUCCEEDED不变，其余SQL字段hash不变。387协议与14usage逐行完全相同。
+
+这关闭此前“尚未逐op定位”的限制。record_json仍只有整体hash，尚不能把具体嵌套键修改逐一称为实测：源码的固定summary/citations及memoryReceipt/retentionIntent/retentionPreview删除与范围相符。若需要精确到该转换的证明，只需这两行afterRecord与beforeRecord应用该固定转换后的深等布尔值，或顶层字段hash加固定值/字段缺失布尔摘要；不要输出正文，不需业务重跑。当前保持record_json范围已定位、业务身份与用量未变的限定结论。
+
+## 两条回执的完整语义归因闭合
+
+root首次仅比较before→production-governance-apply:185 SQL→after的oracle实际FAIL（b148d6），保留，不改成通过。独立新增 [op-semantic-diagnosis.mjs](delivery-014-release-v4-op-semantic-diagnosis.mjs) 与 [首次诊断JSON](delivery-014-release-v4-op-semantic-diagnosis.json)：先实核backup05精确manifest SHA/backupId/数据集及17项payload大小/hash；只读事务分别读取原before归档B、after和backup05两条记录，before/after整行hash必须匹配此前冻结摘要。未写业务库、未解密凭据，输出只有字段名、存在性、子hash（无正文）。
+
+实测两条before→after的唯一顶层差异均为summary，**没有任何时间字段差异**；backup→after第一条另有memoryReceipt删除，第二条仅summary变化。真正backup基底执行该单条SQL后仍不等，剩余也只有summary。因此“只是备份时间回退”的猜测不成立，单条SQL不是完整生产转换。
+
+源码实际链还调用production-governance-redaction.ts的scrubReceipt，最终固定summary为“操作正文已被后续治理清理”；原位retention-service的固定摘要则是“操作内容已清理”。独立用固定字符串的JSON SHA核验两边子hash，均精确相等；单条SQL产生的中间摘要“内容已被后续治理阻止”亦匹配诊断hash。完整记录在仅替换为最终scrubReceipt固定摘要后，与after规范化深等；没有忽略任何时间、权限、状态或其他字段。
+
+[第二份结论](delivery-014-release-v4-op-semantic-diagnosis-02.json)记录两条均通过该完整语义等价核验，同时明确originalSingleSqlEquality=false。结论为**归因PASS**：两条回执差异是两条生产清理路径使用不同固定占位摘要，业务身份/状态保持且旧正文回执没有被恢复。此补证关闭上一节嵌套字段未核的限制，不新增业务操作或发布门禁。

@@ -1,0 +1,47 @@
+{
+  "observedAt": "2026-09-08T05:29:07.1540182+08:00",
+  "scope": "independent row and field hash comparison; source tables exactly match frozen governance phase digests",
+  "beforeSha256": "46918E5AF7EDA26829FA6FD258FE41C76CEEBCB2B7DA24B0E9B192BE4832792B",
+  "afterSha256": "C696CB259D0BCAA2CD14222C4F31F984B66A4D6D9284F5EF5296277FB0A49577",
+  "tables": [
+    {
+      "name": "tool_operations",
+      "rowCount": 388,
+      "unchangedRows": 386,
+      "changedRows": [
+        {
+          "id": "7047bddd-41d8-44b6-a465-f9d67ca88c1f",
+          "requestId": "395bf025-2c88-403e-908e-1940139a6f7f",
+          "segmentId": "2984eef9-129a-49a5-9a78-b9c017698020",
+          "stateBefore": "SUCCEEDED",
+          "stateAfter": "SUCCEEDED",
+          "changedFields": [
+            "record_json"
+          ]
+        },
+        {
+          "id": "89bf8311-b044-47b7-907f-b928af63532a",
+          "requestId": "395bf025-2c88-403e-908e-1940139a6f7f",
+          "segmentId": "2984eef9-129a-49a5-9a78-b9c017698020",
+          "stateBefore": "SUCCEEDED",
+          "stateAfter": "SUCCEEDED",
+          "changedFields": [
+            "record_json"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "protocol_segments",
+      "rowCount": 387,
+      "unchangedRows": 387,
+      "changedRows": []
+    },
+    {
+      "name": "usage_attempts",
+      "rowCount": 14,
+      "unchangedRows": 14,
+      "changedRows": []
+    }
+  ]
+}
