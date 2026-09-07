@@ -1,0 +1,50 @@
+{
+  "scope": "independent readonly ZIP comparison, no extraction or executable launch",
+  "archiveSha256": "541450973FA7DB5E7270D5DAF6F0AD23065B0C36FECD2F83D5FD9E4446A95BAC",
+  "archiveBytes": 2670275,
+  "entries": [
+    {
+      "entry": "resources/third-party-notices/react-LICENSE.txt",
+      "bytes": 1088,
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93",
+      "matchesPackagedFile": true
+    },
+    {
+      "entry": "resources/third-party-notices/react-dom-LICENSE.txt",
+      "bytes": 1088,
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93",
+      "matchesPackagedFile": true
+    },
+    {
+      "entry": "resources/third-party-notices/scheduler-LICENSE.txt",
+      "bytes": 1088,
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93",
+      "matchesPackagedFile": true
+    },
+    {
+      "entry": "resources/third-party-notices/zod-LICENSE.txt",
+      "bytes": 1072,
+      "sha256": "3F1189B28E3866E0D979968D466B78F813F76827CFDCA1FBB124CC0A5C8841F8",
+      "matchesPackagedFile": true
+    },
+    {
+      "entry": "LICENSE.electron.txt",
+      "bytes": 1096,
+      "sha256": "5154E165BD6C2CC0CFBCD8916498C7ABAB0497923BAFCD5CB07673FE8480087D",
+      "matchesPackagedFile": true
+    },
+    {
+      "entry": "LICENSES.chromium.html",
+      "bytes": 20472827,
+      "sha256": "F2310820377F4D8F2A5F6BC8744B985D6772CEF9EE7D8D197B01FDB330DB0BB8",
+      "matchesPackagedFile": true
+    },
+    {
+      "entry": "resources/third-party-notices/index.json",
+      "bytes": 1440,
+      "sha256": "D875AF1AB8E8E070871D99AF32D75F24C4229E7C8E649380F6E79980215072FA",
+      "matchesPackagedFile": true
+    }
+  ],
+  "verdict": "STATIC_PASS"
+}
