@@ -1,0 +1,30 @@
+{
+  "scope": "Internal installed-lifecycle candidate with macro-v3 and reviewed fixed residual cleanup; no RET19 or cold WIP",
+  "sourceCommit": "6fd5ba18565f742e2edeb82e663948f90450caef",
+  "runtimeSourceCommit": "f4fb5c7c064e0e24bbd0d360cdf7a8b208a0027f",
+  "buildExitCode": 0,
+  "buildChunk": "3bedda",
+  "observedAt": "2026-09-07T23:21:08.8664574+08:00",
+  "defaultApplicationAbsent": true,
+  "versionResidualAbsent": true,
+  "files": [
+    {
+      "path": "dist\\windows-candidate-login-clean\\Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112573602,
+      "sha256": "E615FFDC9BCD18DDF8A1D8BA83A9BC42DFA2B2B25A401113F9EF9797B082201B",
+      "signature": "NotSigned"
+    },
+    {
+      "path": "dist\\windows-candidate-login-clean\\win-unpacked\\Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472",
+      "signature": "NotSigned"
+    },
+    {
+      "path": "dist\\windows-candidate-login-clean\\win-unpacked\\resources\\app.asar",
+      "bytes": 15431590,
+      "sha256": "7FDDAD7FDA3E7ED19E754FB9704B61B7AD1F0E0A9ECDF879AA41D836D30702BC",
+      "signature": "not-applicable"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "path": "dist/windows-candidate-login-clean/Mashiro-0.1.0-win-x64-setup.exe",
+    "signature": "NotSigned",
+    "fileVersion": "0.1.0",
+    "productName": "Mashiro"
+  },
+  {
+    "path": "dist/windows-candidate-login-clean/win-unpacked/Mashiro.exe",
+    "signature": "NotSigned",
+    "fileVersion": "0.1.0",
+    "productName": "Mashiro"
+  }
+]
