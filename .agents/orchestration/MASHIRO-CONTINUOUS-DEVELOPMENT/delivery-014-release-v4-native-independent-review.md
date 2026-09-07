@@ -69,3 +69,40 @@ UIA名称/对象元数据及几何排列与PNG对应；此次JSON **未保存off
 **已关闭的最终制品场景：** 017同一395bf旧轮在正常重启/备份恢复后保留提供v1/RESPONSE_OBSERVED和真实remember变更，暂停绑定时隐藏正文，显式恢复连接与绑定后重新显示接受正文/来源，并由原入口打开正确当前对象；018超过近期384范围的原旧成功回执可从正常历史按原轮打开并显示精确身份。结合既有可信/DOM/持久化独立证据，可结算D03及A03/A06/B05相关017/018入口层，不另造pending/unknown原生夹具。
 
 **没有声称：** 成功clock详情不是原生unknown核查，也不是pending确认。原ID确认/未知核查、迟到/撤权/模式边界按review016-old-receipt-acceptance-scope-03复用正式55项源码/DOM/SQLite证据。查看界面的零新增Provider由既有准备工具与owner最终账本对账，不由截图单独证明。此限定闭合不等于整个014/016完成；later治理恢复、运行中心/分类用量、真实通知点击/冷激活、登录启用卸载/重装保护与实际发布下载仍按原队列完成。
+## 后来撤回与接收许可在 backup05 恢复后的限定核对
+
+结论：本组 **LIMITED PASS（撤回、接收撤权与恢复暂停）**，不等于全域治理或016最终通过。只读已冻结JSON、脚本和withdraw PNG，没有读取B/C数据库、解密凭据或操作桌面。owner记录真实选择backup05恢复到空C并正常退出；备份身份复用既有root-backup05的17项payload SHA核验，不能用早于f93创建的backup04替代该证据。
+
+独立实核SHA256：
+
+- governance-snapshot.mjs：4BEAE73CA2A5C8B6C08696F5C890B70D8C223502B007034D722525D3BD1F37D5。
+- governance-later-before-restore.json：9E680C3A017A66678A18A144EA82BECF1CEBCCFB35ABCC79CD0D9E7FEA97F07A。
+- governance-after-old-backup-restore.json：294C83574DC99F2E5E9AF509732C0C47C609BAAC7A976B0BE6A3F2ED8A97FF56。
+- governance-withdraw-01.json：2D74B7A4085DE5CEBABA658275AD8BFF834B87B4058A13C18496349C76F135A0；PNG：665744C43A257948480AA420257733BB213BDC577A1EE26A3AD2BA68D8700B3B。
+
+两个快照dataset均9f2cf384-daa4-4bb6-819a-33976e479c5a、schema19、integrity=[ok]、foreignKeyViolations=[]。f93对象两侧仍version1/suppressed，markdown为空SHA，版本fileName为空/bodyHash为空SHA/metadata为空对象SHA，withdrawal抑制身份逐字段一致；文件清单均无f93正文。原backup05含该对象接受v1，恢复后并未复活该正文。withdraw PNG实际显示“撤回信息及派生副本”、精确一个记忆版本、“受管副本清理完成·4/4”；并未显示执行正式永久删除。
+
+私有read仍1、同接收方assistant allowed仍0/global仍1，权限及接收方两整表hash一致。usage_attempts整表hash一致，仍14次、11 settled、3 unknown、0 sending、已知13291 tokens；不是把unknown计作零。memory_versions、suppressions、round_evidence与protocol_segments整表hash亦一致。daily/steward配置和作业整表hash一致，daily仍关闭。
+
+差异保持如实：f93 title/record hash改变；production-governance-apply.ts的恢复投影明确替换为“旧版本内容已被后续治理阻止”、空正文/来源并置trash，因此不要求旧抑制对象记录字节不变。连接enabled仍0/version5，但hasPersistentCredential由1变0，after清单新增credential.revoked；同文件夹内80字节密文仍存在，不是物理删除。源码对旧备份连接代际落后的密文保守失效，要求重新提供Key。绑定1→0符合pauseRestoredWork。retention_jobs 3→2、items9→5：恢复早期备份不承诺复制备份之后的作业历史；tool_operations仍388而整表hash改变，与治理按引用抹除回执的机制相容，但当前摘要没有逐行差异，不能据整表hash冒称每个operation已逐字段归因。
+
+快照脚本固定合成路径、普通非链接根/DB检查、只读SQLite，输出受限字段和hash。它没有自己锁定进程/事务一致性，证据一致性依赖owner正常退出后的采样条件；不是在线原子快照。credentialContentRead=false应解释为未读出/解密凭据正文：递归文件SHA确实读取密文字节。17张表摘要也不是全82表全面治理证明。
+
+此次未新增“后来普通纠正”“正式永久删除”原生操作。既有独立治理源码/SQLite反例可按风险复用，不需为这两项重复全角色矩阵；若最终验收要求这两项也有安装态直接证据，最小补充是各一项明确旧备份前后身份/版本与屏障摘要，不能把本次withdrawal换名充当。剩余通知/生命周期/实际发布等按原队列处理。
+## G05 / E04 / E06 治理恢复的分层结算
+
+**可按风险复用既有证据，关闭这三项中的治理恢复要求；没有发现必须再跑一次最终安装包纠正/正式删除UI矩阵的机制缺口。** 这不是把旧报告的局部PASS自行扩成整个016通过，而是以下独立证据与最终制品/原生接线的组合。
+
+- 纠正与版本下限：正式[014 v4独立报告](delivery-014-review014-final-v4.md)的26文件65项包含 [production-governance-restore.test.ts](../../../tests/integration/production-governance-restore.test.ts)。它使用真实MemoryService记住、完整session备份、普通correct v1→v2和撤权，再恢复旧备份，断言version2/suppressed/空正文，逐文件拒绝旧正文，健康对象仍保留而模型来源读取按新权限拒绝。是Windows合成生产服务/SQLite/文件系统fixture，不是最终安装UI纠正操作。
+- 正式事项删除：既有 [item-domain-oracles.test.ts](../../../tests/integration/item-domain-oracles.test.ts) 的确认批删场景实际preview/confirm正式父子项、保留无关项；已独立审查的production-governance-apply对kind=item墓碑明确保留墓碑并删除旧items及来源。真实session、损坏READY日志和回滚/提交token的[独立fixture](../../../tests/integration/production-governance-review014-independent.test.ts)补足治理持久与失败停止；[空A桥接恢复fixture](../../../tests/integration/review014-empty-bridge-restore.test.ts)证明恢复按原receipt数据集查later治理，不能用新A身份绕过。注意这两个fixture的墓碑具体为proposal，不能改称“正式item删除后完整恢复的一条端到端测试”；本项采用业务删除、治理分支源码、通用持久/恢复机制的组合证明。
+- 失败及容量：v4报告保留真实session准备/重开、损坏日志拒绝恢复且原库/备份/locator字节保留、失败目标不能正常选入等反例。[v6独立报告](delivery-014-review014-seed-v6-final-pass.md)4文件9项关闭旧8MiB读写不一致和最终stat截断，保留大型journal吞吐未测边界。这里的故障注入/Windows文件及lease fixture不是最终安装进程断电测试，不借名称扩大结论。
+- 最终接线与制品：本报告已核D352安装包/F310 ASAR与冻结376源码及五份out身份；最终整合206文件850项中的842通过、8明确opt-in跳过，复用root最终报告，不宣称本次重跑。真实安装18→19、原位保留、自动完整迁移备份、失效路径空A→backup05→B，再按同一原数据集backup05→C，补足此前局部报告尚未覆盖的最终应用恢复入口与治理加载。本轮原生直接证据是f93撤回/接收撤权/连接与凭据代际屏障/后台暂停，不是普通纠正或正式事项删除原生演示。
+
+因此E04后来纠正/删除/撤回优先、E06旧备份不复活已撤回正文、G05完整备份与治理恢复可分层结清；正式删除不承诺物理已删除正文可恢复，丢失原配置后无法凭空重建备份之后的治理仍是既有诚实边界。当前逐operation摘要只待补充解释已列整表hash差异，不构成再跑业务的理由；若出现具体未抹除正文或墓碑缺失的新证据再转REPAIR。G05以外的最终通知、卸载/重装及实际发布下载仍独立待办，不由本节签结。
+## 正式事项确认删除 → 旧完整备份恢复的独立窄反例补证
+
+新增 [review014-formal-item-restore.test.ts](../../../tests/integration/review014-formal-item-restore.test.ts)，最终SHA256 A4531D3B5F0A1D9E29BC963E40ED99038FC42C0973CC03BE1F961B2C69DBD1E6。使用新建隔离合成根和真实ProductionSession/SqliteStore/ItemService：创建两个正式事项，被删项持有一条指向保留项的实际来源记录；先完整备份，再通过真实preview及confirm删除，确证kind=item墓碑；restore旧备份到另一空目录后，被删items行不存在、墓碑保留、其非空来源由1变0，无关事项完整SQL行逐字段相等且query只返回该项，integrity/FK有效，原backup SQLite字节不变。来源可用性回调为固定测试接缝，本测试没有验证外部来源权限；删除、SQL、治理和备份恢复均走生产实现。
+
+[首次run01](delivery-014-formal-item-restore-review-run-01.json)1/1通过，无业务RED。首次静态Node类型通过，但新增测试finally直接throw触发no-unsafe-finally（工具f1bad8）；保留此失败事实，改为同义独立清理保护函数后原业务断言不变。[最终run02](delivery-014-formal-item-restore-review-run-02.json)1/1通过；格式、单文件ESLint及Node类型检查串行退出0（067b20）。没有重跑完整suite、Provider或桌面，也未修改src/out/package。
+
+此证据补齐上一节明确区分的formal item删除→session.restore实际接缝，结论为该窄fixture PASS；仍不称最终安装UI上执行过正式事项删除，不新增发布门禁循环。

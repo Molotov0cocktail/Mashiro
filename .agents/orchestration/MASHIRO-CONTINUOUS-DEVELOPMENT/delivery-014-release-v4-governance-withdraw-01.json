@@ -1,0 +1,76 @@
+{
+  "observedAt": "2026-09-08T04:40:43.1034449+08:00",
+  "pid": 235296,
+  "windowHandle": 30548710,
+  "intent": "WITHDRAW_SOURCE_AND_DERIVED_COPIES",
+  "objectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+  "objectVersion": 1,
+  "elements": [
+    {
+      "name": "清理与永久删除",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 874,
+        "y": 607,
+        "width": 797,
+        "height": 32
+      }
+    },
+    {
+      "name": "清理作业",
+      "controlType": "ControlType.Group",
+      "offscreen": false,
+      "bounds": {
+        "x": 857,
+        "y": 844,
+        "width": 831,
+        "height": 257
+      }
+    },
+    {
+      "name": "受管副本清理作业",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 874,
+        "y": 881,
+        "width": 797,
+        "height": 32
+      }
+    },
+    {
+      "name": "受管副本清理完成· 4/4 · 2026/9/8 04:39:46",
+      "controlType": "ControlType.ListItem",
+      "offscreen": false,
+      "bounds": {
+        "x": 914,
+        "y": 960,
+        "width": 757,
+        "height": 22
+      }
+    },
+    {
+      "name": "受管副本清理完成",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 914,
+        "y": 960,
+        "width": 129,
+        "height": 22
+      }
+    },
+    {
+      "name": "“已停止使用”只表示正文不会再被召回或发送；只有作业显示完成，才表示列入清单的在线受管副本已处理。SQLite 残页、备份和你自行复制的文件不在此完成口径内。",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 874,
+        "y": 1010,
+        "width": 519,
+        "height": 71
+      }
+    }
+  ]
+}

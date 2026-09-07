@@ -1,0 +1,277 @@
+{
+  "scope": "later synthetic governance state around old-backup restore",
+  "phase": "later-before-restore",
+  "observedAt": "2026-09-07T20:49:10.652Z",
+  "source": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 19,
+  "integrity": [
+    "ok"
+  ],
+  "foreignKeyViolations": [],
+  "files": [
+    {
+      "relative": ".mashiro-dataset.json",
+      "bytes": 143,
+      "sha256": "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F"
+    },
+    {
+      "relative": ".mashiro-governance-backup.json",
+      "bytes": 6637,
+      "sha256": "5E306F0E56BA9B6C707028E21E38FD45D8CF19E4123ED386FD473B793B26549F"
+    },
+    {
+      "relative": ".mashiro-governance.json",
+      "bytes": 114,
+      "sha256": "57D4031ED1BE783BDD22BF20145246F01F32D9351F3118BC54DDFD72DC2AC39E"
+    },
+    {
+      "relative": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+      "bytes": 80,
+      "sha256": "451D99DB9C192FA78D74BAF78B632743B3EB531E6727F9DF0110C5F1D9FB7920"
+    },
+    {
+      "relative": "mashiro.sqlite",
+      "bytes": 1474560,
+      "sha256": "E4ED711F9E0234271FD491989F76AC4C98D0F60B0C514A150A456AFE04972FAF"
+    },
+    {
+      "relative": "memory/43c35979-ee88-4510-a699-7bb0bd8c026d-1-429a42c5-e9ff-4f53-8af4-2eb4ac61f10e.md",
+      "bytes": 73,
+      "sha256": "376BE9FE9FAA1B414766D036E22763B8477EDC6A41E6D5FC9D8EF508B827F04B"
+    },
+    {
+      "relative": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+      "bytes": 50,
+      "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92"
+    },
+    {
+      "relative": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+      "bytes": 50,
+      "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D"
+    },
+    {
+      "relative": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    },
+    {
+      "relative": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+      "bytes": 20,
+      "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5"
+    },
+    {
+      "relative": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+      "bytes": 48,
+      "sha256": "731F9E4073F458A6D9F0A6DD6754340238EC47B55D46718020E675EE43638ABD"
+    },
+    {
+      "relative": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+      "bytes": 50,
+      "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0"
+    },
+    {
+      "relative": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+      "bytes": 26,
+      "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292"
+    },
+    {
+      "relative": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+      "bytes": 71,
+      "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C"
+    },
+    {
+      "relative": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+      "bytes": 69,
+      "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F"
+    }
+  ],
+  "tableDigests": [
+    {
+      "name": "assistant_provider_bindings",
+      "rowCount": 1,
+      "rowsSha256": "DF4556CBAAD8A7E6004C3FBF880612F7486836688394B632E4BDBD3106D169E1"
+    },
+    {
+      "name": "daily_configs",
+      "rowCount": 1,
+      "rowsSha256": "987CA6D79772274CFB46580616BAE9D8AF547835287194A3FD2A2A2BB4A231A2"
+    },
+    {
+      "name": "daily_jobs",
+      "rowCount": 1,
+      "rowsSha256": "02B86C9B176987E7669617EF3BC874BBD7F334F161A42D70650723C058BAE470"
+    },
+    {
+      "name": "memory_objects",
+      "rowCount": 11,
+      "rowsSha256": "D4FCBF0A2648B40DE6EACA3E109F80B08E1C5AAFFAAFFA7ACC91EC9FC9F57DA7"
+    },
+    {
+      "name": "memory_permissions",
+      "rowCount": 2,
+      "rowsSha256": "9849BDB7E14E0259B6DF3A8494645EDCD953327678C3A9B26E80ACB86C3A059C"
+    },
+    {
+      "name": "memory_recipients",
+      "rowCount": 2,
+      "rowsSha256": "FD360254D4B83F0CD72279A0C84438C70278EBA9760668119F8F637DE59F11E3"
+    },
+    {
+      "name": "memory_round_evidence",
+      "rowCount": 1,
+      "rowsSha256": "B381A28A65EE9237CCB01C75DF01FA65573C17E24FCF2AF667D6E57FD757AD43"
+    },
+    {
+      "name": "memory_suppressions",
+      "rowCount": 6,
+      "rowsSha256": "57E6CECD71533E6491860A268194468F52CBC6DB4CA62D9FDADE46F8004314E4"
+    },
+    {
+      "name": "memory_versions",
+      "rowCount": 17,
+      "rowsSha256": "41FCFD6601FF7937937A50710490A1E4EB4387BE5DB1C2A7F9B74560F8A4B99A"
+    },
+    {
+      "name": "protocol_segments",
+      "rowCount": 387,
+      "rowsSha256": "E5660A270F64434243E9588FEF407AD2A94FC89A2B9C599496112145BC5C22B1"
+    },
+    {
+      "name": "provider_connections",
+      "rowCount": 1,
+      "rowsSha256": "6D73E8919E382454AE5C18A2648A13939DB2AA8F1043B73A24D73D834380DC98"
+    },
+    {
+      "name": "retention_job_items",
+      "rowCount": 9,
+      "rowsSha256": "60B2F88E8F8230824263A842A9EAC173F4EE5260677BB5FE07143E89245A9F09"
+    },
+    {
+      "name": "retention_jobs",
+      "rowCount": 3,
+      "rowsSha256": "2730FE37081FFD86A1721E916BCCFCB102739D0C97AEE50C17BF094DF498C55E"
+    },
+    {
+      "name": "steward_configs",
+      "rowCount": 1,
+      "rowsSha256": "AC227FBB047DB58BFE08F76C67EDA20CF7D11E9243CD42845FB06D0F21B8C5CD"
+    },
+    {
+      "name": "steward_jobs",
+      "rowCount": 5,
+      "rowsSha256": "21EAB40BF586504C5E65EC5CE5DB0D51C7CE9E5B162A963DA3CACFEDFF6166DC"
+    },
+    {
+      "name": "tool_operations",
+      "rowCount": 388,
+      "rowsSha256": "9BE9D55BE5CDC8314FF31D8509A50A30561E2EDA587DC9E36555749D3441B14F"
+    },
+    {
+      "name": "usage_attempts",
+      "rowCount": 14,
+      "rowsSha256": "6EBCBB10828D428404A61AF7EB2CF50CD7AC14D5C28E4500136CA49C2D8B20EA"
+    }
+  ],
+  "selected": {
+    "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+    "objectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+    "object": {
+      "id": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+      "version": 1,
+      "kind": "user",
+      "scope": "assistant",
+      "ownerAssistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "nature": "user-statement",
+      "state": "suppressed",
+      "recordJsonSha256": "B72C6ED83AEB9FD20468CE698FD78BB4E7F10FF91DDEAD47EA583538D0E47E9C",
+      "titleSha256": "472E151601949B825573D52FCABD8800C6BE08DB3838A2FA55ABDA1DF45B3BC1",
+      "markdownSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    "versions": [
+      {
+        "objectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+        "version": 1,
+        "fileName": "",
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "metadataSha256": "44136FA355B3678A1146AD16F7E8649E94FB4FC21FE77E8310C060F61CAAFF8A"
+      }
+    ],
+    "suppressions": [
+      {
+        "sourceType": "memory",
+        "sourceId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+        "sourceVersion": 1,
+        "kind": "withdrawal",
+        "objectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844"
+      }
+    ],
+    "permissions": [
+      {
+        "scope": "assistant",
+        "version": 2,
+        "readAllowed": 1,
+        "writeAllowed": 1,
+        "inferencesAllowed": 1
+      },
+      {
+        "scope": "global",
+        "version": 1,
+        "readAllowed": 1,
+        "writeAllowed": 1,
+        "inferencesAllowed": 1
+      }
+    ],
+    "recipients": [
+      {
+        "scope": "assistant",
+        "fingerprintSha256": "273560C4805251F4C70555C126450EE574D667191C714D77DBC3582383BDCEB3",
+        "allowed": 0
+      },
+      {
+        "scope": "global",
+        "fingerprintSha256": "273560C4805251F4C70555C126450EE574D667191C714D77DBC3582383BDCEB3",
+        "allowed": 1
+      }
+    ],
+    "connections": [
+      {
+        "id": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+        "displayName": "BigModel synthetic",
+        "baseUrlSha256": "0413B53D28826C51B400BC9EBC578639BF6A4FF94D3E43FBCBC468BD51945602",
+        "enabled": 0,
+        "hasPersistentCredential": 1,
+        "version": 5
+      }
+    ],
+    "bindings": [
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+        "model": "GLM-5.3-FLASH",
+        "version": 1
+      }
+    ],
+    "daily": [
+      {
+        "id": "b56798dd-0aea-4929-a508-2dab10cd0705",
+        "feature": "observation",
+        "enabled": false,
+        "recordJsonSha256": "F2321BFAE8AF8F9E002BCB8ADB1CAF851E6863DA0B32080A9CAAF76A3CEE746E"
+      }
+    ],
+    "usage": {
+      "attempts": 14,
+      "settled": 11,
+      "unknown": 3,
+      "sending": 0,
+      "promptTokens": 12936,
+      "completionTokens": 355,
+      "totalTokens": 13291,
+      "inputCharacters": 9954
+    }
+  },
+  "credentialContentRead": false,
+  "messageContentRead": false,
+  "externalCalls": 0
+}

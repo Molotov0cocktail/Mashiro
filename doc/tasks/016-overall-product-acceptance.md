@@ -19,7 +19,7 @@
 
 ## 当前已核事实与余项
 
-- 2026-09-08当前：运行源码37620929a7f507bb31d41861114cf6f825d715fd，D352安装包已独立STATIC_PASS，206文件850tests中842通过/0失败/8项有单独证据的opt-in跳过，静态及双PID通过。实际18→19迁移、安装前后16文件/76表保留及备份已有[独立限定核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-native-independent-review.md)；最终安装版017非空来源/变更→正确对象与018旧回执入口已独立核图关闭，权限暂停与明确重新绑定恢复可见态均有证据。009自动策略源码已审，不再处于POLICY_IMPLEMENTING。仍待后续治理旧备份恢复、实际通知点击/冷激活、最终登录开启卸载/重装与安装目录data保护、运行中心最终视觉及整体覆盖结算；PROGRAM ACTIVE。
+- 2026-09-08当前：运行源码37620929a7f507bb31d41861114cf6f825d715fd，D352安装包已独立STATIC_PASS，206文件850tests中842通过/0失败/8项有单独证据的opt-in跳过，静态及双PID通过。实际18→19迁移、安装前后16文件/76表保留及备份已有[独立限定核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-native-independent-review.md)；最终安装版017非空来源/变更→正确对象与018旧回执入口已独立核图关闭，权限暂停与明确重新绑定恢复可见态均有证据。009自动策略源码已审，不再处于POLICY_IMPLEMENTING。后续治理旧备份恢复已由原生撤回/撤权/凭据代际与独立纠正、正式事项删除生产服务fixture分层结清，未冒称所有操作均原生执行。仍待实际通知点击/冷激活、最终登录开启卸载/重装与安装目录data保护、运行中心最终视觉及整体覆盖结算；PROGRAM ACTIVE。
 
 以下保留此前候选观测，当前事实以本节首项及其证据为准。
 
