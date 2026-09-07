@@ -1,0 +1,28 @@
+{
+  "observedAt": "2026-09-07T19:45:36.578Z",
+  "scope": "readonly exact automatic migration backup; payload SHA comparison only, no credential decryption",
+  "verdict": "PRE_MIGRATION_BACKUP_BYTE_IDENTICAL",
+  "backupDirectory": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\backups\\mashiro-before-upgrade-54174086-05ac-4192-8f2e-85fc22be2310",
+  "backupId": "a921dbed-526d-4cc0-8672-391adb1ba54d",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 18,
+  "manifestSha256": "43F8FE0127B61779677E9850AEAF685760CEACBD56129554EFAB552DA7ACC415",
+  "payloadFiles": 16,
+  "allPayloadMatchesPreInstallSnapshot": true,
+  "sqliteSha256": "A2CA95D14A14926B395196C30E1F64B65A7BA864E1B4B1A28DE83C99F3EDD64B",
+  "dailyConfigs": [
+    {
+      "id": "b56798dd-0aea-4929-a508-2dab10cd0705",
+      "lastTick": "2026-09-07T16:59:44.674Z",
+      "fieldHashes": {
+        "id": "B73ED90D54CA194E61BD1786016379E082CF2EBD074036EC4A23022542AFEFA9",
+        "assistant_id": "DABCFD878F70EF90D92791989E66F86EDD9E3CA9CBBC26E2DE3D3E242C7DCB89",
+        "feature": "6BDB95CBFD647DC56D6B1D241787C6A3AAFFFE36896105FBB416FA8C1E6711FF",
+        "record_json": "9901840E6FD70821B6B088C4EBB17E7F6CEC69C850C6C824BC6E9A7D6ACE61EE",
+        "next_run": "B82FA66B938F57688313AB48384EE39185361FFD25A0B9E3456F70BCE160A01E",
+        "last_tick": "C1FB846643770E515E9B6E74BA1346126C16B344993B9C90F6742923510E6550"
+      }
+    }
+  ],
+  "currentDatasetRead": false
+}

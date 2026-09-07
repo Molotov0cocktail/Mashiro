@@ -1,0 +1,119 @@
+{
+  "scope": "final schema19 internal package native milestone: install, migration, receipt window, one synthetic Provider round, memory evidence and restart",
+  "observedAt": "2026-09-08T03:52:25.7045466+08:00",
+  "qualification": "LIMITED_MILESTONE",
+  "sourceRevision": "37620929a7f507bb31d41861114cf6f825d715fd",
+  "installer": {
+    "sha256": "D352DD8AAD149D011405400476C2561C336768F076523E7DEDD2CCDB45D16EF4",
+    "bytes": 112585917,
+    "installerPid": 221516,
+    "finishRunCheckboxBefore": 1,
+    "finishRunCheckboxAfter": 0
+  },
+  "installed": {
+    "exeSha256": "73A4AFA12FF36B758C0F8D450F6B6AACFC0F3566C63EFAD14F458173D8508E4D",
+    "asarSha256": "F310B79143120BADF9BF7AEE4603A01C7F2C63963B43EBE1E80C4C906F5541FD",
+    "unknownFileSha256": "EC149C6F29DD292C296D63E6B3F3E0F36E3B5B9B97D36A89B27580743268033A",
+    "firstLaunchPid": 226268,
+    "restartPid": 222420
+  },
+  "migration": {
+    "from": 18,
+    "to": 19,
+    "integrity": "ok",
+    "foreignKeyViolations": 0,
+    "tablesBefore": 76,
+    "tablesAfter": 82,
+    "selectedEqual": true,
+    "backupId": "a921dbed-526d-4cc0-8672-391adb1ba54d",
+    "backupDirectory": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\backups\\mashiro-before-upgrade-54174086-05ac-4192-8f2e-85fc22be2310",
+    "preSnapshot": "delivery-014-release-v4-pre-upgrade.json",
+    "postInstallSnapshot": "delivery-014-release-v4-post-install.json",
+    "postFirstLaunchSnapshot": "delivery-014-release-v4-post-first-launch.json"
+  },
+  "receiptWindow": {
+    "firstExecution": "FAILED_HELPER_NESTED_TRANSACTION",
+    "firstError": "cannot start a transaction within a transaction",
+    "rollbackEvidence": "delivery-014-seed-old-receipt-failure-check-01.json",
+    "secondExecution": "SUCCEEDED",
+    "executionEvidence": "delivery-014-seed-old-receipt-window-executed-02.json",
+    "created": 384,
+    "finalToolOperations": 386,
+    "providerCalls": 0,
+    "oldRequestId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+    "oldOperationId": "65f43282-9144-4d5c-b5fb-8577e5336f56",
+    "nativeUi": {
+      "round": "E2E_TOOL_NORMAL",
+      "tool": "本机时钟",
+      "state": "已完成",
+      "operationIdVisible": true
+    }
+  },
+  "providerRound": {
+    "requestId": "395bf025-2c88-403e-908e-1940139a6f7f",
+    "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+    "syntheticToken": "SYNTH_ROUND_EVIDENCE_20260908_A",
+    "attemptsAdded": 2,
+    "settledAdded": 2,
+    "unknownBefore": 3,
+    "unknownAfter": 3,
+    "sendingBefore": 0,
+    "sendingAfter": 0,
+    "promptTokensAdded": 6477,
+    "completionTokensAdded": 187,
+    "totalTokensAdded": 6664,
+    "inputCharactersAdded": 1780,
+    "timelineMessagesAdded": 2,
+    "protocolSegmentsAdded": 1,
+    "toolOperationsAdded": 2,
+    "memoryObjectsAdded": 1,
+    "before": "delivery-014-release-v4-provider-before.json",
+    "after": "delivery-014-release-v4-provider-after.json"
+  },
+  "memoryEvidence": {
+    "provided": {
+      "objectId": "43c35979-ee88-4510-a699-7bb0bd8c026d",
+      "objectVersion": 1,
+      "evidence": "RESPONSE_OBSERVED",
+      "nativeLabel": "已观察到 Provider 响应",
+      "dispatchedAt": "2026-09-07T19:31:26.451Z",
+      "disclaimerVisible": "最多 1000 字符；不证明模型采用"
+    },
+    "change": {
+      "operationId": "3cd09f98-b3f6-4c2d-8d06-4828e1f378b0",
+      "objectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+      "objectVersion": 1,
+      "state": "SUCCEEDED",
+      "nativeLabel": "记住 · 已成功执行"
+    },
+    "openObject": {
+      "action": "打开记忆详情与操作",
+      "title": "本轮验收代号（合成验收）",
+      "correctionEditorVisible": true
+    },
+    "restart": {
+      "normalExitPid": 227668,
+      "newPid": 222420,
+      "keyReentered": false,
+      "persistentCredentialLabelVisible": true,
+      "providedCount": 1,
+      "changeCount": 1,
+      "openObjectActions": 2
+    }
+  },
+  "currentFullBackup": {
+    "directory": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\完整备份-最终schema19-05",
+    "uiReportedVerified": true,
+    "backupExitPid": 222420
+  },
+  "externalCalls": 2,
+  "secretRead": false,
+  "personalDataAccessed": false,
+  "remaining": [
+    "path-loss recovery through empty A and install-root data B",
+    "operations UI",
+    "warm/retained/cold notification",
+    "governance suppression",
+    "login-enabled uninstall and reinstall recovery"
+  ]
+}

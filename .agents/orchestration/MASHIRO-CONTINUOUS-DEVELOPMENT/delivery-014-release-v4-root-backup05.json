@@ -1,0 +1,43 @@
+{
+  "observedAt": "2026-09-07T19:54:33.470Z",
+  "scope": "readonly exact final installed schema19 backup; no current dataset access or credential decryption",
+  "verdict": "BACKUP_PAYLOAD_AND_PERSISTED_SOURCE_CONFIRMED",
+  "backupDirectory": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\完整备份-最终schema19-05",
+  "backupId": "e25f2bb0-1f07-44a9-a8e3-7268081cb10b",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 19,
+  "manifestSha256": "86C605EA93D3EBA23B520D7ADB10D9DBEAE5E5239B6C7CF51981FDDC40C48B00",
+  "payloadFiles": 17,
+  "allManifestFileHashesVerified": true,
+  "integrity": "ok",
+  "foreignKeyViolations": 0,
+  "counts": {
+    "usage_attempts": 14,
+    "protocol_segments": 387,
+    "tool_operations": 388,
+    "memory_objects": 11,
+    "memory_round_evidence": 1
+  },
+  "provided": [
+    {
+      "assistant_id": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "request_id": "395bf025-2c88-403e-908e-1940139a6f7f",
+      "object_id": "43c35979-ee88-4510-a699-7bb0bd8c026d",
+      "object_version": 1,
+      "state": "RESPONSE_OBSERVED"
+    }
+  ],
+  "dailyConfigComparison": [
+    {
+      "id": "b56798dd-0aea-4929-a508-2dab10cd0705",
+      "changedFields": [
+        "last_tick"
+      ],
+      "beforeLastTick": "2026-09-07T16:59:44.674Z",
+      "afterLastTick": "2026-09-07T19:49:03.565Z",
+      "nonTickFieldsIdentical": true
+    }
+  ],
+  "providerAttemptsRemain14AfterUIAndRestart": true,
+  "limitation": "This validates persisted source metadata and backup bytes, not independent visual observation or later-governance restoration."
+}

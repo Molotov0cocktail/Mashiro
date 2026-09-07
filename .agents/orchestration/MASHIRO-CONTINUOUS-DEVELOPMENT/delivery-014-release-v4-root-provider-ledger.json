@@ -1,0 +1,33 @@
+{
+  "observedAt": "2026-09-08T03:37:19.5402271+08:00",
+  "scope": "independent sanitized installed-provider ledger comparison; no credential/message reads",
+  "verdict": "TWO_REAL_HTTP_ATTEMPTS_AND_USAGE_CONFIRMED",
+  "sourceCommit": "37620929a7f507bb31d41861114cf6f825d715fd",
+  "chainId": "395bf025-2c88-403e-908e-1940139a6f7f",
+  "attemptIds": [
+    "c15ae294-2ac9-4834-9461-843d6d4f6291",
+    "f02f8ad3-acb2-4cbf-8b0c-7b8ead7a10b4"
+  ],
+  "model": "GLM-5.3-FLASH",
+  "newHttpAttempts": 2,
+  "promptTokensDelta": 6477,
+  "completionTokensDelta": 187,
+  "totalTokensDelta": 6664.0,
+  "localAttemptCountBefore": 12,
+  "localAttemptCountAfter": 14,
+  "unchangedOverlappingAttemptRecords": 10,
+  "afterReportRecordWindow": 12,
+  "preIdsOutsideAfterWindow": [
+    "871f2afb-9088-4b2b-a82c-1b11b4fe9350",
+    "f7f4667b-6fbf-41b2-ba9d-46531fe4f7b4"
+  ],
+  "initialComparisonFailure": "Root chunk66e210 incorrectly required all prior IDs in the after recent12 window. Snapshot source uses attempts.slice(-12); corrected comparison checks all10 overlapping records and full-table aggregate totals, without claiming a complete old-row equality check.",
+  "localUnknownAttempts": 3,
+  "programHttpAttempts": 58,
+  "programKnownTokens": 103341,
+  "programHistoricalUnknownAttempts": 5,
+  "programBasis": "Previous archived program totals56 HTTP/96677known/5unknown plus this chain2 HTTP/6664tokens; local dataset totals are separate",
+  "beforeReportSha256": "A7C810C463F12D5F4C939193A0FB62F2376C61D75C4B99D53CD0D4E859E24AAC",
+  "afterReportSha256": "12CF7BDA3B4C7E9E8DD17E4A31EECDE68417FF651FE0CE9B0FBA5D2897BA93F3",
+  "memorySourceAndChangeUI": "SEPARATE_NATIVE_EVIDENCE_PENDING"
+}

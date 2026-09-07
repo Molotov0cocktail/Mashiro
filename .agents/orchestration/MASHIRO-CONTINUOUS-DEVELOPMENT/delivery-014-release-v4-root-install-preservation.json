@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-09-08T03:11:11.5818659+08:00",
+  "scope": "independent comparison of quiescent pre/post actual installer snapshots; no dataset open",
+  "verdict": "INSTALL_DATA_PRESERVATION_PASS_BEFORE_FIRST_LAUNCH",
+  "preReportSha256": "25AE4B1EB65F941B864B37D5B71B93AB8539ED35B809AB510D0C333B17F8B379",
+  "postReportSha256": "C904D20F4C0FC6A2B2BDADA398C0D16E0AD896F874E5E9A875932537B54964B9",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaBefore": 18,
+  "schemaAfter": 18,
+  "identicalFiles": 16,
+  "identicalTableSchemaAndRows": 76,
+  "selectedEqual": true,
+  "mismatches": [],
+  "firstLaunchMigration": "PENDING_SEPARATE_EVIDENCE"
+}

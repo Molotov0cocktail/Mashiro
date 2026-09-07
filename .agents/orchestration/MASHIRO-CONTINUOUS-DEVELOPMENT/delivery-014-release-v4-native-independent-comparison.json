@@ -1,0 +1,41 @@
+{
+  "scope": "independent comparison of archived sanitized reports only",
+  "installFilesEqual": 16,
+  "installTablesEqual": 76,
+  "firstLaunchTables": 82,
+  "changedFiles": [
+    "mashiro.sqlite"
+  ],
+  "tableChanges": [
+    {
+      "name": "daily_configs",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "name": "production_governance_commits",
+      "before": 7,
+      "after": 0
+    },
+    {
+      "name": "production_governance_state",
+      "before": 1,
+      "after": 1
+    }
+  ],
+  "newTables": [
+    "retention_policy",
+    "retention_policy_commands",
+    "retention_policy_objects",
+    "retention_policy_previews",
+    "retention_policy_receipts",
+    "retention_policy_runs"
+  ],
+  "providerNewAttemptIds": [
+    "c15ae294-2ac9-4834-9461-843d6d4f6291",
+    "f02f8ad3-acb2-4cbf-8b0c-7b8ead7a10b4"
+  ],
+  "providerDelta": 6664,
+  "overlapRows": 10,
+  "limitation": "Does not reopen current datasets or independently rehash external backups; backup content evidence attributed to root reports."
+}
