@@ -15,7 +15,9 @@
 
 ## 最新实际制品进展
 
-已完成[原生限定资格](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-native-qualified-01.md)：新空目录还原后同助手、schema15、完整性和位置核对成功，受保护凭据落盘及重开状态已验，实际解密另待。2026-09-07进一步确认[旧备份治理缺口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-governance-gap.md)：当前实现只还原旧快照，未合并后来已知撤回/纠正/权限屏障。E04/E06和009闭环5仍待实现及独立反例，不以回退确认取消要求。root负责该增量；015单写协议schema，必要schema变化须协调。以下保留原生过程记录。
+2026-09-07旧版全域安装限定节点已完成：`0.0.9-internal.1`（8154d0e/schema15）通过原生窗口选择全域合成数据并完成完整备份后退出。备份ID为1827d1e6-580e-402f-a596-3b0922e0b2ed；root独立逐项核验13项payload与源文件的大小/SHA一致。见[实际安装备份证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-baseline-selection-backup-01.json)。这不覆盖升级、最终通知、凭据实际解密、卸载或发布；旧制品保持未签名内部验收用途。
+
+已完成[原生限定资格](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-native-qualified-01.md)：新空目录还原后同助手、schema15、完整性和位置核对成功，受保护凭据落盘及重开状态已验，实际解密另待。2026-09-07进一步确认[旧备份治理缺口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-governance-gap.md)：当前实现只还原旧快照，未合并后来已知撤回/纠正/权限屏障。E04/E06和009闭环5仍待实现及独立反例，不以回退确认取消要求。015已审提交后，该增量由steward_013_trusted（实际gpt-6-astra/medium）单写实施schema17及生产治理接线，root独立复核；保留已审015协议行为。以下保留原生过程记录。
 
 2026-09-07：生产入口/维护及批准快照一致性已独立限定PASS，REM默认与持久组/schema15独立PASS v2。首个Codex宿主直接启动因MSIX路径虚拟化失败，原证据保留；现有普通Windows桌面Shell启动同一精确制品成功。首次默认数据目录由用户误点击，用户明确授权直接用于测试。审核者已验证原生复制迁移到中文空格安装data，179764→182092自动重启；创建合成助手后关闭窗口留托盘、再次启动复用原PID、退出后新PID174304恢复同助手，schema15与integrity有效；完整原生备份成功，新空目录还原仍进行中。此为原生路线与部分核心闭环，未完成全域安装/跨版本/通知/发布审核，不改最终验收条件。
 

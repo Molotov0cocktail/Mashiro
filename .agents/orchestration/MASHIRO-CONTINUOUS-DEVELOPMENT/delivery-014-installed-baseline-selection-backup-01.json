@@ -1,0 +1,98 @@
+{
+  "scope": "installed schema15 baseline: native select-existing-data-set, visible data checks, and complete-backup-and-exit; not upgrade or release qualification",
+  "observedAt": "2026-09-07T16:21:44.207+08:00",
+  "installation": {
+    "version": "0.0.9-internal.1",
+    "sourceCommit": "8154d0e09fc95014b8d205f8ed70c0028557208e",
+    "exe": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "exeSha256": "BA5AA5BD3A78EFB437A9F2FFF46CEB4E088204B0594BCDD0132B0CC72A1DE8E6",
+    "asarSha256": "6721B57E385649FAC53802BE025ED20ED36F9B44022E772276121F767D7E33E8",
+    "signed": false
+  },
+  "selection": {
+    "dataPath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "schemaVersion": 15,
+    "proposalId": "d918a464-d6da-4813-9fdb-8b09e22521c2",
+    "proposalState": "DRAFT_PROPOSAL",
+    "failedRoutes": [
+      "Electron application-menu items did not expose Invoke; ExpandCollapse reported support but returned HRESULT.",
+      "SetForegroundWindow was reclaimed by msedge; the pointer helper stopped with POINTER_TARGET_NOT_OWNED at [844,424] and sent no input.",
+      "Writing the target into the shell filename field returned Downloads and Mashiro rejected the selection twice; the current data pointer did not change.",
+      "The first backup-folder helper clicked Address Band Root and stopped with ADDRESS_EDIT_NOT_UNIQUE_0 before changing or submitting a path."
+    ],
+    "successfulRoute": [
+      "The exact Mashiro process path, PID, main HWND, hit HWND, root HWND, control name and type were checked before targeted PostMessage opened the application menu.",
+      "The native shell address ToolbarWindow32 with AutomationId 1001 was activated; the unique Edit class with AutomationId 41477 received the path.",
+      "The breadcrumb was read back exactly as 地址: C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据 before the owned 选择文件夹 button was submitted.",
+      "Mashiro displayed 重启后将使用所选数据集。当前数据保留在原位置。 before Continue.",
+      "查看当前数据位置 displayed the exact selected path after restart."
+    ],
+    "processChain": {
+      "oldMainPid": 173968,
+      "oldMainHwnd": 464562,
+      "restartLauncherPid": 190356,
+      "restartLauncherStartedAt": "2026-09-07T15:40:24.3524201+08:00",
+      "newMainPid": 183252,
+      "newMainHwnd": 202512,
+      "newMainStartedAt": "2026-09-07T15:40:25.1054792+08:00",
+      "explanation": "190356 was the short-lived restart launcher; 183252 became the Electron main process and owned the visible Mashiro window."
+    }
+  },
+  "visibleChecks": {
+    "availableAssistants": 1,
+    "assistantRowsInDatabase": 3,
+    "assistantRowExplanation": "one active, one archived, one archived with assistant tombstone",
+    "timelineMessages": 12,
+    "formalItems": 6,
+    "reminders": 2,
+    "memoryObjectsInDatabase": 9,
+    "dailyJobs": 1,
+    "dailyReports": 1,
+    "pendingProposals": 1,
+    "proposalTitle": "安装升级合成待确认提案",
+    "dailyReportTitle": "E2E日常报告",
+    "acceptedObservation": {
+      "title": "E2E_DAILY_INFERENCE",
+      "statusShownByBaseline": "active",
+      "memoryId": "e814c421-b6ef-40b9-9515-349d16c0c305",
+      "memoryVersion": 1
+    },
+    "secondObservationStatusShownByBaseline": "pending-verification"
+  },
+  "backup": {
+    "directory": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\完整备份-旧版全域-01",
+    "confirmation": "停止当前工作，完成完整备份后退出？",
+    "completion": "备份已校验，程序即将退出。",
+    "backupId": "1827d1e6-580e-402f-a596-3b0922e0b2ed",
+    "backupJsonSha256": "1477D4A78659A89A6DBD6F0E7CD8CF242CBC0E7C951354F1CEFD4803C0DE155D",
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "schemaVersion": 15,
+    "createdAt": "2026-09-07T08:21:44.207Z",
+    "credentialProtection": "windows-original-user-required",
+    "manifestFiles": 13,
+    "payloadFilesIncludingSnapshotMarker": 14,
+    "manifestHashesMatch": true,
+    "sourceHashesMatch": true,
+    "snapshotMarkerBoundToReceipt": true,
+    "reparsePointCount": 0,
+    "residualCount": 0,
+    "rootEntries": ["backup.json", "payload"],
+    "installedMashiroProcessesAfterAcknowledgement": 0
+  },
+  "screenshots": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-selected-home.png",
+      "sha256": "A9DD4D43D19A528E6C97A4668F5D074AB304816F394176805178DCEA18054A8A",
+      "shows": "selected data set opened in the installed Mashiro baseline"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-selected-proposal.png",
+      "sha256": "CC200004EBC8A586B07DFE3B2F3DC678A9719B86F0AFA4ABD1DF1CFA17F4279C",
+      "shows": "items page with six formal items and the pending tab selected; proposal title was additionally verified through the live UIA tree"
+    }
+  ],
+  "networkRequests": 0,
+  "personalDataAccessed": false,
+  "result": "PASS_WITHIN_SCOPE"
+}
