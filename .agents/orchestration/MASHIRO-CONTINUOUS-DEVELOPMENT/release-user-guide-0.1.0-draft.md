@@ -1,6 +1,6 @@
 # Mashiro v0.1.0 安装、升级与恢复说明（草稿）
 
-> 本文尚未发布。它依据当前产品入口、[014 Windows 数据与交付合同](../../../doc/tasks/014-windows-data-and-delivery.md)、[016 整体验收合同](../../../doc/tasks/016-overall-product-acceptance.md)和[发行说明草稿](release-notes-0.1.0-draft.md)编写。发布前必须补入最终下载地址、源码提交、安装包与附件的 SHA-256，并完成文末所列的最终制品核对。
+> 本文尚未发布。它依据当前产品入口、[014 Windows 数据与交付合同](../../../doc/tasks/014-windows-data-and-delivery.md)、[016 整体验收合同](../../../doc/tasks/016-overall-product-acceptance.md)和[发行说明草稿](release-notes-0.1.0-draft.md)编写。当前 v5 待验候选对应运行源码 `a86c2684733fbd3d9d5f5fefd53775357089fbfd`；安装包 `Mashiro-0.1.0-win-x64-setup.exe` 为 `112,586,002` 字节，SHA-256 为 `CEB41588827C580C47F226F94E810188FC85563D34D24C68FE89D4C94C6E221E`，实测签名状态为 `NotSigned`。这些是候选身份，不是最终 tag、发布提交或下载结果；发布前仍须补入正式下载地址并完成文末所列的最终制品核对。
 
 Mashiro v0.1.0 面向 Windows 11 x64，是按当前 Windows 用户安装和运行的本机优先桌面应用。程序文件与业务数据分别管理：卸载或更换程序时，已选择的数据集应继续保留。
 
@@ -146,7 +146,7 @@ v0.1.0 采用“下载新版安装器并运行”的更新方式，界面不承�
 - `resources\third-party-notices\index.json`：实际打包运行组件、版本、声明文件和 SHA-256 索引；
 - `resources\third-party-notices\` 中 React、React DOM、Scheduler 和 Zod 的原始许可文本。
 
-当前待最终复核的独立附件是 `Mashiro-0.1.0-third-party-notices.zip`，大小为 `2,670,275` 字节，SHA-256 为 `541450973FA7DB5E7270D5DAF6F0AD23065B0C36FECD2F83D5FD9E4446A95BAC`。压缩包包含根目录的 Electron 与 Chromium 声明，以及 `resources\third-party-notices\` 中的四份组件许可和 `index.json`，共七个文件。最终发布页应提供这份附件，方便不安装程序也能查阅；发布前仍须确认它与最终安装包内的实际组件、版本和原文哈希一致，并从发布页重新下载核对。第三方声明不替代 Mashiro 安装包的下载校验，也不表示项目改变了相应组件的许可。
+当前 v5 候选的独立附件是 `Mashiro-0.1.0-third-party-notices.zip`，大小为 `2,670,275` 字节，SHA-256 为 `541450973FA7DB5E7270D5DAF6F0AD23065B0C36FECD2F83D5FD9E4446A95BAC`。压缩包包含根目录的 Electron 与 Chromium 声明，以及 `resources\third-party-notices\` 中的四份组件许可和 `index.json`，共七个文件；这七项已与 v5 候选安装包内的实际声明对应。最终发布页应提供这份附件，方便不安装程序也能查阅；发布前仍须按最终资产确认组件、版本和原文哈希，并从发布页重新下载核对。第三方声明不替代 Mashiro 安装包的下载校验，也不表示项目改变了相应组件的许可。
 
 ## 交付负责人发布前待核对
 

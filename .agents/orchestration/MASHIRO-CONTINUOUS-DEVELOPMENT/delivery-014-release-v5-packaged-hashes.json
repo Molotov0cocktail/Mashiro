@@ -1,0 +1,45 @@
+{
+  "observedAt": "2026-09-08T06:59:34.8641391+08:00",
+  "status": "BUILT_PENDING_INDEPENDENT_ARTIFACT_AND_NATIVE_ACCEPTANCE",
+  "commit": "a86c2684733fbd3d9d5f5fefd53775357089fbfd",
+  "buildLog": "delivery-014-release-v5-build-02.raw.txt",
+  "buildExitCode": 0,
+  "frozenOutput": "operations-013-root-frozen-output-v5.json",
+  "firstBuild": {
+    "log": "delivery-014-release-v5-build-01.raw.txt",
+    "exitCode": 1,
+    "error": "NSIS final output: Cannot open output file",
+    "diagnosticChunk": "433e12",
+    "exclusiveRead": "SUCCEEDED",
+    "candidateProcesses": 0,
+    "freeBytes": 62834081792,
+    "frozenOutputMatches": true,
+    "securitySettingsChanged": false
+  },
+  "files": [
+    {
+      "path": "dist/windows-candidate-release-v5/Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112586002,
+      "sha256": "CEB41588827C580C47F226F94E810188FC85563D34D24C68FE89D4C94C6E221E",
+      "signature": "NotSigned",
+      "fileVersion": "0.1.0"
+    },
+    {
+      "path": "dist/windows-candidate-release-v5/win-unpacked/Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "3BD29B9E9C4300000B98251D07C3D4A98E1638EBE4D4F9EF152FF8596DFB1030",
+      "signature": "NotSigned",
+      "fileVersion": "0.1.0"
+    },
+    {
+      "path": "dist/windows-candidate-release-v5/win-unpacked/resources/app.asar",
+      "bytes": 15512717,
+      "sha256": "BD19D48D842ADE57CAA16CD42C103B8D8EB9C30637005342A30711DDC6D0F6B1"
+    },
+    {
+      "path": "dist/windows-candidate-release-v5/Mashiro-0.1.0-win-x64-setup.exe.blockmap",
+      "bytes": 118827,
+      "sha256": "811C66629ABC87C6B5C98A62B8CC14F8E8CC9A634437BFBACC8ED194A7E99EB5"
+    }
+  ]
+}
