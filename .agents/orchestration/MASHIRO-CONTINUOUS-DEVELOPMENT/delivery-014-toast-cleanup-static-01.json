@@ -1,0 +1,22 @@
+{
+  "scope": "delivery-014-owned-toast-activator-uninstall-cleanup",
+  "observedAt": "2026-09-08T01:37:04.4703334+08:00",
+  "checks": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "result": "tsconfig.node.json and tsconfig.web.json completed without diagnostics"
+    },
+    {
+      "command": "npm exec eslint build/installer-login-cleanup.mjs tests/unit/installer-toast-uninstall.test.ts",
+      "exitCode": 0,
+      "result": "scoped lint passed"
+    },
+    {
+      "command": "npm exec prettier --check build/installer-login-cleanup.mjs tests/unit/installer-toast-uninstall.test.ts",
+      "exitCode": 0,
+      "result": "scoped format check passed"
+    }
+  ],
+  "boundary": "No full project verify, renderer build, packaged installer rebuild, or fixed-package native uninstall was run for this focused candidate."
+}

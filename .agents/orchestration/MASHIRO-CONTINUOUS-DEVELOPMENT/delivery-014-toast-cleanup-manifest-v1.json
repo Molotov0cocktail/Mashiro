@@ -1,0 +1,46 @@
+{
+  "scope": "delivery-014-owned-toast-activator-uninstall-cleanup",
+  "baseObservation": "1dea4c5a0ccea7cac2d1b2edf283bc22c7e68bbc",
+  "candidate": [
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "sha256": "DF5840F812E2929BD3734B8D30C1C98DDEF081D1C9E263435C0D0DE549675EC1",
+      "bytes": 12948
+    },
+    {
+      "path": "tests/unit/installer-toast-uninstall.test.ts",
+      "sha256": "28155736630E5AAC9E04C361BD7F7EF6BE95D71EF6C479ACE4ED0BB106C7EC5A",
+      "bytes": 10351
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-toast-cleanup-tests-01.json",
+      "sha256": "5AA0A174F65DF589BD1BFC55178FB4CD67E861B6901091A770E111685B26DC59",
+      "result": "3 test files, 16 tests passed"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-toast-cleanup-static-01.json",
+      "result": "typecheck, scoped lint, and scoped format passed"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-uninstall-comparison-01.json",
+      "sha256": "4832BFC195D3278B2B4C9AA2799D35807C91203EDCF2700C7F744B9C8F17A074",
+      "result": "native predecessor evidence: two owned Toast activator CLSIDs remained after uninstall"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-reinstall-recovery-01.json",
+      "sha256": "1E5A8E6F83058371F0C7CE06550618DC076D148EF58A375ADD0E71C754FF8CF1",
+      "result": "pre-fix reinstall recovered the protected synthetic dataset; fixed-package uninstall is still pending"
+    }
+  ],
+  "invariants": [
+    "Cleanup runs only for uninstall, not the update branch.",
+    "Only a REG_SZ default exactly equal to the installed executable path, with either no quotes or one complete surrounding quote pair, is removed.",
+    "Arguments, path prefixes, foreign paths, malformed quotes, and REG_EXPAND_SZ values are preserved.",
+    "Named values and child keys are preserved; LocalServer32 and its CLSID parent are removed only when empty.",
+    "Enumeration repeats an index after removing a parent key so consecutive owned matches are not skipped.",
+    "NSIS register preservation remains covered alongside the existing login cleanup behavior."
+  ],
+  "boundary": "Focused code candidate only. Independent review, integrated package rebuild, and actual fixed-installer uninstall verification remain required before the Windows delivery slice can pass."
+}

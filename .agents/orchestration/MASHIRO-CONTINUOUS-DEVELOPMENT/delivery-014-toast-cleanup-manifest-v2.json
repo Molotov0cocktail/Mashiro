@@ -1,0 +1,57 @@
+{
+  "scope": "delivery-014-owned-toast-activator-uninstall-cleanup-v2",
+  "baseObservation": "1dea4c5a0ccea7cac2d1b2edf283bc22c7e68bbc",
+  "candidate": [
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "sha256": "D840058C6C46066C6EBCD0699EAE0AF674F741B75BE504835D8CABF93EAFB169",
+      "bytes": 14821
+    },
+    {
+      "path": "tests/unit/installer-toast-uninstall.test.ts",
+      "sha256": "28155736630E5AAC9E04C361BD7F7EF6BE95D71EF6C479ACE4ED0BB106C7EC5A",
+      "bytes": 10351
+    }
+  ],
+  "reviewerDependency": {
+    "path": "tests/unit/review014-toast-regsz-completeness.test.ts",
+    "sha256": "CE04D81C977B195F287F55E4689E8F129D2EE48B03E37CAA9F0299AA4F5410CC",
+    "bytes": 11254,
+    "ownership": "independent reviewer oracle; not authored or modified by this executor"
+  },
+  "evidence": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-toast-cleanup-tests-03.json",
+      "sha256": "8EE9A81CCAD4F3AD8FCD781149704F21C1E09800EACCC0DBA571603FBA4BEFF8",
+      "result": "4 test files, 18 tests passed"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-toast-cleanup-static-02.json",
+      "result": "typecheck, generator syntax, scoped lint, and scoped format passed"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-toast-regsz-review-run-01.json",
+      "sha256": "2A99B69F0D129A037612D6E080DC3DD1F28679C16ADB517361FB3A42563AC90C",
+      "result": "independent v1 RED: embedded-NUL suffix was deleted"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-toast-cleanup-tests-02.json",
+      "result": "v2 repair-in-progress failure preserved: output register collided with the quoted expected-buffer pointer"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-uninstall-comparison-01.json",
+      "sha256": "4832BFC195D3278B2B4C9AA2799D35807C91203EDCF2700C7F744B9C8F17A074",
+      "result": "native predecessor evidence: two owned Toast activator CLSIDs remained after uninstall"
+    }
+  ],
+  "invariants": [
+    "Cleanup runs only for uninstall, not the update branch.",
+    "Only a complete REG_SZ byte sequence exactly equal to the installed executable path plus its terminator, with either no quotes or one complete surrounding quote pair, is removed.",
+    "The raw type, byte count, and complete bytes are checked twice before deletion; embedded NUL suffixes are preserved.",
+    "Arguments, path prefixes, foreign paths, malformed quotes, and REG_EXPAND_SZ values are preserved.",
+    "Named values and child keys are preserved; LocalServer32 and its CLSID parent are removed only when empty.",
+    "Enumeration repeats an index after removing a parent key so consecutive owned matches are not skipped.",
+    "NSIS register preservation remains covered alongside the existing login cleanup behavior."
+  ],
+  "boundary": "Focused repaired candidate only. Independent v2 review, integrated package rebuild, and actual fixed-installer uninstall verification remain required before the Windows delivery slice can pass."
+}

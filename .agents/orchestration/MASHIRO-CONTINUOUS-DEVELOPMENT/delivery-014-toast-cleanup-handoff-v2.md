@@ -1,0 +1,11 @@
+# Delivery 014 owned Toast activator cleanup v2 handoff
+
+The v1 cleanup correctly constrained enumeration, value type, executable path, update behavior, and empty-key deletion, but its NSIS string read stopped at an embedded NUL. The independent reviewer reproduced a complete `REG_SZ` value containing the exact installed executable prefix followed by `NUL + FOREIGN_SUFFIX`; v1 deleted it. That RED remains preserved in `delivery-014-toast-regsz-review-run-01.json`.
+
+V2 removes the NSIS string comparison from the authorization decision. It constructs the unquoted and exactly-once-quoted expected values in bounded UTF-16 buffers, includes the terminal NUL in each expected length, and requires the registry-reported type and complete byte length to match one expected form. It reads the raw bytes into a zeroed buffer and uses `memcmp` for the complete expected length. It repeats the raw type, size, and byte comparison immediately before deleting the unnamed value. Values with an embedded NUL suffix, arguments, prefixes, another path, malformed quotes, or `REG_EXPAND_SZ` remain untouched.
+
+The existing deletion boundary remains: only the verified unnamed `LocalServer32` value is removed. The key and its CLSID parent are removed only if empty, so named values and child keys remain. The enumerator repeats an index after deleting a parent, preventing adjacent owned registrations from being skipped. The macro remains inside the uninstall-only branch and restores all NSIS registers.
+
+The focused real-NSIS run includes the author oracle, the independent embedded-NUL oracle, and both existing login-uninstall groups. It passed 4 files and 18 tests. Project typecheck, generator syntax, scoped lint, and scoped format checks passed. The prior v2-in-progress run that exposed an output-register collision remains preserved as `delivery-014-toast-cleanup-tests-02.json`; the collision was repaired by keeping the raw size output separate from the expected quoted-buffer pointer.
+
+This is a focused repaired candidate, not an overall Windows delivery pass. Independent v2 review is still required. After integration, a new package must be built from frozen output and an actual uninstall must prove that exact Mashiro activator registrations are removed while runtime data, unrelated registry fields, and unknown files remain intact.
