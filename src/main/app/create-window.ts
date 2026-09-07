@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { join } from 'node:path'
 
 export const secureWebPreferences = {
@@ -35,7 +35,7 @@ export async function createWindow(): Promise<BrowserWindow> {
     callback(false)
   )
 
-  const developmentUrl = process.env.ELECTRON_RENDERER_URL
+  const developmentUrl = app.isPackaged ? undefined : process.env.ELECTRON_RENDERER_URL
   if (developmentUrl) await window.loadURL(validatedDevelopmentUrl(developmentUrl))
   else await window.loadFile(join(__dirname, '../renderer/index.html'))
   window.show()

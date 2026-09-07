@@ -6,6 +6,23 @@
 
 ## 当前工作与直接下一动作
 
+- 2026-09-07最新决议：AST-006助手私有user/event也随所属助手永久删除，009对应增量已解除门禁；全局共享记忆、正式事项和其他助手私有记录保留。RET-007仍待答。013原生双PID业务链已通过；root截图复核发现已完成作业预算快照仍为调用前零值，已由作者修复并获独立4文件12tests PASS，最终原生run813ded0c-1e7f-4b44-8442-fdcd19ffe20d已通过且截图人工复核通过，保留合成根YSASSE；全域正式合成副本Zbzmgp/schema15已建，准备冻结当前候选，建立schema15内部旧安装包再推进015。程序保持ACTIVE。
+
+- 五角色真实服务资格已[SUPPORTED](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-product.md)：观察实际接受Memory；专属提示词修复后简报/复盘/周规划/截止变更全部COMPLETED，周规划真实DRAFT_PROPOSAL，分类用量及无Key重开0调用；本组7请求10808tokens，程序54请求90162已知tokens、历史5次usage未知。014原生已迁移至中文空格安装data、创建助手、托盘复用进程、退出重启恢复、完整备份，Astra继续新目录还原；尚非完整安装发布PASS。新增[015](015-provider-retained-protocol.md)补B02/B04/B07有限DeepSeek保留协议缺口，不能以007GLM模式冒称兼容；不阻止当前014验证。
+
+以下为阶段过程记录，保留当时结果；不覆盖上方当前状态。
+
+- 最新整合验证：daily-014-root-full-02实际129文件602tests全绿、typecheck退出0，已包含014和REM修复及daily提示词。13:09默认目录由用户误点击创建，用户已明确“直接由你测试即可”，Astra继续用这份新建数据作合成原生验收。五角色live首次2请求2857tokens：观察真实COMPLETED并接受Memory，简报HTTP200但job FAILED，原证据daily-013-live-product-01.json保留；root单角色脱敏诊断中，不重复已通过角色。累计49请求82211已知tokens，历史5次usage未知不变；本段尚未包括正在进行的新诊断请求。Sol继续daily native E2E，尚未PROGRAM_DONE。
+
+- 2026-09-07最新续接：014首次PACKAGED失败已定位Codex MSIX AppData虚拟化导致严格native规范路径不一致；保留校验及原始失败证据。现有Windows桌面Shell正常用户路线已出现主窗口，审核者正核对locator来源，仅允许合成数据，尚未宣称PACKAGED PASS。014生产入口独立PASS及REM默认/持久组/schema15[独立PASS v2](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-independent-pass-v2.json)有效；[打包配置独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaging-independent-pass.json)只覆盖配置和旧内部安装路线。root补正daily提示词与可信schema一致性（counterpart非null、观察最多7、allowProposals约束），由Sol独立复核并准备五角色真实调用harness；此前manifest-v1保留历史，不覆盖该新hunk。当前未新增付费请求、未提交本候选，PROGRAM ACTIVE。
+
+- 最新整合：013可信32/UI v4十文件已[独立源码/本地业务限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-candidate-review.md)，新增两条部分回执/换接收方独立反例绿；整合全量122文件587tests绿（先于后续014/REM修复，后续另有原oracle比例证据）。014生产入口/维护[独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-production-entry-independent-pass.md)已关闭R-E1缺guard、R-E2失权退出、R-E3批准快照替换。当前真实build/pack成功，但首次PACKAGED启动PID160860实际FAIL/MASHIRO_STARTUP_FAILURE，steward_013_trusted正在独立合成现场定位；未通过制品资格。steward_013_ui审核打包并准备五角色live harness，root继续总覆盖与修复。最新已提交/双推仍2307e490，PROGRAM ACTIVE。
+
+- 新进展：REM-002已按2026-09-07用户确认规则接入[默认候选](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-stage.md)，2文件21tests通过；已有用户配置优先，同事项仅最新，独立审/制品仍待。014[新目录还原及main接入候选](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-main-stage.md)已实现，恢复/备份13tests与可信静态通过；其差异不继承此前九文件PASS。日常UI/可信继续实施复核。下方REM待答为历史，不再构成门禁。
+
+- 当前独立审核：014生产准备[九文件限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-independent-pass.md)，独立及扩展11文件59tests通过，尚未接main。正式打包/内部NSIS[文件保护路线](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaging-route.md)普通用户安装159260、重装165368、卸载162120均0；80程序文件清除、三份合成data/未知文件哈希保持，非功能制品验收。日常UI独立R-U1–U4缺少筛选/业务入口、strict settings元数据、同版本草稿丢失已[RED并交修复](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-review-working.md)。可信日常仍在补完整闭环，PROGRAM ACTIVE。
+- 前次并行014进展：生产准备九文件manifest-v1 `21EE46B00B3541B58BCAC2F5D002E526548E4B99885117B32D6067EDCAB81AFA`已冻结待独立审；5文件28tests当前schema14通过，不代表main/PACKAGED。exact electron-builder26.15.3安装完成，正式构建配置和精确卸载清单路线正在验证。见[014生产准备](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-stage.md)。
+- 当前执行（2026-09-07）：仓储核心及014限定底座已提交`2307e490a60af9cfce9f72ba9c0fd0d5ae658f20`；195暂存路径与本地字节一致，非force push后实查github/gitee main均同SHA，退出0。现已释放写锁：steward_013_trusted（实际Astra/medium）实施六类日常/观察/用量可信域，steward_013_ui（实际Sol/high）实施renderer，先冻结具体共享DTO；root单写014数据备份独立模块及全局入口，main/index先由trusted单写。保留两个已知发行声明准备文件，不丢弃其内容。下一动作是实现、真实角色和独立复核，随后整体与安装发行，PROGRAM ACTIVE。
 - 最新独立结论（2026-09-07）：[仓储核心STEWARD_CORE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-root-final-pass.md)，57文件最终manifest-v2，独立100文件511项全绿及最终build通过。R1–R5和重复SQL编译性能问题已关闭；全量03的超时是已关闭历史。014底座两份限定独立PASS有效。准备提交并双远程核验后即刻实施[日常与观察合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-daily-observation-contract.md)；PROGRAM ACTIVE。
 - 前次核验（2026-09-07，现已被上条最终结论推进）：仓储R1–R5功能反例已修，最终原生Electron02两PID157852/154732及DOM缓存失效通过，真实角色1361tokens证据保留；全量03为511项510通过，103成员分支测试约5秒失败且单独重现，正在诊断重复治理扫描，尚不声明最终PASS。最终typecheck/lint/format及build已过。014 lease/location独立R2 PASS（6文件33项）与session独立PASS（2文件8项）均已到位，仍未接正式main/备份/制品。当前HEAD仍01a4d8c68dcad371d1bf6f0779d058e5b2fa39fe；下一动作是关闭分支性能问题、独立最终复核、提交双推，然后实施[观察与日常合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-daily-observation-contract.md)。以下旧仓储进展为先前过程记录，以本条实际核验为准。
 
@@ -18,6 +35,8 @@
 - 010/011实施与验证历史：root已核对130个候选文件及53份010证据暂存字节，唯一属性增量保留UI原始报告字节；提交`ab11110a45c6ddb65bd114547225dd4e329bba11`，非force推送github/gitee退出0，ls-remote两个main同值。当时assistant_011_trusted（实际gpt-6-astra/medium）单写可信域，assistant_011_ui（实际gpt-5.6-sol/high）单写renderer；[独立最终PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)确认51文件301测试、7独立断言及1夹具附带测试通过，131文件manifest无差异。最终build已验；Electron02两PID128516/112004先于末次回执元数据修复，Reviewer明确比例复用并用新回执oracle验证差异。010真实服务22请求56672tokens；011[真实人设增量](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-live-product.md)2请求402tokens通过；截至011程序37请求68334tokens及3次usage未知，非renderer或打包live。011可信阶段23文件冻结、35/227通过，review_011实际gpt-6-astra/medium已完成可信阶段23文件/4files19tests独立复核；UI已19/93冻结且导航反例通过；root统一54/320及全项目静态/build已过，[最终验证](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-final-verification.md)已54/320、静态/build及修复后Electron08通过（PIDs135516/135832）；[父快照回传反例](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/assistant-011-root-parent-echo-red.md)红转绿，独立UI两新增屏障反例通过，review_011已完成最终候选PASS；root已提交并双远程核验。RET/额外AST待答，REM-002默认已问待答；013后台和014完整交付继续排队；012[通知路线实验](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-spike.md)由实际Sol/high完成，开发态show事件SUPPORTED，close观察及安装/点击/冷启动边界仍保留；不改011产品。
 
 当前[011配置](011-assistant-basic-configuration.md)已审并双远程同步，[012提醒](012-deterministic-reminders.md)已开始；AST-006原三类范围已确认，未接受提案已由用户2026-09-07确认随发起助手一并永久删除，010执行者已收到；额外私有user/event仍待答，仅其相关purge分支先阻止；RET-007待答，REM-002推荐默认已问待答。
+
+[014原生限定资格](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-native-qualified-01.md)已冻结：实际助手/托盘/重启/中文安装data迁移/完整备份还原/受保护凭据落盘及重开状态；不包含实际解密、全域安装升级或最终Release。原制品hash未变，后续提示词不在旧ASAR内。root已核原报告，最终制品另验。
 
 ## 当前任务表
 
@@ -34,9 +53,10 @@
 | [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | INTEGRATION_PENDING / MANUAL_CORE PASS | 已独立41/255及最终Electron通过；RET、额外AST、Q9/Q10联测继续 |
 | [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | TASK_DONE / FINAL PASS | 51/301及131文件清单；ab11110a45c6ddb65bd114547225dd4e329bba11双远程已核验 |
 | [011](011-assistant-basic-configuration.md) | 稳定人设、基础形象与配置 | TASK_DONE / FINAL PASS | 072dd39771e01b29bbced93f49e20a996f1e2cab双远程已核验；54/320、独立3新增oracle、Electron08 |
-| [012](012-deterministic-reminders.md) | 确定性提醒与托盘运行承诺 | INTEGRATION_PENDING / CORE PASS | 61/360、独立8额外oracle、实际双PID/DOM通过；REM默认与014安装联测仍待 |
+| [012](012-deterministic-reminders.md) | 确定性提醒与托盘运行承诺 | INTEGRATION_PENDING / CORE PASS | 核心已审同步；REM默认/101事项分组/schema15独立PASS v2，014安装后通知/登录/冷激活仍待 |
 | [013](013-background-and-steward.md) | 章节、仓储员及日常后台 | ACTIVE / STEWARD_CORE PASS | 章节独立CHAPTER_CORE PASS、73/418、实际双PID及849tokens；接续仓储/观察/日常 |
-| [014](014-windows-data-and-delivery.md) | 正式数据位置、备份与Windows交付 | FOUNDATION_IMPLEMENTING | locator底座修复UNC变体后独立15反例通过，未接正式启动；复用ASAR/NSIS路线，完整生命周期与发行仍待 |
+| [015](015-provider-retained-protocol.md) | 有限Provider兼容与保留思考协议 | PLANNED | B02/B04/B07缺口；DeepSeek独立保留模式、权限/预算及GLM回归，核心GLM真实资格不外推 |
+| [014](014-windows-data-and-delivery.md) | 正式数据位置、备份与Windows交付 | ACTIVE / PACKAGED_ACCEPTANCE | 生产main/备份还原独立限定PASS；真实原生迁移/托盘/助手重启/备份还原已验，完整安装升级及发行仍待 |
 
 ## 最近有效证据与边界
 

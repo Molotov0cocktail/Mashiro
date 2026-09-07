@@ -1,0 +1,110 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "014 packaging configuration and internal installer route independent review",
+  "recordedAt": "2026-09-07T13:01:00+08:00",
+  "reviewer": "gpt-5.6-sol/high; did not implement packaging sources",
+  "sources": [
+    {
+      "path": "electron-builder.config.mjs",
+      "sha256": "74AB2AC3C453DB4CF929533EF6638A067CB6EBB9592635C85EA7E68399482902"
+    },
+    {
+      "path": "build/after-pack.mjs",
+      "sha256": "CC4C651934CD48A59736FE207BE81AD08D34267A02CA7E28510668612FA851E0"
+    },
+    {
+      "path": "build/inspect-runtime.mjs",
+      "sha256": "DCBA6D068B03F3F9D81C97E02B0476488C54E2C7C73F5F5F602C2985F82F6F01"
+    },
+    {
+      "path": "package.json",
+      "sha256": "979A106B2B819CE4E05AA7E96E7DD9B00FD1F8E1D77CE83E7F3C945D521C64A9"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "040699420D30A8922C0E9E92A4DD93778BC6EC79D6352271F3BDE68AA502EACB"
+    }
+  ],
+  "independentOracle": {
+    "path": "tests/unit/packaging-config-independent.test.ts",
+    "sha256": "A47BFBF13CF7F34D1AF424D21BBA2ED46931E530A9C78FEBC90B6CB77387572D",
+    "result": "1 file / 3 tests passed",
+    "coverage": [
+      "publish never and unsigned/per-user settings",
+      "functional synthetic ASAR inventory and exact nonrecursive uninstall allowlist",
+      "elevate.exe and self-manifest reserved coverage",
+      "top-level data rejection",
+      "unknown runtime package rejection",
+      "notice bytes match generated index"
+    ]
+  },
+  "lockDelta": {
+    "exactBuilder": "26.15.3",
+    "addedPackages": 254,
+    "removedPackages": 0,
+    "changedExistingPackageEntries": [
+      "root package entry"
+    ],
+    "allAddedDevelopmentOnly": true
+  },
+  "existingUnpackedObservation": {
+    "executableSha256": "17EB621B881EBA51BCF0C7F84CB75BB285B75D68E0057D707A133E23A379B6FB",
+    "authenticode": "NotSigned",
+    "runtime": [
+      "react@19.2.8",
+      "react-dom@19.2.8",
+      "scheduler@0.27.0",
+      "zod@4.5.4"
+    ],
+    "noticeFiles": 6,
+    "allNoticeHashesMatched": true,
+    "ownedManifestFiles": 79,
+    "exactMacroDeleteFiles": 79,
+    "missingFromMacro": 0,
+    "extraInMacro": 0,
+    "includesElevate": true,
+    "includesSelfManifest": true,
+    "dataEntries": 0,
+    "recursiveRemoval": false
+  },
+  "archivedRouteAudit": {
+    "source": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-install-route-01.json",
+    "rerun": false,
+    "observedClaims": [
+      "ordinary user token",
+      "install and same-version reinstall exit 0",
+      "uninstall launcher exit 0",
+      "79 owned files plus one uninstaller removed",
+      "data and two unknown files retained with hashes"
+    ],
+    "harnessReview": "Waits for every known path, then enumerates residue and compares the exact three synthetic preserved files."
+  },
+  "static": [
+    {
+      "command": "tsc -p tsconfig.node.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "eslint independent packaging test",
+      "exitCode": 0
+    },
+    {
+      "command": "prettier --check independent packaging test",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check independent packaging test",
+      "exitCode": 0
+    }
+  ],
+  "limits": [
+    "No installer rerun in this review",
+    "Internal route did not launch the application",
+    "Existing unpacked artifact predates final production main and Daily integration",
+    "No cross-version upgrade or old-version-only file cleanup evidence",
+    "No signed artifact; unsigned status is explicit",
+    "publish never/null and no Release or upload",
+    "Not final Windows delivery qualification"
+  ],
+  "assessment": "LIMITED INDEPENDENT PASS for the packaging configuration, afterPack safety invariants, exact dependency delta, and archived same-version internal installer protection route at the stated hashes."
+}

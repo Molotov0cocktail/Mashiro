@@ -1,0 +1,22 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer final candidate with disputed and user-statement observations",
+  "recordedAt": "2026-09-07T12:38:00+08:00",
+  "runner": "gpt-5.6-sol/high UI executor",
+  "focused": {
+    "command": "six Daily UI files including root oracle --maxWorkers=2",
+    "exitCode": 0,
+    "testFiles": 6,
+    "tests": 15,
+    "includesIndependentRootOracles": 4,
+    "addedDisputeRegressions": 2
+  },
+  "renderer": {
+    "command": "D:\\nodejs\\node.exe node_modules\\vitest\\vitest.mjs run tests/renderer --maxWorkers=2",
+    "exitCode": 0,
+    "testFilesPassed": 36,
+    "testsPassed": 148,
+    "durationSeconds": 36.05
+  },
+  "scope": "Full renderer rerun after formatting the user-statement label mapping; no independent PASS claimed by executor."
+}

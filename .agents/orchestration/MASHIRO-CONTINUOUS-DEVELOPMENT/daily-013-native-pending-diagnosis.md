@@ -1,0 +1,7 @@
+# 新增日常原生场景与旧pending夹具
+
+2026-09-07。Sol首轮新增daily真实IPC/DOM生成了seed/verify观察报告与记忆证据，但最终既有pending恢复断言失败：期待interrupted，实际cancelled。失败合成根`C:/Users/30910/AppData/Local/Temp/mashiro-f1-e2e-jHMJld`保留，不改原断言。
+
+root源码定位：seed原先在主要场景之后启动pending流，但后续追加的Daily原生步骤包含用户接受Memory。ProviderService构造MemoryService时的治理回调会abort正常inflight；这一步早于退出。ProviderService.close先检查是否已aborted，再分别写cancelled/interrupted，因此不能仅凭最后状态归因于新014主进程退出。此前没有Daily用户接受的原harness已通过。
+
+合理夹具修正：由Sol在原生步骤观察accept前后旧请求状态，确认具体路径；把唯一pending流的创建、partial等待及退出前快照放到所有用户治理步骤之后。保持原request身份/序列/数量/部分正文/重启interrupted断言，不额外造第二条请求，不强杀代替正常退出，不放宽产品取消或治理行为。修复后的实际结果由后续原始证据记录，本文件不预先声明PASS。

@@ -1,0 +1,22 @@
+[
+  {
+    "p": "tests/integration/provider-schema.test.ts",
+    "old": "ct(after.ok && after.data).toEqual(before)\n    upgraded.close()\n\n    const database = new DatabaseSync(path)\n    expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(13)",
+    "new": "ct(after.ok && after.data).toEqual(before)\n    upgraded.close()\n\n    const database = new DatabaseSync(path)\n    expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(14)"
+  },
+  {
+    "p": "tests/integration/provider-schema.test.ts",
+    "old": "ated.ok ? created.data.assistants[0]!.id : ''\n    first.close()\n\n    const database = new DatabaseSync(path)\n    expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(13)",
+    "new": "ated.ok ? created.data.assistants[0]!.id : ''\n    first.close()\n\n    const database = new DatabaseSync(path)\n    expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(14)"
+  },
+  {
+    "p": "tests/integration/timeline-context.test.ts",
+    "old": "ABLE history_permissions; PRAGMA user_version=3'\n  )\n  db.close()\n  const store = new SqliteStore(item.path)\n  expect(\n    (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n  ).toBe(13)",
+    "new": "ABLE history_permissions; PRAGMA user_version=3'\n  )\n  db.close()\n  const store = new SqliteStore(item.path)\n  expect(\n    (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n  ).toBe(14)"
+  },
+  {
+    "p": "tests/integration/timeline-schema.test.ts",
+    "old": "upgraded = new SqliteStore(item.path)\n    upgraded.close()\n\n    const database = new DatabaseSync(item.path)\n    expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(13)",
+    "new": "upgraded = new SqliteStore(item.path)\n    upgraded.close()\n\n    const database = new DatabaseSync(item.path)\n    expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(14)"
+  }
+]

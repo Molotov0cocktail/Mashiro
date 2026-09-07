@@ -1,0 +1,62 @@
+[
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "    this.memory.assertSource(source, config.assistantId, fingerprint)\n    if (source.type === 'memory') {",
+    "new": "    if (source.type === 'memory') {\n      const row = this.store.database.prepare('SELECT record_json FROM memory_objects WHERE id=?').get(source.id)\n      if (!row) throw Error('SOURCE_MISSING')\n      const metadata = memoryRecordSchema.parse(JSON.parse(String(row.record_json)))\n      if ((metadata.scope === 'global' && !config.dataScope.globalMemories) ||\n          (metadata.scope === 'assistant' && !config.dataScope.privateMemories && !(metadata.kind === 'continuity' && config.dataScope.chapters)) ||\n          (metadata.kind === 'event' && !config.dataScope.events)) throw Error('SCOPE_BLOCKED')\n      this.memory.assertSource(source, config.assistantId, fingerprint)"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "      } catch {\n        /* Unauthorized or unavailable source bodies never enter model input. */\n      }",
+    "new": "      } catch (error) {\n        if (!(error instanceof Error)) throw error\n        const code = 'code' in error ? error.code : error.message\n        if (!['PERMISSION_DENIED', 'NOT_FOUND', 'STALE_WRITE', 'SCOPE_BLOCKED', 'EVENT_SCOPE_BLOCKED', 'ITEM_SCOPE_BLOCKED', 'ROUND_SCOPE_BLOCKED', 'ROUND_INCOMPLETE', 'SOURCE_MISSING'].includes(String(code))) throw error\n      }"
+  },
+  {
+    "p": "src/main/background/daily-model.ts",
+    "old": "        /习惯|性格|人格|心理|总是|从不|推测|可能/.test(item.markdown)",
+    "new": "        /习惯|性格|人格|心理|总是|从不|推测|可能/.test(item.markdown) ||\n        !item.sourceHandles.some(handle => allowed.get(handle)!.content.includes(item.markdown))"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "      this.abort(value.assistantId)\n      this.emit(value.assistantId, value.feature)",
+    "new": "      this.abort(value.assistantId, value.feature)\n      this.emit(value.assistantId, value.feature)"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "      const config = this.configuration(value.assistantId, value.feature)\n      if (!config.schedule)",
+    "new": "      const replay = this.replay<dto.DailyJob>(value.commandId, value)\n      if (replay) return this.job(replay.id)\n      const config = this.configuration(value.assistantId, value.feature)\n      if (!config.schedule)"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "      this.notify()\n      return job\n    })\n  }\n  private replay",
+    "new": "      this.saveCommand(value.commandId, value, job)\n      this.notify()\n      return job\n    })\n  }\n  private replay"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "      this.running.get(job.id)?.abort()\n      this.store.transaction",
+    "new": "      if (job.state === 'RUNNING' && !['cancel', 'skip-recovery'].includes(value.action))\n        throw new DailyError('STALE_WRITE', '当前调用尚未结束；请等待或取消后建立新作业')\n      this.running.get(job.id)?.abort()\n      this.store.transaction"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "  abort(assistantId?: string) {\n    for (const [id, controller] of this.running)\n      if (!assistantId || this.job(id).authorityAssistantId === assistantId) controller.abort()",
+    "new": "  abort(assistantId?: string, feature?: dto.DailyFeature) {\n    for (const [id, controller] of this.running)\n      if ((!assistantId || this.job(id).authorityAssistantId === assistantId) && (!feature || this.job(id).feature === feature)) controller.abort()"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "    this.sources.assert(inputs, config, this.provider.resolve(config, false).identity)\n  }\n  private async execute",
+    "new": "    try {\n      this.sources.assert(inputs, config, this.provider.resolve(config, false).identity)\n    } catch {\n      throw new DailyError('STALE_WRITE', '来源、接收方或权限已改变，旧结果已停止使用')\n    }\n  }\n  private async execute"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "              : controller.signal.aborted\n                ? 'STALE'",
+    "new": "              : controller.signal.aborted || (error instanceof DailyError && error.code === 'STALE_WRITE')\n                ? 'STALE'"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "    const now = this.clock()\n    for (const config of this.configurations())",
+    "new": "    const now = this.clock()\n    for (const job of this.jobs())\n      if (job.state === 'BUDGET_PAUSED' && job.budget.windowId !== now.toISOString().slice(0, 10))\n        this.update(job, 'QUEUED', '进入新预算窗口，重新核验待处理工作')\n    for (const config of this.configurations())"
+  },
+  {
+    "p": "tests/integration/daily-service.test.ts",
+    "old": "await vi.waitFor(() => expect(f.query().jobs[0]?.state).toBe('FAILED'))",
+    "new": "await vi.waitFor(() => expect(f.query().jobs[0]?.state).toBe('STALE'))"
+  }
+]

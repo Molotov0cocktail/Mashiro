@@ -44,7 +44,7 @@ it('upgrades genuine v7 atomically and rolls back a v8 object collision without 
     raw.exec('DROP TABLE item_proposals')
     raw.close()
     const upgraded = new SqliteStore(path)
-    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 13 })
+    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 15 })
     expect(upgraded.database.prepare('SELECT * FROM assistant_state').all()).toEqual(before)
     upgraded.close()
   } finally {

@@ -1,0 +1,15 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer repaired candidate",
+  "recordedAt": "2026-09-07T12:13:00+08:00",
+  "checks": [
+    { "command": "D:\\nodejs\\node.exe node_modules\\typescript\\bin\\tsc -p tsconfig.web.json --noEmit", "exitCode": 0 },
+    { "command": "scoped eslint for App, DailyPanel, ItemPanel, fixtures and renderer review tests --max-warnings=0", "exitCode": 0 },
+    { "command": "scoped prettier --check", "exitCode": 0, "output": "All matched files use Prettier code style!" },
+    { "command": "git diff --check -- <Daily renderer candidate and independent oracle>", "exitCode": 0 }
+  ],
+  "dependency": {
+    "operationsContractSha256": "C867691FDE19EFF495001BBDEF8FDF3FC73C09889D78A143BA2B77DB20A55F12",
+    "note": "Trusted author added optional actor filtering to both query and usage."
+  }
+}

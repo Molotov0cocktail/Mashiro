@@ -1,0 +1,38 @@
+[
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "  requestId?: string",
+    "new": "  requestId: string",
+    "count": 1
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "type SourceCheck =",
+    "new": "type BackgroundItemExecution = Omit<ItemExecution, 'requestId'> & { jobId: string }\ntype SourceCheck =",
+    "count": 1
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "execution?: ItemExecution",
+    "new": "execution?: ItemExecution | BackgroundItemExecution",
+    "count": 6
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "execution: ItemExecution,",
+    "new": "execution: ItemExecution | BackgroundItemExecution,",
+    "count": 2
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "assertRoundSources(this.store, this.memory, config.assistantId, source.id, fingerprint)",
+    "new": "assertRoundSources(this.memory, config.assistantId, fingerprint, [source.id])",
+    "count": 1
+  },
+  {
+    "p": "src/main/background/daily-time.ts",
+    "old": "    let dst:",
+    "new": "    const dst:",
+    "count": 1
+  }
+]

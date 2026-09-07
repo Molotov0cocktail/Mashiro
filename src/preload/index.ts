@@ -1,4 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { dailyChannels } from '../shared/daily-channels.js'
+import { operationsChannels } from '../shared/operations-channels.js'
+import type { DailyApi, DailyChanged } from '../shared/daily-contract.js'
+import type { OperationsApi, OperationsChanged } from '../shared/operations-contract.js'
 import { stewardChannels } from '../shared/steward-channels.js'
 import type { StewardApi, StewardChanged } from '../shared/steward-contract.js'
 import { backgroundChannels } from '../shared/background-channels.js'
@@ -130,7 +134,33 @@ const steward: StewardApi = {
     return () => ipcRenderer.removeListener(stewardChannels.changed, handler)
   }
 }
+const daily: DailyApi = {
+  configure: (input) => ipcRenderer.invoke(dailyChannels.configure, input),
+  query: (input) => ipcRenderer.invoke(dailyChannels.query, input),
+  preview: (input) => ipcRenderer.invoke(dailyChannels.preview, input),
+  inspect: (input) => ipcRenderer.invoke(dailyChannels.inspect, input),
+  run: (input) => ipcRenderer.invoke(dailyChannels.run, input),
+  control: (input) => ipcRenderer.invoke(dailyChannels.control, input),
+  decide: (input) => ipcRenderer.invoke(dailyChannels.decide, input),
+  ack: (input) => ipcRenderer.invoke(dailyChannels.ack, input),
+  onChanged: (listener) => {
+    const handler = (_event: unknown, value: unknown) => listener(value as DailyChanged)
+    ipcRenderer.on(dailyChannels.changed, handler)
+    return () => ipcRenderer.removeListener(dailyChannels.changed, handler)
+  }
+}
+const operations: OperationsApi = {
+  query: (input) => ipcRenderer.invoke(operationsChannels.query, input),
+  usage: (input) => ipcRenderer.invoke(operationsChannels.usage, input),
+  onChanged: (listener) => {
+    const handler = (_event: unknown, value: unknown) => listener(value as OperationsChanged)
+    ipcRenderer.on(operationsChannels.changed, handler)
+    return () => ipcRenderer.removeListener(operationsChannels.changed, handler)
+  }
+}
 contextBridge.exposeInMainWorld('mashiro', {
+  daily,
+  operations,
   steward,
   background,
   reminders,

@@ -1,0 +1,25 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer",
+  "recordedAt": "2026-09-07T11:45:00+08:00",
+  "checks": [
+    {
+      "command": "D:\\nodejs\\node.exe node_modules\\typescript\\bin\\tsc -p tsconfig.web.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "D:\\nodejs\\node.exe node_modules\\eslint\\bin\\eslint.js src/renderer/src/App.tsx src/renderer/src/features/daily/DailyPanel.tsx src/renderer/src/features/items/ItemPanel.tsx tests/renderer/daily-api-fixture.ts tests/renderer/DailyPanel.test.tsx tests/renderer/DailyPanel-recovery.test.tsx tests/renderer/App-daily.test.tsx tests/renderer/ItemPanel-daily-navigation.test.tsx --max-warnings=0",
+      "exitCode": 0
+    },
+    {
+      "command": "D:\\nodejs\\node.exe node_modules\\prettier\\bin\\prettier.cjs --check src/renderer/src/App.tsx src/renderer/src/features/daily/DailyPanel.tsx src/renderer/src/features/items/ItemPanel.tsx src/renderer/src/styles.css tests/renderer/daily-api-fixture.ts tests/renderer/DailyPanel.test.tsx tests/renderer/DailyPanel-recovery.test.tsx tests/renderer/App-daily.test.tsx tests/renderer/ItemPanel-daily-navigation.test.tsx",
+      "exitCode": 0,
+      "output": "All matched files use Prettier code style!"
+    },
+    {
+      "command": "git diff --check -- <daily renderer candidate files>",
+      "exitCode": 0
+    }
+  ],
+  "scope": "Web renderer and candidate-file static checks only; shared and trusted runtime work was concurrent."
+}

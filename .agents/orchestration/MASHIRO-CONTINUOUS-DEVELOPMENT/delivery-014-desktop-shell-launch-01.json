@@ -1,0 +1,20 @@
+[
+  {
+    "ProcessId": 179764,
+    "ParentProcessId": 16152,
+    "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee\\原生候选 安装\\Mashiro.exe",
+    "CommandLine": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee\\原生候选 安装\\Mashiro.exe\" "
+  },
+  {
+    "ProcessId": 178004,
+    "ParentProcessId": 179764,
+    "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee\\原生候选 安装\\Mashiro.exe",
+    "CommandLine": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee\\原生候选 安装\\Mashiro.exe\" --type=gpu-process --user-data-dir=\"C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\runtime\\userData\" --gpu-preferences=WAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAAEAAAAAIAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --field-trial-handle=2744,i,795040536507351044,17978159290041367964,262144 --enable-features=PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2772,i,6308903481712253509,10811271890842581406,4 --trace-process-track-uuid=3190708988185955192 --mojo-platform-channel-handle=2764 /prefetch:2"
+  },
+  {
+    "ProcessId": 176416,
+    "ParentProcessId": 179764,
+    "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee\\原生候选 安装\\Mashiro.exe",
+    "CommandLine": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee\\原生候选 安装\\Mashiro.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=zh-CN --service-sandbox-type=none --user-data-dir=\"C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\runtime\\userData\" --field-trial-handle=2744,i,795040536507351044,17978159290041367964,262144 --enable-features=PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2772,i,6308903481712253509,10811271890842581406,4 --trace-process-track-uuid=3190708989122997041 --mojo-platform-channel-handle=3080 /prefetch:11"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "p": "src/shared/daily-contract.ts",
+    "old": "action: z.enum(['accept', 'correct', 'reject', 'withdraw'])",
+    "new": "action: z.enum(['accept', 'correct', 'reject', 'dispute', 'withdraw'])"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "if (value.action === 'withdraw' || (value.action === 'reject' && observation.memoryId))",
+    "new": "if (value.action === 'withdraw' || (['reject', 'dispute'].includes(value.action) && observation.memoryId))"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "observation.status = value.action === 'reject' ? 'suppressed' : 'active'",
+    "new": "observation.status = value.action === 'reject' ? 'suppressed' : value.action === 'dispute' ? 'disputed' : 'active'"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "            value.action === 'reject'\n              ? '观察已拒绝；相同依据不会自动重建'\n              : '观察已保存为真实接受记忆'",
+    "new": "            value.action === 'reject'\n              ? '观察已拒绝；相同依据不会自动重建'\n              : value.action === 'dispute' ? '未接受观察已标为有争议，等待进一步核验' : '观察已保存为真实接受记忆'"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "      if (value.action === 'reject')\n        this.store.transaction",
+    "new": "      if (['reject', 'dispute'].includes(value.action))\n        this.store.transaction"
+  }
+]

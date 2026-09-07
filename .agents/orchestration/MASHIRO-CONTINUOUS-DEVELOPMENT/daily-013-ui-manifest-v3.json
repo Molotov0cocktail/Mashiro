@@ -1,0 +1,70 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer disputed-observation candidate",
+  "baseCommit": "2307e490a60af9cfce9f72ba9c0fd0d5ae658f20",
+  "supersedes": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-manifest-v2.json",
+  "runner": "gpt-5.6-sol/high UI executor",
+  "files": [
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "49F7C0FA6E4FFA81AAFCD025E6D73D875A99D6E667FEB8FB512E68A67E3710A4"
+    },
+    {
+      "path": "src/renderer/src/features/daily/DailyPanel.tsx",
+      "sha256": "52320C8FA31C75D8EB3914BE48D7A3A5C51AA89B08A496844122F77B168381DA"
+    },
+    {
+      "path": "src/renderer/src/features/items/ItemPanel.tsx",
+      "sha256": "214AAA262284C68C5F7CFE0F06A283C0CC457B45FCA46130D6CE050CF37F275E"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "540FC7745B7A82C9593B724AF2DAB4945C35FD5681D44325439A3AA5FE747824"
+    },
+    {
+      "path": "tests/renderer/daily-api-fixture.ts",
+      "sha256": "07D20C7C30E5F0F0F086D9910B8397086E9E01BC7A5953690BD4471C199A835F"
+    },
+    {
+      "path": "tests/renderer/DailyPanel.test.tsx",
+      "sha256": "0883BE4F2845E253E4945D4FD97F46B66A013D9336BF1766D0215ED7D9F2B303"
+    },
+    {
+      "path": "tests/renderer/DailyPanel-recovery.test.tsx",
+      "sha256": "0C997816418016DFB6FA64A95A44077D800C7A9981EBC81680E0DCE23A6F5646"
+    },
+    {
+      "path": "tests/renderer/DailyPanel-operations.test.tsx",
+      "sha256": "F56D0E67A58D24562D13C3D623140EDC4F59E323D8DDCB33D7F556A405D9AE47"
+    },
+    {
+      "path": "tests/renderer/App-daily.test.tsx",
+      "sha256": "77270276894D64C2DDD2A64FF965E059DA4F9B7BCD6A7651561287FC5D033946"
+    },
+    {
+      "path": "tests/renderer/ItemPanel-daily-navigation.test.tsx",
+      "sha256": "732AC60D50294B679A7C6FBBAF0FC4F20D8180264F239F5B47CE7100F59ED729"
+    }
+  ],
+  "independentOracle": {
+    "path": "tests/renderer/DailyPanel-root-review.test.tsx",
+    "sha256": "6FE1A1D8362D632BF505615CDDA0A132F2175FB41301BFA467DAC51DA795A30E",
+    "owner": "root",
+    "resultOnCandidate": "4/4 passed in focused 15-test run"
+  },
+  "dependencies": [
+    {
+      "path": "src/shared/daily-contract.ts",
+      "sha256": "7A4FF1C3B316D2B7374B2E4910AA4D109B48165C686EFFB8E8C283156AFC3404"
+    },
+    {
+      "path": "src/shared/operations-contract.ts",
+      "sha256": "C867691FDE19EFF495001BBDEF8FDF3FC73C09889D78A143BA2B77DB20A55F12"
+    }
+  ],
+  "evidence": [
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-tests-03.json",
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-static-03.json"
+  ],
+  "reviewStatus": "Executor candidate frozen for root's final independent assessment; not a self-issued independent PASS."
+}

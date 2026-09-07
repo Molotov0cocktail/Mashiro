@@ -20,7 +20,7 @@ interface AppPaths {
 }
 
 export interface DataRoot {
-  profile: 'development' | 'test'
+  profile: 'development' | 'test' | 'production'
   root: string
   databasePath: string
   credentialDirectory: string

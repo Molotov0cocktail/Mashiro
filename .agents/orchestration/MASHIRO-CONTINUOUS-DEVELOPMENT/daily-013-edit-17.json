@@ -1,0 +1,32 @@
+[
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "private readonly toolOptions: { clock?: () => Date }",
+    "new": "private readonly toolOptions: { clock?: () => Date; backgroundClock?: () => Date }"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "toolOptions: { clock?: () => Date } = {}",
+    "new": "toolOptions: { clock?: () => Date; backgroundClock?: () => Date } = {}"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "this.operations = new OperationsService(store, this.toolOptions.clock)",
+    "new": "this.operations = new OperationsService(store, this.toolOptions.backgroundClock)"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "      this.operations,\n      this.toolOptions.clock",
+    "new": "      this.operations,\n      this.toolOptions.backgroundClock"
+  },
+  {
+    "p": "tests/integration/daily-provider.test.ts",
+    "old": "},{clock:()=>new Date('2030-01-01T12:00:00Z')})",
+    "new": "},{backgroundClock:()=>new Date('2030-01-01T12:00:00Z')})"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "        }, 1000)\n        this.timer.unref?.()",
+    "new": "        }, !this.running.size && this.jobs().some(job=>job.state==='QUEUED') ? 0 : 1000)\n        this.timer.unref?.()"
+  }
+]

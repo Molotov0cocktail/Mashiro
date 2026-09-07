@@ -1,0 +1,37 @@
+[
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "    const p = this.permissionState(execution.assistantId, execution.fingerprint)\n    if",
+    "new": "    if (!execution.jobId && this.endpoint(execution.assistantId).fingerprint !== execution.fingerprint)\n      throw new ItemError('PERMISSION_DENIED')\n    const p = this.permissionState(execution.assistantId, execution.fingerprint)\n    if"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "    if (controller.signal.aborted || this.job(job.id).state === 'CANCELLED')",
+    "new": "    if (this.stopped || controller.signal.aborted || this.job(job.id).state === 'CANCELLED')"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "    } catch (error) {\n      const current = this.job(job.id)",
+    "new": "    } catch (error) {\n      if (this.stopped) return\n      const current = this.job(job.id)"
+  },
+  {
+    "p": "tests/integration/provider-schema.test.ts",
+    "old": "expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(13)",
+    "new": "expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(14)"
+  },
+  {
+    "p": "tests/integration/provider-schema.test.ts",
+    "old": "expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(13)",
+    "new": "expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(14)"
+  },
+  {
+    "p": "tests/integration/timeline-context.test.ts",
+    "old": "expect(\n    (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n  ).toBe(13)",
+    "new": "expect(\n    (store.database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n  ).toBe(14)"
+  },
+  {
+    "p": "tests/integration/timeline-schema.test.ts",
+    "old": "expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(13)",
+    "new": "expect(\n      (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version\n    ).toBe(14)"
+  }
+]

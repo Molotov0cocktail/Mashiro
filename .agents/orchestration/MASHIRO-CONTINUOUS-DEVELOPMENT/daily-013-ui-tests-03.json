@@ -1,0 +1,22 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer disputed-observation candidate",
+  "recordedAt": "2026-09-07T12:24:00+08:00",
+  "runner": "gpt-5.6-sol/high UI executor",
+  "focused": {
+    "command": "vitest run DailyPanel-root-review DailyPanel DailyPanel-recovery DailyPanel-operations App-daily ItemPanel-daily-navigation --maxWorkers=2",
+    "exitCode": 0,
+    "testFiles": 6,
+    "tests": 15,
+    "includesIndependentRootOracles": 4,
+    "addedDisputeRegressions": 2
+  },
+  "renderer": {
+    "command": "D:\\nodejs\\node.exe node_modules\\vitest\\vitest.mjs run tests/renderer --maxWorkers=2",
+    "exitCode": 0,
+    "testFilesPassed": 36,
+    "testsPassed": 148,
+    "durationSeconds": 34.68
+  },
+  "scope": "Executor rerun after adding disputed-observation UI; green result does not self-declare independent PASS."
+}

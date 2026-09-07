@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import { createProductionBackup, type ProductionBackupReceipt } from './production-backup.js'
 import { SqliteStore } from './sqlite.js'
 import {
   ProductionLocationStore,
@@ -20,6 +21,9 @@ export interface ProductionSession {
   dataSetId: string
   databasePath: string
   credentialDirectory: string
+  /** Trusted maintenance only; the caller must close every application writer first. */
+  backup(directory: string, assertQuiescent: () => void): Promise<ProductionBackupReceipt>
+  select(directory: string, assertQuiescent: () => void): Promise<void>
   /** Close application writers before releasing the session. */
   release(): Promise<void>
 }
@@ -27,9 +31,15 @@ export interface ProductionSession {
 /** Trusted native setup/recovery coordinator. No renderer path or automatic data fallback. */
 export async function openProductionSession(options: {
   configurationDirectory: string
+  forceSelection?: boolean
   choose(state: LocationInspection): Promise<ProductionSelection>
   // Existing-version migration must be preceded by the caller's verified quiescent backup.
-  prepareExisting(databasePath: string, dataPath: string, signal: AbortSignal): Promise<void>
+  prepareExisting(
+    databasePath: string,
+    dataPath: string,
+    signal: AbortSignal,
+    lease: ProductionLease
+  ): Promise<void>
   onOwnershipLost(error: Error): void
 }): Promise<ProductionSession | null> {
   const cancellation = new AbortController()
@@ -52,7 +62,7 @@ export async function openProductionSession(options: {
     )
     const initial = locations.inspect()
     let dataPath: string, dataSetId: string
-    if (initial.state === 'READY') {
+    if (initial.state === 'READY' && !options.forceSelection) {
       dataLease = await acquireProductionLease(initial.locator.dataPath, lost)
       assertHeld()
       const checked = inspectProductionDataSet(dataLease.dataPath, initial.locator.dataSetId)
@@ -60,7 +70,12 @@ export async function openProductionSession(options: {
         throw new Error('LOCATION_CHANGED_DURING_OPEN')
       dataPath = checked.dataPath
       dataSetId = checked.manifest.dataSetId
-      await options.prepareExisting(join(dataPath, 'mashiro.sqlite'), dataPath, cancellation.signal)
+      await options.prepareExisting(
+        join(dataPath, 'mashiro.sqlite'),
+        dataPath,
+        cancellation.signal,
+        dataLease
+      )
       assertHeld()
       inspectProductionDataSet(dataPath, dataSetId)
       if (locations.inspect().fingerprint !== initial.fingerprint)
@@ -96,7 +111,7 @@ export async function openProductionSession(options: {
         assertHeld()
         const expectedId =
           selection.action === 'relocate'
-            ? initial.state === 'RECOVERY'
+            ? initial.state !== 'UNCONFIGURED'
               ? initial.locator?.dataSetId
               : undefined
             : undefined
@@ -108,7 +123,8 @@ export async function openProductionSession(options: {
         await options.prepareExisting(
           join(dataPath, 'mashiro.sqlite'),
           dataPath,
-          cancellation.signal
+          cancellation.signal,
+          dataLease
         )
         assertHeld()
       }
@@ -117,19 +133,61 @@ export async function openProductionSession(options: {
     }
     assertHeld()
     const heldData = dataLease
+    const openedFingerprint = locations.inspect().fingerprint
+    let selectedLease: ProductionLease | undefined
+    const assertMaintenance = (assertQuiescent: () => void) => {
+      if (released) throw new Error('PRODUCTION_SESSION_RELEASED')
+      assertHeld()
+      assertQuiescent()
+      if (locations.inspect().fingerprint !== openedFingerprint)
+        throw new Error('LOCATION_CHANGED_DURING_MAINTENANCE')
+    }
     returned = true
     return Object.freeze({
       dataPath,
       dataSetId,
       databasePath: join(dataPath, 'mashiro.sqlite'),
       credentialDirectory: join(dataPath, 'credentials'),
+      async backup(directory: string, assertQuiescent: () => void) {
+        assertMaintenance(assertQuiescent)
+        return createProductionBackup({
+          sourceDirectory: dataPath,
+          destinationDirectory: directory,
+          sourceLease: heldData,
+          signal: cancellation.signal,
+          assertQuiescent: () => assertMaintenance(assertQuiescent)
+        })
+      },
+      async select(directory: string, assertQuiescent: () => void) {
+        assertMaintenance(assertQuiescent)
+        if (selectedLease) throw new Error('PRODUCTION_SELECTION_ALREADY_PENDING')
+        const target = await acquireProductionLease(directory, lost)
+        try {
+          const selected = inspectProductionDataSet(target.dataPath)
+          await options.prepareExisting(
+            join(target.dataPath, 'mashiro.sqlite'),
+            target.dataPath,
+            cancellation.signal,
+            target
+          )
+          assertMaintenance(assertQuiescent)
+          locations.bind(target.dataPath, openedFingerprint, selected.manifest.dataSetId)
+          selectedLease = target
+        } finally {
+          if (selectedLease !== target) await target.release()
+        }
+      },
       async release() {
         if (released) return
         released = true
         try {
-          await heldData.release()
+          await selectedLease?.release()
         } finally {
-          await configurationLease.release()
+          try {
+            await heldData.release()
+          } finally {
+            await configurationLease.release()
+          }
         }
       }
     })

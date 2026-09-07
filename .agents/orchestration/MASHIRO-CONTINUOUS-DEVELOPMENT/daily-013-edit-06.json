@@ -1,0 +1,10 @@
+[
+  {"p":"src/main/background/operations-service.ts","old":"  private revision = 0","new":"  private revision = 0\n  private closed = false"},
+  {"p":"src/main/background/operations-service.ts","old":"    if (this.attempts().some((attempt) => attempt.id === attemptId))","new":"    if (this.closed) throw Error('OPERATIONS_CLOSED')\n    if (this.attempts().some((attempt) => attempt.id === attemptId))"},
+  {"p":"src/main/background/operations-service.ts","old":"  settle(id: string, usage: TransportUsage | null, reason?: string) {\n    const record","new":"  settle(id: string, usage: TransportUsage | null, reason?: string) {\n    if (this.closed) return\n    const record"},
+  {"p":"src/main/background/operations-service.ts","old":"    this.event(\n      record.owner,","new":"    if (record.persistent) this.event(\n      record.owner,"},
+  {"p":"src/main/background/operations-service.ts","old":"    const now = this.clock().toISOString()\n    if (!current)","new":"    if (this.closed) return\n    const now = this.clock().toISOString()\n    if (!current)"},
+  {"p":"src/main/background/operations-service.ts","old":"      if (value.feature) records = records.filter((row) => row.feature === value.feature)","new":"      if (value.feature) records = records.filter((row) => row.feature === value.feature)\n      if (value.connectionId || value.model) {\n        const matching = this.attempts().filter(attempt =>\n          (!value.connectionId || attempt.connectionId === value.connectionId) &&\n          (!value.model || attempt.model === value.model))\n        records = records.filter(row => matching.some(attempt =>\n          attempt.owner.domain === row.owner.domain && attempt.owner.id === row.owner.id))\n      }"},
+  {"p":"src/main/background/operations-service.ts","old":"      const records = this.attempts()\n        .filter(","new":"      void _protocol\n      const records = this.attempts()\n        .filter("},
+  {"p":"src/main/background/operations-service.ts","old":"  close() {\n    this.temporary.clear()","new":"  close() {\n    this.closed = true\n    this.temporary.clear()"}
+]

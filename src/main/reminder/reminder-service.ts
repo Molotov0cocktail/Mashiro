@@ -41,7 +41,7 @@ export interface ReminderPlatform {
   getLoginStartup(): boolean
   setLoginStartup(value: boolean): void
   show(
-    input: { identities: { id: string; version: number }[]; count: number },
+    input: { identities: { id: string; version: number }[]; count: number; groupId?: string },
     event: (kind: 'show' | 'failed' | 'click') => void
   ): { close(): void }
 }
@@ -206,9 +206,16 @@ export class ReminderService {
     const row = this.store.database
       .prepare('SELECT * FROM reminder_settings WHERE singleton=1')
       .get()!
+    const storedPolicy = reminderPolicySchema.parse(JSON.parse(String(row.policy_json)))
+    // REM-002 (user confirmed 2026-09-07). Version zero means no user settings exist.
+    // Explicit user settings, including disabled legacy policy, always take precedence.
+    const policy =
+      Number(row.version) === 0 && storedPolicy.mode === 'UNCONFIGURED'
+        ? { mode: 'EXPLICIT' as const, catchUpMinutes: 1440, merge: true }
+        : storedPolicy
     return {
       version: Number(row.version),
-      policy: reminderPolicySchema.parse(JSON.parse(String(row.policy_json))),
+      policy,
       loginStartup: this.platform.getLoginStartup(),
       loginStartupSupported: this.platform.loginStartupSupported(),
       notificationSupported: this.platform.notificationSupported(),
@@ -556,7 +563,25 @@ export class ReminderService {
     const policy = this.runtimeValue().policy
     const claimed = this.store.transaction(() => {
       const ready: ReminderRecord[] = []
-      for (const record of this.all()) {
+      const records = this.all()
+      const latestMissed = new Map<string, ReminderRecord>()
+      for (const record of records) {
+        if (
+          !(recovery || record.state === 'RECOVERY_PENDING') ||
+          !['SCHEDULED', 'RECOVERY_PENDING'].includes(record.state) ||
+          Date.parse(record.dueAt) > now ||
+          !this.valid(record)
+        )
+          continue
+        const previous = latestMissed.get(record.itemId)
+        if (
+          !previous ||
+          Date.parse(record.dueAt) > Date.parse(previous.dueAt) ||
+          (record.dueAt === previous.dueAt && record.id > previous.id)
+        )
+          latestMissed.set(record.itemId, record)
+      }
+      for (const record of records) {
         if (
           !['SCHEDULED', 'RECOVERY_PENDING'].includes(record.state) ||
           Date.parse(record.dueAt) > now ||
@@ -573,7 +598,11 @@ export class ReminderService {
             })
             continue
           }
-          if (now - Date.parse(record.dueAt) > policy.catchUpMinutes * 60000) {
+          if (
+            latestMissed.get(record.itemId)?.id !== record.id ||
+            policy.catchUpMinutes === 0 ||
+            now - Date.parse(record.dueAt) > policy.catchUpMinutes * 60000
+          ) {
             this.save({ ...record, state: 'EXPIRED', updatedAt: this.clock().toISOString() })
             continue
           }
@@ -590,8 +619,7 @@ export class ReminderService {
     this.fault?.('after-claim')
     const batches: ReminderRecord[][] = []
     if (policy.mode === 'EXPLICIT' && policy.merge) {
-      for (let start = 0; start < claimed.length; start += 100)
-        batches.push(claimed.slice(start, start + 100))
+      batches.push(claimed)
     } else batches.push(...claimed.map((r) => [r]))
     for (const batch of batches) if (batch.length) this.dispatch(batch)
     this.notify()
@@ -604,6 +632,20 @@ export class ReminderService {
       )
     })
     if (!current.length) return
+    const groupId = createHash('sha256')
+      .update(
+        current
+          .map((r) => r.id + ':' + r.version)
+          .sort()
+          .join(',')
+      )
+      .digest('hex')
+    this.store.transaction(() => {
+      const insert = this.store.database.prepare(
+        'INSERT OR IGNORE INTO reminder_notification_members VALUES(?,?,?)'
+      )
+      for (const record of current) insert.run(groupId, record.id, record.version)
+    })
     if (!this.platform.notificationSupported()) {
       this.settle(current, 'FAILED')
       return
@@ -614,13 +656,12 @@ export class ReminderService {
       notice = this.platform.show(
         {
           identities: current.map((r) => ({ id: r.id, version: r.version })),
-          count: current.length
+          count: current.length,
+          groupId
         },
         (event) => {
           if (event === 'click') {
-            this.activateBatch(
-              current.map((record) => ({ id: record.id, version: record.version }))
-            )
+            this.activateGroup(groupId)
           } else {
             observed = true
             this.settle(current, event === 'show' ? 'DISPLAY_OBSERVED' : 'FAILED')
@@ -664,6 +705,21 @@ export class ReminderService {
   activate(id: string, version: number): void {
     this.activateBatch([{ id, version }])
   }
+  activateGroup(groupId: string): void {
+    if (!/^[a-f0-9]{64}$/.test(groupId)) return
+    try {
+      const members = this.store.database
+        .prepare(
+          'SELECT reminder_id,version FROM reminder_notification_members WHERE group_id=? ORDER BY reminder_id,version'
+        )
+        .all(groupId)
+      this.activateVerified(
+        members.map((row) => ({ id: String(row.reminder_id), version: Number(row.version) }))
+      )
+    } catch {
+      /* External group activation does not expose storage details. */
+    }
+  }
   activateBatch(identities: { id: string; version: number }[]): void {
     try {
       const parsed = z
@@ -671,6 +727,13 @@ export class ReminderService {
         .min(1)
         .max(100)
         .parse(identities)
+      this.activateVerified(parsed)
+    } catch {
+      /* Invalid external activation is inert. */
+    }
+  }
+  private activateVerified(parsed: { id: string; version: number }[]): void {
+    try {
       const current = parsed
         .map((identity) => this.read(identity.id))
         .filter(

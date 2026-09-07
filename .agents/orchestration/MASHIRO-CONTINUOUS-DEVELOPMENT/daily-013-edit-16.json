@@ -1,0 +1,7 @@
+[
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "    const recipient = this.provider.resolve(config, false),\n      inputs = this.sources.collect(config, period, recipient.identity)",
+    "new": "    const recipient = this.provider.resolve(config, false)\n    if (recipient.fingerprint !== config.recipientFingerprint) throw new DailyError('PERMISSION_DENIED', '接收方已改变，请重新核查并授权')\n    const inputs = this.sources.collect(config, period, recipient.identity)"
+  }
+]

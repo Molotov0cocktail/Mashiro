@@ -1,0 +1,85 @@
+{
+  "status": "LOCAL_NATIVE_CANDIDATE_PENDING_ROOT_REVIEW",
+  "base": "2307e490a60af9cfce9f72ba9c0fd0d5ae658f20",
+  "reviewModel": "gpt-5.6-sol/high",
+  "fileCount": 12,
+  "files": [
+    {
+      "path": "src/main/testing/e2e-daily.ts",
+      "role": "new marker-validated Daily DOM/IPC lifecycle",
+      "sha256": "D9500ACB426932D23C61E9A3A25D8EC504E9C4C1561245E28484366DD85A51A9",
+      "bytes": 13072
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "role": "existing Electron controller integration and fake transport",
+      "sha256": "DF76F81246E9CDF55DEE905B27B5EC77BE1D98154EF7DD2710EB28867A202C1D",
+      "bytes": 43716
+    },
+    {
+      "path": "scripts/electron-f1-harness.mjs",
+      "role": "existing two-process oracle and optional retained synthetic root",
+      "sha256": "BCCD1135409D6C49D7928DD56E3FBD94B7570F398BAACC675A13B79B17149220",
+      "bytes": 22966
+    },
+    {
+      "path": "tests/unit/daily-model-contract-independent.test.ts",
+      "role": "independent prompt/schema regression",
+      "sha256": "223E41EDC9C3568ACAD92306330036D83F9BD64263BBDF8119BE6722EB3B27B8",
+      "bytes": 6072
+    },
+    {
+      "path": "src/main/background/daily-model.ts",
+      "role": "root-authored prompt hunk independently reviewed",
+      "sha256": "7685224364EF48BC66FE8111CDA65F2FC88938B84F5DCC403B90C49B2C1321D6",
+      "bytes": 5526
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-model-contract-tests-04.json",
+      "role": "3 files / 6 tests",
+      "sha256": "10302763038585EC78C95D0DDAF2667ED4DE08F0D2152F075292B723BD83EFDF",
+      "bytes": 3444
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-e2e-01.json",
+      "role": "final native evidence summary",
+      "sha256": "A723F1021604E6F147F8718E72F849BE2046CEFDC46551E88B14BCC05C920292",
+      "bytes": 3070
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-trusted-manifest-v2.json",
+      "role": "32-file trusted delta freeze",
+      "sha256": "005B7924D6DAD8D69B517946B4C088F38A33EB6D9AD4DD91D7E1918BCFABF4DB",
+      "bytes": 6754
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-e2e-handoff-v1.md",
+      "role": "handoff and failure trail",
+      "sha256": "BAEAF1A2B9A091329F18EBAA03ACCA6DCA019036E52C7C1FE2C4C1BA4BC83C1F",
+      "bytes": 3730
+    },
+    {
+      "path": "test-results/electron-f1.json",
+      "role": "full final native output",
+      "sha256": "DC6FAA65E6CCC72C1B2914FED312DD5300CF60BFBAE637579712BD44E2CD496E",
+      "bytes": 21381
+    },
+    {
+      "path": "test-results/daily-013-seed-ui.png",
+      "role": "seed report and accepted observation screenshot",
+      "sha256": "F3AE9C916572313AA44B558C9EFEB1722B38D0A42E6C9465B9EA57160E45F2BC",
+      "bytes": 48692
+    },
+    {
+      "path": "test-results/daily-013-verify-ui.png",
+      "role": "restart report and accepted observation screenshot",
+      "sha256": "BAE9C28655F60807DFC07A8877A663459449C7DE59AA88372CD0A72A875C9213",
+      "bytes": 55355
+    }
+  ],
+  "limits": [
+    "No live network request was made by this E2E.",
+    "Not PACKAGED or release qualification.",
+    "Product prompt change was root-authored and independently reviewed here."
+  ]
+}

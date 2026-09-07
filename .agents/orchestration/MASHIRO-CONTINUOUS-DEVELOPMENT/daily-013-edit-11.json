@@ -1,0 +1,27 @@
+[
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "import * as dto from '../../shared/operations-contract.js'",
+    "new": "import * as dto from '../../shared/operations-contract.js'\nimport { operationSources } from './operations-sources.js'"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "  private result<T>(fn: () => T) {",
+    "new": "  capture() {\n    if (this.closed) return\n    const now = this.clock().toISOString()\n    for (const record of operationSources(this.store, now)) {\n      if (this.store.database.prepare('SELECT 1 FROM operation_events WHERE id=?').get(record.id)) continue\n      this.store.transaction(() => {\n        for (const row of this.store.database.prepare('SELECT record_json FROM operation_events').all()) {\n          const previous = dto.operationRowSchema.parse(JSON.parse(String(row.record_json)))\n          if (previous.current && previous.owner.domain === record.owner.domain && previous.owner.id === record.owner.id)\n            this.store.database.prepare('UPDATE operation_events SET record_json=? WHERE id=?').run(JSON.stringify({...previous,current:false,recoveredAt:now}),previous.id)\n        }\n        this.store.database.prepare('INSERT INTO operation_events VALUES(?,?)').run(record.id,JSON.stringify(dto.operationRowSchema.parse(record)))\n      })\n      this.emit(record.owner)\n    }\n  }\n  private result<T>(fn: () => T) {"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "      const value = dto.operationsQueryInputSchema.parse(input)\n      let records",
+    "new": "      const value = dto.operationsQueryInputSchema.parse(input)\n      this.capture()\n      let records"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "row.owner.domain === 'steward' ? 'steward' : row.owner.assistantId",
+    "new": "row.feature === 'steward' ? 'steward' : row.owner.assistantId"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "  tick() {\n    this.refreshReports()",
+    "new": "  tick() {\n    this.operations.capture()\n    this.refreshReports()"
+  }
+]

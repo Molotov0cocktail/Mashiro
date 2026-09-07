@@ -1,0 +1,16 @@
+# Daily and production-entry milestone verification
+
+This is a reviewed product increment, not overall acceptance or release. The program remains ACTIVE.
+
+Reviewed boundaries:
+
+- Daily trusted manifest v3: 32 paths, SHA256 `E53D0458E049713225EB72467695467771D94F801E6BCB48E118C9B7D098EB76`; the original implementation and four UI repair oracles were independently reviewed by root. Root's later role-specific prompt was separately reviewed by Sol. The subsequent one-line budget snapshot fix was authored by Astra and independently reviewed by root, with four files / twelve tests passing.
+- Daily UI manifest v4: ten paths, no drift at the final read-only check. Strict settings metadata, draft preservation, filtering and business navigation have independent regression oracles.
+- Production entry manifest v1: thirteen paths, no drift. Independent review covered startup/maintenance, complete backups, isolated new-directory restoration, exact approved-receipt binding, schema guard validation and ownership-loss exit behavior. The restoration of later known governance barriers remains a separate identified gap, not a PASS claim.
+- REM-002: the user's approved defaults and persistent notification groups/schema15 have independent v2 evidence. Actual installed Windows notifications, cold activation and final lifecycle remain to be verified.
+
+Integration: `daily-014-root-full-02.json` records 129 files / 602 tests passing. Later role-specific prompt changes have three files / six independent tests, and the budget change has four files / twelve independent tests; these proportional checks cover those subsequent differences. Full project typecheck, lint and format check passed; `npm ls --all --json` returned zero and foundation validation found no errors or warnings, including task015. The preclose scan inspected 291 paths with no secret, generated runtime data, editing residual or diff-check findings. Subsequent evidence-only additions are checked before staging.
+
+Real service evidence is [five-role qualification](daily-013-live-product.md), preserving the two failed HTTP200 output candidates and the prompt diagnosis. Program usage remains 54 requests, including five historical requests with unknown usage; known total 90162 tokens. No new paid request was required for the budget fix.
+
+Final native local E2E run `813ded0c-1e7f-4b44-8442-fdcd19ffe20d` passed with a retained synthetic root. Root manually inspected the verify screenshot: the accepted observation body and Memory receipt are visible. Job usage persisted as one call / 2382 input characters across restart. An isolated formal schema15 data copy was created through the actual initializer with source preservation and integrity/count/hash checks; its [receipt](delivery-014-full-domain-seed-01.json) records the current fixture. It has no pending proposal yet, so that case must be added before full installation qualification. Native local E2E and exact unpacked native qualification have separate reports. The latter verifies an older exact ASAR and is not a claim that later source changes are packaged. No tag or Release has been created. After this milestone, create an explicitly internal schema15 old installer, then continue task015, approved private-memory deletion, governance-safe restoration, full installation lifecycle and overall release acceptance.

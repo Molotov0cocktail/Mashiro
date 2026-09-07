@@ -1,0 +1,71 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "REM-002 approved default, durable group, and schema15 migration independent review v2",
+  "supersedes": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-independent-pass.json",
+  "recordedAt": "2026-09-07T13:01:00+08:00",
+  "reviewer": "gpt-5.6-sol/high",
+  "redEvidence": [
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-independent-red-01.json",
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-schema-independent-red-01.json"
+  ],
+  "repairedSources": [
+    {
+      "path": "src/main/reminder/reminder-notification-schema.ts",
+      "sha256": "9093CD4F45C4AD27C20C8E6203CB46BC9AECF8EEE202DD70DB11CE0D6129929F"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "2B67B8AE29E4B82CF4A8C861342CF72E34F2C4B2262E1A9A70B19C58275FE5E4"
+    },
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "sha256": "8E0225D171A053D910B34240AE85304692C12A28F620C31A244C9CB80742CF34"
+    },
+    {
+      "path": "src/main/reminder/reminder-runtime.ts",
+      "sha256": "192C94D559967BBEA708B578CC54766DD00D51B3A0576B93A4ECDAED77B65D09"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "CA5F84303AC0172E31FF1E45093C23BB9E7860CCA7222DA037B4FFEB1A52A893"
+    }
+  ],
+  "oracles": [
+    {
+      "path": "tests/integration/reminder-approved-default-independent.test.ts",
+      "sha256": "77E0908A0FFB05F861A398EF70D4DD430340DAE35B6727C400B6F888A228C0B9",
+      "tests": 5
+    },
+    {
+      "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+      "sha256": "5988099141A12EE34029309B1A703225F2399ECB445B6A76323E90A20A61CA84",
+      "tests": 2
+    }
+  ],
+  "verification": [
+    {
+      "command": "vitest reminder-approved-default-independent --maxWorkers=2",
+      "exitCode": 0,
+      "files": 1,
+      "tests": 5,
+      "durationSeconds": 4.36
+    },
+    {
+      "command": "vitest reminder-notification-schema-independent reminder-schema reminder-service --maxWorkers=1",
+      "exitCode": 0,
+      "files": 3,
+      "tests": 20
+    },
+    {
+      "command": "tsc -p tsconfig.node.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "scoped eslint/prettier/diff check",
+      "exitCode": 0
+    }
+  ],
+  "migrationAssessment": "v14 table collision rolls back without advancing user_version; repaired v15 verifier rejects matching names with wrong type/nullability/PK/CHECK and accepts the exact group_id/reminder_id/version structure.",
+  "routeNote": "An intervening busy-run attempt timed out only the two 101-item tests at the unchanged 5000ms threshold. No code, assertion, or timeout was changed; the exact oracle then passed 5/5 in 4.36s without competing full-suite I/O.",
+  "assessment": "LIMITED INDEPENDENT PASS for REM-002 default, durable notification groups, and schema15 migration at exact hashes; actual Windows toast/login/resume/install lifecycle remains outside this conclusion."
+}

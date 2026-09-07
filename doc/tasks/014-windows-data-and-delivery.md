@@ -1,7 +1,7 @@
 # 014 正式数据位置、备份与 Windows 交付生命周期
 
-- TASK = 014；FOUNDATION_IMPLEMENTING；PROGRAM ACTIVE。入口[progress](progress.md)，覆盖[总清单](program-docs-to-release.md)G04–G06及Q10。来源：high-level-design §8–9、detailed-design §5/10、ARC-003/004、DIST-001及用户2026-09-06发布验收。实际发行和下载在整体验收通过后继续执行，不以本任务产物宣布完整发布。
-- 现场：当前data-root仍主动拒绝isPackaged，只有development/test路径；package.json尚无正式构建配置。已成功[ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)和[精确NSIS清理探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)可复用路线，不能复用旧实验制品冒充当前版本。
+- TASK = 014；PACKAGED_ACCEPTANCE / GOVERNANCE_RESTORE_PENDING；PROGRAM ACTIVE。入口[progress](progress.md)，覆盖[总清单](program-docs-to-release.md)G04–G06及Q10。来源：high-level-design §8–9、detailed-design §5/10、ARC-003/004、DIST-001及用户2026-09-06发布验收。实际发行和下载在整体验收通过后继续执行，不以本任务产物宣布完整发布。
+- 初始化时现场（历史）：data-root曾主动拒绝isPackaged，仅development/test路径；package.json当时尚无正式构建配置。已成功[ASAR探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/packaging-spike-v1.md)和[精确NSIS清理探索](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/installer-protection-spike-v1.md)可复用路线，不能复用旧实验制品冒充当前版本。
 
 ## 可观察闭环
 
@@ -13,6 +13,12 @@
 6. 更新失败可执行回到旧程序和兼容备份的恢复方案，不能让旧程序直接打开不兼容新schema。升级校验版本/来源/完整性，版本号、源码、构建输入、实际附件校验对应；自动更新框架是否采用由工程链选择，受支持更新路径必须在界面和说明中清楚。
 7. 最终独立审核实际制品；生成校验文件、安装/升级/恢复说明、已知限制和完整第三方声明。签名状态如实说明，未签名不自动阻塞发行、不关闭系统防护。审核通过精确新版本后自动同步两源码远程、创建新tag/Release并上传制品，再下载验证哈希；不覆盖已有资产或重写tag。
 
+## 最新实际制品进展
+
+已完成[原生限定资格](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-native-qualified-01.md)：新空目录还原后同助手、schema15、完整性和位置核对成功，受保护凭据落盘及重开状态已验，实际解密另待。2026-09-07进一步确认[旧备份治理缺口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-governance-gap.md)：当前实现只还原旧快照，未合并后来已知撤回/纠正/权限屏障。E04/E06和009闭环5仍待实现及独立反例，不以回退确认取消要求。root负责该增量；015单写协议schema，必要schema变化须协调。以下保留原生过程记录。
+
+2026-09-07：生产入口/维护及批准快照一致性已独立限定PASS，REM默认与持久组/schema15独立PASS v2。首个Codex宿主直接启动因MSIX路径虚拟化失败，原证据保留；现有普通Windows桌面Shell启动同一精确制品成功。首次默认数据目录由用户误点击，用户明确授权直接用于测试。审核者已验证原生复制迁移到中文空格安装data，179764→182092自动重启；创建合成助手后关闭窗口留托盘、再次启动复用原PID、退出后新PID174304恢复同助手，schema15与integrity有效；完整原生备份成功，新空目录还原仍进行中。此为原生路线与部分核心闭环，未完成全域安装/跨版本/通知/发布审核，不改最终验收条件。
+
 ## 当前源码准备
 
 root在012并行实施期间已形成[实际接入方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-actual-plan.md)：生产bootstrap/locator与开发隔离、完整静止备份和接受Markdown/治理状态、安装文件清理、失败恢复及实际发行下载。root现已并行新增[独立locator底座](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-foundation.md)和10个定向反例，已修独立发现的正斜杠UNC绕过；[独立FOUNDATION_CANDIDATE PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-review-final-pass.md)确认原10+独立5共15通过，类型/格式/lint通过，尚未接入正式启动；不改013单写文件。root现已新增[生命周期锁与显式初始化候选](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-lease-initialize-stage.md)：实际Windows命名管道排他/进程终止后释放路线SUPPORTED，29定向测试通过，配置锁恢复已新增真实占用权令牌校验；未参与实现的steward_013_ui（实际Sol/high）已接独立复核，尚未接入生产main。原生选择/恢复UI、完整备份与安装发行继续必做；不以底座或早期实验代替最终制品。
@@ -20,6 +26,14 @@ root在012并行实施期间已形成[实际接入方案](../../.agents/orchestr
 ## 独立底座审核进展
 
 2026-09-07：[lease/location R2 PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-foundation-review-r2.md)由未实现该范围的Sol/high给出，6文件33tests、限定TS/lint/format通过；[session独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-session-independent-pass.md)由未实现该协调器的Astra/medium给出，2文件8tests通过。准备回调期间数据集UUID或locator指向改变的独立反例已红转绿，持有真实双租约再返回。上述限定PASS不包含正式native/main、prepareExisting备份迁移、安装更新或发布，后续仍必做。
+
+## 最新独立准备结论
+
+[生产准备九文件独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-independent-pass.md)已确认精确manifest及11文件59项数据测试；源删除阻止副本替换、junction拒绝、snapshot普通选择拒绝独立反例有效。[正式工具链与内部NSIS保护](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaging-route.md)普通用户实测通过，仍未覆盖启动与不同版本生命周期。下一动作是生产main/退出释放整合、升级恢复与用户备份入口、功能与实际制品整体验收。
+
+## 当前生产准备与打包实施
+
+2026-09-07：[生产准备九文件候选](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-stage.md)已冻结等待独立审核，5文件28项作者测试和限定静态通过；覆盖完整快照、旧schema副本迁移、旧snapshot禁止直开、可信原生选择及bootstrap组合。当前schema14兼容，但尚未接main，旧限定PASS不能自动覆盖新差异。root已添加精确electron-builder26.15.3（安装audit0漏洞），正式配置与第三方声明/精确卸载清单生成器正在内部制品路线验证，publish固定never；实际安装、升级恢复与Release仍未完成。
 
 ## 验证路线与边界
 

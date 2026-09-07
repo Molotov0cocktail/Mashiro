@@ -1,0 +1,15 @@
+{
+  "route": "defer-foreign-keys-in-transaction",
+  "success": false,
+  "error": "FOREIGN KEY constraint failed",
+  "code": "ERR_SQLITE_ERROR",
+  "finalRows": [
+    {
+      "id": "o",
+      "segment_id": "s"
+    }
+  ],
+  "foreignKeysEnabled": {
+    "foreign_keys": 1
+  }
+}

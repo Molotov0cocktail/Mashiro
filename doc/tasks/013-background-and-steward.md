@@ -30,6 +30,10 @@ root在012并行实施期间已形成[实际接入方案](../../.agents/orchestr
 
 仓储核心PASS后直接实施[多事件观察与日常合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-daily-observation-contract.md)及[UI六入口计划](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-plan.md)，补齐观察、简报、复盘、周规划、截止变更、分类用量，不能在此关闭013或PROGRAM。
 
+## 日常候选与当前验收
+
+2026-09-07：日常可信32文件与UI v4十文件已由root完成[独立源码/本地业务限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-candidate-review.md)，四条UI与两条跨域反例关闭。整合full02为129文件602tests全绿；后续专属提示词3文件5tests比例通过并另由Sol独立审。五类[真实服务角色](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-product.md)已SUPPORTED，失败与修复证据保留；当前Sol单写新增日常native E2E，实际原生入口及全覆盖最终结算仍待。当前HEAD仍2307e490，未将正在完成的候选冒称已提交。
+
 ## 当前真实角色证据
 
 [真实章节角色闭环](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-live-product.md)已SUPPORTED：GLM-5.3-FLASH实际3请求849tokens，正常轮→预算1次且真实max_tokens2048→接受Markdown/事务回执→选章节续答→无Key服务重开0调用。结果JSON SHA-256 E3572FCFF6E974363CD714DB74BBDAB36DF2B1FC1AA420F38A7072F08A086A33；非renderer/跨进程/PACKAGED。定向对抗与独立审核仍在继续，仓储/观察/日常角色仍必须分别完成。
@@ -45,7 +49,7 @@ root在012并行实施期间已形成[实际接入方案](../../.agents/orchestr
 ## 清单
 
 - [x] 原文闭环和后续依赖已定位。
-- [ ] 当前源码设计、预算/权限/队列与恢复。
+- [x] 当前源码设计、预算/权限/队列与恢复（已审核心及日常本地候选；最终整合另核）。
 - [ ] 章节/待整理/仓储员/观察和日常后台的真实入口与对话链。
 - [ ] 实际角色验证及删除、权限、回收依赖反例。
 - [ ] 独立审核、跨模块结算与提交同步。

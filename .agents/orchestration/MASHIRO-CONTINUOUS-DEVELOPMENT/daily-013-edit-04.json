@@ -1,0 +1,12 @@
+[
+  {
+    "p": "src/main/memory/memory-service.ts",
+    "old": "  origin?: { kind: 'background' | 'steward'; jobId: string }",
+    "new": "  origin?: { kind: 'background' | 'steward' | 'user'; jobId: string }"
+  },
+  {
+    "p": "src/main/memory/memory-service.ts",
+    "old": "  /** Background slots never create a fictitious user-round dependency. */",
+    "new": "  /** Explicit user review preserves trusted evidence without inventing a conversation round. */\n  observationMutation(\n    execution: Omit<MemoryExecution, 'requestId' | 'origin'> & { jobId: string; commandId: string },\n    mutation: MemoryMutation\n  ): MemoryReceipt {\n    if (mutation.action !== 'remember' && mutation.action !== 'correct') throw new MemoryError('INVALID_INPUT')\n    return this.apply({ assistantId: execution.assistantId, commandId: execution.commandId, mutation,\n      execution: { ...execution, requestId: '', origin: { kind: 'user', jobId: execution.jobId } }\n    })\n  }\n  /** Background slots never create a fictitious user-round dependency. */"
+  }
+]

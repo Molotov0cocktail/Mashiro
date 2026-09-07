@@ -1,6 +1,7 @@
 import { runStewardE2e } from './e2e-steward.js'
 import { runBackgroundE2e } from './e2e-background.js'
 import { runReminderE2e } from './e2e-reminder.js'
+import { runDailyE2e } from './e2e-daily.js'
 import { app, type BrowserWindow } from 'electron'
 import { seedProfileUiScript, verifyProfileUiScript } from './e2e-profile-scripts.js'
 import { seedItemsScript, restoreItemsScript, verifyItemsUiScript } from './e2e-item-scripts.js'
@@ -92,6 +93,51 @@ export async function e2eProviderTransport(request: TransportRequest): Promise<T
         ]
       }),
       usage: { promptTokens: 15, completionTokens: 7, totalTokens: 22 }
+    }
+  }
+  if (
+    request.messages[0]?.content.startsWith('你是现有助手的受限后台功能角色') &&
+    request.messages[0]?.content.includes('当前功能 observation')
+  ) {
+    if (request.maxOutputTokens !== 1200 || request.stream || request.tools !== undefined)
+      throw Error('daily-transport-boundary')
+    const input = JSON.parse(request.messages[1]!.content) as {
+      sources: { handle: string; content: string; independentRoots: number }[]
+    }
+    if (
+      input.sources.length !== 2 ||
+      input.sources.some(
+        (source, index) =>
+          source.handle !== `source${index}` ||
+          source.independentRoots !== 1 ||
+          !input.sources.some((candidate) =>
+            candidate.content.includes(`E2E_DAILY_EVENT_${index + 1}`)
+          )
+      )
+    )
+      throw Error('daily-source-range')
+    return {
+      status: 'completed',
+      text: JSON.stringify({
+        sections: [
+          {
+            title: 'E2E日常报告',
+            markdown: 'E2E_DAILY_REPORT：两条独立合成事件已进入本次观察。',
+            nature: 'inference',
+            sourceHandles: ['source0', 'source1']
+          }
+        ],
+        observations: [
+          {
+            title: 'E2E_DAILY_INFERENCE',
+            markdown: '两条合成事件可能反映一个仍需用户核验的共同点。',
+            nature: 'inference',
+            sourceHandles: ['source0', 'source1']
+          }
+        ],
+        proposals: []
+      }),
+      usage: { promptTokens: 18, completionTokens: 6, totalTokens: 24 }
     }
   }
   if (request.messages[0]?.content.startsWith('你是当前助手的章节整理角色。')) {
@@ -348,7 +394,7 @@ const seedScript = `
   for (const scope of ['global','assistant']) {
     const permission = await memory.permissions({protocolVersion:1,assistantId:second.id,scope})
     if(!permission.ok) throw new Error('memory-permission')
-    const saved = await memory.setPermissions({protocolVersion:1,assistantId:second.id,scope,expectedVersion:permission.data.version,read:true,write:true,writeInferences:false,receive:true})
+    const saved = await memory.setPermissions({protocolVersion:1,assistantId:second.id,scope,expectedVersion:permission.data.version,read:true,write:true,writeInferences:true,receive:true})
     if(!saved.ok) throw new Error('memory-grant')
   }
   const memoryDraft={action:'remember',targetId:null,expectedVersion:null,kind:'user',scope:'global',title:'E2E_MEMORY',markdown:'E2E_MEMORY_ORIGINAL',nature:'user-statement',event:null}
@@ -369,6 +415,29 @@ const seedScript = `
   const memoryPermissions=await memory.permissions({protocolVersion:1,assistantId:second.id,scope:'global'})
   if(!memoryQuery.ok||!memoryInspect.ok||!memoryPermissions.ok) throw new Error('memory-inspect')
   const memoryEvidence={query:memoryQuery.data,inspect:memoryInspect.data,permissions:memoryPermissions.data,temporaryRejected:true}
+
+  return {
+    assistant: result.data,
+    provider: providerResult.data,
+    historyPermission: grant.data,
+    normalChat: normalChat.data,
+    temporarySavedChat: temporarySavedChat.data,
+    temporaryUnsavedChat: temporaryUnsavedChat.data,
+    savedTemporary: savedTemporary.data,
+    retention:retentionEvidence,
+    memory:memoryEvidence,
+    toolOperations:toolOperations.data.operations
+  }
+})()
+`
+
+const pendingBeforeCloseScript = `
+(async () => {
+  const assistants = await window.mashiro.assistants.list()
+  if (!assistants.ok || !assistants.data.currentAssistantId) throw new Error('pending-assistant')
+  const assistantId = assistants.data.currentAssistantId
+  const provider = window.mashiro.provider
+  const timeline = window.mashiro.timeline
   const pendingRequestId = crypto.randomUUID()
   const deltaSeen = new Promise((resolve) => {
     const remove = provider.onEvent((event) => {
@@ -381,7 +450,7 @@ const seedScript = `
   const pending = provider.startChat({
     protocolVersion: 1,
     requestId: pendingRequestId,
-    assistantId: second.id,
+    assistantId,
     text: 'E2E_PENDING_NORMAL',
     mode: 'normal',
     stream: true
@@ -390,30 +459,31 @@ const seedScript = `
   const pendingPartial = await deltaSeen
   const timelineBeforeClose = await timeline.read({
     protocolVersion: 1,
-    assistantId: second.id,
+    assistantId,
     mode: 'normal'
   })
   if (!timelineBeforeClose.ok) throw new Error(timelineBeforeClose.error.code)
   const temporaryBeforeClose = await timeline.read({
     protocolVersion: 1,
-    assistantId: second.id,
+    assistantId,
     mode: 'temporary'
   })
   if (!temporaryBeforeClose.ok) throw new Error(temporaryBeforeClose.error.code)
+  const pendingRows = timelineBeforeClose.data.messages.filter(
+    (message) => message.requestId === pendingRequestId
+  )
+  if (
+    pendingRows.length !== 2 ||
+    pendingRows[0].role !== 'user' ||
+    pendingRows[0].status !== 'completed' ||
+    pendingRows[1].role !== 'assistant' ||
+    pendingRows[1].status !== 'pending'
+  )
+    throw new Error('pending-before-close-state')
   return {
-    assistant: result.data,
-    provider: providerResult.data,
-    historyPermission: grant.data,
-    normalChat: normalChat.data,
-    temporarySavedChat: temporarySavedChat.data,
-    temporaryUnsavedChat: temporaryUnsavedChat.data,
-    savedTemporary: savedTemporary.data,
     timelineBeforeClose: timelineBeforeClose.data,
     temporaryBeforeClose: temporaryBeforeClose.data,
-    pendingPartial,
-    retention:retentionEvidence,
-    memory:memoryEvidence,
-    toolOperations:toolOperations.data.operations
+    pendingPartial
   }
 })()
 `
@@ -446,19 +516,30 @@ const verifyRestoreScript = `
   if(!historyPermission.ok) throw new Error(historyPermission.error.code)
   const historyPage=await window.mashiro.timeline.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,query:'E2E_NORMAL'})
   if(!historyPage.ok) throw new Error(historyPage.error.code)
+  const restoredDaily=await window.mashiro.daily.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,view:'reports',feature:'observation'})
+  const dailyReport=restoredDaily.ok?restoredDaily.data.reports[0]:null
+  const dailyDetail=dailyReport?await window.mashiro.daily.inspect({protocolVersion:1,assistantId:assistant.data.currentAssistantId,id:dailyReport.id,expectedVersion:dailyReport.version,governanceVersion:dailyReport.governanceVersion}):null
+  if(!dailyReport||!dailyDetail?.ok||dailyDetail.data.providedSources.length!==2)throw new Error('daily-memory-evidence')
+  const dailySourceMemoryIds=dailyDetail.data.providedSources.map(value=>value.source.id)
+  const dailyAcceptedMemoryIds=dailyDetail.data.observations.map(value=>value.memoryId).filter(Boolean)
+  const dailyMemoryIds=new Set([...dailySourceMemoryIds,...dailyAcceptedMemoryIds])
+  if(dailyMemoryIds.size!==3)throw new Error('daily-memory-cardinality')
   const allMemory=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
   const restoredBackground=await window.mashiro.background.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
   const restoredSteward=await window.mashiro.steward.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId})
   const stewardMemoryId=restoredSteward.ok?restoredSteward.data.jobs.find(j=>j.role==='steward'&&j.state==='COMPLETED')?.slots[0]?.memoryId:null
   if(!stewardMemoryId||!allMemory.ok||!allMemory.data.records.some(r=>r.id===stewardMemoryId&&r.markdown.includes('E2E_STEWARD_ACCEPTED')))throw Error('steward-restored-memory')
-  if(!allMemory.ok||!restoredBackground.ok||allMemory.data.records.length!==3||
+  if(!allMemory.ok||!restoredBackground.ok||allMemory.data.records.length!==3+dailyMemoryIds.size||
+    [...dailyMemoryIds].some(id=>!allMemory.data.records.some(record=>record.id===id))||
     restoredBackground.data.chapters.length!==1||
     !allMemory.data.records.some(record=>record.id===restoredBackground.data.chapters[0].memoryId))
     throw new Error('memory-background-cardinality')
   const memoryQuery=await window.mashiro.memory.query({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
-  if(!memoryQuery.ok||memoryQuery.data.records.length!==2||!memoryQuery.data.records.some(r=>r.id===stewardMemoryId))throw new Error('memory-steward-restored-query')
-  // Preserve the original memory oracle separately from the additional steward object.
-  memoryQuery.data.records=memoryQuery.data.records.filter(r=>r.id!==stewardMemoryId)
+  if(!memoryQuery.ok||memoryQuery.data.records.length!==2+dailySourceMemoryIds.length||
+    !memoryQuery.data.records.some(r=>r.id===stewardMemoryId)||
+    dailySourceMemoryIds.some(id=>!memoryQuery.data.records.some(record=>record.id===id)))throw new Error('memory-steward-restored-query')
+  // Preserve the original memory oracle while separately proving the steward and Daily objects above.
+  memoryQuery.data.records=memoryQuery.data.records.filter(r=>r.id!==stewardMemoryId&&!dailyMemoryIds.has(r.id))
   if(memoryQuery.data.records.length!==1)throw new Error('memory-restored-query')
   const memoryInspect=await window.mashiro.memory.inspect({protocolVersion:1,assistantId:assistant.data.currentAssistantId,id:memoryQuery.data.records[0].id})
   const memoryPermissions=await window.mashiro.memory.permissions({protocolVersion:1,assistantId:assistant.data.currentAssistantId,scope:'global'})
@@ -562,6 +643,10 @@ type SeedEvidence = {
   temporaryBeforeClose: TimelineSnapshot
   pendingPartial: string
 }
+type PendingEvidence = Pick<
+  SeedEvidence,
+  'timelineBeforeClose' | 'temporaryBeforeClose' | 'pendingPartial'
+>
 type VerifyEvidence = {
   profileUi: unknown
   items: unknown
@@ -764,6 +849,7 @@ export async function runE2ePhase(
   }
   // Preserve the established explicit-chat observation before the separate background scenario.
   const transportAfterExplicit = e2eTransportEvidence()
+  let reportedTransportAfterExplicit = transportAfterExplicit
   let background: Awaited<ReturnType<typeof runBackgroundE2e>> | undefined
   if (!('failure' in evidence) && !captureFailure) {
     try {
@@ -781,9 +867,43 @@ export async function runE2ePhase(
       captureFailure = { stage: 'steward-dom-lifecycle', code: 'FAILED' }
     }
   }
+  const transportAfterSteward = e2eTransportEvidence().count
+  let daily: Awaited<ReturnType<typeof runDailyE2e>> | undefined
+  if (!('failure' in evidence) && !captureFailure) {
+    try {
+      daily = await runDailyE2e(window, dataRoot)
+    } catch (error) {
+      const diagnostic =
+        error instanceof Error
+          ? error.message.match(/daily-[a-z-]+(?::\{[^\r\n]*\})?/u)?.[0]
+          : undefined
+      captureFailure = { stage: 'daily-dom-lifecycle', code: diagnostic ?? 'FAILED' }
+    }
+  }
+  const transportAfterDaily = e2eTransportEvidence().count
+  if (dataRoot.phase === 'seed' && !('failure' in evidence) && !captureFailure) {
+    try {
+      evidence = {
+        ...evidence,
+        ...(await execute<PendingEvidence>(window, pendingBeforeCloseScript))
+      }
+      const pendingRequests = e2eTransportEvidence().requests.filter((request) =>
+        request.messages.some((message) => message.content === 'E2E_PENDING_NORMAL')
+      )
+      if (pendingRequests.length !== 1) throw Error('pending-transport-evidence')
+      reportedTransportAfterExplicit = {
+        count: transportAfterExplicit.count + 1,
+        requests: [...transportAfterExplicit.requests, pendingRequests[0]!]
+      }
+    } catch {
+      captureFailure = { stage: 'pending-after-daily', code: 'FAILED' }
+    }
+  }
   const result = {
+    daily,
+    dailyTransportCalls: transportAfterDaily - transportAfterSteward,
     steward,
-    stewardTransportCalls: e2eTransportEvidence().count - transportAfterBackground,
+    stewardTransportCalls: transportAfterSteward - transportAfterBackground,
     background,
     backgroundTransportCalls: transportAfterBackground - transportAfterExplicit.count,
     reminders,
@@ -795,7 +915,7 @@ export async function runE2ePhase(
     node: process.versions.node,
     sqlite: process.versions.sqlite,
     security: secureWebPreferences,
-    transportAfterExplicit,
+    transportAfterExplicit: reportedTransportAfterExplicit,
     ...('failure' in evidence ? { failure: evidence.failure } : evidence),
     ...(captureFailure ? { failure: captureFailure } : {})
   }

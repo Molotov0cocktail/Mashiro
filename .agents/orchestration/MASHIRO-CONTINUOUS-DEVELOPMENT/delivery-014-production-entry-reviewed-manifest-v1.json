@@ -1,0 +1,57 @@
+{
+  "scope": "Independent 014 entry and maintenance review; main daily wiring excluded; restore reviewed only new approved-receipt delta",
+  "files": [
+    {
+      "path": "src/main/app/create-window.ts",
+      "sha256": "D891F37940378E442A7CBA9CB537BC201AACC28E45EC05727B5D283C47B0508E"
+    },
+    {
+      "path": "src/main/app/production-menu.ts",
+      "sha256": "FB317B87F9EF405466A5FE336793C9AFDA1B45A55D1901FAB7069522B7507B5F"
+    },
+    {
+      "path": "src/main/data/data-root.ts",
+      "sha256": "8BF6BF8C2E7E2B7DD1F0C78411DF2DA16D43F14742E4DD58F986F4CDE9CA3EAF"
+    },
+    {
+      "path": "src/main/data/production-bootstrap.ts",
+      "sha256": "196B10AA6DCFC287BC4135028EB126D53A9FAEDA4A919CB841EDD8ACED59A858"
+    },
+    {
+      "path": "src/main/data/production-maintenance.ts",
+      "sha256": "24F1AF0C5632C19C7F68CD56A167283CFD786337C4A41A0CEC4F5F58D02CA829"
+    },
+    {
+      "path": "src/main/data/production-prepare.ts",
+      "sha256": "BEEFEAD659D1E7A211722144486ECD64DB1C3CA864F1469B0F1288D58323B56B"
+    },
+    {
+      "path": "src/main/data/production-restore.ts",
+      "sha256": "5E6D25250689733CFA4591A2B941825F37D1CEB48460E801362181B964D64BFD"
+    },
+    {
+      "path": "src/main/data/production-session.ts",
+      "sha256": "FB7509E184FFB435E1F06DD4206DE6F4F46967C809305C4F6281ACF7FE84B302"
+    },
+    {
+      "path": "src/main/data/production-startup-restore.ts",
+      "sha256": "D595ABFA6E764279154978CF1456CF5D13977BF19DCDBC2CC2487A9B5F7C7649"
+    },
+    {
+      "path": "src/main/index.ts",
+      "sha256": "E57B3197C824765F4772DBE09679C2A085DE4DA78D65E73740931E63E49428C2"
+    },
+    {
+      "path": "tests/unit/production-entry-independent.test.ts",
+      "sha256": "DA4D03F6955F2829FC994005A52469EC987A977387AF72FE2C2E4780E99D9E46"
+    },
+    {
+      "path": "tests/unit/production-main-independent.test.ts",
+      "sha256": "D58B602F237482EC2F6F31FFE090F12A0BE503EBC9518C9A907E7FDEA6CCD958"
+    },
+    {
+      "path": "tests/unit/production-restore-consent-independent.test.ts",
+      "sha256": "FCF49D161324403808DF157FAE61DADC8E1AA8DD543E93DD361D6B1712E4B6B2"
+    }
+  ]
+}

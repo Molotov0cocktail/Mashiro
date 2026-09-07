@@ -1,0 +1,7 @@
+[
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "  notify() {\n    if (this.stopped || this.timer) return\n    this.timer = setTimeout",
+    "new": "  notify() {\n    if (this.stopped) return\n    if (this.timer) clearTimeout(this.timer)\n    this.timer = setTimeout"
+  }
+]

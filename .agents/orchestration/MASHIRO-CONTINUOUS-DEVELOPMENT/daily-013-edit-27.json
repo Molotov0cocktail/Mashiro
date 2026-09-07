@@ -1,0 +1,7 @@
+[
+  {
+    "p": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-trusted-handoff-v1.md",
+    "old": "3 文件 / 22 tests 全绿，包含原 Provider tools 正常/临时三次实际请求 = 9 tokens，非重复计量；普通调用 SENDING 与重启 UNKNOWN 生命周期",
+    "new": "3 文件 / 22 tests 全绿，包含原 Provider tools 正常/临时三次实际请求 = 9 tokens，非重复计量；最后代码另补普通调用 SENDING 与重启 UNKNOWN 生命周期，待独立复核"
+  }
+]

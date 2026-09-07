@@ -1,7 +1,23 @@
 import type { DatabaseSync } from 'node:sqlite'
 
 /** Only for constructing synthetic pre-v7 migration fixtures from a fresh current database. */
+export function removeDailyFixture(database: DatabaseSync): void {
+  database.exec('DROP TABLE reminder_notification_members')
+  for (const table of [
+    'daily_configs',
+    'daily_jobs',
+    'daily_reports',
+    'daily_commands',
+    'daily_suppressions',
+    'daily_item_checkpoints',
+    'daily_item_changes',
+    'usage_attempts',
+    'operation_events'
+  ])
+    database.exec('DROP TABLE ' + table)
+}
 export function removeStewardFixture(database: DatabaseSync): void {
+  removeDailyFixture(database)
   for (const table of [
     'memory_conflicts',
     'branch_members',

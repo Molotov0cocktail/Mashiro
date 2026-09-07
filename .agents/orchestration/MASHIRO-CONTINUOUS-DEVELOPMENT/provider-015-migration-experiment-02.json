@@ -1,0 +1,47 @@
+[
+  {
+    "failAfterDrop": false,
+    "committed": true,
+    "version": {
+      "user_version": 16
+    },
+    "foreignKeys": {
+      "foreign_keys": 1
+    },
+    "operations": [
+      {
+        "id": "o",
+        "segment_id": "s"
+      }
+    ],
+    "mode": {
+      "mode": "standard"
+    },
+    "guardPreserved": true,
+    "rejectsBadFK": true,
+    "retainedAccepted": true
+  },
+  {
+    "failAfterDrop": true,
+    "committed": false,
+    "error": "INJECTED_AFTER_DROP",
+    "version": {
+      "user_version": 15
+    },
+    "foreignKeys": {
+      "foreign_keys": 1
+    },
+    "operations": [
+      {
+        "id": "o",
+        "segment_id": "s"
+      }
+    ],
+    "mode": {
+      "mode": "standard"
+    },
+    "guardPreserved": true,
+    "rejectsBadFK": true,
+    "retainedAccepted": false
+  }
+]

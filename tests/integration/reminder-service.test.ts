@@ -86,13 +86,17 @@ function fixture(fault?: (phase: string) => void) {
   }
   service.attach(platform, (event) => events.push(event))
   const base = { protocolVersion: 1 as const, assistantId }
-  const create = (dueAt = '2030-01-01T00:00:01+00:00', commandId = randomUUID()) => {
+  const create = (
+    dueAt = '2030-01-01T00:00:01+00:00',
+    commandId = randomUUID(),
+    itemId = item.objectId!
+  ) => {
     const input = {
       ...base,
       commandId,
       mutation: {
         action: 'create' as const,
-        itemId: item.objectId!,
+        itemId,
         expectedItemVersion: 1,
         dueAt,
         timeZone: 'UTC'
@@ -212,28 +216,49 @@ it('crash after durable claim becomes unknown on recovery and never blindly rese
   expect(f.records()[0]!.state).toBe('RESULT_UNKNOWN')
   expect(f.shown).toHaveLength(0)
 })
-it('missed schedules remain pending without an approved default; explicit policy expires or catches up and merges', () => {
+it('approved 24-hour default catches only the latest missed reminder per item without duplicate activation', () => {
   const f = fixture()
   f.create()
-  f.create()
+  const latest = f.create('2030-01-01T00:00:02+00:00')
+  expect(f.service.runtime({ protocolVersion: 1 })).toMatchObject({
+    ok: true,
+    data: { version: 0, policy: { mode: 'EXPLICIT', catchUpMinutes: 1440, merge: true } }
+  })
   f.time(60000)
   f.service.recover()
-  expect(f.records().map((r) => r.state)).toEqual(['RECOVERY_PENDING', 'RECOVERY_PENDING'])
+  expect(f.records().filter((r) => r.state === 'EXPIRED')).toHaveLength(1)
+  expect(f.records().find((r) => r.id === latest.receipt.reminderId)?.state).toBe(
+    'DISPLAY_OBSERVED'
+  )
+  expect(f.shown).toHaveLength(1)
+  expect(f.shown[0]!.count).toBe(1)
+  f.service.recover()
+  expect(f.shown).toHaveLength(1)
+  f.shown[0]!.event('click')
+  f.shown[0]!.event('click')
+  expect(f.events.filter((e) => e.kind === 'open-item')).toHaveLength(1)
+})
+it('approved default expires reminders beyond 24 hours and preserves a user-selected disabled policy across service restart', () => {
+  const f = fixture()
+  f.create()
+  f.time(86402000)
+  f.service.recover()
+  expect(f.records()[0]!.state).toBe('EXPIRED')
   expect(f.shown).toHaveLength(0)
   expect(
     f.service.configure({
       protocolVersion: 1,
       expectedVersion: 0,
-      policy: { mode: 'EXPLICIT', catchUpMinutes: 2, merge: true },
+      policy: { mode: 'EXPLICIT', catchUpMinutes: 0, merge: false },
       loginStartup: false
     }).ok
   ).toBe(true)
-  expect(f.shown).toHaveLength(1)
-  expect(f.shown[0]!.count).toBe(2)
-  f.shown[0]!.event('click')
-  f.shown[0]!.event('click')
-  expect(f.events.filter((e) => e.kind === 'open-reminders')).toHaveLength(1)
-  expect(f.events.filter((e) => e.kind === 'open-item')).toHaveLength(0)
+  const recovered = new ReminderService(f.store, f.clock)
+  expect(recovered.runtime({ protocolVersion: 1 })).toMatchObject({
+    ok: true,
+    data: { version: 1, policy: { mode: 'EXPLICIT', catchUpMinutes: 0, merge: false } }
+  })
+  recovered.close()
 })
 it('explicit zero catchup expires missed schedules instead of silently delivering', () => {
   const f = fixture()
@@ -375,7 +400,26 @@ it('rolls back reminder cancellation when the enclosing item receipt cannot comm
 it('keeps a merged notification until its last valid member is cancelled and ignores old clicks', () => {
   const f = fixture()
   const first = f.create()
-  const second = f.create()
+  const otherItem = f.items.applyMutation(
+    f.base.assistantId,
+    randomUUID(),
+    {
+      action: 'create',
+      content: {
+        kind: 'task',
+        title: '另一合成事项',
+        description: '',
+        status: 'open',
+        dueAt: null,
+        timeZone: null,
+        parentId: null,
+        relatedIds: [],
+        counterpart: ''
+      }
+    },
+    []
+  )
+  const second = f.create(undefined, undefined, otherItem.objectId!)
   f.time(60000)
   f.service.configure({
     protocolVersion: 1,
@@ -389,6 +433,8 @@ it('keeps a merged notification until its last valid member is cancelled and ign
       commandId: randomUUID(),
       mutation: { action: 'cancel', id, expectedVersion: 1 }
     })
+  expect(f.shown).toHaveLength(1)
+  expect(f.shown[0]!.count).toBe(2)
   expect(cancel(first.receipt.reminderId!).ok).toBe(true)
   expect(f.shown[0]!.closed).toBe(false)
   expect(cancel(second.receipt.reminderId!).ok).toBe(true)

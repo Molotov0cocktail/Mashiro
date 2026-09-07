@@ -18,6 +18,8 @@
     "lint": "eslint . --max-warnings=0",
     "format:check": "prettier --check .",
     "build": "electron-vite build",
+    "pack:windows": "npm run build && electron-builder --config electron-builder.config.mjs --win --x64 --dir --publish never",
+    "dist:windows": "npm run build && electron-builder --config electron-builder.config.mjs --win nsis --x64 --publish never",
     "verify": "npm run test:focused && npm test && npm run typecheck && npm run lint && npm run format:check && npm run build && npm run test:electron"
   },
   "dependencies": {
@@ -36,6 +38,7 @@
     "@types/react-dom": "19.2.5",
     "@vitejs/plugin-react": "5.2.0",
     "electron": "44.1.1",
+    "electron-builder": "26.15.3",
     "electron-vite": "5.0.0",
     "eslint": "10.9.1",
     "eslint-plugin-react-hooks": "7.1.1",

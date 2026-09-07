@@ -1,0 +1,141 @@
+{
+  "status": "LOCAL_NATIVE_RETAINED_PASS",
+  "scope": "Electron/preload/IPC/renderer DOM/SQLite with marker-validated synthetic profile and local fake Provider transport; no network; not PACKAGED",
+  "command": "D:\\nodejs\\npm.cmd run test:electron -- --retain-synthetic",
+  "runId": "813ded0c-1e7f-4b44-8442-fdcd19ffe20d",
+  "syntheticRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-YSASSE",
+  "marker": {
+    "path": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-YSASSE\\.mashiro-f1-e2e.json",
+    "sha256": "724F2431C19A953A8609BA8D14E76EF48BC4C36DABD8BCB61E33C4ADD34D8271"
+  },
+  "runtimes": {
+    "electron": "44.1.1",
+    "node": "24.19.0",
+    "sqlite": "3.53.3",
+    "pids": [
+      185196,
+      172276
+    ]
+  },
+  "daily": {
+    "seed": {
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "configurationId": "b56798dd-0aea-4929-a508-2dab10cd0705",
+      "configurationVersion": 1,
+      "jobId": "75d96025-c424-4823-a5ec-9546edcb5c65",
+      "jobVersion": 4,
+      "reportId": "eca6c392-c395-46eb-a6f7-622d1ce39286",
+      "reportVersion": 2,
+      "governanceVersion": 1,
+      "observationId": "18147205-d29d-45b6-ae55-e48e248c2bc1",
+      "observationVersion": 2,
+      "memoryId": "e814c421-b6ef-40b9-9515-349d16c0c305",
+      "memoryVersion": 1,
+      "sourceMemoryIds": [
+        "66c6471e-c974-4a4d-ad16-e3396bb7f2c3",
+        "6ae7f079-b90b-426c-99b9-47cbc0f4ade0"
+      ],
+      "budgetCalls": 1,
+      "budgetInputCharacters": 2382,
+      "configuredThroughDom": true,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "inferenceAcceptedThroughDom": true,
+      "priorIdentityRestored": false,
+      "capture": {
+        "innerHeight": 615,
+        "rects": [
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 246,
+            "bottom": 267
+          },
+          {
+            "top": 283,
+            "bottom": 333
+          }
+        ]
+      }
+    },
+    "restored": {
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "configurationId": "b56798dd-0aea-4929-a508-2dab10cd0705",
+      "configurationVersion": 1,
+      "jobId": "75d96025-c424-4823-a5ec-9546edcb5c65",
+      "jobVersion": 4,
+      "reportId": "eca6c392-c395-46eb-a6f7-622d1ce39286",
+      "reportVersion": 2,
+      "governanceVersion": 1,
+      "observationId": "18147205-d29d-45b6-ae55-e48e248c2bc1",
+      "observationVersion": 2,
+      "memoryId": "e814c421-b6ef-40b9-9515-349d16c0c305",
+      "memoryVersion": 1,
+      "sourceMemoryIds": [
+        "66c6471e-c974-4a4d-ad16-e3396bb7f2c3",
+        "6ae7f079-b90b-426c-99b9-47cbc0f4ade0"
+      ],
+      "budgetCalls": 1,
+      "budgetInputCharacters": 2382,
+      "configuredThroughDom": true,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "inferenceAcceptedThroughDom": true,
+      "priorIdentityRestored": true,
+      "capture": {
+        "innerHeight": 615,
+        "rects": [
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 209,
+            "bottom": 230
+          },
+          {
+            "top": 246,
+            "bottom": 267
+          },
+          {
+            "top": 283,
+            "bottom": 333
+          }
+        ]
+      }
+    },
+    "seedTransportCalls": 1,
+    "verifyTransportCalls": 0
+  },
+  "pendingRecovery": {
+    "content": "E2E_PARTIAL_NORMAL",
+    "status": "interrupted",
+    "saved": true,
+    "recoveryTransportCalls": 0
+  },
+  "screenshots": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-seed-ui-02.png",
+      "sha256": "B06A5A5BFE691C6E5E9CF783E7A32FDF3BD07A48EFDDDE104CCD613A8364D679"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-verify-ui-02.png",
+      "sha256": "AF30A53B25A5E1770CAF3C45E12F0855DCA2729F01D3720F29EEFDCC73C3B153"
+    }
+  ],
+  "trustedManifest": {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-trusted-manifest-v3.json",
+    "sha256": "E53D0458E049713225EB72467695467771D94F801E6BCB48E118C9B7D098EB76"
+  },
+  "notes": [
+    "Accepted observation closes the detail by current product design; the E2E waits for the refreshed report card and explicitly reopens the report before capture.",
+    "Screenshot rect metadata is evidence only and is not a PASS gate.",
+    "The retained root remains marker-owned synthetic data for the separately reviewed installation fixture conversion."
+  ]
+}

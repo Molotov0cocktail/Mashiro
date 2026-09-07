@@ -1,0 +1,19 @@
+{
+  "backupId": "b7f1ceb6-6d73-4373-bf73-9850e8f7075c",
+  "rows": [
+    {
+      "path": ".mashiro-dataset.json",
+      "backupBytes": 143,
+      "hashMatches": true,
+      "bytesMatch": true,
+      "retainedSourceUnchanged": true
+    },
+    {
+      "path": "mashiro.sqlite",
+      "backupBytes": 712704,
+      "hashMatches": true,
+      "bytesMatch": true,
+      "retainedSourceUnchanged": false
+    }
+  ]
+}

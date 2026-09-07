@@ -1,0 +1,35 @@
+{
+  "scope": "internal installer file protection only; app not launched; no cross-version update",
+  "root": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-delivery-014-2944acc039964e74a9c81bef63c5a2ab",
+  "installerSha256": "2945BBBC6A904954486124CFB86F664ED6E71385EFAC08762368A50D7714D3A6",
+  "signature": "NotSigned",
+  "isAdministrator": false,
+  "phases": [
+    {
+      "phase": "install",
+      "pid": 159260,
+      "exitCode": 0
+    },
+    {
+      "phase": "same-version-reinstall",
+      "pid": 165368,
+      "exitCode": 0
+    },
+    {
+      "phase": "uninstall-launcher",
+      "pid": 162120,
+      "exitCode": 0
+    }
+  ],
+  "preservedFiles": {
+    "resources\\unknown-user-file.txt": "FB5896749F81428977BE8916B101DFBE1350C5758F1E369E014B5D6ED895E177",
+    "unknown-user-file.txt": "EC39564CCA886EF14EEA429D57D59206048ECB3899D5C9F2C6FB1359718C389A",
+    "data\\synthetic-governance.json": "24243AD770C1271E429613D31E052C5538107203C4650979AB4D4FE027785DAC"
+  },
+  "ownedFilesRemoved": 80,
+  "remainingFiles": [
+    "data\\synthetic-governance.json",
+    "resources\\unknown-user-file.txt",
+    "unknown-user-file.txt"
+  ]
+}

@@ -1,5 +1,6 @@
 import {
   closeSync,
+  existsSync,
   fsyncSync,
   lstatSync,
   mkdirSync,
@@ -106,6 +107,8 @@ export function inspectProductionDataSet(
   manifest: DataSetManifest
 } {
   const dataPath = canonicalDirectory(path)
+  if (existsSync(join(dataPath, '.mashiro-snapshot.json')))
+    throw new Error('SNAPSHOT_RESTORE_REQUIRED')
   const manifest = manifestSchema.parse(
     JSON.parse(readRegularFile(join(dataPath, manifestName), 4096).toString('utf8'))
   )

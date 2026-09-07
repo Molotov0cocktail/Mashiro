@@ -1,0 +1,80 @@
+{
+  "status": "LOCAL_NATIVE_RETAINED_PASS_PENDING_ROOT_COMMIT",
+  "base": "2307e490a60af9cfce9f72ba9c0fd0d5ae658f20",
+  "runId": "813ded0c-1e7f-4b44-8442-fdcd19ffe20d",
+  "syntheticRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-YSASSE",
+  "fileCount": 11,
+  "files": [
+    {
+      "path": "src/main/testing/e2e-daily.ts",
+      "owner": "ui-agent",
+      "sha256": "17258543A3E02BB947429740A56589DFF272BA2174B1650978CE7EAA8338E2CC",
+      "bytes": 14622
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "owner": "ui-agent",
+      "sha256": "B6B8921982E8642BECCA7C76C7722097F39D2E68B069DCCE29633EDFBA8EB62F",
+      "bytes": 43889
+    },
+    {
+      "path": "scripts/electron-f1-harness.mjs",
+      "owner": "ui-agent",
+      "sha256": "5B34221EE36E8FB2393D2231471C5C836414FF11FB247E11613D372539B140A5",
+      "bytes": 23037
+    },
+    {
+      "path": "src/main/background/daily-service.ts",
+      "owner": "astra-authored-root-reviewed-budget-repair",
+      "sha256": "04965032CDCCFFEA671F8AEC563D3369A0DC419160FFCE09C29223BD63A958E8",
+      "bytes": 48459
+    },
+    {
+      "path": "tests/unit/daily-model-contract-independent.test.ts",
+      "owner": "ui-agent-independent-review",
+      "sha256": "223E41EDC9C3568ACAD92306330036D83F9BD64263BBDF8119BE6722EB3B27B8",
+      "bytes": 6072
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-trusted-manifest-v3.json",
+      "owner": "trusted",
+      "sha256": "E53D0458E049713225EB72467695467771D94F801E6BCB48E118C9B7D098EB76",
+      "bytes": 6188
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-e2e-02.json",
+      "owner": "ui-agent",
+      "sha256": "664DDB842DD6A23ADDAA1036266BD093DE3249D8002338E456C80F364FD33FE0",
+      "bytes": 4762
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-e2e-handoff-v2.md",
+      "owner": "ui-agent",
+      "sha256": "AEC5A3B432A8694569637CFB9453986361682438D36C37F05FD7D225469E40A5",
+      "bytes": 2821
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-seed-ui-02.png",
+      "owner": "ui-agent",
+      "sha256": "B06A5A5BFE691C6E5E9CF783E7A32FDF3BD07A48EFDDDE104CCD613A8364D679",
+      "bytes": 69823
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-native-verify-ui-02.png",
+      "owner": "ui-agent",
+      "sha256": "AF30A53B25A5E1770CAF3C45E12F0855DCA2729F01D3720F29EEFDCC73C3B153",
+      "bytes": 69810
+    },
+    {
+      "path": "test-results/electron-f1.json",
+      "owner": "generated-final-output",
+      "sha256": "809E19061CEE65AA63AF8399C4D6F07333B35E68BDC4CE5209653FB773F4344C",
+      "bytes": 22223
+    }
+  ],
+  "limits": [
+    "Local fake Provider transport; no network.",
+    "Screenshot layout metadata is recorded but is not a business PASS gate.",
+    "Not PACKAGED, installer, live Provider, or release qualification."
+  ]
+}

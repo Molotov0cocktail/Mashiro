@@ -1,0 +1,22 @@
+[
+  {
+    "name": "助手配置：原生验收 合成助手",
+    "type": "ControlType.ListItem"
+  },
+  {
+    "name": "原生验收 合成助手的内置形象：雪原",
+    "type": "ControlType.Image"
+  },
+  {
+    "name": "原生验收 合成助手",
+    "type": "ControlType.Text"
+  },
+  {
+    "name": "原生验收 合成助手的真实配置入口",
+    "type": "ControlType.Group"
+  },
+  {
+    "name": "原生验收 合成助手的聊天形象：雪原",
+    "type": "ControlType.Image"
+  }
+]

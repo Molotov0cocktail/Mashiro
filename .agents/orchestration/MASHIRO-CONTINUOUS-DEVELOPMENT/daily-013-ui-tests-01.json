@@ -1,0 +1,22 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer",
+  "recordedAt": "2026-09-07T11:45:00+08:00",
+  "runner": "gpt-5.6-sol/high UI executor",
+  "command": "D:\\nodejs\\node.exe node_modules\\vitest\\vitest.mjs run tests/renderer --maxWorkers=2",
+  "result": {
+    "exitCode": 0,
+    "testFilesPassed": 34,
+    "testFilesFailed": 0,
+    "testsPassed": 141,
+    "testsFailed": 0,
+    "durationSeconds": 28.28
+  },
+  "focusedPredecessor": {
+    "command": "D:\\nodejs\\node.exe node_modules\\vitest\\vitest.mjs run tests/renderer/DailyPanel.test.tsx tests/renderer/DailyPanel-recovery.test.tsx tests/renderer/App-daily.test.tsx tests/renderer/ItemPanel-daily-navigation.test.tsx tests/renderer/ItemPanel.test.tsx --maxWorkers=2",
+    "exitCode": 0,
+    "testFilesPassed": 5,
+    "testsPassed": 20
+  },
+  "scope": "Renderer regression only; this is executor evidence and is not an independent candidate PASS."
+}

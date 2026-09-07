@@ -1,0 +1,16 @@
+{
+  "pid": 182096,
+  "schema": {
+    "user_version": 15
+  },
+  "assistants": [
+    {
+      "id": "528d9fbb-ac22-4494-85d5-6ad175c5f768",
+      "display_name": "原生验收 合成助手",
+      "version": 1
+    }
+  ],
+  "integrity": {
+    "integrity_check": "ok"
+  }
+}

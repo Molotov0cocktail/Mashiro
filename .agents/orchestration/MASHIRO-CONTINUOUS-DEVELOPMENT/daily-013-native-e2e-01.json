@@ -1,0 +1,88 @@
+{
+  "status": "LOCAL_NATIVE_ELECTRON_PASS",
+  "scope": "real Electron/preload/IPC/DOM with local fake Provider transport; no network; not live; not PACKAGED",
+  "finalCommand": "D:\\nodejs\\node.exe scripts\\electron-f1-harness.mjs (after npm run test:electron built the same e2e-controller/e2e-daily source)",
+  "runId": "329b8435-5a20-4c23-b249-b4ddfe6c2806",
+  "runtimes": {
+    "electron": "44.1.1",
+    "node": "24.19.0",
+    "sqlite": "3.53.3",
+    "pids": [
+      173384,
+      173252
+    ]
+  },
+  "daily": {
+    "seed": {
+      "assistantId": "b06c44c9-55fd-4916-95eb-e8e7ab36bdda",
+      "configurationId": "5f0be1c3-4304-474a-a110-3f1824ea46e9",
+      "configurationVersion": 1,
+      "jobId": "b2e0590c-5436-4950-a457-c7b0dfa73ad4",
+      "jobVersion": 4,
+      "reportId": "21ccbd18-a17d-4f7a-a533-d9d77a3ccd41",
+      "reportVersion": 2,
+      "governanceVersion": 1,
+      "observationId": "eb4a107a-fee1-4463-a91d-a997e81b30eb",
+      "observationVersion": 2,
+      "memoryId": "18d99945-6d4b-419d-b17f-cefeac6f07c4",
+      "memoryVersion": 1,
+      "sourceMemoryIds": [
+        "615560a1-b51d-4a7d-8d4d-11d051b1e2e4",
+        "7a1ee879-b171-48aa-a99b-f7f50b827d03"
+      ],
+      "budgetCalls": 1,
+      "configuredThroughDom": true,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "inferenceAcceptedThroughDom": true,
+      "priorIdentityRestored": false
+    },
+    "restored": {
+      "assistantId": "b06c44c9-55fd-4916-95eb-e8e7ab36bdda",
+      "configurationId": "5f0be1c3-4304-474a-a110-3f1824ea46e9",
+      "configurationVersion": 1,
+      "jobId": "b2e0590c-5436-4950-a457-c7b0dfa73ad4",
+      "jobVersion": 4,
+      "reportId": "21ccbd18-a17d-4f7a-a533-d9d77a3ccd41",
+      "reportVersion": 2,
+      "governanceVersion": 1,
+      "observationId": "eb4a107a-fee1-4463-a91d-a997e81b30eb",
+      "observationVersion": 2,
+      "memoryId": "18d99945-6d4b-419d-b17f-cefeac6f07c4",
+      "memoryVersion": 1,
+      "sourceMemoryIds": [
+        "615560a1-b51d-4a7d-8d4d-11d051b1e2e4",
+        "7a1ee879-b171-48aa-a99b-f7f50b827d03"
+      ],
+      "budgetCalls": 1,
+      "configuredThroughDom": true,
+      "bodyReadThroughDom": true,
+      "sourcesInitiallyCollapsed": true,
+      "inferenceAcceptedThroughDom": true,
+      "priorIdentityRestored": true
+    },
+    "seedTransportCalls": 1,
+    "verifyTransportCalls": 0
+  },
+  "pendingRecovery": {
+    "content": "E2E_PARTIAL_NORMAL",
+    "status": "interrupted",
+    "saved": true,
+    "recoveryTransportCalls": 0
+  },
+  "screenshots": [
+    {
+      "path": "test-results/daily-013-seed-ui.png",
+      "sha256": "F3AE9C916572313AA44B558C9EFEB1722B38D0A42E6C9465B9EA57160E45F2BC"
+    },
+    {
+      "path": "test-results/daily-013-verify-ui.png",
+      "sha256": "BAE9C28655F60807DFC07A8877A663459449C7DE59AA88372CD0A72A875C9213"
+    }
+  ],
+  "sourceFiles": [
+    "src/main/testing/e2e-daily.ts",
+    "src/main/testing/e2e-controller.ts",
+    "scripts/electron-f1-harness.mjs"
+  ]
+}

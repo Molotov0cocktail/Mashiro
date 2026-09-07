@@ -1,0 +1,22 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer repaired candidate",
+  "recordedAt": "2026-09-07T12:13:00+08:00",
+  "runner": "gpt-5.6-sol/high UI executor",
+  "focused": {
+    "command": "vitest run DailyPanel-root-review DailyPanel DailyPanel-recovery DailyPanel-operations App-daily ItemPanel-daily-navigation --maxWorkers=2",
+    "exitCode": 0,
+    "testFiles": 6,
+    "tests": 13,
+    "includesIndependentRootOracles": 4
+  },
+  "renderer": {
+    "command": "D:\\nodejs\\node.exe node_modules\\vitest\\vitest.mjs run tests/renderer --maxWorkers=2",
+    "exitCode": 0,
+    "testFilesPassed": 36,
+    "testsPassed": 146,
+    "durationSeconds": 30.67
+  },
+  "reviewRedEvidence": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-ui-red-04.json",
+  "scope": "Executor rerun after root's independent RED oracles; green result does not self-declare independent PASS."
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "p": "src/main/background/daily-schema.ts",
+    "old": "  'daily_item_checkpoints',",
+    "new": "  'daily_item_checkpoints',\n  'daily_item_changes',"
+  },
+  {
+    "p": "src/main/background/daily-schema.ts",
+    "old": "        CREATE TABLE usage_attempts",
+    "new": "        CREATE TABLE daily_item_changes(item_id TEXT NOT NULL,version INTEGER NOT NULL,record_json TEXT NOT NULL,PRIMARY KEY(item_id,version));\n        INSERT INTO daily_item_changes SELECT id,version,record_json FROM items;\n        CREATE TABLE usage_attempts"
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "  requestId: string\n  fingerprint: string",
+    "new": "  requestId?: string\n  jobId?: string\n  fingerprint: string"
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "  permissionState(assistantId: string): ItemPermissions {",
+    "new": "  permissionState(assistantId: string, fingerprint?: string): ItemPermissions {"
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "    const endpoint = this.endpoint(assistantId)\n    const grant",
+    "new": "    const bound = this.endpoint(assistantId)\n    const endpoint = fingerprint === undefined ? bound : { fingerprint, display: bound.fingerprint === fingerprint ? bound.display : null }\n    const grant"
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "    const p = this.permissionState(execution.assistantId)",
+    "new": "    const p = this.permissionState(execution.assistantId, execution.fingerprint)"
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "    const p = this.permissionState(assistantId)\n    if (!p.read",
+    "new": "    const p = this.permissionState(assistantId, fingerprint)\n    if (!p.read"
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "    // Persist the stop in the same item transaction:",
+    "new": "    this.store.database.prepare('INSERT OR IGNORE INTO daily_item_changes VALUES(?,?,?)').run(record.id,record.version,JSON.stringify(record))\n    // Persist the stop in the same item transaction:"
+  },
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "  proposeLocal(\n",
+    "new": "  backgroundProposal(execution: Omit<ItemExecution,'requestId'> & { jobId: string }, commandId: string, candidate: ItemContent, identity: string): ItemReceipt {\n    this.assertAccess(execution,'propose')\n    return this.proposeLocal(execution.assistantId,commandId,candidate,execution.sources,identity,execution)\n  }\n  proposeLocal(\n"
+  },
+  {
+    "p": "tests/integration/retention-legacy-fixture.ts",
+    "old": "export function removeStewardFixture(database: DatabaseSync): void {",
+    "new": "export function removeDailyFixture(database: DatabaseSync): void {\n  for (const table of ['daily_configs','daily_jobs','daily_reports','daily_commands','daily_suppressions','daily_item_checkpoints','daily_item_changes','usage_attempts','operation_events']) database.exec('DROP TABLE ' + table)\n}\nexport function removeStewardFixture(database: DatabaseSync): void {\n  removeDailyFixture(database)"
+  },
+  {
+    "p": "tests/integration/steward-branch-migration.test.ts",
+    "old": "import { DatabaseSync } from 'node:sqlite'",
+    "new": "import { DatabaseSync } from 'node:sqlite'\nimport { removeDailyFixture } from './retention-legacy-fixture.js'"
+  },
+  {
+    "p": "tests/integration/steward-branch-migration.test.ts",
+    "old": "  prior.exec('ALTER TABLE",
+    "new": "  removeDailyFixture(prior)\n  prior.exec('ALTER TABLE"
+  },
+  {
+    "p": "tests/integration/assistant-profile.test.ts",
+    "old": "PRAGMA user_version=14",
+    "new": "PRAGMA user_version=15"
+  },
+  {
+    "p": "tests/integration/assistant-profile.test.ts",
+    "old": "toEqual({ user_version: 13 })",
+    "new": "toEqual({ user_version: 14 })"
+  },
+  {
+    "p": "tests/integration/background-schema.test.ts",
+    "old": "toEqual({ user_version: 13 })",
+    "new": "toEqual({ user_version: 14 })"
+  },
+  {
+    "p": "tests/integration/item-schema.test.ts",
+    "old": "toEqual({ user_version: 13 })",
+    "new": "toEqual({ user_version: 14 })"
+  },
+  {
+    "p": "tests/integration/provider-tools.test.ts",
+    "old": "toEqual({ user_version: 13 })",
+    "new": "toEqual({ user_version: 14 })"
+  },
+  {
+    "p": "tests/integration/reminder-schema.test.ts",
+    "old": "toEqual({ user_version: 13 })",
+    "new": "toEqual({ user_version: 14 })"
+  },
+  {
+    "p": "tests/integration/retention-schema.test.ts",
+    "old": "toEqual({ user_version: 13 })",
+    "new": "toEqual({ user_version: 14 })"
+  },
+  {
+    "p": "tests/integration/steward-branch-migration.test.ts",
+    "old": ".user_version).toBe(13)",
+    "new": ".user_version).toBe(14)"
+  },
+  {
+    "p": "tests/integration/steward-schema.test.ts",
+    "old": ".user_version).toBe(13)",
+    "new": ".user_version).toBe(14)"
+  }
+]

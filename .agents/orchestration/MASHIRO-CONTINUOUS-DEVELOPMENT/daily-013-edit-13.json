@@ -1,0 +1,22 @@
+[
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "              this.store.database.prepare('DELETE FROM items WHERE id=?').run(target.id)",
+    "new": "              this.store.database.prepare('DELETE FROM daily_item_changes WHERE item_id=?').run(target.id)\n              this.store.database.prepare('DELETE FROM daily_item_checkpoints WHERE item_id=?').run(target.id)\n              this.store.database.prepare('INSERT INTO daily_item_changes VALUES(?,?,?)').run(target.id, target.version + 1, JSON.stringify({deleted:true,id:target.id,version:target.version+1,originAssistantId:target.originAssistantId}))\n              this.store.database.prepare('DELETE FROM items WHERE id=?').run(target.id)"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "    for (const entry of inputs.entries)\n      if",
+    "new": "    for (const checkpoint of inputs.checkpoints.filter(row => row.fields.includes('deleted'))) {\n      const permission = this.items.permissionState(current.assistantId, current.recipientFingerprint!)\n      const row = this.store.database.prepare('SELECT record_json FROM daily_item_changes WHERE item_id=? AND version=?').get(checkpoint.itemId, checkpoint.toVersion)\n      if (!current.dataScope.items || !permission.read || !permission.receive || !row || JSON.parse(String(row.record_json)).deleted !== true) throw Error('SOURCE_STALE')\n    }\n    for (const entry of inputs.entries)\n      if"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "    let available = 0\n    let changesLimited = false",
+    "new": "    let available = 0\n    let changesLimited = false\n    if (config.feature === 'deadline-change' && config.dataScope.items) {\n      const permission = this.items.permissionState(config.assistantId, config.recipientFingerprint!)\n      if (permission.read && permission.receive) {\n        for (const row of this.store.database.prepare(\"SELECT d.item_id,d.version FROM daily_item_changes d LEFT JOIN daily_item_checkpoints c ON c.config_id=? AND c.item_id=d.item_id WHERE json_extract(d.record_json,'$.deleted')=1 AND (c.version IS NULL OR c.version<d.version) ORDER BY d.item_id\").all(config.id)) {\n          if (checkpoints.length >= 64) { changesLimited = true; continue }\n          checkpoints.push({itemId:String(row.item_id),fromVersion:Number(row.version)-1,toVersion:Number(row.version),fields:['deleted'],before:null,after:'正式事项已被用户删除；旧正文不再保留',consumed:false})\n        }\n      }\n    }"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "          const acceptedContent = itemRecordSchema.parse(JSON.parse(String(accepted.record_json))).content",
+    "new": "          const acceptedRecord = JSON.parse(String(accepted.record_json))\n          const acceptedContent = acceptedRecord.deleted === true ? {} : itemRecordSchema.parse(acceptedRecord).content"
+  }
+]

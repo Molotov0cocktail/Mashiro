@@ -557,7 +557,7 @@ button:disabled {
   top: 0;
   z-index: 3;
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 8px;
   margin-top: 24px;
   border: 1px solid #514568;
@@ -1591,5 +1591,104 @@ button:disabled {
   .steward-budget-grid,
   .steward-usage dl {
     grid-template-columns: 1fr;
+  }
+}
+
+.daily-panel {
+  display: grid;
+  gap: 1rem;
+  margin-top: 32px;
+  padding: 24px;
+  border: 1px solid #514568;
+  border-radius: 16px;
+  background: rgb(28 24 38 / 88%);
+}
+.daily-heading,
+.daily-card-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.daily-tabs,
+.daily-subtabs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.daily-tabs button[aria-selected='true'],
+.daily-subtabs button[aria-selected='true'] {
+  border-color: #bd9fff;
+  background: #382d4d;
+}
+.daily-config,
+.daily-detail,
+.daily-card,
+.daily-section {
+  padding: 0.9rem;
+  border: 1px solid #514568;
+  border-radius: 0.7rem;
+  background: rgb(24 21 34 / 72%);
+}
+.daily-config-grid,
+.daily-check-grid,
+.daily-usage-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.daily-config label,
+.daily-detail label {
+  display: grid;
+  gap: 0.35rem;
+}
+.daily-config fieldset {
+  display: grid;
+  gap: 0.65rem;
+  margin-block: 0.8rem;
+  border: 1px solid #514568;
+  border-radius: 0.6rem;
+}
+.daily-card,
+.daily-section {
+  margin-block: 0.75rem;
+}
+.daily-markdown {
+  max-height: 30rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 0.9rem;
+  border-radius: 0.6rem;
+  background: #211c2c;
+}
+.daily-usage-summary div {
+  padding: 0.75rem;
+  border-radius: 0.6rem;
+  background: #211c2c;
+}
+.daily-usage-summary dd {
+  margin: 0.2rem 0 0;
+  font-weight: 650;
+}
+.daily-card.state-remote_unknown,
+.daily-card.state-failed,
+.daily-card.state-partial,
+.daily-card.severity-error {
+  border-color: #a96055;
+}
+.daily-card.state-budget_paused,
+.daily-card.state-recovery_pending,
+.daily-card.severity-warn {
+  border-color: #a7812d;
+}
+@media (max-width: 820px) {
+  .daily-tabs,
+  .daily-subtabs,
+  .daily-config-grid,
+  .daily-check-grid,
+  .daily-usage-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

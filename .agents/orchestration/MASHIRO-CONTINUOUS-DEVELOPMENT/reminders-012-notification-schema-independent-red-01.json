@@ -1,0 +1,25 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "REM-002 durable notification group schema independent review",
+  "recordedAt": "2026-09-07T12:45:00+08:00",
+  "reviewer": "gpt-5.6-sol/high",
+  "implementation": {
+    "path": "src/main/reminder/reminder-notification-schema.ts",
+    "sha256": "FCDB7C89DF2CA2826882A0F9794EA584F194E224D7909E8EC7A836CC6D3D3BF7"
+  },
+  "oracle": {
+    "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+    "sha256": "A28736144AB599600BA021093AAF569DCC87F6F306CACD0DC12C8F74354BC66B"
+  },
+  "command": "vitest run tests/integration/reminder-notification-schema-independent.test.ts --maxWorkers=2",
+  "exitCode": 1,
+  "passed": 1,
+  "failed": 1,
+  "greenCoverage": "v14 collision rolls back user_version and later clean migration succeeds",
+  "failure": {
+    "expected": "Opening schema15 with same column names but no types, NOT NULL, PK, or version CHECK throws REMINDER_NOTIFICATION_SCHEMA_INVALID",
+    "actual": "SqliteStore accepted the structurally weak table",
+    "location": "tests/integration/reminder-notification-schema-independent.test.ts:60"
+  },
+  "assessment": "Migration transaction is guarded; post-migration schema verifier checks only names and misses structural corruption. Root owns repair."
+}

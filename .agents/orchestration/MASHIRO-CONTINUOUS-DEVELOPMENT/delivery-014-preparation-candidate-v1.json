@@ -1,0 +1,53 @@
+{
+  "scope": "Data preparation and native dialog composition; not main-integrated or packaged",
+  "typecheck": 0,
+  "lint": 0,
+  "format": 0,
+  "files": [
+    {
+      "path": "src/main/data/production-location.ts",
+      "sha256": "840A13057FB1CE3F4390B732AFFE1DF2E76FAD6D08DFC217559CD81FD6423BB6",
+      "bytes": 8726
+    },
+    {
+      "path": "src/main/data/production-session.ts",
+      "sha256": "66CC2BC462BB54832A341256ED1C1ACC508F60D0AB45DA823E9670967535FBCC",
+      "bytes": 5485
+    },
+    {
+      "path": "src/main/data/production-backup.ts",
+      "sha256": "243FBAFB120F7E35DBF5F6B99CF2CAB92536F36492C7BD21AC0A1F0CA892A4BC",
+      "bytes": 11456
+    },
+    {
+      "path": "src/main/data/production-prepare.ts",
+      "sha256": "D160BF64AEE34B10765B6E7FBF7DC58A362AD051B8AAF0B0211B1BEB58D74E20",
+      "bytes": 4018
+    },
+    {
+      "path": "src/main/data/production-selection.ts",
+      "sha256": "7335A439A1BF103667D4724A3DFCB423451C472711889FBDDE041F6CFF89975E",
+      "bytes": 3553
+    },
+    {
+      "path": "src/main/data/production-bootstrap.ts",
+      "sha256": "A884A6AFB77D1698C0CCF0E301779F13CEDE06B21201E3C848CCCD2264842DD8",
+      "bytes": 2439
+    },
+    {
+      "path": "tests/unit/production-backup.test.ts",
+      "sha256": "1B530A7F05290873A00560585C73D6B44CA395684F58E0CBE325006257AA4579",
+      "bytes": 8654
+    },
+    {
+      "path": "tests/unit/production-prepare.test.ts",
+      "sha256": "70D6026FB9B37CEA177862F5783E5C1DAB829081F36B756BD8E722FBEE3D409D",
+      "bytes": 5221
+    },
+    {
+      "path": "tests/unit/production-selection.test.ts",
+      "sha256": "0A9A8F3C95420B9CE4AD321B2E3222C4880AA99CE49AE6680E69BCAED5161E4D",
+      "bytes": 6064
+    }
+  ]
+}

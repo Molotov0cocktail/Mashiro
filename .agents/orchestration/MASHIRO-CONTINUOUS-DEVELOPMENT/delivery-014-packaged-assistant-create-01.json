@@ -1,0 +1,77 @@
+[
+  {
+    "name": " 个可用",
+    "type": "ControlType.Text",
+    "automationId": ""
+  },
+  {
+    "name": "助手名称",
+    "type": "ControlType.Text",
+    "automationId": ""
+  },
+  {
+    "name": "助手名称",
+    "type": "ControlType.Edit",
+    "automationId": "assistant-name"
+  },
+  {
+    "name": "名称和人设会随正常及严格临时 Provider 请求发送给当前实际接收方；历史、记忆和事项仍在各授权区单独控制。",
+    "type": "ControlType.Text",
+    "automationId": ""
+  },
+  {
+    "name": "助手配置：原生验收 合成助手",
+    "type": "ControlType.ListItem",
+    "automationId": ""
+  },
+  {
+    "name": "原生验收 合成助手的内置形象：雪原",
+    "type": "ControlType.Image",
+    "automationId": ""
+  },
+  {
+    "name": "原生验收 合成助手",
+    "type": "ControlType.Text",
+    "automationId": ""
+  },
+  {
+    "name": "原生验收 合成助手的真实配置入口",
+    "type": "ControlType.Group",
+    "automationId": ""
+  },
+  {
+    "name": "连接名称",
+    "type": "ControlType.Text",
+    "automationId": ""
+  },
+  {
+    "name": "连接名称",
+    "type": "ControlType.Edit",
+    "automationId": ""
+  },
+  {
+    "name": "原生验收 合成助手的聊天形象：雪原",
+    "type": "ControlType.Image",
+    "automationId": ""
+  },
+  {
+    "name": "当前助手",
+    "type": "ControlType.Text",
+    "automationId": ""
+  },
+  {
+    "name": "当前助手",
+    "type": "ControlType.ComboBox",
+    "automationId": ""
+  },
+  {
+    "name": "当前助手的名称和人设会随正常及严格临时请求发送给下方显示的实际接收方；人设不会授予历史、记忆、事项或工具权限。",
+    "type": "ControlType.Text",
+    "automationId": ""
+  },
+  {
+    "name": "请先保存连接并绑定当前助手",
+    "type": "ControlType.Text",
+    "automationId": ""
+  }
+]

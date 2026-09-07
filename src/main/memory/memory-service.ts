@@ -75,7 +75,7 @@ interface VersionRow {
   metadata_json: string
 }
 export interface MemoryExecution {
-  origin?: { kind: 'background' | 'steward'; jobId: string }
+  origin?: { kind: 'background' | 'steward' | 'user'; jobId: string }
   assistantId: string
   requestId: string
   fingerprint: string
@@ -1179,6 +1179,30 @@ export class MemoryService {
       }))
     )
     return found
+  }
+  /** Explicit user review preserves trusted evidence without inventing a conversation round. */
+  observationMutation(
+    execution: Omit<MemoryExecution, 'requestId' | 'origin'> & { jobId: string; commandId: string },
+    mutation: MemoryMutation
+  ): MemoryReceipt {
+    if (mutation.action !== 'remember' && mutation.action !== 'correct')
+      throw new MemoryError('INVALID_INPUT')
+    try {
+      return this.apply({
+        assistantId: execution.assistantId,
+        commandId: execution.commandId,
+        mutation,
+        execution: { ...execution, requestId: '', origin: { kind: 'user', jobId: execution.jobId } }
+      })
+    } catch (error) {
+      const prior = this.command(execution.commandId)
+      if (prior?.receipt_json && prior.state === 'SUCCEEDED')
+        return this.safeReceipt(JSON.parse(prior.receipt_json))
+      this.store.database
+        .prepare("UPDATE memory_commands SET state='NOT_APPLIED' WHERE id=? AND state='PREPARED'")
+        .run(execution.commandId)
+      throw error
+    }
   }
   /** Background slots never create a fictitious user-round dependency. */
   backgroundMutation(

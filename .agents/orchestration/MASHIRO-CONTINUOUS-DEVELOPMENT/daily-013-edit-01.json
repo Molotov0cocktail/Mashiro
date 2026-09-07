@@ -1,0 +1,42 @@
+[
+  {
+    "p": "src/shared/operations-contract.ts",
+    "old": "export const operationsUsageInputSchema = z.strictObject({\n  protocolVersion: z.literal(1),\n  cursor: count.default(0),",
+    "new": "export const operationsUsageInputSchema = z.strictObject({\n  protocolVersion: z.literal(1),\n  cursor: count.default(0),\n  groupsCursor: count.default(0),"
+  },
+  {
+    "p": "src/main/data/schema.ts",
+    "old": "export const schemaVersion = 13",
+    "new": "export const schemaVersion = 14"
+  },
+  {
+    "p": "src/main/data/schema.ts",
+    "old": "import { migrateSteward } from '../background/steward-schema.js'",
+    "new": "import { migrateSteward } from '../background/steward-schema.js'\nimport { migrateDaily } from '../background/daily-schema.js'"
+  },
+  {
+    "p": "src/main/data/schema.ts",
+    "old": "  migrateSteward(database)",
+    "new": "  migrateSteward(database)\n  migrateDaily(database)"
+  },
+  {
+    "p": "src/preload/index.d.ts",
+    "old": "import type { StewardApi }",
+    "new": "import type { DailyApi } from '../shared/daily-contract'\nimport type { OperationsApi } from '../shared/operations-contract'\nimport type { StewardApi }"
+  },
+  {
+    "p": "src/preload/index.d.ts",
+    "old": "      background: BackgroundApi",
+    "new": "      daily: DailyApi\n      operations: OperationsApi\n      background: BackgroundApi"
+  },
+  {
+    "p": "src/preload/index.ts",
+    "old": "import { contextBridge, ipcRenderer } from 'electron'",
+    "new": "import { contextBridge, ipcRenderer } from 'electron'\nimport { dailyChannels } from '../shared/daily-channels.js'\nimport { operationsChannels } from '../shared/operations-channels.js'\nimport type { DailyApi, DailyChanged } from '../shared/daily-contract.js'\nimport type { OperationsApi, OperationsChanged } from '../shared/operations-contract.js'"
+  },
+  {
+    "p": "src/preload/index.ts",
+    "old": "contextBridge.exposeInMainWorld('mashiro', {",
+    "new": "const daily: DailyApi = {\n  configure: (input) => ipcRenderer.invoke(dailyChannels.configure,input),\n  query: (input) => ipcRenderer.invoke(dailyChannels.query,input),\n  preview: (input) => ipcRenderer.invoke(dailyChannels.preview,input),\n  inspect: (input) => ipcRenderer.invoke(dailyChannels.inspect,input),\n  run: (input) => ipcRenderer.invoke(dailyChannels.run,input),\n  control: (input) => ipcRenderer.invoke(dailyChannels.control,input),\n  decide: (input) => ipcRenderer.invoke(dailyChannels.decide,input),\n  ack: (input) => ipcRenderer.invoke(dailyChannels.ack,input),\n  onChanged: (listener) => { const handler = (_event: unknown,value: unknown) => listener(value as DailyChanged); ipcRenderer.on(dailyChannels.changed,handler); return () => ipcRenderer.removeListener(dailyChannels.changed,handler) }\n}\nconst operations: OperationsApi = {\n  query: (input) => ipcRenderer.invoke(operationsChannels.query,input),\n  usage: (input) => ipcRenderer.invoke(operationsChannels.usage,input),\n  onChanged: (listener) => { const handler = (_event: unknown,value: unknown) => listener(value as OperationsChanged); ipcRenderer.on(operationsChannels.changed,handler); return () => ipcRenderer.removeListener(operationsChannels.changed,handler) }\n}\ncontextBridge.exposeInMainWorld('mashiro', {\n  daily,\n  operations,"
+  }
+]

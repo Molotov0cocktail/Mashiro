@@ -1,3 +1,5 @@
+import type { DailyApi } from '../shared/daily-contract'
+import type { OperationsApi } from '../shared/operations-contract'
 import type { StewardApi } from '../shared/steward-contract'
 import type { BackgroundApi } from '../shared/background-contract'
 import type { ReminderApi } from '../shared/reminder-contract'
@@ -12,6 +14,8 @@ import type { TimelineApi } from '../shared/timeline-contract'
 declare global {
   interface Window {
     mashiro: {
+      daily: DailyApi
+      operations: OperationsApi
       background: BackgroundApi
       steward: StewardApi
       reminders: ReminderApi

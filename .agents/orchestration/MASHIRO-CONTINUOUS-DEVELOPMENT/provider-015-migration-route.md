@@ -1,0 +1,8 @@
+# 015 isolated migration route evidence
+
+No product file or application database was changed. Both experiments used node:sqlite in-memory databases. They validate only the table-rebuild mechanism, not the actual schema 15 migration.
+
+- [Experiment 01](provider-015-migration-experiment-01.json): deferring foreign keys inside the rebuild transaction failed at COMMIT despite the reconstructed parent rows. Rollback retained the original child row and foreign_keys remained enabled. Do not use this route on the product database.
+- [Experiment 02](provider-015-migration-experiment-02.json): foreign_keys disabled only on the isolated migration connection before BEGIN, followed by rebuild, trigger restoration, foreign_key_check, commit and unconditional foreign_keys re-enable. The success case retained the original child row and mode, preserved the update-blocking tombstone trigger, accepted the newly supported mode and rejected a dangling FK. The injected exception after DROP rolled back to version 15, the original CHECK, trigger and child row; the new mode was rejected and FK checks restored.
+
+Product implementation must repeat these oracles with an actual populated schema 15 fixture, the real retention_segment_update trigger, tool_operations/protocol_results and permission dependencies. Preserve old version preimages when changing the shared legacy fixture chain. Validate old data before rebuilding, verify copied row counts and every relevant constraint/index/trigger, do not execute arbitrary stored DDL, never use writable_schema, and restore the connection's FK setting on every route. No existing product schema write lock is released by this experiment.

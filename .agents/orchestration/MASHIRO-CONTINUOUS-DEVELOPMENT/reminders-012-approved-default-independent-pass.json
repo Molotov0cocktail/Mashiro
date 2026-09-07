@@ -1,0 +1,64 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "REM-002 approved default and durable notification group independent review",
+  "recordedAt": "2026-09-07T12:39:00+08:00",
+  "reviewer": "gpt-5.6-sol/high; did not implement reviewed production files",
+  "redEvidence": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-independent-red-01.json",
+  "repairedImplementation": [
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "2B67B8AE29E4B82CF4A8C861342CF72E34F2C4B2262E1A9A70B19C58275FE5E4"
+    },
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "sha256": "8E0225D171A053D910B34240AE85304692C12A28F620C31A244C9CB80742CF34"
+    },
+    {
+      "path": "src/main/reminder/reminder-runtime.ts",
+      "sha256": "192C94D559967BBEA708B578CC54766DD00D51B3A0576B93A4ECDAED77B65D09"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "sha256": "CA5F84303AC0172E31FF1E45093C23BB9E7860CCA7222DA037B4FFEB1A52A893"
+    }
+  ],
+  "oracle": {
+    "path": "tests/integration/reminder-approved-default-independent.test.ts",
+    "sha256": "77E0908A0FFB05F861A398EF70D4DD430340DAE35B6727C400B6F888A228C0B9",
+    "tests": 5,
+    "coverage": [
+      "exact 24-hour boundary",
+      "default merge across distinct items",
+      "101 items remain one native notification",
+      "cold-start durable group activation once",
+      "unknown and forged group inert",
+      "partial cancellation opens surviving item",
+      "full cancellation inert"
+    ]
+  },
+  "focused": {
+    "command": "vitest reminder-service reminder-schema reminder-approved-default-independent --maxWorkers=2",
+    "exitCode": 0,
+    "files": 3,
+    "tests": 23
+  },
+  "static": [
+    {
+      "command": "tsc -p tsconfig.node.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "eslint independent reminder test",
+      "exitCode": 0
+    },
+    {
+      "command": "prettier --check independent reminder test",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check independent reminder test",
+      "exitCode": 0
+    }
+  ],
+  "assessment": "LIMITED INDEPENDENT PASS for approved default and repaired durable notification group at exact hashes. Does not claim actual Windows toast/login/resume/install lifecycle."
+}

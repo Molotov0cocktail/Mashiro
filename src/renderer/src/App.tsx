@@ -14,6 +14,7 @@ import {
   BackgroundPanel,
   type ChapterContextSelection
 } from './features/background/BackgroundPanel'
+import { DailyPanel } from './features/daily/DailyPanel'
 import { ItemPanel } from './features/items/ItemPanel'
 import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
@@ -45,7 +46,7 @@ export function App(): React.JSX.Element {
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
   const [activeView, setActiveView] = useState<
-    'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'retention'
+    'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'daily' | 'retention'
   >('chat')
   const [configurationFocus, setConfigurationFocus] = useState<ConfigurationFocus | null>(null)
   const [chapterContextTarget, setChapterContextTarget] = useState<{
@@ -72,9 +73,10 @@ export function App(): React.JSX.Element {
   const [pendingItemCommands] = useState(() => new Map<string, string>())
   const [pendingReminderCommands] = useState(() => new Map<string, string>())
   const [reminderRefreshKey, setReminderRefreshKey] = useState(0)
-  const [reminderOpenTarget, setReminderOpenTarget] = useState<{
+  const [itemOpenTarget, setItemOpenTarget] = useState<{
     assistantId: string
-    itemId: string
+    type: 'item' | 'proposal'
+    id: string
     nonce: number
   } | null>(null)
   const [retentionChange, setRetentionChange] = useState<RetentionChanged | null>(null)
@@ -149,9 +151,10 @@ export function App(): React.JSX.Element {
     (itemId: string): void => {
       const assistantId = assistantSnapshot?.currentAssistantId
       if (!assistantId) return
-      setReminderOpenTarget((current) => ({
+      setItemOpenTarget((current) => ({
         assistantId,
-        itemId,
+        type: 'item',
+        id: itemId,
         nonce: (current?.nonce ?? 0) + 1
       }))
       setItemRefreshKey((value) => value + 1)
@@ -436,7 +439,7 @@ export function App(): React.JSX.Element {
   useEffect(() => {
     let active = true
     queueMicrotask(() => {
-      if (active) setReminderOpenTarget(null)
+      if (active) setItemOpenTarget(null)
     })
     return () => {
       active = false
@@ -461,9 +464,10 @@ export function App(): React.JSX.Element {
       }
       const itemId = event.itemId
       if (!itemId) return
-      setReminderOpenTarget((current) => ({
+      setItemOpenTarget((current) => ({
         assistantId,
-        itemId,
+        type: 'item',
+        id: itemId,
         nonce: (current?.nonce ?? 0) + 1
       }))
       setItemRefreshKey((value) => value + 1)
@@ -496,7 +500,8 @@ export function App(): React.JSX.Element {
 
   const selectPrimaryView = useCallback(
     (
-      view: 'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'retention'
+      view:
+        'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'daily' | 'retention'
     ): void => {
       assistantRequestVersion.current += 1
       setConfigurationFocus(null)
@@ -565,6 +570,14 @@ export function App(): React.JSX.Element {
           onClick={() => selectPrimaryView('steward')}
         >
           资料整理
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeView === 'daily'}
+          onClick={() => selectPrimaryView('daily')}
+        >
+          日常与运行
         </button>
         <button
           type="button"
@@ -646,7 +659,7 @@ export function App(): React.JSX.Element {
           configurationFocusNonce={
             configurationFocus?.target === 'items' ? configurationFocus.nonce : null
           }
-          openItemTarget={reminderOpenTarget}
+          openItemTarget={itemOpenTarget}
         />
       </section>
       <section hidden={activeView !== 'reminders'} aria-label="提醒页面">
@@ -717,6 +730,81 @@ export function App(): React.JSX.Element {
           />
         ) : (
           <p role="alert">本机资料整理服务尚未就绪。</p>
+        )}
+      </section>
+      <section hidden={activeView !== 'daily'} aria-label="日常与运行页面">
+        {window.mashiro.daily && window.mashiro.operations ? (
+          <DailyPanel
+            assistantSnapshot={assistantSnapshot}
+            api={window.mashiro.daily}
+            operationsApi={window.mashiro.operations}
+            providerApi={window.mashiro.provider}
+            onOpenProposal={({ assistantId, proposalId }) => {
+              setItemOpenTarget((current) => ({
+                assistantId,
+                type: 'proposal',
+                id: proposalId,
+                nonce: (current?.nonce ?? 0) + 1
+              }))
+              setItemRefreshKey((value) => value + 1)
+              setActiveView('items')
+            }}
+            onOpenItem={({ assistantId, itemId }) => {
+              setItemOpenTarget((current) => ({
+                assistantId,
+                type: 'item',
+                id: itemId,
+                nonce: (current?.nonce ?? 0) + 1
+              }))
+              setItemRefreshKey((value) => value + 1)
+              setActiveView('items')
+            }}
+            onOpenMemory={() => {
+              setMemoryRefreshKey((value) => value + 1)
+              setNavigationError('已打开记忆区；请按报告所示的记忆对象与版本完成纠正或撤回确认。')
+              setActiveView('memory')
+            }}
+            onOpenOperationOwner={async (row) => {
+              const targetAssistantId = row.owner.assistantId
+              if (
+                targetAssistantId &&
+                targetAssistantId !== assistantSnapshot?.currentAssistantId
+              ) {
+                const opened = await openAssistantConfiguration(
+                  targetAssistantId,
+                  row.owner.domain === 'item' ? 'items' : 'provider'
+                )
+                if (!opened) return
+              }
+              if (row.owner.domain === 'item') {
+                if (!targetAssistantId) {
+                  setNavigationError('这条事项记录没有可定位的助手。')
+                  return
+                }
+                setItemOpenTarget((current) => ({
+                  assistantId: targetAssistantId,
+                  type: 'item',
+                  id: row.owner.id,
+                  nonce: (current?.nonce ?? 0) + 1
+                }))
+                setItemRefreshKey((value) => value + 1)
+                setActiveView('items')
+                return
+              }
+              if (row.owner.domain === 'reminder') {
+                setReminderRefreshKey((value) => value + 1)
+                setActiveView('reminders')
+              } else if (row.owner.domain === 'background') setActiveView('background')
+              else if (row.owner.domain === 'steward') setActiveView('steward')
+              else if (row.owner.domain === 'provider') setActiveView('chat')
+              else {
+                setNavigationError('这条日常记录没有可识别的功能入口，请刷新后重试。')
+                setActiveView('daily')
+              }
+            }}
+          />
+        ) : (
+          <p role="alert">本机日常运行服务尚未就绪。</p>
         )}
       </section>
       <section hidden={activeView !== 'retention'} aria-label="保留与清理页面">

@@ -206,7 +206,11 @@ function transportResultError(result: TransportResult): 'LIMIT' | 'PROTOCOL' | n
   return null
 }
 
+import { DailyService } from '../background/daily-service.js'
+import { OperationsService } from '../background/operations-service.js'
 export class ProviderService {
+  readonly daily: DailyService
+  readonly operations: OperationsService
   readonly background: BackgroundService
   readonly steward: StewardService
   readonly retention: RetentionService
@@ -239,8 +243,9 @@ export class ProviderService {
     credentialDirectory: string,
     protector: CredentialProtector,
     private readonly transport: ChatTransport,
-    private readonly toolOptions: { clock?: () => Date }
+    private readonly toolOptions: { clock?: () => Date; backgroundClock?: () => Date }
   ) {
+    this.operations = new OperationsService(store, this.toolOptions.backgroundClock)
     this.repository = new ProviderRepository(store)
     this.timeline = new TimelineRepository(store)
     this.historyPermissions = new HistoryPermissionRepository(store)
@@ -310,7 +315,7 @@ export class ProviderService {
           ])
         }
       },
-      send: async (recipient, messages, signal) => {
+      send: async (recipient, messages, signal, options) => {
         const connection = this.repository
           .snapshot(this.vault.temporaryIds())
           .connections.find((c) => c.id === recipient.connectionId)
@@ -330,15 +335,46 @@ export class ProviderService {
             ])
         )
           throw new BackgroundError('PERMISSION_DENIED')
-        return this.transport({
-          baseUrl: connection.baseUrl,
-          apiKey,
-          model: recipient.model,
-          messages,
-          stream: false,
-          signal,
-          maxOutputTokens: 2048
-        })
+        const attempt = options?.feature
+          ? this.operations.begin(
+              {
+                chainId: options.chainId!,
+                actor: options.feature === 'steward' ? 'steward' : 'assistant',
+                assistantId: options.assistantId!,
+                connectionId: connection.id,
+                recipientFingerprint: recipient.fingerprint,
+                model: recipient.model,
+                feature: options.feature,
+                inputCharacters: messages.reduce(
+                  (sum, message) => sum + (message.content?.length ?? 0),
+                  0
+                ),
+                persistent: true,
+                owner: {
+                  domain: options.feature === 'chapter' ? 'background' : 'steward',
+                  id: options.chainId!,
+                  assistantId: options.assistantId!
+                }
+              },
+              options.attemptId
+            )
+          : null
+        try {
+          const result = await this.transport({
+            baseUrl: connection.baseUrl,
+            apiKey,
+            model: recipient.model,
+            messages,
+            stream: false,
+            signal,
+            maxOutputTokens: options?.maxOutputTokens ?? 2048
+          })
+          if (attempt) this.operations.settle(attempt, result.usage)
+          return result
+        } catch (error) {
+          if (attempt) this.operations.settle(attempt, null)
+          throw error
+        }
       }
     }
     this.background = new BackgroundService(
@@ -353,6 +389,14 @@ export class ProviderService {
       backgroundProvider,
       this.toolOptions.clock
     )
+    this.daily = new DailyService(
+      store,
+      this.memory,
+      this.items,
+      backgroundProvider,
+      this.operations,
+      this.toolOptions.backgroundClock
+    )
     this.retention = new RetentionService(
       store,
       join(dirname(credentialDirectory), 'memory'),
@@ -366,25 +410,32 @@ export class ProviderService {
         this.sessions.clear()
         this.background.abort()
         this.steward.abort()
+        this.daily.abort()
       },
       {
         inspectOriginal: (assistantId, requestIds) => {
           const chapters = this.background.inspectOriginal(assistantId, requestIds)
           const steward = this.steward.inspectOriginal(assistantId, requestIds)
           return {
-            blockers: [...chapters.blockers, ...steward.blockers],
+            blockers: [
+              ...chapters.blockers,
+              ...steward.blockers,
+              ...this.daily.inspectOriginal(assistantId, requestIds).blockers
+            ],
             accepted: chapters.accepted
           }
         },
         inspectAssistant: (assistantId) => ({
           blockers: [
             ...this.background.inspectAssistant(assistantId).blockers,
-            ...this.steward.inspectAssistant(assistantId).blockers
+            ...this.steward.inspectAssistant(assistantId).blockers,
+            ...this.daily.inspectAssistant(assistantId).blockers
           ]
         }),
         purgeAssistant: (assistantId) => {
           this.background.purgeAssistant(assistantId)
           this.steward.purgeAssistant(assistantId)
+          this.daily.purgeAssistant(assistantId)
         }
       }
     )
@@ -402,7 +453,7 @@ export class ProviderService {
     credentialDirectory: string,
     protector: CredentialProtector,
     transport: ChatTransport = chatCompletions,
-    toolOptions: { clock?: () => Date } = {}
+    toolOptions: { clock?: () => Date; backgroundClock?: () => Date } = {}
   ): ProviderService {
     const store = new SqliteStore(databasePath)
     try {
@@ -1140,6 +1191,32 @@ export class ProviderService {
         ) > 120000
       )
         throw new ProviderDomainError('LIMIT')
+      const measuredTransport: ChatTransport = async (request) => {
+        assertCurrent()
+        const attempt = this.operations.begin({
+          chainId: value.requestId,
+          actor: 'assistant',
+          assistantId: value.assistantId,
+          connectionId: execution.connection.id,
+          recipientFingerprint: endpointFingerprint,
+          model: execution.binding.model,
+          feature: value.tools === 'off' ? 'conversation' : 'tool-chain',
+          inputCharacters: request.messages.reduce(
+            (sum, message) => sum + (message.content?.length ?? 0),
+            0
+          ),
+          persistent: value.mode === 'normal',
+          owner: { domain: 'provider', id: value.requestId, assistantId: value.assistantId }
+        })
+        try {
+          const result = await this.transport(request)
+          this.operations.settle(attempt, result.usage)
+          return result
+        } catch (error) {
+          this.operations.settle(attempt, null)
+          throw error
+        }
+      }
       const itemTransport: ChatTransport = async (request) => {
         if (automatic) {
           const call = automatic
@@ -1152,11 +1229,11 @@ export class ProviderService {
             toolCalls: [call]
           }
         }
-        return this.transport(request)
+        return measuredTransport(request)
       }
       const result =
         value.tools === 'off'
-          ? await this.transport(transportRequest)
+          ? await measuredTransport(transportRequest)
           : await executeToolChat({
               request: transportRequest,
               scope: value.tools,
@@ -1523,6 +1600,7 @@ export class ProviderService {
       if (status === 'completed' && value.mode === 'normal') {
         this.background.notify()
         this.steward.notify()
+        this.daily.notify()
       }
       emit({ type: status, requestId: value.requestId, assistantId: value.assistantId })
       if (status === 'failed') return chatFailure(transportError(result.error ?? 'temporary'))
@@ -1603,6 +1681,8 @@ export class ProviderService {
     }
     this.background.close()
     this.steward.close()
+    this.daily.close()
+    this.operations.close()
     this.reminders.close()
     this.retention.close()
     this.closed = true

@@ -15,6 +15,10 @@ import { join, relative, resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
 
 const projectRoot = resolve(process.cwd())
+const arguments_ = process.argv.slice(2)
+if (arguments_.some((value) => value !== '--retain-synthetic'))
+  throw new Error('Unsupported Electron E2E argument')
+const retainSynthetic = arguments_.includes('--retain-synthetic')
 const electron = join(projectRoot, 'node_modules', 'electron', 'dist', 'electron.exe')
 if (!existsSync(electron))
   throw new Error('Electron executable is missing; run the official install-electron step')
@@ -101,7 +105,7 @@ async function runPhase(phase) {
     const timer = setTimeout(() => {
       spawnSync('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], { windowsHide: true })
       reject(new Error(`Electron ${phase} timed out`))
-    }, 45_000)
+    }, 60_000)
     child.once('error', (error) => {
       clearTimeout(timer)
       reject(error)
@@ -157,17 +161,26 @@ try {
     verify.profileUi.navigationTargets.length !== 4
   )
     throw new Error('Profile editor or real configuration navigation failed')
+  const seedPendingRequests = seed.transportAfterExplicit.requests.filter((request) =>
+    request.messages.some((message) => message.content === 'E2E_PENDING_NORMAL')
+  )
+  const seedPreDailyRequests = seed.transportAfterExplicit.requests.filter(
+    (request) => !seedPendingRequests.includes(request)
+  )
   if (
-    seed.transportAfterExplicit.requests.some(
-      (r) =>
-        r.messages[0]?.role !== 'system' ||
-        !r.messages[0].content.includes('"persona":"E2E_PROFILE_BEFORE"')
+    seedPreDailyRequests.length !== 7 ||
+    seedPreDailyRequests.some(
+      (request) =>
+        request.messages[0]?.role !== 'system' ||
+        !request.messages[0].content.includes('"persona":"E2E_PROFILE_BEFORE"')
     ) ||
+    seedPendingRequests.length !== 1 ||
+    !seedPendingRequests[0].messages[0]?.content.includes('"persona":"E2E_PROFILE"') ||
     !verify.transportAfterExplicit.requests[0]?.messages[0]?.content.includes(
       '"persona":"E2E_PROFILE"'
     )
   )
-    throw new Error('Profile missing from normal, temporary, tool or restored request')
+    throw new Error('Profile missing from normal, temporary, pending, tool or restored request')
   if (JSON.stringify(seed.assistant) !== JSON.stringify(verify.assistant))
     throw new Error('Restart assistant snapshot changed')
   const active = verify.assistant.assistants.filter((item) => !item.isArchived)
@@ -456,7 +469,49 @@ try {
   for (const key of ['branchId', 'branchVersion', 'memoryId', 'memoryVersion', 'commandId'])
     if (seed.steward[key] !== verify.steward[key])
       throw new Error('Steward restart identity changed')
+  for (const [phase, result] of [
+    ['seed', seed],
+    ['verify', verify]
+  ]) {
+    const daily = result.daily
+    if (
+      !daily ||
+      daily.budgetCalls !== 1 ||
+      daily.budgetInputCharacters <= 0 ||
+      !daily.configuredThroughDom ||
+      !daily.bodyReadThroughDom ||
+      !daily.sourcesInitiallyCollapsed ||
+      !daily.inferenceAcceptedThroughDom ||
+      daily.priorIdentityRestored !== (phase === 'verify') ||
+      result.dailyTransportCalls !== (phase === 'seed' ? 1 : 0)
+    )
+      throw new Error('Daily DOM/lifecycle evidence missing')
+  }
+  for (const key of [
+    'assistantId',
+    'configurationId',
+    'configurationVersion',
+    'jobId',
+    'jobVersion',
+    'reportId',
+    'reportVersion',
+    'governanceVersion',
+    'observationId',
+    'observationVersion',
+    'memoryId',
+    'memoryVersion',
+    'budgetInputCharacters'
+  ])
+    if (seed.daily[key] !== verify.daily[key]) throw new Error('Daily restart identity changed')
+  if (JSON.stringify(seed.daily.sourceMemoryIds) !== JSON.stringify(verify.daily.sourceMemoryIds))
+    throw new Error('Daily source identity changed')
   summary = {
+    daily: {
+      seed: seed.daily,
+      restored: verify.daily,
+      seedTransportCalls: seed.dailyTransportCalls,
+      verifyTransportCalls: verify.dailyTransportCalls
+    },
     steward: {
       seed: seed.steward,
       restored: verify.steward,
@@ -503,6 +558,11 @@ try {
   mkdirSync(join(projectRoot, 'test-results'), { recursive: true })
   for (const phase of ['seed', 'verify'])
     copyFileSync(
+      join(testRoot, 'results', phase + '-daily-ui.png'),
+      join(projectRoot, 'test-results', 'daily-013-' + phase + '-ui.png')
+    )
+  for (const phase of ['seed', 'verify'])
+    copyFileSync(
       join(testRoot, 'results', phase + '-steward-ui.png'),
       join(projectRoot, 'test-results', 'steward-013-' + phase + '-ui.png')
     )
@@ -545,12 +605,20 @@ try {
     join(projectRoot, 'test-results', 'electron-f1.json'),
     JSON.stringify(summary, null, 2)
   )
-  console.log(JSON.stringify(summary, null, 2))
+  console.log(
+    retainSynthetic
+      ? JSON.stringify({ runId, syntheticRoot: canonicalRoot })
+      : JSON.stringify(summary, null, 2)
+  )
   succeeded = true
 } finally {
   const marker = JSON.parse(readFileSync(join(testRoot, '.mashiro-f1-e2e.json'), 'utf8'))
   if (marker.runId === runId && realpathSync.native(testRoot) === canonicalRoot) {
-    if (succeeded) rmSync(testRoot, { recursive: true })
+    if (succeeded && !retainSynthetic) rmSync(testRoot, { recursive: true })
+    else if (succeeded)
+      console.error(
+        JSON.stringify({ outcome: 'E2E_SUCCESS_RETAINED', runId, syntheticRoot: canonicalRoot })
+      )
     else
       console.error(
         JSON.stringify({ outcome: 'E2E_FAILURE_RETAINED', runId, syntheticRoot: canonicalRoot })

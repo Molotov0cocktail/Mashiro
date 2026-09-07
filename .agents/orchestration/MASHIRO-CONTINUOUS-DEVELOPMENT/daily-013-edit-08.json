@@ -1,0 +1,42 @@
+[
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "import { itemRecordSchema, itemProposalSchema }",
+    "new": "import { dailyItemChanges } from './daily-item-changes.js'\nimport { itemRecordSchema, itemProposalSchema, itemContentSchema }"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "    let available = 0",
+    "new": "    let available = 0\n    let changesLimited = false"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "let checkpoint: DailyInputs['checkpoints'][number] | undefined\n        if (config.feature === 'deadline-change' && source.type === 'item') {\n          const current = JSON.parse(read.content) as {\n            dueAt: string | null\n            status: string\n            [key: string]: unknown\n          }\n          const previous = this.store.database\n            .prepare(\n              'SELECT version,content_json FROM daily_item_checkpoints WHERE config_id=? AND item_id=?'\n            )\n            .get(config.id, source.id)\n          const old = previous\n            ? (JSON.parse(String(previous.content_json)) as Record<string, unknown>)\n            : null\n          const fields = config.changeFields.filter(\n            (field) => !old || old[field] !== current[field]\n          )\n          const upcoming =\n            current.dueAt &&\n            !['completed', 'cancelled'].includes(current.status) &&\n            Date.parse(current.dueAt) >= Date.parse(period.start) &&\n            Date.parse(current.dueAt) <=\n              Date.parse(period.start) + config.deadlineWindowHours * 3600000\n          if (!fields.length && !upcoming) continue\n          checkpoint = {\n            itemId: source.id,\n            fromVersion: previous ? Number(previous.version) : null,\n            toVersion: source.version,\n            fields,\n            before: old ? JSON.stringify(old).slice(0, 1000) : null,\n            after: read.content.slice(0, 1000),\n            consumed: false\n          }\n        }\n",
+    "new": "let selected: DailyInputs['checkpoints'] = []\n        if (config.feature === 'deadline-change' && source.type === 'item') {\n          const changes = dailyItemChanges(this.store, config, source.id, source.version,\n            itemContentSchema.parse(JSON.parse(read.content)), period, 64 - checkpoints.length)\n          changesLimited ||= changes.limited\n          if (!changes.relevant && !changes.limited) continue\n          selected = changes.checkpoints\n          if (!selected.length) { available++; continue }\n        }\n"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "        if (checkpoint) checkpoints.push(checkpoint)",
+    "new": "        checkpoints.push(...selected)"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "        limited: available > entries.length,\n        description:\n          available > entries.length",
+    "new": "        limited: changesLimited || available > entries.length,\n        description:\n          changesLimited ? '变更超过本次64个消费检查点；未消费版本保留供后续运行，不代表完整变更记录' :\n          available > entries.length"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "import { itemProposalSchema } from '../../shared/item-contract.js'",
+    "new": "import { itemProposalSchema, itemRecordSchema } from '../../shared/item-contract.js'"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "          const entry = inputs.entries.find(\n            (entry) => entry.evidence.source.id === checkpoint.itemId\n          )!",
+    "new": "          const accepted = this.store.database.prepare('SELECT record_json FROM daily_item_changes WHERE item_id=? AND version=?').get(checkpoint.itemId, checkpoint.toVersion)\n          if (!accepted) throw new DailyError('STALE_WRITE', '消费版本不存在')\n          const acceptedContent = itemRecordSchema.parse(JSON.parse(String(accepted.record_json))).content"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": ".run(job.configurationId, checkpoint.itemId, checkpoint.toVersion, entry.content)",
+    "new": ".run(job.configurationId, checkpoint.itemId, checkpoint.toVersion, JSON.stringify(acceptedContent))"
+  }
+]

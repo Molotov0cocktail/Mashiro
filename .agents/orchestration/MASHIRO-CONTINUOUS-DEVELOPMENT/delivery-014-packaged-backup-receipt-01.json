@@ -1,0 +1,20 @@
+{
+  "formatVersion": 1,
+  "backupId": "b7f1ceb6-6d73-4373-bf73-9850e8f7075c",
+  "dataSetId": "e34e4999-be40-4564-b9b4-0afb781a5605",
+  "schemaVersion": 15,
+  "createdAt": "2026-09-07T05:29:29.412Z",
+  "credentialProtection": "windows-original-user-required",
+  "files": [
+    {
+      "path": ".mashiro-dataset.json",
+      "bytes": 143,
+      "sha256": "5933d87e052e47433b72b80b0f45c2b6c7873292e48523cefbe5189f79a59afa"
+    },
+    {
+      "path": "mashiro.sqlite",
+      "bytes": 712704,
+      "sha256": "0674f434286a189cdbf1c937058d1faa679e9c3e72b1da5345e6ce192dd0b5e0"
+    }
+  ]
+}

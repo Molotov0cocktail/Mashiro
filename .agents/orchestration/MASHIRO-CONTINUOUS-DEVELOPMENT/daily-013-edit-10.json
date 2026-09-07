@@ -1,0 +1,22 @@
+[
+  {
+    "p": "tests/integration/daily-recovery.test.ts",
+    "old": "  const reopened = f.reopen(), job = f.query().jobs[0]!",
+    "new": "  const job = f.query().jobs[0]!, reopened = f.reopen()"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "            observations: dto.DailyObservation[]\n          }\n          for (const observation",
+    "new": "            observations: dto.DailyObservation[]\n            proposalLinks: z.infer<typeof itemProposalSchema>[]\n          }\n          let linksChanged = false\n          content.proposalLinks = content.proposalLinks.map(prior => {\n            const row = this.store.database.prepare('SELECT record_json FROM item_proposals WHERE id=?').get(prior.id)\n            if (!row) throw Error('PROPOSAL_MISSING')\n            const current = itemProposalSchema.parse(JSON.parse(String(row.record_json)))\n            this.items.assertSource({type: 'proposal', id: current.id, version: current.version, assistantId: current.originAssistantId}, report.assistantId, config.recipientFingerprint!)\n            linksChanged ||= current.version !== prior.version\n            return current\n          })\n          if (linksChanged) {\n            report.version++\n            this.store.database.prepare('UPDATE daily_reports SET record_json=?,content_json=? WHERE id=?').run(JSON.stringify(report), JSON.stringify(content), report.id)\n            this.emit(report.assistantId, report.feature, report.id, report.version)\n          }\n          for (const observation"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "            .prepare('UPDATE daily_reports SET record_json=? WHERE id=?')\n            .run(JSON.stringify(report), report.id)\n          this.emit",
+    "new": "            .prepare('UPDATE daily_reports SET record_json=?,content_json=? WHERE id=?')\n            .run(JSON.stringify(report), '{}', report.id)\n          this.store.database.prepare('UPDATE daily_jobs SET inputs_json=?,candidate_json=NULL WHERE id=?').run('{}', report.jobId)\n          this.emit"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "      this.update(job, 'COMPLETED', '日常结果已生成，来源与建议回执可查')",
+    "new": "      this.update(job, 'COMPLETED', '日常结果已生成，来源与建议回执可查')\n      this.store.database.prepare('UPDATE daily_jobs SET inputs_json=?,candidate_json=NULL WHERE id=?').run(JSON.stringify({...inputs, entries: inputs.entries.map(entry => ({...entry, content: ''}))}), job.id)"
+  }
+]

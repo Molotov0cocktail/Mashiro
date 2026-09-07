@@ -334,7 +334,12 @@ export function ItemPanel({
   onPermissionsChanged?: (value: ItemPermissions) => void
   onItemVersionChanged?: (value: { assistantId: string; id: string; version: number }) => void
   configurationFocusNonce?: number | null
-  openItemTarget?: { assistantId: string; itemId: string; nonce: number } | null
+  openItemTarget?: {
+    assistantId: string
+    type: 'item' | 'proposal'
+    id: string
+    nonce: number
+  } | null
 }): React.JSX.Element {
   const [localPendingCommands] = useState(() => new Map<string, string>())
   const commandRegistry = pendingCommands ?? localPendingCommands
@@ -683,8 +688,8 @@ export function ItemPanel({
       api.inspect({
         protocolVersion,
         assistantId: requestAssistantId,
-        id: openItemTarget.itemId,
-        type: 'item'
+        id: openItemTarget.id,
+        type: openItemTarget.type
       })
     ])
       .then(([permissionResult, inspectResult]) => {
@@ -698,16 +703,27 @@ export function ItemPanel({
           setError(inspectResult.error.message)
           return
         }
-        if (!inspectResult.data.item) {
-          setError('通知关联的正式事项已不存在或当前不可用。')
+        const selected =
+          openItemTarget.type === 'item' ? inspectResult.data.item : inspectResult.data.proposal
+        if (!selected) {
+          setError(
+            openItemTarget.type === 'item'
+              ? '关联的正式事项已不存在或当前不可用。'
+              : '关联的提案已不存在或当前不可用。'
+          )
           return
         }
         setPermissions(permissionResult.data)
-        setSelection({ type: 'item', id: inspectResult.data.item.id })
-        setSelectedItem(inspectResult.data.item)
-        setSelectedProposal(null)
+        setView(openItemTarget.type === 'item' ? 'items' : 'proposals')
+        setSelection({ type: openItemTarget.type, id: selected.id })
+        setSelectedItem(openItemTarget.type === 'item' ? inspectResult.data.item : null)
+        setSelectedProposal(openItemTarget.type === 'proposal' ? inspectResult.data.proposal : null)
         setReceipts(inspectResult.data.receipts)
-        setEditor(inspectResult.data.item.content)
+        setEditor(
+          openItemTarget.type === 'item'
+            ? inspectResult.data.item!.content
+            : inspectResult.data.proposal!.candidate
+        )
       })
       .catch(() => {
         if (openVersion === reminderOpenVersion.current && requestAssistantId === assistantId)

@@ -10,6 +10,7 @@ import {
 import {
   createWindowsReminderPlatform,
   parseReminderActivation,
+  parseReminderGroupActivation,
   reminderAppId
 } from './windows-reminder-platform.js'
 import type { ReminderService } from './reminder-service.js'
@@ -76,8 +77,11 @@ export function startReminderRuntime(
   service.recover()
   if (process.platform === 'win32')
     Notification.handleActivation((details) => {
-      if (details.type === 'click')
-        service.activateBatch(parseReminderActivation(details.arguments))
+      if (details.type === 'click') {
+        const groupId = parseReminderGroupActivation(details.arguments)
+        if (groupId) service.activateGroup(groupId)
+        else service.activateBatch(parseReminderActivation(details.arguments))
+      }
     })
   const timer = setInterval(safeTick, 1000)
   return {

@@ -1,0 +1,7 @@
+[
+  {
+    "p": "tests/integration/provider-tools.test.ts",
+    "old": "      expect(result.ok && result.data.usage?.totalTokens).toBe(9)\n      expect(",
+    "new": "      expect(result.ok && result.data.usage?.totalTokens).toBe(9)\n      expect(f.service.operations.usage({protocolVersion:1})).toMatchObject({ok:true,data:{summary:{calls:3,known:{totalTokens:9},complete:true},attempts:[{persistent:mode==='normal'},{persistent:mode==='normal'},{persistent:mode==='normal'}]}})\n      expect("
+  }
+]

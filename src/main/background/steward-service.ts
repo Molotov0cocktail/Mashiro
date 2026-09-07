@@ -40,7 +40,8 @@ export interface StewardProvider {
   send(
     recipient: BackgroundRecipient,
     messages: ProtocolMessage[],
-    signal: AbortSignal
+    signal: AbortSignal,
+    options?: import('./background-service.js').BackgroundDispatch
   ): Promise<TransportResult>
 }
 interface PendingRow {
@@ -1134,7 +1135,12 @@ export class StewardService {
         if (!reserved) return
         this.current(job, controller, inputs)
         const recipient = this.authority(this.config(job), job.authorityAssistantId)
-        const result = await this.provider.send(recipient, messages, controller.signal)
+        const result = await this.provider.send(recipient, messages, controller.signal, {
+          feature: job.role === 'steward' ? 'steward' : 'shared-candidates',
+          assistantId: job.authorityAssistantId,
+          chainId: job.id,
+          attemptId
+        })
         if (this.stopped) return
         const usage =
           result.usage &&

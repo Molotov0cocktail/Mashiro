@@ -1,0 +1,1220 @@
+{
+  "recordedAt": "2026-09-07T05:24:09.481Z",
+  "scannedFiles": 242,
+  "secretFindings": [],
+  "residuals": [],
+  "generated": [],
+  "diffCheck": 0,
+  "hashes": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-boundaries-02.json",
+      "bytes": 3364,
+      "sha256": "f6fcdfc8e0efbc7de9e2f92b18c6e2317ef4a08656b690a6ac6eb2f6729948ce"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-core-03.json",
+      "bytes": 4792,
+      "sha256": "d19b7cae15f96836ff4a52d098fa81365ebdc1af846f1b7b3f6f29ea4f514a00"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-core-04.json",
+      "bytes": 6239,
+      "sha256": "71ccfc705fd5674467f511aa1f03d8fbd4dc6a032e15fd135df04c36f63b14e1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-01-applied.json",
+      "bytes": 916,
+      "sha256": "fe438cf626d57a505b7fb9d1801011d40e37b256a8516db98a354cbd3e695872"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-01.json",
+      "bytes": 3275,
+      "sha256": "3cd4c3203424339cbbebe49c6f6d2fb715b5b6bd843a6d94d2fc38b4c4d537d3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-02-applied.json",
+      "bytes": 2685,
+      "sha256": "a55e7ca79f2de2de2a79daf241e27fe56ba8721c08becadce990c6be85cf9866"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-02.json",
+      "bytes": 4817,
+      "sha256": "4000aff46111814eaa6c22da06d2bb25ed982435ecfdbc3b6521ad73b01db061"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-03.json",
+      "bytes": 1092,
+      "sha256": "21c5bad6715e600a7ce369f734bf9378115519b698accd27886dfac78e8b3394"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-04.json",
+      "bytes": 1053,
+      "sha256": "7c50707877a747b6abd033138269289209347f6c2ae7bf0b4850040d87d13a12"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-05-applied.json",
+      "bytes": 953,
+      "sha256": "ff6221d2176c1d107ba414950c48bdc92096408fa0082dd1c9d520f7dd37f520"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-05.json",
+      "bytes": 8293,
+      "sha256": "0698f2fa1a1011c79719b64a6ab41eff549edd17a8f6747f7bdb5c64dbca8cfd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-06.json",
+      "bytes": 2111,
+      "sha256": "462830e18b0fba21bc8b8247066eb509cf9e7869cc41af6e4da3023840002665"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-07.json",
+      "bytes": 5163,
+      "sha256": "bb11fba20ee5d0511de842a563399e536608774210f72e1c24a4eebb090aa1b2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-08.json",
+      "bytes": 4306,
+      "sha256": "ac95c519f3430122fe8970c48585120b8fa073df19452a5243055b3b570f9568"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-09.json",
+      "bytes": 1215,
+      "sha256": "1eb4c4864d93a9290f799156c8b40710a3302ef1b004301333c6fe61e759dec3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-10.json",
+      "bytes": 2561,
+      "sha256": "45a52193a7cb1b11f14b0b4ca8686a4acf6aca0dca6c7958a4e4fc27a2d23c97"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-11.json",
+      "bytes": 2130,
+      "sha256": "a4515736bf2cd4e2d89e65b5da2277fcd3242a424282969d87c57d682458e29c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-12.json",
+      "bytes": 946,
+      "sha256": "6abfad71d5d1ec75532b4528d15add3f1c75a375580b602572bbfb9d9db9e818"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-13.json",
+      "bytes": 2919,
+      "sha256": "54c0d9192822fc8304ef6841683789f3fda64663320a7b56e0647fe421a1dc7a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-14.json",
+      "bytes": 1557,
+      "sha256": "4688697d3f87ae5c296073bdd2e0559f8f8a152ffc657c6ec68a81d596b2f257"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-15.json",
+      "bytes": 2791,
+      "sha256": "ec919df1b84d7c741953402d2ab6a251d2d5174deced896c533587ac4e723ba2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-16.json",
+      "bytes": 512,
+      "sha256": "e29c2835834e95281e786906633b5b63f521dd84834da5ebf7e35903982f51c7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-17.json",
+      "bytes": 1309,
+      "sha256": "298923936a634510e09c3b8e64dbff4d8d77a39c06a02cc49d3e8acea4764c0c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-18.json",
+      "bytes": 501,
+      "sha256": "1389b66e821517b7abce43a9079c78dac64d6b56ac1c540d6554734183898f58"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-19.json",
+      "bytes": 1506,
+      "sha256": "ef41fde21280d9b5845b970a6963f1638fdd40ab2494fab13481eb8775f17940"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-20.json",
+      "bytes": 292,
+      "sha256": "d9fb709a76b3dbac7098314233c5798442631a123097567fe73002802ec66e2c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-21.json",
+      "bytes": 1019,
+      "sha256": "88cf330431ea87a5220f1083b6d37fa3792f2a7800fffe6f525120e8096d2198"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-22.json",
+      "bytes": 2233,
+      "sha256": "9bc6a185c73c2542b5ed83705838e57e1024d7fc22b650e376550e8ae511c877"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-23.json",
+      "bytes": 2252,
+      "sha256": "3040f8786ebc640f64f67c901a3725a43f3ce44c73dca506e2f5046c142260ee"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-24.json",
+      "bytes": 2260,
+      "sha256": "61b1e0705c94cb286b7f28365cc72706a998e1ce2da72d91e87646a91a73b1cd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-25.json",
+      "bytes": 1464,
+      "sha256": "69d36760a617e9c887aaa2586438f33361d6d8e40bee309106fce6f17ef1fde5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-26.json",
+      "bytes": 1037,
+      "sha256": "b94bf386d3348928e1e296444118c18b9c247e9a23bedc85fe462b0f093bbd9e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-edit-27.json",
+      "bytes": 510,
+      "sha256": "1a4c0cd984021ede6771d4ca5f081b486489f283ff23510114c1e1dda302a666"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-first-tests.json",
+      "bytes": 1898,
+      "sha256": "20a213e5cf33d2ba83532ac8523afb79eaec178c5362cbca56c1f04c47354b69"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-full-01.json",
+      "bytes": 216568,
+      "sha256": "f6521e02a1041fda933b56819f2d24b06c234bafb63cb4bae001a85c6fd8d8cd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-full-repair-01.json",
+      "bytes": 19385,
+      "sha256": "4d6e93052d9a856584a7a061f4101ef3a86e830d556e0a653478e1806e66913d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-full-repair-02.json",
+      "bytes": 13681,
+      "sha256": "c92014ef5e04aa404cb7642b12718246e6531629718f59855abc550a33bfa6fa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-governance-01.json",
+      "bytes": 2748,
+      "sha256": "0aa40e25689c7da65852f458d452d56e1a79e0ff14baffc176284039fdd8b8e5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-governance-02.json",
+      "bytes": 1912,
+      "sha256": "ae2db7ae2372f821e195b28a10c8205d10f9d55f19acadc40102620ce4806f04"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ipc-01.json",
+      "bytes": 1261,
+      "sha256": "dbd298dee68a33d940175dd0342d8fd1ec7cd781220556aac759da0f243f2ef1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-diagnostic-02.json",
+      "bytes": 761,
+      "sha256": "dea907117d51d1ea6c03bed4a9c426fcecf148ffe82963f7f55e970f8eafb3c6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-diagnostic-preflight-01.json",
+      "bytes": 1474,
+      "sha256": "3455199a4bd9226d00078d07c8942ba66dd96be77ba316a36325c8cd137a204f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-preflight-01.json",
+      "bytes": 4178,
+      "sha256": "cd3ec7b9d28a4d88e47e9129afb73d70f46c3622b5c69aa35b208288ac4b3b86"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-preflight-02.json",
+      "bytes": 4178,
+      "sha256": "b46b583017dda80dac36c0c58ef99b60de20325fddbd05141273224aed207e70"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-product-01.json",
+      "bytes": 1379,
+      "sha256": "f1de6e8bd0330b33cc8039f26d072719fc58f5e26e4547fd30bb5434906b9969"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-product.mjs",
+      "bytes": 18674,
+      "sha256": "6d81a68f11ef3253f5c108a0051657df3e4da2e9c63a8c74c86a4d7a204ad239"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-model-contract-tests-01.json",
+      "bytes": 3032,
+      "sha256": "9e9aee2eff6d9eb03da44280e36de1eaf31b5a0f04d8d6efb2c987cc44284bd3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-model-contract-tests-02.json",
+      "bytes": 3042,
+      "sha256": "198c32081e5ef6b194c802e7b8b92d81fdedfb847acd48cb0d2e5d6ae54385eb"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-operations-final-01.json",
+      "bytes": 9261,
+      "sha256": "98851c9a003b71f2f6517d93472f173616a1b94c49e0294098b9e71debe78f39"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-proportion-01.json",
+      "bytes": 19159,
+      "sha256": "3aef61705dc142e8ba8844331cf9ff5b887569571a45291cd38082d78258164b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-provider-01.json",
+      "bytes": 16603,
+      "sha256": "1804f371230433f6c5b71b217efc27b1afa6b79896514e28e35b63f9bd5a961c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-provider-02.json",
+      "bytes": 11275,
+      "sha256": "76229d0988cc588c8c9176fa1c0bb2951636e1f994c69b51559b7e9790414ba8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-recovery-01.json",
+      "bytes": 2213,
+      "sha256": "5b6e2d69016d97ab1cb51b81c6f708d4b4f48c3a4ab428db0fabc0b87373da6d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-recovery-02.json",
+      "bytes": 3317,
+      "sha256": "4c168ac9a8dafc4263600e82d1cb7ce059013ac0421c6efaa19aaf4a98e968f6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-boundaries-01.json",
+      "bytes": 1324,
+      "sha256": "e508795b71807d15bcfb083de6cdfc8979952021d5b00bc77c8c77192aa1dfc5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-candidate-final-01.json",
+      "bytes": 5420,
+      "sha256": "6f2390cf8db1f01c44ad4236be2eac69deb594cd3e134d945ed346cee802d609"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-candidate-review.md",
+      "bytes": 3274,
+      "sha256": "a122fa3570c135129d31b2b4bdf6ef728de30ff9cc4ba63f2910f2363955f006"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-review-working.md",
+      "bytes": 2148,
+      "sha256": "4ab348223c29ad9313bce4a5880bb57b8e67e1d903fea54f202f0c7d12f7032c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-ui-green-01.json",
+      "bytes": 4577,
+      "sha256": "deeb80f3f01869c7d8743ea15144698a085f44211eef71a5fb9082ed46a184c2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-ui-red-01.json",
+      "bytes": 49884,
+      "sha256": "28212899f006ea1723e32b954d84521bbe562ce5ee58935b37425fe7ea2dd9ee"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-ui-red-02.json",
+      "bytes": 15409,
+      "sha256": "ced9f4c6e039f24e9c64aab55ef2c9f5c5705fcab1b9d17d104d028225f914b5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-ui-red-03.json",
+      "bytes": 16418,
+      "sha256": "f7771f9e6696f21fdb33a530e887baa758c92b650628b4c06e765604b4f45db9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-root-ui-red-04.json",
+      "bytes": 17011,
+      "sha256": "2605a28082b627323206ce06127b8db4a970c95f17e65299943abb54a637f2b6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-scheduler-repair-01.json",
+      "bytes": 11097,
+      "sha256": "eea41dae83a739d05dc77d278a1db17bb78c2cf503f4160ffab551c1bf37e29f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-time-usage-red.json",
+      "bytes": 2791,
+      "sha256": "504a42e3ff7ddf26ef513dc9cccbfce7c5b7279a55661faa1175fa54ea2c66fe"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-trusted-final-01.json",
+      "bytes": 8546,
+      "sha256": "da60951ec568d433e99daec582cc50a0e60b69c2717fc5017ced920e6cb06d07"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-trusted-handoff-v1.md",
+      "bytes": 5955,
+      "sha256": "1cd209e8cd3a8b64dca8aa1b4c3875dc239a271b193b35399d8ceaf2c5a2816d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-trusted-manifest-v1.json",
+      "bytes": 5964,
+      "sha256": "a031859595c8fe45d82b6d3e33bcf11c67554e22eaf8bb48ac31e04e5bdc4d31"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-handoff-v1.md",
+      "bytes": 1987,
+      "sha256": "d1045e9fa48559e87a05ada97d44028b0e324ad66ef83c644df1a230548146c6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-handoff-v2.md",
+      "bytes": 1674,
+      "sha256": "a6c2dad3d0bd79f0571ca844326acd00e782b6f28207c97ff0917f4803be9f84"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-handoff-v3.md",
+      "bytes": 1120,
+      "sha256": "2e83a7f918eda7ac91c823002c2254683cdf37a7ecb2407a37d1d5570cc1360e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-handoff-v4.md",
+      "bytes": 684,
+      "sha256": "339993dbbdc01b7c7385b6b5b16c83244bef206a58cc4f897d0d68db3c62c094"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-manifest-v1.json",
+      "bytes": 1725,
+      "sha256": "3bd59495a4dd195e01f5fcccfbef2b38f9a04df9fb2e7e8a5404f8d32f3c1ebd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-manifest-v2.json",
+      "bytes": 2272,
+      "sha256": "5da8ef4dd81c142f2333fb63c41abf76cc86c9380a8d74986b98266cffe7c3f8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-manifest-v3.json",
+      "bytes": 2816,
+      "sha256": "68710727d9a26eb5ab02aa1bcec22801268299b0d55adeb87345e488869516a7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-manifest-v4.json",
+      "bytes": 2848,
+      "sha256": "c31f2ca8f07aa0e493b55167f0be9468efee09f2b7f8869c22152dacda5e3a5d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-static-01.json",
+      "bytes": 1484,
+      "sha256": "981d365547c66469efe0001b0e35d7dca662b71f5a542a4d7c9e39619a51eaca"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-static-02.json",
+      "bytes": 856,
+      "sha256": "9940bd8ae1af92f7404776cf2c50c0f2379dc8807e6d1a42fba8fd75e0a8d98d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-static-03.json",
+      "bytes": 1187,
+      "sha256": "1dcaca7fa9a71a9979f080365e2c073704c3ecacd2c88671984d247896b584bb"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-static-04.json",
+      "bytes": 938,
+      "sha256": "63a297d1f359287c08255aad2d440eb6f433b28718e9c4a7d8288516d72d55fc"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-tests-01.json",
+      "bytes": 938,
+      "sha256": "055e59f67c886d4439be3899bb0362e66b8c66662dc4d1fc0d90638986e14862"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-tests-02.json",
+      "bytes": 920,
+      "sha256": "73b32a72853fc8a2b504e85feb1ab0a1a6889163cd353993d842b572206a8a35"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-tests-03.json",
+      "bytes": 877,
+      "sha256": "2e09aa0b7fb2cf9f30385f2ea6c4efc53bade36b958231613ab4e044720ef7cb"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-ui-tests-04.json",
+      "bytes": 831,
+      "sha256": "6fb52843f9943431ed243feaa0ea22e9c073d5119b724f6719e4b0380c29b825"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-014-electron-01.json",
+      "bytes": 19510,
+      "sha256": "03d941bd39db740d480da2eeca835f95676b9fd874cf731fc2092e3715bea0aa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-014-root-full-01.json",
+      "bytes": 212993,
+      "sha256": "9b2c657efd5da14fc51a429430b4c8ea34bc3de39e1d4a79649fd6c37e50098f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-014-root-full-02.json",
+      "bytes": 219678,
+      "sha256": "a38b63ecc585bacb4b7c9e25ba7a7e44c9b070ed6c241262104b258d5f42ea15"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-backup-prepare-tests-01.json",
+      "bytes": 4258,
+      "sha256": "eaf223c3b03fcf65a2d5cddf6496f5bc9f1e3d196411d8b94ad25fbf6bb8aa1e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-backup-tests-01.json",
+      "bytes": 2086,
+      "sha256": "2e2cbb921944fd894c0e5ea336a5f66cc1eb2ae666cec5dd2c0ad3000934fa38"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-backup-tests-02.json",
+      "bytes": 2950,
+      "sha256": "867b379e54ffdbf1bb06db23e1b21c5090fcc6f0308c524f15c654cb3cdb5159"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-consent-independent-red-01.json",
+      "bytes": 1355,
+      "sha256": "ab80019e4a3a26dab28ecb66774d52744151d02d1b8929a140a9d5f4234483b3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-consent-repair-01.json",
+      "bytes": 3829,
+      "sha256": "3861db605159aeb34c38e100a506c1f1645ad6f7f3dd8801034615e45142a13e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-desktop-shell-launch-01.json",
+      "bytes": 2669,
+      "sha256": "1479ce849524b56dfc2fcad3d5aa7e1459b131cad9d70c7d659049210fe191f7"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-desktop-shell-namespace-01.json",
+      "bytes": 191,
+      "sha256": "b8e48e867819b159cd29a2e1f5b6f7dd4d44da41608a1ce5b19b97d32b711591"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-entry-independent-red-01.json",
+      "bytes": 1728,
+      "sha256": "cdc5bcdee68aefb8b3bd528ef0fe944f05fd18ba19ef1692e410f36b82b5965c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-entry-main-independent-repair-01.json",
+      "bytes": 7730,
+      "sha256": "6f876a0e8c2be32f31b0305378650ce381821bc2b5467a7905baa902e525c4ce"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-entry-repair-01.json",
+      "bytes": 6180,
+      "sha256": "db02fbe411edfff956c2a2bcac9838b58e19e7558b27a1244e6781896ab1de1d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-entry-repair-02.json",
+      "bytes": 4201,
+      "sha256": "111dc92e60dc5e5dd73e3bd954e101534ee4fd606ca00ae474b9184ea47cb0ea"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-install-route-01.json",
+      "bytes": 1169,
+      "sha256": "b0c464b14bbc1e6a6202a6c79198899d717485ea5c66f76b374f19e4dd7e1b02"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-install-route.ps1",
+      "bytes": 4640,
+      "sha256": "2c5f8c893891bfb2aa057bd1882df502e19840f1229c5a78d0f2be92bb5459ab"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-main-independent-red-01.json",
+      "bytes": 2317,
+      "sha256": "c2f9d8ca48b3e52895e524c263b7699129c3810f73d449e48479859114cbc5f6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-maintenance-tests-01.json",
+      "bytes": 4438,
+      "sha256": "0b7290d742a69f2eafc2ecd70957a9a265269d2e849e62b218f1c104b46aecbd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-maintenance-tests-02.json",
+      "bytes": 6995,
+      "sha256": "723d9e1d9819d7ac8458d4e46d0505e8946fb2edf152519832beb79e3a51e28b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-native-click.ps1",
+      "bytes": 2167,
+      "sha256": "045d0b03f19a90d974ae51461304e4858b027cb9bf993b0bbb46934455eb2645"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-native-ui.ps1",
+      "bytes": 3304,
+      "sha256": "7aea6b2937120aeb66ca27bdd1092f92d599e31e19a28b8cd4d158bc866eb12a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-nsis-route-01.raw.txt",
+      "bytes": 868,
+      "sha256": "0eda807fa64ee9d3882f625c532017422801a9564b774edfae8f12a440f00e86"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-pack-route-01.raw.txt",
+      "bytes": 940,
+      "sha256": "34b3e60247370275c61046d0319af9098274dd3516680e07ce9130848d22ff13"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-location-ui-02.json",
+      "bytes": 535,
+      "sha256": "2cc5e7d24a678e992f9d2320869a6989c729ab59ddc90e0a743c3dd16f03a7cd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-path-diagnostic-01.json",
+      "bytes": 459,
+      "sha256": "6b15c07bac8b70e53992d77d00b08beb1ce4f2469acb9bfb52059ebb5ac3ed96"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-startup-diagnostic-01.json",
+      "bytes": 1639,
+      "sha256": "e0a7c6700bdc630993b83d82b794d5bd75d0fa030f1fa2119b05ab5b099ad316"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaged-startup-failure-01.md",
+      "bytes": 2670,
+      "sha256": "61326c200e9a8a8b6f6738a8d5cb3b13a6d8fdf843a361dd31a07b07d9076153"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaging-independent-pass.json",
+      "bytes": 3965,
+      "sha256": "240c928bd007a400e0f5b4f4a52da2baeef8da4196f6d03689fe03ede1d0317b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-packaging-route.md",
+      "bytes": 3411,
+      "sha256": "1c0a3ae09d77835b89eaa19aef1bbc11aaf13bef382ff0d92810fe10db8ef441"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-candidate-v1.json",
+      "bytes": 1754,
+      "sha256": "21ee46b00b3541b58bcac2f5d002e526548e4b99885117b32d6067edcab81afa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-independent-01.json",
+      "bytes": 2157,
+      "sha256": "1487393660be92571e3e88ce24430ccbeaa21c433c74f822a3645b23e4acfcba"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-independent-pass.md",
+      "bytes": 1786,
+      "sha256": "9f86bfacbe4424aee22146d6e00ad921c749889e42358e02e097c71bb416ce20"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-selection-tests-01.json",
+      "bytes": 8978,
+      "sha256": "acafcdaf7555fcf353969688415b59a60a8c055018ff914d9ff6dd80bd5797ab"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-selection-tests-02.json",
+      "bytes": 9566,
+      "sha256": "e4c4529c15834e71301b3adce49ffce7590c93bd5fcb524502353fb1a4b021e8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-stage.md",
+      "bytes": 2439,
+      "sha256": "02c02852c4992d82e1b80c600bf51dd1d9137ae9a30fb78d93c521b28b04fea2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-production-entry-independent-final-01.json",
+      "bytes": 8660,
+      "sha256": "3c3020ede4cbbe067a30c0601a764bb6a68141d3482aeb2284ad3eae9b2c3109"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-production-entry-independent-pass.md",
+      "bytes": 3542,
+      "sha256": "995ed1a8ecd50475f6a0eb76416c59c4ecd95bd1bb657c931c418d8038e1743e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-production-entry-reviewed-manifest-v1.json",
+      "bytes": 2173,
+      "sha256": "ee0b189f8f7865a49d4f4d508c2624e0738e9bdc7676e0b9fb62b2975171aa38"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-reminder-repair-01.json",
+      "bytes": 3106,
+      "sha256": "33658e177ddb9015f454c52af8bb159572f3e1fd7290eebb566daeb23613977e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-independent-pass.json",
+      "bytes": 2001,
+      "sha256": "ca433c84f7bc82d68cd7ad260849b519b3303cfd11a0d28949de6ab0f820d109"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-main-stage.md",
+      "bytes": 1622,
+      "sha256": "b05fcc13fcaa083e879e9c966768b7f72e6fb7b66f997dc4c72a64136df456c9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-restore-tests-01.json",
+      "bytes": 4579,
+      "sha256": "e2a45a6794992e1d19ae4f765547b8fd0e3af819d941b12b0656d547cd5791c3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review-edit-01.json",
+      "bytes": 200,
+      "sha256": "d626d62c841419cdea00dd8f2a4d87abe04db4a6d53e60205f2f26eeb827d61a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review-edit-02.json",
+      "bytes": 1199,
+      "sha256": "0fa72756bcbf752b773e1d192eff23399c77b89b4252cb87b5fa9914f7ac720a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-shell-namespace-01.json",
+      "bytes": 226,
+      "sha256": "bcfb2184155e8109b35ffb0bff4531b85006b59732f91ff990c7583b8d176540"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-window-restore-tests-01.json",
+      "bytes": 2986,
+      "sha256": "b021da3f08ca35c3085978798a7788506d4ff261360a75634e52a1f45e7fa804"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/distribution-notices-preflight-v1.md",
+      "bytes": 3101,
+      "sha256": "bce7f7882becf6a7a60b0faf66958ac972b1141f317f218b74099748daeda06d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/distribution-notices-v1.mjs",
+      "bytes": 3456,
+      "sha256": "c76a2fb6eb983855f9f9cbfe4ca5c48777ff9a070496bff09ea23c4d90666fbf"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-independent-pass-v2.json",
+      "bytes": 3143,
+      "sha256": "effe7c47f3ab04aaa76171fee342ea3fdfcfc7bcef7fe3e92e73465696cf4abe"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-independent-pass.json",
+      "bytes": 2363,
+      "sha256": "a47eb4347f4979aef35a02c5306f3fc46efeb3e41d5effbd111bda90b47cbcab"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-independent-red-01.json",
+      "bytes": 1327,
+      "sha256": "80f6abade387ae4cbc540687d24d4d02b944b9dc2472c6c9558ea53abc587672"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-stage.md",
+      "bytes": 1048,
+      "sha256": "600e81e80cec4c77c6a7713e46b8f01f55a4bfd4ab6f6c0c09ee1fa820e1697a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-tests-01.json",
+      "bytes": 7812,
+      "sha256": "acb528b50ba3ee3b54a0c94ef68d2bd622fb5be0d6cc741b6165149320254100"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-tests-02.json",
+      "bytes": 7296,
+      "sha256": "88f4f95084fe948a9d3e90776f6afc84c2b0ace09b0fea481838d80ee9186d92"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-approved-default-tests-03.json",
+      "bytes": 7279,
+      "sha256": "19d200cd97340f5c37e017dd34f2855bfddb9e1db5d7900a482bb822a0677ede"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-groups-tests-01.json",
+      "bytes": 9128,
+      "sha256": "1188a390c3e99d9e886549b1057d027a11d08ead401bfed9b0f410fb4b3eb0b6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-012-notification-schema-independent-red-01.json",
+      "bytes": 1310,
+      "sha256": "a229a29bbf1e470971c2ee45907f2d80d58a35fe0b69ad3a1843c0e0e3619710"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 3016,
+      "sha256": "42acd0476048abef0596b47d1c861438b484632f0c65b9e68d7d516a87d9a139"
+    },
+    {
+      "path": "build/after-pack.mjs",
+      "bytes": 4182,
+      "sha256": "cc4c651934cd48a59736fe207be81ad08d34267a02ca7e28510668612fa851e0"
+    },
+    {
+      "path": "build/inspect-runtime.mjs",
+      "bytes": 884,
+      "sha256": "dcba6d068b03f3f9d81c97e02b0476488c54e2c7c73f5f5f602c2985f82f6f01"
+    },
+    {
+      "path": "doc/detailed-design.md",
+      "bytes": 46508,
+      "sha256": "984a85a0f11cac5671d49c5d79992c3fdbf461774476394258402b9b23754133"
+    },
+    {
+      "path": "doc/tasks/012-deterministic-reminders.md",
+      "bytes": 10957,
+      "sha256": "3fcf4be208b1ccab581265f077e658c2af6cdcd8b6ed4ff841e07cd0730bef13"
+    },
+    {
+      "path": "doc/tasks/014-windows-data-and-delivery.md",
+      "bytes": 7789,
+      "sha256": "efab1cc16cb0b7913efbe5d4657c9218f8ad114df7b53bcae4bf3de7fb23b485"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "bytes": 39733,
+      "sha256": "17c1f56ff3b19d047e20368d82885e19a827e5cbe30d00b578c195fbd633d054"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "bytes": 24564,
+      "sha256": "c501f469b9414f7ae8f13a201744431c850fbdb49c5fb5b22c01c784516d5a9e"
+    },
+    {
+      "path": "doc/user-guide.md",
+      "bytes": 4954,
+      "sha256": "6b29d2d3dbd45f2147e2db351cd8b30ecde232fcba38196422a7a05c11f4753f"
+    },
+    {
+      "path": "electron-builder.config.mjs",
+      "bytes": 1090,
+      "sha256": "74ab2ac3c453db4cf929533ef6638a067cb6ebb9592635c85ea7e68399482902"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 284144,
+      "sha256": "040699420d30a8922c0e9e92a4dd93778bc6ec79d6352271f3bde68aa502eacb"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1875,
+      "sha256": "979a106b2b819ce4e05aa7e96e7dd9b00fd1f8e1d77ce83e7f3c945d521c64a9"
+    },
+    {
+      "path": "src/main/app/create-window.ts",
+      "bytes": 1342,
+      "sha256": "d891f37940378e442a7cba9cb537bc201aacc28e45ec05727b5d283c47b0508e"
+    },
+    {
+      "path": "src/main/app/production-menu.ts",
+      "bytes": 2621,
+      "sha256": "fb317b87f9ef405466a5fe336793c9afda1b45a55d1901fab7069522b7507b5f"
+    },
+    {
+      "path": "src/main/background/background-service.ts",
+      "bytes": 38075,
+      "sha256": "b777f55ab4f750ded14788cd358318fd484396e6d905ee5d7bdec4bf48154763"
+    },
+    {
+      "path": "src/main/background/daily-event-facts.ts",
+      "bytes": 1886,
+      "sha256": "32c01e12e4763b15cdf434e797fccc3a1c6c76e996bc334b13e6c94837d60b15"
+    },
+    {
+      "path": "src/main/background/daily-item-changes.ts",
+      "bytes": 2503,
+      "sha256": "bbe16a56effe8fb103e851296d7f4de361839e342840e951799608a1fed0dcc5"
+    },
+    {
+      "path": "src/main/background/daily-model.ts",
+      "bytes": 4603,
+      "sha256": "4d21afe927d9b997c151998c377ef2813a83752ed77021e7b66bd16bd17decad"
+    },
+    {
+      "path": "src/main/background/daily-schema.ts",
+      "bytes": 3272,
+      "sha256": "ea1a4abbbcdd2e29d47a3251a2640304691918668f2c0355657e5f2c7856a704"
+    },
+    {
+      "path": "src/main/background/daily-service.ts",
+      "bytes": 48416,
+      "sha256": "aa9c6b0d61b3e2978041b4b3392b0de88263b545a5a271fe5e818209d1e191be"
+    },
+    {
+      "path": "src/main/background/daily-sources.ts",
+      "bytes": 13865,
+      "sha256": "44d9c74b590f4ed2f6f1a89895815a68c4feb31924d316e71e3f5d11fc06b514"
+    },
+    {
+      "path": "src/main/background/daily-time.ts",
+      "bytes": 5438,
+      "sha256": "791adafa0e1f3f57f42c89a7d6baa165c942476ac65212371833f7f96e109721"
+    },
+    {
+      "path": "src/main/background/operations-service.ts",
+      "bytes": 12653,
+      "sha256": "ac582538561c1cdcaec0675d82a407a7706175afc3a9a721e70b32c6440f7bd2"
+    },
+    {
+      "path": "src/main/background/operations-sources.ts",
+      "bytes": 3327,
+      "sha256": "3dca3d4b9c34637fced6c5fe27ee72ece20f7519ffa9e814f22b51e4182ffc7d"
+    },
+    {
+      "path": "src/main/background/steward-service.ts",
+      "bytes": 58994,
+      "sha256": "49106450f49685a6eeff117858abbf85c4a6723868f952171b40bdb1b498d8d8"
+    },
+    {
+      "path": "src/main/data/data-root.ts",
+      "bytes": 4203,
+      "sha256": "8bf6bf8c2e7e2b7dd1f0c78411df2da16d43f14742e4dd58f986f4cde9ca3eaf"
+    },
+    {
+      "path": "src/main/data/production-backup.ts",
+      "bytes": 11731,
+      "sha256": "ffb99de8407ed5abc36f90df49aa8433e659604eb0d287134d6e5adc51e25b38"
+    },
+    {
+      "path": "src/main/data/production-bootstrap.ts",
+      "bytes": 3792,
+      "sha256": "196b10aa6dcfc287bc4135028eb126d53a9faeda4a919cb841edd8aced59a858"
+    },
+    {
+      "path": "src/main/data/production-location.ts",
+      "bytes": 8726,
+      "sha256": "840a13057fb1ce3f4390b732affe1df2e76fad6d08dfc217559cd81fd6423bb6"
+    },
+    {
+      "path": "src/main/data/production-maintenance.ts",
+      "bytes": 4425,
+      "sha256": "24f1af0c5632c19c7f68cd56a167283cfd786337c4a41a0cec4f5f58d02ca829"
+    },
+    {
+      "path": "src/main/data/production-prepare.ts",
+      "bytes": 5049,
+      "sha256": "beefead659d1e7a211722144486ecd64db1c3ca864f1469b0f1288d58323b56b"
+    },
+    {
+      "path": "src/main/data/production-restore.ts",
+      "bytes": 3633,
+      "sha256": "5e6d25250689733cfa4591a2b941825f37d1ceb48460e801362181b964d64bfd"
+    },
+    {
+      "path": "src/main/data/production-selection.ts",
+      "bytes": 3553,
+      "sha256": "7335a439a1bf103667d4724a3dfcb423451c472711889fbdde041f6cff89975e"
+    },
+    {
+      "path": "src/main/data/production-session.ts",
+      "bytes": 7602,
+      "sha256": "fb7509e184ffb435e1f06dd4206de6f4f46967c809305c4f6281acf7fe84b302"
+    },
+    {
+      "path": "src/main/data/production-startup-restore.ts",
+      "bytes": 2039,
+      "sha256": "d595abfa6e764279154978cf1456cf5d13977bf19dcdbc2cc2487a9b5f7c7649"
+    },
+    {
+      "path": "src/main/data/schema.ts",
+      "bytes": 19697,
+      "sha256": "ca5f84303ac0172e31ff1e45093c23bb9e7860cca7222da037b4ffeb1a52a893"
+    },
+    {
+      "path": "src/main/index.ts",
+      "bytes": 10407,
+      "sha256": "e57b3197c824765f4772dbe09679c2a085de4da78d65e73740931e63e49428c2"
+    },
+    {
+      "path": "src/main/ipc/register-daily-ipc.ts",
+      "bytes": 1762,
+      "sha256": "f3989cd90b7970b369cf866ba9c4c261b0a621d210be6388c6ee7379cdec7932"
+    },
+    {
+      "path": "src/main/ipc/register-operations-ipc.ts",
+      "bytes": 1560,
+      "sha256": "58ad39d7fd829a4fc38d2ee884b4e05494031b7a3318b8360cef8f46fe20df44"
+    },
+    {
+      "path": "src/main/item/item-service.ts",
+      "bytes": 42431,
+      "sha256": "58d3acb648e614785d44555ffdad1b76153f91102112941a26922ac85570cd17"
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "bytes": 53635,
+      "sha256": "35cb0082f27bf5b7958c4e0260178776bac7e4de9f16d9a7011fba3457df69cf"
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "bytes": 67246,
+      "sha256": "64addff6abc0edce3736fe7732e124fa8967bd114a322ceca2bffee95989a883"
+    },
+    {
+      "path": "src/main/reminder/reminder-notification-schema.ts",
+      "bytes": 1694,
+      "sha256": "9093cd4f45c4ad27c20c8e6203cb46bc9aecf8eee202dd70db11ce0d6129929f"
+    },
+    {
+      "path": "src/main/reminder/reminder-runtime.ts",
+      "bytes": 3217,
+      "sha256": "192c94d559967bbea708b578cc54766dd00d51b3a0576b93a4ecdaed77b65d09"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "bytes": 28921,
+      "sha256": "2b67b8ae29e4b82cf4a8c861342cf72e34f2c4b2262e1a9a70b19c58275fe5e4"
+    },
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "bytes": 2941,
+      "sha256": "8e0225d171a053d910b34240ae85304692c12a28f620c31a244c9cb80742cf34"
+    },
+    {
+      "path": "src/preload/index.d.ts",
+      "bytes": 1066,
+      "sha256": "1ad4ae714a5b2be9300f5e5bcdaea764e3ed834cf6880d116d439aecd81ac8ea"
+    },
+    {
+      "path": "src/preload/index.ts",
+      "bytes": 9751,
+      "sha256": "b3a24e7088c532361476a546ea9e959dd46d594cd430d343ae272265b9e62bc4"
+    },
+    {
+      "path": "src/renderer/src/App.tsx",
+      "bytes": 29910,
+      "sha256": "49f7c0fa6e4ffa81aafcd025e6d73d875a99d6e667feb8fb512e68a67e3710a4"
+    },
+    {
+      "path": "src/renderer/src/features/daily/DailyPanel.tsx",
+      "bytes": 66313,
+      "sha256": "2eb63a5e02c1469ac9d35d3f542673ee1fd16628ca79d3c6767d6787fc2db0ac"
+    },
+    {
+      "path": "src/renderer/src/features/items/ItemPanel.tsx",
+      "bytes": 58225,
+      "sha256": "214aaa262284c68c5f7cfe0f06a283c0cc457b45fca46130d6ce050cf37f275e"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "bytes": 27761,
+      "sha256": "540fc7745b7a82c9593b724af2dab4945c35fd5681d44325439a3aa5fe747824"
+    },
+    {
+      "path": "src/shared/daily-channels.ts",
+      "bytes": 275,
+      "sha256": "99a73b34e7440776fb53136e9ef9eefc4faf5e2f07b96157cbeb77c556ba403d"
+    },
+    {
+      "path": "src/shared/daily-contract.ts",
+      "bytes": 11944,
+      "sha256": "51463dbfcab5fe20f25cc9f8dd8e4ddd25ddcb94723c6d624f048706beb7c124"
+    },
+    {
+      "path": "src/shared/operations-channels.ts",
+      "bytes": 137,
+      "sha256": "675921e4b89608b1276f7d0293ff7f92eafbb6149d3bad66ec2907fe96064de0"
+    },
+    {
+      "path": "src/shared/operations-contract.ts",
+      "bytes": 4674,
+      "sha256": "c867691fde19eff495001bbdef8fdf3fc73c09889d78a143ba2b77db20a55f12"
+    },
+    {
+      "path": "tests/integration/assistant-profile.test.ts",
+      "bytes": 19511,
+      "sha256": "f7f71235a7c42ea74837d17e8ae1f4e9e5414749c9873e00fe1aa069b428796d"
+    },
+    {
+      "path": "tests/integration/background-schema.test.ts",
+      "bytes": 1679,
+      "sha256": "9ef973595c8e57a1ea6b9f705402bdfcabade2ebe36fb371e911aa1686f92c6c"
+    },
+    {
+      "path": "tests/integration/daily-fixture.ts",
+      "bytes": 7106,
+      "sha256": "9c2edd90f0b645c766445f9b5c2845caa0b47a550bd7b77a745782112f4d2f99"
+    },
+    {
+      "path": "tests/integration/daily-governance.test.ts",
+      "bytes": 4840,
+      "sha256": "29ebc2b861ed4f8c0c0baa8248edec51b99ba65ddaf131423c74777076f1fe0d"
+    },
+    {
+      "path": "tests/integration/daily-ipc.test.ts",
+      "bytes": 2681,
+      "sha256": "c38639a38aff414a6be5e16af6788361fb0f814cb8bed57a978b024c011b9dab"
+    },
+    {
+      "path": "tests/integration/daily-observation.test.ts",
+      "bytes": 3694,
+      "sha256": "0323158e31bfed398736879965f722f308e19e91bea19a2c66367484d50c8a85"
+    },
+    {
+      "path": "tests/integration/daily-provider.test.ts",
+      "bytes": 3754,
+      "sha256": "63e85d34eb42af6c1ec1e23d9fdfdcc757ce883e3504d0f8c8430f63fc34ffd6"
+    },
+    {
+      "path": "tests/integration/daily-recovery.test.ts",
+      "bytes": 4416,
+      "sha256": "f67b8decf81f6dce55d3a10aebdcbf513bb8288f4b700c2563f5381f3726971f"
+    },
+    {
+      "path": "tests/integration/daily-root-review.test.ts",
+      "bytes": 3686,
+      "sha256": "022841cfa3d5cd9fd26b9ba4101da86fb902c98ddaaaa75e5237aa80fe2a6773"
+    },
+    {
+      "path": "tests/integration/daily-service.test.ts",
+      "bytes": 4270,
+      "sha256": "52af99bd3b6183905d50bf487487b094dcb980dca244705c640cf67252f74699"
+    },
+    {
+      "path": "tests/integration/daily-usage.test.ts",
+      "bytes": 2313,
+      "sha256": "3ddf0e712dc69bb7d9c65bbcde20e711aed9def7ba24d3754766180ae16c24db"
+    },
+    {
+      "path": "tests/integration/item-schema.test.ts",
+      "bytes": 2200,
+      "sha256": "7f83835bbb9c300b1aa10dc060c4692aafe540edddaeceebed2675cf594eaa51"
+    },
+    {
+      "path": "tests/integration/provider-schema.test.ts",
+      "bytes": 6069,
+      "sha256": "10bb033676e2f19df710f865dc648f516b196cbe776ee80547fc8338404a3e94"
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "bytes": 26561,
+      "sha256": "5f40594ae9a62226c56a514203421499257b4dac0e02bcd4f63e662bcc22a4b9"
+    },
+    {
+      "path": "tests/integration/reminder-approved-default-independent.test.ts",
+      "bytes": 6761,
+      "sha256": "77e0908a0ffb05f861a398ef70d4dd430340dae35b6727c400b6f888a228c0b9"
+    },
+    {
+      "path": "tests/integration/reminder-notification-schema-independent.test.ts",
+      "bytes": 2169,
+      "sha256": "5988099141a12ee34029309b1a703225f2399ecb445b6a76323e90a20a61ca84"
+    },
+    {
+      "path": "tests/integration/reminder-schema.test.ts",
+      "bytes": 2063,
+      "sha256": "3e8de3cd6c87e73135274db9594fd6970c5cc34d0413457e9ba1fdd282577c39"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "bytes": 15256,
+      "sha256": "a52e2328c2715128c9f7370b0511b84e6439043015cc651f7c8d45f5ed7c143a"
+    },
+    {
+      "path": "tests/integration/retention-legacy-fixture.ts",
+      "bytes": 3412,
+      "sha256": "81b6d144efb64ac945d475cd4a0fb63ea315623f614b79fe51ef7317a6fc997c"
+    },
+    {
+      "path": "tests/integration/retention-schema.test.ts",
+      "bytes": 2190,
+      "sha256": "4db1a142cb4fde470bc3a153255c02074196e3faa8daf1059bdd2e734b06aa7a"
+    },
+    {
+      "path": "tests/integration/steward-branch-migration.test.ts",
+      "bytes": 1717,
+      "sha256": "2a26c543ecee676dd7f1979a16755d238dbc32a27a53967f7e8b83de6ae9cc34"
+    },
+    {
+      "path": "tests/integration/steward-schema.test.ts",
+      "bytes": 995,
+      "sha256": "aaf915ee511c60edacc4dc2e1b2abfb24e2fd9e4cf19b55362bd0aee3dd7815a"
+    },
+    {
+      "path": "tests/integration/timeline-context.test.ts",
+      "bytes": 26462,
+      "sha256": "9e64cbc67e449d419cdcedebf50b26dbd7fc0bbd25d36da2ac0875447b7e579f"
+    },
+    {
+      "path": "tests/integration/timeline-schema.test.ts",
+      "bytes": 7732,
+      "sha256": "752d47b08891429c9e6d6f7d39227dac2c1b681f890720ec2287fca11b560cf2"
+    },
+    {
+      "path": "tests/renderer/App-daily.test.tsx",
+      "bytes": 3386,
+      "sha256": "77270276894d64c2ddd2a64ff965e059da4f9b7bcd6a7651561287fc5d033946"
+    },
+    {
+      "path": "tests/renderer/DailyPanel-operations.test.tsx",
+      "bytes": 2892,
+      "sha256": "f56d0e67a58d24562d13c3d623140edc4f59e323d8ddcb33d7f556a405d9ae47"
+    },
+    {
+      "path": "tests/renderer/DailyPanel-recovery.test.tsx",
+      "bytes": 4728,
+      "sha256": "0c997816418016dfb6fa64a95a44077d800c7a9981ebc81680e0dce23a6f5646"
+    },
+    {
+      "path": "tests/renderer/DailyPanel-root-review.test.tsx",
+      "bytes": 4745,
+      "sha256": "6fe1a1d8362d632bf505615cdda0a132f2175fb41301bfa467dac51da795a30e"
+    },
+    {
+      "path": "tests/renderer/DailyPanel.test.tsx",
+      "bytes": 14140,
+      "sha256": "62be419f935fd8da4d218ecd32442195b9ffa597419fab0fe13fe2926f6d186d"
+    },
+    {
+      "path": "tests/renderer/ItemPanel-daily-navigation.test.tsx",
+      "bytes": 1638,
+      "sha256": "732ac60d50294b679a7c6fbbaf0fc4f20d8180264f239f5b47ce7100f59ed729"
+    },
+    {
+      "path": "tests/renderer/daily-api-fixture.ts",
+      "bytes": 8428,
+      "sha256": "07d20c7c30e5f0f0f086d9910b8397086e9e01bc7a5953690bd4471c199a835f"
+    },
+    {
+      "path": "tests/unit/daily-model-contract-independent.test.ts",
+      "bytes": 5080,
+      "sha256": "32376677c098808f24c03c830f11c491dc6ca387a43cb4e13b3a698321d16c8a"
+    },
+    {
+      "path": "tests/unit/daily-time.test.ts",
+      "bytes": 1836,
+      "sha256": "39173d97db3f7a033ea66544479ba10068948c68b58b52033660d85b2c70425d"
+    },
+    {
+      "path": "tests/unit/packaging-config-independent.test.ts",
+      "bytes": 5369,
+      "sha256": "a47bfbf13cf7f34d1af424d21bba2ed46931e530a9c78febc90b6cb77387572d"
+    },
+    {
+      "path": "tests/unit/production-backup.test.ts",
+      "bytes": 8654,
+      "sha256": "1b530a7f05290873a00560585c73d6b44ca395684f58e0cbe325006257aa4579"
+    },
+    {
+      "path": "tests/unit/production-delivery-independent.test.ts",
+      "bytes": 5194,
+      "sha256": "ae0bc25909b4592afb566a4a464873e9cef4b037b054f552a63acc829a3ab816"
+    },
+    {
+      "path": "tests/unit/production-entry-independent.test.ts",
+      "bytes": 4340,
+      "sha256": "da4d03f6955f2829fc994005a52469ec987a977387af72fe2c2e4780e99d9e46"
+    },
+    {
+      "path": "tests/unit/production-main-independent.test.ts",
+      "bytes": 6080,
+      "sha256": "d58b602f237482ec2f6f31ffe090f12a0be503ebc9518c9a907e7fdea6ccd958"
+    },
+    {
+      "path": "tests/unit/production-maintenance.test.ts",
+      "bytes": 6377,
+      "sha256": "2ed5573b655d9725187702252de027ab6ba512cf5e50e57042968145d154a714"
+    },
+    {
+      "path": "tests/unit/production-prepare.test.ts",
+      "bytes": 5221,
+      "sha256": "70d6026fb9b37cea177862f5783e5c1dab829081f36b756bd8e722fbee3d409d"
+    },
+    {
+      "path": "tests/unit/production-restore-consent-independent.test.ts",
+      "bytes": 3605,
+      "sha256": "fcf49d161324403808df157fae61dadc8e1aa8dd543e93dd361d6b1712e4b6b2"
+    },
+    {
+      "path": "tests/unit/production-restore-independent.test.ts",
+      "bytes": 3939,
+      "sha256": "116166e4fafb222572ac363f7c27abd899e0673721b03b0f0f7da860c3c7437f"
+    },
+    {
+      "path": "tests/unit/production-restore.test.ts",
+      "bytes": 4649,
+      "sha256": "38fc155a373f10011e0286b6ab03f23d1d312ee99ebc683f6614a94aeaa7285a"
+    },
+    {
+      "path": "tests/unit/production-selection.test.ts",
+      "bytes": 6064,
+      "sha256": "0a9a8f3c95420b9ce4ad321b2e3222c4880aa99ce49ae6680e69bcaed5161e4d"
+    },
+    {
+      "path": "tests/unit/window-security.test.ts",
+      "bytes": 3394,
+      "sha256": "ed8a5f79dc2972490527fa0e3dc383025137556aa59e759a745efbd983fb177a"
+    }
+  ]
+}

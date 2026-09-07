@@ -1,0 +1,12 @@
+[
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "        skipped = inputs.entries.length\n          ? '不足两个独立事件依据，未调用模型'\n          : '当前授权范围没有可用资料，未调用模型'",
+    "new": "        skipped = inputs.entries.length\n          ? '不足两个独立事件依据，未调用模型'\n          : inputs.checkpoints.length ? '本次仅有已删除事项的无正文变更，已本地记录，不调用模型' : '当前授权范围没有可用资料，未调用模型'"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "          const next = previewDaily(config.feature, config.schedule, after)\n          this.store.database",
+    "new": "          const next = previewDaily(config.feature, config.schedule, after)\n          if (!next.nextRun) this.operations.event({domain:'daily',id:config.id,assistantId:config.assistantId},config.feature,'WAITING_CONFIGURATION',next.reason,true)\n          this.store.database"
+  }
+]

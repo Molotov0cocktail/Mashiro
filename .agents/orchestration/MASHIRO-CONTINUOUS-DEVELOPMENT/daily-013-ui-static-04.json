@@ -1,0 +1,28 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "013 daily renderer final candidate with disputed and user-statement observations",
+  "recordedAt": "2026-09-07T12:38:00+08:00",
+  "checks": [
+    {
+      "command": "D:\\nodejs\\node.exe node_modules\\typescript\\bin\\tsc -p tsconfig.web.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "scoped eslint for Daily UI candidate",
+      "exitCode": 0
+    },
+    {
+      "command": "scoped prettier --check",
+      "exitCode": 0,
+      "output": "All matched files use Prettier code style!"
+    },
+    {
+      "command": "git diff --check -- <Daily UI candidate and review tests>",
+      "exitCode": 0
+    }
+  ],
+  "dependency": {
+    "dailyContractSha256": "51463DBFCAB5FE20F25CC9F8DD8E4DDD25DDCB94723C6D624F048706BEB7C124",
+    "note": "Observation nature includes trusted user-statement; model output schemas remain restricted."
+  }
+}

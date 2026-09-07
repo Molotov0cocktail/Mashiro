@@ -1,0 +1,112 @@
+[
+  {
+    "p": "src/main/background/background-service.ts",
+    "old": "export interface BackgroundProvider {",
+    "new": "export interface BackgroundDispatch {\n  feature?: import('../../shared/operations-contract.js').UsageFeature\n  assistantId?: string\n  chainId?: string\n  attemptId?: string\n  maxOutputTokens?: number\n}\nexport interface BackgroundProvider {"
+  },
+  {
+    "p": "src/main/background/background-service.ts",
+    "old": "    signal: AbortSignal\n  ): Promise<TransportResult>",
+    "new": "    signal: AbortSignal,\n    options?: BackgroundDispatch\n  ): Promise<TransportResult>"
+  },
+  {
+    "p": "src/main/background/background-service.ts",
+    "old": "await this.provider.send(recipient, messages, controller.signal)",
+    "new": "await this.provider.send(recipient, messages, controller.signal, { feature: 'chapter', assistantId: initial.assistantId, chainId: initial.id, attemptId })"
+  },
+  {
+    "p": "src/main/background/steward-service.ts",
+    "old": "    signal: AbortSignal\n  ): Promise<TransportResult>",
+    "new": "    signal: AbortSignal,\n    options?: import('./background-service.js').BackgroundDispatch\n  ): Promise<TransportResult>"
+  },
+  {
+    "p": "src/main/background/steward-service.ts",
+    "old": "await this.provider.send(recipient, messages, controller.signal)",
+    "new": "await this.provider.send(recipient, messages, controller.signal, { feature: job.role === 'steward' ? 'steward' : 'shared-candidates', assistantId: job.authorityAssistantId, chainId: job.id, attemptId })"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "export class ProviderService {",
+    "new": "import { DailyService } from '../background/daily-service.js'\nimport { OperationsService } from '../background/operations-service.js'\nexport class ProviderService {\n  readonly daily: DailyService\n  readonly operations: OperationsService"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "    this.repository = new ProviderRepository(store)",
+    "new": "    this.operations = new OperationsService(store, this.toolOptions.clock)\n    this.repository = new ProviderRepository(store)"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "      send: async (recipient, messages, signal) => {",
+    "new": "      send: async (recipient, messages, signal, options) => {"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "        return this.transport({\n          baseUrl: connection.baseUrl,\n          apiKey,\n          model: recipient.model,\n          messages,\n          stream: false,\n          signal,\n          maxOutputTokens: 2048\n        })",
+    "new": "        const attempt = options?.feature ? this.operations.begin({\n          chainId: options.chainId!,actor: options.feature === 'steward' ? 'steward' : 'assistant',\n          assistantId: options.assistantId!,connectionId: connection.id,recipientFingerprint: recipient.fingerprint,model: recipient.model,\n          feature: options.feature,inputCharacters: messages.reduce((sum,message)=>sum+(message.content?.length??0),0),persistent: true,\n          owner: {domain:options.feature==='chapter'?'background':'steward',id:options.chainId!,assistantId:options.assistantId!}\n        },options.attemptId) : null\n        try {\n          const result = await this.transport({\n            baseUrl: connection.baseUrl, apiKey, model: recipient.model, messages, stream: false, signal,\n            maxOutputTokens: options?.maxOutputTokens ?? 2048\n          })\n          if(attempt)this.operations.settle(attempt,result.usage)\n          return result\n        } catch(error) { if(attempt)this.operations.settle(attempt,null);throw error }"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "    this.retention = new RetentionService(",
+    "new": "    this.daily = new DailyService(store,this.memory,this.items,backgroundProvider,this.operations,this.toolOptions.clock)\n    this.retention = new RetentionService("
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "        this.steward.abort()",
+    "new": "        this.steward.abort()\n        this.daily.abort()"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "            blockers: [...chapters.blockers, ...steward.blockers],",
+    "new": "            blockers: [...chapters.blockers, ...steward.blockers, ...this.daily.inspectOriginal(assistantId,requestIds).blockers],"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "            ...this.steward.inspectAssistant(assistantId).blockers",
+    "new": "            ...this.steward.inspectAssistant(assistantId).blockers,\n            ...this.daily.inspectAssistant(assistantId).blockers"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "          this.steward.purgeAssistant(assistantId)",
+    "new": "          this.steward.purgeAssistant(assistantId)\n          this.daily.purgeAssistant(assistantId)"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "      const itemTransport: ChatTransport = async (request) => {",
+    "new": "      const measuredTransport: ChatTransport = async (request) => {\n        assertCurrent()\n        const attempt=this.operations.begin({ chainId:value.requestId,actor:'assistant',assistantId:value.assistantId,\n          connectionId:execution.connection.id,recipientFingerprint:endpointFingerprint,model:execution.binding.model,\n          feature:value.tools==='off'?'conversation':'tool-chain',inputCharacters:request.messages.reduce((sum,message)=>sum+(message.content?.length??0),0),\n          persistent:value.mode==='normal',owner:{domain:'provider',id:value.requestId,assistantId:value.assistantId}\n        })\n        try { const result=await this.transport(request);this.operations.settle(attempt,result.usage);return result }\n        catch(error){this.operations.settle(attempt,null);throw error}\n      }\n      const itemTransport: ChatTransport = async (request) => {"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "        return this.transport(request)",
+    "new": "        return measuredTransport(request)"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "? await this.transport(transportRequest)",
+    "new": "? await measuredTransport(transportRequest)"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "        this.steward.notify()",
+    "new": "        this.steward.notify()\n        this.daily.notify()"
+  },
+  {
+    "p": "src/main/provider/provider-service.ts",
+    "old": "    this.steward.close()",
+    "new": "    this.steward.close()\n    this.daily.close()\n    this.operations.close()"
+  },
+  {
+    "p": "src/main/index.ts",
+    "old": "let unregisterStewardIpc:",
+    "new": "import { registerDailyIpc, emitDailyChanged } from './ipc/register-daily-ipc.js'\nimport { registerOperationsIpc, emitOperationsChanged } from './ipc/register-operations-ipc.js'\nlet unregisterDailyIpc: (() => void) | undefined\nlet unregisterOperationsIpc: (() => void) | undefined\nlet unregisterStewardIpc:"
+  },
+  {
+    "p": "src/main/index.ts",
+    "old": "  const window = await createWindow()",
+    "new": "  const trustedDaily = (event: unknown) => {\n    const call = event as IpcMainInvokeEvent\n    return !!BrowserWindow.fromWebContents(call.sender) && call.senderFrame === call.sender.mainFrame\n  }\n  unregisterDailyIpc = registerDailyIpc(ipcMain,providerService.daily,trustedDaily)\n  unregisterOperationsIpc = registerOperationsIpc(ipcMain,providerService.operations,trustedDaily)\n  providerService.daily.onChanged((event)=>emitDailyChanged((channel,value)=>{for(const window of BrowserWindow.getAllWindows())window.webContents.send(channel,value)},event))\n  providerService.operations.onChanged((event)=>emitOperationsChanged((channel,value)=>{for(const window of BrowserWindow.getAllWindows())window.webContents.send(channel,value)},event))\n  const window = await createWindow()"
+  },
+  {
+    "p": "src/main/index.ts",
+    "old": "  unregisterStewardIpc?.()",
+    "new": "  unregisterDailyIpc?.()\n  unregisterDailyIpc = undefined\n  unregisterOperationsIpc?.()\n  unregisterOperationsIpc = undefined\n  unregisterStewardIpc?.()"
+  }
+]

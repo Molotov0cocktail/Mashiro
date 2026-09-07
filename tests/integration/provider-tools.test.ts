@@ -241,7 +241,7 @@ describe('007 actual trusted tool conversation', () => {
     checked.exec('DROP TABLE tool_operations')
     checked.close()
     const upgraded = new SqliteStore(f.db)
-    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 13 })
+    expect(upgraded.database.prepare('PRAGMA user_version').get()).toEqual({ user_version: 15 })
     expect(upgraded.database.prepare('SELECT * FROM timeline_messages').all()).toEqual(before)
     upgraded.close()
   })
@@ -346,6 +346,17 @@ describe('007 actual trusted tool conversation', () => {
         req = f.request({ mode })
       const result = await f.service.startChat(req, () => {})
       expect(result.ok && result.data.usage?.totalTokens).toBe(9)
+      expect(f.service.operations.usage({ protocolVersion: 1 })).toMatchObject({
+        ok: true,
+        data: {
+          summary: { calls: 3, known: { totalTokens: 9 }, complete: true },
+          attempts: [
+            { persistent: mode === 'normal' },
+            { persistent: mode === 'normal' },
+            { persistent: mode === 'normal' }
+          ]
+        }
+      })
       expect(
         requests[2]!.messages.filter((m) => m.role === 'assistant').map((m) => m.reasoning_content)
       ).toEqual(['原序😀 1', '原序😀 2'])

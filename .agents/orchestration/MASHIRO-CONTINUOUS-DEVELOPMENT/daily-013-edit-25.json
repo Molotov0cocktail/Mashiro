@@ -1,0 +1,17 @@
+[
+  {
+    "p": "src/shared/daily-contract.ts",
+    "old": "  nature: z.enum(['faithful-summary', 'inference']),\n  status:",
+    "new": "  nature: z.enum(['user-statement', 'faithful-summary', 'inference']),\n  status:"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "          observation.title = value.correction.title\n          observation.markdown",
+    "new": "          observation.title = value.correction.title\n          observation.nature = 'user-statement'\n          observation.markdown"
+  },
+  {
+    "p": "src/main/memory/memory-service.ts",
+    "old": "    return this.apply({\n      assistantId: execution.assistantId,\n      commandId: execution.commandId,\n      mutation,\n      execution: { ...execution, requestId: '', origin: { kind: 'user', jobId: execution.jobId } }\n    })",
+    "new": "    try {\n      return this.apply({\n        assistantId: execution.assistantId,\n        commandId: execution.commandId,\n        mutation,\n        execution: { ...execution, requestId: '', origin: { kind: 'user', jobId: execution.jobId } }\n      })\n    } catch (error) {\n      const prior = this.command(execution.commandId)\n      if (prior?.receipt_json && prior.state === 'SUCCEEDED') return this.safeReceipt(JSON.parse(prior.receipt_json))\n      this.store.database.prepare(\"UPDATE memory_commands SET state='NOT_APPLIED' WHERE id=? AND state='PREPARED'\").run(execution.commandId)\n      throw error\n    }"
+  }
+]

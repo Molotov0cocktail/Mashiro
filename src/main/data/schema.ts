@@ -4,8 +4,11 @@ import { migrateItems, verifyItems } from '../item/item-schema.js'
 import { migrateReminders } from '../reminder/reminder-schema.js'
 import { migrateBackground } from '../background/background-schema.js'
 import { migrateSteward } from '../background/steward-schema.js'
+import { migrateDaily } from '../background/daily-schema.js'
 
-export const schemaVersion = 13
+import { migrateReminderNotifications } from '../reminder/reminder-notification-schema.js'
+
+export const schemaVersion = 15
 
 const requiredTables = [
   'assistants',
@@ -357,6 +360,8 @@ export function initializeOrVerifySchema(database: DatabaseSync): void {
   migrateReminders(database)
   migrateBackground(database)
   migrateSteward(database)
+  migrateDaily(database)
+  migrateReminderNotifications(database)
   const current = Number(
     (database.prepare('PRAGMA user_version').get() as { user_version: number }).user_version
   )

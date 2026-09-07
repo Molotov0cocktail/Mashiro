@@ -1,0 +1,55 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "014 restore core independent review",
+  "recordedAt": "2026-09-07T12:39:00+08:00",
+  "reviewer": "gpt-5.6-sol/high; did not implement reviewed production files",
+  "implementation": [
+    {
+      "path": "src/main/data/production-restore.ts",
+      "sha256": "98DFAF28583F4352B2C4B5A2712E416FD198D167D001174804A11DAE97A74317"
+    },
+    {
+      "path": "src/main/data/production-backup.ts",
+      "sha256": "FFB99DE8407ED5ABC36F90DF49AA8433E659604EB0D287134D6E5ADC51E25B38"
+    }
+  ],
+  "oracle": {
+    "path": "tests/unit/production-restore-independent.test.ts",
+    "sha256": "116166E4FAFB222572AC363F7C27ABD899E0673721B03B0F0F7DA860C3C7437F",
+    "tests": 2,
+    "coverage": [
+      "backup lease excludes restore before writes",
+      "destination lease excludes restore before writes then permits recovery",
+      "junction destination rejected before marker or dataset bytes"
+    ]
+  },
+  "focused": {
+    "command": "vitest production-backup production-restore production-restore-independent --maxWorkers=1",
+    "exitCode": 0,
+    "files": 3,
+    "tests": 15
+  },
+  "routeEvidence": {
+    "firstRun": "maxWorkers=2: 14/15 passed; one unchanged author restore test exceeded its 5000ms timeout under parallel I/O",
+    "repair": "No code or timeout changed; serial one-worker rerun passed 15/15 in 10.70s."
+  },
+  "static": [
+    {
+      "command": "tsc -p tsconfig.node.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "eslint independent restore test",
+      "exitCode": 0
+    },
+    {
+      "command": "prettier --check independent restore test",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check independent restore test",
+      "exitCode": 0
+    }
+  ],
+  "assessment": "LIMITED PASS for restore/backup core at exact hashes. Does not cover main/menu/maintenance, actual packaged lifecycle, power-loss durability, or real user restore UI."
+}

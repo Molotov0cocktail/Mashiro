@@ -35,6 +35,13 @@ export interface BackgroundRecipient {
   model: string
   identity: string
 }
+export interface BackgroundDispatch {
+  feature?: import('../../shared/operations-contract.js').UsageFeature
+  assistantId?: string
+  chainId?: string
+  attemptId?: string
+  maxOutputTokens?: number
+}
 export interface BackgroundProvider {
   resolve(
     configuration: Pick<BackgroundConfiguration, 'connectionId' | 'model'>
@@ -42,7 +49,8 @@ export interface BackgroundProvider {
   send(
     recipient: BackgroundRecipient,
     messages: ProtocolMessage[],
-    signal: AbortSignal
+    signal: AbortSignal,
+    options?: BackgroundDispatch
   ): Promise<TransportResult>
 }
 const outputSchema = z.strictObject({
@@ -740,7 +748,12 @@ export class BackgroundService {
         this.emit(initial.assistantId)
         // The last synchronous check occurs immediately before dispatch; reservations already exist.
         this.current(initial, recipient, controller)
-        const result = await this.provider.send(recipient, messages, controller.signal)
+        const result = await this.provider.send(recipient, messages, controller.signal, {
+          feature: 'chapter',
+          assistantId: initial.assistantId,
+          chainId: initial.id,
+          attemptId
+        })
         if (this.stopped) return
         const usage =
           result.usage &&

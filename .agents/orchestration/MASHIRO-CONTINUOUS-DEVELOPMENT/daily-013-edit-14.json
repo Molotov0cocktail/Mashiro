@@ -1,0 +1,17 @@
+[
+  {
+    "p": "src/main/item/item-service.ts",
+    "old": "target.version + 1, JSON.stringify({deleted:true,id:target.id,version:target.version+1,originAssistantId:target.originAssistantId})",
+    "new": "target.expectedVersion + 1, JSON.stringify({deleted:true,id:target.id,version:target.expectedVersion+1,originAssistantId:this.readItem(target.id).originAssistantId})"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "import { randomUUID } from 'node:crypto'\n",
+    "new": ""
+  },
+  {
+    "p": "src/main/background/daily-schema.ts",
+    "old": "      throw Error('Daily schema incomplete')\n}",
+    "new": "      throw Error('Daily schema incomplete')\n  const columns: Record<(typeof dailyTables)[number], string[]> = {\n    daily_configs: ['id','assistant_id','feature','record_json','next_run','last_tick'],\n    daily_jobs: ['id','source_key','record_json','inputs_json','candidate_json'],\n    daily_reports: ['id','job_id','record_json','content_json','guard'],\n    daily_commands: ['id','arguments_hash','receipt_json'],\n    daily_suppressions: ['identity','command_id'],\n    daily_item_checkpoints: ['config_id','item_id','version','content_json'],\n    daily_item_changes: ['item_id','version','record_json'],\n    usage_attempts: ['id','record_json'], operation_events: ['id','record_json']\n  }\n  for (const table of dailyTables)\n    if (JSON.stringify(database.prepare('PRAGMA table_info(' + table + ')').all().map(row=>row.name)) !== JSON.stringify(columns[table])) throw Error('Daily columns invalid')\n}"
+  }
+]

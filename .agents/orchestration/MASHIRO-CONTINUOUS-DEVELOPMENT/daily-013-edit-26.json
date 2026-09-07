@@ -1,0 +1,22 @@
+[
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "      if (record.state === 'SENDING')\n        this.save({",
+    "new": "      if (record.state === 'SENDING') {\n        this.save({"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "          finishedAt: this.clock().toISOString()\n        })\n  }",
+    "new": "          finishedAt: this.clock().toISOString()\n        })\n        this.event(record.owner,record.feature,'USAGE_UNKNOWN','上次进程退出前未取得完整用量；不自动重试',true)\n      }\n  }"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "    this.save(record)\n    return record.id",
+    "new": "    this.save(record)\n    if (record.persistent) this.event(record.owner,record.feature,'SENDING','正在调用已授权的实际模型',true)\n    return record.id"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "    if (!current) {\n      for (const row",
+    "new": "    {\n      for (const row"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "当前数据位置",
+    "type": "ControlType.Window",
+    "handle": 21766454
+  },
+  {
+    "name": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee\\原生还原 新目录",
+    "type": "ControlType.Text",
+    "handle": 0
+  },
+  {
+    "name": "卸载程序会保留业务数据。完整备份包含治理状态和受保护凭据；跨Windows用户需要重新提供凭据。",
+    "type": "ControlType.Text",
+    "handle": 0
+  },
+  {
+    "name": "确定",
+    "type": "ControlType.Pane",
+    "handle": 45751006
+  }
+]

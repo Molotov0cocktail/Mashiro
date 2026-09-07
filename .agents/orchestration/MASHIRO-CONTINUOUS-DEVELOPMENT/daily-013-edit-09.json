@@ -1,0 +1,17 @@
+[
+  {
+    "p": "src/shared/operations-contract.ts",
+    "old": "const filters = {\n  assistantId",
+    "new": "const filters = {\n  actor: z.enum(['assistant', 'steward', 'system']).optional(),\n  assistantId"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "      if (value.assistantId)\n        records",
+    "new": "      if (value.actor) {\n        const attempts = this.attempts()\n        records = records.filter(row => {\n          const owned = attempts.filter(attempt => attempt.owner.domain === row.owner.domain && attempt.owner.id === row.owner.id)\n          const localActor = row.owner.domain === 'steward' ? 'steward' : row.owner.assistantId ? 'assistant' : 'system'\n          return owned.length ? owned.some(attempt => attempt.actor === value.actor) : localActor === value.actor\n        })\n      }\n      if (value.assistantId)\n        records"
+  },
+  {
+    "p": "src/main/background/operations-service.ts",
+    "old": "            (!filters.assistantId || row.assistantId === filters.assistantId) &&",
+    "new": "            (!filters.actor || row.actor === filters.actor) &&\n            (!filters.assistantId || row.assistantId === filters.assistantId) &&"
+  }
+]

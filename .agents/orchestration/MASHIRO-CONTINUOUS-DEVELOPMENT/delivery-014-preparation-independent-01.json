@@ -1,0 +1,43 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "reviewer": "steward_013_ui (gpt-5.6-sol/high; did not author the reviewed production data modules)",
+  "candidateManifest": {
+    "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-preparation-candidate-v1.json",
+    "sha256": "21EE46B00B3541B58BCAC2F5D002E526548E4B99885117B32D6067EDCAB81AFA",
+    "allNineFileHashesMatched": true
+  },
+  "independentOracle": {
+    "path": "tests/unit/production-delivery-independent.test.ts",
+    "sha256": "AE0BC25909B4592AFB566A4A464873E9CEF4B037B054F552A63ACC829A3AB816",
+    "cases": [
+      "application-domain junction is rejected without backup.json",
+      "post-backup source deletion prevents SQL replacement while source SQL and verified snapshot remain",
+      "ordinary existing-data selection cannot bind a backup payload"
+    ]
+  },
+  "firstRun": {
+    "result": "22 passed, 1 failed",
+    "failure": "The independent junction oracle expected BACKUP_UNSAFE_DIRECTORY; the product rejected earlier with LOCATION_UNSAFE.",
+    "classification": "Oracle specificity error; both codes reject the junction before a completed snapshot is published.",
+    "repair": "Changed only the independent test expectation to LOCATION_UNSAFE. No product file changed."
+  },
+  "verification": [
+    {
+      "command": "vitest run production-delivery-independent, production-backup, production-prepare, production-selection --maxWorkers=2",
+      "exitCode": 0,
+      "testFiles": 4,
+      "tests": 23
+    },
+    {
+      "command": "vitest run 11 production data unit test files --maxWorkers=2",
+      "exitCode": 0,
+      "testFiles": 11,
+      "tests": 59
+    },
+    { "command": "tsc -p tsconfig.node.json --noEmit", "exitCode": 0 },
+    { "command": "scoped eslint --max-warnings=0", "exitCode": 0 },
+    { "command": "scoped prettier --check", "exitCode": 0 }
+  ],
+  "result": "PASS for the frozen preparation candidate scope",
+  "limits": "Does not qualify production main integration, packaged Electron/native dialogs, install/upgrade/uninstall, protected-credential portability, or release/download verification. PROGRAM remains ACTIVE."
+}

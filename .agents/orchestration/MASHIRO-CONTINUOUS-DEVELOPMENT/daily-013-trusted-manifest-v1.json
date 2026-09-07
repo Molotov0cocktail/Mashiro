@@ -1,0 +1,173 @@
+{
+  "status": "AUTHOR_FREEZE_PENDING_INDEPENDENT_REVIEW",
+  "base": "2307e490a60af9cfce9f72ba9c0fd0d5ae658f20",
+  "files": [
+    {
+      "path": "src/main/background/background-service.ts",
+      "sha256": "B777F55AB4F750DED14788CD358318FD484396E6D905EE5D7BDEC4BF48154763",
+      "bytes": 38075
+    },
+    {
+      "path": "src/main/background/daily-event-facts.ts",
+      "sha256": "32C01E12E4763B15CDF434E797FCCC3A1C6C76E996BC334B13E6C94837D60B15",
+      "bytes": 1886
+    },
+    {
+      "path": "src/main/background/daily-item-changes.ts",
+      "sha256": "BBE16A56EFFE8FB103E851296D7F4DE361839E342840E951799608A1FED0DCC5",
+      "bytes": 2503
+    },
+    {
+      "path": "src/main/background/daily-model.ts",
+      "sha256": "57C38E563F7E756737A03BA2B70175A001B1C87A7E1097B9313DB9401CA32347",
+      "bytes": 4349
+    },
+    {
+      "path": "src/main/background/daily-schema.ts",
+      "sha256": "EA1A4ABBBCDD2E29D47A3251A2640304691918668F2C0355657E5F2C7856A704",
+      "bytes": 3272
+    },
+    {
+      "path": "src/main/background/daily-service.ts",
+      "sha256": "AA9C6B0D61B3E2978041B4B3392B0DE88263B545A5A271FE5E818209D1E191BE",
+      "bytes": 48416
+    },
+    {
+      "path": "src/main/background/daily-sources.ts",
+      "sha256": "44D9C74B590F4ED2F6F1A89895815A68C4FEB31924D316E71E3F5D11FC06B514",
+      "bytes": 13865
+    },
+    {
+      "path": "src/main/background/daily-time.ts",
+      "sha256": "791ADAFA0E1F3F57F42C89A7D6BAA165C942476AC65212371833F7F96E109721",
+      "bytes": 5438
+    },
+    {
+      "path": "src/main/background/operations-service.ts",
+      "sha256": "AC582538561C1CDCAEC0675D82A407A7706175AFC3A9A721E70B32C6440F7BD2",
+      "bytes": 12653
+    },
+    {
+      "path": "src/main/background/operations-sources.ts",
+      "sha256": "3DCA3D4B9C34637FCED6C5FE27EE72ECE20F7519FFA9E814F22B51E4182FFC7D",
+      "bytes": 3327
+    },
+    {
+      "path": "src/main/background/steward-service.ts",
+      "sha256": "49106450F49685A6EEFF117858ABBF85C4A6723868F952171B40BDB1B498D8D8",
+      "bytes": 58994
+    },
+    {
+      "path": "src/main/ipc/register-daily-ipc.ts",
+      "sha256": "F3989CD90B7970B369CF866BA9C4C261B0A621D210BE6388C6EE7379CDEC7932",
+      "bytes": 1762
+    },
+    {
+      "path": "src/main/ipc/register-operations-ipc.ts",
+      "sha256": "58AD39D7FD829A4FC38D2EE884B4E05494031B7A3318B8360CEF8F46FE20DF44",
+      "bytes": 1560
+    },
+    {
+      "path": "src/main/item/item-service.ts",
+      "sha256": "58D3ACB648E614785D44555FFDAD1B76153F91102112941A26922AC85570CD17",
+      "bytes": 42431
+    },
+    {
+      "path": "src/main/memory/memory-service.ts",
+      "sha256": "35CB0082F27BF5B7958C4E0260178776BAC7E4DE9F16D9A7011FBA3457DF69CF",
+      "bytes": 53635
+    },
+    {
+      "path": "src/main/provider/provider-service.ts",
+      "sha256": "64ADDFF6ABC0EDCE3736FE7732E124FA8967BD114A322CECA2BFFEE95989A883",
+      "bytes": 67246
+    },
+    {
+      "path": "src/preload/index.d.ts",
+      "sha256": "1AD4AE714A5B2BE9300F5E5BCDAEA764E3ED834CF6880D116D439AECD81AC8EA",
+      "bytes": 1066
+    },
+    {
+      "path": "src/preload/index.ts",
+      "sha256": "B3A24E7088C532361476A546EA9E959DD46D594CD430D343AE272265B9E62BC4",
+      "bytes": 9751
+    },
+    {
+      "path": "src/shared/daily-channels.ts",
+      "sha256": "99A73B34E7440776FB53136E9EF9EEFC4FAF5E2F07B96157CBEB77C556BA403D",
+      "bytes": 275
+    },
+    {
+      "path": "src/shared/daily-contract.ts",
+      "sha256": "51463DBFCAB5FE20F25CC9F8DD8E4DDD25DDCB94723C6D624F048706BEB7C124",
+      "bytes": 11944
+    },
+    {
+      "path": "src/shared/operations-channels.ts",
+      "sha256": "675921E4B89608B1276F7D0293FF7F92EAFBB6149D3BAD66EC2907FE96064DE0",
+      "bytes": 137
+    },
+    {
+      "path": "src/shared/operations-contract.ts",
+      "sha256": "C867691FDE19EFF495001BBDEF8FDF3FC73C09889D78A143BA2B77DB20A55F12",
+      "bytes": 4674
+    },
+    {
+      "path": "tests/integration/daily-fixture.ts",
+      "sha256": "9C2EDD90F0B645C766445F9B5C2845CAA0B47A550BD7B77A745782112F4D2F99",
+      "bytes": 7106
+    },
+    {
+      "path": "tests/integration/daily-governance.test.ts",
+      "sha256": "29EBC2B861ED4F8C0C0BAA8248EDEC51B99BA65DDAF131423C74777076F1FE0D",
+      "bytes": 4840
+    },
+    {
+      "path": "tests/integration/daily-ipc.test.ts",
+      "sha256": "C38639A38AFF414A6BE5E16AF6788361FB0F814CB8BED57A978B024C011B9DAB",
+      "bytes": 2681
+    },
+    {
+      "path": "tests/integration/daily-observation.test.ts",
+      "sha256": "0323158E31BFED398736879965F722F308E19E91BEA19A2C66367484D50C8A85",
+      "bytes": 3694
+    },
+    {
+      "path": "tests/integration/daily-provider.test.ts",
+      "sha256": "63E85D34EB42AF6C1EC1E23D9FDFDCC757CE883E3504D0F8C8430F63FC34FFD6",
+      "bytes": 3754
+    },
+    {
+      "path": "tests/integration/daily-recovery.test.ts",
+      "sha256": "F67B8DECF81F6DCE55D3A10AEBDCBF513BB8288F4B700C2563F5381F3726971F",
+      "bytes": 4416
+    },
+    {
+      "path": "tests/integration/daily-service.test.ts",
+      "sha256": "52AF99BD3B6183905D50BF487487B094DCB980DCA244705C640CF67252F74699",
+      "bytes": 4270
+    },
+    {
+      "path": "tests/integration/daily-usage.test.ts",
+      "sha256": "3DDF0E712DC69BB7D9C65BBCDE20E711AED9DEF7BA24D3754766180AE16C24DB",
+      "bytes": 2313
+    },
+    {
+      "path": "tests/integration/provider-tools.test.ts",
+      "sha256": "5F40594AE9A62226C56A514203421499257B4DAC0E02BCD4F63E662BCC22A4B9",
+      "bytes": 26561
+    },
+    {
+      "path": "tests/unit/daily-time.test.ts",
+      "sha256": "39173D97DB3F7A033EA66544479BA10068948C68B58B52033660D85B2C70425D",
+      "bytes": 1836
+    }
+  ],
+  "rootOwnedExclusions": [
+    "src/main/index.ts",
+    "src/main/data/schema.ts",
+    "legacy migration fixtures/current version expectation tests",
+    "renderer",
+    "014/reminder integration"
+  ]
+}

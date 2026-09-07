@@ -1,0 +1,26 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "REM-002 approved default independent adversarial review",
+  "recordedAt": "2026-09-07T12:30:00+08:00",
+  "runner": "gpt-5.6-sol/high independent reviewer",
+  "implementation": {
+    "path": "src/main/reminder/reminder-service.ts",
+    "sha256": "D088705618AFED05C8E6B49E711F3A2DECC53FF889767FD73AC6A77D0CC5C9F2"
+  },
+  "oracle": {
+    "path": "tests/integration/reminder-approved-default-independent.test.ts",
+    "sha256": "D2825C7F67B04B34410BEC8D822EE5AC5446FBCBB6D5D4F701C2A27FB17EB8EB"
+  },
+  "command": "D:\\nodejs\\node.exe node_modules\\vitest\\vitest.mjs run tests/integration/reminder-approved-default-independent.test.ts --maxWorkers=2",
+  "exitCode": 1,
+  "passed": 1,
+  "failed": 1,
+  "exactBoundary": "Two distinct reminders exactly 24 hours late merged into one observed notification.",
+  "failure": {
+    "test": "keeps the approved multi-item catch-up in one notification beyond one hundred items",
+    "expected": "[{ count: 101 }]",
+    "received": "[{ count: 100 }, { count: 1 }]",
+    "location": "tests/integration/reminder-approved-default-independent.test.ts:131"
+  },
+  "assessment": "Confirmed product mismatch with REM-002 one-notification rule; root accepted repair ownership. Reviewer did not modify product."
+}

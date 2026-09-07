@@ -1,0 +1,42 @@
+[
+  {
+    "p": "src/main/background/daily-time.ts",
+    "old": "export function previewDaily(",
+    "new": "export function observationPeriod(period: DailyPeriod, days: number): DailyPeriod {\n  const local = parts(new Date(Date.parse(period.end)-1), period.timeZone)\n  const start = Date.UTC(local.year,local.month-1,local.day) - (days-1)*86400000\n  return {...period,start:dayStart(start,period.timeZone),localLabel:label(start).slice(0,10)+' 起的 '+days+' 个当地日'}\n}\nexport function previewDaily("
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "import { previewDaily, dailyPeriod }",
+    "new": "import { previewDaily, dailyPeriod, observationPeriod }"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "    const recipient = this.provider.resolve(config, false),\n      inputs",
+    "new": "    if (config.feature === 'observation') period = observationPeriod(period, config.dataScope.lookbackDays)\n    const recipient = this.provider.resolve(config, false),\n      inputs"
+  },
+  {
+    "p": "src/main/background/daily-sources.ts",
+    "old": "    const cutoff = Date.parse(period.end) - config.dataScope.lookbackDays * 86400000",
+    "new": "    const cutoff = Date.parse(period.start)"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "    this.operations.event(\n      this.owner(job),",
+    "new": "    if (['STALE', 'CANCELLED'].includes(state))\n      this.store.database.prepare('UPDATE daily_jobs SET inputs_json=?,candidate_json=NULL WHERE id=?').run('{}', job.id)\n    this.operations.event(\n      this.owner(job),"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "      this.abort(value.assistantId, value.feature)\n      this.emit",
+    "new": "      this.abort(value.assistantId, value.feature)\n      for (const job of this.jobs())\n        if (job.authorityAssistantId === value.assistantId && job.feature === value.feature && job.configurationVersion !== record.version && !['RUNNING','COMPLETED','CANCELLED','STALE'].includes(job.state))\n          this.update(job,'STALE','配置已改变，旧待处理作业不再派发')\n      this.emit"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "            : missed && config.recovery.mode === 'UNCONFIGURED'\n              ? 'RECOVERY_PENDING'",
+    "new": "            : missed && (config.recovery.mode === 'UNCONFIGURED' || now.getTime()-due.getTime() > config.recovery.catchUpMinutes*60000)\n              ? 'RECOVERY_PENDING'"
+  },
+  {
+    "p": "src/main/background/daily-service.ts",
+    "old": "          .run(now.toISOString(), config.id)\n      }\n  }",
+    "new": "          .run(new Date(Math.max(now.getTime(),Date.parse(String(row.last_tick)))).toISOString(), config.id)\n      }\n  }"
+  }
+]

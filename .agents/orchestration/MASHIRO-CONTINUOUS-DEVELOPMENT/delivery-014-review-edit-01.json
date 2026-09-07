@@ -1,0 +1,7 @@
+[
+  {
+    "p": "tests/unit/production-main-independent.test.ts",
+    "old": "openProvider:vi.fn(()=>provider)",
+    "new": "openProvider:vi.fn((...args:unknown[])=>{void args;return provider})"
+  }
+]

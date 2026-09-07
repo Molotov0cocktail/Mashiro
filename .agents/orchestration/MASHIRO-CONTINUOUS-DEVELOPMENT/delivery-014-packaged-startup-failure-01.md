@@ -1,0 +1,13 @@
+# Packaged startup diagnostic — not a qualification PASS
+
+- Exact copied candidate EXE SHA256: `A7DF1E58DA891ABA1F32A8651C3E2D7F35B945ADE839E9DF6B46333616B8F61A`.
+- Exact copied ASAR SHA256: `9C84E855A021A2D284CAF34E112170CE98539AF9BF6D3786D511E85AF6A8E590`. Both rechecked unchanged after diagnosis.
+- Owned scene: `C:\Users\30910\AppData\Local\Temp\mashiro-packaged-review-f0d34871-0c37-4abc-878e-3ea9fd5e89ee`; original candidate in `原生候选 安装`, selected synthetic data planned as its `data` child. Scene and owner marker retained.
+- Before initial launch, production `Roaming\Mashiro` was confirmed absent. Exact candidate PID 160860 emitted `MASHIRO_STARTUP_FAILURE` and exited before any setup interaction. No native acceptance has passed.
+- Child-only negative injection variables were `MASHIRO_E2E=1`, `MASHIRO_E2E_ROOT=invalid-owned-negative-test`, and `ELECTRON_RENDERER_URL=http://127.0.0.1:1`. Parent process environment and product files were not changed.
+- Independent diagnostic-only copy changed just the startup catch to log exception metadata. It is explicitly excluded from qualification. PID 177424 exited 1: `isPackaged=true`, `realpathSync.native` is a function, and `LOCATION_UNSAFE` arose at canonical-directory path equality checking during the first runtime child-directory creation. See [raw diagnostic](delivery-014-packaged-startup-diagnostic-01.json).
+- The new empty `Roaming\Mashiro` root has creation time 04:55:15 UTC, matching the first launch immediately after scene creation at 04:55:11 UTC. An earlier empty Get-ChildItem output was incorrectly described as root absence; subsequent Test-Path and metadata corrected this. No configuration or business data exists there, and nothing was removed.
+- Actual Node native realpath resolves that logical root into the Codex package's `D:\WpSystem\...\LocalCache\Roaming\Mashiro`, while ordinary realpath returns the logical C-drive root. Directory lstat says ordinary directory, not symlink. This strongly indicates inherited host filesystem virtualization; it is not evidence that canonical-path protections should be relaxed. See [path metadata](delivery-014-packaged-path-diagnostic-01.json).
+- Both exact candidate and diagnostic PID are gone. DEV Electron CJS/ESM controls showed normal appData parent and callable native realpath, which did not reproduce the new-child redirection.
+
+Next route requires a launch context that does not inherit this host virtualization, or a separately reviewed trusted runtime strategy. Preserve directory protection. Data selection, assistant actions, tray/quit, restart and installer lifecycle remain NOT RUN for the packaged candidate.

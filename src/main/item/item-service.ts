@@ -48,11 +48,13 @@ export function itemOperationId(assistantId: string, requestId: string, slot: st
 export interface ItemExecution {
   assistantId: string
   requestId: string
+  jobId?: string
   fingerprint: string
   sources: ItemSource[]
   assertCurrent: () => void
   commitReceipt?: (receipt: ItemReceipt) => void
 }
+type BackgroundItemExecution = Omit<ItemExecution, 'requestId'> & { jobId: string }
 type SourceCheck = (
   source: ItemSource,
   assistantId: string,
@@ -184,7 +186,7 @@ export class ItemService {
     commandId: string,
     intent: unknown,
     fn: () => ItemReceipt,
-    execution?: ItemExecution
+    execution?: ItemExecution | BackgroundItemExecution
   ): ItemReceipt {
     this.active(assistantId)
     execution?.assertCurrent()
@@ -224,11 +226,15 @@ export class ItemService {
     })
     return result
   }
-  permissionState(assistantId: string): ItemPermissions {
+  permissionState(assistantId: string, fingerprint?: string): ItemPermissions {
     const row = this.store.database
       .prepare('SELECT * FROM item_permissions WHERE assistant_id=?')
       .get(assistantId)
-    const endpoint = this.endpoint(assistantId)
+    const bound = this.endpoint(assistantId)
+    const endpoint =
+      fingerprint === undefined
+        ? bound
+        : { fingerprint, display: bound.fingerprint === fingerprint ? bound.display : null }
     const grant = endpoint.fingerprint
       ? this.store.database
           .prepare('SELECT allowed FROM item_recipients WHERE assistant_id=? AND fingerprint=?')
@@ -280,10 +286,18 @@ export class ItemService {
       return this.permissionState(v.assistantId)
     })
   }
-  assertAccess(execution: ItemExecution, action: 'read' | 'write' | 'propose'): void {
+  assertAccess(
+    execution: ItemExecution | BackgroundItemExecution,
+    action: 'read' | 'write' | 'propose'
+  ): void {
     execution.assertCurrent()
     this.active(execution.assistantId)
-    const p = this.permissionState(execution.assistantId)
+    if (
+      !execution.jobId &&
+      this.endpoint(execution.assistantId).fingerprint !== execution.fingerprint
+    )
+      throw new ItemError('PERMISSION_DENIED')
+    const p = this.permissionState(execution.assistantId, execution.fingerprint)
     if (!p.read || !p.receive || !p[action] || p.endpointFingerprint !== execution.fingerprint)
       throw new ItemError('PERMISSION_DENIED')
   }
@@ -301,7 +315,7 @@ export class ItemService {
       this.sourceCheck(source, assistantId, fingerprint, visited)
       return
     }
-    const p = this.permissionState(assistantId)
+    const p = this.permissionState(assistantId, fingerprint)
     if (!p.read || !p.receive || p.endpointFingerprint !== fingerprint)
       throw new ItemError('PERMISSION_DENIED')
     const record = source.type === 'item' ? this.readItem(source.id) : this.readProposal(source.id)
@@ -377,7 +391,11 @@ export class ItemService {
       }
     }
   }
-  private checkContent(content: ItemContent, targetId?: string, execution?: ItemExecution): void {
+  private checkContent(
+    content: ItemContent,
+    targetId?: string,
+    execution?: ItemExecution | BackgroundItemExecution
+  ): void {
     itemContentSchema.parse(content)
     if (content.parentId === targetId || content.relatedIds.includes(targetId ?? ''))
       throw new ItemError('INVALID_INPUT')
@@ -412,6 +430,9 @@ export class ItemService {
         record.originProposalId,
         JSON.stringify(itemRecordSchema.parse(record))
       )
+    this.store.database
+      .prepare('INSERT OR IGNORE INTO daily_item_changes VALUES(?,?,?)')
+      .run(record.id, record.version, JSON.stringify(record))
     // Persist the stop in the same item transaction: reopening before the next tick
     // must not revive the old reminder occurrence.
     if (['completed', 'cancelled'].includes(record.content.status))
@@ -548,7 +569,7 @@ export class ItemService {
     commandId: string,
     mutation: ItemMutation,
     sources: ItemSource[],
-    execution?: ItemExecution
+    execution?: ItemExecution | BackgroundItemExecution
   ): ItemReceipt {
     return this.command(
       assistantId,
@@ -620,13 +641,29 @@ export class ItemService {
       execution
     )
   }
+  backgroundProposal(
+    execution: Omit<ItemExecution, 'requestId'> & { jobId: string },
+    commandId: string,
+    candidate: ItemContent,
+    identity: string
+  ): ItemReceipt {
+    this.assertAccess(execution, 'propose')
+    return this.proposeLocal(
+      execution.assistantId,
+      commandId,
+      candidate,
+      execution.sources,
+      identity,
+      execution
+    )
+  }
   proposeLocal(
     assistantId: string,
     commandId: string,
     candidate: ItemContent,
     sources: ItemSource[],
     identity = hash([commandId]),
-    execution?: ItemExecution
+    execution?: ItemExecution | BackgroundItemExecution
   ): ItemReceipt {
     return this.command(
       assistantId,
@@ -676,7 +713,7 @@ export class ItemService {
   }
   actProposal(
     v: z.infer<typeof itemProposalActionInputSchema>,
-    execution?: ItemExecution
+    execution?: ItemExecution | BackgroundItemExecution
   ): ItemReceipt {
     return this.command(
       v.assistantId,
@@ -814,7 +851,7 @@ export class ItemService {
       this.store.database.prepare('SELECT generation FROM retention_state WHERE singleton=1').get()
     ])
   }
-  preview(input: unknown, execution?: ItemExecution) {
+  preview(input: unknown, execution?: ItemExecution | BackgroundItemExecution) {
     return this.handle(itemPreviewRequestSchema, input, (request) => {
       this.active(request.assistantId)
       if (execution) {
@@ -973,6 +1010,22 @@ export class ItemService {
                   this.saveItem(item)
                 }
               }
+              this.store.database
+                .prepare('DELETE FROM daily_item_changes WHERE item_id=?')
+                .run(target.id)
+              this.store.database
+                .prepare('DELETE FROM daily_item_checkpoints WHERE item_id=?')
+                .run(target.id)
+              this.store.database.prepare('INSERT INTO daily_item_changes VALUES(?,?,?)').run(
+                target.id,
+                target.expectedVersion + 1,
+                JSON.stringify({
+                  deleted: true,
+                  id: target.id,
+                  version: target.expectedVersion + 1,
+                  originAssistantId: this.readItem(target.id).originAssistantId
+                })
+              )
               this.store.database.prepare('DELETE FROM items WHERE id=?').run(target.id)
               this.store.database
                 .prepare("INSERT OR IGNORE INTO item_tombstones VALUES('item',?)")
@@ -1000,7 +1053,7 @@ export class ItemService {
     })
   }
   search(
-    execution: ItemExecution,
+    execution: ItemExecution | BackgroundItemExecution,
     query: string,
     limit = 10
   ): { items: ItemRecord[]; proposals: ItemProposal[] } {

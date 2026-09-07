@@ -1,0 +1,17 @@
+[
+  {
+    "p": "tests/unit/production-restore-consent-independent.test.ts",
+    "old": "import { restoreProductionAtStartup }",
+    "new": "import { prepareProductionMaintenance } from '../../src/main/data/production-maintenance.js'\nimport { restoreProductionAtStartup }"
+  },
+  {
+    "p": "tests/unit/production-restore-consent-independent.test.ts",
+    "old": "it('never restores another complete snapshot substituted after the user was shown the approved snapshot identity', async () => {",
+    "new": "it.each(['startup', 'maintenance'] as const)('never restores another complete snapshot substituted after the user was shown the approved snapshot identity (%s)', async (entry) => {"
+  },
+  {
+    "p": "tests/unit/production-restore-consent-independent.test.ts",
+    "old": "  const result = await restoreProductionAtStartup(dialogs).then(",
+    "new": "  const restore = entry === 'startup' ? restoreProductionAtStartup(dialogs) :\n    prepareProductionMaintenance({kind:'restore',dialogs,backupParentDirectory:root}).then(async plan=>{\n      if (!plan) return null\n      await plan.run(approved.session,()=>{})\n      return destination\n    })\n  const result = await restore.then("
+  }
+]

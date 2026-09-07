@@ -18,6 +18,10 @@ export function parseReminderActivation(argumentsText: string): { id: string; ve
   }
   return result
 }
+export function parseReminderGroupActivation(argumentsText: string): string | null {
+  const match = /^mashiro-reminder-group:([a-f0-9]{64})$/.exec(argumentsText)
+  return match?.[1] ?? null
+}
 export function createWindowsReminderPlatform(): ReminderPlatform {
   const supported = () => process.platform === 'win32' && app.isPackaged
   const settings = () => ({ path: process.execPath, args: ['--mashiro-login'] })
@@ -30,8 +34,11 @@ export function createWindowsReminderPlatform(): ReminderPlatform {
       app.setLoginItemSettings({ ...settings(), openAtLogin: value, name: 'Mashiro' })
     },
     show: (input, event) => {
-      const activation =
-        'mashiro-reminders:' + input.identities.map((i) => i.id + ':' + i.version).join(',')
+      if (input.groupId !== undefined && !/^[a-f0-9]{64}$/.test(input.groupId))
+        throw new Error('Invalid notification group')
+      const activation = input.groupId
+        ? 'mashiro-reminder-group:' + input.groupId
+        : 'mashiro-reminders:' + input.identities.map((i) => i.id + ':' + i.version).join(',')
       const body =
         input.count === 1
           ? '一项已保存的提醒到时。点击查看当前事项。'

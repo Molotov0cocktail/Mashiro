@@ -1,0 +1,17 @@
+[
+  {
+    "p": "src/main/background/daily-model.ts",
+    "old": "import type { DailyInputs } from './daily-sources.js'",
+    "new": "import type { DailyInputs } from './daily-sources.js'\nimport { dailyEventFacts, objectiveObservation } from './daily-event-facts.js'"
+  },
+  {
+    "p": "src/main/background/daily-model.ts",
+    "old": "  return `你是现有助手",
+    "new": "  return `可信侧客观事件计数（按独立根去重，同根状态冲突归未知）：${JSON.stringify(dailyEventFacts(inputs))}。观察功能最多7条模型观察，保留一条供可信客观统计。\\n你是现有助手"
+  },
+  {
+    "p": "src/main/background/daily-model.ts",
+    "old": "  return output\n}",
+    "new": "  if (inputs.configuration.feature === 'observation') {\n    if (output.observations.length >= 8) throw Error('OBSERVATION_RESERVED_SLOT')\n    output.observations.push(objectiveObservation(inputs))\n  }\n  return output\n}"
+  }
+]

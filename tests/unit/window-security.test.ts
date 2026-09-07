@@ -21,15 +21,16 @@ const electron = vi.hoisted(() => {
     void options
     return window
   })
-  return { BrowserWindow, listeners, permission, webContents, window }
+  return { app: { isPackaged: false }, BrowserWindow, listeners, permission, webContents, window }
 })
 
-vi.mock('electron', () => ({ BrowserWindow: electron.BrowserWindow }))
+vi.mock('electron', () => ({ app: electron.app, BrowserWindow: electron.BrowserWindow }))
 
 import { createWindow, secureWebPreferences } from '../../src/main/app/create-window.js'
 
 beforeEach(() => {
   vi.stubEnv('ELECTRON_RENDERER_URL', '')
+  electron.app.isPackaged = false
   electron.listeners.clear()
   vi.clearAllMocks()
 })
@@ -37,6 +38,13 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllEnvs())
 
 describe('window security boundary', () => {
+  it('loads only packaged renderer resources even when a development URL is inherited', async () => {
+    electron.app.isPackaged = true
+    vi.stubEnv('ELECTRON_RENDERER_URL', 'http://127.0.0.1:5173')
+    await createWindow()
+    expect(electron.window.loadURL).not.toHaveBeenCalled()
+    expect(electron.window.loadFile).toHaveBeenCalledOnce()
+  })
   it('keeps the sandboxed window, CSP, navigation, popup, and permission denials', async () => {
     await createWindow()
 
