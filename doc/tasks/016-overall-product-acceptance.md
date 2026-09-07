@@ -1,6 +1,6 @@
 # 016 文档用户场景与整体验收
 
-状态：ACTIVE / EVIDENCE_RECONCILIATION；PROGRAM ACTIVE。唯一当前入口仍为[progress](progress.md)。本任务落实[总覆盖](program-docs-to-release.md)Q11，不建立第二份需求清单，也不替代014实际制品、安装升级和发布核验。
+状态：ACTIVE / FINAL_NATIVE_PENDING；PROGRAM ACTIVE。唯一当前入口仍为[progress](progress.md)。本任务落实[总覆盖](program-docs-to-release.md)Q11，不建立第二份需求清单，也不替代014实际制品、安装升级和发布核验。
 
 ## 验收口径
 
@@ -18,6 +18,8 @@
 8. 在隔离合成数据上更新、失败恢复、卸载和重装，保留全部领域及治理状态；程序脱离源码/开发服务器运行。版本、源码、实际附件、校验及下载结果由014/Q12收束。
 
 ## 当前已核事实与余项
+
+- [独立整体结算](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-overall-final-review.md)已核48项功能、12队列及11项原始边界；非原生功能与治理恢复分项通过，没有新增产品遗漏或待决项。最终通知点击/冷激活、登录开启卸载重装及数据/COM保护、运行中心视觉和实际发布下载仍待，整体不是PASS。
 
 - 2026-09-08当前：运行源码37620929a7f507bb31d41861114cf6f825d715fd，D352安装包已独立STATIC_PASS，206文件850tests中842通过/0失败/8项有单独证据的opt-in跳过，静态及双PID通过。实际18→19迁移、安装前后16文件/76表保留及备份已有[独立限定核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-native-independent-review.md)；最终安装版017非空来源/变更→正确对象与018旧回执入口已独立核图关闭，权限暂停与明确重新绑定恢复可见态均有证据。009自动策略源码已审，不再处于POLICY_IMPLEMENTING。后续治理旧备份恢复已由原生撤回/撤权/凭据代际与独立纠正、正式事项删除生产服务fixture分层结清，未冒称所有操作均原生执行。仍待实际通知点击/冷激活、最终登录开启卸载/重装与安装目录data保护、运行中心最终视觉及整体覆盖结算；PROGRAM ACTIVE。
 
