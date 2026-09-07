@@ -1,0 +1,22 @@
+{
+  "scope": "compile only; no generated executable runs, Registry access or application actions",
+  "fixture": "D:\\Mashiro\\.cache\\review014-earlyinclude\\compile-Ff18q7",
+  "cases": [
+    {
+      "name": "frozen_v3_unmodified",
+      "branch": "BUILD_UNINSTALLER",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "error": null
+    },
+    {
+      "name": "frozen_v3_unmodified",
+      "branch": "installer",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "error": null
+    }
+  ]
+}

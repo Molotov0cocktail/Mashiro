@@ -1,0 +1,9 @@
+{
+  "candidate": "delivery-014-login-uninstall-early-include-v3",
+  "files": [
+    { "path": "build/after-pack.mjs", "sha256": "7DACC906AF9C1E7492E8AAC07178CBF22917C83B55D7414899C78A53C9B57A48" },
+    { "path": "build/installer-login-cleanup.mjs", "sha256": "78C9A7D069C2CACBCDA58B28B2CCB379BEFA3828CFBF03FB20498B4C60B2A5F6" },
+    { "path": "tests/unit/installer-login-uninstall.test.ts", "sha256": "1AFB992FF070C663B12B322410A6770ABDD3B87C7822C90D2C0D2F1C4748125E" },
+    { "path": "tests/unit/packaging-config-independent.test.ts", "sha256": "6985FA2180DAB4EF4952848672D16F8FBB2BFB156E90D9DF2D509CED455D8C5E" }
+  ]
+}

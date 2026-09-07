@@ -1,0 +1,28 @@
+{
+  "scope": "Internal macro-v3 package; runtime outputs frozen from f4fb5c7; excludes schema19 and cold-navigation WIP",
+  "observedAt": "2026-09-07T22:57:57.1975437+08:00",
+  "buildExitCode": 0,
+  "buildChunk": "bf3b5b",
+  "runtimeSource": "f4fb5c7c064e0e24bbd0d360cdf7a8b208a0027f",
+  "macroManifest": "delivery-014-login-uninstall-author-manifest-v3.json",
+  "files": [
+    {
+      "path": "dist/windows-candidate-login-cleanup/Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112656667,
+      "sha256": "28F1D3AFCDDE0D5CAFC53C70A103A190FFDF013AFB77464EC0888F4B681FB6D3",
+      "signature": "NotSigned"
+    },
+    {
+      "path": "dist/windows-candidate-login-cleanup/win-unpacked/Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472",
+      "signature": "NotSigned"
+    },
+    {
+      "path": "dist/windows-candidate-login-cleanup/win-unpacked/resources/app.asar",
+      "bytes": 15431590,
+      "sha256": "7FDDAD7FDA3E7ED19E754FB9704B61B7AD1F0E0A9ECDF879AA41D836D30702BC",
+      "signature": "not-applicable"
+    }
+  ]
+}

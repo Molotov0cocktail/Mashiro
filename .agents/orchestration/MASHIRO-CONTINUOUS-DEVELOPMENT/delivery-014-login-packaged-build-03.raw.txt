@@ -1,0 +1,95 @@
+  • electron-builder  version=26.15.3 os=10.0.26200
+  • loaded configuration  file=D:\Mashiro\electron-builder.config.mjs
+  • description is missed in the package.json  appPackageFile=D:\Mashiro\package.json
+  • author is missed in the package.json  appPackageFile=D:\Mashiro\package.json
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • packaging       platform=win32 arch=x64 electron=44.1.1 appOutDir=dist\windows-candidate-login-cleanup\win-unpacked
+  • using custom unpacked Electron distribution  electronDist=D:/Mashiro/node_modules/electron/dist
+  • copying unpacked Electron  source=D:\Mashiro\node_modules\electron\dist destination=D:\Mashiro\dist\windows-candidate-login-cleanup\win-unpacked
+  • searching for node modules  pm=npm searchDir=D:\Mashiro
+  • updating asar integrity executable resource  executablePath=dist\windows-candidate-login-cleanup\win-unpacked\Mashiro.exe
+  • default Electron icon is used  reason=application icon is not set
+  • signing with signtool.exe  path=dist\windows-candidate-login-cleanup\win-unpacked\Mashiro.exe
+  • building        target=nsis file=dist\windows-candidate-login-cleanup\Mashiro-0.1.0-win-x64-setup.exe archs=x64 oneClick=false perMachine=false
+  • signing with signtool.exe  path=dist\windows-candidate-login-cleanup\win-unpacked\resources\elevate.exe
+  ⨯ C:\Users\30910\AppData\Local\electron-builder\Cache\nsis-3.0.4.1\nsis-3.0.4.1-1mx3n\Bin\makensis.exe process failed ERR_ELECTRON_BUILDER_CANNOT_EXECUTE
+Exit code:
+1
+Output:
+Command line defined: "APP_ID=Mashiro.Desktop"
+Command line defined: "APP_GUID=5555e988-f7b5-5fe3-b6bd-8df3b21f793e"
+Command line defined: "UNINSTALL_APP_KEY=5555e988-f7b5-5fe3-b6bd-8df3b21f793e"
+Command line defined: "PRODUCT_NAME=Mashiro"
+Command line defined: "PRODUCT_FILENAME=Mashiro"
+Command line defined: "APP_FILENAME=Mashiro"
+Command line defined: "APP_DESCRIPTION="
+Command line defined: "VERSION=0.1.0"
+Command line defined: "PROJECT_DIR=D:\Mashiro"
+Command line defined: "BUILD_RESOURCES_DIR=D:\Mashiro\build"
+Command line defined: "APP_PACKAGE_NAME=mashiro"
+Command line defined: "APP_64=D:\Mashiro\dist\windows-candidate-login-cleanup\mashiro-0.1.0-x64.nsis.7z"
+Command line defined: "APP_64_NAME=mashiro-0.1.0-x64.nsis.7z"
+Command line defined: "APP_64_HASH=2A68ECBDE9A774937A4A816F24845DFDD41A88DDAA826A88F8ED9D67B8BA5979F7890185B5698D3965EAD3444461D54D0115ABF762692128F9935CB5F9262CBC"
+Command line defined: "APP_64_UNPACKED_SIZE=390671"
+Command line defined: "APP_INSTALLER_STORE_FILE=mashiro-updater\installer.exe"
+Command line defined: "COMPRESSION_METHOD=7z"
+Command line defined: "INSTALL_MODE_PER_ALL_USERS_REQUIRED"
+Command line defined: "allowToChangeInstallationDirectory"
+Command line defined: "SHORTCUT_NAME=Mashiro"
+Command line defined: "UNINSTALL_DISPLAY_NAME=Mashiro 0.1.0"
+Command line defined: "MUI_WELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "MUI_UNWELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "ESTIMATED_SIZE=390671"
+Command line defined: "COMPRESS=auto"
+Command line defined: "BUILD_UNINSTALLER"
+Command line defined: "UNINSTALLER_OUT_FILE=D:\Mashiro\dist\windows-candidate-login-cleanup\Mashiro-0.1.0-win-x64-setup.__uninstaller.exe"
+Processing config: C:\Users\30910\AppData\Local\electron-builder\Cache\nsis-3.0.4.1\nsis-3.0.4.1-1mx3n\nsisconf.nsh
+Processing script file: "<stdin>" (UTF8)
+
+Error output:
+Invalid command: "${If}"
+!include: error in script: "D:\Mashiro\.cache\packaging\owned-files.nsh" on line 63
+Error in script "<stdin>" on line 51 -- aborting creation process
+  failedTask=build stackTrace=Error: C:\Users\30910\AppData\Local\electron-builder\Cache\nsis-3.0.4.1\nsis-3.0.4.1-1mx3n\Bin\makensis.exe process failed ERR_ELECTRON_BUILDER_CANNOT_EXECUTE
+Exit code:
+1
+Output:
+Command line defined: "APP_ID=Mashiro.Desktop"
+Command line defined: "APP_GUID=5555e988-f7b5-5fe3-b6bd-8df3b21f793e"
+Command line defined: "UNINSTALL_APP_KEY=5555e988-f7b5-5fe3-b6bd-8df3b21f793e"
+Command line defined: "PRODUCT_NAME=Mashiro"
+Command line defined: "PRODUCT_FILENAME=Mashiro"
+Command line defined: "APP_FILENAME=Mashiro"
+Command line defined: "APP_DESCRIPTION="
+Command line defined: "VERSION=0.1.0"
+Command line defined: "PROJECT_DIR=D:\Mashiro"
+Command line defined: "BUILD_RESOURCES_DIR=D:\Mashiro\build"
+Command line defined: "APP_PACKAGE_NAME=mashiro"
+Command line defined: "APP_64=D:\Mashiro\dist\windows-candidate-login-cleanup\mashiro-0.1.0-x64.nsis.7z"
+Command line defined: "APP_64_NAME=mashiro-0.1.0-x64.nsis.7z"
+Command line defined: "APP_64_HASH=2A68ECBDE9A774937A4A816F24845DFDD41A88DDAA826A88F8ED9D67B8BA5979F7890185B5698D3965EAD3444461D54D0115ABF762692128F9935CB5F9262CBC"
+Command line defined: "APP_64_UNPACKED_SIZE=390671"
+Command line defined: "APP_INSTALLER_STORE_FILE=mashiro-updater\installer.exe"
+Command line defined: "COMPRESSION_METHOD=7z"
+Command line defined: "INSTALL_MODE_PER_ALL_USERS_REQUIRED"
+Command line defined: "allowToChangeInstallationDirectory"
+Command line defined: "SHORTCUT_NAME=Mashiro"
+Command line defined: "UNINSTALL_DISPLAY_NAME=Mashiro 0.1.0"
+Command line defined: "MUI_WELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "MUI_UNWELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "ESTIMATED_SIZE=390671"
+Command line defined: "COMPRESS=auto"
+Command line defined: "BUILD_UNINSTALLER"
+Command line defined: "UNINSTALLER_OUT_FILE=D:\Mashiro\dist\windows-candidate-login-cleanup\Mashiro-0.1.0-win-x64-setup.__uninstaller.exe"
+Processing config: C:\Users\30910\AppData\Local\electron-builder\Cache\nsis-3.0.4.1\nsis-3.0.4.1-1mx3n\nsisconf.nsh
+Processing script file: "<stdin>" (UTF8)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Error output:
+Invalid command: "${If}"
+!include: error in script: "D:\Mashiro\.cache\packaging\owned-files.nsh" on line 63
+Error in script "<stdin>" on line 51 -- aborting creation process
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         at ChildProcess.<anonymous> (D:\Mashiro\node_modules\builder-util\src\util.ts:313:16)
+    at Object.onceWrapper (node:events:631:26)
+    at ChildProcess.emit (node:events:509:28)
+    at ChildProcess.cp.emit (D:\Mashiro\node_modules\cross-spawn\lib\enoent.js:34:29)
+    at maybeClose (node:internal/child_process:1124:16)
+    at Process.ChildProcess._handle.onexit (node:internal/child_process:306:5)

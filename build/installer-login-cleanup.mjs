@@ -218,6 +218,8 @@ export function renderLoginCleanupNsis(options = {}) {
 
 export function renderOwnedFilesNsis(owned, directories, loginOptions) {
   const lines = [
+    '!ifdef BUILD_UNINSTALLER',
+    '!include LogicLib.nsh',
     renderLoginCleanupNsis(loginOptions),
     '!macro customRemoveFiles',
     '  SetOutPath $TEMP'
@@ -244,6 +246,6 @@ export function renderOwnedFilesNsis(owned, directories, loginOptions) {
   )
   for (const directory of directories.sort((a, b) => b.length - a.length))
     lines.push(`  RMDir "$INSTDIR\\${directory.replaceAll('/', '\\')}"`)
-  lines.push('  RMDir "$INSTDIR"', '!macroend', '')
+  lines.push('  RMDir "$INSTDIR"', '!macroend', '!endif', '')
   return lines.join('\n')
 }

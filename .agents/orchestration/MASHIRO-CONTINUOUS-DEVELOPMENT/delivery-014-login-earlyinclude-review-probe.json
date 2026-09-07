@@ -1,0 +1,54 @@
+{
+  "scope": "compile only; no generated executable runs, Registry access or application actions",
+  "fixture": "D:\\Mashiro\\.cache\\review014-earlyinclude\\compile-rlo7e4",
+  "cases": [
+    {
+      "name": "frozen_v2",
+      "branch": "BUILD_UNINSTALLER",
+      "status": 1,
+      "stdout": "",
+      "stderr": "Invalid command: \"${If}\"\r\n!include: error in script: \"D:\\Mashiro\\.cache\\review014-earlyinclude\\compile-rlo7e4\\frozen_v2.nsh\" on line 63\r\nError in script \"D:\\Mashiro\\.cache\\review014-earlyinclude\\compile-rlo7e4\\frozen_v2-uninstall.nsi\" on line 58 -- aborting creation process\r\n",
+      "error": null
+    },
+    {
+      "name": "frozen_v2",
+      "branch": "installer",
+      "status": 1,
+      "stdout": "",
+      "stderr": "Invalid command: \"${If}\"\r\n!include: error in script: \"D:\\Mashiro\\.cache\\review014-earlyinclude\\compile-rlo7e4\\frozen_v2.nsh\" on line 63\r\nError in script \"D:\\Mashiro\\.cache\\review014-earlyinclude\\compile-rlo7e4\\frozen_v2-install.nsi\" on line 58 -- aborting creation process\r\n",
+      "error": null
+    },
+    {
+      "name": "explicit_logiclib",
+      "branch": "BUILD_UNINSTALLER",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "error": null
+    },
+    {
+      "name": "explicit_logiclib",
+      "branch": "installer",
+      "status": 1,
+      "stdout": "warning 6020: Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created.\r\n\r\nNote: you may have one or two (large) stale temporary file(s) left in your temporary directory (Generally this only happens on Windows 9x).\r\n",
+      "stderr": "Error: warning treated as error\r\n",
+      "error": null
+    },
+    {
+      "name": "explicit_logiclib_uninstaller_only",
+      "branch": "BUILD_UNINSTALLER",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "error": null
+    },
+    {
+      "name": "explicit_logiclib_uninstaller_only",
+      "branch": "installer",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "error": null
+    }
+  ]
+}

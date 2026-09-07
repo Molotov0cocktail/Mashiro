@@ -100,6 +100,8 @@ it('locks distribution settings and generates an exact nonrecursive uninstall al
   expect(macro).not.toContain('RMDir /r')
   expect(macro).toContain('"$INSTDIR\\Mashiro.exe" --mashiro-login')
   expect(macro).not.toContain('APP_EXECUTABLE_FILENAME')
+  expect(macro).toMatch(/^!ifdef BUILD_UNINSTALLER\n!include LogicLib\.nsh\n/)
+  expect(macro.trimEnd()).toMatch(/!endif$/)
   expect(macro).toContain('Abort "Mashiro program file is busy; data has been preserved."')
 
   const notices = JSON.parse(

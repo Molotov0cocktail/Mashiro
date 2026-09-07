@@ -125,7 +125,7 @@ OutFile "${nsisPath(setup)}"
 InstallDir "${nsisPath(install)}"
 !addincludedir "${nsisPath(join(process.cwd(), 'node_modules', 'app-builder-lib', 'templates', 'nsis', 'include'))}"
 !addplugindir /x86-unicode "${nsisPath(findStdUtilsPlugins())}"
-!include LogicLib.nsh
+!define BUILD_UNINSTALLER
 !include StdUtils.nsh
 !define APP_EXECUTABLE_FILENAME "Mashiro Test.exe"
 !define UNINSTALL_FILENAME "probe-uninstaller.exe"

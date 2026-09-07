@@ -88,7 +88,7 @@ function runScenario(scenario: Scenario) {
   const root = mkdtempSync(join(temporaryBase, 'mashiro-login-uninstall-'))
   roots.push(root)
   const install = join(root, '中文 Å 安装路径')
-  const setup = join(root, 'setup.exe')
+  const setup = join(root, 'MashiroLoginCleanupProbe.exe')
   const uninstaller = join(root, 'probe-uninstaller.exe')
   const result = join(root, 'result.txt')
   const script = join(root, 'probe.nsi')
@@ -123,8 +123,8 @@ OutFile "${nsisPath(setup)}"
 InstallDir "${nsisPath(install)}"
 !addincludedir "${nsisPath(join(process.cwd(), 'node_modules', 'app-builder-lib', 'templates', 'nsis', 'include'))}"
 !addplugindir /x86-unicode "${nsisPath(findStdUtilsPlugins())}"
-!include LogicLib.nsh
 !include StdUtils.nsh
+!define BUILD_UNINSTALLER
 !define UNINSTALL_FILENAME "probe-uninstaller.exe"
 !macro _isUpdated _a _b _t _f
   \${StdUtils.TestParameter} $R9 "updated"
@@ -161,7 +161,7 @@ SectionEnd
 `
   )
   try {
-    execFileSync(findMakensis(), ['/V2', '/INPUTCHARSET', 'UTF8', script], hidden)
+    execFileSync(findMakensis(), ['/WX', '/V2', '/INPUTCHARSET', 'UTF8', script], hidden)
     execFileSync(setup, ['/S'], hidden)
     if (scenario.run)
       execFileSync(
@@ -214,6 +214,36 @@ SectionEnd
 }
 
 describe.skipIf(process.platform !== 'win32')('owned login registration uninstall cleanup', () => {
+  it('compiles the real early include in the installer branch without uninstaller code', () => {
+    const root = mkdtempSync(join(temporaryBase, 'mashiro-login-uninstall-'))
+    roots.push(root)
+    const script = join(root, 'installer-branch.nsi')
+    const output = join(root, 'installer-branch.exe')
+    const generated = renderOwnedFilesNsis([], [], {
+      executableFilename: 'Mashiro Test.exe'
+    })
+    writeFileSync(
+      script,
+      [
+        'Unicode true',
+        'SilentInstall silent',
+        'RequestExecutionLevel user',
+        'Name "Mashiro installer branch probe"',
+        'OutFile "' + nsisPath(output) + '"',
+        '!addincludedir "' +
+          nsisPath(
+            join(process.cwd(), 'node_modules', 'app-builder-lib', 'templates', 'nsis', 'include')
+          ) +
+          '"',
+        generated,
+        'Section',
+        'SectionEnd'
+      ].join('\n')
+    )
+    execFileSync(findMakensis(), ['/WX', '/V2', '/INPUTCHARSET', 'UTF8', script], hidden)
+    expect(existsSync(output)).toBe(true)
+  })
+
   it.each<Scenario>([
     {
       name: 'owned',
