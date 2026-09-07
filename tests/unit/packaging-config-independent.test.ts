@@ -1,5 +1,14 @@
 import { createHash } from 'node:crypto'
-import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createPackage } from '@electron/asar'
@@ -52,6 +61,9 @@ async function fixture(extraRuntime?: string) {
   writeFileSync(join(output, 'LICENSE.electron.txt'), 'electron license')
   writeFileSync(join(output, 'LICENSES.chromium.html'), 'chromium notices')
   await createPackage(source, join(resources, 'app.asar'))
+  writeFileSync(join(resources, 'default_app.asar'), 'electron development fallback')
+  writeFileSync(join(output, 'version'), '44.1.1')
+  writeFileSync(join(output, 'keep-user-file.txt'), 'keep')
   return { project, output }
 }
 
@@ -82,6 +94,12 @@ it('locks distribution settings and generates an exact nonrecursive uninstall al
   const manifest = JSON.parse(
     readFileSync(join(f.output, 'resources', 'mashiro-program-files.json'), 'utf8')
   )
+  expect(existsSync(join(f.output, 'resources', 'default_app.asar'))).toBe(false)
+  expect(existsSync(join(f.output, 'version'))).toBe(false)
+  expect(readFileSync(join(f.output, 'resources', 'app.asar')).length).toBeGreaterThan(0)
+  expect(readFileSync(join(f.output, 'keep-user-file.txt'), 'utf8')).toBe('keep')
+  expect(manifest.files).not.toContain('resources/default_app.asar')
+  expect(manifest.files).not.toContain('version')
   expect(manifest.files).toContain('resources/elevate.exe')
   expect(manifest.files).toContain('resources/mashiro-program-files.json')
   expect(manifest.files.some((path: string) => path.split('/')[0]!.toLowerCase() === 'data')).toBe(
@@ -135,4 +153,27 @@ it('refuses to turn a top-level data directory into uninstall-owned content', as
       appOutDir: f.output
     })
   ).rejects.toThrow('PACKAGING_UNSAFE_REMOVAL_PATH')
+})
+it('refuses a reparse-point resources parent before removing fixed residuals', async () => {
+  const root = mkdtempSync(join(realpathSync.native(tmpdir()), 'mashiro-packaging-review-'))
+  roots.push(root)
+  const project = join(root, 'project')
+  const output = join(root, 'output')
+  const resources = join(output, 'resources')
+  const realResources = join(root, 'resources-real')
+  mkdirSync(project, { recursive: true })
+  mkdirSync(output, { recursive: true })
+  mkdirSync(realResources, { recursive: true })
+  writeFileSync(join(realResources, 'default_app.asar'), 'electron development fallback')
+  writeFileSync(join(output, 'version'), '44.1.1')
+  symlinkSync(realResources, resources, 'junction')
+
+  await expect(
+    afterPack({
+      packager: { projectDir: project, appInfo: { productFilename: 'Mashiro' } },
+      appOutDir: output
+    })
+  ).rejects.toThrow('PACKAGING_UNSAFE_RESIDUAL_PARENT')
+  expect(existsSync(join(realResources, 'default_app.asar'))).toBe(true)
+  expect(existsSync(join(output, 'version'))).toBe(true)
 })

@@ -1,14 +1,50 @@
 import { createHash } from 'node:crypto'
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, lstatSync } from 'node:fs'
+import {
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  readdirSync,
+  lstatSync,
+  realpathSync,
+  unlinkSync
+} from 'node:fs'
 import { join, resolve, relative, sep } from 'node:path'
 import { inspectPackagedRuntime } from './inspect-runtime.mjs'
 import { renderOwnedFilesNsis } from './installer-login-cleanup.mjs'
 
 const hash = (value) => createHash('sha256').update(value).digest('hex')
 
+function removeElectronDevelopmentResiduals(output) {
+  const outputPath = resolve(output)
+  const outputEntry = lstatSync(outputPath)
+  if (!outputEntry.isDirectory() || outputEntry.isSymbolicLink())
+    throw new Error('PACKAGING_UNSAFE_OUTPUT_ROOT')
+  if (resolve(realpathSync.native(outputPath)).toLowerCase() !== outputPath.toLowerCase())
+    throw new Error('PACKAGING_UNSAFE_OUTPUT_ROOT')
+
+  const resources = join(outputPath, 'resources')
+  const resourcesEntry = lstatSync(resources)
+  if (!resourcesEntry.isDirectory() || resourcesEntry.isSymbolicLink())
+    throw new Error('PACKAGING_UNSAFE_RESIDUAL_PARENT')
+
+  for (const target of [join(resources, 'default_app.asar'), join(outputPath, 'version')]) {
+    let entry
+    try {
+      entry = lstatSync(target)
+    } catch (error) {
+      if (error && typeof error === 'object' && error.code === 'ENOENT') continue
+      throw error
+    }
+    if (!entry.isFile() || entry.isSymbolicLink())
+      throw new Error('PACKAGING_UNSAFE_RESIDUAL_ENTRY')
+    unlinkSync(target)
+  }
+}
+
 export async function afterPack(context) {
   const root = context.packager.projectDir
   const output = context.appOutDir
+  removeElectronDevelopmentResiduals(output)
   const notices = join(output, 'resources', 'third-party-notices')
   mkdirSync(notices, { recursive: true })
   const lock = JSON.parse(readFileSync(join(root, 'package-lock.json'), 'utf8'))
