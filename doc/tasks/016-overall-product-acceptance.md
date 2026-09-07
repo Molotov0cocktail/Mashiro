@@ -19,6 +19,10 @@
 
 ## 当前已核事实与余项
 
+- 2026-09-08当前：运行源码37620929a7f507bb31d41861114cf6f825d715fd，D352安装包已独立STATIC_PASS，206文件850tests中842通过/0失败/8项有单独证据的opt-in跳过，静态及双PID通过。实际18→19迁移、安装前后16文件/76表保留及备份已有[独立限定核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v4-native-independent-review.md)；最终安装版017非空来源/变更→正确对象与018旧回执入口已独立核图关闭，权限暂停与明确重新绑定恢复可见态均有证据。009自动策略源码已审，不再处于POLICY_IMPLEMENTING。仍待后续治理旧备份恢复、实际通知点击/冷激活、最终登录开启卸载/重装与安装目录data保护、运行中心最终视觉及整体覆盖结算；PROGRAM ACTIVE。
+
+以下保留此前候选观测，当前事实以本节首项及其证据为准。
+
 - 历史已审产品 `f04fe24e7d3cb395bc976db8190969be38ba632e`：136文件641tests，额外Provider边界4项、最后DailyPanel DOM 8项，最终原生run `f8198eef-14e6-4352-ad1e-c2773543aee3` / PIDs186136、171612通过。原生失败与修复诚实保留。五类日常真实角色、章节及仓储真实资格已有专门报告。
 - 当前已审源码为 f4fb5c7，017、018、schema18治理及通知生命周期修复均有独立限定PASS；当前内部制品身份和实际安装进展见[014](014-windows-data-and-delivery.md)。schema15→18升级及同版重装已经执行；[独立升级比较](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-root-comparison.json)显示71/73旧表行摘要相同、12份旧非数据库文件字节相同，另两表需按明确测试操作/调度字段归因。v6通知运行与退出后均保留；点击冷激活仍待；当前安装版持久Key保存后正常退出并由新PID无重输完成真实合成记忆写入，[root独立账本核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-provider-root-ledger-check.json)确认2次HTTP/6515tokens及1次工具和记忆增量，最终Markdown与剩余制品场景继续验收。
 - RET-007已于2026-09-07确认100MiB/90天默认、两项可调关闭及垃圾永不自动永久清空，009现进入POLICY_IMPLEMENTING；014治理/schema18源码已独立限定PASS，当前制品治理恢复及完整安装生命周期继续验证。这些不能改名为可选项或被测试数量掩盖。

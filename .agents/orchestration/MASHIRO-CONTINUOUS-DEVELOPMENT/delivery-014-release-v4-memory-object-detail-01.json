@@ -1,0 +1,58 @@
+{
+  "observedAt": "2026-09-08T04:30:21.0570652+08:00",
+  "pid": 235296,
+  "windowHandle": 30548710,
+  "sourceAction": "打开记忆详情与操作",
+  "objectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+  "objectVersion": 1,
+  "elements": [
+    {
+      "name": "纠正当前版本",
+      "value": null,
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 1297,
+        "y": 473,
+        "width": 145,
+        "height": 32
+      }
+    },
+    {
+      "name": "标题",
+      "value": "本轮验收代号（合成验收）",
+      "controlType": "ControlType.Edit",
+      "offscreen": false,
+      "bounds": {
+        "x": 1297,
+        "y": 564,
+        "width": 374,
+        "height": 38
+      }
+    },
+    {
+      "name": "Markdown 正文",
+      "value": "用户陈述：本轮验收代号是 SYNTH_ROUND_EVIDENCE_20260908_A。",
+      "controlType": "ControlType.Edit",
+      "offscreen": false,
+      "bounds": {
+        "x": 1297,
+        "y": 798,
+        "width": 374,
+        "height": 181
+      }
+    },
+    {
+      "name": "保存纠正版本",
+      "value": null,
+      "controlType": "ControlType.Button",
+      "offscreen": false,
+      "bounds": {
+        "x": 1297,
+        "y": 1041,
+        "width": 374,
+        "height": 42
+      }
+    }
+  ]
+}

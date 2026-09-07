@@ -1,0 +1,300 @@
+{
+  "observedAt": "2026-09-08T04:19:04.6355069+08:00",
+  "pid": 235296,
+  "windowHandle": 30548710,
+  "exeSha256": "73A4AFA12FF36B758C0F8D450F6B6AACFC0F3566C63EFAD14F458173D8508E4D",
+  "dataRoot": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+  "requestId": "395bf025-2c88-403e-908e-1940139a6f7f",
+  "providedObjectId": "43c35979-ee88-4510-a699-7bb0bd8c026d",
+  "changeOperationId": "3cd09f98-b3f6-4c2d-8d06-4828e1f378b0",
+  "changeObjectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+  "state": "RESTORED_GOVERNANCE_CURRENTLY_UNAVAILABLE",
+  "elements": [
+    {
+      "name": "本轮实际提供的记忆",
+      "controlType": "ControlType.Group",
+      "offscreen": true,
+      "bounds": {
+        "x": 887,
+        "y": -380,
+        "width": 756,
+        "height": 195
+      }
+    },
+    {
+      "name": "本轮实际提供的记忆",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 887,
+        "y": -358,
+        "width": 756,
+        "height": 22
+      }
+    },
+    {
+      "name": "模型收到的正文可能是节选（最多 1000 字符）；下方展示该接受版本的正文，不代表完整外发内容。",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 887,
+        "y": -299,
+        "width": 512,
+        "height": 47
+      }
+    },
+    {
+      "name": "本轮记忆变更",
+      "controlType": "ControlType.Group",
+      "offscreen": true,
+      "bounds": {
+        "x": 887,
+        "y": -174,
+        "width": 756,
+        "height": 238
+      }
+    },
+    {
+      "name": "本轮记忆变更",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 887,
+        "y": -152,
+        "width": 756,
+        "height": 22
+      }
+    },
+    {
+      "name": "记住",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 898,
+        "y": -91,
+        "width": 33,
+        "height": 22
+      }
+    },
+    {
+      "name": "已成功执行",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 1543,
+        "y": -88,
+        "width": 81,
+        "height": 22
+      }
+    },
+    {
+      "name": "本轮操作已成功提交",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 898,
+        "y": -49,
+        "width": 145,
+        "height": 22
+      }
+    },
+    {
+      "name": " · 对象版本 v1",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 1014,
+        "y": -13,
+        "width": 84,
+        "height": 18
+      }
+    },
+    {
+      "name": "该对象或版本当前不可用，正文、来源和操作入口已撤下。",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 898,
+        "y": 20,
+        "width": 417,
+        "height": 22
+      }
+    },
+    {
+      "name": "刷新本轮详情",
+      "controlType": "ControlType.Button",
+      "offscreen": true,
+      "bounds": {
+        "x": 887,
+        "y": 63,
+        "width": 107,
+        "height": 42
+      }
+    },
+    {
+      "name": "本轮实际提供的记忆",
+      "controlType": "ControlType.Group",
+      "offscreen": false,
+      "bounds": {
+        "x": 887,
+        "y": 577,
+        "width": 756,
+        "height": 314
+      }
+    },
+    {
+      "name": "本轮实际提供的记忆",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 887,
+        "y": 598,
+        "width": 756,
+        "height": 22
+      }
+    },
+    {
+      "name": "模型收到的正文可能是节选（最多 1000 字符）；下方展示该接受版本的正文，不代表完整外发内容。",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 887,
+        "y": 657,
+        "width": 512,
+        "height": 47
+      }
+    },
+    {
+      "name": "提供版本 v",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 898,
+        "y": 733,
+        "width": 79,
+        "height": 22
+      }
+    },
+    {
+      "name": "已观察到 Provider 响应",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 1454,
+        "y": 736,
+        "width": 170,
+        "height": 22
+      }
+    },
+    {
+      "name": "派发时间 2026/9/8 03:31:26",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 898,
+        "y": 767,
+        "width": 174,
+        "height": 18
+      }
+    },
+    {
+      "name": "该对象或版本当前不可用，正文、来源和操作入口已撤下。",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 898,
+        "y": 848,
+        "width": 417,
+        "height": 22
+      }
+    },
+    {
+      "name": "本轮记忆变更",
+      "controlType": "ControlType.Group",
+      "offscreen": false,
+      "bounds": {
+        "x": 887,
+        "y": 902,
+        "width": 756,
+        "height": 238
+      }
+    },
+    {
+      "name": "本轮记忆变更",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 887,
+        "y": 924,
+        "width": 756,
+        "height": 22
+      }
+    },
+    {
+      "name": "记住",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 898,
+        "y": 985,
+        "width": 33,
+        "height": 22
+      }
+    },
+    {
+      "name": "已成功执行",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 1543,
+        "y": 988,
+        "width": 81,
+        "height": 22
+      }
+    },
+    {
+      "name": "本轮操作已成功提交",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 898,
+        "y": 1027,
+        "width": 145,
+        "height": 22
+      }
+    },
+    {
+      "name": " · 对象版本 v1",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 1014,
+        "y": 1063,
+        "width": 84,
+        "height": 18
+      }
+    },
+    {
+      "name": "该对象或版本当前不可用，正文、来源和操作入口已撤下。",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 898,
+        "y": 1096,
+        "width": 417,
+        "height": 22
+      }
+    },
+    {
+      "name": "刷新本轮详情",
+      "controlType": "ControlType.Button",
+      "offscreen": true,
+      "bounds": {
+        "x": 887,
+        "y": 1139,
+        "width": 107,
+        "height": 42
+      }
+    }
+  ]
+}

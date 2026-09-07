@@ -1,0 +1,91 @@
+{
+  "observedAt": "2026-09-08T04:26:16.5239609+08:00",
+  "pid": 235296,
+  "windowHandle": 30548710,
+  "requestId": "395bf025-2c88-403e-908e-1940139a6f7f",
+  "objectId": "43c35979-ee88-4510-a699-7bb0bd8c026d",
+  "objectVersion": 1,
+  "state": "AVAILABLE_AFTER_EXPLICIT_CONNECTION_REENABLE_AND_REBIND",
+  "elements": [
+    {
+      "name": "本轮实际提供的记忆",
+      "controlType": "ControlType.Group",
+      "bounds": {
+        "x": 887,
+        "y": 405,
+        "width": 756,
+        "height": 436
+      }
+    },
+    {
+      "name": "模型收到的正文可能是节选（最多 1000 字符）；下方展示该接受版本的正文，不代表完整外发内容。",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 887,
+        "y": 485,
+        "width": 512,
+        "height": 47
+      }
+    },
+    {
+      "name": "提供版本 v",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 561,
+        "width": 79,
+        "height": 22
+      }
+    },
+    {
+      "name": "已观察到 Provider 响应",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 1454,
+        "y": 564,
+        "width": 170,
+        "height": 22
+      }
+    },
+    {
+      "name": "派发时间 2026/9/8 03:31:26",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 595,
+        "width": 174,
+        "height": 18
+      }
+    },
+    {
+      "name": "安装验收代号",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 667,
+        "width": 97,
+        "height": 22
+      }
+    },
+    {
+      "name": "我用于本次安装验收的代号是 SYNTH_KEY_RESTART_c2a8f772aff5。",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 702,
+        "width": 499,
+        "height": 22
+      }
+    },
+    {
+      "name": "打开记忆详情与操作",
+      "controlType": "ControlType.Button",
+      "bounds": {
+        "x": 898,
+        "y": 788,
+        "width": 734,
+        "height": 42
+      }
+    }
+  ]
+}

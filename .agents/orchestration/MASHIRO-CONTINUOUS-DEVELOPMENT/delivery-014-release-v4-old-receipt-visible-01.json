@@ -1,0 +1,89 @@
+{
+  "observedAt": "2026-09-08T04:32:44.1877686+08:00",
+  "pid": 235296,
+  "windowHandle": 30548710,
+  "round": "E2E_TOOL_NORMAL",
+  "requestId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+  "operationId": "65f43282-9144-4d5c-b5fb-8577e5336f56",
+  "expectedSeededNewerOperations": 384,
+  "providerCallsForSeed": 0,
+  "elements": [
+    {
+      "name": "你可以在下方选择近期历史、仅本次输入或已选轮次；近期模式最多最近 16 组已完成的正常对话，并且只有读取与实际接收方权限都允许时才会外发。",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 857,
+        "y": 492,
+        "width": 520,
+        "height": 72
+      }
+    },
+    {
+      "name": "这里是本机浏览结果，与上方实时消息时间线分开；浏览不会把历史发给模型。",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 874,
+        "y": 629,
+        "width": 433,
+        "height": 46
+      }
+    },
+    {
+      "name": "此轮业务与工具回执",
+      "controlType": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 901,
+        "y": 668,
+        "width": 521,
+        "height": 22
+      }
+    },
+    {
+      "name": "这里仅显示该正常轮次已保存的可信操作记录；查看和核查不会重发模型请求或业务命令。",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 901,
+        "y": 744,
+        "width": 513,
+        "height": 47
+      }
+    },
+    {
+      "name": "本机时钟",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 917,
+        "y": 834,
+        "width": 65,
+        "height": 22
+      }
+    },
+    {
+      "name": "已完成",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 1559,
+        "y": 837,
+        "width": 49,
+        "height": 22
+      }
+    },
+    {
+      "name": "65f43282-9144-4d5c-b5fb-8577e5336f56",
+      "controlType": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 983,
+        "y": 900,
+        "width": 266,
+        "height": 18
+      }
+    }
+  ]
+}

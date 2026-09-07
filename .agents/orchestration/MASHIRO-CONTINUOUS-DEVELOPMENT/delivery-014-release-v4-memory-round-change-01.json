@@ -1,0 +1,102 @@
+{
+  "observedAt": "2026-09-08T04:27:38.9431774+08:00",
+  "pid": 235296,
+  "windowHandle": 30548710,
+  "requestId": "395bf025-2c88-403e-908e-1940139a6f7f",
+  "operationId": "3cd09f98-b3f6-4c2d-8d06-4828e1f378b0",
+  "objectId": "f93a4a2f-430f-4f28-acc4-31f7f803e844",
+  "objectVersion": 1,
+  "state": "AVAILABLE_AFTER_EXPLICIT_CONNECTION_REENABLE_AND_REBIND",
+  "elements": [
+    {
+      "name": "本轮记忆变更",
+      "controlType": "ControlType.Group",
+      "bounds": {
+        "x": 887,
+        "y": 470,
+        "width": 756,
+        "height": 358
+      }
+    },
+    {
+      "name": "本轮记忆变更",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 887,
+        "y": 491,
+        "width": 756,
+        "height": 22
+      }
+    },
+    {
+      "name": "记住",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 552,
+        "width": 33,
+        "height": 22
+      }
+    },
+    {
+      "name": "已成功执行",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 1543,
+        "y": 555,
+        "width": 81,
+        "height": 22
+      }
+    },
+    {
+      "name": "本轮操作已成功提交",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 594,
+        "width": 145,
+        "height": 22
+      }
+    },
+    {
+      "name": " · 对象版本 v1",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 1014,
+        "y": 630,
+        "width": 84,
+        "height": 18
+      }
+    },
+    {
+      "name": "本轮验收代号（合成验收）",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 654,
+        "width": 193,
+        "height": 22
+      }
+    },
+    {
+      "name": "用户陈述：本轮验收代号是 SYNTH_ROUND_EVIDENCE_20260908_A。",
+      "controlType": "ControlType.Text",
+      "bounds": {
+        "x": 898,
+        "y": 689,
+        "width": 520,
+        "height": 22
+      }
+    },
+    {
+      "name": "打开记忆详情与操作",
+      "controlType": "ControlType.Button",
+      "bounds": {
+        "x": 898,
+        "y": 775,
+        "width": 734,
+        "height": 42
+      }
+    }
+  ]
+}
