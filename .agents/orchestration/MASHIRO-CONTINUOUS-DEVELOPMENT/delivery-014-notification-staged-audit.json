@@ -1,0 +1,182 @@
+{
+  "base": "0a1a2e5f7f6da40d9e2795f32ffcd5aea47d4e3c",
+  "checked": 42,
+  "mismatches": [],
+  "normalized": [
+    ".gitattributes",
+    "doc/tasks/014-windows-data-and-delivery.md",
+    "doc/tasks/program-docs-to-release.md",
+    "doc/tasks/progress.md",
+    "doc/user-guide.md"
+  ],
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-notification-handoff.md",
+      "sha256": "7aad7e4c91748e39bd385f81dded85f0abadd4fe13b484a2bcc634997736ebc4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-notification-manifest-v2.json",
+      "sha256": "90c79284be0c840de6aab17488e0800b00cff224c1e6c64ddeb562e4201c9579"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-01.json",
+      "sha256": "ee5feacd06f128c7a755c7327c074b3633251e7a41388bb03ee17c9bdf4ebaa8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-02.json",
+      "sha256": "1329994d48724c6fc7353e818629ad9e5f24a35b318da1b647844079e73a17de"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-snapshot.mjs",
+      "sha256": "d5a441037c483738a6f6706576b0613e05624d51b6c8511e9539c3044911e2b3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-history-read.ps1",
+      "sha256": "5ca835d61fb2e02c9caad966c3f2ad8811670d9d3cc13ff58b63454add6a544d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-v5-backup-01.json",
+      "sha256": "71d264e6b1bb1dc0cff10669649fbf376c7c83031209b70472c2b880fa5f253c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-v5-backup-verify.mjs",
+      "sha256": "1d54c168d9b70ac4f3375f5a6819ccc42ac54c8b6662d2922b3be4b156db1668"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-v5-root-payload-check.json",
+      "sha256": "3a92a9eb99286fea9e9cc28d014c490f1bec701e67ec99afaa5f933ff954fdbd"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-build-diagnostic-02.raw.txt",
+      "sha256": "70a8ee52d1f052dfa89fc9bcfc7019e8a322153fe18a3a14b036e11b0935b13c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-candidate-02.md",
+      "sha256": "de422c7a5766e3200d418ada1880cbd005ba5bcc4f94f8fbb39ad1393bfa7b15"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-content-match-02.json",
+      "sha256": "86ee29e08f3d368a9bc78f35a18097fe694ad654963642a0fcd8e95881216772"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-hashes-02.json",
+      "sha256": "673a8518a7cec4cde25b26913bd02fcdde218198d89e54eccdbb1efe3d9989aa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-runtime-scope-02.json",
+      "sha256": "5fa139701560ab8dc42175a5f08aa1bd037f5d56a95a5b89e79c5ca23898ab79"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-runtime-scope.json",
+      "sha256": "e1adcc872a76df43c5477071efbfec2d3844c0ed14004db1e3f3c6a009037057"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-018-root-integration.md",
+      "sha256": "0adad9f4fe26f499b7f71415a1dc9d775e0d422282959c5a3a94cfa8373cbc9e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-notification-candidate-v1.md",
+      "sha256": "64d4c8df141c14e1b994d457369cf4e3fabfed340133c25ff94700efa756b8c4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-notification-edit-plan-01.json",
+      "sha256": "65972578a30024a5e4f0af85e3f88bfc7430246aca1390dd20dec0f247408c0f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-notification-edit-plan-02.json",
+      "sha256": "2e5ed8f0b3e16f010d6836be78514da0ce83b717952078651a4e832000e932be"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-notification-edit-plan-03.json",
+      "sha256": "6a46c536722da31ca066b62ba527f7d0dd2e523d3522c4be59aff5c71109d285"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-notification-edit-plan-04.json",
+      "sha256": "43b3477b4ced10bd49b604069995d4645165b26df5d4578be9e60d31a8491ff0"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-notification-manifest-v1.json",
+      "sha256": "907d83b2599a2f10b8a18c927456f4c39be2c21e3a9f68a8b1ffe00247b886c4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-lifecycle-first.json",
+      "sha256": "7b49ba46bf60b4df0f884023fdc3248bd1fb7ff07acec6873a1a6c44b1b2ba88"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-diagnosis-repair.md",
+      "sha256": "c141b625da35863f77d333682308152db92ae497b6cd02be10ff49a7143cf45e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-final-before.json",
+      "sha256": "b4e9a81266da148be09fed30fff517e6beb13decc3bacdad415fa9aca5c9f497"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-final-static.json",
+      "sha256": "23804e0d5e5c15f9104eeaa7ef4617f8911683c7108143acbab7b3e25ee7dc8f"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-final-tests.json",
+      "sha256": "d8164a66840b9e83241ab123f061ae43a33304726a3571d76d3cb1d6acb3c6d9"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-independent-final-pass.md",
+      "sha256": "5a9c6abfa2d18910310d36434827da216e2bdebdef9c29dc1fe41422d1dc92f4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-late-failure-red.json",
+      "sha256": "22e8d6198b17db083c6dd52193461b153c8570437d794d03eceb7e33badbd697"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-scan-notification014-preclose-01.json",
+      "sha256": "815108bb8972fe245513b64dd066b050870ee969f86e784cdefec888a9f14acd"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "9f96dfc9cf998e99d461b2ff22e7d65ec273e75b1589fcca9a55e10795e66738"
+    },
+    {
+      "path": "README.md",
+      "sha256": "2d09b35fe9d48be7a2a3d85a5692f811821827b64b1197368efe9a008055956b"
+    },
+    {
+      "path": "doc/tasks/014-windows-data-and-delivery.md",
+      "sha256": "6c9cc852323d34d442ebbd3ef906c889167222d665fe3d95efb28421ffa017d7"
+    },
+    {
+      "path": "doc/tasks/018-old-round-business-receipts.md",
+      "sha256": "480b6925b4b62a2d3978ff7fa95f888b63b45319b13f68b599f2e7a78085fcff"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "sha256": "ed1ed85269b57b01017e874b3d1edc19324dd5684ff78a5897a0ad1824373d22"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "sha256": "c81c8bc3e7d6ebdba84a721965d423e7ea4d7ca9feb2c2998fea6882f7294f93"
+    },
+    {
+      "path": "doc/user-guide.md",
+      "sha256": "254e861396f8a3136aeccd9f62360d90255d607878ea3758310508bb52a31743"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sha256": "a18a892a1d1ffa447a0e0ff18f2f28231b403720da5e65b3edc3687795271387"
+    },
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "c0cb5023cdd9f4cb0d45e6f42a6fbe0364fb1548381cb4fed99a53404ab8730e"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "72e07a74e2baf91e39ccd80cc2789add8ce1085c25071a170bb537be7319e266"
+    },
+    {
+      "path": "tests/integration/review014-notification-late-failure.test.ts",
+      "sha256": "afa7774b0b7fc4718c99208d0c18d7fcc83754480b026a803028d7433c4394cb"
+    },
+    {
+      "path": "tests/integration/review014-notification-lifecycle.test.ts",
+      "sha256": "2909429617afda9e8f2a1c927360785f5c672f64cad4afeb4eac950c11682167"
+    }
+  ]
+}

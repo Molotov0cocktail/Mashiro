@@ -1,0 +1,17 @@
+[
+  {
+    "path": "src/main/reminder/reminder-service.ts",
+    "hash": "FF2C6D0444EDE8C25532DEA4AE9E9A9749A0BD422697533D958BC22234A86411",
+    "replacements": [
+      ["  private notices = new Map<string, { close(): void }>()\n  private timeouts = new Set<ReturnType<typeof setTimeout>>()", "  private notices = new Map<string, { close(): void }>()\n  private timeouts = new Set<ReturnType<typeof setTimeout>>()\n  private stopped = false\n  private callbackGeneration = 0"],
+      ["  tick(recovery = false): void {\n    const now = this.clock().getTime()", "  tick(recovery = false): void {\n    if (this.stopped) return\n    const now = this.clock().getTime()"],
+      ["    let observed = false\n    let notice: { close(): void }", "    let observed = false\n    const callbackGeneration = this.callbackGeneration\n    let notice: { close(): void }"],
+      ["        (event) => {\n          if (event === 'click') {", "        (event) => {\n          if (this.stopped || callbackGeneration !== this.callbackGeneration) return\n          if (event === 'click') {"],
+      ["      const timer = setTimeout(() => {\n        this.timeouts.delete(timer)\n        this.settle(current, 'RESULT_UNKNOWN')", "      const timer = setTimeout(() => {\n        this.timeouts.delete(timer)\n        if (this.stopped || callbackGeneration !== this.callbackGeneration) return\n        this.settle(current, 'RESULT_UNKNOWN')"],
+      ["          record.version !== original.version ||\n          !['DISPATCHING', 'RESULT_UNKNOWN'].includes(record.state) ||\n          !this.valid(record)", "          record.version !== original.version ||\n          !(\n            ['DISPATCHING', 'RESULT_UNKNOWN'].includes(record.state) ||\n            (state === 'FAILED' && record.state === 'DISPLAY_OBSERVED')\n          ) ||\n          !this.valid(record)"],
+      ["  activateGroup(groupId: string): void {\n    if (!/^[a-f0-9]{64}$/.test(groupId)) return", "  activateGroup(groupId: string): void {\n    if (this.stopped || !/^[a-f0-9]{64}$/.test(groupId)) return"],
+      ["  activateBatch(identities: { id: string; version: number }[]): void {\n    try {", "  activateBatch(identities: { id: string; version: number }[]): void {\n    if (this.stopped) return\n    try {"],
+      ["  close(): void {\n    for (const timer of this.timeouts) clearTimeout(timer)\n    this.timeouts.clear()\n    for (const notice of new Set(this.notices.values())) notice.close()\n    this.notices.clear()\n  }", "  close(): void {\n    if (this.stopped) return\n    this.stopped = true\n    this.callbackGeneration += 1\n    for (const timer of this.timeouts) clearTimeout(timer)\n    this.timeouts.clear()\n    this.changed = () => undefined\n    this.platform = noPlatform\n    // Process shutdown keeps already-dispatched native notifications available for cold activation.\n    // Business completion, cancellation and cleanup withdraw them through reconcile().\n  }"]
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "source": "99bf73d79c35b86973d65699b62cb91e49830edb",
+  "frozenOutputFiles": 5,
+  "asarMatches": true,
+  "firstCheck": "Windows asar extractor requires native path separators; slash-only lookup failed without modifying artifact"
+}

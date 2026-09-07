@@ -1,0 +1,85 @@
+{
+  "scope": "immutable v5 pre-upgrade backup payload only; live source not inspected",
+  "backupId": "39df50cc-2cd0-40b6-afde-5dde18cff080",
+  "receiptSha256": "95799C667FF64E61A02F47BB7EF96A54FD4A237884C22170F7E7174FFF91E5A7",
+  "files": [
+    {
+      "path": ".mashiro-dataset.json",
+      "bytes": 143,
+      "sha256": "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F",
+      "matches": true
+    },
+    {
+      "path": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+      "bytes": 49,
+      "sha256": "31FFBA797A347D393768A6D1F0C155CA779C9477E0DB2583E647A8E8AF4D65B1",
+      "matches": true
+    },
+    {
+      "path": "mashiro.sqlite",
+      "bytes": 790528,
+      "sha256": "5A4E1B6F90DAFD641119632A2E8E7736362C18887CEAF6F11A14C1D728B21B54",
+      "matches": true
+    },
+    {
+      "path": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+      "bytes": 50,
+      "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92",
+      "matches": true
+    },
+    {
+      "path": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+      "bytes": 50,
+      "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D",
+      "matches": true
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6",
+      "matches": true
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+      "bytes": 20,
+      "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5",
+      "matches": true
+    },
+    {
+      "path": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+      "bytes": 48,
+      "sha256": "731F9E4073F458A6D9F0A6DD6754340238EC47B55D46718020E675EE43638ABD",
+      "matches": true
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+      "bytes": 50,
+      "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0",
+      "matches": true
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+      "bytes": 26,
+      "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292",
+      "matches": true
+    },
+    {
+      "path": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+      "bytes": 71,
+      "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C",
+      "matches": true
+    },
+    {
+      "path": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+      "bytes": 69,
+      "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F",
+      "matches": true
+    },
+    {
+      "path": "memory/f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6",
+      "matches": true
+    }
+  ]
+}

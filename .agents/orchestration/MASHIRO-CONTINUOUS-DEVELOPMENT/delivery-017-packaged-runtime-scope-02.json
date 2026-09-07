@@ -1,0 +1,8 @@
+{
+  "scope": "internal schema18: repository documents/tests and runtime data exclusion",
+  "source": "99bf73d79c35b86973d65699b62cb91e49830edb",
+  "forbiddenPaths": [],
+  "vendorDistributionTestFiles": 192,
+  "previousDiagnostic": "The first broad tests-directory predicate also counted Zod vendor-distributed source tests. Those are third-party package contents, not repository tests, credentials or runtime data; original failed result retained.",
+  "entryCount": 834
+}

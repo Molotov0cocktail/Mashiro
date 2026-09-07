@@ -2,6 +2,7 @@
 *.cmd text eol=crlf
 *.bat text eol=crlf
 # Preserve byte hashes of archived raw evidence.
+.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-* -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
 .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-* -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
 .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-* -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
 .agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-018-* -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

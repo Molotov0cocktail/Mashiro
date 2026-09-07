@@ -23,6 +23,8 @@ export default tseslint.config(
   {
     files: [
       'scripts/**/*.mjs',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-snapshot.mjs',
+      '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-v5-backup-verify.mjs',
       '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-current-source-snapshot.mjs',
       '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-verify.mjs',
       '.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-017-format.mjs',

@@ -444,6 +444,32 @@ it('keeps a merged notification until its last valid member is cancelled and ign
   expect(f.events).toHaveLength(before)
 })
 
+it('stops callbacks without withdrawing an already delivered native notification', () => {
+  const f = fixture()
+  f.create()
+  f.time(1000)
+  f.service.tick()
+  expect(f.records()[0]!.state).toBe('DISPLAY_OBSERVED')
+  const native = f.shown[0]!
+  const eventCount = f.events.length
+
+  f.service.close()
+  expect(native.closed).toBe(false)
+  expect(() => {
+    native.event('failed')
+    native.event('show')
+    native.event('click')
+    f.service.tick()
+    f.service.recover()
+    f.service.attach(f.platform, () => {
+      throw Error('stopped service reattached')
+    })
+  }).not.toThrow()
+  expect(f.records()[0]!.state).toBe('DISPLAY_OBSERVED')
+  expect(f.events).toHaveLength(eventCount)
+  expect(native.closed).toBe(false)
+})
+
 it('validates offset against IANA zone including DST gap and permits explicit ambiguous offsets', () => {
   const before = Date.parse('2029-01-01T00:00:00Z')
   expect(() =>

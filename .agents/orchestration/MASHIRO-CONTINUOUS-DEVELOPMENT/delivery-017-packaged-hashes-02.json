@@ -1,0 +1,17 @@
+[
+  {
+    "path": "dist/windows-candidate-schema18/Mashiro-0.1.0-win-x64-setup.exe",
+    "bytes": 112571376,
+    "sha256": "62A3E437064ED1F1A7B8FBBEE7FC50499ACB2188C92F94B1F4F92FE1C7192754"
+  },
+  {
+    "path": "dist/windows-candidate-schema18/win-unpacked/resources/app.asar",
+    "bytes": 15416221,
+    "sha256": "39B3294B319E8EB45DBE673BC9D45E8F0DD78D468925920B7FE322AFD042A935"
+  },
+  {
+    "path": "dist/windows-candidate-schema18/win-unpacked/Mashiro.exe",
+    "bytes": 245289472,
+    "sha256": "DA53E9AC660B129A695E61E93BCA09A1BFF79B899215928F4C9A2C03B6DCF2C1"
+  }
+]

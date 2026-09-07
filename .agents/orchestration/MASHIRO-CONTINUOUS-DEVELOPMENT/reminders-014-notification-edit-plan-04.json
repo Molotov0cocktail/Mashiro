@@ -1,0 +1,10 @@
+[
+  {
+    "path": "tests/integration/reminder-service.test.ts",
+    "hash": "A52E2328C2715128C9F7370B0511B84E6439043015CC651F7C8D45F5ED7C143A",
+    "replacements": [
+      ["it('validates offset against IANA zone including DST gap and permits explicit ambiguous offsets', () => {", "it('stops callbacks without withdrawing an already delivered native notification', () => {\n  const f = fixture()\n  f.create()\n  f.time(1000)\n  f.service.tick()\n  expect(f.records()[0]!.state).toBe('DISPLAY_OBSERVED')\n  const native = f.shown[0]!\n  const eventCount = f.events.length\n\n  f.service.close()\n  expect(native.closed).toBe(false)\n  expect(() => {\n    native.event('failed')\n    native.event('show')\n    native.event('click')\n    f.service.tick()\n    f.service.recover()\n    f.service.attach(f.platform, () => {\n      throw Error('stopped service reattached')\n    })\n  }).not.toThrow()\n  expect(f.records()[0]!.state).toBe('DISPLAY_OBSERVED')\n  expect(f.events).toHaveLength(eventCount)\n  expect(native.closed).toBe(false)\n})\n\nit('validates offset against IANA zone including DST gap and permits explicit ambiguous offsets', () => {"
+      ]
+    ]
+  }
+]

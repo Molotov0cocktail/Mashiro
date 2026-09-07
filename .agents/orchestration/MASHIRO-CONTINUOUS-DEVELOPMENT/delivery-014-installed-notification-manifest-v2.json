@@ -1,0 +1,61 @@
+{
+  "scope": "installed schema-15 synthetic full-domain backup plus bounded reminder notification observation",
+  "runtime": {
+    "scene": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp",
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "schemaVersion": 15,
+    "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "finalReminderVersion": 5,
+    "finalReminderState": "DISPLAY_OBSERVED",
+    "finalReminderDueAt": "2026-09-07T19:44:00+08:00",
+    "finalSourceSqliteSha256": "EBF547D9CC021B79731D940BF696D0EAD1E3E65427D535EF00EC28A2FDF478FF",
+    "installedProcessesAfterExit": 0
+  },
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-manifest-v1.json",
+      "sha256": "633479B1453EAB262EE4BA59B3174F0C7DF87B2D1B73DC2F64EA6FA2634F8486",
+      "result": "backup-time baseline; Root independently checked its payload hashes"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-root-hashes-01.json",
+      "sha256": "407DEA4EBDF99D297B849879A3D2A2EDAACC811B3DE36A87F57FD066C320632E",
+      "result": "13 manifest/source/payload file hashes matched"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-snapshot.mjs",
+      "sha256": "D5A441037C483738A6F6706576B0613E05624D51B6C8511E9539C3044911E2B3",
+      "result": "read-only synthetic source snapshot helper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-01.json",
+      "sha256": "EE5FEACD06F128C7A755C7327C074B3633251E7A41388BB03EE17C9BDF4EBAA8",
+      "result": "version 4; post-normal-exit exact notification query found no match"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-02.json",
+      "sha256": "1329994D48724C6FC7353E818629AD9E5F24A35B318DA1B647844079E73A17DE",
+      "result": "version 5; runtime exact and bounded-substring notification queries found no match"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-notification-handoff.md",
+      "sha256": "7AAD7E4C91748E39BD385F81DDED85F0ABADD4FE13B484A2BCC634997736EBC4",
+      "result": "scope, lifecycle explanation, observed facts, and remaining qualification boundary"
+    }
+  ],
+  "checks": {
+    "backupBaseline": "PASS_WITHIN_INSTALLED_BACKUP_SCOPE",
+    "nativeReschedule": "PASS twice through the installed UI",
+    "databaseDisplayEvent": "DISPLAY_OBSERVED at versions 4 and 5",
+    "runtimeNotificationCenterExactMatches": 0,
+    "runtimeNotificationCenterBoundedSubstringMatches": 0,
+    "userVisibleNotification": "NOT_PROVEN",
+    "warmActivation": "NOT_PROVEN",
+    "coldActivation": "NOT_PROVEN",
+    "sourceIntegrity": "ok",
+    "sourceFiles": 13,
+    "externalCalls": 0,
+    "personalDataAccessed": false
+  },
+  "boundary": "Normal exit closes all tracked Electron Notification objects, so post-exit absence is expected. DISPLAY_OBSERVED is not user-visible evidence. A normal-exit cold-activation requirement needs an explicit retained-notification lifecycle design and independent installed validation."
+}

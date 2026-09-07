@@ -1,0 +1,10 @@
+[
+  {
+    "path": "src/main/reminder/reminder-service.ts",
+    "hash": "9685D45934F4C0CAAC557363CE678B430A38D22022AEEB611FB1E2268DB1560E",
+    "replacements": [
+      ["  attach(platform: ReminderPlatform, changed: (event: ReminderChanged) => void): void {\n    this.platform = platform", "  attach(platform: ReminderPlatform, changed: (event: ReminderChanged) => void): void {\n    if (this.stopped) return\n    this.platform = platform"],
+      ["  recover(): void {\n    this.store.transaction(() => {", "  recover(): void {\n    if (this.stopped) return\n    this.store.transaction(() => {"]
+    ]
+  }
+]

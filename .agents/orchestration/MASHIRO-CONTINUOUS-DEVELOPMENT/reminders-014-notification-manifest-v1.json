@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "candidate": "reminders-014-notification-v1",
+  "status": "CANDIDATE_INDEPENDENT_REVIEW_PENDING",
+  "generatedAt": "2026-09-07T12:27:24.3313609Z",
+  "model": "gpt-5.6-sol/high",
+  "headAtFreeze": "0a1a2e5f7f6da40d9e2795f32ffcd5aea47d4e3c",
+  "committedByExecutor": false,
+  "stagedByExecutor": false,
+  "files": [
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "c0cb5023cdd9f4cb0d45e6f42a6fbe0364fb1548381cb4fed99a53404ab8730e",
+      "role": "product"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "72e07a74e2baf91e39ccd80cc2789add8ce1085c25071a170bb537be7319e266",
+      "role": "author-test"
+    }
+  ],
+  "independentOracleFiles": [
+    "tests/integration/review014-notification-late-failure.test.ts",
+    "tests/integration/review014-notification-lifecycle.test.ts"
+  ],
+  "verification": [
+    {
+      "scope": "unchanged independent notification transition and lifecycle oracles",
+      "result": "2 files passed; 6 tests passed locally",
+      "note": "Execution evidence only; independent final verdict remains with accept_016_final."
+    },
+    {
+      "scope": "author reminder service integration after final edit",
+      "result": "1 file passed; 18 tests passed"
+    },
+    {
+      "scope": "bounded reminder regression",
+      "result": "11 files passed; 60 tests passed"
+    },
+    {
+      "scope": "tsconfig.node.json typecheck",
+      "result": "passed"
+    },
+    {
+      "scope": "exact two-file ESLint",
+      "result": "passed with zero warnings"
+    },
+    {
+      "scope": "exact two-file Prettier check",
+      "result": "passed"
+    }
+  ]
+}

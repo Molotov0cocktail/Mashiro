@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "check": "node-tsc",
+      "exitCode": 0
+    },
+    {
+      "check": "scoped-eslint",
+      "exitCode": 0
+    },
+    {
+      "check": "scoped-format",
+      "exitCode": 0
+    }
+  ],
+  "afterHashes": [
+    {
+      "path": "src/main/reminder/reminder-service.ts",
+      "sha256": "C0CB5023CDD9F4CB0D45E6F42A6FBE0364FB1548381CB4FED99A53404AB8730E"
+    },
+    {
+      "path": "tests/integration/reminder-service.test.ts",
+      "sha256": "72E07A74E2BAF91E39CCD80CC2789ADD8CE1085C25071A170BB537BE7319E266"
+    }
+  ]
+}

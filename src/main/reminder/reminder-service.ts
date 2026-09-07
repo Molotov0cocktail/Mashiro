@@ -100,6 +100,8 @@ export class ReminderService {
   private lastTick: number | undefined
   private notices = new Map<string, { close(): void }>()
   private timeouts = new Set<ReturnType<typeof setTimeout>>()
+  private stopped = false
+  private callbackGeneration = 0
   constructor(
     private readonly store: SqliteStore,
     private readonly clock: () => Date = () => new Date(),
@@ -111,6 +113,7 @@ export class ReminderService {
     this.publishedState = this.observableState()
   }
   attach(platform: ReminderPlatform, changed: (event: ReminderChanged) => void): void {
+    if (this.stopped) return
     this.platform = platform
     this.changed = changed
   }
@@ -565,6 +568,7 @@ export class ReminderService {
     for (const notice of retired) if (!retained.has(notice)) notice.close()
   }
   recover(): void {
+    if (this.stopped) return
     this.store.transaction(() => {
       for (const record of this.all())
         if (record.state === 'DISPATCHING') {
@@ -579,6 +583,7 @@ export class ReminderService {
     this.tick(true)
   }
   tick(recovery = false): void {
+    if (this.stopped) return
     const now = this.clock().getTime()
     recovery ||= now - (this.lastTick ?? now) > 5000 || now < (this.lastTick ?? now)
     this.lastTick = now
@@ -674,6 +679,7 @@ export class ReminderService {
       return
     }
     let observed = false
+    const callbackGeneration = this.callbackGeneration
     let notice: { close(): void }
     try {
       notice = this.platform.show(
@@ -683,6 +689,7 @@ export class ReminderService {
           groupId
         },
         (event) => {
+          if (this.stopped || callbackGeneration !== this.callbackGeneration) return
           if (event === 'click') {
             this.activateGroup(groupId)
           } else {
@@ -701,6 +708,7 @@ export class ReminderService {
     if (!observed) {
       const timer = setTimeout(() => {
         this.timeouts.delete(timer)
+        if (this.stopped || callbackGeneration !== this.callbackGeneration) return
         this.settle(current, 'RESULT_UNKNOWN')
       }, 10000)
       timer.unref?.()
@@ -713,7 +721,10 @@ export class ReminderService {
         const record = this.read(original.id)
         if (
           record.version !== original.version ||
-          !['DISPATCHING', 'RESULT_UNKNOWN'].includes(record.state) ||
+          !(
+            ['DISPATCHING', 'RESULT_UNKNOWN'].includes(record.state) ||
+            (state === 'FAILED' && record.state === 'DISPLAY_OBSERVED')
+          ) ||
           !this.valid(record)
         )
           continue
@@ -729,7 +740,7 @@ export class ReminderService {
     this.activateBatch([{ id, version }])
   }
   activateGroup(groupId: string): void {
-    if (!/^[a-f0-9]{64}$/.test(groupId)) return
+    if (this.stopped || !/^[a-f0-9]{64}$/.test(groupId)) return
     try {
       const members = this.store.database
         .prepare(
@@ -744,6 +755,7 @@ export class ReminderService {
     }
   }
   activateBatch(identities: { id: string; version: number }[]): void {
+    if (this.stopped) return
     try {
       const parsed = z
         .array(z.strictObject({ id: z.string().uuid(), version: z.number().int().positive() }))
@@ -784,9 +796,14 @@ export class ReminderService {
     }
   }
   close(): void {
+    if (this.stopped) return
+    this.stopped = true
+    this.callbackGeneration += 1
     for (const timer of this.timeouts) clearTimeout(timer)
     this.timeouts.clear()
-    for (const notice of new Set(this.notices.values())) notice.close()
-    this.notices.clear()
+    this.changed = () => undefined
+    this.platform = noPlatform
+    // Process shutdown keeps already-dispatched native notifications available for cold activation.
+    // Business completion, cancellation and cleanup withdraw them through reconcile().
   }
 }
