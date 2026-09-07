@@ -1,0 +1,17 @@
+  • electron-builder  version=26.15.3 os=10.0.26200
+  • loaded configuration  file=D:\Mashiro\electron-builder.config.mjs
+  • description is missed in the package.json  appPackageFile=D:\Mashiro\package.json
+  • author is missed in the package.json  appPackageFile=D:\Mashiro\package.json
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • packaging       platform=win32 arch=x64 electron=44.1.1 appOutDir=dist\windows-candidate-notification\win-unpacked
+  • downloaded      label=electron progress=100%
+  • downloaded electron zip extracted successfully  output=D:\Mashiro\dist\windows-candidate-notification\win-unpacked
+  • searching for node modules  pm=npm searchDir=D:\Mashiro
+  • updating asar integrity executable resource  executablePath=dist\windows-candidate-notification\win-unpacked\Mashiro.exe
+  • default Electron icon is used  reason=application icon is not set
+  • signing with signtool.exe  path=dist\windows-candidate-notification\win-unpacked\Mashiro.exe
+  • building        target=nsis file=dist\windows-candidate-notification\Mashiro-0.1.0-win-x64-setup.exe archs=x64 oneClick=false perMachine=false
+  • signing with signtool.exe  path=dist\windows-candidate-notification\win-unpacked\resources\elevate.exe
+  • signing with signtool.exe  path=dist\windows-candidate-notification\Mashiro-0.1.0-win-x64-setup.__uninstaller.exe
+  • signing with signtool.exe  path=dist\windows-candidate-notification\Mashiro-0.1.0-win-x64-setup.exe
+  • building block map  blockMapFile=dist\windows-candidate-notification\Mashiro-0.1.0-win-x64-setup.exe.blockmap

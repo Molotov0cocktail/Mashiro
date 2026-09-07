@@ -1,0 +1,22 @@
+[
+  {
+    "path": "dist/windows-candidate-login-cleanup/Mashiro-0.1.0-win-x64-setup.exe",
+    "signature": "NotSigned",
+    "productName": "Mashiro",
+    "productVersion": "0.1.0",
+    "fileVersion": "0.1.0",
+    "originalFilename": "",
+    "bytes": 112656667,
+    "sha256": "28F1D3AFCDDE0D5CAFC53C70A103A190FFDF013AFB77464EC0888F4B681FB6D3"
+  },
+  {
+    "path": "dist/windows-candidate-login-cleanup/win-unpacked/Mashiro.exe",
+    "signature": "NotSigned",
+    "productName": "Mashiro",
+    "productVersion": "0.1.0.0",
+    "fileVersion": "0.1.0",
+    "originalFilename": "",
+    "bytes": 245289984,
+    "sha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472"
+  }
+]

@@ -1,0 +1,236 @@
+{
+  "phase": "before",
+  "observedAt": "2026-09-07T13:40:00.346Z",
+  "schemaVersion": 18,
+  "integrity": [
+    "ok"
+  ],
+  "counts": {
+    "timelineMessages": 12,
+    "protocolSegments": 1,
+    "toolOperations": 1,
+    "memoryObjects": 9,
+    "usageAttempts": 10
+  },
+  "usage": {
+    "settled": 7,
+    "unknown": 3,
+    "sending": 0,
+    "promptTokens": 75,
+    "completionTokens": 37,
+    "totalTokens": 112,
+    "inputCharacters": 6606
+  },
+  "attempts": [
+    {
+      "id": "871f2afb-9088-4b2b-a82c-1b11b4fe9350",
+      "chainId": "9101994f-d37f-49df-b019-c209491e977c",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "conversation",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T06:35:10.777Z",
+      "finishedAt": "2026-09-07T06:35:10.786Z",
+      "inputCharacters": 183,
+      "actual": {
+        "promptTokens": 2,
+        "completionTokens": 1,
+        "totalTokens": 3
+      },
+      "owner": {
+        "domain": "provider",
+        "id": "9101994f-d37f-49df-b019-c209491e977c",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "f7f4667b-6fbf-41b2-ba9d-46531fe4f7b4",
+      "chainId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "tool-chain",
+      "state": "UNKNOWN",
+      "startedAt": "2026-09-07T06:35:10.844Z",
+      "finishedAt": "2026-09-07T06:35:10.855Z",
+      "inputCharacters": 183,
+      "actual": null,
+      "owner": {
+        "domain": "provider",
+        "id": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "293011ab-b461-4d94-ba2e-66e9e8c5dfba",
+      "chainId": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "tool-chain",
+      "state": "UNKNOWN",
+      "startedAt": "2026-09-07T06:35:10.906Z",
+      "finishedAt": "2026-09-07T06:35:10.919Z",
+      "inputCharacters": 264,
+      "actual": null,
+      "owner": {
+        "domain": "provider",
+        "id": "5e34c10f-c747-4be2-8e7b-e8e8c59871b7",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "214e1dfb-4611-4402-9d65-074493a88612",
+      "chainId": "3dfac9bc-2f4e-42cf-9913-362af31d5817",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "chapter",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T06:35:15.249Z",
+      "finishedAt": "2026-09-07T06:35:15.260Z",
+      "inputCharacters": 647,
+      "actual": {
+        "promptTokens": 12,
+        "completionTokens": 8,
+        "totalTokens": 20
+      },
+      "owner": {
+        "domain": "background",
+        "id": "3dfac9bc-2f4e-42cf-9913-362af31d5817",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "402e1b0d-c292-4953-9c0e-03ada6bb1e9f",
+      "chainId": "822aaa07-65be-4217-a5f5-bb1ed73a750b",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "shared-candidates",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T06:35:15.603Z",
+      "finishedAt": "2026-09-07T06:35:15.610Z",
+      "inputCharacters": 1043,
+      "actual": {
+        "promptTokens": 14,
+        "completionTokens": 6,
+        "totalTokens": 20
+      },
+      "owner": {
+        "domain": "steward",
+        "id": "822aaa07-65be-4217-a5f5-bb1ed73a750b",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "c5b45388-b845-492f-9baf-19c018f49fbb",
+      "chainId": "d4bb704c-6936-439c-a8a2-ab88e7bbc2fb",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "steward",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T06:35:15.819Z",
+      "finishedAt": "2026-09-07T06:35:15.827Z",
+      "inputCharacters": 765,
+      "actual": {
+        "promptTokens": 15,
+        "completionTokens": 7,
+        "totalTokens": 22
+      },
+      "owner": {
+        "domain": "steward",
+        "id": "d4bb704c-6936-439c-a8a2-ab88e7bbc2fb",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "4c8a6102-4903-4fea-8736-3dfc6db86804",
+      "chainId": "75d96025-c424-4823-a5ec-9546edcb5c65",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "observation",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T06:35:16.447Z",
+      "finishedAt": "2026-09-07T06:35:16.452Z",
+      "inputCharacters": 2382,
+      "actual": {
+        "promptTokens": 18,
+        "completionTokens": 6,
+        "totalTokens": 24
+      },
+      "owner": {
+        "domain": "daily",
+        "id": "75d96025-c424-4823-a5ec-9546edcb5c65",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "c98c66d6-55de-439a-b506-8e35de7f4301",
+      "chainId": "8b087f8d-2f76-481b-94bb-024ebf5f375a",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "conversation",
+      "state": "UNKNOWN",
+      "startedAt": "2026-09-07T06:35:16.963Z",
+      "finishedAt": "2026-09-07T06:35:18.163Z",
+      "inputCharacters": 367,
+      "actual": null,
+      "owner": {
+        "domain": "provider",
+        "id": "8b087f8d-2f76-481b-94bb-024ebf5f375a",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "7b5ebb30-6c82-4dc0-b190-3a8242a2a08f",
+      "chainId": "a5e3976c-7833-413f-8194-57fc75b4f5a9",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "conversation",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T06:35:18.805Z",
+      "finishedAt": "2026-09-07T06:35:18.812Z",
+      "inputCharacters": 364,
+      "actual": {
+        "promptTokens": 2,
+        "completionTokens": 1,
+        "totalTokens": 3
+      },
+      "owner": {
+        "domain": "provider",
+        "id": "a5e3976c-7833-413f-8194-57fc75b4f5a9",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "7946e86b-7d82-4d32-98ed-adf16855606f",
+      "chainId": "f65552e2-1f56-4aef-849f-8b3819986295",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "conversation",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T06:35:24.065Z",
+      "finishedAt": "2026-09-07T06:35:24.073Z",
+      "inputCharacters": 408,
+      "actual": {
+        "promptTokens": 12,
+        "completionTokens": 8,
+        "totalTokens": 20
+      },
+      "owner": {
+        "domain": "provider",
+        "id": "f65552e2-1f56-4aef-849f-8b3819986295",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    }
+  ],
+  "credentialRead": false,
+  "messageContentRead": false
+}

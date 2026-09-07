@@ -1,0 +1,48 @@
+{
+  "scope": "schema-15 backup versus current schema-18 synthetic data; no body or credential content",
+  "observedAt": "2026-09-07T14:05:18.131Z",
+  "before": {
+    "daily": [
+      {
+        "id": "b56798dd-0aea-4929-a508-2dab10cd0705",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "feature": "observation",
+        "recordSha256": "29386E2BC557BDE7E6DC865D8D0469742600C76E71E33606C01AFDFE229F198C",
+        "nextRun": "2026-09-08T00:00:00.000Z",
+        "lastTick": "2026-09-07T12:00:15.752Z"
+      }
+    ],
+    "reminderSettings": [
+      {
+        "version": 0,
+        "policySha256": "55AF4FC7B0469E8479BED675C774ACD417CB531F7F1C87E4E6784D1891BCB619"
+      }
+    ]
+  },
+  "current": {
+    "daily": [
+      {
+        "id": "b56798dd-0aea-4929-a508-2dab10cd0705",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "feature": "observation",
+        "recordSha256": "29386E2BC557BDE7E6DC865D8D0469742600C76E71E33606C01AFDFE229F198C",
+        "nextRun": "2026-09-08T00:00:00.000Z",
+        "lastTick": "2026-09-07T13:55:29.393Z"
+      }
+    ],
+    "reminderSettings": [
+      {
+        "version": 1,
+        "policySha256": "4D518AB97A6523FFF92E605DD4D481C42A3DFB56B743283236B52CB438A5299D"
+      }
+    ]
+  },
+  "comparison": {
+    "dailyRecordUnchanged": true,
+    "dailyOnlyLastTickChanged": true,
+    "reminderSettingsChanged": true
+  },
+  "externalCalls": 0,
+  "credentialContentRead": false,
+  "personalDataAccessed": false
+}

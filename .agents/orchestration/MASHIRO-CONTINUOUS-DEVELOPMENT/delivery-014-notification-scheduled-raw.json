@@ -1,0 +1,952 @@
+[
+  {
+    "window": 52697642,
+    "index": 0,
+    "name": "Mashiro",
+    "automationId": "",
+    "type": "ControlType.Window",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 52697642
+  },
+  {
+    "window": 52697642,
+    "index": 1,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": false,
+    "offscreen": false,
+    "handle": 12329656
+  },
+  {
+    "window": 52697642,
+    "index": 2,
+    "name": "Mashiro",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 3,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 4,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 5,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 6,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 7,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.MenuBar",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 8,
+    "name": "数据与备份",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 9,
+    "name": "编辑",
+    "automationId": "view_1",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 10,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 11,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 12,
+    "name": "Mashiro",
+    "automationId": "RootWebArea",
+    "type": "ControlType.Document",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 13,
+    "name": "",
+    "automationId": "root",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 14,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 15,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 16,
+    "name": "本机优先 · 你的日常助手",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 17,
+    "name": "Mashiro",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 18,
+    "name": "在持续对话中处理当下，也可以随时查看和纠正长期记忆。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 19,
+    "name": "主要功能",
+    "automationId": "",
+    "type": "ControlType.Tab",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 20,
+    "name": "对话",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 21,
+    "name": "事项",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 22,
+    "name": "提醒",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 23,
+    "name": "记忆与事件",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 24,
+    "name": "章节后台",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 25,
+    "name": "资料整理",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 26,
+    "name": "日常与运行",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 27,
+    "name": "保留与清理",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 28,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 29,
+    "name": "助手管理",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 30,
+    "name": "助手管理",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 31,
+    "name": "提醒页面",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 32,
+    "name": "提醒",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 33,
+    "name": "提醒中心",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 34,
+    "name": "雪 · 提醒由本机确定性运行，不依赖 Provider 在线。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 35,
+    "name": "刷新",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 36,
+    "name": "提醒运行与补发设置",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 37,
+    "name": "运行与补发",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 38,
+    "name": "关闭主窗口后 Mashiro 会驻留托盘并继续检查已保存提醒；这表示运行承诺，不表示窗口此刻已隐藏。明确退出 Mashiro 后不再承诺提醒。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 39,
+    "name": "系统通知：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 40,
+    "name": "当前可用",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 41,
+    "name": " · 登录启动：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 42,
+    "name": "已由系统确认开启",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 43,
+    "name": "错过提醒的处理",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 44,
+    "name": "错过提醒的处理",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 45,
+    "name": "保持待配置：错过后进入“恢复待处理”，不自动补发",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 46,
+    "name": "使用我明确设置的补发规则",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 47,
+    "name": "允许补发的时间窗口（分钟）",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 48,
+    "name": "补发窗口（分钟）",
+    "automationId": "",
+    "type": "ControlType.Spinner",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 49,
+    "name": "同次恢复时合并可补发提醒",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 50,
+    "name": "登录 Windows 后启动 Mashiro",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 51,
+    "name": "保存运行设置",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 52,
+    "name": "提醒：E2E_ITEM_waiting",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 53,
+    "name": "E2E_ITEM_waiting",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 54,
+    "name": "2026年9月7日周一 GMT+00:00 06:35:14",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 55,
+    "name": "已处理",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 56,
+    "name": "时区 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 57,
+    "name": "UTC",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 58,
+    "name": " · 精确时刻 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 59,
+    "name": "2026-09-07T06:35:14.303Z",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 60,
+    "name": " · 提醒版本 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 61,
+    "name": "2",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 62,
+    "name": "打开当前事项",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 63,
+    "name": "提醒：E2E_ITEM_UI_abb94082-ca64-466c-b5b4-32e6941a1bde",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 64,
+    "name": "E2E_ITEM_UI_abb94082-ca64-466c-b5b4-32e6941a1bde",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 65,
+    "name": "2026年9月7日周一 GMT+00:00 06:35:23",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 66,
+    "name": "已处理",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 67,
+    "name": "时区 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 68,
+    "name": "UTC",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 69,
+    "name": " · 精确时刻 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 70,
+    "name": "2026-09-07T06:35:23.450Z",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 71,
+    "name": " · 提醒版本 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 72,
+    "name": "2",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 73,
+    "name": "打开当前事项",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 74,
+    "name": "提醒：E2E_ITEM_waiting",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 75,
+    "name": "E2E_ITEM_waiting",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 76,
+    "name": "2026年9月7日周一 GMT+08:00 21:10:00",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 77,
+    "name": "计划中",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 78,
+    "name": "时区 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 79,
+    "name": "Asia/Shanghai",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 80,
+    "name": " · 精确时刻 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 81,
+    "name": "2026-09-07T21:10:00+08:00",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 82,
+    "name": " · 提醒版本 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 83,
+    "name": "6",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 84,
+    "name": "打开当前事项",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 85,
+    "name": "改期",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 86,
+    "name": "取消提醒",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 87,
+    "name": "标为已处理",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 88,
+    "name": "提醒操作回执",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 89,
+    "name": "本地操作已完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 90,
+    "name": "提醒操作已提交",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 91,
+    "name": "操作编号：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 92,
+    "name": "f92ccae9-59e6-41e0-989e-86c2fbfbaa8b",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 93,
+    "name": " · 提醒 70a8cb12-b0e3-42f6-b261-b08e6febcfb6 · 版本 6",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 52697642,
+    "index": 94,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  }
+]

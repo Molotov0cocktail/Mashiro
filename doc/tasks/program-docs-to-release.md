@@ -4,7 +4,11 @@
 
 ## 当前授权与继续规则
 
-最新候选节点：014治理与017可信/UI已独立源码限定PASS，冻结169文件746tests和实际双PID通过。已审99bf73d79c35b86973d65699b62cb91e49830edb已实核双远程同值；schema18内部NSIS构建成功，ASAR五项程序输出与冻结构建逐项哈希相同，见[制品记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-candidate-02.md)，正执行隔离升级。016全新Astra/medium独立负责人完整复读三文档，发现旧业务回执超过384项后的用户入口缺口，已纳入[018](018-old-round-business-receipts.md)必修；其余领域未发现整类已确认要求被遗漏，原始后置边界保持。018已独立10文件55tests限定PASS及root build通过，提交0a1a2e5已实核双远程；Windows生命周期继续，014新增show后late failed独立RED已交修，RET-007原问题仍待答，整体和发布未完成。较早阶段统计按下文原时间事实保留。
+当前实际节点（2026-09-07）：HEAD ad64035bfd441cdf73f521a4c7135ddb1203bcf2 已实核 github/gitee main 同值，含独立通过的 NSIS 早期依赖/双分支修复；RET-007 用户确认的100 MiB/90天默认已单独提交。程序仍 ACTIVE，009/schema19容量与期限、014慢启动导航待消费回执分别由两个 Sol 单写实施，Astra 独立复核。当前 `out/` 和实际安装仍为已审 f4/schema18，未混入两项 WIP。
+
+[已安装36文件原生证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-schema18-notification-key-manifest.json)已由[root核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-native-evidence-check.md)：实际15→18升级、旧数据保留、登录隐藏启动、通知退出后保留、OS COM冷启动直接定位事项，以及持久Key重启后真实2请求/6515tokens和完整备份。真实通知中心鼠标点击仍NOT_PROVEN；[慢初始化RED](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-cold-activation-review-repair.md)不被一次原生成功掩盖。累计56次HTTP、已知96677tokens、5次历史未知用量。
+
+[宏v3源码独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-review-pass-v3.md)及[真实build04](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-packaged-build-04.raw.txt)成功有效；新setup SHA28F1D3AFCDDE0D5CAFC53C70A103A190FFDF013AFB77464EC0888F4B681FB6D3实际NotSigned，ASAR与f4相同，但[制品静态审为REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-artifact-review-v3.md)：本地Electron发行额外带入default_app.asar/version，缺失主ASAR时可能fallback。仅清理固定构建输出残留后重包，现有安装不动；不改fuse、不关闭警告、不抹除build02/03失败。随后继续实际卸载/重装、治理恢复、最终RET/冷导航制品与016整体验收，精确版本发布及下载核验仍未完成。
 
 当前有效状态（2026-09-07 18:37）：HEAD a3550888d4d6d001f441fb73e806eef4729ca315；最后已审产品f04fe24保持。014/schema18治理v4独立26文件65tests PASS，种子容量v5最终文件竞态已修v6并独立4文件9tests PASS；登录启动v2独立4文件20tests PASS，实际Electron隔离验证通过，最终安装仍待。017可信限定PASS、renderer实施中，D03是发布必需。安装执行者继续保存升级前完整合成基线、验证通知与新版生命周期；RET-007仍待答，016整体及实际发布未完成。本阶段无新增真实Provider调用；程序累计54次请求，其中5次历史用量未知，已知90162tokens，依据[daily真实角色记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-product.md)。以下旧候选摘要按历史证据保留，不覆盖本条当前状态。
 
@@ -90,11 +94,11 @@
 
 | 覆盖 ID / 来源 | 应有行为与适用范围 | 当前状态 / 关联任务 | 用户入口与验收证据或剩余 oracle |
 | --- | --- | --- | --- |
-| E01 RET-001/002；P3.3；H7.1 | 记忆/事件持久、暂存、垃圾三区；持久不自动降级，垃圾不召回但可恢复 | 009三区手动核心已审；自动参数待RET-007 | 区域/恢复入口；分区不改性质/权限/归属；模型不得自动清空持久区 |
+| E01 RET-001/002；P3.3；H7.1 | 记忆/事件持久、暂存、垃圾三区；持久不自动降级，垃圾不召回但可恢复 | 009三区手动核心已审；RET-007默认已确认，容量/期限实施中 | 区域/恢复入口；分区不改性质/权限/归属；模型不得自动清空持久区 |
 | E02 RET-003/004；H7.2 | 聊天压缩与本机回收分离；接受结果先保存，检查未完成话题/操作依赖；默认可恢复 | 009手动预览/依赖检查已审；013真实接受章节→原文回收→摘要仍可读→原文恢复已验证，仓储/014后续联测继续 | 回收预览/依赖/回执；保存失败或未完成依赖时零回收；拒绝优先于并发接受，旧回执不能冒称当前执行；重建不覆盖新修改 |
 | E03 RET-005/006；D7.2 | 消息、区段、时间线清理；区分回收原文、删记忆表示、删除信息/撤回依据 | 009消息/区段/时间线手动清理与受管副本作业已审；013/014跨模块联测排队 | 清理意图明确；处理相关原文/事件/摘录/版本/索引；正式事项不被连带删除 |
 | E04 MEM-003/RET-005；P4.3 | 用户纠正、删除、撤回的事务抑制优先于旧作业、压缩、来源扫描、索引重建 | 008即时抑制/纠正已审；清理恢复009、013章节来源/迟到正文/旧作业屏障已验，剩余Q9联测 | 来源撤回即时退出记忆/历史/协议召回；旧版本/旧作业和索引不能覆盖，未来后台及备份还需同屏障 |
-| E05 RET-007/D-070 | 容量、期限、垃圾自动清空、具体清理参数 | 待决 Q6 | 实施前请用户决定长期保留语义；推荐默认不自动永久清空、用户显式清理，数值与限额需明确确认 |
+| E05 RET-007/D-070 | 容量、期限、垃圾自动清空、具体清理参数 | 用户2026-09-07确认100MiB/90天默认；009 POLICY_IMPLEMENTING，[共同工程方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/retention-009-policy-preparation.md)按已确认范围落实 | 全数据集有效持久正文UTF-8计量，超限仅拒绝新增占用；暂存到期转可恢复垃圾，两项可调关闭，垃圾永不自动永久清空；事务竞争/恢复关闭规则/完整设置需独立验收 |
 | E06 RET-001/003/005；H7.1–7.3；D7.2；用户发布验收4–5 | 垃圾与原文可恢复阶段按当前依赖/权限恢复；物理删除不可假称可恢复，已撤回内容不由旧版本、协议或备份恢复复活 | 009恢复/清理作业，Q9接受结果回收，Q10完整备份恢复联测 | 三区往返与跨重启；后来撤回优先，旧确认/旧作业无复活；受管副本实际清理与失败状态可核查，备份保留边界诚实说明 |
 
 ### F. 事项、提案、承诺、提醒和后台
@@ -116,9 +120,9 @@
 | G01 ARC-001/002/LANG-001/PRD-001–004；H1/2 | Windows11单用户本地权威Electron应用，中文对话为主入口；sandbox/窄IPC；无独立服务/运行HTTP服务要求 | 基础001/004/005已审；各任务/Q11 | 可操作整合日常界面；所有新增域trusted严格输入输出，六助手通道保留；真实制品离开开发服务器运行 |
 | G02 LOG-001/002；H10；D4.2/10 | 运行状况区分当前故障/历史，默认WARN+，合并重复后台错误，显示等待/运行/重试/待配置/恢复 | 013运行状况/业务/筛选候选已独立源码与renderer复核，原生整体验收待 | 运行状况页、权限拒绝、恢复入口；重复错误可合并但重要故障不消失；日志无正文/Key |
 | G03 USE-001/002；H10；D9 | 助手/Provider/模型/功能分类用量，实际/估算/未知分离；缓存推理不重复累计，后台可执行预算 | 004单请求/007工具链聚合部分已审；分类与预算Q8/Q9 | 缺任一请求usage则整链未知，非准确账单；分类用量页、后台设置与限额停止已实现日常候选并经本地反例验证，真实用量及原生整体验收仍待 |
-| G04 ARC-003/004；H8；D5 | 默认标准用户路径，程序与数据独立自定义，安装目录data；中文/空格/普通权限；失效恢复不创建第二空库 | 014生产启动/维护已接入并获独立限定PASS；当前桌面启动路线与数据来源核验中 | [独立15反例](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-review-final-pass.md)覆盖原绑定保护/身份/中文路径/写失败；首次选择与恢复UI、空间/权限实际验证仍待 |
-| G05 ARC-004/DIST-001；H4/9；D10 | 带版本/前置检查/失败停止/恢复的迁移与完整备份；Markdown导出不等于完整迁移 | 已审schema16；014完整备份/新目录还原/升级准备独立限定PASS，schema17后续治理恢复及跨版本制品Q10实施中 | 旧schema数据保留与事务检查有效；跨资源硬终止窗口有证据；完整备份、跨版本安装恢复与跨机器凭据边界仍Q10 |
-| G06 DIST-001/ENG-004；用户2026-09-06发布验收 | 早期PACKAGED路线；最终普通用户安装/启动/托盘/重启/卸载重装/升级保护数据 | ASAR/NSIS路线SUPPORTED；0.0.9-internal.1已实际隔离安装启动并选中全域合成数据；跨版本升级/最终制品待验 | 隔离NSIS精确清程序并保留data/未知文件；正式旧版已启动，完整全域备份/跨版本/失败恢复及最终制品由Q10继续验证 |
+| G04 ARC-003/004；H8；D5 | 默认标准用户路径，程序与数据独立自定义，安装目录data；中文/空格/普通权限；失效恢复不创建第二空库 | 014生产启动/维护独立限定PASS；旧制品已实际验证普通桌面启动、中文空格安装data迁移及重启同数据；最终候选路径异常场景仍待 | [独立15反例](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-location-review-final-pass.md)覆盖原绑定保护/身份/中文路径/写失败；首次选择与恢复UI、空间/权限实际验证仍待 |
+| G05 ARC-004/DIST-001；H4/9；D10 | 带版本/前置检查/失败停止/恢复的迁移与完整备份；Markdown导出不等于完整迁移 | 014完整备份/新目录还原及schema18治理已源码独立限定PASS；实际schema15→18升级已执行，后续治理恢复/失败恢复继续Q10 | 旧schema数据保留与事务检查有效；跨资源硬终止窗口有证据；完整备份、跨版本安装恢复与跨机器凭据边界仍Q10 |
+| G06 DIST-001/ENG-004；用户2026-09-06发布验收 | 早期PACKAGED路线；最终普通用户安装/启动/托盘/重启/卸载重装/升级保护数据 | 实际0.0.9-internal.1→0.1.0升级及f4同版重装已执行，安装EXE/ASAR匹配；托盘/重启/登录及退出保留通知已有证据，完整最终制品待验 | 全域升级前备份13项校验通过；升级后71/73旧表摘要及12份旧非DB文件相同，另两表按操作归因；卸载登录清理、失败恢复及最终制品由Q10继续验证 |
 | G07 ENG-001–003/005–010；D11/12 | 精确依赖锁/可恢复构建，真实测试/静态/生命周期/扫描，main双remote非force | 现有链已审；所有候选/Q11 | 每个新差异对应独立证据，历史限域资格不扩大；纯文档比例审核，无报告未来SHA循环 |
 | G08 DIST-001；用户发布验收1–8 | 独立整体验收反查文档用户闭环；审核实际安装包，版本/源码/校验/说明/第三方声明对应 | [016整体验收](016-overall-product-acceptance.md)证据核对已开始，014/Q12制品仍待 | 附件和源码一致，未签名如实说明、不关闭系统防护；只构建或空Release不算完成 |
 | G09 用户发布授权/验收8 | 已审精确版本自动同步、创建新tag/Release、上传安装包/校验/说明并实际下载校验 | 实际Release/上传/下载NOT RUN，Q12；只读传输预检可用 | [Release传输预检](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-preflight-v1.md)确认既有仓库认证REST路径，不代替POST/资产上传和下载hash；Gitee同步源码，禁止覆盖已有资产/改可见性 |
@@ -148,11 +152,11 @@
 | Q3 权限底座与跨域扩展 | 读取/端点接收/业务政策可配置且每次重查；依赖005，随新增域扩展 | 006已审当前历史权限；Q5/Q7/Q9扩展同一契约 |
 | Q4 能力与工具执行 | 协议保真、能力证据、只读真实工具循环、operation恢复；依赖Q3 | [007](007-provider-tools-execution.md)TASK_DONE / FINAL PASS，精确`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；业务写入008/Q7、其他厂商与角色兼容Q9/Q11继续 |
 | Q5 记忆/事件事务闭环 | Markdown与治理一致、即时对话记住/纠正/删除、来源面板、全文索引、完整备份语义；依赖Q3/Q4 | [008](008-memory-direct-path.md)TASK_DONE / FINAL PASS，产品cc9c729；即时记忆闭环已交付，完整备份Q10、自动整理Q9继续 |
-| Q6 生命周期与清理 | 三区、恢复、消息/区段/时间线意图清理、防复活；依赖Q5 | [009](009-retention-and-cleanup.md)INTEGRATION_PENDING / MANUAL_CORE PASS；独立41/255、4 UI oracles及最终Electron通过；RET未答不擅定自动参数，Q9/Q10联测仍待完成 |
+| Q6 生命周期与清理 | 三区、恢复、消息/区段/时间线意图清理、防复活；依赖Q5 | [009](009-retention-and-cleanup.md)ACTIVE / POLICY_IMPLEMENTING；手动核心独立41/255和Electron证据保留；RET100MiB/90天已确认，可信/UI增量及Q9/Q10联测继续 |
 | Q7 统一事项提案 | 五类事项、对话执行、提案协商确认；依赖Q3/Q4 | [010](010-items-and-proposals.md)TASK_DONE / [独立FINAL PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/items-010-review-final-pass.md)，51/301与131文件清单，精确产品ab11110a45c6ddb65bd114547225dd4e329bba11，双远程已核验 |
 | Q8 提醒/托盘/用量健康 | 确定性提醒、可选登录启动、休眠重启补发、运行状况/分类用量；依赖Q7，补发需REM-002 | [012](012-deterministic-reminders.md)已实现核心独立PASS并双远程同步f34c543，61/360及实际双PID/DOM通过；REM默认和014安装联测未完，分类用量/运行健康由013继续 |
 | Q9 仓储员与日常后台 | 去重分支冲突、章节压缩/未完成话题、事件观察、简报/复盘/周规划；依赖Q3–Q8 | [013正式任务](013-background-and-steward.md)INTEGRATION_PENDING / DAILY_CORE_PASS；章节、仓储、五类日常真实服务及最终原生入口已验，整体制品验收由Q11接续；[实际服务合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-contract.md)明确真实Memory接受引用、后台origin、预算及完整用户入口 |
-| Q10 位置/安装更新恢复 | 普通用户路径选择/失效恢复、完整迁移备份、隔离安装升级卸载重装；依赖Q1与各schema | [014正式任务](014-windows-data-and-delivery.md)PACKAGED_ACCEPTANCE / GOVERNANCE_RESTORE_PENDING；旧版已安装启动、选择全域数据及完成完整备份；schema18治理v4已独立限定PASS，种子容量v5竞态已修v6并独立限定PASS；登录v2已独立限定PASS，新制品原生验证继续；跨版本升级/失败恢复/最终制品及发布仍未完成 |
+| Q10 位置/安装更新恢复 | 普通用户路径选择/失效恢复、完整迁移备份、隔离安装升级卸载重装；依赖Q1与各schema | [014正式任务](014-windows-data-and-delivery.md)PACKAGED_ACCEPTANCE / GOVERNANCE_RESTORE_PENDING；schema18治理v4及种子v6独立限定PASS；实际跨版本升级和f4同版重装已执行，登录保留及通知退出后保留已观察；安装版持久凭据重启后真实记忆工具链已验；冷激活、卸载/失败恢复/最终制品及发布仍未完成 |
 | Q11 整体功能与制品验收 | 独立从三文档/覆盖表反查用户场景与安全恢复，真实Provider关键角色，所有必需行闭合 | 016预审发现MEM-002，017已独立源码限定PASS；新的全覆盖预验实证旧轮业务回执入口缺口，018已独立限定PASS并双推0a1a2e5，最终制品UI仍待；未参与对应实现的胜任审核者继续，不能改NON-GOALS消除缺口 |
 | Q12 发布下载闭合 | 冻结版本/精确源码/资产hash、说明/声明、新tag/Release、下载hash、两remote | [只读REST传输预检](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-preflight-v1.md)已确认路线；实际发布上传下载仍NOT RUN，仅Q11 PASS后按既有授权执行 |
 
@@ -162,7 +166,7 @@
 | --- | --- | --- |
 | AST-006 永久删助手 | 2026-09-06用户确认：保留归档，二次确认删除助手私有聊天/关系/连续性记忆；全局共享记忆和正式事项保留，来源显示原助手已删除，不展开私有原文 | [009](009-retention-and-cleanup.md)实施；该范围已授权，无需重复询问 |
 | AST-006 实际私有类型细节 | 2026-09-07用户明确采用建议：助手私有user/event也随所属助手永久删除；全局对象、正式事项及其他助手私有记录保留，不能越范围级联 | 009删除扩展已独立限定PASS：旧副本清理、迟到写、共享保留及过期预览原反例通过，制品联测继续 |
-| RET-007 容量/期限/自动清空 | 影响长期保留承诺；建议默认不自动永久清空垃圾，容量/期限由用户明确设置，持久区不自动降级；不是已批准默认 | Q6冻结前集中少量询问，Q5基础可继续 |
+| RET-007 容量/期限/自动清空 | CONFIRMED，用户2026-09-07选择100MiB持久正文/90天暂存默认、两项可调关闭，垃圾永不自动永久清空 | 009实施及独立验收；超限不删除或降级已有内容，不再列用户待答 |
 | AST-006 未接受提案 | 2026-09-07用户明确选择：永久删除发起助手时，尚未接受提案也一并永久删除；已接受形成的正式事项保留，必要无正文防复活记录不作待处理提案展示 | 010已解除该门禁并通知执行者，覆盖旧副本和迟到回写 |
 | REM-002 补发/合并/过期默认 | 用户2026-09-07确认24小时、同事项最新、多事项合并、超窗仅列表、完成/取消不补发、可调整/关闭 | CONFIRMED；接入未配置默认并补新证据，不覆盖已有用户配置；014实际制品联测仍待 |
 | 真实角色Provider必需能力 | 已知GLM历史普通/流式可用，不能等同工具/仓储员全合格 | 会话Key已取得；先角色live资格，确不适配时只索取缺少模型/端点，同时其他工作继续 |

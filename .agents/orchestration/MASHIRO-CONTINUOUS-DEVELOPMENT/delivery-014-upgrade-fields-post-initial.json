@@ -1,0 +1,1449 @@
+{
+  "scope": "schema-18 synthetic full-domain post-upgrade field and digest snapshot",
+  "phase": "post",
+  "observedAt": "2026-09-07T12:39:25.617Z",
+  "source": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 18,
+  "integrity": [
+    "ok"
+  ],
+  "foreignKeyViolations": [],
+  "files": [
+    {
+      "relative": ".mashiro-dataset.json",
+      "bytes": 143,
+      "sha256": "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F"
+    },
+    {
+      "relative": ".mashiro-governance.json",
+      "bytes": 114,
+      "sha256": "57D4031ED1BE783BDD22BF20145246F01F32D9351F3118BC54DDFD72DC2AC39E"
+    },
+    {
+      "relative": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+      "bytes": 49,
+      "sha256": "31FFBA797A347D393768A6D1F0C155CA779C9477E0DB2583E647A8E8AF4D65B1"
+    },
+    {
+      "relative": "mashiro.sqlite",
+      "bytes": 819200,
+      "sha256": "6FAEC3CC9C4C455B441C41CEB7D16538E81F26A1E9957AADA2C1060BB29DAA5C"
+    },
+    {
+      "relative": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+      "bytes": 50,
+      "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92"
+    },
+    {
+      "relative": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+      "bytes": 50,
+      "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D"
+    },
+    {
+      "relative": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    },
+    {
+      "relative": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+      "bytes": 20,
+      "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5"
+    },
+    {
+      "relative": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+      "bytes": 48,
+      "sha256": "731F9E4073F458A6D9F0A6DD6754340238EC47B55D46718020E675EE43638ABD"
+    },
+    {
+      "relative": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+      "bytes": 50,
+      "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0"
+    },
+    {
+      "relative": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+      "bytes": 26,
+      "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292"
+    },
+    {
+      "relative": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+      "bytes": 71,
+      "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C"
+    },
+    {
+      "relative": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+      "bytes": 69,
+      "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F"
+    },
+    {
+      "relative": "memory/f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    }
+  ],
+  "tableDigests": [
+    {
+      "name": "assistant_provider_bindings",
+      "rowCount": 1,
+      "rowsSha256": "C72DB702B9EC7D2AF6E1E3913B74C1F4061432DF512AC93B6DC1CFE8DE558D01",
+      "schemaSha256": "CD1F98969D6132B11D98D5BFDF3F935C8B1985221AAA3EE7D2214C181161737C"
+    },
+    {
+      "name": "assistant_state",
+      "rowCount": 1,
+      "rowsSha256": "FDA563194CB2BED69913A3ED4CD59B35987C0DC4C7E6E8E7F1A36782C2979BB9",
+      "schemaSha256": "C17A93CF0C824DEBFF8FF1E3DE19093B03DF631712DEF2BEA41151576C8DCE0F"
+    },
+    {
+      "name": "assistant_tombstones",
+      "rowCount": 1,
+      "rowsSha256": "A50B19EDF23EDF0BA8E590F27512343B630546A2685FFAEB5C9DE644941E381E",
+      "schemaSha256": "7BF9694229948061934CA8D6EFD9E3B2E473D7194F68C6BE3A25A5E3DE72050B"
+    },
+    {
+      "name": "assistants",
+      "rowCount": 3,
+      "rowsSha256": "7A0C2C25354FE5A02BBB616985045F06A72CD4B8627F1525255D4EB3FB13C195",
+      "schemaSha256": "CE02CD26803A5184E7BFD6049DCF4AF4F22E5055A6FF80EB46B11946DB117F32"
+    },
+    {
+      "name": "background_attempts",
+      "rowCount": 1,
+      "rowsSha256": "469443C93A917A266995539E3B2DADA26B1EFBD4296FD5FF6BABD0FFAED11289",
+      "schemaSha256": "A3EBB9BEC9C2340E4CB6022C09F0ABE263A69A0E919F183D8A24150B8E9EA81B"
+    },
+    {
+      "name": "background_chapters",
+      "rowCount": 1,
+      "rowsSha256": "8C206A96ABD58C2632D629F7A307D4571B5BE3154FF40C530976203BE85F53E2",
+      "schemaSha256": "EFF75E05AC31C9AEFA4BE8EBD3C029EAA358377259C370776717BA0D18613A3B"
+    },
+    {
+      "name": "background_configs",
+      "rowCount": 1,
+      "rowsSha256": "32A92EE195D95732ED830084FFC10FDD0A22BAAFDEC67EA820792B51621A9BCD",
+      "schemaSha256": "19B35C502B1AFB10260272DC889B5AEC64B0283A7EBF054BF4AF41AA608094A8"
+    },
+    {
+      "name": "background_controls",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "6DFBEDAFAA4BF2261EB8035374BF9FD019EC1D67BC7B62726F0E1B18D2951239"
+    },
+    {
+      "name": "background_jobs",
+      "rowCount": 4,
+      "rowsSha256": "5CAEAE18087BE8B327833BA10A43CBF46F11C14E049BA83F8BA19BE6D822B729",
+      "schemaSha256": "B59F46397497FB4CB87D9226B7CEC2625D98E3F17E021D388D9141C81E3F931E"
+    },
+    {
+      "name": "branch_members",
+      "rowCount": 1,
+      "rowsSha256": "8C0E36FC891B37320DF77401CEABEB1D53D544E9E4BE3AE5B476895ECC86E9C2",
+      "schemaSha256": "1FC3DD36574124201EC5A8B1218E9F904841C2E52278005E7C4EC5FF16150296"
+    },
+    {
+      "name": "content_tombstones",
+      "rowCount": 1,
+      "rowsSha256": "C577895298B6A1F6368A968FCB33147A81B9D2D58883D1A4799886CACF9E0416",
+      "schemaSha256": "15612C651C57C558AA2212A3FE3A0C16EA997C77134689A590CF58C581BD34E7"
+    },
+    {
+      "name": "daily_commands",
+      "rowCount": 2,
+      "rowsSha256": "0041DF48CF0A6615EE56275A385E05BBF22B9943854EBC49B435FC5E2BC41EE6",
+      "schemaSha256": "441BDA582A1BAA76E929067A48E64488489D315E1209A036C093E1FE4E22C9AE"
+    },
+    {
+      "name": "daily_configs",
+      "rowCount": 1,
+      "rowsSha256": "FC5E5E3CA6BE8520163F03461CBA4B4D668518F2AB6013173F4FB572816C972A",
+      "schemaSha256": "1772FC7FAB14521728FC226EC5CAB7488CE6B60D541C5E03F676CAAE5D0B8C23"
+    },
+    {
+      "name": "daily_item_changes",
+      "rowCount": 6,
+      "rowsSha256": "4D6EB28303F6724B04871BA63B3CE987757A7D903B23BA33AF7296A5E55C643A",
+      "schemaSha256": "2102E7FAE66588A8A87160B046999D9BDECF068F8201314A525B76100A76FDF8"
+    },
+    {
+      "name": "daily_item_checkpoints",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "A02F35B989377C3C8401D69782FBD2DEFD00576EDE3F93E026DE3CBAC717270F"
+    },
+    {
+      "name": "daily_jobs",
+      "rowCount": 1,
+      "rowsSha256": "5A3F3F20295CC701821048403BF935D2035D7493FF49E16788892FFC2588576C",
+      "schemaSha256": "129FD9138DF63B517B70FB3F662AA670C90DFA1769A2E7084810E8827DBB76B5"
+    },
+    {
+      "name": "daily_reports",
+      "rowCount": 1,
+      "rowsSha256": "69D82B9591DBD32768BF111084EC65AE97A4B3B67B1AFA94AF2D2E9196771E14",
+      "schemaSha256": "DE847415862D0ADA84038B42363FCBA97DA222908092C1CF2B9F99649625C6DF"
+    },
+    {
+      "name": "daily_suppressions",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "75D6A7A02A5A13CA6947A6A3D0725B2D4B03E62E060631FA89E212975FCC2C7C"
+    },
+    {
+      "name": "discovery_configs",
+      "rowCount": 1,
+      "rowsSha256": "31A6EB1C34D0D330062A4BBB4F3D5528B5D77D540BF618F7A9102BF26A4E85E9",
+      "schemaSha256": "E18AD1D9097CFADD370A3152DEA930BD0F32621A8AC39CC67CD3270BF5436331"
+    },
+    {
+      "name": "history_permissions",
+      "rowCount": 1,
+      "rowsSha256": "2FED4CE7FC02890265862989A49324BB71637DB95140987CB14933BFDFBA3AE8",
+      "schemaSha256": "52978D0DEA3BBA5D53478DB7B1A0F1E86C0E9EBE756A35F622600239895ED146"
+    },
+    {
+      "name": "history_recipient_grants",
+      "rowCount": 1,
+      "rowsSha256": "840BD9AB7D139C6ED510050FA05C8B3BA70DCF40DC5129DBA6FB3D0485873A72",
+      "schemaSha256": "F4DF1C69251DE2BBA4B461E6409FD0A6AB792DBE11706D6CB794B9C2302917A9"
+    },
+    {
+      "name": "item_commands",
+      "rowCount": 7,
+      "rowsSha256": "D8576C3E04BDA21FDE937119174D7EE4D2E7A1E9526C2C9E4C557E964BCF3796",
+      "schemaSha256": "C763D214E304818DEFE8E4CF5BD1A5ECEB5BF6DB42C4C54FF66E44CD4820FC51"
+    },
+    {
+      "name": "item_confirmations",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "285F1E1980751BA1A369387D8528A445CA9B279F9898026FE25D9DB8C01E7972"
+    },
+    {
+      "name": "item_permissions",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "23B4BD42A42C37509842BCBE88D08A727556046114ADD784AAF26335A6B243AD"
+    },
+    {
+      "name": "item_proposals",
+      "rowCount": 1,
+      "rowsSha256": "35EEBCE1A674F35F7D6D959D5FE5F087BA055B69F22E9B47EF81FF4B4C5A91C2",
+      "schemaSha256": "A0F2DA9F195E6581871FE259CDD454FA12E84961F6CE0221405586AFB01C6D18"
+    },
+    {
+      "name": "item_recipients",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "C474E7E2CB35C2978456F8A1FCCC2E89DFD935AECE03881961391CCDC182AE6E"
+    },
+    {
+      "name": "item_rejections",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "423B8F256C5A63295CD8A04EAE34E42FE4A82572FAB5543AB159D31927F749F7"
+    },
+    {
+      "name": "item_retained_edges",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "00E5ED3B87C2027E1EABF826B5E9D43BF2F81B2CF6DEEF9C7B78072E25735FFE"
+    },
+    {
+      "name": "item_sources",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "36552432C32D92634DFE7E6015ADB22BAFB4457424DEF0E3DE148632C37206B7"
+    },
+    {
+      "name": "item_tombstones",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "6521349AD3E13AAC212AA1AE86D4D02E4A19DC964081AFE40C17388E075DD857"
+    },
+    {
+      "name": "items",
+      "rowCount": 6,
+      "rowsSha256": "2DC4281A7F4CA83FCC950212AD165B6B1E112231D2BE9CF0BD3C42118EC7B36B",
+      "schemaSha256": "10E733FA7CA4BC5450D0B4642C92FF580DA1A9D147796E182127736E6D2980EC"
+    },
+    {
+      "name": "memory_branches",
+      "rowCount": 1,
+      "rowsSha256": "23B087DBE6E3563118FD360158E36119B461C0F32604229D68873F1F13C30F5A",
+      "schemaSha256": "B648B4A9CC8A79B20F02D270F00D6428D20154A5A94F6287313CC0F55A5C9E4D"
+    },
+    {
+      "name": "memory_cleanup",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "9DCBCC457C648D85C8826E9386954159FE88AEE02793766366FEB48F77E6FC1A"
+    },
+    {
+      "name": "memory_commands",
+      "rowCount": 12,
+      "rowsSha256": "A24FD8BDFAC2105AEF9CD76400B379AD3455F2D0171AF383A655FAC5158DEE24",
+      "schemaSha256": "F068E277ACB5CC82995209C2E47186AF17BA6F5883BA91844B1AD84AD58BF78E"
+    },
+    {
+      "name": "memory_conflicts",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "EBB4C016BCBA2C875E3EFAFEA0DF9E1D03DE7A92D8FCEA87B90BA23D0E7A2BEF"
+    },
+    {
+      "name": "memory_dependencies",
+      "rowCount": 25,
+      "rowsSha256": "BD66C833FA970C08DF912F052D0376ED3301B96935C0EF2DD7C405D8E3769FD3",
+      "schemaSha256": "73B842F6872B958708F9A971213FFBC6CC8FBD0074309DA30E127CCA4F09A11A"
+    },
+    {
+      "name": "memory_index",
+      "rowCount": 7,
+      "rowsSha256": "1BF2A36AA43D89EDD616DD54057EE7E1B66607388A0E3069ABEDBB44EE06A6F7",
+      "schemaSha256": "DF84B7C114F8190FA0103A3D5DCCB244A29A74E9BEFC8047DA9FDD54195F4922"
+    },
+    {
+      "name": "memory_objects",
+      "rowCount": 9,
+      "rowsSha256": "0F1F67E43090BFDE355740643E47ACEDBA028908CF263AF5F5AB83CA22033495",
+      "schemaSha256": "3AFCA94BE1F1397FB4264D18EB3EDB6296E19B5E83A0E82CCA128C8308DC8752"
+    },
+    {
+      "name": "memory_pending",
+      "rowCount": 7,
+      "rowsSha256": "6A1A74AA3D808A9102BB22D87B56C81308AB3860F7BA6C0C284762071C1D0C6A",
+      "schemaSha256": "1D70994F9A4CBB6DABC353CEFA78DB1E294F93AB1F2E234F1D9667A576F77388"
+    },
+    {
+      "name": "memory_permissions",
+      "rowCount": 2,
+      "rowsSha256": "27ACC246EC22CFA408BFD25323EF8A1C61746D2A3B6FFB54DC1CDD86E5650453",
+      "schemaSha256": "937461FB522DFCC96D66861FD70B5B2429F840F34D0C126C8D03C5CFFD0D3C3C"
+    },
+    {
+      "name": "memory_previews",
+      "rowCount": 1,
+      "rowsSha256": "10E3308996AE37C5311394254A97BC8F559550651EC9A13DC900311737F9051E",
+      "schemaSha256": "70FBC829CEB5D47E54D25DB7432894B4F55A8B4D57A3963931B217E3E6D5E383"
+    },
+    {
+      "name": "memory_recipients",
+      "rowCount": 2,
+      "rowsSha256": "8EBFB7137EF4138BF330A03302B59C1041985CEF6DAE32FB35DD2789405FC273",
+      "schemaSha256": "41028734530E70D3F7EA04E50160AA1249CB67B51633BBDDB3CE05CC845C776B"
+    },
+    {
+      "name": "memory_round_evidence",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "1CDCF342528E70A0CD7C52B34B21D4C88CEFEB10F90A25BF4B4F771BDE140E56"
+    },
+    {
+      "name": "memory_suppressions",
+      "rowCount": 3,
+      "rowsSha256": "E4D9989AB2CDD36C19B2E158FCA98FA5FBE9A7C4AAA88A51352A24A39ABF85C9",
+      "schemaSha256": "DA293EE5F357009C5044DE2B219D15A20EC86A52BF7BE920922CF3104C9ADADE"
+    },
+    {
+      "name": "memory_versions",
+      "rowCount": 15,
+      "rowsSha256": "E84F2DE260D735689EDDF6F74BBFCB572BBCE069482849AAF64C4C74DB67EF9A",
+      "schemaSha256": "796976BC5FF1F70084998568BD77941AFAD4B9C7C1E3B51A241C13EAE0FF87C3"
+    },
+    {
+      "name": "operation_events",
+      "rowCount": 56,
+      "rowsSha256": "5C715F7D03003BD17A7E77AD01C1668C10540CAD4720753857EA68E874877BF3",
+      "schemaSha256": "9C6D5F068287BFC244C961CED3115270A0849D6A6679E66C9DA7646BB5457F61"
+    },
+    {
+      "name": "production_governance_commits",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "BAFEB531422895F16DB3DC1BC43D4D1F59FE335C8E0A96EE29A097C3464C4BBC"
+    },
+    {
+      "name": "production_governance_state",
+      "rowCount": 1,
+      "rowsSha256": "E5135DA589638CEFF8B58410BDAE67EF15279C62FA55123723A99C6D438191A6",
+      "schemaSha256": "BCB1E6B8677B5C7C404825D4CA8B4959666D7F758FC593A62D78C37242A38846"
+    },
+    {
+      "name": "protocol_results",
+      "rowCount": 1,
+      "rowsSha256": "51B5480BBEFCB6A54929D16915CF4BF6251DA7D5DC8C551C9F0D99797B4D37BF",
+      "schemaSha256": "CCDBE2214A5E92963A772DC94D52D3891F60A4BE75BDC17747AAE5020F4B888D"
+    },
+    {
+      "name": "protocol_segments",
+      "rowCount": 1,
+      "rowsSha256": "1DEC4AD3471DC3E65F6FFBAA40F03381DDA2A67FB934C9B50AC61FC501608EE0",
+      "schemaSha256": "76DB989BB6B372F726ACF90C506A099DB70FF5E0C4B331802DFD48A4C1915340"
+    },
+    {
+      "name": "provider_capability_evidence",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "56CEEB95B01ABEB2EA0B1F8A871A371654863F1AA8B8E6735BBDC7AF61AA73B3"
+    },
+    {
+      "name": "provider_connections",
+      "rowCount": 1,
+      "rowsSha256": "9D9E7C9A4528D064F1ACE106E306E195ED016CD6F0044FCF9C83021626D644A9",
+      "schemaSha256": "C66B785EA42955144C9B916DF0139C48ACAB96ACE45773E6974B47EE4BA334B8"
+    },
+    {
+      "name": "reminder_activations",
+      "rowCount": 1,
+      "rowsSha256": "C42D38DDB528965BD939C9640DC2899E7B800458A83719A02543C8F5D34F67B1",
+      "schemaSha256": "CF3B92BD02F904E977A6E6D1CA9EA9E6103DEE7B97EC16CE180062E88F890222"
+    },
+    {
+      "name": "reminder_commands",
+      "rowCount": 9,
+      "rowsSha256": "2A61418D94C18CC8E342BED80EFF777246B742CE5AA0D9F50863AE9547ADDA6A",
+      "schemaSha256": "7D1EEFDCECA92737D907E786744C8E72A762D27F0FB3C9A2377B9C16372935DE"
+    },
+    {
+      "name": "reminder_notification_members",
+      "rowCount": 7,
+      "rowsSha256": "8DBCF18C46DD7E055124452C6A48BF43E11F582F711AE16D406F5F2F090867AF",
+      "schemaSha256": "996A81B5557DC2259F202FF0A76257205F7797C3DD59FCF67348F392E2E61825"
+    },
+    {
+      "name": "reminder_occurrences",
+      "rowCount": 7,
+      "rowsSha256": "E862729276A0B33ECCCC8613FCCEF53CA1F259B29B0E85A87893F66D1D149955",
+      "schemaSha256": "D64EB061424B44732F6E2F7B39C7F79B2157D5062AD9E0FA6B1A3F1EC03D1DB8"
+    },
+    {
+      "name": "reminder_previews",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "DBECF4EC4610ACDA3E8FC68084D63A863A233CDEE83FA700E9B7B34E37E44F29"
+    },
+    {
+      "name": "reminder_settings",
+      "rowCount": 1,
+      "rowsSha256": "BDE4B4796EB96668CAE99B2C66CCEC33CAF68A39DEB2E434108DDA5A176F903C",
+      "schemaSha256": "54232D1C5432EC5B75EEDD4A4C9E8B274D32B871D46C97326B85148E94582A5B"
+    },
+    {
+      "name": "reminders",
+      "rowCount": 3,
+      "rowsSha256": "4CDB29CBE48886D668D1BA0A9DE6A9F4D5A899635F8292D8D2533A3248612529",
+      "schemaSha256": "E9F387063B5ED7B5E9AA4FD2F738049A4668E1DE4873665D87F97A6C9D43B7CD"
+    },
+    {
+      "name": "retained_source_edges",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "B9F6630F9978F49BA73B8B82D7694C9B15A50FDA17C6679D27F7D16779B3A137"
+    },
+    {
+      "name": "retention_commands",
+      "rowCount": 5,
+      "rowsSha256": "6E0D565AB6C95CACD4CFE3B20B672945BB4846BDB855BC59C029DC50B7C32637",
+      "schemaSha256": "C04EBDF2DFFD911BCB9D41EFD3B3AC5B3C3010EECDB3F1C71ECA44AE89FA3EAA"
+    },
+    {
+      "name": "retention_job_items",
+      "rowCount": 5,
+      "rowsSha256": "88FECF9DEF12D0282FE7592E00DE51C2484488E1FA92D73A07485D82F1709843",
+      "schemaSha256": "F18767378679868626A375256795CBE3CCCECF2A8476978D617195D70FB6C5BE"
+    },
+    {
+      "name": "retention_jobs",
+      "rowCount": 2,
+      "rowsSha256": "B9102EDBB36B64D98132C3FB802F1BB41E36F678B403C61464B9B89A4C725798",
+      "schemaSha256": "8D2367DBC8E83F45656AE93D0BD656CAE6C3566F478184E11C98823D624A5DAE"
+    },
+    {
+      "name": "retention_original_trash",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "FACA9B2A9B3D356C0A60D09E7BF123443B7AC8CAC6F97052A08CABE0E181E582"
+    },
+    {
+      "name": "retention_previews",
+      "rowCount": 2,
+      "rowsSha256": "F80D9D877E7ED21BA9EA2346B967D83298E29FE6122E8118DA1A95276258A14D",
+      "schemaSha256": "B862BB2358FDA818CE948E50C5B0B3DEC572EAA7EE7393C8E49DD8DFBB93E963"
+    },
+    {
+      "name": "retention_state",
+      "rowCount": 1,
+      "rowsSha256": "3D133A899F8F323D1C07F2F429AF9695DAFB856F80B07CEB066C9A00EFE60677",
+      "schemaSha256": "107196758515C04CBDFF8F139C68D455701909D59DFD84726E65073377EE38C6"
+    },
+    {
+      "name": "steward_attempts",
+      "rowCount": 2,
+      "rowsSha256": "E2163B0DB6D1D0C788E399AA4C004CB56841D95E877EF67C4FFD3C80142B76EA",
+      "schemaSha256": "DE07795B47A5D92D7B211DF527DB5CF0F1E6C81DA0E5B3ADDAC89EFF7C342C0F"
+    },
+    {
+      "name": "steward_configs",
+      "rowCount": 1,
+      "rowsSha256": "AC227FBB047DB58BFE08F76C67EDA20CF7D11E9243CD42845FB06D0F21B8C5CD",
+      "schemaSha256": "4661D8DB278744D067F4EB57303DF58F1DE56548B8079FEC3C137882961D783A"
+    },
+    {
+      "name": "steward_consumptions",
+      "rowCount": 2,
+      "rowsSha256": "897F93BAE6465170FB1A8E41B54911221A189DBE47FCC147C0A63B8FC15881AC",
+      "schemaSha256": "9A383F433D3BA90287CB7CDE76E228EC44CC8A33E428D1AF780CCA3CB4F1C8F3"
+    },
+    {
+      "name": "steward_controls",
+      "rowCount": 0,
+      "rowsSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "schemaSha256": "E7BB155A7C7515456D7B436A3F62CC71EA4049F759D6B53CC7E67CCFB077C18A"
+    },
+    {
+      "name": "steward_jobs",
+      "rowCount": 5,
+      "rowsSha256": "C6983324332673D45345EA9F1E5BD49E14D4935B572C8C1B3C5F04DAC7271AC3",
+      "schemaSha256": "83DFA36F272B4FC2B46077A955D61A8040C3BD36DD8CD28716A1A6FFCE91C60E"
+    },
+    {
+      "name": "steward_slots",
+      "rowCount": 1,
+      "rowsSha256": "69AE45269DE7D049997D0ADE99512DAF3E7A8C5BBBCF58698019265D7FDABB1B",
+      "schemaSha256": "26035DA95DEEEF9476CED11E0DFFE56A9169046B7019C08C6D32314A88C16550"
+    },
+    {
+      "name": "timeline_messages",
+      "rowCount": 12,
+      "rowsSha256": "34C540089B5C260CA62F1A9A959246229A6B3336BDBB1F4D05BCDE5EAF4D8E26",
+      "schemaSha256": "2CF31A975306C325E5D0F0AC2A58129E4F4842357A55C3D64FFFF0C11C0BE1C4"
+    },
+    {
+      "name": "timeline_sources",
+      "rowCount": 6,
+      "rowsSha256": "DE905C517AD256ADDF3C438FB2D5D65006EB34093BE00571AF20771C86ED33F4",
+      "schemaSha256": "5CF5F704990FD6EB40B051FC4A9C3F3A07AF7310DAB0699936255178F69836E0"
+    },
+    {
+      "name": "tool_operations",
+      "rowCount": 1,
+      "rowsSha256": "9595C16A5EBDCD44860C52DB58B285864AA56EB48F91AFA4227C0946335CEF98",
+      "schemaSha256": "093AED8E0400E3FBA6609ABA68853924B7EB5C1BF4F6115F39D50483790B118B"
+    },
+    {
+      "name": "usage_attempts",
+      "rowCount": 10,
+      "rowsSha256": "DEFEC813AAB2652818B9597925C83B24F5A24EF2E2FB2878F7345722620A1F61",
+      "schemaSha256": "982FCA1B84D920E5B874FE35F72956DAF4C57F124294B513CDDC49ADA617EDFB"
+    }
+  ],
+  "selected": {
+    "assistants": [
+      {
+        "id": "134229af-c116-4a5d-bd96-9331ef89f6f5",
+        "version": 2,
+        "archived": true,
+        "tombstoned": true
+      },
+      {
+        "id": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "version": 4,
+        "archived": false,
+        "tombstoned": false
+      },
+      {
+        "id": "77cf15db-79cf-493e-a14a-96a0495f27f0",
+        "version": 2,
+        "archived": true,
+        "tombstoned": false
+      }
+    ],
+    "assistantState": {
+      "primaryAssistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "currentAssistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "revision": 10
+    },
+    "providerBindings": [
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+        "model": "GLM-5.3-FLASH",
+        "version": 1
+      }
+    ],
+    "providerConnections": [
+      {
+        "id": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+        "enabled": true,
+        "hasPersistentCredential": true,
+        "version": 2
+      }
+    ],
+    "timelineByAssistantRoleStatus": [
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "role": "assistant",
+        "status": "completed",
+        "count": 5
+      },
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "role": "assistant",
+        "status": "interrupted",
+        "count": 1
+      },
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "role": "user",
+        "status": "completed",
+        "count": 6
+      }
+    ],
+    "memoryObjects": [
+      {
+        "id": "06e39dc0-5383-46c6-a01e-7d638e8e5d69",
+        "version": 4
+      },
+      {
+        "id": "66c6471e-c974-4a4d-ad16-e3396bb7f2c3",
+        "version": 1
+      },
+      {
+        "id": "6ae7f079-b90b-426c-99b9-47cbc0f4ade0",
+        "version": 1
+      },
+      {
+        "id": "6c6eaf5c-3065-4d0d-a698-97d936c8a8b2",
+        "version": 2
+      },
+      {
+        "id": "83d69ddd-340b-4e3a-a60f-db3d59c9e3f0",
+        "version": 1
+      },
+      {
+        "id": "84299a53-a989-4361-8f68-650009d150e1",
+        "version": 2
+      },
+      {
+        "id": "9983ff00-93cf-4ac9-931b-ccb8fd4db05f",
+        "version": 1
+      },
+      {
+        "id": "e814c421-b6ef-40b9-9515-349d16c0c305",
+        "version": 1
+      },
+      {
+        "id": "f1fc9645-a002-48ec-9204-4dffaf8dddf6",
+        "version": 2
+      }
+    ],
+    "memoryVersions": [
+      {
+        "objectId": "06e39dc0-5383-46c6-a01e-7d638e8e5d69",
+        "version": 1,
+        "fileName": "",
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "objectId": "06e39dc0-5383-46c6-a01e-7d638e8e5d69",
+        "version": 2,
+        "fileName": "",
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "objectId": "06e39dc0-5383-46c6-a01e-7d638e8e5d69",
+        "version": 3,
+        "fileName": "",
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "objectId": "06e39dc0-5383-46c6-a01e-7d638e8e5d69",
+        "version": 4,
+        "fileName": "",
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "objectId": "66c6471e-c974-4a4d-ad16-e3396bb7f2c3",
+        "version": 1,
+        "fileName": "66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+        "bodyHash": "b8dfbb40951837e109bd95fb4e195ef884da78b67ed29260c17101050d453e92"
+      },
+      {
+        "objectId": "6ae7f079-b90b-426c-99b9-47cbc0f4ade0",
+        "version": 1,
+        "fileName": "6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+        "bodyHash": "4780779ef54a9b0ea5af1d02b60b81129960bb71c5877165c40367af8003239d"
+      },
+      {
+        "objectId": "6c6eaf5c-3065-4d0d-a698-97d936c8a8b2",
+        "version": 1,
+        "fileName": "6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+        "bodyHash": "8af663b59a9649e64e06759b6a691fac75db91d7668a25b03274966482dc3ce6"
+      },
+      {
+        "objectId": "6c6eaf5c-3065-4d0d-a698-97d936c8a8b2",
+        "version": 2,
+        "fileName": "6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+        "bodyHash": "f5e87d92501365e5f67f66121418821e00227def5211150454b782db9e2e9bd5"
+      },
+      {
+        "objectId": "83d69ddd-340b-4e3a-a60f-db3d59c9e3f0",
+        "version": 1,
+        "fileName": "83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+        "bodyHash": "731f9e4073f458a6d9f0a6dd6754340238ec47b55d46718020e675ee43638abd"
+      },
+      {
+        "objectId": "84299a53-a989-4361-8f68-650009d150e1",
+        "version": 1,
+        "fileName": "84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+        "bodyHash": "f40144ab67c46d42e997847ca80803fe080466f9763ddb24c900a11a5edd14f0"
+      },
+      {
+        "objectId": "84299a53-a989-4361-8f68-650009d150e1",
+        "version": 2,
+        "fileName": "84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+        "bodyHash": "de1d1dc5677ae98b398f98dca2dd0596162b30ab86810d3e620ab6598833a292"
+      },
+      {
+        "objectId": "9983ff00-93cf-4ac9-931b-ccb8fd4db05f",
+        "version": 1,
+        "fileName": "9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+        "bodyHash": "f95bdbd958a10a527571e4cd0d3ad1270c7a32be5f0024d13b2ecbe7773bdc1c"
+      },
+      {
+        "objectId": "e814c421-b6ef-40b9-9515-349d16c0c305",
+        "version": 1,
+        "fileName": "e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+        "bodyHash": "c64e0b081835b3de44fd8250264ec4767ad49201b1ed568217fe67ffcd470f4f"
+      },
+      {
+        "objectId": "f1fc9645-a002-48ec-9204-4dffaf8dddf6",
+        "version": 1,
+        "fileName": "f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+        "bodyHash": "8af663b59a9649e64e06759b6a691fac75db91d7668a25b03274966482dc3ce6"
+      },
+      {
+        "objectId": "f1fc9645-a002-48ec-9204-4dffaf8dddf6",
+        "version": 2,
+        "fileName": "f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+        "bodyHash": "8af663b59a9649e64e06759b6a691fac75db91d7668a25b03274966482dc3ce6"
+      }
+    ],
+    "memoryPermissions": [
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "scope": "assistant",
+        "version": 1,
+        "readAllowed": 1,
+        "writeAllowed": 1,
+        "inferencesAllowed": 1
+      },
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "scope": "global",
+        "version": 1,
+        "readAllowed": 1,
+        "writeAllowed": 1,
+        "inferencesAllowed": 1
+      }
+    ],
+    "items": [
+      {
+        "id": "011260fc-c86a-416b-91a8-3e1d28ad4bcf",
+        "version": 1,
+        "originProposalId": null
+      },
+      {
+        "id": "06293e37-4d97-4e3c-974d-4397458a2cc2",
+        "version": 1,
+        "originProposalId": null
+      },
+      {
+        "id": "5b74e269-c164-44ba-9af4-4be1408d12fb",
+        "version": 1,
+        "originProposalId": null
+      },
+      {
+        "id": "5f546bd7-4e50-487d-b0ef-1f54cec48948",
+        "version": 1,
+        "originProposalId": null
+      },
+      {
+        "id": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+        "version": 1,
+        "originProposalId": null
+      },
+      {
+        "id": "fa5dd718-302f-4a8e-83d3-cb7f54a2adcb",
+        "version": 1,
+        "originProposalId": null
+      }
+    ],
+    "proposals": [
+      {
+        "id": "d918a464-d6da-4813-9fdb-8b09e22521c2",
+        "version": 1,
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "state": "DRAFT_PROPOSAL",
+        "identityHash": "0d42fd6b0626296b20e881ad0b446592679a2172299faef53c4c6af2a592d33b"
+      }
+    ],
+    "reminders": [
+      {
+        "id": "10b5b779-9f2e-479a-93f0-34077170e1f7",
+        "itemId": "011260fc-c86a-416b-91a8-3e1d28ad4bcf",
+        "version": 2,
+        "state": "HANDLED",
+        "dueAt": "2026-09-07T06:35:23.450Z"
+      },
+      {
+        "id": "55c6b6af-038b-40d9-afc5-f495db3e9f17",
+        "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+        "version": 2,
+        "state": "HANDLED",
+        "dueAt": "2026-09-07T06:35:14.303Z"
+      },
+      {
+        "id": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+        "version": 5,
+        "state": "DISPLAY_OBSERVED",
+        "dueAt": "2026-09-07T19:44:00+08:00"
+      }
+    ],
+    "reminderSettings": [
+      {
+        "version": 1,
+        "policySha256": "4D518AB97A6523FFF92E605DD4D481C42A3DFB56B743283236B52CB438A5299D"
+      }
+    ],
+    "reminderNotificationMembers": [
+      {
+        "groupId": "10fa717e41952d07384a96b73f4c28d97cd5f6ba25d0790a615cf2158788886d",
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 1
+      },
+      {
+        "groupId": "57be1aa92b5d659b43db7f4517dce92199f8374a989811a9d6da2248b84f8bb7",
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 4
+      },
+      {
+        "groupId": "77e3287eeebc4af42e1835c44b8f82eff9b070461ea8b2b6636abe4319d6a56c",
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 5
+      },
+      {
+        "groupId": "7afe1578dd6a85be2dd66844ef5da8479c6cb0dc9f59a1b4341d5501db6eca78",
+        "reminderId": "55c6b6af-038b-40d9-afc5-f495db3e9f17",
+        "version": 1
+      },
+      {
+        "groupId": "8194dcda2191e2cd8a3be41407b9eb522f3e50906c41573d52fe3aa13eababe0",
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 3
+      },
+      {
+        "groupId": "874912e2c89865d43229625ae824d65461cbf448d2b3aa63e75b3c2639b61eeb",
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 2
+      },
+      {
+        "groupId": "d617796f371ba710b2b66af3ef4090a7916789bfbb8f551960e5ee5924f9bcbd",
+        "reminderId": "10b5b779-9f2e-479a-93f0-34077170e1f7",
+        "version": 1
+      }
+    ],
+    "reminderOccurrences": [
+      {
+        "reminderId": "10b5b779-9f2e-479a-93f0-34077170e1f7",
+        "version": 1,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "55c6b6af-038b-40d9-afc5-f495db3e9f17",
+        "version": 1,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 1,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 2,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 3,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 4,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 5,
+        "state": "DISPLAY_OBSERVED"
+      }
+    ],
+    "historyPermissions": [
+      {
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+        "readHistory": 1,
+        "version": 1
+      }
+    ],
+    "historyRecipientGrantCount": 1,
+    "retentionState": {
+      "epoch": 180,
+      "generation": 6
+    }
+  },
+  "sourceReparsePoints": 0,
+  "installedMashiroProcesses": 0,
+  "externalCalls": 0,
+  "personalDataAccessed": false,
+  "comparison": {
+    "sameDataSetId": true,
+    "schemaVersion": {
+      "before": 15,
+      "after": 18
+    },
+    "existingTables": [
+      {
+        "name": "assistant_provider_bindings",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "assistant_state",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "assistant_tombstones",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "assistants",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 3,
+        "rowCountAfter": 3
+      },
+      {
+        "name": "background_attempts",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "background_chapters",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "background_configs",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "background_controls",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "background_jobs",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 4,
+        "rowCountAfter": 4
+      },
+      {
+        "name": "branch_members",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "content_tombstones",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "daily_commands",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 2,
+        "rowCountAfter": 2
+      },
+      {
+        "name": "daily_configs",
+        "present": true,
+        "rowsEqual": false,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "daily_item_changes",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 6,
+        "rowCountAfter": 6
+      },
+      {
+        "name": "daily_item_checkpoints",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "daily_jobs",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "daily_reports",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "daily_suppressions",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "discovery_configs",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "history_permissions",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "history_recipient_grants",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "item_commands",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 7,
+        "rowCountAfter": 7
+      },
+      {
+        "name": "item_confirmations",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "item_permissions",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "item_proposals",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "item_recipients",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "item_rejections",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "item_retained_edges",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "item_sources",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "item_tombstones",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "items",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 6,
+        "rowCountAfter": 6
+      },
+      {
+        "name": "memory_branches",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "memory_cleanup",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "memory_commands",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 12,
+        "rowCountAfter": 12
+      },
+      {
+        "name": "memory_conflicts",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "memory_dependencies",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 25,
+        "rowCountAfter": 25
+      },
+      {
+        "name": "memory_index",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 7,
+        "rowCountAfter": 7
+      },
+      {
+        "name": "memory_objects",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 9,
+        "rowCountAfter": 9
+      },
+      {
+        "name": "memory_pending",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 7,
+        "rowCountAfter": 7
+      },
+      {
+        "name": "memory_permissions",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 2,
+        "rowCountAfter": 2
+      },
+      {
+        "name": "memory_previews",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "memory_recipients",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 2,
+        "rowCountAfter": 2
+      },
+      {
+        "name": "memory_suppressions",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 3,
+        "rowCountAfter": 3
+      },
+      {
+        "name": "memory_versions",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 15,
+        "rowCountAfter": 15
+      },
+      {
+        "name": "operation_events",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 56,
+        "rowCountAfter": 56
+      },
+      {
+        "name": "protocol_results",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "protocol_segments",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "provider_capability_evidence",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "provider_connections",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "reminder_activations",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "reminder_commands",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 9,
+        "rowCountAfter": 9
+      },
+      {
+        "name": "reminder_notification_members",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 7,
+        "rowCountAfter": 7
+      },
+      {
+        "name": "reminder_occurrences",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 7,
+        "rowCountAfter": 7
+      },
+      {
+        "name": "reminder_previews",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "reminder_settings",
+        "present": true,
+        "rowsEqual": false,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "reminders",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 3,
+        "rowCountAfter": 3
+      },
+      {
+        "name": "retained_source_edges",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "retention_commands",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 5,
+        "rowCountAfter": 5
+      },
+      {
+        "name": "retention_job_items",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 5,
+        "rowCountAfter": 5
+      },
+      {
+        "name": "retention_jobs",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 2,
+        "rowCountAfter": 2
+      },
+      {
+        "name": "retention_original_trash",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "retention_previews",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 2,
+        "rowCountAfter": 2
+      },
+      {
+        "name": "retention_state",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "steward_attempts",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 2,
+        "rowCountAfter": 2
+      },
+      {
+        "name": "steward_configs",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "steward_consumptions",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 2,
+        "rowCountAfter": 2
+      },
+      {
+        "name": "steward_controls",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 0,
+        "rowCountAfter": 0
+      },
+      {
+        "name": "steward_jobs",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 5,
+        "rowCountAfter": 5
+      },
+      {
+        "name": "steward_slots",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "timeline_messages",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 12,
+        "rowCountAfter": 12
+      },
+      {
+        "name": "timeline_sources",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 6,
+        "rowCountAfter": 6
+      },
+      {
+        "name": "tool_operations",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 1,
+        "rowCountAfter": 1
+      },
+      {
+        "name": "usage_attempts",
+        "present": true,
+        "rowsEqual": true,
+        "rowCountBefore": 10,
+        "rowCountAfter": 10
+      }
+    ],
+    "addedTables": [
+      {
+        "name": "memory_round_evidence",
+        "rowCount": 0
+      },
+      {
+        "name": "production_governance_commits",
+        "rowCount": 0
+      },
+      {
+        "name": "production_governance_state",
+        "rowCount": 1
+      }
+    ],
+    "selectedEqual": false,
+    "unchangedNonDatabaseFiles": false
+  }
+}

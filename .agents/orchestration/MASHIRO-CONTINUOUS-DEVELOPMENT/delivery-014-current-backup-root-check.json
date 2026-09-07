@@ -1,0 +1,126 @@
+{
+  "scope": "Independent immutable current backup payload check; no live database or UI action",
+  "observedAt": "2026-09-07T14:15:32.686Z",
+  "backupId": "59eb6a23-ff54-4640-9e0a-298b977a61ce",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "manifestSha256": "bf1238ff26cb86748f980e384e8db83b37c2e48a1920e47e395dee9b222fba35",
+  "files": [
+    {
+      "path": ".mashiro-dataset.json",
+      "bytes": 143,
+      "sha256": "385c23ab9f29cd8b6c7a033805fbc3f62ebbb7bff61707d994d3c8ab2eb0bb9f",
+      "match": true
+    },
+    {
+      "path": ".mashiro-governance-backup.json",
+      "bytes": 6460,
+      "sha256": "574b0712d0545fb4436972c12b5a0664c6ee413cc65096f610d423317049cd6d",
+      "match": true
+    },
+    {
+      "path": ".mashiro-governance.json",
+      "bytes": 114,
+      "sha256": "57d4031ed1be783bdd22bf20145246f01f32d9351f3118bc54ddfd72dc2ac39e",
+      "match": true
+    },
+    {
+      "path": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+      "bytes": 80,
+      "sha256": "451d99db9c192fa78d74baf78b632743b3eb531e6727f9df0110c5f1d9fb7920",
+      "match": true
+    },
+    {
+      "path": "mashiro.sqlite",
+      "bytes": 835584,
+      "sha256": "8ae1e85020bb29ddaa96ce3e8f8f313e6dab6f89fe75ae01c1f205a234ca1d9f",
+      "match": true
+    },
+    {
+      "path": "memory/43c35979-ee88-4510-a699-7bb0bd8c026d-1-429a42c5-e9ff-4f53-8af4-2eb4ac61f10e.md",
+      "bytes": 73,
+      "sha256": "376be9fe9faa1b414766d036e22763b8477edc6a41e6d5fc9d8ef508b827f04b",
+      "match": true
+    },
+    {
+      "path": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+      "bytes": 50,
+      "sha256": "b8dfbb40951837e109bd95fb4e195ef884da78b67ed29260c17101050d453e92",
+      "match": true
+    },
+    {
+      "path": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+      "bytes": 50,
+      "sha256": "4780779ef54a9b0ea5af1d02b60b81129960bb71c5877165c40367af8003239d",
+      "match": true
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+      "bytes": 19,
+      "sha256": "8af663b59a9649e64e06759b6a691fac75db91d7668a25b03274966482dc3ce6",
+      "match": true
+    },
+    {
+      "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+      "bytes": 20,
+      "sha256": "f5e87d92501365e5f67f66121418821e00227def5211150454b782db9e2e9bd5",
+      "match": true
+    },
+    {
+      "path": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+      "bytes": 48,
+      "sha256": "731f9e4073f458a6d9f0a6dd6754340238ec47b55d46718020e675ee43638abd",
+      "match": true
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+      "bytes": 50,
+      "sha256": "f40144ab67c46d42e997847ca80803fe080466f9763ddb24c900a11a5edd14f0",
+      "match": true
+    },
+    {
+      "path": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+      "bytes": 26,
+      "sha256": "de1d1dc5677ae98b398f98dca2dd0596162b30ab86810d3e620ab6598833a292",
+      "match": true
+    },
+    {
+      "path": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+      "bytes": 71,
+      "sha256": "f95bdbd958a10a527571e4cd0d3ad1270c7a32be5f0024d13b2ecbe7773bdc1c",
+      "match": true
+    },
+    {
+      "path": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+      "bytes": 69,
+      "sha256": "c64e0b081835b3de44fd8250264ec4767ad49201b1ed568217fe67ffcd470f4f",
+      "match": true
+    },
+    {
+      "path": "memory/f1fc9645-a002-48ec-9204-4dffaf8dddf6-1-77b6377c-95a0-4883-8871-e098fe808c2e.md",
+      "bytes": 19,
+      "sha256": "8af663b59a9649e64e06759b6a691fac75db91d7668a25b03274966482dc3ce6",
+      "match": true
+    }
+  ],
+  "state": {
+    "schemaVersion": 18,
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ],
+    "foreignKeys": [],
+    "memoryCount": 10,
+    "items": 6,
+    "reminders": 3
+  },
+  "syntheticMemory": {
+    "path": "memory/43c35979-ee88-4510-a699-7bb0bd8c026d-1-429a42c5-e9ff-4f53-8af4-2eb4ac61f10e.md",
+    "bytes": 73,
+    "sha256": "376be9fe9faa1b414766d036e22763b8477edc6a41e6d5fc9d8ef508b827f04b",
+    "match": true
+  },
+  "credentialCiphertextHashed": true,
+  "credentialDecryptedOrPrinted": false,
+  "boundary": "Verifies payload bytes and SQLite only, not inherited lifecycle fields in the author current-backup-01 report."
+}

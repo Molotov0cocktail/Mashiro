@@ -1,0 +1,27 @@
+[
+  {
+    "path": "main\\index.js",
+    "sha256": "C81BB655D110CBAB8678A27971C3997B4CAA43C93BEFFC94A342EA3BF990E39C",
+    "bytes": 867407
+  },
+  {
+    "path": "preload\\index.cjs",
+    "sha256": "304B9689E96F2702BDDAF85B4E520AD60BC0B003EB301E0B298420BDE8BB6F08",
+    "bytes": 11653
+  },
+  {
+    "path": "renderer\\index.html",
+    "sha256": "F2A7FB09989F5CFD68B96E8A35A23E5F73CFE5AC84EED90B2AEFF19FC484053F",
+    "bytes": 625
+  },
+  {
+    "path": "renderer\\assets\\index-BvnIhURr.js",
+    "sha256": "DECBA180768B23FAEBA3DCC0340F1FED6AE3012A923D733B1CA9C40E34C4C71A",
+    "bytes": 1318883
+  },
+  {
+    "path": "renderer\\assets\\index-JD67uG2R.css",
+    "sha256": "C900B23A9467BB3C369C9162F421C4302CD0701B2CD79BB3DFF73AEB18576E14",
+    "bytes": 28639
+  }
+]

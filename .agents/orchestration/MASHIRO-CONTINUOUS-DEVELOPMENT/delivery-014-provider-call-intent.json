@@ -1,0 +1,11 @@
+{
+  "observedAt": "2026-09-07T21:43:33.6135179+08:00",
+  "processId": 193864,
+  "windowHandle": 67706216,
+  "mode": "normal",
+  "toolScope": "本机时钟 + 记忆与个人事件",
+  "token": "SYNTH_KEY_RESTART_c2a8f772aff5",
+  "message": "请把这条完全合成的用户陈述记入本助手私有记忆：我用于本次安装验收的代号是 SYNTH_KEY_RESTART_c2a8f772aff5。请调用记忆工具保存；不要创建事项、提醒或其他动作。",
+  "keyReentered": false,
+  "syntheticOnly": true
+}

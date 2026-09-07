@@ -1,0 +1,104 @@
+{
+  "scope": "read-only internal artifact static review; no executable runs",
+  "files": [
+    {
+      "path": "dist/windows-candidate-login-cleanup/Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112656667,
+      "sha256": "28F1D3AFCDDE0D5CAFC53C70A103A190FFDF013AFB77464EC0888F4B681FB6D3"
+    },
+    {
+      "path": "dist/windows-candidate-login-cleanup/win-unpacked/Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "A39A4F4A10E40A2C21BEA5185C919AA8C2F61C06B3B28A592B1AD3B96CB98472"
+    },
+    {
+      "path": "dist/windows-candidate-login-cleanup/win-unpacked/resources/app.asar",
+      "bytes": 15431590,
+      "sha256": "7FDDAD7FDA3E7ED19E754FB9704B61B7AD1F0E0A9ECDF879AA41D836D30702BC"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "main\\index.js",
+      "bytes": 867407,
+      "sha256": "C81BB655D110CBAB8678A27971C3997B4CAA43C93BEFFC94A342EA3BF990E39C"
+    },
+    {
+      "path": "preload\\index.cjs",
+      "bytes": 11653,
+      "sha256": "304B9689E96F2702BDDAF85B4E520AD60BC0B003EB301E0B298420BDE8BB6F08"
+    },
+    {
+      "path": "renderer\\index.html",
+      "bytes": 625,
+      "sha256": "F2A7FB09989F5CFD68B96E8A35A23E5F73CFE5AC84EED90B2AEFF19FC484053F"
+    },
+    {
+      "path": "renderer\\assets\\index-BvnIhURr.js",
+      "bytes": 1318883,
+      "sha256": "DECBA180768B23FAEBA3DCC0340F1FED6AE3012A923D733B1CA9C40E34C4C71A"
+    },
+    {
+      "path": "renderer\\assets\\index-JD67uG2R.css",
+      "bytes": 28639,
+      "sha256": "C900B23A9467BB3C369C9162F421C4302CD0701B2CD79BB3DFF73AEB18576E14"
+    }
+  ],
+  "notices": [
+    {
+      "component": "react",
+      "file": "react-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "react-dom",
+      "file": "react-dom-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "scheduler",
+      "file": "scheduler-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "zod",
+      "file": "zod-LICENSE.txt",
+      "sha256": "3F1189B28E3866E0D979968D466B78F813F76827CFDCA1FBB124CC0A5C8841F8"
+    },
+    {
+      "component": "Electron/Chromium",
+      "file": "../../LICENSE.electron.txt",
+      "sha256": "5154E165BD6C2CC0CFBCD8916498C7ABAB0497923BAFCD5CB07673FE8480087D"
+    },
+    {
+      "component": "Electron/Chromium",
+      "file": "../../LICENSES.chromium.html",
+      "sha256": "F2310820377F4D8F2A5F6BC8744B985D6772CEF9EE7D8D197B01FDB330DB0BB8"
+    }
+  ],
+  "owned": {
+    "count": 81,
+    "actualCount": 81,
+    "generatedSha256": "9C8D0F6CC6EB946797FC908DFB7EA7B541588D860D4D5543FA63C8D16F84206D",
+    "generatedExactlyMatchesV3": true
+  },
+  "runtime": [
+    {
+      "name": "react",
+      "version": "19.2.8"
+    },
+    {
+      "name": "react-dom",
+      "version": "19.2.8"
+    },
+    {
+      "name": "scheduler",
+      "version": "0.27.0"
+    },
+    {
+      "name": "zod",
+      "version": "4.5.4"
+    }
+  ],
+  "verdict": "STATIC_PASS"
+}

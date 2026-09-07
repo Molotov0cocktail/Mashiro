@@ -1,0 +1,157 @@
+{
+  "scope": "direct OS COM cold activation of one synthetic Mashiro reminder group",
+  "observedAt": "2026-09-07T14:29:03.933Z",
+  "activation": {
+    "observedAt": "2026-09-07T22:12:09.8000641+08:00",
+    "mode": "DIRECT_OS_COM_ACTIVATION",
+    "appId": "Mashiro.Desktop",
+    "clsid": "{B5051779-A11F-4603-BE81-C87C46CCB6C5}",
+    "executableSha256": "F5566CEDB14AF2C2908717B12860FBEBA4EB6BBA12BE25F722BC919009164F05",
+    "shortcutSha256": "5719677355D680BA1E39BF4FBB51FF283DA6C65C78F79FEBF123E7B361B35062",
+    "arguments": "mashiro-reminder-group:e900f87111086b4f9baead5d8d35f1b6a7a80ab05b5c31876c771eab6ef7f620",
+    "requireCold": true,
+    "beforeProcessIds": [],
+    "actualNotificationClick": false,
+    "boundary": "Direct OS COM activation probe; does not prove a user clicked a Windows notification.",
+    "hresult": 0,
+    "afterProcessIds": [
+      29932,
+      201536,
+      202220,
+      204480
+    ]
+  },
+  "before": {
+    "activations": [
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:4"
+    ],
+    "members": [
+      {
+        "groupId": "e900f87111086b4f9baead5d8d35f1b6a7a80ab05b5c31876c771eab6ef7f620",
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 6
+      }
+    ],
+    "occurrences": [
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 1,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 2,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 3,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 4,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 5,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 6,
+        "state": "DISPLAY_OBSERVED"
+      }
+    ],
+    "reminder": {
+      "id": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+      "version": 6,
+      "state": "DISPLAY_OBSERVED",
+      "dueAt": "2026-09-07T21:10:00+08:00"
+    },
+    "item": {
+      "id": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+      "version": 1,
+      "title": "E2E_ITEM_waiting",
+      "kind": "waiting",
+      "status": "open"
+    }
+  },
+  "after": {
+    "activations": [
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:4",
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:6"
+    ],
+    "members": [
+      {
+        "groupId": "e900f87111086b4f9baead5d8d35f1b6a7a80ab05b5c31876c771eab6ef7f620",
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 6
+      }
+    ],
+    "occurrences": [
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 1,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 2,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 3,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 4,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 5,
+        "state": "DISPLAY_OBSERVED"
+      },
+      {
+        "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+        "version": 6,
+        "state": "DISPLAY_OBSERVED"
+      }
+    ],
+    "reminder": {
+      "id": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+      "version": 6,
+      "state": "DISPLAY_OBSERVED",
+      "dueAt": "2026-09-07T21:10:00+08:00"
+    },
+    "item": {
+      "id": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+      "version": 1,
+      "title": "E2E_ITEM_waiting",
+      "kind": "waiting",
+      "status": "open"
+    }
+  },
+  "checks": {
+    "hresultSOk": true,
+    "coldBefore": true,
+    "exactActivationAdded": true,
+    "notificationMembersUnchanged": true,
+    "occurrencesUnchanged": true,
+    "reminderUnchanged": true,
+    "targetItemUnchanged": true,
+    "targetPageVisible": true
+  },
+  "installedUiProcessId": 204480,
+  "installedUiWindow": 26682040,
+  "actualNotificationClick": false,
+  "externalCalls": 0,
+  "personalDataAccessed": false,
+  "boundary": "S_OK plus the persisted activation and exact target UI prove the registered OS COM activation path and launch argument handling. This does not prove a user clicked a Windows notification."
+}

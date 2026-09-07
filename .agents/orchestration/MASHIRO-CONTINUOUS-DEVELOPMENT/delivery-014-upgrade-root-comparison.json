@@ -1,0 +1,17 @@
+{
+  "scope": "independent comparison of frozen content-free pre/post snapshots; no live database read",
+  "beforeSchema": 15,
+  "afterSchema": 18,
+  "sameDataset": true,
+  "oldTableCount": 73,
+  "changedOldTables": [
+    "daily_configs",
+    "reminder_settings"
+  ],
+  "oldNonDatabaseFileCount": 12,
+  "changedOrMissingOldNonDatabaseFiles": [],
+  "addedFiles": [
+    ".mashiro-governance.json"
+  ],
+  "interpretation": "Changes in daily_configs and reminder_settings require explicit native-operation or migration attribution; not blanket all-state equality."
+}

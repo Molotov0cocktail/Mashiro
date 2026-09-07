@@ -1,0 +1,7 @@
+{
+  "chunk_id": "161b9d",
+  "wall_time_seconds": 1.8747193,
+  "exit_code": 0,
+  "original_token_count": 119,
+  "output": "[\r\n  {\r\n    \"path\": \"dist/windows-candidate-notification/Mashiro-0.1.0-win-x64-setup.exe\",\r\n    \"signature\": \"NotSigned\",\r\n    \"productName\": \"Mashiro\",\r\n    \"productVersion\": \"0.1.0\",\r\n    \"fileVersion\": \"0.1.0\"\r\n  },\r\n  {\r\n    \"path\": \"dist/windows-candidate-notification/win-unpacked/Mashiro.exe\",\r\n    \"signature\": \"NotSigned\",\r\n    \"productName\": \"Mashiro\",\r\n    \"productVersion\": \"0.1.0.0\",\r\n    \"fileVersion\": \"0.1.0\"\r\n  }\r\n]\r\nf4fb5c7c064e0e24bbd0d360cdf7a8b208a0027f\n"
+}

@@ -1,0 +1,93 @@
+{
+  "source": "Independent root comparison of frozen synthetic ledger JSON; no credential read",
+  "beforeSha256": "a77478d694e55ff2f70b72acce8b7b5a883da85b4fa2d7d54a37e54a624b17dc",
+  "afterSha256": "99da68bad255e3ef3df528dea2c5dd2915443496e0d7b3892b6b1cd8ea8ecffe",
+  "schema": [
+    18,
+    18
+  ],
+  "integrity": [
+    [
+      "ok"
+    ],
+    [
+      "ok"
+    ]
+  ],
+  "counts": {
+    "timelineMessages": 2,
+    "protocolSegments": 1,
+    "toolOperations": 1,
+    "memoryObjects": 1,
+    "usageAttempts": 2
+  },
+  "usage": {
+    "settled": 2,
+    "unknown": 0,
+    "sending": 0,
+    "promptTokens": 6384,
+    "completionTokens": 131,
+    "totalTokens": 6515,
+    "inputCharacters": 1568
+  },
+  "newAttempts": [
+    {
+      "id": "233fbbd6-c1f0-4d8b-8855-926538dd17c7",
+      "chainId": "1895f71b-114b-41a5-898b-48e82fcf1443",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "tool-chain",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T13:44:13.588Z",
+      "finishedAt": "2026-09-07T13:44:20.312Z",
+      "inputCharacters": 563,
+      "actual": {
+        "promptTokens": 3111,
+        "completionTokens": 75,
+        "totalTokens": 3186
+      },
+      "owner": {
+        "domain": "provider",
+        "id": "1895f71b-114b-41a5-898b-48e82fcf1443",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    },
+    {
+      "id": "13475eb8-6760-4d4e-af86-69dd9cb1793c",
+      "chainId": "1895f71b-114b-41a5-898b-48e82fcf1443",
+      "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db",
+      "connectionId": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+      "model": "GLM-5.3-FLASH",
+      "feature": "tool-chain",
+      "state": "SETTLED",
+      "startedAt": "2026-09-07T13:44:20.487Z",
+      "finishedAt": "2026-09-07T13:44:25.469Z",
+      "inputCharacters": 1005,
+      "actual": {
+        "promptTokens": 3273,
+        "completionTokens": 56,
+        "totalTokens": 3329
+      },
+      "owner": {
+        "domain": "provider",
+        "id": "1895f71b-114b-41a5-898b-48e82fcf1443",
+        "assistantId": "61c7cbec-1175-4a3e-9ccb-6212fb92c5db"
+      }
+    }
+  ],
+  "actualNewAttemptTotals": {
+    "promptTokens": 6384,
+    "completionTokens": 131,
+    "totalTokens": 6515
+  },
+  "oneChain": true,
+  "allSettled": true,
+  "allExpectedModel": true,
+  "programCumulative": {
+    "requests": 56,
+    "knownTokens": 96677,
+    "historicalUnknownRequests": 5
+  },
+  "boundary": "Confirms ledger delta only; installed UI/process lifecycle and accepted Markdown are separate native evidence."
+}

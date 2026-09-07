@@ -1,0 +1,13 @@
+# 014 installed evidence reconciliation
+
+Root independently checked the final [36-file native manifest](delivery-014-installed-schema18-notification-key-manifest.json): all SHA-256 values matched (`f79f0c`, exit 0). The installed candidate remains the schema-18 f4fb5c7 internal build; this evidence does not qualify the incomplete replacement installer or schema-19 work in progress.
+
+The [independent Provider ledger comparison](delivery-014-provider-root-ledger-check.json) confirms two settled HTTP requests in one chain, 6515 known tokens, one successful memory operation, and no increment in unknown requests. The native evidence establishes a fresh application process using the saved credential without re-entry. No credential plaintext was inspected or written to reports.
+
+The [immutable backup check](delivery-014-current-backup-root-check.json) validates all 16 payload files against the receipt, schema 18, SQLite integrity and foreign keys. Backup 59eb6a23-ff54-4640-9e0a-298b977a61ce includes the new memory. The first native report contained stale PID/time metadata; it is preserved as erroneous evidence, and [version 02](delivery-014-current-backup-02.json) supplies corrected event attribution. The [upgrade comparison](delivery-014-upgrade-root-comparison.json) and [field attribution](delivery-014-upgrade-runtime-diff.json) distinguish 71 unchanged old tables and 12 unchanged old non-database files from the two explained runtime/settings changes.
+
+The [OS COM activation check](delivery-014-toast-com-verify.json) binds the fixed application shortcut and executable, starts from zero application processes, and observes the target item without a manual item click. It does not establish a user clicking the Windows notification center. A separate slow-initialization renderer defect remains under repair; the successful native timing does not invalidate that counterexample.
+
+The selected evidence and seven edited product/task documents passed a content-free credential-pattern scan (zero matching files) and 192 relative file-link existence checks (`bb9f10`). The seven documents passed scoped Prettier (`7786dc`). These are documentation/evidence checks, not a renewed whole-product qualification. RET-007's approved defaults were separately committed in d77aec9393f1c97077b0c0e5dc90d490d25668fb and both remote main references were observed at that exact commit (`126993`).
+
+PROGRAM remains ACTIVE. Required remaining work includes retention policy implementation, cold navigation repair, production installer compilation, installed governance restoration and uninstall/reinstall validation, overall acceptance, final release assets, and downloaded-byte verification.

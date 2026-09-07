@@ -1,0 +1,38 @@
+{
+  "status": "INPUT_BRIDGE_COMPLETED_NOT_DPAPI_ACCEPTANCE",
+  "date": "2026-09-07",
+  "processId": 194584,
+  "windowHandle": 15933894,
+  "executableSha256": "F5566CEDB14AF2C2908717B12860FBEBA4EB6BBA12BE25F722BC919009164F05",
+  "helper": "delivery-014-key-stdin-set.ps1",
+  "observations": [
+    {
+      "operation": "Cross-agent session input",
+      "result": "Unknown process id 22814; no input delivered; native owner subsequently exited its empty waiting session with no UI change."
+    },
+    {
+      "operation": "Windows PowerShell 5 helper invocation",
+      "chunk": "7b92ac",
+      "exitCode": 1,
+      "result": "PROCESS_PATH_MISMATCH before reading credentials. Read-only exact process check a68fac matched expected Chinese path; UTF-8 script was subsequently executed with the existing PowerShell 7 host."
+    },
+    {
+      "operation": "Root-owned PowerShell 7 non-echo ReadKey(true) bridge",
+      "sessionId": 16373,
+      "chunk": "387472",
+      "exitCode": 0,
+      "result": {
+        "keyField": "UNIQUE_PASSWORD_EDIT",
+        "persistence": "On",
+        "secretEmitted": false,
+        "secretWrittenToFile": false
+      }
+    }
+  ],
+  "boundary": "Only credential entry is observed. Saving, normal exit, new-PID decryption and real synthetic Provider call remain native acceptance work. No credential value, clipboard content or plaintext credential file is included.",
+  "capacity": {
+    "newSolAgent": "agent thread limit reached",
+    "reuseHistoricalAstraAgent": "agent thread limit reached",
+    "action": "Existing installer executor/native executor and independent reviewer continue; no new release utility was started, no program pause or release action."
+  }
+}

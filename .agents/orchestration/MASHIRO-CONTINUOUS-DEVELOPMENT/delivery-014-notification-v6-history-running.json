@@ -1,0 +1,11 @@
+{
+    "appId":  "Mashiro.Desktop",
+    "count":  1,
+    "notifications":  [
+                          {
+                              "tag":  "d78abf505e772867",
+                              "group":  "reminders",
+                              "expirationTime":  "\/Date(1789045800351)\/"
+                          }
+                      ]
+}

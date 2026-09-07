@@ -1,0 +1,23 @@
+{
+  "source": "f4fb5c7c064e0e24bbd0d360cdf7a8b208a0027f",
+  "version": "0.1.0",
+  "internalOnly": true,
+  "asarOutputMatches": 5,
+  "files": [
+    {
+      "path": "dist\\windows-candidate-notification\\Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112572235,
+      "sha256": "cba1270a795a9fa0bacfcd8d8224b4c8b43a594e69e552cce1083943c402ae5d"
+    },
+    {
+      "path": "dist\\windows-candidate-notification\\win-unpacked\\resources\\app.asar",
+      "bytes": 15431590,
+      "sha256": "7fddad7fda3e7ed19e754fb9704b61b7ad1f0e0a9ecdf879aa41d836d30702bc"
+    },
+    {
+      "path": "dist\\windows-candidate-notification\\win-unpacked\\Mashiro.exe",
+      "bytes": 245289472,
+      "sha256": "f5566cedb14af2c2908717b12860fbeba4eb6bba12be25f722bc919009164f05"
+    }
+  ]
+}

@@ -6,7 +6,11 @@
 
 ## 当前工作与直接下一动作
 
-- 最新有效节点（2026-09-07）：014治理与017来源界面已独立源码限定PASS，[整合记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-integration-close-01.md)覆盖冻结169文件746tests、静态/build及实际双PID186464/185996。已审定提交99bf73d79c35b86973d65699b62cb91e49830edb已非force同步并实际核对github/gitee main同值；018工作区未混入017。冻结out的schema18内部安装候选已成功构建，ASAR五项哈希匹配；首次NSIS失败保留，不冒称根因已证。正在隔离升级。新独立负责人accept_016_final（实际gpt-6-astra/medium）完整复读三文档后[整体预验REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-overall-preacceptance-repair.md)：未发现整类已确认要求遗漏，但超过384项后旧回执缺直接入口，已立[018](018-old-round-business-receipts.md)，原Sol/high UI执行者已冻结，原Reviewer独立10文件55tests限定PASS；root整合build通过，018审定提交0a1a2e5f7f6da40d9e2795f32ffcd5aea47d4e3c已非force双推并实际核对main同值。014通知show后late failed及停止后recover访问已关DB的独立RED均已修，Astra独立10文件59tests限定PASS；新制品待构建并验证实际通知保留/冷激活。steward_013_ui继续通知及schema15→18实际安装生命周期；正式退出会主动关闭通知，退出后通知中心空不是显示失败证据。升级前备份后提醒已改v4，须核对新基线。RET-007仍待用户原问题答复。PROGRAM ACTIVE，后续整体验收、实际发布和下载核验不缩减。
+- 当前实际节点（2026-09-07）：HEAD ad64035bfd441cdf73f521a4c7135ddb1203bcf2 已实核 github/gitee main 同值，含独立通过的 NSIS 早期依赖/双分支修复；RET-007 用户确认的100 MiB/90天默认已单独提交。程序仍 ACTIVE，009/schema19容量与期限、014慢启动导航待消费回执分别由两个 Sol 单写实施，Astra 独立复核。当前 `out/` 和实际安装仍为已审 f4/schema18，未混入两项 WIP。
+
+[已安装36文件原生证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-schema18-notification-key-manifest.json)已由[root核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-root-native-evidence-check.md)：实际15→18升级、旧数据保留、登录隐藏启动、通知退出后保留、OS COM冷启动直接定位事项，以及持久Key重启后真实2请求/6515tokens和完整备份。真实通知中心鼠标点击仍NOT_PROVEN；[慢初始化RED](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-cold-activation-review-repair.md)不被一次原生成功掩盖。累计56次HTTP、已知96677tokens、5次历史未知用量。
+
+[宏v3源码独立PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-uninstall-review-pass-v3.md)及[真实build04](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-packaged-build-04.raw.txt)成功有效；新setup SHA28F1D3AFCDDE0D5CAFC53C70A103A190FFDF013AFB77464EC0888F4B681FB6D3实际NotSigned，ASAR与f4相同，但[制品静态审为REPAIR](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-login-artifact-review-v3.md)：本地Electron发行额外带入default_app.asar/version，缺失主ASAR时可能fallback。仅清理固定构建输出残留后重包，现有安装不动；不改fuse、不关闭警告、不抹除build02/03失败。随后继续实际卸载/重装、治理恢复、最终RET/冷导航制品与016整体验收，精确版本发布及下载核验仍未完成。
 
 - 当前有效现场（2026-09-07 18:37）：HEAD仍a3550888d4d6d001f441fb73e806eef4729ca315，014/017产品增量待整合提交。014治理v4已[独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-final-v4.md)，26文件65tests；大seed容量v5的最终路径竞态S1已修v6并获[独立增量PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-review014-seed-v6-final-pass.md)，4文件9tests。登录v2已[root独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-login-independent-pass-v2.md)，4文件20tests、13路径零漂移及实际Electron隔离probe通过；新版安装注册与通知仍待。017可信限定PASS，UI独立审核已复现5项REPAIR（权限刷新/临时往返旧正文、迟到inspection、助手往返重消费目标、纠正后旧版本缓存），memory_017_ui单写修复，review_017_trusted保留原oracle复核；steward_013_ui负责旧安装正常退出及当前全域备份，然后新制品原生生命周期。整合全量01为712项709通过，三项串行诊断8/8通过且新可信整合129文件578tests全绿，见[可信整合记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-root-trusted-integrated-pass-01.md)；原失败不改PASS，最终UI冻结后继续整合。新升级前备份be252177已由菜单实际生成并正常退出，root独立13项源/payload全部匹配，见[哈希证据](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-backup-root-hashes-01.json)。RET-007仍待答，PROGRAM ACTIVE。
 
@@ -70,7 +74,7 @@
 | [006](006-timeline-context-permissions.md) | 完整浏览检索、局部上下文、权限底座 | TASK_DONE/FINAL PASS | 精确产品`88a86a2dacc616ca3a6fa0ba63a345f059d88859`；跨域权限仍由后续任务扩展 |
 | [007](007-provider-tools-execution.md) | Provider工具执行、协议段、操作身份 | TASK_DONE / FINAL PASS | 精确产品`711463a9dd7fbcf16de73c413fe6ad0c56c311cc`；独立25/162与5额外oracle，双remote同步 |
 | [008](008-memory-direct-path.md) | 记忆/个人事件即时路径、来源、事务恢复 | TASK_DONE / FINAL PASS | 精确产品cc9c729；28 files / 196 tests、7独立oracles和最终Electron已验，双remote同步 |
-| [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | INTEGRATION_PENDING / MANUAL_CORE PASS | 已独立41/255及最终Electron通过；RET、额外AST、Q9/Q10联测继续 |
+| [009](009-retention-and-cleanup.md) | 三区、清理恢复、助手永久删除 | ACTIVE / POLICY_IMPLEMENTING | 手动核心PASS保留；RET100MiB/90天及AST完整范围均已确认，容量/期限实现与Q9/Q10联测继续 |
 | [010](010-items-and-proposals.md) | 五类事项、提案与对话执行 | TASK_DONE / FINAL PASS | 51/301及131文件清单；ab11110a45c6ddb65bd114547225dd4e329bba11双远程已核验 |
 | [011](011-assistant-basic-configuration.md) | 稳定人设、基础形象与配置 | TASK_DONE / FINAL PASS | 072dd39771e01b29bbced93f49e20a996f1e2cab双远程已核验；54/320、独立3新增oracle、Electron08 |
 | [012](012-deterministic-reminders.md) | 确定性提醒与托盘运行承诺 | INTEGRATION_PENDING / CORE PASS | 核心已审同步；REM默认/101事项分组/schema15独立PASS v2，014安装后通知/登录/冷激活仍待 |
@@ -100,7 +104,7 @@
 - [005产品推送回执](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-push-close-0aa2d91.md)、[continuation](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/provider-text-v1-continuation-f5aa9880.md)、[原始接管记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/persistent-timeline-v1-reconciliation.md) 保留原始失败、修复和历史事实；设计顶栏已简洁对齐最终PASS。
 - 003历史4次合成live：2次HTTP400/code1210、2次thinking enabled/reasoning effort low普通和流式成功，各usage22/4/26。旧Key已清理；用户现已在会话提供新的授权测试凭据，不入Git/日志/报告。当前不凭此宣称高级能力已验证或新增调用已发生。
 - Toolhelp32 -003 辅助审计保持failed/deferred/non-blocking，禁止重跑或派生-004。默认helper setup-refresh失败已有经工具审核合法宿主执行路径；受控writer保持allowlist/preimage/原子替换/回滚/postimage，不绕过平台拒绝。
-- AST-006已由用户2026-09-06确认：保留归档，二次确认永久删除助手私有聊天/关系/连续性记忆；全局共享记忆和正式事项保留，来源不再展开私有原文。[009生命周期任务](009-retention-and-cleanup.md)承接。RET-007容量/期限/垃圾清空问题已提出、待答；REM-002在提醒任务冻结前再问。009独立实施继续。
+- AST-006已由用户2026-09-06确认：保留归档，二次确认永久删除助手私有聊天/关系/连续性记忆；全局共享记忆和正式事项保留，来源不再展开私有原文。[009生命周期任务](009-retention-and-cleanup.md)承接。RET-007已于2026-09-07确认100MiB/90天默认、可调关闭及垃圾永不自动永久清空，009实施继续；REM-002也已单独确认并落实，不再重复询问。
 - 尚未完成领域及验收去处全部列在总清单；记忆即时路径与事项010已审；自动整理、提醒、后台、完整数据位置/恢复、PACKAGED安装更新与Release尚未完成。当前已明确授权实施和发行，旧NOT RUN仍保留为历史事实。
 
 ## 持续授权与交接

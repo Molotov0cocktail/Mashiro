@@ -1,0 +1,2502 @@
+[
+  {
+    "window": 24714486,
+    "index": 0,
+    "name": "Mashiro",
+    "automationId": "",
+    "type": "ControlType.Window",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 24714486
+  },
+  {
+    "window": 24714486,
+    "index": 1,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": false,
+    "offscreen": false,
+    "handle": 71636508
+  },
+  {
+    "window": 24714486,
+    "index": 2,
+    "name": "Mashiro",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 3,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 4,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 5,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 6,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 7,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.MenuBar",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 8,
+    "name": "数据与备份",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 9,
+    "name": "编辑",
+    "automationId": "view_1",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 10,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 11,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Pane",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 12,
+    "name": "Mashiro",
+    "automationId": "RootWebArea",
+    "type": "ControlType.Document",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 13,
+    "name": "",
+    "automationId": "root",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 14,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 15,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 16,
+    "name": "本机优先 · 你的日常助手",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 17,
+    "name": "Mashiro",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 18,
+    "name": "在持续对话中处理当下，也可以随时查看和纠正长期记忆。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 19,
+    "name": "主要功能",
+    "automationId": "",
+    "type": "ControlType.Tab",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 20,
+    "name": "对话",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 21,
+    "name": "事项",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 22,
+    "name": "提醒",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 23,
+    "name": "记忆与事件",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 24,
+    "name": "章节后台",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 25,
+    "name": "资料整理",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 26,
+    "name": "日常与运行",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 27,
+    "name": "保留与清理",
+    "automationId": "",
+    "type": "ControlType.TabItem",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 28,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 29,
+    "name": "助手管理",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 30,
+    "name": "助手管理",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 31,
+    "name": "对话页面",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 32,
+    "name": "连接与文本交流",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 33,
+    "name": "持续时间线与严格临时交流",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 34,
+    "name": "连接与文本交流",
+    "automationId": "provider-heading",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 35,
+    "name": "正常模式自动记录在本机；严格临时模式只保留于本次运行，除非你明确保存",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 36,
+    "name": "",
+    "automationId": "provider-connection-settings",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 37,
+    "name": "连接设置",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 38,
+    "name": "连接设置",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 39,
+    "name": "连接设置",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 40,
+    "name": "正在编辑",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 41,
+    "name": "正在编辑",
+    "automationId": "",
+    "type": "ControlType.ComboBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 42,
+    "name": "连接名称",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 43,
+    "name": "连接名称",
+    "automationId": "",
+    "type": "ControlType.Edit",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 44,
+    "name": "HTTPS Base URL",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 45,
+    "name": "HTTPS Base URL",
+    "automationId": "",
+    "type": "ControlType.Edit",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 46,
+    "name": "启用此连接",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 47,
+    "name": "保存连接",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 48,
+    "name": "API Key",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 49,
+    "name": "API Key",
+    "automationId": "",
+    "type": "ControlType.Edit",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 50,
+    "name": "使用 Windows 凭据保护持久保存",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 51,
+    "name": "提交 Key",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": false,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 52,
+    "name": "删除 Key",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 53,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.StatusBar",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 54,
+    "name": "Key 已由 Windows 凭据保护持久保存",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 55,
+    "name": "雪的聊天形象：月光",
+    "automationId": "",
+    "type": "ControlType.Image",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 56,
+    "name": "正常时间线",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": false,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 57,
+    "name": "当前助手",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 58,
+    "name": "当前助手",
+    "automationId": "",
+    "type": "ControlType.ComboBox",
+    "enabled": false,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 59,
+    "name": "当前助手的名称和人设会随正常及严格临时请求发送给下方显示的实际接收方；人设不会授予历史、记忆、事项或工具权限。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 60,
+    "name": "交流模式",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 61,
+    "name": "交流模式",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 62,
+    "name": "正常模式（自动保存）",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 63,
+    "name": "严格临时（不自动保存）",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 64,
+    "name": "模型",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 65,
+    "name": "模型",
+    "automationId": "",
+    "type": "ControlType.Edit",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 66,
+    "name": "绑定“正在编辑”的连接",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 67,
+    "name": "实际接收方：BigModel synthetic · https://open.bigmodel.cn/api/paas/v4 · GLM-5.3-FLASH",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 68,
+    "name": "你可以在下方选择近期历史、仅本次输入或已选轮次；近期模式最多最近 16 组已完成的正常对话，并且只有读取与实际接收方权限都允许时才会外发。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 69,
+    "name": "浏览正常历史",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 70,
+    "name": "完整正常历史",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 71,
+    "name": "这里是本机浏览结果，与上方实时消息时间线分开；浏览不会把历史发给模型。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 72,
+    "name": "搜索本助手历史",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 73,
+    "name": "搜索本助手历史",
+    "automationId": "",
+    "type": "ControlType.Edit",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 74,
+    "name": "搜索",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 75,
+    "name": "清除搜索",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": false,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 76,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 77,
+    "name": "选择此轮：E2E_NORMAL_USER",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 78,
+    "name": "你：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 79,
+    "name": "E2E_NORMAL_USER",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 80,
+    "name": "助手：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 81,
+    "name": "E2E_NORMAL_ASSISTANT",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 82,
+    "name": "2026/9/7 14:35:10 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 83,
+    "name": "你：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 84,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 85,
+    "name": "助手：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 86,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 87,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 88,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 89,
+    "name": "查看本轮业务与工具回执",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 90,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 91,
+    "name": "选择此轮：E2E_SAVED_TEMP_USER",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 92,
+    "name": "你：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 93,
+    "name": "E2E_SAVED_TEMP_USER",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 94,
+    "name": "助手：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 95,
+    "name": "E2E_SAVED_TEMP_ASSISTANT",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 96,
+    "name": "2026/9/7 14:35:10 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 97,
+    "name": "你：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 98,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 99,
+    "name": "助手：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 100,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 101,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 102,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 103,
+    "name": "查看本轮业务与工具回执",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 104,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 105,
+    "name": "选择此轮：E2E_TOOL_NORMAL",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 106,
+    "name": "你：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 107,
+    "name": "E2E_TOOL_NORMAL",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 108,
+    "name": "助手：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 109,
+    "name": "E2E_TOOL_REPLY",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 110,
+    "name": "2026/9/7 14:35:10 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 111,
+    "name": "你：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 112,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 113,
+    "name": "助手：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 114,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 115,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 116,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 117,
+    "name": "查看本轮业务与工具回执",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 118,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 119,
+    "name": "此条记录尚未形成可选的完整完成轮次。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 120,
+    "name": "你：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 121,
+    "name": "E2E_PENDING_NORMAL",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 122,
+    "name": "助手：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 123,
+    "name": "E2E_PARTIAL_NORMAL",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 124,
+    "name": "2026/9/7 14:35:16 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 125,
+    "name": "你：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 126,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 127,
+    "name": "助手：响应中断",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 128,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 129,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 130,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 131,
+    "name": "查看本轮业务与工具回执",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 132,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 133,
+    "name": "选择此轮：E2E_VERIFY_USER",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 134,
+    "name": "你：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 135,
+    "name": "E2E_VERIFY_USER",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 136,
+    "name": "助手：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 137,
+    "name": "E2E_VERIFY_ASSISTANT",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 138,
+    "name": "2026/9/7 14:35:18 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 139,
+    "name": "你：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 140,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 141,
+    "name": "助手：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 142,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 143,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 144,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 145,
+    "name": "查看本轮业务与工具回执",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 146,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 147,
+    "name": "选择此轮：E2E_BACKGROUND_CONTEXT",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 148,
+    "name": "你：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 149,
+    "name": "E2E_BACKGROUND_CONTEXT",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 150,
+    "name": "助手：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 151,
+    "name": "E2E_BACKGROUND_CONTEXT_REPLY",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 152,
+    "name": "2026/9/7 14:35:24 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 153,
+    "name": "你：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 154,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 155,
+    "name": "助手：完成",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 156,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 157,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 158,
+    "name": "记忆来源与变更",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 159,
+    "name": "查看本轮业务与工具回执",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 160,
+    "name": "发送上下文",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 161,
+    "name": "发送上下文",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 162,
+    "name": "近期合格历史（最多 16 轮）",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 163,
+    "name": "仅本次输入",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 164,
+    "name": "已选轮次（最多 16 轮）",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": false,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 165,
+    "name": "已选 ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 166,
+    "name": "0",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 167,
+    "name": " 轮。近期历史与已选轮次都受 64,000 UTF-16 字符总输入预算限制；服务不会静默删掉显式选择。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 168,
+    "name": "历史权限",
+    "automationId": "history-permissions",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 169,
+    "name": "历史权限",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 170,
+    "name": "助手读取自己的正常历史，与向实际 Provider 地址发送历史，是两个独立权限。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 171,
+    "name": "允许助手读取自己的正常历史",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 172,
+    "name": "允许向当前实际接收方发送历史",
+    "automationId": "",
+    "type": "ControlType.CheckBox",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 173,
+    "name": "历史实际接收地址：https://open.bigmodel.cn/api/paas/v4",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 174,
+    "name": "近期或已选历史可在发送时交给上述地址。撤销任一权限会立即停止后续历史外发；已经发出的内容无法从对方收回。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 175,
+    "name": "本轮工具与可信回执",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 176,
+    "name": "本轮工具范围",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 177,
+    "name": "本轮工具范围",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 178,
+    "name": "关闭工具（默认）",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 179,
+    "name": "仅本机时钟",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 180,
+    "name": "本机时钟 + 按关键词检索本助手完整历史",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 181,
+    "name": "本机时钟 + 事项与待确认提案",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": false,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 182,
+    "name": "本机时钟 + 事项 + 记忆与个人事件",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": false,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 183,
+    "name": "本机时钟 + 记忆与个人事件",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 184,
+    "name": "本机时钟 + 历史 + 记忆与个人事件",
+    "automationId": "",
+    "type": "ControlType.RadioButton",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 185,
+    "name": "工具范围只影响下一次发送，默认关闭；模型文字不能代替可信执行回执。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 186,
+    "name": "Provider 记忆授权状态",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 187,
+    "name": "当前记忆授权",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 188,
+    "name": "以下状态来自可信边界；全局与本助手私有范围分别检查。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 189,
+    "name": "刷新记忆授权",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 190,
+    "name": "全局用户记忆",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 191,
+    "name": "：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 192,
+    "name": "可读",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 193,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 194,
+    "name": "可写",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 195,
+    "name": " ·",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 196,
+    "name": " 可写推测",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 197,
+    "name": " ·",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 198,
+    "name": "可提供给实际接收方",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 199,
+    "name": " · 实际接收方：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 200,
+    "name": "https://open.bigmodel.cn/api/paas/v4",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 201,
+    "name": "本助手私有记忆",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 202,
+    "name": "：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 203,
+    "name": "可读",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 204,
+    "name": " · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 205,
+    "name": "可写",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 206,
+    "name": " ·",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 207,
+    "name": " 可写推测",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 208,
+    "name": " ·",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 209,
+    "name": "可提供给实际接收方",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 210,
+    "name": " · 实际接收方：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 211,
+    "name": "https://open.bigmodel.cn/api/paas/v4",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 212,
+    "name": "Provider 事项授权状态",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 213,
+    "name": "当前事项授权",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 214,
+    "name": "读取、写入、提案与实际端点接收分别由可信边界检查。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 215,
+    "name": "刷新事项授权",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 216,
+    "name": "读取：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 217,
+    "name": "关闭",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 218,
+    "name": " · 写入：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 219,
+    "name": "关闭",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 220,
+    "name": " · 提案：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 221,
+    "name": "关闭",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 222,
+    "name": " · 实际端点接收：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 223,
+    "name": "关闭",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 224,
+    "name": "实际接收方：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 225,
+    "name": "https://open.bigmodel.cn/api/paas/v4",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 226,
+    "name": "请在“事项”面板授予所需权限后，再刷新并开启本轮事项工具。",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 227,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.Group",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 228,
+    "name": "当前端点能力",
+    "automationId": "",
+    "type": "ControlType.Button",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 229,
+    "name": "当前端点能力",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 230,
+    "name": "实际端点：https://open.bigmodel.cn/api/paas/v4",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 231,
+    "name": "模型：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 232,
+    "name": "GLM-5.3-FLASH",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 233,
+    "name": " · 协议：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 234,
+    "name": "chat-completions-v1",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 235,
+    "name": " · 适配版本：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 236,
+    "name": "glm-5.3-flash-tools-v1",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 237,
+    "name": " · 模式：",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 238,
+    "name": "standard-non-preserved",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 239,
+    "name": "本轮可显式开启工具；记忆写入另受业务权限限制",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 240,
+    "name": "",
+    "automationId": "",
+    "type": "ControlType.List",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 241,
+    "name": "普通文本· DOCUMENTED（文档说明）2026/9/6 08:00:00 · 官方文档或本地实现证据；产品LIVE资格另行验证",
+    "automationId": "",
+    "type": "ControlType.ListItem",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 242,
+    "name": "普通文本",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 243,
+    "name": "2026/9/6 08:00:00 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 244,
+    "name": "官方文档或本地实现证据；产品LIVE资格另行验证",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 245,
+    "name": "流式文本· DOCUMENTED（文档说明）2026/9/6 08:00:00 · 官方文档或本地实现证据；产品LIVE资格另行验证",
+    "automationId": "",
+    "type": "ControlType.ListItem",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 246,
+    "name": "流式文本",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 247,
+    "name": "2026/9/6 08:00:00 · ",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 248,
+    "name": "官方文档或本地实现证据；产品LIVE资格另行验证",
+    "automationId": "",
+    "type": "ControlType.Text",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  },
+  {
+    "window": 24714486,
+    "index": 249,
+    "name": "工具调用· DOCUMENTED（文档说明）2026/9/6 08:00:00 · 官方文档或本地实现证据；产品LIVE资格另行验证",
+    "automationId": "",
+    "type": "ControlType.ListItem",
+    "enabled": true,
+    "offscreen": true,
+    "handle": 0
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "scope": "native UI and exit event for backup 59eb6a23-ff54-4640-9e0a-298b977a61ce",
+  "mainPid": 193864,
+  "initialMainWindow": 67706216,
+  "confirmationWindow": 25109094,
+  "confirmationRaw": "delivery-014-current-backup-confirmation-raw.json",
+  "confirmationCapturedAt": "2026-09-07T21:54:12.1757609+08:00",
+  "completionWindow": 42279724,
+  "completionRaw": "delivery-014-current-backup-result-raw.json",
+  "completionCapturedAt": "2026-09-07T21:55:32.8695421+08:00",
+  "acknowledgedAt": "NOT_RECORDED",
+  "installedProcessesZeroObservedAt": "2026-09-07T21:56:07.7176009+08:00",
+  "installedProcessesAfterAcknowledgement": 0,
+  "targetAddressReadBack": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\完整备份-凭据调用后-04",
+  "confirmation": "停止当前工作，完成完整备份后退出？",
+  "confirmationDetail": "完整备份包含历史、记忆正文、治理状态和受保护凭据；程序将退出以保证复制期间没有写入。",
+  "completion": "备份已校验，程序即将退出。",
+  "personalDataAccessed": false
+}

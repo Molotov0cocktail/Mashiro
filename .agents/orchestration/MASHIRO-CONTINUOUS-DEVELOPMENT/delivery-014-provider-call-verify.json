@@ -1,0 +1,91 @@
+{
+  "observedAt": "2026-09-07T13:51:11.989Z",
+  "source": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\全域 合成数据",
+  "schemaVersion": 18,
+  "integrity": [
+    "ok"
+  ],
+  "memory": {
+    "id": "43c35979-ee88-4510-a699-7bb0bd8c026d",
+    "version": 1,
+    "fileName": "43c35979-ee88-4510-a699-7bb0bd8c026d-1-429a42c5-e9ff-4f53-8af4-2eb4ac61f10e.md",
+    "bytes": 73,
+    "sha256": "376BE9FE9FAA1B414766D036E22763B8477EDC6A41E6D5FC9D8EF508B827F04B",
+    "bodyHashMatches": true,
+    "containsSyntheticToken": true,
+    "objectRecordKeys": [
+      "createdAt",
+      "event",
+      "id",
+      "kind",
+      "markdown",
+      "nature",
+      "objectVersion",
+      "ownerAssistantId",
+      "retention",
+      "scope",
+      "sources",
+      "state",
+      "title",
+      "updatedAt"
+    ],
+    "metadataKeys": [
+      "createdAt",
+      "event",
+      "id",
+      "kind",
+      "markdown",
+      "nature",
+      "objectVersion",
+      "ownerAssistantId",
+      "retention",
+      "scope",
+      "sources",
+      "state",
+      "title",
+      "updatedAt"
+    ]
+  },
+  "tool": {
+    "operationId": "97bcb3b7-cff7-4434-92c6-b38435733918",
+    "recordKeys": [
+      "assistantId",
+      "citations",
+      "createdAt",
+      "memoryReceipt",
+      "modelRequestId",
+      "operationId",
+      "requestId",
+      "segmentId",
+      "state",
+      "summary",
+      "toolName",
+      "updatedAt"
+    ],
+    "state": "SUCCEEDED",
+    "memoryReceipt": {
+      "operationId": "429a42c5-e9ff-4f53-8af4-2eb4ac61f10e",
+      "objectId": "43c35979-ee88-4510-a699-7bb0bd8c026d",
+      "objectVersion": 1,
+      "state": "SUCCEEDED"
+    }
+  },
+  "counts": {
+    "items": 6,
+    "itemProposals": 1,
+    "reminders": 3,
+    "memoryObjects": 10,
+    "timelineMessages": 14,
+    "protocolSegments": 2,
+    "toolOperations": 2,
+    "usageAttempts": 12
+  },
+  "connection": {
+    "id": "f720fc8c-a2c4-4765-b02e-87e2c98bc8fd",
+    "hasPersistentCredential": true,
+    "version": 3
+  },
+  "credentialContentRead": false,
+  "otherMemoryBodiesRead": false,
+  "personalDataAccessed": false
+}

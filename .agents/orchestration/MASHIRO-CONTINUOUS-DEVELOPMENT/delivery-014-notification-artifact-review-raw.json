@@ -1,0 +1,7 @@
+{
+  "chunk_id": "9eb04d",
+  "wall_time_seconds": 0.9755552,
+  "exit_code": 1,
+  "original_token_count": 204,
+  "output": "D:\\Mashiro\\node_modules\\@electron\\asar\\lib\\filesystem.js:187\r\n            throw new Error(`\"${p}\" was not found in this archive`);\r\n                  ^\r\n\r\nError: \"out/main/index.js\" was not found in this archive\r\n    at Filesystem.getFile (D:\\Mashiro\\node_modules\\@electron\\asar\\lib\\filesystem.js:187:19)\r\n    at extractFile (D:\\Mashiro\\node_modules\\@electron\\asar\\lib\\asar.js:256:33)\r\n    at file:///D:/Mashiro/[eval1]:12:96\r\n    at Array.map (<anonymous>)\r\n    at file:///D:/Mashiro/[eval1]:12:30\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:224:26\r\n    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:221:20)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.18.0\r\n"
+}

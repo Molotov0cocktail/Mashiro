@@ -19,16 +19,16 @@
 
 ## 当前已核事实与余项
 
-- 已审产品截至 `f04fe24e7d3cb395bc976db8190969be38ba632e`：136文件641tests，额外Provider边界4项、最后DailyPanel DOM 8项，最终原生run `f8198eef-14e6-4352-ad1e-c2773543aee3` / PIDs186136、171612通过。原生失败与修复诚实保留。五类日常真实角色、章节及仓储真实资格已有专门报告。
-- 原生安装旧版已经选择全域合成数据。3条助手数据库记录对应1可用、1归档、1已删除；待确认提案1条。完整跨版本、真实系统通知、最终受保护凭据解密及真实请求尚未结算。
-- RET-007仍等待用户决定；014后续治理屏障/schema17正在实施。这些不能改名为可选项或被测试数量掩盖。
+- 历史已审产品 `f04fe24e7d3cb395bc976db8190969be38ba632e`：136文件641tests，额外Provider边界4项、最后DailyPanel DOM 8项，最终原生run `f8198eef-14e6-4352-ad1e-c2773543aee3` / PIDs186136、171612通过。原生失败与修复诚实保留。五类日常真实角色、章节及仓储真实资格已有专门报告。
+- 当前已审源码为 f4fb5c7，017、018、schema18治理及通知生命周期修复均有独立限定PASS；当前内部制品身份和实际安装进展见[014](014-windows-data-and-delivery.md)。schema15→18升级及同版重装已经执行；[独立升级比较](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-root-comparison.json)显示71/73旧表行摘要相同、12份旧非数据库文件字节相同，另两表需按明确测试操作/调度字段归因。v6通知运行与退出后均保留；点击冷激活仍待；当前安装版持久Key保存后正常退出并由新PID无重输完成真实合成记忆写入，[root独立账本核对](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-provider-root-ledger-check.json)确认2次HTTP/6515tokens及1次工具和记忆增量，最终Markdown与剩余制品场景继续验收。
+- RET-007已于2026-09-07确认100MiB/90天默认、两项可调关闭及垃圾永不自动永久清空，009现进入POLICY_IMPLEMENTING；014治理/schema18源码已独立限定PASS，当前制品治理恢复及完整安装生命周期继续验证。这些不能改名为可选项或被测试数量掩盖。
 - 最终独立验收需记录实际审阅者及与对应实现的关系；不能由作者自称独立PASS。既有高风险模块独立证据保持有效；新增差异另审。主协调负责证据和总覆盖更新，不以本任务文件宣告完成。
 
 ## 已确认缺口与去处
 
 独立只读预审plan_007发现MEM-002缺本轮具体记忆来源/提供版本和对象导航，root已核proposal §3.3及Provider/MemoryPanel实际路径，纳入必需[017](017-round-memory-provenance.md)实施。既有008单对象来源详情不被作废，但D03不能再以此整体结算。预审未发现整类确认需求被总表排除；已有013积压响应性和015有限兼容证据不被误报遗漏。该预审不是整体或制品PASS，实际模型元数据未披露，角色历史参与007规划也如实保留。
 
-另有[root源码待验证点](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/overall-016-old-receipt-access-check.md)：超过默认384条业务回执后，旧轮次未确认/结果未知操作是否仍有直接用户入口。既有可信API支持按requestId读取；先检查其他运行记录入口并建立实际用户流反例，不把源码疑点提前写成已证实FAIL，也不静默遗漏。
+旧轮超过384条后的回执入口已被[独立整体预验](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-overall-preacceptance-repair.md)证实缺失，随后[018](018-old-round-business-receipts.md)实现按原requestId懒加载可信回执及恢复操作；[独立最终限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-independent-final-pass.md)覆盖10文件55tests，审定提交0a1a2e5已同步双远程。当前安装版已实际展开旧轮空回执入口；这不冒充安装版真实业务恢复动作完整验收。017来源/变更入口同样已源码独立PASS，其最终制品用户场景仍由014/本任务收束。
 
 ## 完成条件
 
