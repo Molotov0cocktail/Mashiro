@@ -1,0 +1,16 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/RoundToolReceiptPanel.tsx",
+    "hash": "B48C19C43AFFCE0F7D7F30769ED990F2AFD17B84D6F429BD79E6E1D90695D1FB",
+    "replacements": [
+      ["  useEffect(() => {\n    generation.current += 1\n    confirmingMemoryOperations.current.clear()\n    return () => {\n      generation.current += 1\n      confirmingMemoryOperations.current.clear()\n    }\n  }, [assistantId, requestId])", "  useEffect(() => {\n    const confirming = confirmingMemoryOperations.current\n    generation.current += 1\n    confirming.clear()\n    return () => {\n      generation.current += 1\n      confirming.clear()\n    }\n  }, [assistantId, requestId])"]
+    ]
+  },
+  {
+    "path": "tests/renderer/ProviderPanel-old-round-receipts.test.tsx",
+    "hash": "1157F7D0502B60CDCCF80AA40D21FE1B96E107F4DF37C76453C5A809252A0487",
+    "replacements": [
+      ["    const confirm = vi.fn<MemoryApi['confirm']>(async (input) => {", "    const confirm = vi.fn<MemoryApi['confirm']>(async () => {"]
+    ]
+  }
+]

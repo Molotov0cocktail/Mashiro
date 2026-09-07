@@ -1,0 +1,10 @@
+[
+  {
+    "path": "tests/renderer/ProviderPanel-old-round-receipts.test.tsx",
+    "hash": "68FDB1ED9F74500AECC4F1C2E9AD1554CD7B53620E46BDE50E2876693772FDF0",
+    "replacements": [
+      ["                      state: 'CONFIRMED_NOT_APPLIED',\n                      summary: '已确认不执行旧轮删除',", "                      state: 'CANCELLED_BEFORE_DISPATCH',\n                      summary: '已确认不执行旧轮删除',"],
+      ["          state: 'CONFIRMED_NOT_APPLIED',\n          summary: '已确认不执行旧轮删除',", "          state: 'CANCELLED_BEFORE_DISPATCH',\n          summary: '已确认不执行旧轮删除',"]
+    ]
+  }
+]

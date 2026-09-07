@@ -1,0 +1,305 @@
+{
+  "recordedAt": "2026-09-07T12:11:05.344Z",
+  "scannedFiles": 59,
+  "secretFindings": [],
+  "residuals": [],
+  "generated": [],
+  "diffCheck": 0,
+  "hashes": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-baseline-native-click.ps1",
+      "bytes": 3084,
+      "sha256": "6f714400dba2866150e02d16002cd8034d54e5f1989755d84cf0a72a37f60224"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-baseline-native-folder.ps1",
+      "bytes": 6049,
+      "sha256": "5d792cdf3cd021cbd92ed4092722d0a9155d752614a27b456f4de43505e69975"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-baseline-native-menu.ps1",
+      "bytes": 4887,
+      "sha256": "6d5294039877edd7b7d93e2e2bbb6a7f709fc842f6bd83801556bc46b4c4e8e1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-baseline-native-ui.ps1",
+      "bytes": 3419,
+      "sha256": "00e08893f1e533041af025c951698b5932c677669c66c5df18598a2aadb40929"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-credential-restore-authorization-check.md",
+      "bytes": 1923,
+      "sha256": "b66b659848340374eecfefd0e6ebb667e5bc93357182b447255f583bff678e91"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-install-baseline.ps1",
+      "bytes": 2923,
+      "sha256": "e07088aa144323a610c21830558a59016fc869dc2184550d5f4ad1c91ec75023"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-baseline-selection-backup-manifest-v1.json",
+      "bytes": 1385,
+      "sha256": "97bba3bfb0b4826894d1693229fff3d19eb5c4cf8492894d155050436aabc605"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-notification-handoff.md",
+      "bytes": 3616,
+      "sha256": "7aad7e4c91748e39bd385f81dded85f0abadd4fe13b484a2bcc634997736ebc4"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-installed-notification-manifest-v2.json",
+      "bytes": 3256,
+      "sha256": "90c79284be0c840de6aab17488e0800b00cff224c1e6c64ddeb562e4201c9579"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-01.json",
+      "bytes": 4920,
+      "sha256": "ee5feacd06f128c7a755c7327c074b3633251e7a41388bb03ee17c9bdf4ebaa8"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-02.json",
+      "bytes": 5113,
+      "sha256": "1329994d48724c6fc7353e818629ad9e5f24a35b318da1b647844079e73a17de"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-attempt-snapshot.mjs",
+      "bytes": 4605,
+      "sha256": "d5a441037c483738a6f6706576b0613e05624d51b6c8511e9539c3044911e2b3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-notification-history-read.ps1",
+      "bytes": 614,
+      "sha256": "5ca835d61fb2e02c9caad966c3f2ad8811670d9d3cc13ff58b63454add6a544d"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-proposal-seed-01.json",
+      "bytes": 1635,
+      "sha256": "39de92becae99ea46d015f11fb095cfaa6a5ce5fd2555d74ebc9983e00d026c1"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-field-snapshot.mjs",
+      "bytes": 8259,
+      "sha256": "f13755eca92c481bf02a1dcd40f7bd82388fa5c8296106153602df0cb5f992ee"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-fields-pre.json",
+      "bytes": 32761,
+      "sha256": "d1d7880ba7373c9eaad69aacac8755823c13f5aac32471d038029d19eee93eb6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-v5-backup-01.json",
+      "bytes": 12300,
+      "sha256": "71d264e6b1bb1dc0cff10669649fbf376c7c83031209b70472c2b880fa5f253c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-upgrade-v5-backup-verify.mjs",
+      "bytes": 6545,
+      "sha256": "1d54c168d9b70ac4f3375f5a6819ccc42ac54c8b6662d2922b3be4b156db1668"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-candidate-02.md",
+      "bytes": 1373,
+      "sha256": "393ac28ac922d04835edee63dfc23b4302095bdcd147e40fa9aca0f18a7e21b3"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-content-match-02.json",
+      "bytes": 235,
+      "sha256": "86ee29e08f3d368a9bc78f35a18097fe694ad654963642a0fcd8e95881216772"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-hashes-02.json",
+      "bytes": 591,
+      "sha256": "673a8518a7cec4cde25b26913bd02fcdde218198d89e54eccdbb1efe3d9989aa"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-018-root-integration.md",
+      "bytes": 1486,
+      "sha256": "db3ad076a5a6cbd09c3529673e29a21e1a8d2e5f33cd88e9aac16467f10ae1f5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-candidate-v1.md",
+      "bytes": 3319,
+      "sha256": "ecd6f151f4ed61a585b4d9186fcd3950a117abc38c4faea09230996dd00b7cb2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-01.json",
+      "bytes": 739,
+      "sha256": "1a68d44850bed0cf997e66c30c6207e53a669cf6c5144efe99fe6036b288c512"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-02.json",
+      "bytes": 6315,
+      "sha256": "891829afee0fde624aa94ea30b9bb68556520b8e4972b5a30d34b027f1186b17"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-03.json",
+      "bytes": 6318,
+      "sha256": "f38661ee7fa61b3139ba6b41c101028036c9eefecea0f751ae2d64a808d1c656"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-04.json",
+      "bytes": 659,
+      "sha256": "baf177bb4663d53d45cab7e4e3701314b6d43542f4b2bf6f77abfb28803c8640"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-05.json",
+      "bytes": 1025,
+      "sha256": "ee881a36e857463c45d376c38b134a79ef5b3f96906e3f0efd903a57ecba995b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-manifest-v1.json",
+      "bytes": 2908,
+      "sha256": "213d0a3adff3ee0ada7b84e84bd91cf46e97b1513b8e08608c65fe9fa32b0135"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-after-due-uia.json",
+      "bytes": 37466,
+      "sha256": "298b9de6cd03bc266f9f1a84f2952ac7536e64dff44b24a04b0d0df96838fa4e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-after-save-uia.json",
+      "bytes": 37203,
+      "sha256": "220c08956d4af59962c2d5828e55da54df96df9bc51c5e8f8334153ca153d316"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-after-second-due-uia.json",
+      "bytes": 37197,
+      "sha256": "9d337b583920af77454bfdf619c4946bb09cf55377deb3fef92351b18fccab11"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-current-uia.json",
+      "bytes": 37949,
+      "sha256": "541e7d3814d7c8a6610d99d9c93f6d0284775aec387a8d222e1fb9554dcef601"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-display-observed.png",
+      "bytes": 16018,
+      "sha256": "1768d8096ff576889eefa5743ddf90f2e3b895ef4c9d5e3e61f8376ddf8bcf6e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-installed-current.png",
+      "bytes": 101364,
+      "sha256": "53499f3096204019594406d3d1c6d2c1fa465f06329e9f5fb035bd330a193a7c"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-installed-native-01.json",
+      "bytes": 1933,
+      "sha256": "bd746775edf97ba20a4fd345124725ddfd6b9adee95ff8b49f0aad0a8f1977b5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-reschedule-uia.json",
+      "bytes": 42739,
+      "sha256": "8ca0a31d14e8301ed9afe44da4b71afccd5b042b4f4400830245d44b01168d8e"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/reminders-014-root-login-v2-final-01.json",
+      "bytes": 7183,
+      "sha256": "a1ad7f49adc7458d36bf093eb1eac143d9e6c3b21086238e8eb685b71a4e3a5a"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-notification-late-failure-red.json",
+      "bytes": 2449,
+      "sha256": "22e8d6198b17db083c6dd52193461b153c8570437d794d03eceb7e33badbd697"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-final-focused.json",
+      "bytes": 21655,
+      "sha256": "2643538275a4b43f6b938f36fbdaf5d57358cd224f0870f8dd71d4fb819d668b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-final-static-hashes.json",
+      "bytes": 2701,
+      "sha256": "4442caeae19ff434f9d64b187cb8cd9807fab3ea29322d9e03da74b5fdd422e6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-independent-final-pass.md",
+      "bytes": 6529,
+      "sha256": "49b4acdbeae8d8befec9db96554813188531adbcfbbbd61fe6814071bd4ea015"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-scan-provider015-01.json",
+      "bytes": 14996,
+      "sha256": "04ff36a760d7047a976c0b1c4caa898436d4d3eb14409d63fb848be42f736a51"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 4190,
+      "sha256": "5efe6fe0f6e73e23ae1c4c1ae94371af3b8cd5153b63cb501faf45cc65d95334"
+    },
+    {
+      "path": "doc/tasks/018-old-round-business-receipts.md",
+      "bytes": 3345,
+      "sha256": "78531e788fbb45edb7da3e3d110ffe7b5f1423c0f8ccb169b34b9f100d40b09f"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "bytes": 42902,
+      "sha256": "2c458be3a87451b2c765c3205864eeee9534b3ebdcb154eed0e6f17e5fb926f9"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "bytes": 34594,
+      "sha256": "1bf9cdfb4457c04c77e5f780f260d2c33c53cf0bff847cc0b432e9797887f1bc"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "bytes": 2197,
+      "sha256": "a5054ab54224b6e4218285ae6d4f43a15d4ccecdc58e2a9c2146b0120cc79ffd"
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "bytes": 26184,
+      "sha256": "2de4ffd28819b0dbff00c5937879edaeeeb0ab1515f99ba84dbb53adae0f8771"
+    },
+    {
+      "path": "src/renderer/src/features/provider/OldRoundReceiptPanel.tsx",
+      "bytes": 4068,
+      "sha256": "4b1381698baa44b020a53520ea9aec05b73b8a2dd102e614144f8483b08701ec"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "bytes": 73535,
+      "sha256": "f65480716dd1ca52e13c66d51df5f74b605f414e828253fc443d57ddbbd2cb9f"
+    },
+    {
+      "path": "src/renderer/src/features/provider/RoundToolReceiptPanel.tsx",
+      "bytes": 10497,
+      "sha256": "c2cabdfcd32f2f1dce944da1728c6f023efc7f430c04b38d579cd2b5f213b988"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ToolExecutionPanel.tsx",
+      "bytes": 38734,
+      "sha256": "8c4016741849893d82ac9244006a68f31a3bedf6d0d0ee218adb6ac6f4cefd67"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "bytes": 28639,
+      "sha256": "c900b23a9467bb3c369c9162f421c4302cd0701b2cd79bb3dff73aeb18576e14"
+    },
+    {
+      "path": "tests/integration/review014-notification-late-failure.test.ts",
+      "bytes": 4403,
+      "sha256": "afa7774b0b7fc4718c99208d0c18d7fcc83754480b026a803028d7433c4394cb"
+    },
+    {
+      "path": "tests/integration/review016-old-receipt-persistence.test.ts",
+      "bytes": 3027,
+      "sha256": "513dde5f4902db421645364c137a4c2d592ef50cf79919dc2a1b43725b86ff6d"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-old-round-receipts.test.tsx",
+      "bytes": 10386,
+      "sha256": "c475e60178f009bcc55bb42da1b3b4bed098248f5eaa4d11d057b92083dbacaa"
+    },
+    {
+      "path": "tests/renderer/review016-old-receipt-access.test.tsx",
+      "bytes": 5066,
+      "sha256": "ce8fb30691f101d24feae896823297e8d1f0c75e44dd508aa04ad1ab43ed1aea"
+    },
+    {
+      "path": "tests/renderer/review018-receipt-boundaries.test.tsx",
+      "bytes": 14073,
+      "sha256": "58deb2923b931ce8a86a797683595aa4a81ee0c827b1e5b6a8fe5d114a4a50c2"
+    }
+  ]
+}

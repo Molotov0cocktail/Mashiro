@@ -1434,9 +1434,23 @@ export function ProviderPanel({
             mode={mode}
             bindingKey={historyBindingKey}
             timelineApi={timelineApi}
+            providerApi={api}
             memoryApi={memoryApi}
+            reminderApi={reminderApi}
             roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
+            receiptRouteKey={`${assistantSnapshot?.stateRevision ?? ''}:${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
             onOpenMemory={onOpenMemory}
+            onMemoryChanged={() => {
+              setRoundMemoryRefresh((value) => value + 1)
+              onMemoryChanged?.()
+            }}
+            onItemChanged={onItemChanged}
+            onReminderChanged={onReminderChanged}
+            onOpenItems={onOpenItems}
+            onLocateMemorySource={onLocateMemorySource}
+            onPrepareRetention={(prepared) =>
+              onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
+            }
             contextIntent={contextIntent}
             selectedRequestIds={selectedRequestIds}
             focusRequest={historyFocus[currentAssistantId]}

@@ -1,0 +1,116 @@
+{
+  "base": "99bf73d79c35b86973d65699b62cb91e49830edb",
+  "checked": 26,
+  "mismatches": [],
+  "normalized": [
+    ".gitattributes",
+    "doc/tasks/program-docs-to-release.md",
+    "doc/tasks/progress.md"
+  ],
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-018-root-integration.md",
+      "sha256": "db3ad076a5a6cbd09c3529673e29a21e1a8d2e5f33cd88e9aac16467f10ae1f5"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-candidate-v1.md",
+      "sha256": "ecd6f151f4ed61a585b4d9186fcd3950a117abc38c4faea09230996dd00b7cb2"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-01.json",
+      "sha256": "1a68d44850bed0cf997e66c30c6207e53a669cf6c5144efe99fe6036b288c512"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-02.json",
+      "sha256": "891829afee0fde624aa94ea30b9bb68556520b8e4972b5a30d34b027f1186b17"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-03.json",
+      "sha256": "f38661ee7fa61b3139ba6b41c101028036c9eefecea0f751ae2d64a808d1c656"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-04.json",
+      "sha256": "baf177bb4663d53d45cab7e4e3701314b6d43542f4b2bf6f77abfb28803c8640"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-edit-plan-05.json",
+      "sha256": "ee881a36e857463c45d376c38b134a79ef5b3f96906e3f0efd903a57ecba995b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-018-ui-manifest-v1.json",
+      "sha256": "213d0a3adff3ee0ada7b84e84bd91cf46e97b1513b8e08608c65fe9fa32b0135"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-final-focused.json",
+      "sha256": "2643538275a4b43f6b938f36fbdaf5d57358cd224f0870f8dd71d4fb819d668b"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-final-static-hashes.json",
+      "sha256": "4442caeae19ff434f9d64b187cb8cd9807fab3ea29322d9e03da74b5fdd422e6"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-independent-final-pass.md",
+      "sha256": "49b4acdbeae8d8befec9db96554813188531adbcfbbbd61fe6814071bd4ea015"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/steward-013-scan-018-preclose-01.json",
+      "sha256": "8de9c57c42e6de1006848d219758ff9231bbf70eaf887b89eb7ed6290e73955d"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "be0dae5f923284bf18bfc2658154093ec215efc2309c332e8d53e98ee1c1443e"
+    },
+    {
+      "path": "doc/tasks/018-old-round-business-receipts.md",
+      "sha256": "78531e788fbb45edb7da3e3d110ffe7b5f1423c0f8ccb169b34b9f100d40b09f"
+    },
+    {
+      "path": "doc/tasks/program-docs-to-release.md",
+      "sha256": "4ad47fcf490754fd2ff8e9a6f440993d721a0389b2bb6fd98797f8a88a7a2851"
+    },
+    {
+      "path": "doc/tasks/progress.md",
+      "sha256": "98dc616f9475b2a5b2944f9ccb136d967686a962b2356880bd541bc247d7d2f3"
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "sha256": "2de4ffd28819b0dbff00c5937879edaeeeb0ab1515f99ba84dbb53adae0f8771"
+    },
+    {
+      "path": "src/renderer/src/features/provider/OldRoundReceiptPanel.tsx",
+      "sha256": "4b1381698baa44b020a53520ea9aec05b73b8a2dd102e614144f8483b08701ec"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "sha256": "f65480716dd1ca52e13c66d51df5f74b605f414e828253fc443d57ddbbd2cb9f"
+    },
+    {
+      "path": "src/renderer/src/features/provider/RoundToolReceiptPanel.tsx",
+      "sha256": "c2cabdfcd32f2f1dce944da1728c6f023efc7f430c04b38d579cd2b5f213b988"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ToolExecutionPanel.tsx",
+      "sha256": "8c4016741849893d82ac9244006a68f31a3bedf6d0d0ee218adb6ac6f4cefd67"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "c900b23a9467bb3c369c9162f421c4302cd0701b2cd79bb3dff73aeb18576e14"
+    },
+    {
+      "path": "tests/integration/review016-old-receipt-persistence.test.ts",
+      "sha256": "513dde5f4902db421645364c137a4c2d592ef50cf79919dc2a1b43725b86ff6d"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-old-round-receipts.test.tsx",
+      "sha256": "c475e60178f009bcc55bb42da1b3b4bed098248f5eaa4d11d057b92083dbacaa"
+    },
+    {
+      "path": "tests/renderer/review016-old-receipt-access.test.tsx",
+      "sha256": "ce8fb30691f101d24feae896823297e8d1f0c75e44dd508aa04ad1ab43ed1aea"
+    },
+    {
+      "path": "tests/renderer/review018-receipt-boundaries.test.tsx",
+      "sha256": "58deb2923b931ce8a86a797683595aa4a81ee0c827b1e5b6a8fe5d114a4a50c2"
+    }
+  ]
+}

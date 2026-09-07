@@ -1,0 +1,15 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/ToolExecutionPanel.tsx",
+    "hash": "EF1E00CBAC8AF633E0B347CF43B9BCEE6E7CEC483E75790864FB0D5AEA73DFD9",
+    "replacements": [
+      ["function toolLabel(", "export function toolLabel("],
+      ["function operationAriaLabel(", "export function operationAriaLabel("],
+      ["function operationStateText(", "export function operationStateText("],
+      ["function MemoryReceiptCard({", "export function MemoryReceiptCard({"],
+      ["function ItemReceiptCard({", "export function ItemReceiptCard({"],
+      ["function ReminderReceiptCard(", "export function ReminderReceiptCard("],
+      ["function ReminderConversationCard({", "export function ReminderConversationCard({"]
+    ]
+  }
+]

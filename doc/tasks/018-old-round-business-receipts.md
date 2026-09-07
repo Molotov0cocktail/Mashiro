@@ -1,6 +1,6 @@
 # 018 旧轮次业务回执与恢复入口
 
-状态：ACTIVE / IMPLEMENTING；PROGRAM ACTIVE。唯一入口为[progress](progress.md)，覆盖[总清单](program-docs-to-release.md)A06/B05/G01及[016整体场景](016-overall-product-acceptance.md)的取消、重启、结果未知与原操作核查。接续007/006/017，不以本切片完成终止发布总目标。
+状态：INTEGRATION_PENDING / SOURCE_PASS；PROGRAM ACTIVE。唯一入口为[progress](progress.md)，覆盖[总清单](program-docs-to-release.md)A06/B05/G01及[016整体场景](016-overall-product-acceptance.md)的取消、重启、结果未知与原操作核查。接续007/006/017，不以本切片完成终止发布总目标。
 
 ## 已证实的问题
 
@@ -17,11 +17,11 @@
 
 - 原memory_017_ui（实际gpt-5.6-sol/high）单写ProviderPanel、HistoryContextPanel、ToolExecutionPanel及必要新界面组件/样式和018作者测试；不改trusted/schema/独立反例/全局入口/Git，不自行build覆盖root当前017输出。修改可信API若确需，先向root说明已定位的必要性。
 - accept_016_final保留独立反例，修复后验证旧RESULT_UNKNOWN、待确认、原ID、零额外Provider调用、错助手及迟到响应，并继续其他文档覆盖审查。
-- root已将017已审100路径暂存在索引，018差异留工作区；不得重新暂存017路径而混入未审018。root协调整合、提交同步与制品，不以未提交WIP或本地测试冒充已发行。
+- root已保存017审定提交99bf73d并实核双远程，018差异留工作区，等待独立最终审核后另行提交。root协调整合、提交同步与制品，不以未提交WIP或本地测试冒充已发行。
 
 原386操作持久化夹具首次超过默认5秒的失败保留；仅该真实持久化测试使用合理20秒技术上限，断言不变，后续实际通过。它不代表任务总时限或可放宽产品行为。
 
-- [ ] 旧轮直接入口及原业务操作完整闭环。
-- [ ] 独立原反例修复与新增边界验证。
+- [x] 旧轮直接入口及原业务操作源码/本地UI闭环。
+- [x] [独立限定PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review018-independent-final-pass.md)：10文件55tests、七路径零漂移、类型/lint/格式通过；原RED关闭。
 - [ ] 相称静态/构建/原生验证与独立PASS、提交和双远程同步。
 - [ ] 016重新结算此项；014最终安装/发布继续。

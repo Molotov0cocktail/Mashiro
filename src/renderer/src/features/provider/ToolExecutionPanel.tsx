@@ -50,7 +50,7 @@ const operationStateLabels: Record<ToolOperation['state'], string> = {
   BLOCKED_BY_CURRENT_STATE: '权限阻止'
 }
 
-function toolLabel(toolName: ToolOperation['toolName']): string {
+export function toolLabel(toolName: ToolOperation['toolName']): string {
   switch (toolName) {
     case 'get_current_time':
       return '本机时钟'
@@ -81,13 +81,13 @@ function toolLabel(toolName: ToolOperation['toolName']): string {
   }
 }
 
-function operationAriaLabel(toolName: ToolOperation['toolName']): string {
+export function operationAriaLabel(toolName: ToolOperation['toolName']): string {
   if (toolName === 'get_current_time') return '时钟读取操作'
   if (toolName === 'search_conversation_history') return '历史检索操作'
   return toolLabel(toolName) + '操作'
 }
 
-function operationStateText(operation: ToolOperation, receipt?: MemoryReceipt): string {
+export function operationStateText(operation: ToolOperation, receipt?: MemoryReceipt): string {
   if (operation.toolName === 'request_memory_removal' && receipt) {
     if (receipt.state === 'PENDING_CONFIRMATION') return '待本地确认'
     if (receipt.state === 'SUCCEEDED') return '已执行'
@@ -102,7 +102,7 @@ function operationStateText(operation: ToolOperation, receipt?: MemoryReceipt): 
 
 type MemoryConfirmationState = { receipt: MemoryReceipt; busy: boolean; error: string }
 
-function MemoryReceiptCard({
+export function MemoryReceiptCard({
   receipt,
   busy,
   error,
@@ -175,7 +175,7 @@ function MemoryReceiptCard({
   )
 }
 
-function ItemReceiptCard({
+export function ItemReceiptCard({
   receipt,
   onOpen
 }: {
@@ -241,7 +241,7 @@ function reminderTime(preview: ReminderPreview): string {
   }
 }
 
-function ReminderReceiptCard({ receipt }: { receipt: ReminderReceipt }): React.JSX.Element {
+export function ReminderReceiptCard({ receipt }: { receipt: ReminderReceipt }): React.JSX.Element {
   return (
     <section className="reminder-tool-receipt" aria-label="提醒可信回执">
       <strong>
@@ -262,7 +262,7 @@ function ReminderReceiptCard({ receipt }: { receipt: ReminderReceipt }): React.J
   )
 }
 
-function ReminderConversationCard({
+export function ReminderConversationCard({
   api,
   operation,
   initial,

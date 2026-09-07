@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { MemoryApi } from '../../../../shared/memory-contract'
-import type { ContextIntent } from '../../../../shared/provider-contract'
-import type { RetentionChanged } from '../../../../shared/retention-contract'
+import type { ContextIntent, ProviderApi } from '../../../../shared/provider-contract'
+import type { ReminderApi } from '../../../../shared/reminder-contract'
+import type { RetentionChanged, RetentionIntent } from '../../../../shared/retention-contract'
+import type { HistoryCitation } from '../../../../shared/tool-contract'
 import type {
   ChatMode,
   HistoryPermissions,
   TimelineApi,
   TimelineMessage
 } from '../../../../shared/timeline-contract'
+import { OldRoundReceiptPanel } from './OldRoundReceiptPanel'
 import { RoundMemoryPanel } from './RoundMemoryPanel'
 
 const protocolVersion = 1 as const
@@ -99,9 +102,18 @@ export function HistoryContextPanel({
   mode,
   bindingKey,
   timelineApi,
+  providerApi,
   memoryApi,
+  reminderApi,
   roundMemoryRefreshKey,
+  receiptRouteKey,
   onOpenMemory,
+  onMemoryChanged,
+  onItemChanged,
+  onReminderChanged,
+  onOpenItems,
+  onLocateMemorySource,
+  onPrepareRetention,
   contextIntent,
   selectedRequestIds,
   focusRequest,
@@ -114,9 +126,22 @@ export function HistoryContextPanel({
   mode: ChatMode
   bindingKey: string
   timelineApi: TimelineApi
+  providerApi?: Pick<ProviderApi, 'tools'>
   memoryApi?: MemoryApi
+  reminderApi?: ReminderApi
   roundMemoryRefreshKey?: string | number
+  receiptRouteKey?: string | number
   onOpenMemory?: (target: { assistantId: string; id: string }) => void
+  onMemoryChanged?: () => void
+  onItemChanged?: () => void
+  onReminderChanged?: () => void
+  onOpenItems?: (recovery?: {
+    assistantId: string
+    commandId: string
+    confirmationAction?: 'replace-content'
+  }) => void
+  onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>
+  onPrepareRetention?: (intent: RetentionIntent) => void
   contextIntent: ContextIntent
   selectedRequestIds: string[]
   focusRequest?: { requestId: string; nonce: number }
@@ -562,6 +587,29 @@ export function HistoryContextPanel({
                   api={memoryApi}
                   refreshKey={roundMemoryRefreshKey}
                   onOpenMemory={onOpenMemory}
+                />
+              ) : null}
+              {providerApi ? (
+                <OldRoundReceiptPanel
+                  key={`${assistantId}:${turn.requestId}:${receiptRouteKey ?? ''}`}
+                  assistantId={assistantId}
+                  requestId={turn.requestId}
+                  roundLabel={selectionLabel(
+                    turn.user?.content ?? turn.assistant?.content ?? '无正文'
+                  )}
+                  api={providerApi}
+                  memoryApi={memoryApi}
+                  reminderApi={reminderApi}
+                  retentionChange={retentionChange}
+                  onMemoryChanged={onMemoryChanged}
+                  onItemChanged={onItemChanged}
+                  onReminderChanged={onReminderChanged}
+                  onOpenItems={onOpenItems}
+                  onLocateMemorySource={onLocateMemorySource}
+                  onPrepareRetention={onPrepareRetention}
+                  onLocateCitation={(citation: HistoryCitation) =>
+                    void loadCitation(assistantId, citation.requestId)
+                  }
                 />
               ) : null}
               {view.query && focusedByAssistant[assistantId] !== turn.requestId ? (

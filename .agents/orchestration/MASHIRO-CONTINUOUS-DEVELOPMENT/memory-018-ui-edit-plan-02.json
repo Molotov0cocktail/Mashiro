@@ -1,0 +1,41 @@
+[
+  {
+    "path": "src/renderer/src/features/provider/OldRoundReceiptPanel.tsx",
+    "hash": "C8D23D815DAE067726862680CE96135D2F2A209224BE772BFE5F072AC0E975CE",
+    "replacements": [
+      ["import type { ItemApi } from '../../../../shared/item-contract'\n", ""],
+      ["import { RoundToolReceiptPanel } from './ToolExecutionPanel'", "import { RoundToolReceiptPanel } from './RoundToolReceiptPanel'"],
+      ["  memoryApi,\n  itemApi,\n  reminderApi,", "  memoryApi,\n  reminderApi,"],
+      ["  memoryApi?: MemoryApi\n  itemApi?: ItemApi\n  reminderApi?: ReminderApi", "  memoryApi?: MemoryApi\n  reminderApi?: ReminderApi"],
+      ["          memoryApi={memoryApi}\n          itemApi={itemApi}\n          reminderApi={reminderApi}", "          memoryApi={memoryApi}\n          reminderApi={reminderApi}"]
+    ]
+  },
+  {
+    "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+    "hash": "1E61A07AFD7E71CE6C58C3EF583D64D305DA08D46AFEAAFE5ABB60FEF41BBD57",
+    "replacements": [
+      ["import type { ContextIntent } from '../../../../shared/provider-contract'", "import type { ContextIntent, ProviderApi } from '../../../../shared/provider-contract'"],
+      ["import type { RetentionChanged } from '../../../../shared/retention-contract'", "import type { ReminderApi } from '../../../../shared/reminder-contract'\nimport type { RetentionChanged, RetentionIntent } from '../../../../shared/retention-contract'\nimport type { HistoryCitation } from '../../../../shared/tool-contract'"],
+      ["import { RoundMemoryPanel } from './RoundMemoryPanel'", "import { OldRoundReceiptPanel } from './OldRoundReceiptPanel'\nimport { RoundMemoryPanel } from './RoundMemoryPanel'"],
+      ["  timelineApi,\n  memoryApi,\n  roundMemoryRefreshKey,", "  timelineApi,\n  providerApi,\n  memoryApi,\n  reminderApi,\n  roundMemoryRefreshKey,\n  receiptRouteKey,"],
+      ["  onOpenMemory,\n  contextIntent,", "  onOpenMemory,\n  onMemoryChanged,\n  onItemChanged,\n  onReminderChanged,\n  onOpenItems,\n  onLocateMemorySource,\n  onPrepareRetention,\n  contextIntent,"],
+      ["  timelineApi: TimelineApi\n  memoryApi?: MemoryApi\n  roundMemoryRefreshKey?: string | number\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void", "  timelineApi: TimelineApi\n  providerApi?: Pick<ProviderApi, 'tools'>\n  memoryApi?: MemoryApi\n  reminderApi?: ReminderApi\n  roundMemoryRefreshKey?: string | number\n  receiptRouteKey?: string | number\n  onOpenMemory?: (target: { assistantId: string; id: string }) => void\n  onMemoryChanged?: () => void\n  onItemChanged?: () => void\n  onReminderChanged?: () => void\n  onOpenItems?: (recovery?: {\n    assistantId: string\n    commandId: string\n    confirmationAction?: 'replace-content'\n  }) => void\n  onLocateMemorySource?: (source: { assistantId: string; id: string }) => Promise<void>\n  onPrepareRetention?: (intent: RetentionIntent) => void"],
+      ["              {view.query && focusedByAssistant[assistantId] !== turn.requestId ? (", "              {providerApi ? (\n                <OldRoundReceiptPanel\n                  key={`${assistantId}:${turn.requestId}:${receiptRouteKey ?? ''}`}\n                  assistantId={assistantId}\n                  requestId={turn.requestId}\n                  roundLabel={selectionLabel(\n                    turn.user?.content ?? turn.assistant?.content ?? '无正文'\n                  )}\n                  api={providerApi}\n                  memoryApi={memoryApi}\n                  reminderApi={reminderApi}\n                  retentionChange={retentionChange}\n                  onMemoryChanged={onMemoryChanged}\n                  onItemChanged={onItemChanged}\n                  onReminderChanged={onReminderChanged}\n                  onOpenItems={onOpenItems}\n                  onLocateMemorySource={onLocateMemorySource}\n                  onPrepareRetention={onPrepareRetention}\n                  onLocateCitation={(citation: HistoryCitation) =>\n                    void loadCitation(assistantId, citation.requestId)\n                  }\n                />\n              ) : null}\n              {view.query && focusedByAssistant[assistantId] !== turn.requestId ? ("
+    ]
+  },
+  {
+    "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+    "hash": "DD5F4D3CCF4799084C1729328EF8B7412129E289072105E8A6D0365491DF6579",
+    "replacements": [
+      ["            timelineApi={timelineApi}\n            memoryApi={memoryApi}\n            roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}", "            timelineApi={timelineApi}\n            providerApi={api}\n            memoryApi={memoryApi}\n            reminderApi={reminderApi}\n            roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}\n            receiptRouteKey={`${assistantSnapshot?.stateRevision ?? ''}:${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}"],
+      ["            onOpenMemory={onOpenMemory}\n            contextIntent={contextIntent}", "            onOpenMemory={onOpenMemory}\n            onMemoryChanged={() => {\n              setRoundMemoryRefresh((value) => value + 1)\n              onMemoryChanged?.()\n            }}\n            onItemChanged={onItemChanged}\n            onReminderChanged={onReminderChanged}\n            onOpenItems={onOpenItems}\n            onLocateMemorySource={onLocateMemorySource}\n            onPrepareRetention={(prepared) =>\n              onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)\n            }\n            contextIntent={contextIntent}"
+    ]
+  },
+  {
+    "path": "src/renderer/src/styles.css",
+    "hash": "F2FEF30E72F011352F8CDCAE10709A5779AEACF94BEB8252E97B0904DD402C7B",
+    "replacements": [
+      ["@media (max-width: 820px) {\n  .daily-tabs,", ".old-round-receipts {\n  margin-top: 0.65rem;\n}\n.old-round-operation-panel {\n  margin-top: 0.65rem;\n  padding: 0.8rem;\n  border: 1px solid #514568;\n  border-radius: 0.6rem;\n  background: #211c2c;\n}\n.old-round-operation-panel .operation-list {\n  margin-top: 0.65rem;\n}\n@media (max-width: 820px) {\n  .daily-tabs,"
+    ]
+  }
+]

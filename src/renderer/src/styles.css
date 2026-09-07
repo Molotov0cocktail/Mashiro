@@ -1720,6 +1720,19 @@ button:disabled {
 .daily-card.severity-warn {
   border-color: #a7812d;
 }
+.old-round-receipts {
+  margin-top: 0.65rem;
+}
+.old-round-operation-panel {
+  margin-top: 0.65rem;
+  padding: 0.8rem;
+  border: 1px solid #514568;
+  border-radius: 0.6rem;
+  background: #211c2c;
+}
+.old-round-operation-panel .operation-list {
+  margin-top: 0.65rem;
+}
 @media (max-width: 820px) {
   .daily-tabs,
   .daily-subtabs,

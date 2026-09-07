@@ -1,0 +1,65 @@
+{
+  "webTypecheck": 0,
+  "nodeTypecheck": 0,
+  "eslint": 0,
+  "prettier": 0,
+  "manifestSha256": "213D0A3ADFF3EE0ADA7B84E84BD91CF46E97B1513B8E08608C65FE9FA32B0135",
+  "candidateHashes": [
+    {
+      "path": "src/renderer/src/features/provider/ToolExecutionPanel.tsx",
+      "expected": "8c4016741849893d82ac9244006a68f31a3bedf6d0d0ee218adb6ac6f4cefd67",
+      "actual": "8c4016741849893d82ac9244006a68f31a3bedf6d0d0ee218adb6ac6f4cefd67",
+      "match": true
+    },
+    {
+      "path": "src/renderer/src/features/provider/RoundToolReceiptPanel.tsx",
+      "expected": "c2cabdfcd32f2f1dce944da1728c6f023efc7f430c04b38d579cd2b5f213b988",
+      "actual": "c2cabdfcd32f2f1dce944da1728c6f023efc7f430c04b38d579cd2b5f213b988",
+      "match": true
+    },
+    {
+      "path": "src/renderer/src/features/provider/OldRoundReceiptPanel.tsx",
+      "expected": "4b1381698baa44b020a53520ea9aec05b73b8a2dd102e614144f8483b08701ec",
+      "actual": "4b1381698baa44b020a53520ea9aec05b73b8a2dd102e614144f8483b08701ec",
+      "match": true
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "expected": "2de4ffd28819b0dbff00c5937879edaeeeb0ab1515f99ba84dbb53adae0f8771",
+      "actual": "2de4ffd28819b0dbff00c5937879edaeeeb0ab1515f99ba84dbb53adae0f8771",
+      "match": true
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "expected": "f65480716dd1ca52e13c66d51df5f74b605f414e828253fc443d57ddbbd2cb9f",
+      "actual": "f65480716dd1ca52e13c66d51df5f74b605f414e828253fc443d57ddbbd2cb9f",
+      "match": true
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "expected": "c900b23a9467bb3c369c9162f421c4302cd0701b2cd79bb3dff73aeb18576e14",
+      "actual": "c900b23a9467bb3c369c9162f421c4302cd0701b2cd79bb3dff73aeb18576e14",
+      "match": true
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-old-round-receipts.test.tsx",
+      "expected": "c475e60178f009bcc55bb42da1b3b4bed098248f5eaa4d11d057b92083dbacaa",
+      "actual": "c475e60178f009bcc55bb42da1b3b4bed098248f5eaa4d11d057b92083dbacaa",
+      "match": true
+    }
+  ],
+  "oracleHashes": [
+    {
+      "path": "tests/renderer/review016-old-receipt-access.test.tsx",
+      "sha256": "CE8FB30691F101D24FEAE896823297E8D1F0C75E44DD508AA04AD1AB43ED1AEA"
+    },
+    {
+      "path": "tests/integration/review016-old-receipt-persistence.test.ts",
+      "sha256": "513DDE5F4902DB421645364C137A4C2D592EF50CF79919DC2A1B43725B86FF6D"
+    },
+    {
+      "path": "tests/renderer/review018-receipt-boundaries.test.tsx",
+      "sha256": "58DEB2923B931CE8A86A797683595AA4A81EE0C827B1E5B6A8FE5D114A4A50C2"
+    }
+  ]
+}

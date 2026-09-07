@@ -4,7 +4,7 @@
 
 ## 当前授权与继续规则
 
-最新候选节点：014治理与017可信/UI已独立源码限定PASS，冻结169文件746tests和实际双PID通过。016全新Astra/medium独立负责人完整复读三文档，发现旧业务回执超过384项后的用户入口缺口，已纳入[018](018-old-round-business-receipts.md)必修；其余领域未发现整类已确认要求被遗漏，原始后置边界保持。018与Windows生命周期继续，RET-007原问题仍待答，整体和发布未完成。较早阶段统计按下文原时间事实保留。
+最新候选节点：014治理与017可信/UI已独立源码限定PASS，冻结169文件746tests和实际双PID通过。已审99bf73d79c35b86973d65699b62cb91e49830edb已实核双远程同值；schema18内部NSIS构建成功，ASAR五项程序输出与冻结构建逐项哈希相同，见[制品记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-017-packaged-candidate-02.md)，正执行隔离升级。016全新Astra/medium独立负责人完整复读三文档，发现旧业务回执超过384项后的用户入口缺口，已纳入[018](018-old-round-business-receipts.md)必修；其余领域未发现整类已确认要求被遗漏，原始后置边界保持。018与Windows生命周期继续，RET-007原问题仍待答，整体和发布未完成。较早阶段统计按下文原时间事实保留。
 
 当前有效状态（2026-09-07 18:37）：HEAD a3550888d4d6d001f441fb73e806eef4729ca315；最后已审产品f04fe24保持。014/schema18治理v4独立26文件65tests PASS，种子容量v5最终文件竞态已修v6并独立4文件9tests PASS；登录启动v2独立4文件20tests PASS，实际Electron隔离验证通过，最终安装仍待。017可信限定PASS、renderer实施中，D03是发布必需。安装执行者继续保存升级前完整合成基线、验证通知与新版生命周期；RET-007仍待答，016整体及实际发布未完成。本阶段无新增真实Provider调用；程序累计54次请求，其中5次历史用量未知，已知90162tokens，依据[daily真实角色记录](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/daily-013-live-product.md)。以下旧候选摘要按历史证据保留，不覆盖本条当前状态。
 

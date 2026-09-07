@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "candidate": "memory-018-ui-v1",
+  "status": "CANDIDATE_INDEPENDENT_REVIEW_PENDING",
+  "generatedAt": "2026-09-07T12:01:15.5558256Z",
+  "model": "gpt-5.6-sol/high",
+  "headAtFreeze": "99bf73d79c35b86973d65699b62cb91e49830edb",
+  "committedByExecutor": false,
+  "stagedByExecutor": false,
+  "files": [
+    {
+      "path": "src/renderer/src/features/provider/ToolExecutionPanel.tsx",
+      "sha256": "8c4016741849893d82ac9244006a68f31a3bedf6d0d0ee218adb6ac6f4cefd67",
+      "role": "product-existing-receipt-exports"
+    },
+    {
+      "path": "src/renderer/src/features/provider/RoundToolReceiptPanel.tsx",
+      "sha256": "c2cabdfcd32f2f1dce944da1728c6f023efc7f430c04b38d579cd2b5f213b988",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/features/provider/OldRoundReceiptPanel.tsx",
+      "sha256": "4b1381698baa44b020a53520ea9aec05b73b8a2dd102e614144f8483b08701ec",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "sha256": "2de4ffd28819b0dbff00c5937879edaeeeb0ab1515f99ba84dbb53adae0f8771",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "sha256": "f65480716dd1ca52e13c66d51df5f74b605f414e828253fc443d57ddbbd2cb9f",
+      "role": "product"
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "c900b23a9467bb3c369c9162f421c4302cd0701b2cd79bb3dff73aeb18576e14",
+      "role": "product"
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-old-round-receipts.test.tsx",
+      "sha256": "c475e60178f009bcc55bb42da1b3b4bed098248f5eaa4d11d057b92083dbacaa",
+      "role": "author-test"
+    }
+  ],
+  "independentOracleFiles": [
+    "tests/renderer/review016-old-receipt-access.test.tsx",
+    "tests/integration/review016-old-receipt-persistence.test.ts",
+    "tests/renderer/review018-receipt-boundaries.test.tsx"
+  ],
+  "verification": [
+    {
+      "scope": "unchanged review016 old-round access oracle",
+      "result": "1 file passed; 1 test passed"
+    },
+    {
+      "scope": "reviewer-owned Task 018 boundary oracle on final behavior",
+      "result": "1 file passed; 10 tests passed locally",
+      "note": "Execution evidence only; independent final verdict remains with accept_016_final."
+    },
+    {
+      "scope": "author Task 018 tests after final edit",
+      "result": "1 file passed; 3 tests passed"
+    },
+    {
+      "scope": "directly affected renderer regression after substantive edits",
+      "result": "7 files passed; 48 tests passed"
+    },
+    {
+      "scope": "tsconfig.web.json typecheck after test fixture corrections",
+      "result": "passed"
+    },
+    {
+      "scope": "exact scoped ESLint after final edit",
+      "result": "passed with zero warnings"
+    },
+    {
+      "scope": "exact seven-file Prettier check after final edit",
+      "result": "passed"
+    }
+  ]
+}
