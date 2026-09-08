@@ -1,0 +1,9 @@
+# Release transport v2 independent review
+
+Verdict: **LIMITED_TOOL_PASS**. Candidate SHA-256 C28B246FCA559F730B6F45FC156E7C331B67BF1CA396A92B5A06B35A1C232E07. No publication, credentials or real API calls were performed. This is not approval of any future release's unreviewed plan/assets.
+
+The exact diff adds a GET of the same release after publication, checks release ID/tag/body/public/non-prerelease state and asset count, then checks each previously accepted asset's ID/name/uploaded state/size/digest before refreshing its browser URL. The existing exact public download-target check remains before anonymous fetch. No POST/PATCH/delete, credential handling, existing-public recovery or other behavior was changed. The old transport remains SHA-256 4AACFE26E6C400685CAB4BC21C46761412362743D74D0B0297B43A18A3CE932C.
+
+Offline fixture `review-release-transport-v2-offline.mjs` pins the candidate hash and executes the exact extracted reconciliation block plus the unchanged download-target assertion with an in-memory GET response. It does not run the transport entrypoint. Actual result (bb9a96): one valid draft-URL to public-URL transition passes; twelve changes reject (release ID/tag/draft/body/prerelease, count, asset ID/name/size/digest/state, and foreign download URL). The original cached draft URL is shown unequal to the required public URL; historical v0.1.0 execution failure remains preserved in its original receipt. Node syntax check exits 0.
+
+Fixture SHA-256: 3F85F503560BF2FAEAF90984CA18C692693DF5D395F83127D4FFDA5D4C8C8DF7. Network calls and credential reads: zero. Scope is the changed reconciliation mechanism, not a new live publication experiment. On a failed fresh GET or identity check, existing checkpoint/error handling still stops and preserves recovery evidence; it never repairs a mismatch by overwriting public assets.

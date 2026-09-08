@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "kind": "POST_RELEASE_INSTALL_AND_LOCATOR_RESIDUAL_DIAGNOSIS",
+  "observedAt": "2026-09-08T18:18:36.4065603+08:00",
+  "readOnly": true,
+  "scope": {
+    "businessRowsRead": false,
+    "credentialsRead": false,
+    "registryWrites": false,
+    "filesystemWritesOutsideEvidence": false,
+    "processesStarted": false
+  },
+  "process": {
+    "exactMashiroCount": 0
+  },
+  "locator": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\configuration\\location.json",
+    "exists": true,
+    "regularFile": true,
+    "bytes": 243,
+    "sha256": "0855654037482B0FC5C2EA2920D7B0C2767D56818D52382EB49B696576D82FA8",
+    "lastWriteTime": "2026-09-08T05:10:43.6222814+08:00",
+    "formatVersion": 1,
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "dataPath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+    "revision": "63512f06-5cfe-4e37-9c1e-36ba29a59816"
+  },
+  "targetMetadata": {
+    "directoryExists": true,
+    "directoryLinkType": null,
+    "manifestExists": true,
+    "manifestSha256": "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F",
+    "manifestDataSetIdMatches": true,
+    "manifestState": "READY",
+    "databaseExists": true,
+    "databaseBytes": 1490944,
+    "databaseLastWriteTime": "2026-09-08T18:09:31.2151577+08:00",
+    "databaseOpened": false
+  },
+  "installationMetadata": {
+    "fixedUninstallGuid": "5555e988-f7b5-5fe3-b6bd-8df3b21f793e",
+    "uninstallRegistrationExists": true,
+    "displayName": "Mashiro 0.1.0",
+    "registeredInstallExecutable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "registeredExecutableExists": false,
+    "registeredUninstallerExists": false,
+    "currentRunValueExists": true,
+    "currentRunValue": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+    "currentRunTargetExists": false,
+    "legacyRunValueExists": false,
+    "currentStartupApprovedExists": false,
+    "legacyStartupApprovedExists": false,
+    "startMenuShortcutExists": false,
+    "userDesktopShortcutExists": false,
+    "publicDesktopShortcutExists": false,
+    "expectedDefaultExecutablesExist": false
+  },
+  "startupDiagnostics": {
+    "mashiroCrashDumpNamesFound": 0,
+    "mashiroWerReportNamesFound": 0,
+    "appOwnedStartupLogFound": false,
+    "applicationEventQuery": "MESSAGE_RENDER_RESOURCE_ERROR",
+    "specificException": "NOT_PROVEN",
+    "releasedOuterCatchRetainsException": false,
+    "releasedOuterCatchMarker": "MASHIRO_STARTUP_FAILURE"
+  },
+  "source": {
+    "baseline": "d37711746ae33a22618c0da02b89f23fb9143ba9",
+    "productionBootstrapSha256": "054D869EF39AF160F8F41A8A200F1A64B278E0EFBE68A8C7FA8F9EBEB03EA59B",
+    "productionSessionSha256": "D1F83DBFDB219C44E93993DEC1EE493365A601EB05CEFDC068799F1E8E4F0948",
+    "indexSha256": "8F32989B86C27AB594CFF668CD5C4668E02B3DB37158D4B873882D2290F431C3",
+    "stableConfiguration": "%APPDATA%\\Mashiro\\configuration",
+    "readyLocatorAutoOpen": true,
+    "installerDeletesAppData": false
+  },
+  "verdicts": [
+    "DATA_LOCATOR_CONTAMINATION_PROVEN",
+    "INSTALL_METADATA_INCONSISTENT",
+    "SPECIFIC_GENERIC_STARTUP_EXCEPTION_NOT_PROVEN"
+  ]
+}

@@ -1,10 +1,10 @@
 # Mashiro 文档需求至发布总清单
 
-> PROGRAM_ID：MASHIRO-CONTINUOUS-DEVELOPMENT。状态：PROGRAM_DONE / RELEASED。更新：2026-09-08。唯一当前入口为 [progress](progress.md)，本文件是其项目级覆盖明细，不是另一续接入口。总目标：文档需求落实 → 整体产品验收 → Windows 打包安装/更新/卸载验证 → 实际发布与下载核验。TASK_DONE 不等于 PROGRAM_DONE。
+> PROGRAM_ID：MASHIRO-CONTINUOUS-DEVELOPMENT。状态：ACTIVE（019/020发布后修复）；v0.1.0历史RELEASED。更新：2026-09-08。唯一当前入口为 [progress](progress.md)，本文件是其项目级覆盖明细，不是另一续接入口。总目标：文档需求落实 → 整体产品验收 → Windows 打包安装/更新/卸载验证 → 实际发布与下载核验。TASK_DONE 不等于 PROGRAM_DONE。
 
 ## 当前授权与继续规则
 
-执行状态：PROGRAM_DONE / RELEASED。Mashiro v0.1.0 已实际发布：https://github.com/Molotov0cocktail/Mashiro/releases/tag/v0.1.0 。标签与发布提交6c72c007fc22bb17eb3173a919abc58de8153ffe固定；构建源码867b401bdeeebe9a153b32d7a462376239a89bbd。安装包112587919B，SHA256 8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58，实际NotSigned。整体功能/Windows制品/发布材料/公开下载均独立PASS；五附件匿名实际下载全部大小和hash匹配，17:05:14+08完成（release-v0.1.0-fc6fd512-606f-44ff-838d-55c2ffb41cea-014.json）。48领域行及Q1–Q12在原确认范围内闭合，11原始可选/远期边界保留，不冒称已接私人数据源或真实跨应用集成。通知实际冷启动并打开正确事项已验，详情需滚动。首次发布草稿URL缓存失败保留，复核同一公开Release后恢复下载，无重复上传/替换。发布时GitHub/Gitee main及v0.1.0均实核发布提交，收尾文档以main正常后继同步，标签不改。测试登录启动已Off且应用正常退出0进程，数据保留。最终说明与证据见doc/releases/0.1.0/verification.md；当前无继续开发队列或用户门槛，不声称后台继续。
+执行状态：ACTIVE / POST_RELEASE_REPAIR。2026-09-08用户实际反馈桌面安装启动报错、默认安装继承合成测试数据，要求修复并整理美化UI。v0.1.0发布及旧验收保留为历史，不排斥新缺陷；新任务019安装启动/测试隔离与020日常流程/界面同步推进。root维护入口；steward_013_ui只读实际安装/locator诊断；review_017_trusted独立数据语义/启动合同；memory_017_ui整理UI方案。只读已证packaged测试共用正式configuration，可能留下测试locator；具体桌面报错原因待证。不得删除用户新增数据，不改变普通升级保留真实数据语义，不修改既有公开tag/资产。修复后独立审核、隔离实际安装和日常流程验收、发布新版本并下载核验；普通工程/视觉选择无需用户重批。基线d37711746ae33a22618c0da02b89f23fb9143ba9。
 
 以下 v5 历史节点（其待答与当前状态已由上段取代）：运行源码 `a86c2684733fbd3d9d5f5fefd53775357089fbfd` 已实核双main；正常SENDING/QUEUED/RUNNING误报已修复并独立通过，[v5整合](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-root-integration-v5.md)210文件859项中851通过/0失败/8明确跳过，静态/build/两PID243836和248072通过。[v5构建02](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-build-02.raw.txt)退出0，[实际制品](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-packaged-hashes.json)setup SHA256 CEB41588827C580C47F226F94E810188FC85563D34D24C68FE89D4C94C6E221E、112586002字节、0.1.0、NotSigned；[独立STATIC_PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-artifact-review.md)已核5out/79owned/声明/ASAR完整性及同v4的NSIS宏。v4已实际登录On普通卸载：18data/locator/未知文件保留，自有Run及4个LocalServer32清除。v5普通重装与启动前18data/locator/未知文件保留已[独立限定通过](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-native-independent-review.md)；首次启动PID249648仍为原dataset9f，运行分类实际界面已关闭REPAIR，正常SENDING不再混入失败，真实预算与未知告警保留。完整卸载后登录状态Off与系统一致，显式再次On的冻结摘要待原生所有者随新v8通知一并提供；继续单一当前CLSID诊断和实际通知点击/冷激活。旧v7 COM探针误用旧CLSID不归产品故障，真实点击仍未通过。之后独立016/发布材料/实际Release与无凭据下载核验；PROGRAM ACTIVE；当前实际平台协助门槛：自动输入未打开通知中心，任务栏抬升被自动审批拒绝且已停止，不绕过。v8当前CLSID COM诊断HRESULT0并正确导航不代替真实点击；正常退出已确认精确路径0进程，退出后最新07:46通知仍存在。已请求用户手动Win+N点击最新“Mashiro 提醒”正文，待仅核真实冷启动PID及正确事项；之后补016最终结论并实际发布下载。已审证据后继566e19ede3e06337621da03eeddc8978abad5b7b已实核双main一致。v5首次NSIS输出打开FAIL保留，精确输出独占读成功、无相关进程、5out不变且磁盘余量已核后仅一次重试成功，未改防护。
 
@@ -208,3 +208,17 @@ v4制品节点：运行时代码为 `37620929a7f507bb31d41861114cf6f825d715fd`�
 先前过程记录：当前正在运行：[013](013-background-and-steward.md) ACTIVE / STEWARD_IMPLEMENTING。章节核心及014独立locator底座已提交95db9cfa93673ff6975ddb75ccba56b2d0264828，github/gitee非force push后实查两个main一致；48文件章节独立增补PASS、73/420、真实849tokens，双PID/DOM证据与R7真实IPC/标签小修的比例范围见正式任务。steward_013_trusted实际Astra/medium已接手[仓储员合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/background-013-steward-contract.md)，共享DTO已落盘，steward_013_ui实际Sol/high已并行实施UI，随后观察/日常继续。[014](014-windows-data-and-delivery.md)正式启动/完整备份/安装更新仍待，009/012保持INTEGRATION_PENDING；RET、额外AST和REM默认已问待答。早期ASAR/NSIS仅路线SUPPORTED，正式安装升级及Release未验。PROGRAM保持ACTIVE。
 
 历史008启动记录（2026-09-06，现已关闭）：S0合成SQLite/Markdown实验已完成，见[方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-s0.md)与[共享接口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-contract.md)。memory_008_s0（gpt-6-astra / medium）单写main/shared/preload及trusted tests，memory_008_ui（gpt-5.6-sol / high）单写renderer及对应测试；root维护全局记录。前述S0阅读动作已推进为实际实施，事件/权限范围细分随接口同步；新领域尚未验收。007收尾a5041632c09aa3d421654e56a1e76c9e109147bf已非force推送并ls-remote确认两个main同值，不含008产品。
+
+## 2026-09-08 发布后修复覆盖
+
+v0.1.0 的已发布与历史验收保留；用户实际安装和使用反馈重新打开以下交付闭环。当前 PROGRAM 为 ACTIVE，后续使用新的版本和资产，不覆盖已有发布。
+
+| 受影响闭环 | 正式任务 | 当前事实与实现要求 | 当前状态与验收 |
+| --- | --- | --- | --- |
+| 自定义桌面安装、默认安装、失败启动恢复 | [019](019-installation-and-data-isolation.md) | 旧版仅留下泛化错误，具体桌面故障尚未还原；增加可信启动阶段诊断及资源清理，验证真实桌面子目录/中文空格/默认安装 | IMPLEMENTING；独立复核、实际安装验证待做 |
+| 重装保留真实数据，合成验收不污染正式配置 | [019](019-installation-and-data-isolation.md) | 已证实正式 locator 留在旧合成 dataset；不得以清空所有数据修复。明确新建空数据/选择既有数据，旧数据保留，采用独立身份和治理状态；后续验收隔离完整用户配置和系统登记 | IMPLEMENTING；定位 CAS、失败保持、旧内容不丢失及隔离证据待做 |
+| 日常对话与事项/提醒/记忆入口，目标定位 | [020](020-daily-workflow-and-interface.md) | 八个技术性等权页面改为日常入口、自动工作、运行记录与设置；保留全部业务操作和安全屏障；通知目标进入视野 | IMPLEMENTING；行为回归和真实窗口可用性待做 |
+| 模型/权限/后台预算可理解配置与界面美化 | [020](020-daily-workflow-and-interface.md) | 配置按目的组织，技术细节渐进展开；统一排版、间距、明暗主题及窄窗口 | IMPLEMENTING；可达性、撤权和未保存草稿回归待做 |
+| 修订版审核、发布与下载核验 | 019 + 020 | 新版本对应源码和实际制品；发布工具 v2 修正 draft URL 缓存问题，旧发布不变 | QUEUED；先修复和审核，再打包安装/发布/匿名下载比对 |
+
+当前单写分工：steward_013_ui 实施可信启动/数据修复；memory_017_ui 实施 renderer 整理；review_017_trusted 保持独立审核；root 管理全局入口与整合。实际使用角色为 Sol/high 与 Astra/medium。安装环境隔离路线仍在评估，不擅自创建系统账户或声称已完成原生验收。
