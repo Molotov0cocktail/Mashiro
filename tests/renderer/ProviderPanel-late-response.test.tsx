@@ -216,7 +216,7 @@ describe('ProviderPanel late response routing', () => {
         timelineApi={timelineApi}
       />
     )
-    expect(screen.getByLabelText('当前助手')).toHaveValue(assistantB)
+    expect(screen.getByRole('img', { name: 'Beta的聊天形象：雪原' })).toBeVisible()
     view.rerender(
       <ProviderPanel
         assistantSnapshot={assistants(assistantA)}

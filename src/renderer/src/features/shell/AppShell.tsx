@@ -65,7 +65,7 @@ export function AppShell({
   )
 
   return (
-    <main className="app-shell">
+    <main className={`app-shell app-shell-${activeArea}`}>
       <aside className="app-sidebar">
         <div className="app-brand" aria-label="Mashiro">
           <span className="app-brand-mark" aria-hidden="true">

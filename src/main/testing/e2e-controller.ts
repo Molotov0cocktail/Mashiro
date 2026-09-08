@@ -688,6 +688,105 @@ async function execute<T>(window: BrowserWindow, script: string): Promise<T> {
   return (await window.webContents.executeJavaScript(script, false)) as T
 }
 
+type ProviderViewportEvidence = {
+  requestedOuter: { width: number; height: number }
+  actualOuter: { width: number; height: number }
+  content: { width: number; height: number; deviceScaleFactor: number }
+  shell: {
+    top: number
+    bottom: number
+    left: number
+    right: number
+    width: number
+    height: number
+    occupiesTop: boolean
+  }
+  composer: {
+    top: number
+    bottom: number
+    left: number
+    right: number
+    width: number
+    height: number
+  }
+  textarea: {
+    top: number
+    bottom: number
+    left: number
+    right: number
+    width: number
+    height: number
+  }
+  send: {
+    top: number
+    bottom: number
+    left: number
+    right: number
+    width: number
+    height: number
+  }
+  visibleTop: number
+  visible: boolean
+}
+
+async function captureProviderViewport(
+  window: BrowserWindow,
+  dataRoot: DataRoot,
+  width: number,
+  height: number
+): Promise<ProviderViewportEvidence> {
+  window.setSize(width, height, false)
+  await new Promise((resolve) => setTimeout(resolve, 150))
+  const evidence = await execute<Omit<ProviderViewportEvidence, 'requestedOuter' | 'actualOuter'>>(
+    window,
+    `(async()=>{
+      const waitFor=async(fn)=>{for(let n=0;n<120;n++){const value=fn();if(value)return value;await new Promise(resolve=>setTimeout(resolve,25))}throw Error('provider-viewport-ui-timeout')}
+      const chat=document.querySelector('button[aria-label="对话"]')
+      if(!chat)throw Error('provider-viewport-chat-tab')
+      chat.click()
+      const panel=await waitFor(()=>{const value=document.querySelector('.provider-panel');return value&&!value.closest('[hidden]')?value:null})
+      window.scrollTo({top:0,left:0,behavior:'instant'})
+      await new Promise(requestAnimationFrame)
+      await new Promise(requestAnimationFrame)
+      const composer=panel.querySelector('.chat-composer')
+      const textarea=composer?.querySelector('textarea')
+      const send=[...(composer?.querySelectorAll('button')??[])].find(element=>element.textContent.trim()==='发送')
+      const shell=document.querySelector('.app-sidebar')
+      if(!composer||!textarea||!send||!shell)throw Error('provider-viewport-controls')
+      const snapshot=element=>{const value=element.getBoundingClientRect();return {top:value.top,bottom:value.bottom,left:value.left,right:value.right,width:value.width,height:value.height}}
+      const shellRect=snapshot(shell)
+      const occupiesTop=shellRect.width>=window.innerWidth*0.8&&shellRect.top<=1
+      const visibleTop=occupiesTop?Math.max(0,shellRect.bottom):0
+      const composerRect=snapshot(composer)
+      const textareaRect=snapshot(textarea)
+      const sendRect=snapshot(send)
+      const exposed=element=>!element.closest('[hidden]')&&getComputedStyle(element).display!=='none'&&getComputedStyle(element).visibility!=='hidden'
+      const inside=(rect)=>rect.width>0&&rect.height>0&&rect.left>=-1&&rect.right<=window.innerWidth+1&&rect.top>=visibleTop-1&&rect.bottom<=window.innerHeight+1
+      const visible=exposed(composer)&&exposed(textarea)&&exposed(send)&&inside(composerRect)&&inside(textareaRect)&&inside(sendRect)
+      return {content:{width:window.innerWidth,height:window.innerHeight,deviceScaleFactor:window.devicePixelRatio},shell:{...shellRect,occupiesTop},composer:composerRect,textarea:textareaRect,send:sendRect,visibleTop,visible}
+    })()`
+  )
+  const actualBounds = window.getBounds()
+  const result: ProviderViewportEvidence = {
+    ...evidence,
+    requestedOuter: { width, height },
+    actualOuter: { width: actualBounds.width, height: actualBounds.height },
+    visible: evidence.visible && actualBounds.width === width && actualBounds.height === height
+  }
+  const suffix = `${width}x${height}`
+  writeFileSync(
+    join(dataRoot.resultsDirectory!, `provider-ui-outer-${suffix}.json`),
+    JSON.stringify(result, null, 2),
+    { encoding: 'utf8', flag: 'wx' }
+  )
+  writeFileSync(
+    join(dataRoot.resultsDirectory!, `provider-ui-outer-${suffix}.png`),
+    (await window.webContents.capturePage()).toPNG(),
+    { flag: 'wx' }
+  )
+  return result
+}
+
 export async function runE2ePhase(
   window: BrowserWindow,
   dataRoot: DataRoot,
@@ -818,6 +917,8 @@ export async function runE2ePhase(
   } catch {
     evidence = { failure: { stage, code: 'FAILED' } }
   }
+  let providerViewport: ProviderViewportEvidence[] | undefined
+  let captureStage = 'capture'
   let captureFailure: { stage: string; code: string } | undefined
   if (dataRoot.phase === 'verify' && !('failure' in evidence)) {
     try {
@@ -839,6 +940,31 @@ export async function runE2ePhase(
       writeFileSync(join(dataRoot.resultsDirectory, 'provider-ui.png'), image.toPNG(), {
         flag: 'wx'
       })
+      const originalBounds = window.getBounds()
+      providerViewport = []
+      try {
+        for (const requested of [
+          { width: 960, height: 680 },
+          { width: 720, height: 520 }
+        ]) {
+          captureStage = `provider-viewport-${requested.width}x${requested.height}`
+          const observed = await captureProviderViewport(
+            window,
+            dataRoot,
+            requested.width,
+            requested.height
+          )
+          providerViewport.push(observed)
+          if (!observed.visible) throw Error(captureStage)
+        }
+      } finally {
+        const pendingStage = captureStage
+        captureStage = 'provider-viewport-restore'
+        window.setBounds(originalBounds, false)
+        await new Promise((resolve) => setTimeout(resolve, 150))
+        captureStage = pendingStage
+      }
+      captureStage = 'capture-retention'
       await window.webContents.executeJavaScript(
         `(async()=>{document.querySelector('button[aria-label="设置"]')?.click();for(let n=0;n<80;n++){const target=[...document.querySelectorAll('[aria-label="设置类别"] button')].find(element=>element.textContent.trim()==='数据与存储');if(target){target.click();return true}await new Promise(resolve=>setTimeout(resolve,25))}throw Error('retention-navigation-timeout')})()`,
         false
@@ -849,7 +975,7 @@ export async function runE2ePhase(
         flag: 'wx'
       })
     } catch {
-      captureFailure = { stage: 'capture', code: 'FAILED' }
+      captureFailure = { stage: captureStage, code: 'FAILED' }
     }
   }
   let reminders: Awaited<ReturnType<typeof runReminderE2e>> | undefined
@@ -913,6 +1039,7 @@ export async function runE2ePhase(
     }
   }
   const result = {
+    providerViewport,
     daily,
     dailyTransportCalls: transportAfterDaily - transportAfterSteward,
     steward,

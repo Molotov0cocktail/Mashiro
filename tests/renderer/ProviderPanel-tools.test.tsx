@@ -406,7 +406,9 @@ describe('ProviderPanel trusted tools and capability UI', () => {
         timelineApi={timeline()}
       />
     )
-    await waitFor(() => expect(screen.getByLabelText('当前助手')).toHaveValue(assistantB))
+    await waitFor(() =>
+      expect(screen.getByRole('img', { name: 'Beta的聊天形象：雪原' })).toBeVisible()
+    )
     act(() =>
       listener?.({
         type: 'operation',

@@ -43,6 +43,7 @@ describe('AppShell daily workflow', () => {
     for (const name of ['对话', '事项', '提醒', '记忆', '自动工作', '运行记录', '设置']) {
       expect(screen.getByRole('button', { name })).toBeVisible()
     }
+    expect(screen.getByRole('main')).toHaveClass('app-shell-chat')
     expect(screen.getByRole('button', { name: '对话' })).toHaveAttribute('aria-current', 'page')
     expect(screen.queryByRole('option', { name: '已归档助手' })).not.toBeInTheDocument()
 
@@ -74,6 +75,7 @@ describe('AppShell daily workflow', () => {
       </AppShell>
     )
 
+    expect(screen.getByRole('main')).toHaveClass('app-shell-settings')
     expect(screen.getByLabelText('未发送草稿')).toHaveValue('稍后继续')
     expect(screen.getByRole('button', { name: '设置' })).toHaveAttribute('aria-current', 'page')
   })

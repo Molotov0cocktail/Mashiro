@@ -165,3 +165,51 @@ it('keeps one live request and both drafts while settings and another page hide 
   expect(api.saveConnection).not.toHaveBeenCalled()
   expect(api.onEvent).toHaveBeenCalledOnce()
 })
+
+it('keeps explicit input-only context visible and unchanged when advanced controls close', async () => {
+  const startChat = vi.fn(async (input: StartChatInput): Promise<ProviderChatResult> => ({
+    ok: true,
+    data: {
+      requestId: input.requestId,
+      assistantId: assistantA,
+      status: 'completed',
+      text: 'synthetic answer',
+      usage: null
+    }
+  }))
+  const api = {
+    ...providerApi007Defaults(),
+    list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
+    startChat,
+    saveConnection: vi.fn(),
+    setCredential: vi.fn(),
+    deleteCredential: vi.fn(),
+    bindAssistant: vi.fn(),
+    clearChat: vi.fn(),
+    cancelChat: vi.fn(),
+    onEvent: vi.fn(() => () => undefined)
+  } as ProviderApi
+  render(
+    <ProviderPanel
+      assistantSnapshot={assistants(assistantA)}
+      api={api}
+      timelineApi={mockTimelineApi()}
+      surface="chat"
+    />
+  )
+  await screen.findByText(/实际接收方：Receiver/)
+  const summary = screen.getByText('历史、资料与工具').closest('summary')!
+  const disclosure = summary.closest('details')!
+  fireEvent.click(summary)
+  fireEvent.click(screen.getByRole('radio', { name: '仅本次输入' }))
+  fireEvent.click(summary)
+  expect(disclosure).not.toHaveAttribute('open')
+  expect(summary).toHaveTextContent('仅本次输入')
+  expect(summary).toHaveTextContent('工具关闭')
+  expect(summary).toBeVisible()
+  fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: 'explicit context' } })
+  fireEvent.click(screen.getByRole('button', { name: '发送' }))
+  await screen.findByText('synthetic answer')
+  expect(startChat).toHaveBeenCalledOnce()
+  expect(startChat.mock.calls[0]![0]).toMatchObject({ context: { kind: 'none' } })
+})

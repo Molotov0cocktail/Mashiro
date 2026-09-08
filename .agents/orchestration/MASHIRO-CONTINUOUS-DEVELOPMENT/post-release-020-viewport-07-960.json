@@ -1,0 +1,50 @@
+{
+  "content": {
+    "width": 944,
+    "height": 615,
+    "deviceScaleFactor": 1
+  },
+  "shell": {
+    "top": 0,
+    "bottom": 615,
+    "left": 0,
+    "right": 236,
+    "width": 236,
+    "height": 615,
+    "occupiesTop": false
+  },
+  "composer": {
+    "top": 502.15625,
+    "bottom": 678.15625,
+    "left": 303.0625,
+    "right": 861.9375,
+    "width": 558.875,
+    "height": 176
+  },
+  "textarea": {
+    "top": 542.15625,
+    "bottom": 614.15625,
+    "left": 316.0625,
+    "right": 848.9375,
+    "width": 532.875,
+    "height": 72
+  },
+  "send": {
+    "top": 622.15625,
+    "bottom": 665.15625,
+    "left": 722.9375,
+    "right": 780.9375,
+    "width": 58,
+    "height": 43
+  },
+  "visibleTop": 0,
+  "visible": false,
+  "requestedOuter": {
+    "width": 960,
+    "height": 680
+  },
+  "actualOuter": {
+    "width": 960,
+    "height": 680
+  }
+}

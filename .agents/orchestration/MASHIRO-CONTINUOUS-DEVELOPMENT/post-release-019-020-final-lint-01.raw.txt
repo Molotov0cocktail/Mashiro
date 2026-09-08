@@ -1,0 +1,14 @@
+
+> mashiro@0.1.1 lint
+> eslint . --max-warnings=0
+
+
+D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\post-release-019-020-artifact-review-01.mjs
+  91:30  error  'Buffer' is not defined  no-undef
+
+D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\review019-seed-pause-independent-01.mjs
+  21:317  error  'process' is not defined  no-undef
+  22:59   error  'Buffer' is not defined   no-undef
+
+✖ 3 problems (3 errors, 0 warnings)
+

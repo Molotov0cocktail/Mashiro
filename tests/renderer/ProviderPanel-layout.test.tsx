@@ -135,6 +135,26 @@ describe('ProviderPanel daily and settings surfaces', () => {
         onOpenSettings={openSettings}
       />
     )
+    const composer = screen.getByLabelText('正常消息')
+    const send = screen.getByRole('button', { name: '发送' })
+    const disclosureSummary = screen.getByText('历史、资料与工具')
+    const disclosure = disclosureSummary.closest('details')
+    expect(composer).toBeVisible()
+    expect(send).toBeVisible()
+    expect(screen.getByRole('region', { name: '与日常助手对话' })).toBeVisible()
+    expect(screen.queryByRole('heading', { name: '与日常助手对话' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '模型设置' })).toBeVisible()
+    expect(screen.queryByLabelText('当前助手')).not.toBeInTheDocument()
+    expect(disclosure).toBeInstanceOf(HTMLDetailsElement)
+    await waitFor(() => expect(disclosure).not.toHaveAttribute('open'))
+    expect(disclosureSummary.parentElement).toHaveTextContent('近期合格历史 · 工具关闭')
+    expect(screen.getByText('完整正常历史')).not.toBeVisible()
+    expect(composer.compareDocumentPosition(disclosure as Node)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING
+    )
+
+    fireEvent.click(disclosureSummary)
+    expect(disclosure).toHaveAttribute('open')
     expect(screen.getByText('完整正常历史')).toBeVisible()
     expect(screen.getByText('历史读取与发送权限')).not.toBeVisible()
     expect(screen.getByText('当前助手使用的模型')).not.toBeVisible()

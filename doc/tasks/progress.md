@@ -6,6 +6,15 @@
 
 ## 当前工作与直接下一动作
 
+最新实际阶段（23:10）：最终 UI 源码回归已通过：full05 为230文件/909项，901通过、0失败、8明确可选跳过；typecheck、format及final-lint-02通过（lint-01仅离线审核脚本显式Node导入缺失，已修，原失败保留）。build08/Electron10实际PASS，run09527ef1-e568-4c0f-bea0-e85814b2fe83，两PID95924/92712，960×680及720×520实际窗口内输入区/发送按钮完整可见；证据见post-release-020-chat-viewport-root-review.md及viewport-10文件。019/020仍ACTIVE，0.1.1未发布。
+
+当前发布阻塞：桌面中文空格子目录实际安装的v0.1.0及0.1.1-v1均发生0x80000003、offset0x730d649原生崩溃，无稳定UI。新governance目录说明已越过Electron ready进入SESSION_PREPARE，不能称未执行JS，也不能将其未经证明等同用户原错误框。唯一原生所有者steward核79安装文件并取得定向原生日志；Astra独立诊断首次数据选择/资源阶段，不盲目换包重试。最新源码UI尚未进入v1制品，最终包另行冻结审核。
+
+当前隔离状态：原profile完整保全于Mashiro-preserved-019-20260908-69f785a9；正常Mashiro路径为测试profile ID D4AE69AB:008E0000000094C4，已成功建立非空合成A fae73ada-9ea0-4a05-8467-91a67490565a，所有连接/自动后台均暂停，未调用Provider。当前安装为0.1.1-v1、崩溃后0进程；仍需完成原生验收、退役测试profile并RestoreOriginal，核原ID/tree/92文件6078369B。不得重复初始化/保全，也不能遗留原树未恢复。
+
+远程记录授权已解决：用户明确回答“允许同步这些脱敏验收记录”，覆盖既有GitHub/Gitee的本机目录路径、目录标识、统计、SHA和测试时间，不含正文/Key/解密凭据。相同push经新增授权重新审核后实际成功，两个main已实核5c83e255b18bfbb45f6b6f0497b6a8f27b9ac23d；初次拒绝保留在post-release-019-remote-records-approval-gate.md。无需为相同范围再次询问。当前无用户待答门禁，本地修复/隔离安装和原目录恢复继续。
+
+
 原生隔离状态（2026-09-08 21:40）：原 C:\Users\30910\AppData\Roaming\Mashiro 已由正常Explorer上下文运行已审helper原样保全到同级 Mashiro-preserved-019-20260908-69f785a9；PROFILE_PRESERVED 回执 SHA BDB657C75E6887BF4F8249E1FA45638C4BEC929D6F4F9B3AB86E437CFD4BED22，目录ID D4AE69AB:011C00000001C1FF、tree BFA47C4C5514DE7E6183202465063DB767B65C2593BD0BDAC6A7B70419EAE103、92文件/6078369B完全相同，原位置不存在；未读取业务正文/凭据语义，外部9f未访问。steward_013_ui为唯一后续隔离执行者，必须最后FreezeTestProfile→退役合成树→RestoreOriginal并核完整回执，不能遗留原树未恢复。若接管先读实际phase回执，不能根据旧段“未移动”重复执行保全。
 
 源码29831920b3ed1d0140f889f8a4a01dfab1e97ff9双main实核一致；v1安装包已实际STATIC_PASS，候选绑定40C96AFCD93FD68AFD770C732C3D7899D3A7C694BCFEC1E6C236CABF0378A3E9。非空A seed仍独审REPAIR（真实fixture计数、profile身份、复制读锁、目标后台暂停），未执行。020真实截图发现chat首屏输入被重复身份/上下文挤出，UI作者继续窄布局改善；v1保持历史静态通过但最终UI将重新冻结/build/harness/v2打包。原生任务继续独立准备，不在此停止。

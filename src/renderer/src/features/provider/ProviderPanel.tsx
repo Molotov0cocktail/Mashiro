@@ -243,6 +243,7 @@ export function ProviderPanel({
   const configurationFocusNonce = configurationFocus?.nonce
   const handledConfigurationFocus = useRef('')
   const handledChapterContext = useRef('')
+  const contextDisclosure = useRef<HTMLDetailsElement>(null)
 
   useEffect(() => {
     if (
@@ -264,7 +265,11 @@ export function ProviderPanel({
           : 'history-permissions'
       const element = document.getElementById(targetId)
       if (!element) return
-      if (element instanceof HTMLDetailsElement) element.open = true
+      let disclosure: HTMLDetailsElement | null = element.closest('details')
+      while (disclosure) {
+        disclosure.open = true
+        disclosure = disclosure.parentElement?.closest('details') ?? null
+      }
       element.focus()
       element.scrollIntoView?.({ block: 'start' })
     }
@@ -348,6 +353,15 @@ export function ProviderPanel({
   const toolScope = toolScopes[currentKey] ?? 'off'
   const currentOperations = operations[currentKey] ?? []
   const currentCapability = capabilities[currentAssistantId]
+  const currentHistoryFocus = historyFocus[currentAssistantId]
+
+  useEffect(() => {
+    if (contextDisclosure.current) contextDisclosure.current.open = surface === 'settings'
+  }, [surface])
+
+  useEffect(() => {
+    if (currentHistoryFocus) contextDisclosure.current?.setAttribute('open', '')
+  }, [currentHistoryFocus])
 
   const invalidateRead = useCallback((key: string): void => {
     readVersions.current[key] = (readVersions.current[key] ?? 0) + 1
@@ -1179,42 +1193,39 @@ export function ProviderPanel({
 
   return (
     <section
-      aria-labelledby="provider-heading"
+      aria-label={
+        surface === 'chat'
+          ? currentAssistant
+            ? `与${currentAssistant.displayName}对话`
+            : '开始对话'
+          : undefined
+      }
+      aria-labelledby={surface === 'chat' ? undefined : 'provider-heading'}
       className={`provider-panel provider-surface-${surface}`}
     >
-      <div className="panel-heading provider-page-heading">
-        <div>
-          <p className="eyebrow">
-            {surface === 'settings' ? '连接、凭据与助手模型' : '持续对话与严格临时交流'}
-          </p>
-          <h2 id="provider-heading">
-            {surface === 'settings'
-              ? '模型连接'
-              : surface === 'chat'
-                ? currentAssistant
-                  ? `与${currentAssistant.displayName}对话`
-                  : '开始对话'
-                : '连接与文本交流'}
-          </h2>
+      {surface !== 'chat' ? (
+        <div className="panel-heading provider-page-heading">
+          <div>
+            <p className="eyebrow">
+              {surface === 'settings' ? '连接、凭据与助手模型' : '持续对话与严格临时交流'}
+            </p>
+            <h2 id="provider-heading">{surface === 'settings' ? '模型连接' : '连接与文本交流'}</h2>
+          </div>
+          {surface === 'settings' && onOpenSettings ? (
+            <button
+              type="button"
+              className="secondary-action"
+              onClick={() => onOpenSettings('chat')}
+            >
+              返回对话
+            </button>
+          ) : (
+            <p className="privacy-note">
+              正常模式自动记录在本机；严格临时模式只保留于本次运行，除非你明确保存
+            </p>
+          )}
         </div>
-        {surface === 'chat' && onOpenSettings ? (
-          <button
-            type="button"
-            className="secondary-action"
-            onClick={() => onOpenSettings('provider')}
-          >
-            模型连接设置
-          </button>
-        ) : surface === 'settings' && onOpenSettings ? (
-          <button type="button" className="secondary-action" onClick={() => onOpenSettings('chat')}>
-            返回对话
-          </button>
-        ) : (
-          <p className="privacy-note">
-            正常模式自动记录在本机；严格临时模式只保留于本次运行，除非你明确保存
-          </p>
-        )}
-      </div>
+      ) : null}
       {settingsError ? <p role="alert">{settingsError}</p> : null}
       {surface === 'chat' && (!currentAssistant || !receiver) ? (
         <section className="onboarding-callout" aria-label="开始使用">
@@ -1413,67 +1424,79 @@ export function ProviderPanel({
             </p>
           </section>
 
-          <div className="provider-chat-workspace" hidden={surface === 'settings'}>
-            <div className="chat-assistant-heading">
-              {currentAssistant ? (
-                <AssistantAvatar
-                  avatarKey={currentAssistant.avatarKey}
-                  size="large"
-                  label={`${currentAssistant.displayName}的聊天形象：${avatarLabel(currentAssistant.avatarKey)}`}
-                />
-              ) : null}
-              <h2>{mode === 'normal' ? '正常时间线' : '本次运行的严格临时会话'}</h2>
+          <div
+            className="provider-chat-workspace provider-chat-intro"
+            hidden={surface === 'settings'}
+          >
+            <div className="chat-session-bar">
+              <div className="chat-assistant-heading">
+                {currentAssistant ? (
+                  <AssistantAvatar
+                    avatarKey={currentAssistant.avatarKey}
+                    size="medium"
+                    label={`${currentAssistant.displayName}的聊天形象：${avatarLabel(currentAssistant.avatarKey)}`}
+                  />
+                ) : null}
+                <div className="chat-assistant-copy">
+                  <strong>{currentAssistant?.displayName ?? '请先创建助手'}</strong>
+                  <small>
+                    {mode === 'normal' ? '正常时间线 · 自动保存' : '严格临时 · 不自动保存'}
+                  </small>
+                </div>
+              </div>
+              <fieldset className="mode-switch chat-mode-switch">
+                <legend>交流模式</legend>
+                <label className="inline-check">
+                  <input
+                    type="radio"
+                    name={'chat-mode-' + currentAssistantId}
+                    value="normal"
+                    checked={mode === 'normal'}
+                    onChange={() =>
+                      setModeByAssistant((values) => ({
+                        ...values,
+                        [currentAssistantId]: 'normal'
+                      }))
+                    }
+                  />
+                  正常模式（自动保存）
+                </label>
+                <label className="inline-check">
+                  <input
+                    type="radio"
+                    name={'chat-mode-' + currentAssistantId}
+                    value="temporary"
+                    checked={mode === 'temporary'}
+                    onChange={() =>
+                      setModeByAssistant((values) => ({
+                        ...values,
+                        [currentAssistantId]: 'temporary'
+                      }))
+                    }
+                  />
+                  严格临时（不自动保存）
+                </label>
+              </fieldset>
             </div>
-            <label>
-              当前助手
-              <select value={currentAssistantId} disabled>
-                <option value={currentAssistantId}>
-                  {currentAssistant?.displayName ?? '请先创建助手'}
-                </option>
-              </select>
-            </label>
-            <p className="scope-note">
-              当前助手的名称和人设会随正常及严格临时请求发送给下方显示的实际接收方；人设不会授予历史、记忆、事项或工具权限。
-            </p>
-            <fieldset className="mode-switch">
-              <legend>交流模式</legend>
-              <label className="inline-check">
-                <input
-                  type="radio"
-                  name={'chat-mode-' + currentAssistantId}
-                  value="normal"
-                  checked={mode === 'normal'}
-                  onChange={() =>
-                    setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
-                  }
-                />
-                正常模式（自动保存）
-              </label>
-              <label className="inline-check">
-                <input
-                  type="radio"
-                  name={'chat-mode-' + currentAssistantId}
-                  value="temporary"
-                  checked={mode === 'temporary'}
-                  onChange={() =>
-                    setModeByAssistant((values) => ({
-                      ...values,
-                      [currentAssistantId]: 'temporary'
-                    }))
-                  }
-                />
-                严格临时（不自动保存）
-              </label>
-            </fieldset>
-            <p className="receiver">
-              {receiver ? '实际接收方：' + receiver : '请先保存连接并绑定当前助手'}
-            </p>
-            <p className="scope-note">
+            <div className="chat-receiver-row">
+              <p className="receiver chat-receiver">
+                {receiver ? '实际接收方：' + receiver : '请先保存连接并绑定当前助手'}
+              </p>
+              {onOpenSettings ? (
+                <button
+                  type="button"
+                  className="secondary-action"
+                  onClick={() => onOpenSettings('provider')}
+                >
+                  模型设置
+                </button>
+              ) : null}
+            </div>
+            <p className="scope-note chat-session-note">
               {mode === 'normal'
-                ? '你可以在下方选择近期历史、仅本次输入或已选轮次；近期模式最多最近 16 组已完成的正常对话，并且只有读取与实际接收方权限都允许时才会外发。'
-                : '只发送本次严格临时会话；不会读取正常历史，也不会自动保存到正常时间线。'}
+                ? '名称与人设会发送给实际接收方；对话保存在本机，历史、记忆、事项与工具分别授权。'
+                : '名称与人设会发送给实际接收方；本次不读正常历史且不自动保存，资料与工具仍分别授权。'}
             </p>
-
             {mode === 'normal' && itemContext ? (
               <section className="item-context-banner" aria-label="当前事项协商上下文">
                 <p>
@@ -1512,110 +1535,56 @@ export function ProviderPanel({
             ) : null}
           </div>
 
-          <HistoryContextPanel
-            assistantId={currentAssistantId}
-            surface={surface}
-            mode={mode}
-            bindingKey={historyBindingKey}
-            timelineApi={timelineApi}
-            providerApi={api}
-            memoryApi={memoryApi}
-            reminderApi={reminderApi}
-            roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
-            receiptRouteKey={`${assistantSnapshot?.stateRevision ?? ''}:${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
-            onOpenMemory={onOpenMemory}
-            onMemoryChanged={() => {
-              setRoundMemoryRefresh((value) => value + 1)
-              onMemoryChanged?.()
-            }}
-            onItemChanged={onItemChanged}
-            onReminderChanged={onReminderChanged}
-            onOpenItems={onOpenItems}
-            onLocateMemorySource={onLocateMemorySource}
-            onPrepareRetention={(prepared) =>
-              onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
-            }
-            contextIntent={contextIntent}
-            selectedRequestIds={selectedRequestIds}
-            focusRequest={historyFocus[currentAssistantId]}
-            onPermissionsChange={() => {
-              setRoundMemoryRefresh((value) => value + 1)
-              refreshOperationPermissions(currentAssistantId)
-            }}
-            retentionChange={retentionChange}
-            onContextIntentChange={(value) => {
-              setContextByAssistant((items) => ({ ...items, [currentAssistantId]: value }))
-              if (value.kind === 'none') {
-                setToolScopes((items) => ({
-                  ...items,
-                  [currentKey]:
-                    items[currentKey] === 'clock-and-history'
-                      ? 'clock'
-                      : items[currentKey] === 'clock-history-and-memory'
-                        ? 'clock-and-memory'
-                        : (items[currentKey] ?? 'off')
-                }))
-              }
-            }}
-            onSelectedRequestIdsChange={(value) => {
-              setSelectedRequestsByAssistant((items) => ({
-                ...items,
-                [currentAssistantId]: value
-              }))
-              if (contextIntent.kind === 'selected' && value.length > 0) {
-                setContextByAssistant((items) => ({
-                  ...items,
-                  [currentAssistantId]: { kind: 'selected', requestIds: value }
-                }))
-              }
-            }}
-          />
-
           <div className="provider-chat-workspace" hidden={surface === 'settings'}>
-            <ToolExecutionPanel
-              assistantId={currentAssistantId}
-              mode={mode}
-              contextIntent={contextIntent}
-              memoryApi={memoryApi}
-              itemApi={itemApi}
-              reminderApi={reminderApi}
-              capability={currentCapability}
-              capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
-              capabilityError={capabilityErrors[currentAssistantId] ?? ''}
-              scope={toolScope}
-              operations={currentOperations}
-              operationLoading={operationLoading[currentKey] ?? false}
-              operationError={operationErrors[currentKey] ?? ''}
-              onScopeChange={(value) =>
-                setToolScopes((items) => ({ ...items, [currentKey]: value }))
-              }
-              onRefreshOperation={(requestId) => {
-                autoOperationReadVersions.current[currentKey] =
-                  (autoOperationReadVersions.current[currentKey] ?? 0) + 1
-                void loadOperations(currentAssistantId, mode, requestId)
+            <form
+              className="chat-composer"
+              onSubmit={(event) => {
+                event.preventDefault()
+                void send()
               }}
-              onMemoryChanged={() => {
-                setRoundMemoryRefresh((value) => value + 1)
-                onMemoryChanged?.()
-              }}
-              onItemChanged={onItemChanged}
-              onReminderChanged={onReminderChanged}
-              onOpenItems={onOpenItems}
-              onLocateMemorySource={onLocateMemorySource}
-              retentionChange={retentionChange}
-              onPrepareRetention={(prepared) =>
-                onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
-              }
-              onLocateCitation={(citation: HistoryCitation) =>
-                setHistoryFocus((items) => ({
-                  ...items,
-                  [currentAssistantId]: {
-                    requestId: citation.requestId,
-                    nonce: (items[currentAssistantId]?.nonce ?? 0) + 1
+            >
+              <label>
+                {mode === 'normal' ? '正常消息' : '临时消息'}
+                <textarea
+                  value={text}
+                  maxLength={16000}
+                  onChange={(event) => {
+                    const value = event.currentTarget.value
+                    setTextDrafts((items) => ({ ...items, [currentKey]: value }))
+                  }}
+                />
+              </label>
+              <label className="inline-check">
+                <input
+                  type="checkbox"
+                  checked={stream}
+                  onChange={(event) => setStream(event.currentTarget.checked)}
+                />
+                流式显示
+              </label>
+              <div className="button-row">
+                <button
+                  type="submit"
+                  disabled={!receiver || !text.trim() || Boolean(activeRequest)}
+                >
+                  发送
+                </button>
+                <button
+                  type="button"
+                  disabled={!activeRequest}
+                  onClick={() =>
+                    activeRequest &&
+                    void api.cancelChat({
+                      protocolVersion,
+                      requestId: activeRequest.requestId,
+                      assistantId: currentAssistantId
+                    })
                   }
-                }))
-              }
-            />
+                >
+                  取消
+                </button>
+              </div>
+            </form>
 
             {timelineErrors[currentKey] ? <p role="alert">{timelineErrors[currentKey]}</p> : null}
             {notices[currentKey] ? <p role="status">{notices[currentKey]}</p> : null}
@@ -1764,56 +1733,130 @@ export function ProviderPanel({
                 </div>
               </div>
             ) : null}
-
-            <form
-              onSubmit={(event) => {
-                event.preventDefault()
-                void send()
-              }}
-            >
-              <label>
-                {mode === 'normal' ? '正常消息' : '临时消息'}
-                <textarea
-                  value={text}
-                  maxLength={16000}
-                  onChange={(event) => {
-                    const value = event.currentTarget.value
-                    setTextDrafts((items) => ({ ...items, [currentKey]: value }))
-                  }}
-                />
-              </label>
-              <label className="inline-check">
-                <input
-                  type="checkbox"
-                  checked={stream}
-                  onChange={(event) => setStream(event.currentTarget.checked)}
-                />
-                流式显示
-              </label>
-              <div className="button-row">
-                <button
-                  type="submit"
-                  disabled={!receiver || !text.trim() || Boolean(activeRequest)}
-                >
-                  发送
-                </button>
-                <button
-                  type="button"
-                  disabled={!activeRequest}
-                  onClick={() =>
-                    activeRequest &&
-                    void api.cancelChat({
-                      protocolVersion,
-                      requestId: activeRequest.requestId,
-                      assistantId: currentAssistantId
-                    })
-                  }
-                >
-                  取消
-                </button>
-              </div>
-            </form>
           </div>
+
+          <details ref={contextDisclosure} className="provider-context-disclosure">
+            <summary hidden={surface === 'settings'}>
+              <span>历史、资料与工具</span>
+              <small>
+                {mode === 'temporary'
+                  ? '严格临时仅使用本次会话'
+                  : contextIntent.kind === 'recent'
+                    ? '近期合格历史'
+                    : contextIntent.kind === 'none'
+                      ? '仅本次输入'
+                      : contextIntent.kind === 'selected'
+                        ? `已选 ${contextIntent.requestIds.length} 轮历史`
+                        : `已选 ${contextIntent.chapters.length} 个章节`}
+                {' · '}
+                {toolScope === 'off' ? '工具关闭' : '工具按所选范围启用'}
+              </small>
+            </summary>
+            <HistoryContextPanel
+              assistantId={currentAssistantId}
+              surface={surface}
+              mode={mode}
+              bindingKey={historyBindingKey}
+              timelineApi={timelineApi}
+              providerApi={api}
+              memoryApi={memoryApi}
+              reminderApi={reminderApi}
+              roundMemoryRefreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
+              receiptRouteKey={`${assistantSnapshot?.stateRevision ?? ''}:${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
+              onOpenMemory={onOpenMemory}
+              onMemoryChanged={() => {
+                setRoundMemoryRefresh((value) => value + 1)
+                onMemoryChanged?.()
+              }}
+              onItemChanged={onItemChanged}
+              onReminderChanged={onReminderChanged}
+              onOpenItems={onOpenItems}
+              onLocateMemorySource={onLocateMemorySource}
+              onPrepareRetention={(prepared) =>
+                onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
+              }
+              contextIntent={contextIntent}
+              selectedRequestIds={selectedRequestIds}
+              focusRequest={historyFocus[currentAssistantId]}
+              onPermissionsChange={() => {
+                setRoundMemoryRefresh((value) => value + 1)
+                refreshOperationPermissions(currentAssistantId)
+              }}
+              retentionChange={retentionChange}
+              onContextIntentChange={(value) => {
+                setContextByAssistant((items) => ({ ...items, [currentAssistantId]: value }))
+                if (value.kind === 'none') {
+                  setToolScopes((items) => ({
+                    ...items,
+                    [currentKey]:
+                      items[currentKey] === 'clock-and-history'
+                        ? 'clock'
+                        : items[currentKey] === 'clock-history-and-memory'
+                          ? 'clock-and-memory'
+                          : (items[currentKey] ?? 'off')
+                  }))
+                }
+              }}
+              onSelectedRequestIdsChange={(value) => {
+                setSelectedRequestsByAssistant((items) => ({
+                  ...items,
+                  [currentAssistantId]: value
+                }))
+                if (contextIntent.kind === 'selected' && value.length > 0) {
+                  setContextByAssistant((items) => ({
+                    ...items,
+                    [currentAssistantId]: { kind: 'selected', requestIds: value }
+                  }))
+                }
+              }}
+            />
+            <div className="provider-tool-options" hidden={surface === 'settings'}>
+              <ToolExecutionPanel
+                assistantId={currentAssistantId}
+                mode={mode}
+                contextIntent={contextIntent}
+                memoryApi={memoryApi}
+                itemApi={itemApi}
+                reminderApi={reminderApi}
+                capability={currentCapability}
+                capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
+                capabilityError={capabilityErrors[currentAssistantId] ?? ''}
+                scope={toolScope}
+                operations={currentOperations}
+                operationLoading={operationLoading[currentKey] ?? false}
+                operationError={operationErrors[currentKey] ?? ''}
+                onScopeChange={(value) =>
+                  setToolScopes((items) => ({ ...items, [currentKey]: value }))
+                }
+                onRefreshOperation={(requestId) => {
+                  autoOperationReadVersions.current[currentKey] =
+                    (autoOperationReadVersions.current[currentKey] ?? 0) + 1
+                  void loadOperations(currentAssistantId, mode, requestId)
+                }}
+                onMemoryChanged={() => {
+                  setRoundMemoryRefresh((value) => value + 1)
+                  onMemoryChanged?.()
+                }}
+                onItemChanged={onItemChanged}
+                onReminderChanged={onReminderChanged}
+                onOpenItems={onOpenItems}
+                onLocateMemorySource={onLocateMemorySource}
+                retentionChange={retentionChange}
+                onPrepareRetention={(prepared) =>
+                  onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
+                }
+                onLocateCitation={(citation: HistoryCitation) =>
+                  setHistoryFocus((items) => ({
+                    ...items,
+                    [currentAssistantId]: {
+                      requestId: citation.requestId,
+                      nonce: (items[currentAssistantId]?.nonce ?? 0) + 1
+                    }
+                  }))
+                }
+              />
+            </div>
+          </details>
         </div>
       </div>
     </section>
