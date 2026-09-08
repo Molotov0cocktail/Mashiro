@@ -1,0 +1,26 @@
+{
+  "observedAt": "2026-09-08T11:05:06.0723362+08:00",
+  "scope": "Only two explicitly authorized known Start Menu links, no enumeration",
+  "links": [
+    {
+      "name": "Electron.lnk",
+      "exists": true,
+      "properties": {
+        "System.AppUserModel.ID": "Mashiro.Desktop",
+        "System.AppUserModel.ToastActivatorCLSID": "{5DD196AC-DEFB-40BF-9CF2-E75F924E106D}",
+        "System.Link.TargetParsingPath": "D:\\Mashiro\\node_modules\\electron\\dist\\electron.exe",
+        "System.Link.Arguments": null
+      }
+    },
+    {
+      "name": "Mashiro.lnk",
+      "exists": true,
+      "properties": {
+        "System.AppUserModel.ID": "Mashiro.Desktop",
+        "System.AppUserModel.ToastActivatorCLSID": "{D7D00685-BBBE-4240-8E2D-D1C7D7EAD6A3}",
+        "System.Link.TargetParsingPath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+        "System.Link.Arguments": null
+      }
+    }
+  ]
+}

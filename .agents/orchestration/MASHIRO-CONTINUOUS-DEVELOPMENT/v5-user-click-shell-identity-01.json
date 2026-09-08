@@ -1,0 +1,23 @@
+{
+  "observedAt": "2026-09-08T11:03:04.9840928+08:00",
+  "appId": "Mashiro.Desktop",
+  "appsFolder": {
+    "System.AppUserModel.ID": "Mashiro.Desktop",
+    "System.AppUserModel.RelaunchCommand": null,
+    "System.AppUserModel.ToastActivatorCLSID": null,
+    "System.ItemNameDisplay": "Electron",
+    "System.Link.TargetParsingPath": "D:\\Mashiro\\node_modules\\electron\\dist\\electron.exe"
+  },
+  "registry": [
+    {
+      "path": "Registry::HKEY_LOCAL_MACHINE\\Software\\Classes\\AppUserModelId\\Mashiro.Desktop",
+      "exists": false,
+      "values": {}
+    },
+    {
+      "path": "Registry::HKEY_CLASSES_ROOT\\AppUserModelId\\Mashiro.Desktop",
+      "exists": false,
+      "values": {}
+    }
+  ]
+}

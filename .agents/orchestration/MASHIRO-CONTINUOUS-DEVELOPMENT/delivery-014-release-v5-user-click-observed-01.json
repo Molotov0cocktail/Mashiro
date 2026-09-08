@@ -1,0 +1,72 @@
+{
+  "scope": "release-v5 user-performed notification clicks and exact Mashiro-only post-click observation",
+  "observedAt": "2026-09-08T11:05:08.5743349+08:00",
+  "userObservation": {
+    "clickedBothVisibleEntries": true,
+    "visibleSourceLabel": "Electron",
+    "result": "Both clicks opened the Electron default page for D:\\AIbrowse\\node_modules\\electron\\dist\\electron.exe; no Mashiro window appeared.",
+    "screenshotProvidedByUser": true
+  },
+  "mashiroProcesses": {
+    "exactExecutable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "count": 4,
+    "processIds": [32872, 33096, 33112, 33328],
+    "mainProcess": {
+      "processId": 32872,
+      "parentProcessId": 8252,
+      "createdAt": "2026-09-08T10:53:10.204157+08:00",
+      "commandLine": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login"
+    },
+    "parent": {
+      "processId": 8252,
+      "name": "explorer.exe",
+      "createdAt": "2026-09-08T10:51:29.346125+08:00"
+    },
+    "applicationWindow": {
+      "handle": 69020,
+      "className": "Chrome_WidgetWin_1",
+      "title": "Mashiro",
+      "visible": false,
+      "enabled": true,
+      "minimized": false
+    },
+    "allEnumeratedTopLevelWindowsForExactPidsVisible": false,
+    "attribution": "The main process was launched by Explorer with --mashiro-login and had only a hidden Mashiro application window. These processes prove login startup, not notification-click activation."
+  },
+  "syntheticReminder": {
+    "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+    "version": 8,
+    "state": "DISPLAY_OBSERVED",
+    "dueAt": "2026-09-08T07:46:00+08:00",
+    "groupId": "ff2adc16ceedb891ea9077a831ebc510b0eff2df639bcd4da4b2df9e38ede0c8",
+    "activationIdentities": [
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:4",
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:6",
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:8"
+    ],
+    "version8ActivationWasAlreadyPresentBeforeUserClick": true,
+    "newActivationEvidenceFromUserClick": false
+  },
+  "mashiroNotificationHistoryAfterUserClick": {
+    "appId": "Mashiro.Desktop",
+    "count": 2,
+    "tags": ["d8af21134c16e258", "ce6464c6708b695c"],
+    "version8TagStillPresent": true,
+    "changedFromAfterExitRead": false
+  },
+  "result": {
+    "physicalClickPerformedByUser": true,
+    "mashiroColdNavigationObserved": false,
+    "mashiroVisibleWindowObserved": false,
+    "status": "NATIVE_FAIL_WRONG_ELECTRON_DESTINATION",
+    "interpretation": "The physical clicks did not open or navigate Mashiro. A hidden Mashiro process group existed, but its exact --mashiro-login command line attributes it to login startup rather than proving notification activation."
+  },
+  "safety": {
+    "desktopActionsPerformedByAgentAfterUserClick": 0,
+    "comActivationsPerformedAfterUserClick": 0,
+    "providerCalls": 0,
+    "unrelatedNotificationContentRead": false,
+    "externalApplicationOperated": false
+  }
+}
