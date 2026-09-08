@@ -1,0 +1,32 @@
+{
+  "observedAt": "2026-09-08T16:09:53.1212374+08:00",
+  "sourceCommit": "867b401bdeeebe9a153b32d7a462376239a89bbd",
+  "runtimeSourceCommit": "ea94184e3fb80943d333005d50372dacf1892ea3",
+  "buildExitCode": 0,
+  "files": [
+    {
+      "path": "D:\\Mashiro\\dist\\windows-candidate-release-v7\\Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112587919,
+      "sha256": "8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58",
+      "signature": "NotSigned"
+    },
+    {
+      "path": "D:\\Mashiro\\dist\\windows-candidate-release-v7\\Mashiro-0.1.0-win-x64-setup.exe.blockmap",
+      "bytes": 118848,
+      "sha256": "A467228A923BCECDC6DF6DB4B24E34361FA62E0C3E0D6811F34A8B6138DF270D",
+      "signature": null
+    },
+    {
+      "path": "D:\\Mashiro\\dist\\windows-candidate-release-v7\\win-unpacked\\Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+      "signature": "NotSigned"
+    },
+    {
+      "path": "D:\\Mashiro\\dist\\windows-candidate-release-v7\\win-unpacked\\resources\\app.asar",
+      "bytes": 15514291,
+      "sha256": "7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E",
+      "signature": null
+    }
+  ]
+}
