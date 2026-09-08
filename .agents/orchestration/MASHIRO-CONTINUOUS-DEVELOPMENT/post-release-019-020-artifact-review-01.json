@@ -1,0 +1,171 @@
+{
+  "scope": "read-only internal artifact static review; no executable runs",
+  "files": [
+    {
+      "path": "D:\\Mashiro\\dist\\windows-candidate-0.1.1-v1\\Mashiro-0.1.1-win-x64-setup.exe",
+      "bytes": 112596588,
+      "sha256": "E0C27F5CC249D84C98B568BE7BD840A083EFC70391935547CF80F32DE096BA10"
+    },
+    {
+      "path": "D:\\Mashiro\\dist\\windows-candidate-0.1.1-v1\\win-unpacked\\Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "27AEC92A5409736DF4B762C1B82C5ACAC3B9936D8330C52D823C917E3BC5E46A"
+    },
+    {
+      "path": "D:\\Mashiro\\dist\\windows-candidate-0.1.1-v1\\win-unpacked\\resources\\app.asar",
+      "bytes": 15576052,
+      "sha256": "EF3AFBF1D1AD2754EE5ED922A42701B5E040D768C46823FA5F4C49FE1FF057A8"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "out\\main\\index.js",
+      "bytes": 952356,
+      "sha256": "416E380EF39E0246A4454A108B469838DC20DAB8861ED457282B54B483E6F342"
+    },
+    {
+      "path": "out\\preload\\index.cjs",
+      "bytes": 12501,
+      "sha256": "6FA45BB4625584B2A471BC8B187793BE84BD7487BBE258F0215D10628726971D"
+    },
+    {
+      "path": "out\\renderer\\index.html",
+      "bytes": 625,
+      "sha256": "5B2349A38D7A9F3FB38127B6503B01FF31C3F3AEDEA6A90F8C0B925C5E1C19DB"
+    },
+    {
+      "path": "out\\renderer\\assets\\index-CwBx5tyj.js",
+      "bytes": 1365906,
+      "sha256": "A562438399420FF4F416A3E7204DD996B8FF1F90153281945990E0084E96B58E"
+    },
+    {
+      "path": "out\\renderer\\assets\\index-VFjBASvQ.css",
+      "bytes": 40281,
+      "sha256": "7000E72B35B9812FDF7E0B795E904894568979B89E41D6CC9440DA36E76EF3D4"
+    }
+  ],
+  "notices": [
+    {
+      "component": "react",
+      "file": "react-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "react-dom",
+      "file": "react-dom-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "scheduler",
+      "file": "scheduler-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "zod",
+      "file": "zod-LICENSE.txt",
+      "sha256": "3F1189B28E3866E0D979968D466B78F813F76827CFDCA1FBB124CC0A5C8841F8"
+    },
+    {
+      "component": "Electron/Chromium",
+      "file": "../../LICENSE.electron.txt",
+      "sha256": "5154E165BD6C2CC0CFBCD8916498C7ABAB0497923BAFCD5CB07673FE8480087D"
+    },
+    {
+      "component": "Electron/Chromium",
+      "file": "../../LICENSES.chromium.html",
+      "sha256": "F2310820377F4D8F2A5F6BC8744B985D6772CEF9EE7D8D197B01FDB330DB0BB8"
+    }
+  ],
+  "owned": {
+    "count": 79,
+    "actualCount": 79,
+    "generatedSha256": "64E1BEF2E7590D8DE8BC61FC8F82AB1EF5983378A8953340405C3E1922E11875",
+    "generatedExactlyMatchesReviewedIdentityMigration": true
+  },
+  "runtime": [
+    {
+      "name": "react",
+      "version": "19.2.8"
+    },
+    {
+      "name": "react-dom",
+      "version": "19.2.8"
+    },
+    {
+      "name": "scheduler",
+      "version": "0.27.0"
+    },
+    {
+      "name": "zod",
+      "version": "4.5.4"
+    }
+  ],
+  "identity": {
+    "appId": "io.github.molotov0cocktail.mashiro",
+    "nsisGuid": "5555e988-f7b5-5fe3-b6bd-8df3b21f793e",
+    "migrationMacroExact": true
+  },
+  "packaged": {
+    "version": "0.1.1",
+    "main": "./out/main/index.js",
+    "dependencies": {
+      "react": "19.2.8",
+      "react-dom": "19.2.8",
+      "zod": "4.5.4"
+    },
+    "roots": [
+      "node_modules",
+      "out",
+      "package.json"
+    ],
+    "sourceCommit": "29831920b3ed1d0140f889f8a4a01dfab1e97ff9",
+    "schema19AndColdNavigationAndPolicyStatus": true
+  },
+  "asarIntegrity": {
+    "headerHash": "cbc420a038a74da73a8a22c517fbd7b9c662ebf4afd2271d6e5e44e62a2fff82",
+    "entries": [
+      {
+        "file": "resources\\app.asar",
+        "alg": "SHA256",
+        "value": "cbc420a038a74da73a8a22c517fbd7b9c662ebf4afd2271d6e5e44e62a2fff82"
+      },
+      {
+        "file": "resources\\default_app.asar",
+        "alg": "SHA256",
+        "value": "553d6dd413d71a62ae1e67b1db59bd83fadf16ae529f015415dce85787ea437b"
+      }
+    ],
+    "matches": true
+  },
+  "fuses": {
+    "0": 49,
+    "1": 48,
+    "2": 49,
+    "3": 49,
+    "4": 48,
+    "5": 48,
+    "6": 48,
+    "7": 49,
+    "8": 49,
+    "version": "1"
+  },
+  "stockFuses": {
+    "0": 49,
+    "1": 48,
+    "2": 49,
+    "3": 49,
+    "4": 48,
+    "5": 48,
+    "6": 48,
+    "7": 49,
+    "8": 49,
+    "version": "1"
+  },
+  "installerDataProtection": {
+    "deleteAppDataOnUninstall": false,
+    "perMachine": false,
+    "allowElevation": false,
+    "exactOwnedMacro": true
+  },
+  "verdict": "STATIC_PASS"
+}

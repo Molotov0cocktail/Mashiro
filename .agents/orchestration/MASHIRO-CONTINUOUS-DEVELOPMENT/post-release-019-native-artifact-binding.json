@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "status": "REVIEWED_READY",
+  "sourceCommit": "29831920b3ed1d0140f889f8a4a01dfab1e97ff9",
+  "candidateVersion": "0.1.1",
+  "candidateReviewPath": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\post-release-019-020-artifact-review-01.md",
+  "candidateReviewSha256": "0DA796F6170D3C3B60679AD71EFF4DBB1077BC8D3924B1FAFD965BE0471AB51C",
+  "candidate": {
+    "setupPath": "D:\\Mashiro\\dist\\windows-candidate-0.1.1-v1\\Mashiro-0.1.1-win-x64-setup.exe",
+    "setupBytes": 112596588,
+    "setupSha256": "E0C27F5CC249D84C98B568BE7BD840A083EFC70391935547CF80F32DE096BA10",
+    "executableSha256": "27AEC92A5409736DF4B762C1B82C5ACAC3B9936D8330C52D823C917E3BC5E46A",
+    "asarSha256": "EF3AFBF1D1AD2754EE5ED922A42701B5E040D768C46823FA5F4C49FE1FF057A8",
+    "uninstallerSha256": null,
+    "signatureStatus": "NotSigned",
+    "uninstallerBindingPhase": "STATIC_EXTRACTION_OR_POSTINSTALL"
+  },
+  "legacy": {
+    "version": "0.1.0",
+    "setupPath": "D:\\Mashiro\\dist\\release-v7-assets\\Mashiro-0.1.0-win-x64-setup.exe",
+    "setupBytes": 112587919,
+    "setupSha256": "8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+    "asarSha256": "7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E"
+  },
+  "paths": {
+    "desktopInstallSubdirectory": "Mashiro 019 验证 中文 空格\\应用",
+    "defaultInstallDirectory": "%LOCALAPPDATA%\\Programs\\Mashiro",
+    "profilePath": "%APPDATA%\\Mashiro",
+    "preservedProfilePath": "%APPDATA%\\Mashiro-preserved-019-20260908-69f785a9",
+    "retiredTestProfilePath": "%APPDATA%\\Mashiro-test-retired-019-20260908-69f785a9"
+  },
+  "profileBaseline": {
+    "directoryIdentity": "D4AE69AB:011C00000001C1FF",
+    "treeSha256": "BFA47C4C5514DE7E6183202465063DB767B65C2593BD0BDAC6A7B70419EAE103",
+    "fileCount": 92,
+    "totalBytes": 6078369,
+    "preserveReceiptPath": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\review019-profile-preserved-01.json",
+    "preserveReceiptSha256": "BDB657C75E6887BF4F8249E1FA45638C4BEC929D6F4F9B3AB86E437CFD4BED22"
+  },
+  "windowsIdentity": {
+    "uninstallGuid": "5555e988-f7b5-5fe3-b6bd-8df3b21f793e",
+    "currentRunName": "io.github.molotov0cocktail.mashiro",
+    "legacyRunName": "Mashiro.Desktop",
+    "startMenuShortcutName": "Mashiro.lnk",
+    "desktopShortcutName": "Mashiro.lnk"
+  },
+  "execution": {
+    "profilePreserved": true,
+    "candidateStaticPass": true,
+    "nativeExecutionAuthorized": true
+  }
+}

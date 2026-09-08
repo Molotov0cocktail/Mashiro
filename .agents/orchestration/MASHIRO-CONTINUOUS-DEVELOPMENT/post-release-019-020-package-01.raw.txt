@@ -1,0 +1,9 @@
+  • electron-builder  version=26.15.3 os=10.0.26200
+  ⨯ ENOENT: no such file or directory, open 'D:\Mashiro\.directories.output=dist\windows-candidate-0.1.1-v1'  failedTask=build stackTrace=Error: ENOENT: no such file or directory, open 'D:\Mashiro\.directories.output=dist\windows-candidate-0.1.1-v1'
+    at open (node:internal/fs/promises:640:25)
+    at Object.readFile (node:internal/fs/promises:1290:14)
+    at readConfig (D:\Mashiro\node_modules\app-builder-lib\src\util\config\load.ts:19:16)
+    at getConfig (D:\Mashiro\node_modules\app-builder-lib\src\util\config\config.ts:43:34)
+    at Packager.validateConfig (D:\Mashiro\node_modules\app-builder-lib\src\packager.ts:367:27)
+    at Packager.build (D:\Mashiro\node_modules\app-builder-lib\src\packager.ts:398:5)
+    at executeFinally (D:\Mashiro\node_modules\builder-util\src\promise.ts:12:14)

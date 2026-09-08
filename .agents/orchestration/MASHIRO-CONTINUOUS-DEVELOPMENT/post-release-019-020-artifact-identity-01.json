@@ -1,0 +1,20 @@
+[
+  {
+    "path": "D:\\Mashiro\\dist\\windows-candidate-0.1.1-v1\\Mashiro-0.1.1-win-x64-setup.exe",
+    "bytes": 112596588,
+    "sha256": "E0C27F5CC249D84C98B568BE7BD840A083EFC70391935547CF80F32DE096BA10",
+    "signatureStatus": "NotSigned",
+    "productName": "Mashiro",
+    "fileVersion": "0.1.1",
+    "productVersion": "0.1.1"
+  },
+  {
+    "path": "D:\\Mashiro\\dist\\windows-candidate-0.1.1-v1\\win-unpacked\\Mashiro.exe",
+    "bytes": 245289984,
+    "sha256": "27AEC92A5409736DF4B762C1B82C5ACAC3B9936D8330C52D823C917E3BC5E46A",
+    "signatureStatus": "NotSigned",
+    "productName": "Mashiro",
+    "fileVersion": "0.1.1",
+    "productVersion": "0.1.1.0"
+  }
+]

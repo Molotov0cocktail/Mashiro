@@ -1,0 +1,37 @@
+{
+    "kind":  "PROFILE_PRESERVE_PENDING",
+    "observedAt":  "2026-09-08T21:40:05.4139804+08:00",
+    "processId":  92736,
+    "parentProcessId":  8252,
+    "shellProcessId":  8252,
+    "profilePath":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "directoryIdentity":  "D4AE69AB:011C00000001C1FF",
+    "treeHash":  "BFA47C4C5514DE7E6183202465063DB767B65C2593BD0BDAC6A7B70419EAE103",
+    "fileCount":  92,
+    "totalBytes":  6078369,
+    "runCurrent":  {
+                       "keyExists":  true,
+                       "valueExists":  false
+                   },
+    "runLegacy":  {
+                      "keyExists":  true,
+                      "valueExists":  false
+                  },
+    "approvalCurrent":  {
+                            "keyExists":  true,
+                            "valueExists":  false
+                        },
+    "approvalLegacy":  {
+                           "keyExists":  true,
+                           "valueExists":  false
+                       },
+    "uninstall":  {
+                      "keyExists":  false,
+                      "valueExists":  false
+                  },
+    "profileMoved":  false,
+    "applicationStarted":  false,
+    "businessContentParsed":  false,
+    "registryWrites":  false,
+    "preservedPath":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro-preserved-019-20260908-69f785a9"
+}
