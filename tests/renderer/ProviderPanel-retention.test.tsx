@@ -10,7 +10,7 @@ import type {
   ProviderSnapshot
 } from '../../src/shared/provider-contract'
 import type { RetentionChanged } from '../../src/shared/retention-contract'
-import type { TimelineApi } from '../../src/shared/timeline-contract'
+import type { TimelineApi, TimelineMessage } from '../../src/shared/timeline-contract'
 import type { ToolOperation } from '../../src/shared/tool-contract'
 import { providerApi007Defaults } from './provider-api-fixture'
 import { timelineApi006Defaults } from './timeline-api-fixture'
@@ -86,6 +86,83 @@ const providerSnapshot: ProviderSnapshot = {
 afterEach(cleanup)
 
 describe('ProviderPanel retention epochs', () => {
+  it('keeps cleanup management collapsed after the timeline and preserves preview paths', async () => {
+    const messages: TimelineMessage[] = [
+      {
+        id: '00000000-0000-4000-8000-000000000101',
+        requestId: '00000000-0000-4000-8000-000000000201',
+        role: 'user',
+        content: '先看到的历史问题',
+        status: 'completed',
+        saved: true,
+        createdAt: '2026-09-06T00:00:00.000Z'
+      },
+      {
+        id: '00000000-0000-4000-8000-000000000102',
+        requestId: '00000000-0000-4000-8000-000000000201',
+        role: 'assistant',
+        content: '随后看到的历史回答',
+        status: 'completed',
+        saved: true,
+        createdAt: '2026-09-06T00:00:01.000Z'
+      }
+    ]
+    const api = {
+      ...providerApi007Defaults(),
+      list: vi.fn().mockResolvedValue({ ok: true, data: providerSnapshot }),
+      saveConnection: vi.fn(),
+      setCredential: vi.fn(),
+      deleteCredential: vi.fn(),
+      bindAssistant: vi.fn(),
+      clearChat: vi.fn(),
+      startChat: vi.fn(),
+      cancelChat: vi.fn(),
+      onEvent: vi.fn(() => () => undefined)
+    } as ProviderApi
+    const timelineApi = {
+      ...timelineApi006Defaults(),
+      read: vi.fn(async (input) => ({
+        ok: true as const,
+        data: { assistantId: input.assistantId, mode: input.mode, messages, hasMore: false }
+      })),
+      saveTemporary: vi.fn()
+    } as TimelineApi
+    const onPrepareRetention = vi.fn()
+    render(
+      <ProviderPanel
+        assistantSnapshot={assistants(assistantA)}
+        api={api}
+        timelineApi={timelineApi}
+        onPrepareRetention={onPrepareRetention}
+      />
+    )
+    await screen.findByText('先看到的历史问题')
+    const timeline = screen.getByLabelText('消息时间线')
+    const disclosure = screen.getByText('时间线管理').closest('details')
+    expect(disclosure).not.toBeNull()
+    expect(disclosure).not.toHaveAttribute('open')
+    expect(
+      timeline.compareDocumentPosition(disclosure!) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).not.toBe(0)
+    const wholeTimelineButton = screen.getByRole('button', { name: '预览清理整条时间线' })
+    expect(disclosure).toContainElement(wholeTimelineButton)
+    expect(wholeTimelineButton).not.toBeVisible()
+    fireEvent.click(screen.getByText('时间线管理'))
+    expect(disclosure).toHaveAttribute('open')
+    expect(wholeTimelineButton).toBeVisible()
+    fireEvent.click(wholeTimelineButton)
+    expect(onPrepareRetention).toHaveBeenLastCalledWith(assistantA, { type: 'timeline' })
+    const anchors = screen.getAllByRole('checkbox', { name: '作为区段端点' })
+    fireEvent.click(anchors[0]!)
+    fireEvent.click(anchors[1]!)
+    fireEvent.click(screen.getByRole('button', { name: '预览清理所选区段' }))
+    expect(onPrepareRetention).toHaveBeenLastCalledWith(assistantA, {
+      type: 'range',
+      firstMessageId: messages[0]!.id,
+      lastMessageId: messages[1]!.id
+    })
+  })
+
   it('drops cached A bodies and ignores late stream, operation and Promise completion after cleanup', async () => {
     let listener: ((event: ProviderEvent) => void) | undefined
     let finish!: (result: ProviderChatResult) => void

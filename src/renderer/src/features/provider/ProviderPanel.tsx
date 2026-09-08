@@ -1622,33 +1622,6 @@ export function ProviderPanel({
                 ))}
               </section>
             ) : null}
-            {mode === 'normal' && onPrepareRetention ? (
-              <div className="retention-timeline-actions">
-                <button
-                  type="button"
-                  onClick={() => onPrepareRetention(currentAssistantId, { type: 'timeline' })}
-                >
-                  预览清理整条时间线
-                </button>
-                {cleanupAnchors.length === 2 ? (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onPrepareRetention(currentAssistantId, {
-                        type: 'range',
-                        firstMessageId: cleanupAnchors[0]!,
-                        lastMessageId: cleanupAnchors[1]!
-                      })
-                    }
-                  >
-                    预览清理所选区段
-                  </button>
-                ) : null}
-                <small>
-                  按时间顺序选择两个消息作为区段端点；可信预览会说明是否扩大到完整轮次。
-                </small>
-              </div>
-            ) : null}
             <div className="transcript" aria-live="polite" aria-label="消息时间线">
               {transcript.map((item) => (
                 <article key={item.id} className={item.role + ' status-' + item.status}>
@@ -1705,6 +1678,40 @@ export function ProviderPanel({
                 </article>
               ))}
             </div>
+
+            {mode === 'normal' && onPrepareRetention ? (
+              <details className="provider-context-disclosure">
+                <summary>
+                  <span>时间线管理</span>
+                  <small>清理消息、所选区段或整条时间线</small>
+                </summary>
+                <div className="provider-tool-options retention-timeline-actions">
+                  <button
+                    type="button"
+                    onClick={() => onPrepareRetention(currentAssistantId, { type: 'timeline' })}
+                  >
+                    预览清理整条时间线
+                  </button>
+                  {cleanupAnchors.length === 2 ? (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onPrepareRetention(currentAssistantId, {
+                          type: 'range',
+                          firstMessageId: cleanupAnchors[0]!,
+                          lastMessageId: cleanupAnchors[1]!
+                        })
+                      }
+                    >
+                      预览清理所选区段
+                    </button>
+                  ) : null}
+                  <small>
+                    按时间顺序选择两个消息作为区段端点；可信预览会说明是否扩大到完整轮次。
+                  </small>
+                </div>
+              </details>
+            ) : null}
 
             {mode === 'temporary' ? (
               <div className="temporary-actions">
