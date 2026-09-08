@@ -1,0 +1,18 @@
+{
+  "observedAt": "2026-09-08T07:49:51.3522926+08:00",
+  "mode": "PREPARE_ONLY",
+  "appId": "Mashiro.Desktop",
+  "clsid": "{D7D00685-BBBE-4240-8E2D-D1C7D7EAD6A3}",
+  "executableSha256": "3BD29B9E9C4300000B98251D07C3D4A98E1638EBE4D4F9EF152FF8596DFB1030",
+  "shortcutSha256": "FD1327841D25A4AB429086330F1E63E5372B9BAD723EA762C562A0062DAF1267",
+  "arguments": "mashiro-reminder-group:ff2adc16ceedb891ea9077a831ebc510b0eff2df639bcd4da4b2df9e38ede0c8",
+  "requireCold": false,
+  "beforeProcessIds": [
+    248364,
+    249648,
+    250012,
+    250920
+  ],
+  "actualNotificationClick": false,
+  "boundary": "Direct OS COM activation probe; does not prove a user clicked a Windows notification."
+}

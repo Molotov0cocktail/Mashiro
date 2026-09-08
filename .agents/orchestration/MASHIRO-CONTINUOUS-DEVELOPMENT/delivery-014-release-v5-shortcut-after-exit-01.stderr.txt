@@ -1,0 +1,8 @@
+MASHIRO_SHORTCUT_TARGET_MISMATCH
+ËùÔÚÎ»ÖÃ D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\delivery-014-mashiro-shortcut-metadata.ps1:102
+ ×Ö·û: 3
++   throw 'MASHIRO_SHORTCUT_TARGET_MISMATCH'
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (MASHIRO_SHORTCUT_TARGET_MISMATCH:String) [], RuntimeException
+    + FullyQualifiedErrorId : MASHIRO_SHORTCUT_TARGET_MISMATCH
+ 

@@ -1,0 +1,51 @@
+{
+  "scope": "release-v5 exact cold notification click readiness after normal application exit",
+  "observedAt": "2026-09-08T08:15:13.7855894+08:00",
+  "application": {
+    "normalExit": true,
+    "priorMainProcessId": 249648,
+    "processCountAtInstalledExecutable": 0,
+    "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "executableSha256": "3BD29B9E9C4300000B98251D07C3D4A98E1638EBE4D4F9EF152FF8596DFB1030"
+  },
+  "login": {
+    "runValueName": "Mashiro.Desktop",
+    "runValue": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+    "runExact": true
+  },
+  "registration": {
+    "appUserModelId": "Mashiro.Desktop",
+    "toastActivatorClsid": "{D7D00685-BBBE-4240-8E2D-D1C7D7EAD6A3}",
+    "shortcutSha256": "FD1327841D25A4AB429086330F1E63E5372B9BAD723EA762C562A0062DAF1267",
+    "shortcutTargetExact": true,
+    "localServerReferencesCurrentExecutable": true,
+    "evidence": "delivery-014-release-v5-shortcut-after-exit-02.json"
+  },
+  "notification": {
+    "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+    "version": 8,
+    "state": "DISPLAY_OBSERVED",
+    "dueAt": "2026-09-08T07:46:00+08:00",
+    "groupId": "ff2adc16ceedb891ea9077a831ebc510b0eff2df639bcd4da4b2df9e38ede0c8",
+    "historyAppId": "Mashiro.Desktop",
+    "historyCountAfterExit": 2,
+    "v8Tag": "d8af21134c16e258",
+    "v8TagPresentAfterExit": true,
+    "historyEvidence": "delivery-014-release-v5-notification-history-v8-after-exit.json"
+  },
+  "manualAction": {
+    "status": "AWAITING_USER_ACTION",
+    "instruction": "Press Win+N and click the exact newest Mashiro 提醒 entry for 2026-09-08 07:46 local time",
+    "physicalClickObserved": false,
+    "directComCountsAsPhysicalClick": false
+  },
+  "checks": {
+    "normalExitAndZeroProcesses": true,
+    "loginRunExact": true,
+    "currentExecutableExact": true,
+    "currentShortcutAndComRegistrationExact": true,
+    "v8ToastStillPresentAfterExit": true,
+    "readyForUserColdClick": true
+  }
+}

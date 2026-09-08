@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-09-08T08:13:00.1009347+08:00",
+  "shortcut": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Mashiro.lnk",
+    "sha256": "FD1327841D25A4AB429086330F1E63E5372B9BAD723EA762C562A0062DAF1267",
+    "target": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "arguments": "",
+    "appUserModelId": "Mashiro.Desktop",
+    "toastActivatorClsid": "{D7D00685-BBBE-4240-8E2D-D1C7D7EAD6A3}"
+  },
+  "registration": {
+    "scope": "current-user",
+    "path": "Software\\Classes\\CLSID\\{D7D00685-BBBE-4240-8E2D-D1C7D7EAD6A3}\\LocalServer32",
+    "value": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "referencesCurrentExecutable": true
+  }
+}
