@@ -1,0 +1,22 @@
+{
+  "sources": [
+    {
+      "path": "delivery-014-release-v6-upgrade-pre.json",
+      "sha256": "3B087EE2923A6734CB13309DD575DCE30560CA793D23C04EA8218E2D7F66E42C"
+    },
+    {
+      "path": "delivery-014-release-v6-upgrade-postinstall-prelaunch.json",
+      "sha256": "8B6253E33E17A4DE762D9DFDBF4A651985C51BA379AD67BA34E097C8CC40B4F9"
+    }
+  ],
+  "dataEntries": 18,
+  "dataExact": true,
+  "locatorExact": true,
+  "unknownFileExact": true,
+  "exeAsarExact": true,
+  "preservedUninstallIdentity": true,
+  "runCommandMigratedExactly": true,
+  "approvalAbsentBeforeAndAfter": true,
+  "processesZeroBeforeAndAfter": true,
+  "verdict": "UPGRADE_PRESERVATION_LIMITED_PASS"
+}

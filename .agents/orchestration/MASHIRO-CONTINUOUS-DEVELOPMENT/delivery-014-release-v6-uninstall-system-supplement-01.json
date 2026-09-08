@@ -1,0 +1,49 @@
+{
+  "scope": "release-v6 actual uninstall supplemental system observations",
+  "evidenceBoundary": {
+    "source": "owner-observed stdout from the post-uninstall comparison command",
+    "rawStdoutPersisted": false,
+    "exactObservationTimestamp": "NOT_RECORDED",
+    "independentlyReconstructableFromPrePostSnapshots": false,
+    "mustNotBeUsedToInferLaterState": true
+  },
+  "actualUninstall": {
+    "installedUninstallerSha256": "BEF780A2FBE18C7DF8A784316B8836C844E621A6296FD443AB70B552F820592F",
+    "childProcessId": 48280,
+    "windowHandle": 332882,
+    "completionText": "Mashiro 已从你的计算机解除安装",
+    "finishInvoked": true
+  },
+  "postUninstallObserved": {
+    "startMenuShortcutAbsent": true,
+    "appsFolderExactNewAumidCount": 0,
+    "newRunAbsent": true,
+    "oldRunAbsent": true,
+    "fixedUninstallGuidAbsent": true,
+    "toastLocalServer32": [
+      {
+        "clsid": "{53630587-95B7-41B2-A36B-D9D6A45B0277}",
+        "localServer32Absent": true
+      },
+      {
+        "clsid": "{D7D00685-BBBE-4240-8E2D-D1C7D7EAD6A3}",
+        "localServer32Absent": true
+      }
+    ]
+  },
+  "preservedSnapshotEvidence": [
+    {
+      "path": "delivery-014-release-v6-upgrade-preuninstall.json",
+      "sha256": "FEE2C71DA629213DB5A5511F8AD4A3C1F3C63FE9892493377959EF420F9C6F0A"
+    },
+    {
+      "path": "delivery-014-release-v6-upgrade-postuninstall.json",
+      "sha256": "3F47CFA3FE48E2867B6A352FDCB5DC510D546F3117DB139648E4423B847AFA7D"
+    },
+    {
+      "path": "delivery-014-release-v6-uninstall-independent-comparison.json",
+      "sha256": "4B495D7A8B5535FCB14133A409CE159B345B3F34397B3FC20E0A97F301CED856"
+    }
+  ],
+  "limitation": "The pre/post snapshots independently prove data, locator, unknown-file, program registration, and Run cleanup. The shortcut, AppsFolder, and two LocalServer32 observations are retained owner evidence because their original command stdout was not separately persisted; they are not promoted to independent proof."
+}

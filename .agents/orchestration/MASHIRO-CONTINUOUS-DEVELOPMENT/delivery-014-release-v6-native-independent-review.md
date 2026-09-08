@@ -1,0 +1,47 @@
+# Release-v6 native independent review
+
+2026-09-08 Astra/medium。**UPGRADE_PRESERVATION LIMITED PASS**，只读owner确认冻结的两份JSON，未访问活动数据/Registry/桌面。最终新Shell身份、卸载重装及实际点击仍待对应证据。
+
+pre SHA3B087EE2923A6734CB13309DD575DCE30560CA793D23C04EA8218E2D7F66E42C；postinstall-prelaunch SHA8B6253E33E17A4DE762D9DFDBF4A651985C51BA379AD67BA34E097C8CC40B4F9。独立逐字段比较[结果](delivery-014-release-v6-upgrade-independent-comparison.json)：18项data路径/类型/大小/SHA完全相等，location整对象（含085565…2FA8定位SHA、dataset9f2cf384…、原路径）相等，51字节unknownFile及SHA B9192933…15CC7相等。两时点精确安装路径进程数均0，符合启动前比较。
+
+实际EXE由v5 3BD变为v6 33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7，ASAR由BD19变为7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E，与独立静态制品匹配。uninstaller变为138891字节/BEF780A2FBE18C7DF8A784316B8836C844E621A6296FD443AB70B552F820592F，不声称与v5同字节。
+
+卸载注册GUID5555e988-f7b5-5fe3-b6bd-8df3b21f793e及精确UninstallString前后整对象一致。旧Mashiro.Desktop Run从存在变不存在，新生产名从不存在变存在，类型String及带引号精确安装EXE+--mashiro-login命令与旧值完整相等，原On选择迁移。旧/新StartupApproved前后均不存在，本次不冒称验证实际Off binary迁移；该边界复用独立真实NSIS合成测试。owner comparison01与独立结论相符。
+
+本项关闭v6同路径覆盖升级的数据保护、安装身份保持与实际旧Run迁移接缝；不证明随后启动/UI状态、Shell解析、新宏实际卸载或真实通知点击已通过。既有治理恢复/017/018/角色流程按未变源与已审证据复用。
+
+记录限制：owner comparison01的observedAt为11:43，早于所引用pre12:24/post12:32，应视为待勘误的比较摘要时间，不能用其推导执行时序。本独立结论依两份真实source快照的字段和时间，不因该摘要时间错误重跑业务。
+
+## First launch / Shell identity limited pass
+
+首次启动冻结firstlaunch-identity01 SHA2C68CB0D8DF1D0F8B44453572BC2B20F438BDBB349BFD0FDC7F6A343D7A2043D，12:37:41+08实际PID47376/HWND857002、标题Mashiro，EXE33F79…4454D7与v6制品一致。AppsFolder对新生产ID io.github.molotov0cocktail.mashiro精确匹配1项，显示名Mashiro、目标为安装Mashiro.exe；Start Menu shortcut A63E66…AB48E同ID/同安装目标/空arguments，CLSID53630587-95B7-41B2-A36B-D9D6A45B0277。
+
+这些字段直接关闭旧反例“Shell对生产ID解析开发Electron”的本次安装态身份接缝，**SHELL_IDENTITY LIMITED PASS**；不据shortcut的CLSID字段宣称该报告还验证了LocalServer32或真实通知交付，也不把普通首次启动当通知冷启动成功。报告明确未记录其他AppsFolder条目、未读取或改共享Electron链接。
+
+comparison01-errata SHA7FDF85CF781F45CB2AD240D39EFED1A4DB3CFDF040232405BD219357493EE840承认11:43手填时间无效，保留原文，使用pre12:24:06、post12:32:59及比较文件12:34:14顺序；与本报告此前记录一致，没有改动原字段或source hash。时间归因闭合，不需要重跑升级。
+
+新宏实际卸载/重装、新身份真实通知点击和进程为零后的导航仍待；原生owner继续执行，本reviewer不操作现场。
+## v6实际卸载：数据及登录清理限定核对
+
+独立对比preuninstall SHA FEE2C71DA629213DB5A5511F8AD4A3C1F3C63FE9892493377959EF420F9C6F0A和postuninstall SHA3F47CFA3FE48E2867B6A352FDCB5DC510D546F3117DB139648E4423B847AFA7D，结果见delivery-014-release-v6-uninstall-independent-comparison.json：18data entries整对象、location及unknownFile完全一致；pre当前新Run On，post清除；旧Run原已不存在，不能称本次又删除旧Run。EXE/ASAR/uninstaller/固定GUID注册从存在变不存在，前后精确进程数0。StartupApproved两名本次仍前后不存在。
+
+这两源文件没有shortcut/COM/AppsFolder字段，所以本节仅关闭实际卸载的数据保护/程序及当前登录清理范围；owner回报的5363/D7 LocalServer及AppsFolder清理待单独冻结证据。重装及真实点击继续由唯一owner执行，不阻塞现场也不重跑矩阵。
+## 原路径重装启动前限定通过
+
+postreinstall-prelaunch SHA2EFF54F304E152F24BBA30C652741F543BADEE8E2327A341E6243FCCD3CE1C16，观察12:53:13+08；独立与postuninstall3F47…AFA7D逐项核对，18data整对象、location、unknownFile及安装路径完全相同。EXE33F79…4454D7、ASAR7659…459F0E与v6精确匹配，uninstaller138891/BEF780…0592F保持该候选。固定GUID5555e988…793e注册恢复，旧/新Run均不存在，启动前精确进程0，符合完整卸载后不自动复活登录选择的已审语义。
+
+结果delivery-014-release-v6-reinstall-independent-comparison.json，**REINSTALL_PRELAUNCH LIMITED PASS**。不据重装后的注册状态倒推卸载时COM/shortcut/AppsFolder清理，也不据此声称重装后显式On或真实通知点击已完成；继续等待对应冻结原生证据。
+## 重装后显式On及v9冷准备限定通过
+
+独立核ready01 SHA6359B68B3B21A793201352497FCAA8F1B53FF5640C42E7BC3D935F5972D8C797及normal-exit-v9-01 SHA820280A131C431141C59D2C26B9F4053D1018D9407ED8DBCC354BF5319CF26B4：主49136从“退出Mashiro”正常退出，05:14:11Z精确进程数0，05:18Z readiness仍0；EXE33F79…4454D7。新Run名称为生产AUMID、带引号精确安装EXE加--mashiro-login，requestedAndSystemConfirmedOn=true、旧Run absent，补足重装后的显式On范围。
+
+v9 before/after-exit History两文件同SHA102D0383008CE38BB57C989C2545CF2EEC0A693DC63FC6C27AB9F38EB42FC969，新AUMID count1、tagc6cd7a1fdeae2f59/group reminders完整保留；ready绑定原提醒70a8…及item a35f…/E2E_ITEM_waiting、due13:07、DISPLAY_OBSERVED。未以History文件本身证明零进程，而用上面两份正常退出/ready证据。
+
+shortcut-after-exit01 SHA9C2C7A6E7CA63AAEE6CC0BC8DFBF054E5223059CEB7CC39EB57AED66CE1D3E60：重装后当前CLSID145B11B4-27B4-4C65-8585-F689F4C2CBB9，shortcut A29449…88588、新AUMID、空参数、精确安装目标以及LocalServer32一致。不能沿用卸载前5363或旧D7作为当前激活身份。
+
+本批 **LOGIN_ON / COLD_READY LIMITED PASS**；v9未调用COM、未新增Provider、真实点击PENDING_USER_ACTION。已只读核progress/program当前首段，与等待真实点击、旧FAIL保留和卸载COM补证待齐的状态一致；不重复提问或触发任何桌面路线。实际冷启动/事项定位仍须用户点击后的新证据。
+## 卸载系统补证的分层结算
+
+supplement01 SHA AB1B61A8ECCDBDAAC879F3A1B6F83821CA4FC191FE59BF8F21805095A714F495明确标注rawStdoutPersisted=false、精确时间NOT_RECORDED、不可由pre/post重算。保留owner在真实卸载完成时观察的shortcut absent、新AppsFolder0、5363及D7 LocalServer32 absent；不把这些升格为可独立重算原始快照，也不用于推断随后状态。
+
+风险比例结论：结合已冻结pre/post强证据、准确uninstaller BEF780…0592F、生成宏与制品一致、此前独立真实NSIS完整REG_SZ/含NUL/外路径/升级guard/邻接枚举及v4正式卸载证据，可对v6系统清理作 **COMBINED_EVIDENCE LIMITED PASS**，无需重复整个生命周期。该结论包含较弱的当时owner观测，不声称两个GUID删除被独立再次读取。当前没有相反现象或机制差异需新业务实验；证据强度限制永久保留。唯一实质原生场景仍新通知真实点击/冷启动正确事项，待用户结果。

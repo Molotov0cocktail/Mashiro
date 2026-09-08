@@ -1,0 +1,180 @@
+{
+  "scope": "release-v6 exact same-path upgrade preservation snapshot",
+  "observedAt": "2026-09-08T12:53:13.2228915+08:00",
+  "phase": "postreinstall-prelaunch",
+  "scene": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp",
+  "install": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本",
+  "processIds": [],
+  "executable": {
+    "exists": true,
+    "bytes": 245289984,
+    "sha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7"
+  },
+  "asar": {
+    "exists": true,
+    "bytes": 15514291,
+    "sha256": "7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E"
+  },
+  "uninstaller": {
+    "exists": true,
+    "bytes": 138891,
+    "sha256": "BEF780A2FBE18C7DF8A784316B8836C844E621A6296FD443AB70B552F820592F"
+  },
+  "unknownFile": {
+    "exists": true,
+    "bytes": 51,
+    "sha256": "B9192933E53198684B1C695309D6223BDD9D41EA31C54F9200C41D7703F15CC7"
+  },
+  "data": {
+    "path": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+    "entries": [
+      {
+        "path": ".mashiro-dataset.json",
+        "type": "file",
+        "bytes": 143,
+        "sha256": "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F"
+      },
+      {
+        "path": ".mashiro-governance-backup.json",
+        "type": "file",
+        "bytes": 7645,
+        "sha256": "BE7D1007D22B42925A59E70B5F88F5A50AA1DFB0A3A84B6D86A29084EA39C127"
+      },
+      {
+        "path": ".mashiro-governance.json",
+        "type": "file",
+        "bytes": 114,
+        "sha256": "57D4031ED1BE783BDD22BF20145246F01F32D9351F3118BC54DDFD72DC2AC39E"
+      },
+      {
+        "path": "credentials",
+        "type": "directory",
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential",
+        "type": "file",
+        "bytes": 80,
+        "sha256": "451D99DB9C192FA78D74BAF78B632743B3EB531E6727F9DF0110C5F1D9FB7920"
+      },
+      {
+        "path": "credentials/f720fc8c-a2c4-4765-b02e-87e2c98bc8fd.credential.revoked",
+        "type": "file",
+        "bytes": 95,
+        "sha256": "1D4D0644078B59CF706E404B512F5E80DE02A504515A5F201FA2007623751849"
+      },
+      {
+        "path": "mashiro.sqlite",
+        "type": "file",
+        "bytes": 1474560,
+        "sha256": "C57B43D701C22411DA7EC12326ABF8732ABD5D4AA95C915233011E0D7F1DFBE3"
+      },
+      {
+        "path": "memory",
+        "type": "directory",
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "memory/43c35979-ee88-4510-a699-7bb0bd8c026d-1-429a42c5-e9ff-4f53-8af4-2eb4ac61f10e.md",
+        "type": "file",
+        "bytes": 73,
+        "sha256": "376BE9FE9FAA1B414766D036E22763B8477EDC6A41E6D5FC9D8EF508B827F04B"
+      },
+      {
+        "path": "memory/66c6471e-c974-4a4d-ad16-e3396bb7f2c3-1-8c085a42-cb42-42f9-95c1-8ca1f7adf7d7.md",
+        "type": "file",
+        "bytes": 50,
+        "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92"
+      },
+      {
+        "path": "memory/6ae7f079-b90b-426c-99b9-47cbc0f4ade0-1-b1f788ed-0675-4bf0-8810-ebe144efd738.md",
+        "type": "file",
+        "bytes": 50,
+        "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D"
+      },
+      {
+        "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-1-5e3c2c50-61b9-4b21-881d-68f55ee459ca.md",
+        "type": "file",
+        "bytes": 19,
+        "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+      },
+      {
+        "path": "memory/6c6eaf5c-3065-4d0d-a698-97d936c8a8b2-2-80bfc57c-15cc-48f3-aa06-1782c68b083f.md",
+        "type": "file",
+        "bytes": 20,
+        "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5"
+      },
+      {
+        "path": "memory/83d69ddd-340b-4e3a-a60f-db3d59c9e3f0-1-8eca4ba8-a020-4411-85cc-3251f7f606a1.md",
+        "type": "file",
+        "bytes": 48,
+        "sha256": "731F9E4073F458A6D9F0A6DD6754340238EC47B55D46718020E675EE43638ABD"
+      },
+      {
+        "path": "memory/84299a53-a989-4361-8f68-650009d150e1-1-6ac3de51-aef2-4b95-a6a5-d257e06bf486.md",
+        "type": "file",
+        "bytes": 50,
+        "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0"
+      },
+      {
+        "path": "memory/84299a53-a989-4361-8f68-650009d150e1-2-0403f781-6af7-4d22-9a0b-c18f0a11f5ae.md",
+        "type": "file",
+        "bytes": 26,
+        "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292"
+      },
+      {
+        "path": "memory/9983ff00-93cf-4ac9-931b-ccb8fd4db05f-1-a4aab7d2-de44-4ccc-97db-7a832e24b778.md",
+        "type": "file",
+        "bytes": 71,
+        "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C"
+      },
+      {
+        "path": "memory/e814c421-b6ef-40b9-9515-349d16c0c305-1-65a609a3-2d41-4adf-9650-1f31a481fad7.md",
+        "type": "file",
+        "bytes": 69,
+        "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F"
+      }
+    ]
+  },
+  "location": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\configuration\\location.json",
+    "sha256": "0855654037482B0FC5C2EA2920D7B0C2767D56818D52382EB49B696576D82FA8",
+    "dataPath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a"
+  },
+  "run": {
+    "old": {
+      "exists": false,
+      "kind": null,
+      "value": null
+    },
+    "current": {
+      "exists": false,
+      "kind": null,
+      "value": null
+    },
+    "oldStartupApproved": {
+      "exists": false,
+      "kind": null,
+      "value": null
+    },
+    "currentStartupApproved": {
+      "exists": false,
+      "kind": null,
+      "value": null
+    }
+  },
+  "uninstall": {
+    "guid": "5555e988-f7b5-5fe3-b6bd-8df3b21f793e",
+    "exists": true,
+    "uninstallString": {
+      "exists": true,
+      "kind": "String",
+      "value": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Uninstall Mashiro.exe\" /currentuser"
+    }
+  },
+  "unrelatedRegistryValuesRead": false,
+  "credentialContentsRead": false
+}

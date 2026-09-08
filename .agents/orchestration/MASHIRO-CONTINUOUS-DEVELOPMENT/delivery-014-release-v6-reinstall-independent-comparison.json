@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "path": "delivery-014-release-v6-upgrade-postuninstall.json",
+      "sha256": "3F47CFA3FE48E2867B6A352FDCB5DC510D546F3117DB139648E4423B847AFA7D"
+    },
+    {
+      "path": "delivery-014-release-v6-upgrade-postreinstall-prelaunch.json",
+      "sha256": "2EFF54F304E152F24BBA30C652741F543BADEE8E2327A341E6243FCCD3CE1C16"
+    }
+  ],
+  "observedAt": "2026-09-08T12:53:13.2228915+08:00",
+  "dataEntries": 18,
+  "dataLocationUnknownExact": true,
+  "sameInstallPath": true,
+  "exeAsarExact": true,
+  "fixedGuidRestored": true,
+  "bothRunAbsent": true,
+  "processesZero": true,
+  "uninstaller": {
+    "exists": true,
+    "bytes": 138891,
+    "sha256": "BEF780A2FBE18C7DF8A784316B8836C844E621A6296FD443AB70B552F820592F"
+  },
+  "verdict": "REINSTALL_PRELAUNCH_LIMITED_PASS"
+}

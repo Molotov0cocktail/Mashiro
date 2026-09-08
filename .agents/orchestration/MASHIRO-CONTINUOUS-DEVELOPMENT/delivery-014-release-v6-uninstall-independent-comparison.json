@@ -1,0 +1,21 @@
+{
+  "sources": [
+    {
+      "path": "delivery-014-release-v6-upgrade-preuninstall.json",
+      "sha256": "FEE2C71DA629213DB5A5511F8AD4A3C1F3C63FE9892493377959EF420F9C6F0A"
+    },
+    {
+      "path": "delivery-014-release-v6-upgrade-postuninstall.json",
+      "sha256": "3F47CFA3FE48E2867B6A352FDCB5DC510D546F3117DB139648E4423B847AFA7D"
+    }
+  ],
+  "dataEntries": 18,
+  "dataExact": true,
+  "locationExact": true,
+  "unknownFileExact": true,
+  "programAndUninstallRegistrationRemoved": true,
+  "currentRunOnBeforeRemoved": true,
+  "oldRunAlreadyAbsent": true,
+  "processesZero": true,
+  "scope": "No shortcut/COM/AppsFolder fields in these two snapshots; await separate frozen evidence"
+}

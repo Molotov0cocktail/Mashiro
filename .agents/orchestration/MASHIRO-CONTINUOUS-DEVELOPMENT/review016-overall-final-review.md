@@ -4,10 +4,11 @@
 
 ## 身份与证据范围
 
-实查HEAD为100a9a23ab40427ac520cc35318d3e54bfe98908。相对运行源码a86c2684733fbd3d9d5f5fefd53775357089fbfd，src/build/package.json/package-lock.json/electron-builder.config.mjs无差异。后继为证据/文档及独立测试，不伪称安装包含新增review测试。已独立[制品审查](delivery-014-release-v5-artifact-review.md)绑定setup CEB41588827C580C47F226F94E810188FC85563D34D24C68FE89D4C94C6E221E、ASAR BD19D48D842ADE57CAA16CD42C103B8D8EB9C30637005342A30711DDC6D0F6B1、五份冻结out、79owned文件和声明；0.1.0实际NotSigned，无default_app.asar/version残留。
+当前实查HEAD422b841b84852aeea81b6959c834b547d1b2f769；相对运行源码ea94184e3fb80943d333005d50372dacf1892ea3，src/build/package/安装配置/harness无新差异。已独立[v6制品审](delivery-014-release-v6-artifact-review.md)绑定setup112587804/FABC9B560D27AFE5ECE3C8A62CD33A50E797A506D31B02A7E0E575A4208FB995、ASAR7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E、五份out/79owned/声明、PE完整性，0.1.0实际NotSigned。新生产AUMID与固定旧GUID独立通过，v5用户两次错误Electron点击仍保留FAIL。
 
-复用[最终工程整合](operations-013-root-integration-v5.md)：210文件859项，851通过/0失败/8明确opt-in跳过，类型/lint/格式/build/依赖树通过，真实Electron两PID243836/248072，原temporary6→0重启断言保留。单独执行的规模/故障证据不改写为普通suite通过；所有历史RED、构建失败、初次归因失败保持原事实。后续新增正式事项restore窄fixture单项与Node类型已独立通过，不要求再跑整套。
+复用[身份修复最终整合](delivery-014-identity-root-integration-final.md)：完整215files872tests为863PASS/1late-Off FAIL/8opt-in skip；随后唯一相关生成器修复，6个受影响文件25/25及独立原反例复跑通过，不改写完整原FAIL。静态/build通过，两PID44084/40668、run9c0a1603…实际退出0；提醒syntheticDeliveryObserved=true/nativeShowObserved=false，既有真实服务/UI/重启断言保留，开发前后已知shortcut字节不变。其他未变领域资格复用此前有效证据。
 
+[v6原生独立报告](delivery-014-release-v6-native-independent-review.md)已核升级数据18项/定位/未知文件、旧Run On迁移、旧安装GUID、新Shell安装身份、实际卸载和原路径重装默认Off、重装后显式On/零进程冷准备。卸载shortcut/两个COM/AppsFolder补证是无独立raw的owner当时观测，结合独立宏真实测试与其余强快照作分层限定闭合，不冒称独立重读系统。新v9真实点击仍待。
 ## 覆盖计数及逐ID结算
 
 总表实际为48个A–G功能ID（7+7+4+8+6+7+9）和Q1–Q12十二队列，合计60行；另有11行原始后置/可选/非目标边界。以下分组完整覆盖48个ID，未删改原始行为要求。“结清”指该功能实现与相称证据成立，仍受下面明确列出的最终原生/发布门槛约束。
@@ -50,8 +51,8 @@ Q1–Q9实现/领域证据已交付，Q8只保留最终OS通知，运行中心�
 
 ## 仅余的具体收束证据
 
-1. 最终CEB/BD19安装态的真实Windows通知展示与实际用户激活、进程为零后的冷激活定位正确事项。重复/过期/取消按既有独立服务反例复用；不能以show或仅HRESULT0代替UI定位。旧v7探针内部CLSID身份错误保留为PROBE_IDENTITY_MISMATCH，不据其UNKNOWN归产品失败；新v8证据尚待。
-2. 登录及生命周期已按真实v4开启Run卸载→18data/定位/未知文件保留→v5同字节uninstaller及GUI重装/同dataset首次启动结清。v5首次UIOff/系统Off一致，显式重新On的口头回报待并入v8冻结摘要，不需另造截图矩阵。运行中心分类修复已由独立源码和v5视觉关闭，见[v5原生独立报告](delivery-014-release-v5-native-independent-review.md)。
-3. 最后通知证据冻结后补最终016/制品结论，核最终发布指南/notes及附件版本/hash；按既有授权执行新tag/Release/资产上传与实际无凭据下载校验、两remote精确源码观测。G08最终签结及G09实际发布仍NOT RUN。未签名如实声明，不关闭系统防护、不覆盖既有公开资产。
+1. 新v6实际Windows通知用户点击与零进程后的冷启动定位正确事项：ready01确认新ID下唯一v9/tagc6cd7a1fdeae2f59、13:07、E2E_ITEM_waiting，当前CLSID145B11B4；尚无用户点击通过结果。禁止以暖COM、合成show、后台登录进程替代。旧用户失败、探针身份错误及真实修复证据均分开保留。
+2. 生命周期/显式On及冷准备按上述v6原生报告结清，卸载系统补证保留分层限制；无需再重跑治理/017/018/角色全矩阵。当前唯一实质原生场景是第1项。
+3. 点击证据冻结后补016最终签结与发布材料最终化，核精确tag/源码/资产身份，执行既有授权的Release/上传及实际无凭据下载字节校验和双remote观测。G08最终签结、G09实际发布仍NOT RUN；不关闭防护或破坏性覆盖公开资产。
 
-本次更新只变更当前身份和已关闭证据，不改48功能/12队列/11边界的范围。相对a86的src/build/package/安装配置无新增产品差异。未重跑测试，后续真实失败仍转REPAIR；PROGRAM保持ACTIVE。
+本次仅更新当前v6身份、已发生证据与准确剩余项，48功能/12队列/11边界不变。原生用户点击未通过前整体PENDING，PROGRAM ACTIVE。本reviewer停止现场动作并等待答复。

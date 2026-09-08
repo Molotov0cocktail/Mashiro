@@ -1,0 +1,38 @@
+{
+  "scope": "release-v6 first launch and exact production AppsFolder identity",
+  "observedAt": "2026-09-08T12:37:41.4468968+08:00",
+  "application": {
+    "mainProcessId": 47376,
+    "mainWindowHandle": 857002,
+    "mainWindowTitle": "Mashiro",
+    "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7"
+  },
+  "appsFolder": {
+    "exactMatchCount": 1,
+    "displayName": "Mashiro",
+    "path": "io.github.molotov0cocktail.mashiro",
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "targetParsingPath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "targetExact": true
+  },
+  "startMenuShortcut": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Mashiro.lnk",
+    "sha256": "A63E66AC8ECFEF31F86185071EABC13CEE59ACEA8AF5BE07A6F1D5ED624AB48E",
+    "target": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "targetExact": true,
+    "arguments": "",
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "toastActivatorClsid": "{53630587-95B7-41B2-A36B-D9D6A45B0277}"
+  },
+  "checks": {
+    "appsFolderDisplayNameExact": true,
+    "appsFolderTargetInstalledExecutable": true,
+    "appsFolderAndShortcutAumidSame": true,
+    "shortcutTargetInstalledExecutable": true,
+    "runningExecutableExact": true,
+    "allPassed": true
+  },
+  "unrelatedAppsFolderEntriesRecorded": false,
+  "sharedElectronShortcutReadOrChanged": false
+}

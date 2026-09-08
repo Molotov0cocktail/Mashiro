@@ -1,0 +1,46 @@
+{
+  "scope": "release-v6 physical cold-click readiness",
+  "observedAtUtc": "2026-09-08T05:18:00.3010162Z",
+  "application": {
+    "exactInstalledProcessCount": 0,
+    "processIds": [],
+    "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7"
+  },
+  "notification": {
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "reminderVersion": 9,
+    "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+    "itemTitle": "E2E_ITEM_waiting",
+    "dueLocal": "2026-09-08T13:07:00+08:00",
+    "state": "DISPLAY_OBSERVED",
+    "historyCount": 1,
+    "tag": "c6cd7a1fdeae2f59",
+    "group": "reminders",
+    "historySource": "delivery-014-release-v6-notification-history-v9-after-exit.json",
+    "historySourceSha256": "102D0383008CE38BB57C989C2545CF2EEC0A693DC63FC6C27AB9F38EB42FC969"
+  },
+  "login": {
+    "requestedAndSystemConfirmedOn": true,
+    "newRunName": "io.github.molotov0cocktail.mashiro",
+    "newRunValue": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+    "newRunExact": true,
+    "oldRunAbsent": true
+  },
+  "shortcut": {
+    "source": "delivery-014-release-v6-shortcut-after-exit-01.json",
+    "sourceSha256": "9C2C7A6E7CA63AAEE6CC0BC8DFBF054E5223059CEB7CC39EB57AED66CE1D3E60",
+    "target": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "toastActivatorClsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}",
+    "registrationReferencesCurrentExecutable": true
+  },
+  "physicalClick": "PENDING_USER_ACTION",
+  "comActivationInvokedForV9": false,
+  "providerCallsMade": 0,
+  "limitations": [
+    "No taskbar or Notification Center automation was attempted after the prior automatic approval rejection.",
+    "COM activation is not used as evidence for a physical click."
+  ]
+}

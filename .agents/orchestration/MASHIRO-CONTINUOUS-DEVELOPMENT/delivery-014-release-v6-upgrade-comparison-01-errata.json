@@ -1,0 +1,13 @@
+{
+  "scope": "timestamp correction for frozen release-v6 upgrade comparison-01",
+  "observedAt": "2026-09-08T12:37:41.4468968+08:00",
+  "comparison": "delivery-014-release-v6-upgrade-comparison-01.json",
+  "issue": "The comparison observedAt value 2026-09-08T11:43:00+08:00 was manually entered and predates both source snapshots, so it is not a valid observation timestamp.",
+  "sourceTimestamps": {
+    "preObservedAt": "2026-09-08T12:24:06.5181111+08:00",
+    "postinstallPrelaunchObservedAt": "2026-09-08T12:32:59.8118257+08:00",
+    "comparisonFileLastWriteTime": "2026-09-08T12:34:14.6286414+08:00"
+  },
+  "effect": "No comparison value, source hash, or native result changed. Use the source snapshot timestamps and comparison file timestamp for ordering.",
+  "originalPreserved": true
+}
