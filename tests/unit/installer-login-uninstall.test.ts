@@ -237,6 +237,8 @@ describe.skipIf(process.platform !== 'win32')('owned login registration uninstal
           '"',
         generated,
         'Section',
+        '  StrCpy $INSTDIR "C:\\Synthetic Mashiro"',
+        '  !insertmacro customInstall',
         'SectionEnd'
       ].join('\n')
     )

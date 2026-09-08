@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-09-08T11:47:46.7434135+08:00",
+  "scope": "Read-only hashes of the two known shortcuts before repaired development harness",
+  "files": [
+    {
+      "name": "Electron.lnk",
+      "bytes": 1049,
+      "sha256": "1356460D06DC84A9C9123ABDD2E07F677B825C100FFD37B8FC7E3BE8C5D5482E"
+    },
+    {
+      "name": "Mashiro.lnk",
+      "bytes": 1639,
+      "sha256": "FD1327841D25A4AB429086330F1E63E5372B9BAD723EA762C562A0062DAF1267"
+    }
+  ]
+}

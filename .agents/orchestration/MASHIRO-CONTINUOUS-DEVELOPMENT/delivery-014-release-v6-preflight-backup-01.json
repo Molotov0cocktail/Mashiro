@@ -1,0 +1,44 @@
+{
+  "scope": "final v5 installed application full backup before the notification identity repair upgrade",
+  "observedAt": "2026-09-08T11:30:50.9683682+08:00",
+  "application": {
+    "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "existingHiddenMainProcessId": 32872,
+    "openedByNormalSecondInstanceLaunch": true,
+    "backupMenu": "数据与备份 → 完整备份并退出…",
+    "confirmation": "停止当前工作，完成完整备份后退出？",
+    "confirmationDetail": "完整备份包含历史、记忆正文、治理状态和受保护凭据；程序将退出以保证复制期间没有写入。",
+    "completion": "备份已校验，程序即将退出。",
+    "normalExitProcessCount": 0
+  },
+  "backup": {
+    "directory": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\完整备份-release-v6-preflight-01",
+    "targetWasNewAndEmpty": true,
+    "backupId": "28860377-fd1d-48ae-808e-b390a49805d8",
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "schemaVersion": 19,
+    "createdAt": "2026-09-08T03:27:44.979Z",
+    "manifestBytes": 3480,
+    "manifestSha256": "064746B0EFE9FB63FD9DF102F8DFB8AEAE620FDA734AC1171657AE6080117E69",
+    "manifestFileCount": 16,
+    "payloadFileCountIncludingSnapshotMarker": 17,
+    "payloadHashVerification": "PENDING_ROOT_INDEPENDENT_CHECK"
+  },
+  "login": {
+    "runValueName": "Mashiro.Desktop",
+    "runValue": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+    "runExactAfterExit": true
+  },
+  "toolObservations": {
+    "separateProcessMenuLookup": "The menu collapsed between helper processes and the exact item was absent; the menu was subsequently opened and invoked within one exact-PID guarded process.",
+    "pointerClickOnNativeConfirmation": "The pointer target was not owned at the sampled location; the exact native Button handle was instead verified by PID, root dialog, class, and text before BM_CLICK.",
+    "productFailure": false
+  },
+  "safety": {
+    "notificationCenterActions": 0,
+    "comActivations": 0,
+    "providerCalls": 0,
+    "sharedElectronShortcutModified": false,
+    "existingNotificationOrRegistrationRemoved": false
+  }
+}

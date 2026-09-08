@@ -1,0 +1,89 @@
+{
+  "baseCommit": "fba850e0d015f041cb485d9e36b51c6bb8c3e08c",
+  "files": [
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "sha256": "ECD54D2792681A87EC38F756644FE343142B85189E06C92C8BEBEB776B4576E4"
+    },
+    {
+      "path": "electron-builder.config.mjs",
+      "sha256": "B39583FA9A503C6F20E01109CE56B3925C9F499F602B901676F65B69E4757EAD"
+    },
+    {
+      "path": "scripts/electron-f1-harness.mjs",
+      "sha256": "593248E5602B0E6C0D7E4A88C3E68CBF0923DD39D735AB63830B56E7C41FF35E"
+    },
+    {
+      "path": "src/main/app/windows-app-identity.ts",
+      "sha256": "179C9B746B21928F55D7A42B0A4413DB5A3B7C04392D3C11B4E73D2BA9BC9110"
+    },
+    {
+      "path": "src/main/index.ts",
+      "sha256": "8F32989B86C27AB594CFF668CD5C4668E02B3DB37158D4B873882D2290F431C3"
+    },
+    {
+      "path": "src/main/reminder/reminder-runtime.ts",
+      "sha256": "EF3E839053514929C3CF4D9AE7367216580A02FA8C7D33B8777CC28D5D41E9B1"
+    },
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "sha256": "B5E71FADB23DD3AF6254E83ECFFAA4E1009E9C803EB5666CA4D24F020F06577A"
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "sha256": "4375047A9DF99AC5B9164A2AFB8469821A00E6D6A5C4DC98BD6AE889F6E97243"
+    },
+    {
+      "path": "src/main/testing/e2e-reminder.ts",
+      "sha256": "1B890F399685A01B1D21D3AB741C6ADD9F5E3A30395A925E541E1C65804CDB19"
+    },
+    {
+      "path": "src/shared/windows-app-identity.d.mts",
+      "sha256": "4C821DCB4EEE30397E1AD7E930D2F4DA04FB9B779F03FFC6A2437C066EACD511"
+    },
+    {
+      "path": "src/shared/windows-app-identity.mjs",
+      "sha256": "F53A48AA281D029E41F871ECB410A0A20B076F840C2C4BA013E315EC060379BD"
+    },
+    {
+      "path": "tests/unit/e2e-reminder-platform.test.ts",
+      "sha256": "69970065888D614A084FF2E8B7AD26A87F6184454955F22408BBE522B1D6BFC7"
+    },
+    {
+      "path": "tests/unit/installer-login-migration.test.ts",
+      "sha256": "2442FAF08EDCE68DB054D4C38F5CF9C4C38A61A0B522024D0B56A7F3B3FF6D8A"
+    },
+    {
+      "path": "tests/unit/installer-login-uninstall.test.ts",
+      "sha256": "91CC14D36F3039474C6CA0356797C769C4E643FCC1316650AF88F20D7B572649"
+    },
+    {
+      "path": "tests/unit/login-hidden-registration-independent.test.ts",
+      "sha256": "BC3F2695F10799FA346D39CEA71F8405E20C9A6F397650B9B570816EF6B45A4E"
+    },
+    {
+      "path": "tests/unit/packaging-config-independent.test.ts",
+      "sha256": "1E16932B503E56630D90225D75E8C55F01497541875691700731926A2DB487E1"
+    },
+    {
+      "path": "tests/unit/production-main-independent.test.ts",
+      "sha256": "5E48CBCD8E93B2B219C34045DE936774A7BD55240D37F41061173190ED867154"
+    },
+    {
+      "path": "tests/unit/reminder-boundaries.test.ts",
+      "sha256": "AF098FDC6C4AA163914E6E5B681C955BE2678290A5648AD3F3AAE9BCF31A7A8F"
+    },
+    {
+      "path": "tests/unit/review014-login-migration-retry.test.ts",
+      "sha256": "A848F02CEA891EC2CCD86F5DE392BFDAA34BFF4FD5A4B8B3EE92AB5440F6F002"
+    },
+    {
+      "path": "tests/unit/review014-production-notification-identity.test.ts",
+      "sha256": "7A75F0E414A44BD541B6B10EE0FD1A2FCF745F033355950354948C246D38296C"
+    },
+    {
+      "path": "tests/unit/windows-app-identity.test.ts",
+      "sha256": "AED2F0A707264CDB369FDFCEA4B12491F206F204755F35D3FDED9C45C46E4F13"
+    }
+  ]
+}

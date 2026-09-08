@@ -17,6 +17,7 @@ import { afterEach, expect, it } from 'vitest'
 import config from '../../electron-builder.config.mjs'
 // @ts-expect-error Build hook is JavaScript and intentionally has no declaration file.
 import { afterPack } from '../../build/after-pack.mjs'
+import { UUID } from 'builder-util-runtime'
 
 const roots: string[] = []
 const versions = {
@@ -69,11 +70,13 @@ async function fixture(extraRuntime?: string) {
 
 it('locks distribution settings and generates an exact nonrecursive uninstall allowlist', async () => {
   expect(config).toMatchObject({
+    appId: 'io.github.molotov0cocktail.mashiro',
     asar: true,
     npmRebuild: false,
     forceCodeSigning: false,
     publish: null,
     nsis: {
+      guid: '5555e988-f7b5-5fe3-b6bd-8df3b21f793e',
       oneClick: false,
       perMachine: false,
       allowElevation: false,
@@ -81,6 +84,13 @@ it('locks distribution settings and generates an exact nonrecursive uninstall al
       deleteAppDataOnUninstall: false
     }
   })
+  expect(config.nsis.guid).toBe(
+    UUID.v5('Mashiro.Desktop', UUID.parse('50e065bc-3134-11e6-9bab-38c9862bdaf3'))
+  )
+  expect(config.nsis.guid).not.toBe(
+    UUID.v5(config.appId, UUID.parse('50e065bc-3134-11e6-9bab-38c9862bdaf3'))
+  )
+
   const packageJson = JSON.parse(readFileSync('package.json', 'utf8'))
   expect(packageJson.devDependencies['electron-builder']).toBe('26.15.3')
   expect(packageJson.scripts['pack:windows']).toContain('--publish never')

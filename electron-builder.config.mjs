@@ -1,9 +1,10 @@
 import { resolve } from 'node:path'
 import { afterPack } from './build/after-pack.mjs'
+import { productionAppUserModelId } from './src/shared/windows-app-identity.mjs'
 
 /** Explicit unsigned Windows distribution; publishing occurs only after independent release acceptance. */
 export default {
-  appId: 'Mashiro.Desktop',
+  appId: productionAppUserModelId,
   productName: 'Mashiro',
   directories: { output: 'dist/windows', buildResources: 'build' },
   files: ['out/**/*', 'package.json', '!**/*.map'],
@@ -23,6 +24,7 @@ export default {
     }
   },
   nsis: {
+    guid: '5555e988-f7b5-5fe3-b6bd-8df3b21f793e',
     oneClick: false,
     perMachine: false,
     allowElevation: false,

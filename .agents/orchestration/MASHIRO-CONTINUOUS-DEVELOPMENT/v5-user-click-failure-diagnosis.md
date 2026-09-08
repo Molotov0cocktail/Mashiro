@@ -54,3 +54,14 @@ Electron Notification.isSupported会GetNotificationPresenter，能够触发Initi
 该范围需要新的独立源码/生成宏与制品验证，旧数据保护/治理/Provider资格按无差异范围复用。不是整产品重写，也不接受仅改toast activationType或清除其他项目注册作为修复。
 
 root已选定候选生产AUMID为io.github.molotov0cocktail.mashiro，上述示例com.mashiro.desktop不作为实现值。旧Mashiro.Desktop Run须在同一已授权安装路径精确匹配时保留用户On选择并迁移；卸载同时识别该精确旧条目及新条目，不能删除他路径。旧内部测试通知只能按已知自有tag精确撤下，旧通知不能可靠重绑定的边界应明示；不得操作Electron.lnk或全局注册。当前尚未公开发行，只覆盖已授权内部升级路线，不扩展任意历史迁移框架。
+
+
+独立行为RED补证：tests/unit/review014-production-notification-identity.test.ts在作者产品尚未改时，对platform SHA9015453516B5DC1CDB1FB977EDB7736821A4D6EBC2EA8C45ADC9AB509320C7A8实跑2项均FAIL（raw review014-production-notification-identity-red-01.json）。开发capability检查实际返回true，直接show实际构造原生通知；仅Electron mock，没有系统副作用。随后只格式化测试，Node typecheck退出0。原RED保留，候选修后需原断言通过，并配生产正常发布positive测试；正式新包Shell/用户点击仍必需。
+
+## NSIS安装身份独立核对
+
+实际本仓NsisTarget.js:157使用options.guid或builder-util-runtime.UUID.v5(appInfo.id, UUID.parse('50e065bc-3134-11e6-9bab-38c9862bdaf3'))。本机直接调用同库结果：旧Mashiro.Desktop→5555e988-f7b5-5fe3-b6bd-8df3b21f793e；新生产ID→98de4788-7225-5961-aff2-6abe7ac08135。旧值也对应delivery-014-release-v4-uninstall-snapshot.ps1的精确uninstallSubkey及已冻pre exists=true，不依赖推测。
+
+必须显式nsis.guid固定5555e988-f7b5-5fe3-b6bd-8df3b21f793e，允许APP_ID更新而APP_GUID/UNINSTALL_APP_KEY保留。模板multiUser.nsh还由GUID派生Software安装位置key，installer mutex同用APP_GUID，因此不能只手工保留卸载key。v5 builder-debug/raw未输出GUID define展开，本结论来自实际依赖算法+既有精确注册证据，不声称raw含该值。
+
+作者一度回报2433d7b9…旧值，与本机实际库及注册证据矛盾；已立即回报root/作者要求纠正，未执行安装/注册。候选应以实际builder算法和上述旧安装实证锁定，不用不同UUID库/参数顺序生成替代值。

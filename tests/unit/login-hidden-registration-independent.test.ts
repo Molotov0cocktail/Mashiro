@@ -16,7 +16,7 @@ vi.mock('electron', () => ({
         launchItems: visible
           ? [
               {
-                name: 'Mashiro.Desktop',
+                name: 'io.github.molotov0cocktail.mashiro',
                 path: row.path,
                 args: [],
                 scope: 'user',

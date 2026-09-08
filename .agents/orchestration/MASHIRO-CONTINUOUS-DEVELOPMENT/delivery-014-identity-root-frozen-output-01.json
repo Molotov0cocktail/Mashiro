@@ -1,0 +1,31 @@
+{
+  "scope": "Frozen output from reviewed identity-repair working tree, source commit pending",
+  "buildChunk": "a9f89a",
+  "files": [
+    {
+      "path": "out/main/index.js",
+      "bytes": 927315,
+      "sha256": "176002B9D221C553F41C479DF27B12E692B34376E0914C58D1AA4F716BA18556"
+    },
+    {
+      "path": "out/preload/index.cjs",
+      "bytes": 12501,
+      "sha256": "6FA45BB4625584B2A471BC8B187793BE84BD7487BBE258F0215D10628726971D"
+    },
+    {
+      "path": "out/renderer/index.html",
+      "bytes": 625,
+      "sha256": "8ABE0E306A1FC8EE683602286FA27E961B6785F67C416E1BC75DB16A7DA7BA95"
+    },
+    {
+      "path": "out/renderer/assets/index-B1DhjySS.css",
+      "bytes": 29308,
+      "sha256": "E0576BDC96DE8B8CD57620237DDA4D778289E5B89D8F3A370C89FA98C10830FC"
+    },
+    {
+      "path": "out/renderer/assets/index-V2pEEo7A.js",
+      "bytes": 1340159,
+      "sha256": "D3C722D337CC388C8A8B2FF150288ACCFF70B993B761F8A7AC8FC7A44C4B9BEE"
+    }
+  ]
+}

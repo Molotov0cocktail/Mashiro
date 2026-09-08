@@ -10,18 +10,17 @@ import {
 import {
   createWindowsReminderPlatform,
   parseReminderActivation,
-  parseReminderGroupActivation,
-  reminderAppId
+  parseReminderGroupActivation
 } from './windows-reminder-platform.js'
-import type { ReminderService } from './reminder-service.js'
+import type { ReminderPlatform, ReminderService } from './reminder-service.js'
 import type { ReminderChanged } from '../../shared/reminder-contract.js'
 
 export function startReminderRuntime(
   service: ReminderService,
   window: BrowserWindow,
-  changed: (event: ReminderChanged) => void
+  changed: (event: ReminderChanged) => void,
+  platform: ReminderPlatform = createWindowsReminderPlatform()
 ): { stop(): void; setQuitting(value: boolean): void; restoreFromTrayForTest(): void } {
-  app.setAppUserModelId(reminderAppId)
   let quitting = false
   const show = () => {
     if (!window.isDestroyed()) {
@@ -70,7 +69,7 @@ export function startReminderRuntime(
   }
   const resume = () => safeTick(true)
   powerMonitor.on('resume', resume)
-  service.attach(createWindowsReminderPlatform(), (event) => {
+  service.attach(platform, (event) => {
     if (event.kind !== 'changed') show()
     changed(event)
   })

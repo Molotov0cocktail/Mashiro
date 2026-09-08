@@ -1,8 +1,12 @@
 import { app, Notification } from 'electron'
 import { createHash } from 'node:crypto'
 import type { ReminderPlatform } from './reminder-service.js'
+import {
+  loginStartupArgument,
+  productionAppUserModelId
+} from '../../shared/windows-app-identity.mjs'
 
-export const reminderAppId = 'Mashiro.Desktop'
+export const reminderAppId = productionAppUserModelId
 export const quoteLoginExecutablePath = (path: string) => `"${path}"`
 type LoginItem = ReturnType<typeof app.getLoginItemSettings>['launchItems'][number]
 type LoginSnapshot = {
@@ -36,7 +40,7 @@ export function createWindowsReminderPlatform(): ReminderPlatform {
   const supported = () => process.platform === 'win32' && app.isPackaged
   const settings = () => ({
     path: quoteLoginExecutablePath(process.execPath),
-    args: ['--mashiro-login']
+    args: [loginStartupArgument]
   })
   const snapshot = (): LoginSnapshot => {
     const current = app.getLoginItemSettings(settings())
@@ -58,7 +62,7 @@ export function createWindowsReminderPlatform(): ReminderPlatform {
     }
   }
   return {
-    notificationSupported: () => Notification.isSupported(),
+    notificationSupported: () => supported() && Notification.isSupported(),
     loginStartupSupported: supported,
     getLoginStartup: () => {
       if (!supported()) return false
@@ -107,6 +111,7 @@ export function createWindowsReminderPlatform(): ReminderPlatform {
       }
     },
     show: (input, event) => {
+      if (!supported()) throw new Error('Native notifications unavailable in development')
       if (input.groupId !== undefined && !/^[a-f0-9]{64}$/.test(input.groupId))
         throw new Error('Invalid notification group')
       const activation = input.groupId

@@ -6,6 +6,7 @@ import {
 import type { ProductionSession } from './data/production-session.js'
 import type { ProductionMaintenance } from './data/production-maintenance.js'
 import { installProductionMenu } from './app/production-menu.js'
+import { initializeWindowsAppIdentity } from './app/windows-app-identity.js'
 import { registerStewardIpc, emitStewardChanged } from './ipc/register-steward-ipc.js'
 import { registerBackgroundIpc, emitBackgroundChanged } from './ipc/register-background-ipc.js'
 import { registerReminderIpc, emitReminderChanged } from './ipc/register-reminder-ipc.js'
@@ -21,7 +22,12 @@ import { resolveDataRoot, type DataRoot } from './data/data-root.js'
 import { registerAssistantIpc } from './ipc/register-assistant-ipc.js'
 import { registerProviderIpc } from './ipc/register-provider-ipc.js'
 import { ProviderService } from './provider/provider-service.js'
-import { e2eProviderTransport, runE2ePhase } from './testing/e2e-controller.js'
+import {
+  canUseE2eReminderPlatform,
+  createE2eReminderPlatform,
+  e2eProviderTransport,
+  runE2ePhase
+} from './testing/e2e-controller.js'
 
 import { registerDailyIpc, emitDailyChanged } from './ipc/register-daily-ipc.js'
 import { registerOperationsIpc, emitOperationsChanged } from './ipc/register-operations-ipc.js'
@@ -45,6 +51,7 @@ let unregisterRetentionIpc: (() => void) | undefined
 let unregisterItemIpc: (() => void) | undefined
 
 async function start(): Promise<void> {
+  initializeWindowsAppIdentity()
   const productionPaths = app.isPackaged ? prepareProductionRuntimePaths(app) : undefined
   let dataRoot: DataRoot | undefined = productionPaths ? undefined : resolveDataRoot(app)
   if (!app.requestSingleInstanceLock()) {
@@ -182,13 +189,20 @@ async function start(): Promise<void> {
         app.quit()
       }
     })
-  reminderRuntime = startReminderRuntime(providerService.reminders, window, (event) => {
-    const delivery = reminderNavigation.publish(event)
-    if (!delivery) return
-    emitReminderChanged((channel, value) => {
-      if (!window.isDestroyed()) window.webContents.send(channel, value)
-    }, delivery)
-  })
+  reminderRuntime = startReminderRuntime(
+    providerService.reminders,
+    window,
+    (event) => {
+      const delivery = reminderNavigation.publish(event)
+      if (!delivery) return
+      emitReminderChanged((channel, value) => {
+        if (!window.isDestroyed()) window.webContents.send(channel, value)
+      }, delivery)
+    },
+    canUseE2eReminderPlatform(app.isPackaged, dataRoot.profile)
+      ? createE2eReminderPlatform()
+      : undefined
+  )
   if (app.isPackaged && process.argv.includes('--mashiro-login')) window.hide()
   await runE2ePhase(
     window,

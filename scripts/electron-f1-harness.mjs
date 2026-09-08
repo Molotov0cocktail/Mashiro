@@ -416,12 +416,13 @@ try {
   for (const phase of [seed, verify]) {
     if (
       !phase.reminders?.windowCloseHid ||
-      !phase.reminders.nativeShowObserved ||
+      !phase.reminders.syntheticDeliveryObserved ||
+      phase.reminders.nativeShowObserved !== false ||
       !phase.reminders.trayRestoreHandlerInjected ||
       !phase.reminders.windowRestored ||
       !phase.reminders.rendererTabAndHandle
     )
-      throw new Error('Reminder native runtime evidence missing')
+      throw new Error('Reminder synthetic runtime evidence missing')
   }
   for (const [phase, result] of [
     ['seed', seed],

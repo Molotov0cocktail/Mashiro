@@ -18,7 +18,7 @@ vi.mock('electron', () => ({
       launchItems: host.startup
         ? [
             {
-              name: 'Mashiro.Desktop',
+              name: 'io.github.molotov0cocktail.mashiro',
               path: process.execPath,
               args: ['--mashiro-login'],
               scope: 'user',
@@ -95,6 +95,7 @@ it('development never registers login startup; packaged settings target this exe
   expect(platform.getLoginStartup()).toBe(false)
 })
 it('native notification carries only stable identities and generic text; event observation remains separate', () => {
+  host.packaged = true
   const platform = createWindowsReminderPlatform()
   const events: string[] = []
   platform.show(

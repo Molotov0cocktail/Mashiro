@@ -1,0 +1,22 @@
+{
+  "runId": "9c0a1603-1df1-4c8b-b956-d364bbc62554",
+  "pids": [
+    44084,
+    40668
+  ],
+  "files": [
+    {
+      "name": "Electron.lnk",
+      "bytes": 1049,
+      "sha256": "1356460D06DC84A9C9123ABDD2E07F677B825C100FFD37B8FC7E3BE8C5D5482E",
+      "unchanged": true
+    },
+    {
+      "name": "Mashiro.lnk",
+      "bytes": 1639,
+      "sha256": "FD1327841D25A4AB429086330F1E63E5372B9BAD723EA762C562A0062DAF1267",
+      "unchanged": true
+    }
+  ],
+  "allUnchanged": true
+}

@@ -3,7 +3,33 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
 import type { DataRoot } from '../data/data-root.js'
+import type { ReminderPlatform } from '../reminder/reminder-service.js'
 
+export function canUseE2eReminderPlatform(isPackaged: boolean, profile: DataRoot['profile']) {
+  return !isPackaged && profile === 'test'
+}
+/** In-memory delivery used only by the marker-validated nonpackaged E2E profile. */
+export function createE2eReminderPlatform(): ReminderPlatform {
+  return {
+    notificationSupported: () => true,
+    loginStartupSupported: () => false,
+    getLoginStartup: () => false,
+    setLoginStartup: () => {
+      throw new Error('E2E_REMINDER_LOGIN_UNAVAILABLE')
+    },
+    show: (_input, event) => {
+      let active = true
+      queueMicrotask(() => {
+        if (active) event('show')
+      })
+      return {
+        close: () => {
+          active = false
+        }
+      }
+    }
+  }
+}
 /** Called only inside the existing canonical OS-temp, marker-validated E2E profile. */
 export async function runReminderE2e(
   window: BrowserWindow,
@@ -107,7 +133,8 @@ export async function runReminderE2e(
     priorIdentityRestored,
     phase: dataRoot.phase,
     windowCloseHid: true,
-    nativeShowObserved: true,
+    syntheticDeliveryObserved: true,
+    nativeShowObserved: false,
     trayRestoreHandlerInjected: true,
     windowRestored: true,
     rendererTabAndHandle: true,

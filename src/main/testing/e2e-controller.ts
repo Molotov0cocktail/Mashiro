@@ -1,6 +1,11 @@
 import { runStewardE2e } from './e2e-steward.js'
 import { runBackgroundE2e } from './e2e-background.js'
-import { runReminderE2e } from './e2e-reminder.js'
+import {
+  canUseE2eReminderPlatform,
+  createE2eReminderPlatform,
+  runReminderE2e
+} from './e2e-reminder.js'
+export { canUseE2eReminderPlatform, createE2eReminderPlatform }
 import { runDailyE2e } from './e2e-daily.js'
 import { app, type BrowserWindow } from 'electron'
 import { seedProfileUiScript, verifyProfileUiScript } from './e2e-profile-scripts.js'

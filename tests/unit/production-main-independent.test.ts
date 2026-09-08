@@ -24,8 +24,9 @@ const state = vi.hoisted(() => {
   const app = {
     isPackaged: true,
     isReady: () => true,
+    setAppUserModelId: vi.fn(),
     requestSingleInstanceLock: () => true,
-    whenReady: async () => {},
+    whenReady: vi.fn(async () => {}),
     on: (name: string, handler: (event: { preventDefault(): void }) => void) =>
       handlers.set(name, handler),
     quit: vi.fn(),
@@ -48,6 +49,7 @@ const state = vi.hoisted(() => {
     unregister: vi.fn(),
     runtime: { setQuitting: vi.fn(), stop: vi.fn(), restoreFromTrayForTest: vi.fn() },
     startRuntime: vi.fn(),
+    runtimePlatform: undefined as unknown,
     menu: vi.fn()
   }
 })
@@ -77,12 +79,15 @@ vi.mock('../../src/main/app/create-window.js', () => ({
 }))
 vi.mock('../../src/main/app/production-menu.js', () => ({ installProductionMenu: state.menu }))
 vi.mock('../../src/main/reminder/reminder-runtime.js', () => ({
-  startReminderRuntime: () => {
+  startReminderRuntime: (...args: unknown[]) => {
+    state.runtimePlatform = args[3]
     state.startRuntime()
     return state.runtime
   }
 }))
 vi.mock('../../src/main/testing/e2e-controller.js', () => ({
+  canUseE2eReminderPlatform: vi.fn(() => false),
+  createE2eReminderPlatform: vi.fn(),
   runE2ePhase: vi.fn(),
   e2eProviderTransport: vi.fn()
 }))
@@ -136,6 +141,15 @@ beforeEach(async () => {
 })
 
 it('packaged main chooses production paths and closes both writers before releasing its ownership, preventing a second quit while release is pending', async () => {
+  expect(state.app.setAppUserModelId).toHaveBeenCalledOnce()
+  expect(state.app.setAppUserModelId).toHaveBeenCalledWith('io.github.molotov0cocktail.mashiro')
+  expect(state.app.setAppUserModelId.mock.invocationCallOrder[0]!).toBeLessThan(
+    state.app.whenReady.mock.invocationCallOrder[0]!
+  )
+  expect(state.app.setAppUserModelId.mock.invocationCallOrder[0]!).toBeLessThan(
+    state.startRuntime.mock.invocationCallOrder[0]!
+  )
+  expect(state.runtimePlatform).toBeUndefined()
   expect(state.resolveDevelopment).not.toHaveBeenCalled()
   expect(state.openProvider.mock.calls[0]?.[3]).toBeUndefined()
   let finish!: () => void

@@ -1,0 +1,133 @@
+{
+  "manifestSha256": "99FC2D11C4B586E978C65E5CCD486E84A86C835B181CD89F672AD806A7B85AEC",
+  "count": 21,
+  "mismatches": 0,
+  "checks": [
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "expected": "9D7039BB5DB181D6569A9F22A219C4BF1975F9A7B312CFD40247EF8BE16CA7BA",
+      "actual": "9D7039BB5DB181D6569A9F22A219C4BF1975F9A7B312CFD40247EF8BE16CA7BA",
+      "match": true
+    },
+    {
+      "path": "electron-builder.config.mjs",
+      "expected": "B39583FA9A503C6F20E01109CE56B3925C9F499F602B901676F65B69E4757EAD",
+      "actual": "B39583FA9A503C6F20E01109CE56B3925C9F499F602B901676F65B69E4757EAD",
+      "match": true
+    },
+    {
+      "path": "src/shared/windows-app-identity.mjs",
+      "expected": "F53A48AA281D029E41F871ECB410A0A20B076F840C2C4BA013E315EC060379BD",
+      "actual": "F53A48AA281D029E41F871ECB410A0A20B076F840C2C4BA013E315EC060379BD",
+      "match": true
+    },
+    {
+      "path": "src/shared/windows-app-identity.d.mts",
+      "expected": "4C821DCB4EEE30397E1AD7E930D2F4DA04FB9B779F03FFC6A2437C066EACD511",
+      "actual": "4C821DCB4EEE30397E1AD7E930D2F4DA04FB9B779F03FFC6A2437C066EACD511",
+      "match": true
+    },
+    {
+      "path": "src/main/app/windows-app-identity.ts",
+      "expected": "179C9B746B21928F55D7A42B0A4413DB5A3B7C04392D3C11B4E73D2BA9BC9110",
+      "actual": "179C9B746B21928F55D7A42B0A4413DB5A3B7C04392D3C11B4E73D2BA9BC9110",
+      "match": true
+    },
+    {
+      "path": "src/main/index.ts",
+      "expected": "8F32989B86C27AB594CFF668CD5C4668E02B3DB37158D4B873882D2290F431C3",
+      "actual": "8F32989B86C27AB594CFF668CD5C4668E02B3DB37158D4B873882D2290F431C3",
+      "match": true
+    },
+    {
+      "path": "src/main/reminder/reminder-runtime.ts",
+      "expected": "EF3E839053514929C3CF4D9AE7367216580A02FA8C7D33B8777CC28D5D41E9B1",
+      "actual": "EF3E839053514929C3CF4D9AE7367216580A02FA8C7D33B8777CC28D5D41E9B1",
+      "match": true
+    },
+    {
+      "path": "src/main/reminder/windows-reminder-platform.ts",
+      "expected": "B5E71FADB23DD3AF6254E83ECFFAA4E1009E9C803EB5666CA4D24F020F06577A",
+      "actual": "B5E71FADB23DD3AF6254E83ECFFAA4E1009E9C803EB5666CA4D24F020F06577A",
+      "match": true
+    },
+    {
+      "path": "src/main/testing/e2e-reminder.ts",
+      "expected": "1B890F399685A01B1D21D3AB741C6ADD9F5E3A30395A925E541E1C65804CDB19",
+      "actual": "1B890F399685A01B1D21D3AB741C6ADD9F5E3A30395A925E541E1C65804CDB19",
+      "match": true
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "expected": "4375047A9DF99AC5B9164A2AFB8469821A00E6D6A5C4DC98BD6AE889F6E97243",
+      "actual": "4375047A9DF99AC5B9164A2AFB8469821A00E6D6A5C4DC98BD6AE889F6E97243",
+      "match": true
+    },
+    {
+      "path": "scripts/electron-f1-harness.mjs",
+      "expected": "593248E5602B0E6C0D7E4A88C3E68CBF0923DD39D735AB63830B56E7C41FF35E",
+      "actual": "593248E5602B0E6C0D7E4A88C3E68CBF0923DD39D735AB63830B56E7C41FF35E",
+      "match": true
+    },
+    {
+      "path": "tests/unit/installer-login-uninstall.test.ts",
+      "expected": "91CC14D36F3039474C6CA0356797C769C4E643FCC1316650AF88F20D7B572649",
+      "actual": "91CC14D36F3039474C6CA0356797C769C4E643FCC1316650AF88F20D7B572649",
+      "match": true
+    },
+    {
+      "path": "tests/unit/installer-login-migration.test.ts",
+      "expected": "2442FAF08EDCE68DB054D4C38F5CF9C4C38A61A0B522024D0B56A7F3B3FF6D8A",
+      "actual": "2442FAF08EDCE68DB054D4C38F5CF9C4C38A61A0B522024D0B56A7F3B3FF6D8A",
+      "match": true
+    },
+    {
+      "path": "tests/unit/windows-app-identity.test.ts",
+      "expected": "AED2F0A707264CDB369FDFCEA4B12491F206F204755F35D3FDED9C45C46E4F13",
+      "actual": "AED2F0A707264CDB369FDFCEA4B12491F206F204755F35D3FDED9C45C46E4F13",
+      "match": true
+    },
+    {
+      "path": "tests/unit/e2e-reminder-platform.test.ts",
+      "expected": "69970065888D614A084FF2E8B7AD26A87F6184454955F22408BBE522B1D6BFC7",
+      "actual": "69970065888D614A084FF2E8B7AD26A87F6184454955F22408BBE522B1D6BFC7",
+      "match": true
+    },
+    {
+      "path": "tests/unit/production-main-independent.test.ts",
+      "expected": "5E48CBCD8E93B2B219C34045DE936774A7BD55240D37F41061173190ED867154",
+      "actual": "5E48CBCD8E93B2B219C34045DE936774A7BD55240D37F41061173190ED867154",
+      "match": true
+    },
+    {
+      "path": "tests/unit/packaging-config-independent.test.ts",
+      "expected": "1E16932B503E56630D90225D75E8C55F01497541875691700731926A2DB487E1",
+      "actual": "1E16932B503E56630D90225D75E8C55F01497541875691700731926A2DB487E1",
+      "match": true
+    },
+    {
+      "path": "tests/unit/reminder-boundaries.test.ts",
+      "expected": "AF098FDC6C4AA163914E6E5B681C955BE2678290A5648AD3F3AAE9BCF31A7A8F",
+      "actual": "AF098FDC6C4AA163914E6E5B681C955BE2678290A5648AD3F3AAE9BCF31A7A8F",
+      "match": true
+    },
+    {
+      "path": "tests/unit/login-hidden-registration-independent.test.ts",
+      "expected": "BC3F2695F10799FA346D39CEA71F8405E20C9A6F397650B9B570816EF6B45A4E",
+      "actual": "BC3F2695F10799FA346D39CEA71F8405E20C9A6F397650B9B570816EF6B45A4E",
+      "match": true
+    },
+    {
+      "path": "tests/unit/review014-production-notification-identity.test.ts",
+      "expected": "7A75F0E414A44BD541B6B10EE0FD1A2FCF745F033355950354948C246D38296C",
+      "actual": "7A75F0E414A44BD541B6B10EE0FD1A2FCF745F033355950354948C246D38296C",
+      "match": true
+    },
+    {
+      "path": "tests/unit/review014-login-migration-retry.test.ts",
+      "expected": "A56B9E7AC8A55A5A6F4D5D8C1EA8314CEE45ACCD3E77612B465D21A3E72D3F58",
+      "actual": "A56B9E7AC8A55A5A6F4D5D8C1EA8314CEE45ACCD3E77612B465D21A3E72D3F58",
+      "match": true
+    }
+  ]
+}
