@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "kind": "CANDIDATE_V1_DESKTOP_SUBFOLDER_FIRST_LAUNCH_FAILURE",
+  "status": "REPRODUCED",
+  "observedAt": "2026-09-08T23:09:36.2712253+08:00",
+  "launch": {
+    "script": "post-release-019-candidate-v1-desktop-launch.ps1",
+    "scriptSha256": "3F132C20B4D032C947C9EDE46A5D345CF1F2BA788CD60A88EBC7554491929F8C",
+    "launchedAt": "2026-09-08T23:03:22.1177526+08:00",
+    "method": "existing-normal-desktop-shell",
+    "executable": "C:\\Users\\30910\\Desktop\\Mashiro 019 验证 中文 空格\\应用\\Mashiro.exe",
+    "executableSha256": "27AEC92A5409736DF4B762C1B82C5ACAC3B9936D8330C52D823C917E3BC5E46A",
+    "asarSha256": "EF3AFBF1D1AD2754EE5ED922A42701B5E040D768C46823FA5F4C49FE1FF057A8",
+    "workingDirectory": "C:\\Users\\30910\\Desktop\\Mashiro 019 验证 中文 空格\\应用"
+  },
+  "failure": {
+    "applicationError": {
+      "recordId": 447542,
+      "eventId": 1000,
+      "version": "0.1.1.0",
+      "exceptionCode": "0x80000003",
+      "faultOffset": "0x000000000730d649",
+      "faultProcessIdHex": "0x162CC",
+      "faultProcessIdDecimal": 90828
+    },
+    "windowsErrorReporting": {
+      "recordId": 447543,
+      "eventId": 1001,
+      "eventName": "APPCRASH",
+      "bucketType": 4
+    },
+    "events": [
+      {
+        "recordId": 447542,
+        "eventId": 1000,
+        "provider": "Application Error",
+        "timeCreated": "2026-09-08T23:03:24.2000185+08:00",
+        "messageSha256": "0709336C9F36F2F85290F4FE4228C098DAE667ED1EEE31B9920CFDEA7013C15F"
+      },
+      {
+        "recordId": 447543,
+        "eventId": 1001,
+        "provider": "Windows Error Reporting",
+        "timeCreated": "2026-09-08T23:03:28.3800636+08:00",
+        "messageSha256": "BD878FCCDFDE4A022CBB3CE345476911E780C44F6B7E8690D55472198CAB6BCD"
+      }
+    ],
+    "currentExactProcessCount": 0,
+    "classification": "native APPCRASH before JavaScript startup diagnostics or data recovery UI"
+  },
+  "installation": {
+    "installedPath": "C:\\Users\\30910\\Desktop\\Mashiro 019 验证 中文 空格\\应用",
+    "unpackedPath": "D:\\Mashiro\\dist\\windows-candidate-0.1.1-v1\\win-unpacked",
+    "installedDirectoryIdentity": "D4AE69AB:00D70000000519E8",
+    "installedOwnedFileCount": 79,
+    "unpackedOwnedFileCount": 79,
+    "installedOwnedDigest": "81EE7BDBE464536462AA90FF921AF61AE774F3456B628BA66E951BA5F7045422",
+    "unpackedOwnedDigest": "81EE7BDBE464536462AA90FF921AF61AE774F3456B628BA66E951BA5F7045422",
+    "mismatchCount": 0,
+    "mismatches": [],
+    "uninstaller": {
+      "bytes": 138891,
+      "sha256": "BC80AC1E0E69CE1793E59F8A6EC6659FF2B47D1B248FEE2CA1415F0D074FB196"
+    }
+  },
+  "syntheticProfile": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "directoryIdentity": "70E84CA2:000C00000008D730",
+    "expectedDirectoryIdentity": "D4AE69AB:008E0000000094C4",
+    "dataSetId": "fae73ada-9ea0-4a05-8467-91a67490565a",
+    "databaseSha256": "F8216B79858BB42208CAC634B6BC515F5619F62E7919AC3FB9336EC64114A8F2",
+    "databasePreserved": true,
+    "credentialSha256": "CA1D85696D34662E92DDCFEB11DB2F60500AB1269323BC7C219A446CD9E74A8A",
+    "credentialPreserved": true,
+    "locationJsonExists": false,
+    "startupDiagnosticExists": false,
+    "logCandidates": []
+  },
+  "boundaries": {
+    "originalProfileRead": false,
+    "databaseOpenedByObserver": false,
+    "credentialContentsRead": false,
+    "werDumpRead": false,
+    "providerCalls": 0
+  }
+}

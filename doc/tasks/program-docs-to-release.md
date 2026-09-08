@@ -228,3 +228,11 @@ v0.1.0 的已发布与历史验收保留；用户实际安装和使用反馈重�
 原生隔离状态（2026-09-08 21:40）：原 C:\Users\30910\AppData\Roaming\Mashiro 已由正常Explorer上下文运行已审helper原样保全到同级 Mashiro-preserved-019-20260908-69f785a9；PROFILE_PRESERVED 回执 SHA BDB657C75E6887BF4F8249E1FA45638C4BEC929D6F4F9B3AB86E437CFD4BED22，目录ID D4AE69AB:011C00000001C1FF、tree BFA47C4C5514DE7E6183202465063DB767B65C2593BD0BDAC6A7B70419EAE103、92文件/6078369B完全相同，原位置不存在；未读取业务正文/凭据语义，外部9f未访问。steward_013_ui为唯一后续隔离执行者，必须最后FreezeTestProfile→退役合成树→RestoreOriginal并核完整回执，不能遗留原树未恢复。若接管先读实际phase回执，不能根据旧段“未移动”重复执行保全。
 
 源码29831920b3ed1d0140f889f8a4a01dfab1e97ff9双main实核一致；v1安装包已实际STATIC_PASS，候选绑定40C96AFCD93FD68AFD770C732C3D7899D3A7C694BCFEC1E6C236CABF0378A3E9。非空A seed仍独审REPAIR（真实fixture计数、profile身份、复制读锁、目标后台暂停），未执行。020真实截图发现chat首屏输入被重复身份/上下文挤出，UI作者继续窄布局改善；v1保持历史静态通过但最终UI将重新冻结/build/harness/v2打包。原生任务继续独立准备，不在此停止。
+
+## 2026-09-08 23:15 当前续接覆盖
+
+019仍为REPAIR / NATIVE_STARTUP_BLOCKER：桌面中文空格子目录旧0.1.0与候选0.1.1-v1均实际原生断点0x80000003/offset0x730d649；候选79安装文件逐hash匹配。工具与Explorer的profile视图身份不同，governance目录推断只在实际归属确认时成立；正取得真实Explorer定向日志，不断言与用户原错误框同根因。原profile已完整保全，测试profile已初始化并建立所有后台暂停的非空A；最终测试退役/原目录完整恢复仍必做。v1失败及身份校正回执为post-release-019-candidate-v1-desktop-launch-failure-01.json、post-release-019-profile-identity-observed-01.json。
+
+020当前源码/实际隔离Electron通过：d17b7b7183373495cfaaea129e9918811938d111已非force同步并实核两个main；full05为230文件909项901通过/0失败/8明确可选跳过，类型/格式/lint02通过；build08及两PID Electron10通过，实际960×680与720×520窗口中输入/发送完整可见。详见post-release-020-chat-viewport-root-review.md。最终打包UI与普通安装态验收仍待，v1不含此次最终UI，不冒称包内已完成。
+
+发布队列保持：原生根因与修复→最终制品独审→非空升级/新空与恢复/默认重装/卸载及原profile完整还原→最终019/020验收→0.1.1新tag/Release/下载校验。v0.1.0历史发布保持不变。脱敏验收记录同步已获明确用户授权，无当前用户待答问题。

@@ -1,0 +1,49 @@
+{
+    "schemaVersion":  1,
+    "kind":  "CANDIDATE_V1_GPU_LOG_LINES_OBSERVED_FROM_DESKTOP",
+    "status":  "EXECUTED",
+    "observedAt":  "2026-09-08T23:18:47.6699206+08:00",
+    "observerProcessId":  98604,
+    "observerParentProcessId":  8252,
+    "desktopShellProcessId":  8252,
+    "parentIsDesktopShell":  true,
+    "mashiroProcessCount":  0,
+    "log":  {
+                "path":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\runtime\\v1-desktop-crash-logging-01.log",
+                "bytes":  2327,
+                "sha256":  "2EC415714665E91A05A67987571AA6F1575AD25A8022ED59B4C771A2BE4AAFB4",
+                "lineCount":  19,
+                "selectedLineCount":  19,
+                "selection":  "GPU|launch failed|exit_code|ERROR|FATAL|CHECK",
+                "selectedLines":  [
+                                      "[98728:0908/231435.155:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.155:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 1 time(s)",
+                                      "[98728:0908/231435.245:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.245:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 2 time(s)",
+                                      "[98728:0908/231435.308:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.308:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 3 time(s)",
+                                      "[98728:0908/231435.366:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.366:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 4 time(s)",
+                                      "[98728:0908/231435.426:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.426:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 5 time(s)",
+                                      "[98728:0908/231435.487:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.487:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 6 time(s)",
+                                      "[98728:0908/231435.547:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.547:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 7 time(s)",
+                                      "[98728:0908/231435.604:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.604:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 8 time(s)",
+                                      "[98728:0908/231435.668:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[98728:0908/231435.668:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 9 time(s)",
+                                      "[98728:0908/231435.668:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:417] GPU process isn\u0027t usable. Goodbye."
+                                  ]
+            },
+    "boundaries":  {
+                       "syntheticProfileOnly":  true,
+                       "fullLogContentsPersisted":  false,
+                       "originalProfileRead":  false,
+                       "databaseOpened":  false,
+                       "credentialContentsRead":  false,
+                       "registryWrites":  false,
+                       "providerCalls":  0
+                   }
+}

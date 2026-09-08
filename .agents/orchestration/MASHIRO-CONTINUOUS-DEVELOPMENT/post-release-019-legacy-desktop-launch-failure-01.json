@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "kind": "LEGACY_DESKTOP_SUBFOLDER_FIRST_LAUNCH_FAILURE",
+  "status": "REPRODUCED",
+  "observedAt": "2026-09-08T22:54:28.9860939+08:00",
+  "launch": {
+    "script": "post-release-019-legacy-desktop-launch.ps1",
+    "scriptSha256": "F4491F109BC9D350D1E186D62DECD484F3E28455BC2AB8C547DF122FBBCD2EDD",
+    "launchedAt": "2026-09-08T22:51:16.3123232+08:00",
+    "method": "existing-normal-desktop-shell",
+    "executable": "C:\\Users\\30910\\Desktop\\Mashiro 019 验证 中文 空格\\应用\\Mashiro.exe",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+    "workingDirectory": "C:\\Users\\30910\\Desktop\\Mashiro 019 验证 中文 空格\\应用"
+  },
+  "failure": {
+    "currentExactProcessCount": 0,
+    "applicationError": {
+      "recordId": 447538,
+      "eventId": 1000,
+      "exceptionCode": "0x80000003",
+      "faultOffset": "0x000000000730d649",
+      "faultProcessIdHex": "0x18040",
+      "faultProcessIdDecimal": 98368,
+      "faultingExecutableAndModule": "exact installed Mashiro.exe"
+    },
+    "windowsErrorReporting": {
+      "recordId": 447539,
+      "eventId": 1001,
+      "eventName": "APPCRASH",
+      "bucketType": 4
+    },
+    "events": [
+      {
+        "recordId": 447538,
+        "eventId": 1000,
+        "provider": "Application Error",
+        "timeCreated": "2026-09-08T22:51:19.2650992+08:00",
+        "messageSha256": "31F7D9C30C09BFD6ADF387FADF2A5CBB126CAC4E5EB36D3A96136D6425348944"
+      },
+      {
+        "recordId": 447539,
+        "eventId": 1001,
+        "provider": "Windows Error Reporting",
+        "timeCreated": "2026-09-08T22:51:28.1844011+08:00",
+        "messageSha256": "58839A6A6FD4A98B106ECA83C0A27D0C7447ECCCC87DED7840692A1789FA46C0"
+      }
+    ],
+    "classification": "native APPCRASH before stable Mashiro window",
+    "priorUserReportContext": "Desktop subfolder, not Desktop root"
+  },
+  "syntheticProfile": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "dataSetId": "fae73ada-9ea0-4a05-8467-91a67490565a",
+    "databaseSha256": "F8216B79858BB42208CAC634B6BC515F5619F62E7919AC3FB9336EC64114A8F2",
+    "pausedDatabaseHashPreserved": true,
+    "credentialSha256": "CA1D85696D34662E92DDCFEB11DB2F60500AB1269323BC7C219A446CD9E74A8A",
+    "credentialHashPreserved": true,
+    "startupCreatedDirectories": [
+      "backups",
+      "configuration",
+      "configuration/governance",
+      "runtime",
+      "runtime/sessionData",
+      "runtime/userData"
+    ],
+    "locationJsonExists": false
+  },
+  "boundaries": {
+    "originalProfileRead": false,
+    "databaseOpenedByObserver": false,
+    "credentialContentsRead": false,
+    "werDumpRead": false,
+    "providerCalls": 0,
+    "noMashiroProcessRemaining": true
+  }
+}

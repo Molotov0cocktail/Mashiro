@@ -1,0 +1,824 @@
+{
+  "schemaVersion": 1,
+  "kind": "FULL_DOMAIN_SYNTHETIC_DATASET_A_CREATED",
+  "status": "EXECUTED",
+  "observedAt": "2026-09-08T14:27:56.126Z",
+  "scope": "isolated profile schema19 seed; not installation or UI acceptance",
+  "source": {
+    "root": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-Blmtwb",
+    "runId": "ddf02832-8aa5-4325-b995-6438275706c7",
+    "schemaVersion": 19,
+    "databaseSha256": "F02AA70D13A2850CB5B66AF914832754057E4E33471E228AFA575E4AC0BA94F5",
+    "harnessSha256": "57B677D607F693EE8BD6839B0660BD511DDFDBB737CE0392AD8C130B2966B3AE",
+    "seedFakeTransportCalls": {
+      "background": 1,
+      "steward": 2,
+      "daily": 1
+    },
+    "verifyFakeTransportCalls": {
+      "background": 1,
+      "steward": 0,
+      "daily": 0
+    }
+  },
+  "target": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\data-set-a-full-domain-019",
+    "dataSetId": "fae73ada-9ea0-4a05-8467-91a67490565a",
+    "manifestState": "READY",
+    "schemaVersion": 19,
+    "copiedDatabaseSha256": "F02AA70D13A2850CB5B66AF914832754057E4E33471E228AFA575E4AC0BA94F5",
+    "pausedDatabaseSha256": "F8216B79858BB42208CAC634B6BC515F5619F62E7919AC3FB9336EC64114A8F2",
+    "counts": {
+      "assistants": 3,
+      "timeline_messages": 12,
+      "memory_objects": 9,
+      "items": 6,
+      "reminders": 2,
+      "provider_connections": 1,
+      "assistant_provider_bindings": 1,
+      "background_configs": 1,
+      "background_jobs": 4,
+      "background_chapters": 1,
+      "daily_configs": 1,
+      "daily_jobs": 1,
+      "daily_reports": 1,
+      "steward_configs": 1,
+      "steward_jobs": 5,
+      "memory_branches": 1,
+      "retention_jobs": 2,
+      "content_tombstones": 1,
+      "assistant_tombstones": 1,
+      "production_governance_state": 1
+    },
+    "safePause": {
+      "connectionId": "85ecd30f-f884-4d22-b87b-0e08f77c1a1a",
+      "bindingDigest": "8862A3FEB3C5A54A8D264D5C89859AD273DE2DCCB976C4FBBF3F09AEAA30FD46",
+      "changes": [
+        {
+          "table": "provider_connections",
+          "id": "85ecd30f-f884-4d22-b87b-0e08f77c1a1a",
+          "priorVersion": 2,
+          "pausedVersion": 3
+        },
+        {
+          "table": "background_configs",
+          "id": "8d88f750-8952-4512-8451-0f2fb1a9f72b",
+          "priorVersion": 1,
+          "pausedVersion": 2
+        },
+        {
+          "table": "daily_configs",
+          "id": "ba786e0c-56b3-41b4-ad40-d66e3ca80604",
+          "priorVersion": 1,
+          "pausedVersion": 2
+        }
+      ],
+      "tableDigestsBefore": {
+        "assistant_provider_bindings": {
+          "count": 1,
+          "digest": "8862A3FEB3C5A54A8D264D5C89859AD273DE2DCCB976C4FBBF3F09AEAA30FD46"
+        },
+        "assistant_state": {
+          "count": 1,
+          "digest": "59302FF82F08480D094C25E2B1E730AF464C1DD5C9F5FE52EB6583492AB12378"
+        },
+        "assistant_tombstones": {
+          "count": 1,
+          "digest": "B4E375EABA5158720196C50D04D189CC97058BCAAEA674DD04DB42ABEA3F882B"
+        },
+        "assistants": {
+          "count": 3,
+          "digest": "1A79494A08ACCED3D97DC41376FCE55572F262CC698E6BD6FCBFF05296C501AB"
+        },
+        "background_attempts": {
+          "count": 1,
+          "digest": "8FB7B572F7D9CBF958862DD07D955A97DF96A0317EF954398C19818453B11785"
+        },
+        "background_chapters": {
+          "count": 1,
+          "digest": "629D70B422D4674BB25D8AFBA5955C800ADE198135E1B9298E8B4E223C8CBF75"
+        },
+        "background_configs": {
+          "count": 1,
+          "digest": "8E701FE45CDAE53B0FF8288D9167A931C61DF19F4B552DEDED66D3330B8435BE"
+        },
+        "background_controls": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "background_jobs": {
+          "count": 4,
+          "digest": "26414FE62BC876BCD0F77C78C066A9D037DE3B5E14C7B927583A54C23170A60F"
+        },
+        "branch_members": {
+          "count": 1,
+          "digest": "20CB6D5ED87B38EE362ECB080CBF45E55832E7EED1363DB25B7F876894A54C0E"
+        },
+        "content_tombstones": {
+          "count": 1,
+          "digest": "D9A032259C1101B9D5167E92D9DABCD9CDB97E318EBC97EA95EA031C799A5623"
+        },
+        "daily_commands": {
+          "count": 2,
+          "digest": "B6E6B679ED944C02D52D103157B38487DD5300D95FB33F5DE6AC6175D4CCFA54"
+        },
+        "daily_configs": {
+          "count": 1,
+          "digest": "684E4DF4D3AF9FD6F4F1B3B92C15E0263F48B5A42F40E21E04B972605321476B"
+        },
+        "daily_item_changes": {
+          "count": 6,
+          "digest": "CB759E19D1704AD6CB514F3ADD5A52BA9F765365F6E6E28674CEEDE01F23545D"
+        },
+        "daily_item_checkpoints": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "daily_jobs": {
+          "count": 1,
+          "digest": "5E3D7D6D7B503D2F51C0D85FACF9E0295104AD93ED750B658724141C9FF516C2"
+        },
+        "daily_reports": {
+          "count": 1,
+          "digest": "0FF97A4F45975E58968DED3F060B717192FA10699640A57CEDBEEEB725843C25"
+        },
+        "daily_suppressions": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "discovery_configs": {
+          "count": 1,
+          "digest": "FDE57EE10A66F55DB85930EAFD204D72EAD30FD15CD64560F573801C551912FB"
+        },
+        "history_permissions": {
+          "count": 1,
+          "digest": "288867AFDCEC6850524F77B00B3FA1D544A1D5F517311BFD0A0AE0D2A8C8FE0F"
+        },
+        "history_recipient_grants": {
+          "count": 1,
+          "digest": "1D5869E040CC2B61F323A1BCAEEE58A71081862877F652503D7CAF902011CD11"
+        },
+        "item_commands": {
+          "count": 6,
+          "digest": "22DEF121E4E224DA26E68136A6A120697397617399FAC3032AEC52BFC4608402"
+        },
+        "item_confirmations": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_permissions": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_proposals": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_recipients": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_rejections": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_retained_edges": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_sources": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_tombstones": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "items": {
+          "count": 6,
+          "digest": "CCCE88884D9F91A2781F3F9DB30590BE5267924AEEFF24E177D9ECBB62167EAF"
+        },
+        "memory_branches": {
+          "count": 1,
+          "digest": "54537377234B4DBB10E48DA4B942B28A690ED78BC1C57EC1403C1BC7BB977904"
+        },
+        "memory_cleanup": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "memory_commands": {
+          "count": 12,
+          "digest": "ECF6E00D8B9FC0EFCFC98BCAFD9207B8DE84F227D988AB145C86DBF396B23EF4"
+        },
+        "memory_conflicts": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "memory_dependencies": {
+          "count": 25,
+          "digest": "BF70565D1873D77D54213B69F6B4060A167C4FAB2E091488F59A8A41154DAECA"
+        },
+        "memory_index": {
+          "count": 7,
+          "digest": "52EDEFE8F72C25DF92A9B5942E8F34CE6467B099E08EF454B27340CBF1F66BCB"
+        },
+        "memory_objects": {
+          "count": 9,
+          "digest": "E767D29FD3895DA419648A6420EFF520691D622D4C5155743F40EFA72FEC3571"
+        },
+        "memory_pending": {
+          "count": 7,
+          "digest": "7F4B36BB536236AB7F1A1D6079969232ADFA18A36142623D94E5BEE822F6D8A5"
+        },
+        "memory_permissions": {
+          "count": 2,
+          "digest": "DEC35DDB74147C69BA8999B4FE0199DFEAC547F52ABFD00D3BAFCEE019D9BB4C"
+        },
+        "memory_previews": {
+          "count": 1,
+          "digest": "BA1C2EDB2272EAAF7968528D5B348B434E2C4827AD5B887091F2AD58EB07D19B"
+        },
+        "memory_recipients": {
+          "count": 2,
+          "digest": "3806BA5214E21BEBC7D8F7CF80AB2EAEDBD98F1F15390FFE6BF2161A5C85AE6D"
+        },
+        "memory_round_evidence": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "memory_suppressions": {
+          "count": 3,
+          "digest": "309EBC5FAD52FC02541C97FB0B00FE0C015EB4B2528CB2D1EC9E49B1DDC80FCF"
+        },
+        "memory_versions": {
+          "count": 15,
+          "digest": "1F8B223EF380ADD5F0A509355C5DF02B3A10B15B29999BD6793BF3920108E326"
+        },
+        "operation_events": {
+          "count": 44,
+          "digest": "0B8268980260020F4ABECA355F3F7921683E206F5DBB4AFDAB5BEFDB50D7374D"
+        },
+        "production_governance_commits": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "production_governance_state": {
+          "count": 1,
+          "digest": "A6A194AF37EADAC59A0FDAAB61787076CFBD12734102A21E085202CA0A37CCD6"
+        },
+        "protocol_results": {
+          "count": 1,
+          "digest": "AAA1B663514B0BC03D9D3BB2180FC5F410DBFC5AC405B6F13AD388BA11660899"
+        },
+        "protocol_segments": {
+          "count": 1,
+          "digest": "E84341BCBD319FB879157F575C40FACCC5D492D5F83DDA36FC61E58FEFDEADF1"
+        },
+        "provider_capability_evidence": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "provider_connections": {
+          "count": 1,
+          "digest": "AAD00819CFBA997F091A9A08F8B14BBB30F9A7EC260D139CDE2D84CB95C5846D"
+        },
+        "reminder_activations": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "reminder_commands": {
+          "count": 4,
+          "digest": "19645599964871084F917096EB28317DFF87D0CFCDBCBE35A53C5EB9417B7D06"
+        },
+        "reminder_notification_members": {
+          "count": 2,
+          "digest": "DB07BECEEA818A20E70BEB81FD9A9227303188A43BAF7941EEBA783D5030CEB1"
+        },
+        "reminder_occurrences": {
+          "count": 2,
+          "digest": "B96D2FABB771511B3DCE00A8AF434E150CCEDAEF238D1FEE46552B58FF1197E7"
+        },
+        "reminder_previews": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "reminder_settings": {
+          "count": 1,
+          "digest": "DDFD0B430B579BADE638BC26541875B79A42494F1C848DD0F3D29D590379CF93"
+        },
+        "reminders": {
+          "count": 2,
+          "digest": "82382B3277A0787BA3444905879E02B12B477C174742C9B633F77BFC3749F9CD"
+        },
+        "retained_source_edges": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_commands": {
+          "count": 5,
+          "digest": "3D428FB5ACC17E80F66333C71710E40496CDC752AEBCA167C060BD354470DF92"
+        },
+        "retention_job_items": {
+          "count": 5,
+          "digest": "4F12CA3D08E0E17C735BCF7C36AAF3CA9D09386A30D17C20C06E01229CB8EF8B"
+        },
+        "retention_jobs": {
+          "count": 2,
+          "digest": "2D3228FF7DE222B71C5CA5751976BE0719720E3101183198F4FEDB2561373A55"
+        },
+        "retention_original_trash": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy": {
+          "count": 1,
+          "digest": "1A2DC20862A7EB9C4BF3FA81330BF7F3D319C8775332002B75C88F08C4AF5237"
+        },
+        "retention_policy_commands": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy_objects": {
+          "count": 9,
+          "digest": "22D0D11026F1AC376057ADAE1FD4523E1417A34E6A4ABA6B44BB7343FF3C10DF"
+        },
+        "retention_policy_previews": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy_receipts": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy_runs": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_previews": {
+          "count": 2,
+          "digest": "108FA1BBA66F6C107237B48DDC183F12CBB42D3245C2DB6710693227CCD04E3A"
+        },
+        "retention_state": {
+          "count": 1,
+          "digest": "09157187859AE0DD6ABD8508EA911BC5D64EF70A37E1FD41D6F52D889B90E0AA"
+        },
+        "steward_attempts": {
+          "count": 2,
+          "digest": "B824E036B49AC6DB08B0436D83522230A2EF6ECDF36856A57CFA00BA3CA90C9F"
+        },
+        "steward_configs": {
+          "count": 1,
+          "digest": "6FC8DCB2E4CE8BE3C56F847468DB3B3435A966F09FFD25A5E9FC109DE056FF62"
+        },
+        "steward_consumptions": {
+          "count": 2,
+          "digest": "EC8F4A3BA517E111B7AB2D1AB53BEB44F562C34F09118EF71879E87CDD5D8C05"
+        },
+        "steward_controls": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "steward_jobs": {
+          "count": 5,
+          "digest": "E1AA26792B2F3E220EA0980852E9419EEE4D8B3324B6000D38D1CC2E5DCE0501"
+        },
+        "steward_slots": {
+          "count": 1,
+          "digest": "BCAA930DFC6BBBEC530E3D56F72CBAC4B1F6F589A929FA714FDF463A4CAB0E25"
+        },
+        "timeline_messages": {
+          "count": 12,
+          "digest": "085094E4F843710D7FD8AF24745C8FF6AA460F7FDAAE20CB2291B87E75A02730"
+        },
+        "timeline_sources": {
+          "count": 6,
+          "digest": "83BFD52E6191FE58C45DF7F25B08CDC4BE3053B3E8FBC2EED2126289AF9C5B61"
+        },
+        "tool_operations": {
+          "count": 1,
+          "digest": "D2A092FDE62D4FCC09D56790C1AC0ACEEF3F70898843A8FC19AF97AAFB7C825C"
+        },
+        "usage_attempts": {
+          "count": 10,
+          "digest": "9DA3A00EEEE89B199DD14F3E9F1A87A561296B635809EC06F20BC452B634468A"
+        }
+      },
+      "tableDigestsAfter": {
+        "assistant_provider_bindings": {
+          "count": 1,
+          "digest": "8862A3FEB3C5A54A8D264D5C89859AD273DE2DCCB976C4FBBF3F09AEAA30FD46"
+        },
+        "assistant_state": {
+          "count": 1,
+          "digest": "59302FF82F08480D094C25E2B1E730AF464C1DD5C9F5FE52EB6583492AB12378"
+        },
+        "assistant_tombstones": {
+          "count": 1,
+          "digest": "B4E375EABA5158720196C50D04D189CC97058BCAAEA674DD04DB42ABEA3F882B"
+        },
+        "assistants": {
+          "count": 3,
+          "digest": "1A79494A08ACCED3D97DC41376FCE55572F262CC698E6BD6FCBFF05296C501AB"
+        },
+        "background_attempts": {
+          "count": 1,
+          "digest": "8FB7B572F7D9CBF958862DD07D955A97DF96A0317EF954398C19818453B11785"
+        },
+        "background_chapters": {
+          "count": 1,
+          "digest": "629D70B422D4674BB25D8AFBA5955C800ADE198135E1B9298E8B4E223C8CBF75"
+        },
+        "background_configs": {
+          "count": 1,
+          "digest": "CAAF1D06117E5BEAEE304D6D020CCA684E994773FC7C502AF573B73778994CA8"
+        },
+        "background_controls": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "background_jobs": {
+          "count": 4,
+          "digest": "26414FE62BC876BCD0F77C78C066A9D037DE3B5E14C7B927583A54C23170A60F"
+        },
+        "branch_members": {
+          "count": 1,
+          "digest": "20CB6D5ED87B38EE362ECB080CBF45E55832E7EED1363DB25B7F876894A54C0E"
+        },
+        "content_tombstones": {
+          "count": 1,
+          "digest": "D9A032259C1101B9D5167E92D9DABCD9CDB97E318EBC97EA95EA031C799A5623"
+        },
+        "daily_commands": {
+          "count": 2,
+          "digest": "B6E6B679ED944C02D52D103157B38487DD5300D95FB33F5DE6AC6175D4CCFA54"
+        },
+        "daily_configs": {
+          "count": 1,
+          "digest": "DB04C9BA3EDA552B7AFD75611D44A64983F34FA4DBF973A920F9A228E3330A54"
+        },
+        "daily_item_changes": {
+          "count": 6,
+          "digest": "CB759E19D1704AD6CB514F3ADD5A52BA9F765365F6E6E28674CEEDE01F23545D"
+        },
+        "daily_item_checkpoints": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "daily_jobs": {
+          "count": 1,
+          "digest": "5E3D7D6D7B503D2F51C0D85FACF9E0295104AD93ED750B658724141C9FF516C2"
+        },
+        "daily_reports": {
+          "count": 1,
+          "digest": "0FF97A4F45975E58968DED3F060B717192FA10699640A57CEDBEEEB725843C25"
+        },
+        "daily_suppressions": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "discovery_configs": {
+          "count": 1,
+          "digest": "FDE57EE10A66F55DB85930EAFD204D72EAD30FD15CD64560F573801C551912FB"
+        },
+        "history_permissions": {
+          "count": 1,
+          "digest": "288867AFDCEC6850524F77B00B3FA1D544A1D5F517311BFD0A0AE0D2A8C8FE0F"
+        },
+        "history_recipient_grants": {
+          "count": 1,
+          "digest": "1D5869E040CC2B61F323A1BCAEEE58A71081862877F652503D7CAF902011CD11"
+        },
+        "item_commands": {
+          "count": 6,
+          "digest": "22DEF121E4E224DA26E68136A6A120697397617399FAC3032AEC52BFC4608402"
+        },
+        "item_confirmations": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_permissions": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_proposals": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_recipients": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_rejections": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_retained_edges": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_sources": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "item_tombstones": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "items": {
+          "count": 6,
+          "digest": "CCCE88884D9F91A2781F3F9DB30590BE5267924AEEFF24E177D9ECBB62167EAF"
+        },
+        "memory_branches": {
+          "count": 1,
+          "digest": "54537377234B4DBB10E48DA4B942B28A690ED78BC1C57EC1403C1BC7BB977904"
+        },
+        "memory_cleanup": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "memory_commands": {
+          "count": 12,
+          "digest": "ECF6E00D8B9FC0EFCFC98BCAFD9207B8DE84F227D988AB145C86DBF396B23EF4"
+        },
+        "memory_conflicts": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "memory_dependencies": {
+          "count": 25,
+          "digest": "BF70565D1873D77D54213B69F6B4060A167C4FAB2E091488F59A8A41154DAECA"
+        },
+        "memory_index": {
+          "count": 7,
+          "digest": "52EDEFE8F72C25DF92A9B5942E8F34CE6467B099E08EF454B27340CBF1F66BCB"
+        },
+        "memory_objects": {
+          "count": 9,
+          "digest": "E767D29FD3895DA419648A6420EFF520691D622D4C5155743F40EFA72FEC3571"
+        },
+        "memory_pending": {
+          "count": 7,
+          "digest": "7F4B36BB536236AB7F1A1D6079969232ADFA18A36142623D94E5BEE822F6D8A5"
+        },
+        "memory_permissions": {
+          "count": 2,
+          "digest": "DEC35DDB74147C69BA8999B4FE0199DFEAC547F52ABFD00D3BAFCEE019D9BB4C"
+        },
+        "memory_previews": {
+          "count": 1,
+          "digest": "BA1C2EDB2272EAAF7968528D5B348B434E2C4827AD5B887091F2AD58EB07D19B"
+        },
+        "memory_recipients": {
+          "count": 2,
+          "digest": "3806BA5214E21BEBC7D8F7CF80AB2EAEDBD98F1F15390FFE6BF2161A5C85AE6D"
+        },
+        "memory_round_evidence": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "memory_suppressions": {
+          "count": 3,
+          "digest": "309EBC5FAD52FC02541C97FB0B00FE0C015EB4B2528CB2D1EC9E49B1DDC80FCF"
+        },
+        "memory_versions": {
+          "count": 15,
+          "digest": "1F8B223EF380ADD5F0A509355C5DF02B3A10B15B29999BD6793BF3920108E326"
+        },
+        "operation_events": {
+          "count": 44,
+          "digest": "0B8268980260020F4ABECA355F3F7921683E206F5DBB4AFDAB5BEFDB50D7374D"
+        },
+        "production_governance_commits": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "production_governance_state": {
+          "count": 1,
+          "digest": "A6A194AF37EADAC59A0FDAAB61787076CFBD12734102A21E085202CA0A37CCD6"
+        },
+        "protocol_results": {
+          "count": 1,
+          "digest": "AAA1B663514B0BC03D9D3BB2180FC5F410DBFC5AC405B6F13AD388BA11660899"
+        },
+        "protocol_segments": {
+          "count": 1,
+          "digest": "E84341BCBD319FB879157F575C40FACCC5D492D5F83DDA36FC61E58FEFDEADF1"
+        },
+        "provider_capability_evidence": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "provider_connections": {
+          "count": 1,
+          "digest": "141A236962A85423BA273CBB5D77F092E7B58D0A82EA0F2F745548576E48D474"
+        },
+        "reminder_activations": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "reminder_commands": {
+          "count": 4,
+          "digest": "19645599964871084F917096EB28317DFF87D0CFCDBCBE35A53C5EB9417B7D06"
+        },
+        "reminder_notification_members": {
+          "count": 2,
+          "digest": "DB07BECEEA818A20E70BEB81FD9A9227303188A43BAF7941EEBA783D5030CEB1"
+        },
+        "reminder_occurrences": {
+          "count": 2,
+          "digest": "B96D2FABB771511B3DCE00A8AF434E150CCEDAEF238D1FEE46552B58FF1197E7"
+        },
+        "reminder_previews": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "reminder_settings": {
+          "count": 1,
+          "digest": "DDFD0B430B579BADE638BC26541875B79A42494F1C848DD0F3D29D590379CF93"
+        },
+        "reminders": {
+          "count": 2,
+          "digest": "82382B3277A0787BA3444905879E02B12B477C174742C9B633F77BFC3749F9CD"
+        },
+        "retained_source_edges": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_commands": {
+          "count": 5,
+          "digest": "3D428FB5ACC17E80F66333C71710E40496CDC752AEBCA167C060BD354470DF92"
+        },
+        "retention_job_items": {
+          "count": 5,
+          "digest": "4F12CA3D08E0E17C735BCF7C36AAF3CA9D09386A30D17C20C06E01229CB8EF8B"
+        },
+        "retention_jobs": {
+          "count": 2,
+          "digest": "2D3228FF7DE222B71C5CA5751976BE0719720E3101183198F4FEDB2561373A55"
+        },
+        "retention_original_trash": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy": {
+          "count": 1,
+          "digest": "1A2DC20862A7EB9C4BF3FA81330BF7F3D319C8775332002B75C88F08C4AF5237"
+        },
+        "retention_policy_commands": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy_objects": {
+          "count": 9,
+          "digest": "22D0D11026F1AC376057ADAE1FD4523E1417A34E6A4ABA6B44BB7343FF3C10DF"
+        },
+        "retention_policy_previews": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy_receipts": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_policy_runs": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "retention_previews": {
+          "count": 2,
+          "digest": "108FA1BBA66F6C107237B48DDC183F12CBB42D3245C2DB6710693227CCD04E3A"
+        },
+        "retention_state": {
+          "count": 1,
+          "digest": "954EBBFAB25A775C300AC4C3405BE885D9BAF94D426D7ED6B7C63646F0C1A1D3"
+        },
+        "steward_attempts": {
+          "count": 2,
+          "digest": "B824E036B49AC6DB08B0436D83522230A2EF6ECDF36856A57CFA00BA3CA90C9F"
+        },
+        "steward_configs": {
+          "count": 1,
+          "digest": "6FC8DCB2E4CE8BE3C56F847468DB3B3435A966F09FFD25A5E9FC109DE056FF62"
+        },
+        "steward_consumptions": {
+          "count": 2,
+          "digest": "EC8F4A3BA517E111B7AB2D1AB53BEB44F562C34F09118EF71879E87CDD5D8C05"
+        },
+        "steward_controls": {
+          "count": 0,
+          "digest": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+        },
+        "steward_jobs": {
+          "count": 5,
+          "digest": "E1AA26792B2F3E220EA0980852E9419EEE4D8B3324B6000D38D1CC2E5DCE0501"
+        },
+        "steward_slots": {
+          "count": 1,
+          "digest": "BCAA930DFC6BBBEC530E3D56F72CBAC4B1F6F589A929FA714FDF463A4CAB0E25"
+        },
+        "timeline_messages": {
+          "count": 12,
+          "digest": "085094E4F843710D7FD8AF24745C8FF6AA460F7FDAAE20CB2291B87E75A02730"
+        },
+        "timeline_sources": {
+          "count": 6,
+          "digest": "83BFD52E6191FE58C45DF7F25B08CDC4BE3053B3E8FBC2EED2126289AF9C5B61"
+        },
+        "tool_operations": {
+          "count": 1,
+          "digest": "D2A092FDE62D4FCC09D56790C1AC0ACEEF3F70898843A8FC19AF97AAFB7C825C"
+        },
+        "usage_attempts": {
+          "count": 10,
+          "digest": "9DA3A00EEEE89B199DD14F3E9F1A87A561296B635809EC06F20BC452B634468A"
+        }
+      }
+    }
+  },
+  "profile": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "initializedReceiptSha256": "A523698EE43F4173115ACD9D2192593D98B8414D83E8235910EE05C3041760A0",
+    "initializedIdentity": "D4AE69AB:008E0000000094C4",
+    "observedIdentity": "D4AE69AB:008E0000000094C4",
+    "desktopParentProcessId": 8252,
+    "desktopShellProcessId": 8252,
+    "contextHelperSha256": "D613D5951353C9B17D310C0BFA02BEE2E78C493E333B3BDF20F13CA6C7CC3235",
+    "containsOriginalData": false
+  },
+  "semantics": {
+    "assistants": true,
+    "history": true,
+    "memory": true,
+    "items": true,
+    "reminder": true,
+    "provider": true,
+    "retention": true,
+    "background": true,
+    "steward": true,
+    "daily": true,
+    "toolReceipt": true,
+    "fakeTransportOnly": true
+  },
+  "copiedFiles": [
+    {
+      "path": "credentials/85ecd30f-f884-4d22-b87b-0e08f77c1a1a.credential",
+      "bytes": 49,
+      "sha256": "CA1D85696D34662E92DDCFEB11DB2F60500AB1269323BC7C219A446CD9E74A8A"
+    },
+    {
+      "path": "memory/2307d686-dac4-4322-b142-ad78ac571419-1-bacd08e3-17b7-4351-bade-0f1887f36698.md",
+      "bytes": 50,
+      "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D"
+    },
+    {
+      "path": "memory/32fdf98a-a564-43e0-af68-b83794d326e6-1-3550cd78-9831-4d2d-a1f6-1062b0136bf1.md",
+      "bytes": 69,
+      "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F"
+    },
+    {
+      "path": "memory/62c5d539-9a4e-4922-9df1-4b92fc70d7b3-1-da924577-9079-401b-9d55-0d943c112587.md",
+      "bytes": 71,
+      "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C"
+    },
+    {
+      "path": "memory/8b90fc66-0337-4fa5-bce6-7be0aef3bc95-1-18965165-b8a9-487b-8344-27f2498f745e.md",
+      "bytes": 48,
+      "sha256": "A1332D3285FB7D637C35AA27147FAFA343B85EB55CE495BC6DC749664296712E"
+    },
+    {
+      "path": "memory/8ea4058a-81ca-4a6a-b145-297170cf70d6-1-d87967df-95ec-4179-a543-e953a1ef8e1e.md",
+      "bytes": 50,
+      "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92"
+    },
+    {
+      "path": "memory/b19ea285-e5ba-402b-971d-0a08f5bdca77-1-d8d0a697-d1db-4321-9bbc-679996166a03.md",
+      "bytes": 50,
+      "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0"
+    },
+    {
+      "path": "memory/b19ea285-e5ba-402b-971d-0a08f5bdca77-2-7722081a-d74c-4509-84d2-a1aa86bc5415.md",
+      "bytes": 26,
+      "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292"
+    },
+    {
+      "path": "memory/db5f16c9-ac6c-4e3b-bbbd-21794b9a4967-1-9cb19961-d645-4890-ae01-46135328a940.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    },
+    {
+      "path": "memory/f4ddac3a-9639-4fd9-8ba9-3b3d86fcfda8-1-4a794ec4-2697-4c2a-8137-6f8fcef6da8a.md",
+      "bytes": 19,
+      "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+    },
+    {
+      "path": "memory/f4ddac3a-9639-4fd9-8ba9-3b3d86fcfda8-2-a10d8352-ae60-4bc3-acfc-eca7310155a9.md",
+      "bytes": 20,
+      "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5"
+    }
+  ],
+  "networkCallsBySeedHelper": 0,
+  "providerCallsAdded": 0,
+  "originalProfileRead": false,
+  "priorProductionDatasetRead": false,
+  "applicationStarted": false
+}

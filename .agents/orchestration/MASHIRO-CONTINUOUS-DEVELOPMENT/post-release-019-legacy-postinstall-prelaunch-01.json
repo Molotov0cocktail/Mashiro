@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "kind": "LEGACY_DESKTOP_SUBFOLDER_POSTINSTALL_PRELAUNCH",
+  "status": "EXECUTED",
+  "observedAt": "2026-09-08T22:48:32.3636252+08:00",
+  "scope": "synthetic profile only; tool-shell file/hash observation; no app start and no database open",
+  "install": {
+    "path": "C:\\Users\\30910\\Desktop\\Mashiro 019 验证 中文 空格\\应用",
+    "setup": {
+      "exists": true,
+      "bytes": 112587919,
+      "sha256": "8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58"
+    },
+    "executable": {
+      "exists": true,
+      "bytes": 245289984,
+      "sha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7"
+    },
+    "asar": {
+      "exists": true,
+      "bytes": 15514291,
+      "sha256": "7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E"
+    },
+    "uninstaller": {
+      "exists": true,
+      "bytes": 138891,
+      "sha256": "BEF780A2FBE18C7DF8A784316B8836C844E621A6296FD443AB70B552F820592F"
+    },
+    "programEntryCount": 83,
+    "programFileCount": 80,
+    "programTotalBytes": 400157377
+  },
+  "profile": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "expectedIsolatedIdentity": "D4AE69AB:008E0000000094C4",
+    "entries": [
+      {
+        "path": ".mashiro-019-isolated-profile.json",
+        "type": "file",
+        "bytes": 334,
+        "sha256": "F2CBD9E9C8E64A7C2E89D6D71F9F064C8ADCE39647814FF9E7EE11FB5E8DF0F2"
+      },
+      {
+        "path": "data-set-a-full-domain-019",
+        "type": "directory",
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "data-set-a-full-domain-019/.mashiro-dataset.json",
+        "type": "file",
+        "bytes": 143,
+        "sha256": "366C35558F8191D87F085783B09DE97345CBD9563C4B1295BDF1103D0A3085B1"
+      },
+      {
+        "path": "data-set-a-full-domain-019/credentials",
+        "type": "directory",
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "data-set-a-full-domain-019/credentials/85ecd30f-f884-4d22-b87b-0e08f77c1a1a.credential",
+        "type": "file",
+        "bytes": 49,
+        "sha256": "CA1D85696D34662E92DDCFEB11DB2F60500AB1269323BC7C219A446CD9E74A8A"
+      },
+      {
+        "path": "data-set-a-full-domain-019/mashiro.sqlite",
+        "type": "file",
+        "bytes": 876544,
+        "sha256": "F8216B79858BB42208CAC634B6BC515F5619F62E7919AC3FB9336EC64114A8F2"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory",
+        "type": "directory",
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/2307d686-dac4-4322-b142-ad78ac571419-1-bacd08e3-17b7-4351-bade-0f1887f36698.md",
+        "type": "file",
+        "bytes": 50,
+        "sha256": "4780779EF54A9B0EA5AF1D02B60B81129960BB71C5877165C40367AF8003239D"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/32fdf98a-a564-43e0-af68-b83794d326e6-1-3550cd78-9831-4d2d-a1f6-1062b0136bf1.md",
+        "type": "file",
+        "bytes": 69,
+        "sha256": "C64E0B081835B3DE44FD8250264EC4767AD49201B1ED568217FE67FFCD470F4F"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/62c5d539-9a4e-4922-9df1-4b92fc70d7b3-1-da924577-9079-401b-9d55-0d943c112587.md",
+        "type": "file",
+        "bytes": 71,
+        "sha256": "F95BDBD958A10A527571E4CD0D3AD1270C7A32BE5F0024D13B2ECBE7773BDC1C"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/8b90fc66-0337-4fa5-bce6-7be0aef3bc95-1-18965165-b8a9-487b-8344-27f2498f745e.md",
+        "type": "file",
+        "bytes": 48,
+        "sha256": "A1332D3285FB7D637C35AA27147FAFA343B85EB55CE495BC6DC749664296712E"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/8ea4058a-81ca-4a6a-b145-297170cf70d6-1-d87967df-95ec-4179-a543-e953a1ef8e1e.md",
+        "type": "file",
+        "bytes": 50,
+        "sha256": "B8DFBB40951837E109BD95FB4E195EF884DA78B67ED29260C17101050D453E92"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/b19ea285-e5ba-402b-971d-0a08f5bdca77-1-d8d0a697-d1db-4321-9bbc-679996166a03.md",
+        "type": "file",
+        "bytes": 50,
+        "sha256": "F40144AB67C46D42E997847CA80803FE080466F9763DDB24C900A11A5EDD14F0"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/b19ea285-e5ba-402b-971d-0a08f5bdca77-2-7722081a-d74c-4509-84d2-a1aa86bc5415.md",
+        "type": "file",
+        "bytes": 26,
+        "sha256": "DE1D1DC5677AE98B398F98DCA2DD0596162B30AB86810D3E620AB6598833A292"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/db5f16c9-ac6c-4e3b-bbbd-21794b9a4967-1-9cb19961-d645-4890-ae01-46135328a940.md",
+        "type": "file",
+        "bytes": 19,
+        "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/f4ddac3a-9639-4fd9-8ba9-3b3d86fcfda8-1-4a794ec4-2697-4c2a-8137-6f8fcef6da8a.md",
+        "type": "file",
+        "bytes": 19,
+        "sha256": "8AF663B59A9649E64E06759B6A691FAC75DB91D7668A25B03274966482DC3CE6"
+      },
+      {
+        "path": "data-set-a-full-domain-019/memory/f4ddac3a-9639-4fd9-8ba9-3b3d86fcfda8-2-a10d8352-ae60-4bc3-acfc-eca7310155a9.md",
+        "type": "file",
+        "bytes": 20,
+        "sha256": "F5E87D92501365E5F67F66121418821E00227DEF5211150454B782DB9E2E9BD5"
+      }
+    ],
+    "entryCount": 17,
+    "database": {
+      "exists": true,
+      "bytes": 876544,
+      "sha256": "F8216B79858BB42208CAC634B6BC515F5619F62E7919AC3FB9336EC64114A8F2"
+    },
+    "datasetManifest": {
+      "exists": true,
+      "bytes": 143,
+      "sha256": "366C35558F8191D87F085783B09DE97345CBD9563C4B1295BDF1103D0A3085B1"
+    },
+    "isolationMarker": {
+      "exists": true,
+      "bytes": 334,
+      "sha256": "F2CBD9E9C8E64A7C2E89D6D71F9F064C8ADCE39647814FF9E7EE11FB5E8DF0F2"
+    },
+    "credential": {
+      "exists": true,
+      "bytes": 49,
+      "sha256": "CA1D85696D34662E92DDCFEB11DB2F60500AB1269323BC7C219A446CD9E74A8A"
+    }
+  },
+  "assertions": {
+    "setupHashMatches": true,
+    "executableHashMatches": true,
+    "asarHashMatches": true,
+    "pausedDatabaseHashMatches": true,
+    "credentialHashMatches": true,
+    "isolationMarkerHashMatches": true,
+    "mashiroProcessCount": 0,
+    "installerProcessPresent": false,
+    "databaseOpened": false,
+    "credentialContentsRead": false,
+    "originalProfileRead": false,
+    "providerCalls": 0
+  }
+}

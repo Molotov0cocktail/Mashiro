@@ -1,0 +1,23 @@
+{
+    "kind":  "ISOLATED_PROFILE_INITIALIZED",
+    "at":  "2026-09-08T22:24:47.4941115+08:00",
+    "sceneId":  "post-release-019-69f785a9",
+    "profilePath":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "candidateSetupSha256":  "E0C27F5CC249D84C98B568BE7BD840A083EFC70391935547CF80F32DE096BA10",
+    "profile":  {
+                    "identity":  "D4AE69AB:008E0000000094C4",
+                    "treeHash":  "0F4F28EE2908CCA2C0A2842F239599B652232E6FD61E86552FB7488D0067568D",
+                    "fileCount":  1,
+                    "totalBytes":  334
+                },
+    "preservedOriginal":  {
+                              "identity":  "D4AE69AB:011C00000001C1FF",
+                              "treeHash":  "BFA47C4C5514DE7E6183202465063DB767B65C2593BD0BDAC6A7B70419EAE103",
+                              "fileCount":  92,
+                              "totalBytes":  6078369
+                          },
+    "applicationStarted":  false,
+    "databaseOpened":  false,
+    "registryWrites":  false,
+    "exclusiveCreate":  true
+}

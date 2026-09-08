@@ -15,4 +15,12 @@
 
 memory_017_ui 先只读提出信息架构与视觉方案；root 确认文件单写范围后实施。采用风险相称的组件/行为测试与真实打包界面验证，独立复核后随 019 发布新版本。
 
-当前动作：信息架构审查完成，memory_017_ui（gpt-5.6-sol/high）独占 renderer 源码、样式和对应测试实施；采用日常四入口、自动工作、运行记录及设置分组，保留现有异步状态与安全屏障。root 维护全局入口，Astra 独立复核。
+当前动作：已审界面基础29831920及权限深链/短侧栏修复已全量04与Electron06通过，并生成0.1.1-v1实际制品STATIC_PASS。真实截图复查发现chat重复禁用助手选择器、输入低于首屏；memory_017_ui继续仅ProviderPanel/CSS/布局测试窄增量，输入前移、详细上下文/工具折叠并保留深链展开、草稿/流式/授权屏障。冻结后独审和真实窗口重验，生成最终v2候选；不以v1静态通过冒称020原生验收完成。root维护全局入口，Astra独立复核。
+
+## 2026-09-08 23:15 当前续接覆盖
+
+019仍为REPAIR / NATIVE_STARTUP_BLOCKER：桌面中文空格子目录旧0.1.0与候选0.1.1-v1均实际原生断点0x80000003/offset0x730d649；候选79安装文件逐hash匹配。工具与Explorer的profile视图身份不同，governance目录推断只在实际归属确认时成立；正取得真实Explorer定向日志，不断言与用户原错误框同根因。原profile已完整保全，测试profile已初始化并建立所有后台暂停的非空A；最终测试退役/原目录完整恢复仍必做。v1失败及身份校正回执为post-release-019-candidate-v1-desktop-launch-failure-01.json、post-release-019-profile-identity-observed-01.json。
+
+020当前源码/实际隔离Electron通过：d17b7b7183373495cfaaea129e9918811938d111已非force同步并实核两个main；full05为230文件909项901通过/0失败/8明确可选跳过，类型/格式/lint02通过；build08及两PID Electron10通过，实际960×680与720×520窗口中输入/发送完整可见。详见post-release-020-chat-viewport-root-review.md。最终打包UI与普通安装态验收仍待，v1不含此次最终UI，不冒称包内已完成。
+
+发布队列保持：原生根因与修复→最终制品独审→非空升级/新空与恢复/默认重装/卸载及原profile完整还原→最终019/020验收→0.1.1新tag/Release/下载校验。v0.1.0历史发布保持不变。脱敏验收记录同步已获明确用户授权，无当前用户待答问题。

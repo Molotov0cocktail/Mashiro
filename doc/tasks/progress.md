@@ -6,11 +6,11 @@
 
 ## 当前工作与直接下一动作
 
-最新实际阶段（23:10）：最终 UI 源码回归已通过：full05 为230文件/909项，901通过、0失败、8明确可选跳过；typecheck、format及final-lint-02通过（lint-01仅离线审核脚本显式Node导入缺失，已修，原失败保留）。build08/Electron10实际PASS，run09527ef1-e568-4c0f-bea0-e85814b2fe83，两PID95924/92712，960×680及720×520实际窗口内输入区/发送按钮完整可见；证据见post-release-020-chat-viewport-root-review.md及viewport-10文件。019/020仍ACTIVE，0.1.1未发布。
+最新实际阶段（23:25）：源码d17b7b7183373495cfaaea129e9918811938d111已非force同步并实核两个main。最终UI full05通过230文件/909项：901通过、0失败、8明确可选跳过；typecheck、format及final-lint-02通过。build08/Electron10实际PASS，run09527ef1-e568-4c0f-bea0-e85814b2fe83，两PID95924/92712；960×680及720×520窗口中输入/发送完整可见。证据见post-release-020-chat-viewport-root-review.md及viewport-10。源码已审不等于打包验收；019/020保持ACTIVE，0.1.1未发布。
 
-当前发布阻塞：桌面中文空格子目录实际安装的v0.1.0及0.1.1-v1均发生0x80000003、offset0x730d649原生崩溃，无稳定UI。新governance目录说明已越过Electron ready进入SESSION_PREPARE，不能称未执行JS，也不能将其未经证明等同用户原错误框。唯一原生所有者steward核79安装文件并取得定向原生日志；Astra独立诊断首次数据选择/资源阶段，不盲目换包重试。最新源码UI尚未进入v1制品，最终包另行冻结审核。
+发布阻塞与下一动作：桌面中文空格子目录旧0.1.0及0.1.1-v1均0x80000003原生崩溃。79安装文件逐hash一致；真实Explorer定向日志证明GPU子进程9次异常后主进程FATAL gpu_data_manager_impl_private.cc:417。单次--disable-gpu对照仍6次同child退出码并FATAL，所以不据此把disableHardwareAcceleration当修复。steward是唯一nativeowner，正做同一Desktop纯ASCII目录同79字节正常GPU的单次路径对照；Astra独立诊断，Sol只准备最小同44隔离脚本供必要分界，不自行启动。不改sandbox/系统防护，不重复无新证据的flags/换包。
 
-当前隔离状态：原profile完整保全于Mashiro-preserved-019-20260908-69f785a9；正常Mashiro路径为测试profile ID D4AE69AB:008E0000000094C4，已成功建立非空合成A fae73ada-9ea0-4a05-8467-91a67490565a，所有连接/自动后台均暂停，未调用Provider。当前安装为0.1.1-v1、崩溃后0进程；仍需完成原生验收、退役测试profile并RestoreOriginal，核原ID/tree/92文件6078369B。不得重复初始化/保全，也不能遗留原树未恢复。
+隔离恢复义务：原profile完整保全于Mashiro-preserved-019-20260908-69f785a9；正常Mashiro路径为测试profile，真实Explorer目录ID D4AE69AB:008E0000000094C4。非空A fae73ada-9ea0-4a05-8467-91a67490565a已建立且连接/自动后台暂停，未调用Provider。工具视图ID不同，不能把工具目录增量单独当实际启动阶段。当前正式隔离安装为0.1.1-v1；仍需完成原生验收、退役测试树、RestoreOriginal并核原ID/tree/92文件6078369B。不得重复初始化/保全，不遗留原树未恢复。最终UI尚未进入v1包，最终制品另行冻结。
 
 远程记录授权已解决：用户明确回答“允许同步这些脱敏验收记录”，覆盖既有GitHub/Gitee的本机目录路径、目录标识、统计、SHA和测试时间，不含正文/Key/解密凭据。相同push经新增授权重新审核后实际成功，两个main已实核5c83e255b18bfbb45f6b6f0497b6a8f27b9ac23d；初次拒绝保留在post-release-019-remote-records-approval-gate.md。无需为相同范围再次询问。当前无用户待答门禁，本地修复/隔离安装和原目录恢复继续。
 
@@ -158,3 +158,5 @@ v4制品节点：运行时代码为 `37620929a7f507bb31d41861114cf6f825d715fd`�
 关键进展、路线变化、角色交接与暂停前更新当前任务和入口；相应复核成果在合理提交点入Git并同步。纯文档仅核事实/链接/格式，不制造自引用审核提交循环。历史 [004以前progress快照](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/progress-history-through-004-final-snapshot.md) 不变，当前入口不回退为“等用户选下一任务”。
 
 历史008启动记录（2026-09-06，现已关闭）：S0合成SQLite/Markdown实验已完成，见[方案](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-s0.md)与[共享接口](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/memory-008-contract.md)。memory_008_s0（gpt-6-astra / medium）单写main/shared/preload及trusted tests，memory_008_ui（gpt-5.6-sol / high）单写renderer及对应测试；root维护全局记录。前述S0阅读动作已推进为实际实施，事件/权限范围细分随接口同步；新领域尚未验收。007收尾a5041632c09aa3d421654e56a1e76c9e109147bf已非force推送并ls-remote确认两个main同值，不含008产品。
+
+原生日志更新（23:20）：实际Explorer定向启动回执post-release-019-candidate-v1-desktop-logging-observed-01.json捕获FATAL gpu_data_manager_impl_private.cc:417，GPU process isn't usable；补充gpu-observed-02记录GPU子进程连续9次exit_code=-2147483645后主进程终止。直接终止机制已知，具体子进程原因未明，不能归因驱动/中文路径或声称与用户原错误框同根因。下一步同包保留sandbox的软件渲染诊断；没有据此改生产默认或放宽安装验收。

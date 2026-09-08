@@ -1,0 +1,31 @@
+{
+    "schemaVersion":  1,
+    "kind":  "CANDIDATE_V1_DESKTOP_LOGGING_OBSERVED_FROM_DESKTOP",
+    "status":  "EXECUTED",
+    "observedAt":  "2026-09-08T23:16:35.8846791+08:00",
+    "observerProcessId":  99880,
+    "observerParentProcessId":  8252,
+    "desktopShellProcessId":  8252,
+    "parentIsDesktopShell":  true,
+    "mashiroProcessCount":  0,
+    "log":  {
+                "path":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\runtime\\v1-desktop-crash-logging-01.log",
+                "exists":  true,
+                "bytes":  2327,
+                "sha256":  "2EC415714665E91A05A67987571AA6F1575AD25A8022ED59B4C771A2BE4AAFB4",
+                "lineCount":  19,
+                "fatalOrCheckCount":  1,
+                "fatalOrCheckLines":  [
+                                          "[98728:0908/231435.668:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:417] GPU process isn\u0027t usable. Goodbye."
+                                      ]
+            },
+    "boundaries":  {
+                       "syntheticProfileOnly":  true,
+                       "fullLogContentsPersisted":  false,
+                       "originalProfileRead":  false,
+                       "databaseOpened":  false,
+                       "credentialContentsRead":  false,
+                       "registryWrites":  false,
+                       "providerCalls":  0
+                   }
+}

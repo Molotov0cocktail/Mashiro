@@ -1,0 +1,19 @@
+{
+    "schemaVersion":  1,
+    "kind":  "SYNTHETIC_PROFILE_IDENTITY_OBSERVED_FROM_DESKTOP",
+    "status":  "EXECUTED",
+    "observedAt":  "2026-09-08T23:12:38.3125813+08:00",
+    "observerProcessId":  99020,
+    "observerParentProcessId":  8252,
+    "desktopShellProcessId":  8252,
+    "parentIsDesktopShell":  true,
+    "profilePath":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "initializedIdentity":  "D4AE69AB:008E0000000094C4",
+    "observedIdentity":  "D4AE69AB:008E0000000094C4",
+    "identityMatches":  true,
+    "mashiroProcessCount":  0,
+    "originalProfileRead":  false,
+    "databaseOpened":  false,
+    "credentialContentsRead":  false,
+    "registryWrites":  false
+}

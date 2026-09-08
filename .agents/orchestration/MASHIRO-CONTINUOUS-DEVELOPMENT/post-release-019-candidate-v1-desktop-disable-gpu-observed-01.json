@@ -1,0 +1,55 @@
+{
+    "schemaVersion":  1,
+    "kind":  "CANDIDATE_V1_DISABLE_GPU_OBSERVED_FROM_DESKTOP",
+    "status":  "EXECUTED",
+    "observedAt":  "2026-09-08T23:22:23.2332753+08:00",
+    "observerProcessId":  97464,
+    "observerParentProcessId":  8252,
+    "desktopShellProcessId":  8252,
+    "parentIsDesktopShell":  true,
+    "mashiroProcessCount":  0,
+    "launch":  {
+                   "executableSha256":  "27AEC92A5409736DF4B762C1B82C5ACAC3B9936D8330C52D823C917E3BC5E46A",
+                   "asarSha256":  "EF3AFBF1D1AD2754EE5ED922A42701B5E040D768C46823FA5F4C49FE1FF057A8",
+                   "launchedAt":  "2026-09-08T23:20:19.6426587+08:00",
+                   "arguments":  "--disable-gpu --enable-logging=file --log-file=[SYNTHETIC_PROFILE_LOG]"
+               },
+    "log":  {
+                "path":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\runtime\\v1-desktop-disable-gpu-01.log",
+                "exists":  true,
+                "bytes":  1592,
+                "sha256":  "0B4A35AA00F7C56FDC416C4EAFD36D8D95B179EE9497DFBD5CDDE006449FB73F",
+                "lineCount":  13,
+                "selectedLineCount":  13,
+                "selection":  "GPU|launch failed|exit_code|ERROR|FATAL|CHECK",
+                "selectedLines":  [
+                                      "[94116:0908/232020.103:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[94116:0908/232020.103:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 1 time(s)",
+                                      "[94116:0908/232020.197:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[94116:0908/232020.197:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 2 time(s)",
+                                      "[94116:0908/232020.266:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[94116:0908/232020.266:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 3 time(s)",
+                                      "[94116:0908/232020.336:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[94116:0908/232020.336:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 4 time(s)",
+                                      "[94116:0908/232020.404:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[94116:0908/232020.404:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 5 time(s)",
+                                      "[94116:0908/232020.459:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1035] GPU process exited unexpectedly: exit_code=-2147483645",
+                                      "[94116:0908/232020.459:WARNING:content\\browser\\gpu\\gpu_process_host.cc:1479] The GPU process has crashed 6 time(s)",
+                                      "[94116:0908/232020.459:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:417] GPU process isn\u0027t usable. Goodbye."
+                                  ]
+            },
+    "result":  {
+                   "stableMashiroProcess":  false,
+                   "dataRecoveryWindowObserved":  false
+               },
+    "boundaries":  {
+                       "syntheticProfileOnly":  true,
+                       "fullLogContentsPersisted":  false,
+                       "originalProfileRead":  false,
+                       "databaseOpened":  false,
+                       "credentialContentsRead":  false,
+                       "registryWrites":  false,
+                       "providerCalls":  0,
+                       "noSandboxFlagsAdded":  true
+                   }
+}

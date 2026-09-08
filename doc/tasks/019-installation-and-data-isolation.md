@@ -19,4 +19,13 @@ root 维护唯一入口与任务；steward_013_ui 只读现场诊断；review_01
 
 普通Explorer观测证实正式配置仍定位旧数据集9f；早期工具视图的旧安装登记不能代表普通桌面状态，已由 `post-release-install-observation-correction.md` 更正。旧版未保留足够错误细节，历史启动异常仍 NOT_REPRODUCED；用户已确认原安装目录是桌面下Mashiro或其他子文件夹，并非桌面根目录。
 
-用户已明确允许对 `C:\Users\30910\AppData\Roaming\Mashiro` 做完整字节校验、原样保全和恢复。实际只读预检通过，整目录保全helper已独立限定通过，但尚未执行移动。后续只在最终候选就绪后隔离正式profile进行安装验证；原树完整恢复，测试树另存，外部旧数据库不删除、不解析。新建空数据使用独立身份和治理状态、成功后CAS切换并保留旧数据；正常重装保留数据，界面明确告知并提供显式新建入口。
+用户已明确允许对 `C:\Users\30910\AppData\Roaming\Mashiro` 做完整字节校验、原样保全和恢复。实际只读预检通过，整目录保全helper已独立限定通过，并于21:40完成原样移动至同级Mashiro-preserved-019-20260908-69f785a9；92文件/6078369B、目录身份和整树SHA完全相同，PROFILE_PRESERVED回执已落盘。原位置目前不存在；后续隔离测试必须退役测试树并原样恢复原目录，准确当前phase见progress.md首部与实际回执。后续只在最终候选就绪后隔离正式profile进行安装验证；原树完整恢复，测试树另存，外部旧数据库不删除、不解析。新建空数据使用独立身份和治理状态、成功后CAS切换并保留旧数据；正常重装保留数据，界面明确告知并提供显式新建入口。
+## 2026-09-08 23:15 当前续接覆盖
+
+019仍为REPAIR / NATIVE_STARTUP_BLOCKER：桌面中文空格子目录旧0.1.0与候选0.1.1-v1均实际原生断点0x80000003/offset0x730d649；候选79安装文件逐hash匹配。工具与Explorer的profile视图身份不同，governance目录推断只在实际归属确认时成立；正取得真实Explorer定向日志，不断言与用户原错误框同根因。原profile已完整保全，测试profile已初始化并建立所有后台暂停的非空A；最终测试退役/原目录完整恢复仍必做。v1失败及身份校正回执为post-release-019-candidate-v1-desktop-launch-failure-01.json、post-release-019-profile-identity-observed-01.json。
+
+020当前源码/实际隔离Electron通过：d17b7b7183373495cfaaea129e9918811938d111已非force同步并实核两个main；full05为230文件909项901通过/0失败/8明确可选跳过，类型/格式/lint02通过；build08及两PID Electron10通过，实际960×680与720×520窗口中输入/发送完整可见。详见post-release-020-chat-viewport-root-review.md。最终打包UI与普通安装态验收仍待，v1不含此次最终UI，不冒称包内已完成。
+
+发布队列保持：原生根因与修复→最终制品独审→非空升级/新空与恢复/默认重装/卸载及原profile完整还原→最终019/020验收→0.1.1新tag/Release/下载校验。v0.1.0历史发布保持不变。脱敏验收记录同步已获明确用户授权，无当前用户待答问题。
+
+原生日志更新（23:20）：实际Explorer定向启动回执post-release-019-candidate-v1-desktop-logging-observed-01.json捕获FATAL gpu_data_manager_impl_private.cc:417，GPU process isn't usable；补充gpu-observed-02记录GPU子进程连续9次exit_code=-2147483645后主进程终止。直接终止机制已知，具体子进程原因未明，不能归因驱动/中文路径或声称与用户原错误框同根因。下一步同包保留sandbox的软件渲染诊断；没有据此改生产默认或放宽安装验收。
