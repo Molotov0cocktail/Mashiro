@@ -1,5 +1,7 @@
 # 014 正式数据位置、备份与 Windows 交付生命周期
 
+2026-09-08 最新实际结果：用户点击v9后无可见反应，截图已正确显示Mashiro分组；13:49:15+08精确安装进程为0。[本次FAIL](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-failure-01.md)已冻结，当前恢复ACTIVE / NOTIFICATION_REPAIR，原用户点击等待已解除。先只读保全现场并区分未启动、短命退出及激活未传入；之后依据可甄别实验修复，禁止将前述准备或身份限定通过当作冷点击通过。以下为此前阶段记录。
+
 2026-09-08 v6 当前收束：升级、原生新身份 Shell、卸载数据保护及重装默认 Off 已[独立限定通过](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-native-independent-review.md)。[真实冷点击准备](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-cold-click-ready-01.json)冻结0进程、新Run显式On、当前CLSID145B11B4及新AUMID下唯一v9通知（13:07，E2E_ITEM_waiting）。用户已被请求点击，保持现场不启动/不COM；只读核对真实启动和正确事项后补016与最终发布下载。卸载系统清理已按分层证据结清，当时stdout未独立留存的限制保留；不能倒推或以准备代替点击通过。以下保留阶段历史。
 
 2026-09-08 用户两条实际通知点击均进入Electron默认页，最终通知验收FAIL。独立[身份冲突诊断与修复合同](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/v5-user-click-failure-diagnosis.md)已证实开发Electron.lnk与安装Mashiro.lnk共用生产AUMID，Shell解析错误。身份修复源码 ea94184e 已独立通过并同步双 main；新生产身份、开发原生隔离、早期初始化、固定既有 NSIS GUID 及精确旧 Run 迁移均已纳入 [v6 制品 STATIC_PASS](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-artifact-review.md)。当前 PACKAGED_VERIFICATION 正执行覆盖升级及新宏实际卸载重装，随后准备真实通知点击；已有数据/治理资格按差异复用。开发两PID提醒改为明确合成投递，最终新包必须额外核Shell身份并通过真实通知点击，不接受仅暖COM成功。升级前正式备份28860377已完成并正常退出，root独立16清单payload及独立marker均匹配，见[核对02](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-preflight-backup-root-check-02.json)。之后继续新包/016/实际发布下载，尚未完成。下列v5及更早结论保留为历史范围。
