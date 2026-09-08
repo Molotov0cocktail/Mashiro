@@ -1,0 +1,50 @@
+{
+  "repository": "Molotov0cocktail/Mashiro",
+  "tag": "v0.1.0",
+  "commit": "6c72c007fc22bb17eb3173a919abc58de8153ffe",
+  "mode": "--execute",
+  "startedAt": "2026-09-08T09:04:55.507Z",
+  "assets": [
+    {
+      "id": 550187017,
+      "name": "Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112587919,
+      "sha256": "8f33c7e10fa663f52eabd9418b2b51979d1e191b1c3f5d28606068f95fcddb58",
+      "url": "https://github.com/Molotov0cocktail/Mashiro/releases/download/v0.1.0/Mashiro-0.1.0-win-x64-setup.exe",
+      "downloadVerified": true
+    },
+    {
+      "id": 550187194,
+      "name": "Mashiro-0.1.0-third-party-notices.zip",
+      "bytes": 2670275,
+      "sha256": "541450973fa7db5e7270d5daf6f0ad23065b0c36fecd2f83d5fd9e4446a95bac",
+      "url": "https://github.com/Molotov0cocktail/Mashiro/releases/download/v0.1.0/Mashiro-0.1.0-third-party-notices.zip"
+    },
+    {
+      "id": 550187213,
+      "name": "Mashiro-0.1.0-install-upgrade-guide.md",
+      "bytes": 15584,
+      "sha256": "56f0f951b6e4915437ee18f648fa2ce4e83aa3bba3f74969bca38e843d100ad1",
+      "url": "https://github.com/Molotov0cocktail/Mashiro/releases/download/v0.1.0/Mashiro-0.1.0-install-upgrade-guide.md"
+    },
+    {
+      "id": 550187237,
+      "name": "release-notes-0.1.0.md",
+      "bytes": 6354,
+      "sha256": "be1ca92b5767b4dce4683bed6da14bea320444ca8e66f96d8f9ad932156ed3da",
+      "url": "https://github.com/Molotov0cocktail/Mashiro/releases/download/v0.1.0/release-notes-0.1.0.md"
+    },
+    {
+      "id": 550187269,
+      "name": "SHA256SUMS.txt",
+      "bytes": 396,
+      "sha256": "d4a43e4a8cb01f5681d043c6dc6034ad408f20165345a09b441fc7a960c8b9b9",
+      "url": "https://github.com/Molotov0cocktail/Mashiro/releases/download/v0.1.0/SHA256SUMS.txt"
+    }
+  ],
+  "stage": "PUBLIC_ASSET_DOWNLOAD_VERIFIED",
+  "observedAt": "2026-09-08T09:05:10.409Z",
+  "attempt": "fc6fd512-606f-44ff-838d-55c2ffb41cea",
+  "releaseId": 384579648,
+  "releaseUrl": "https://github.com/Molotov0cocktail/Mashiro/releases/tag/v0.1.0"
+}

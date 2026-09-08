@@ -1,6 +1,6 @@
 # 016 文档用户场景与整体验收
 
-状态：ACTIVE / CLASSIFICATION_SOURCE_PASS / FINAL_NATIVE_PENDING；PROGRAM ACTIVE。唯一当前入口仍为[progress](progress.md)。本任务落实[总覆盖](program-docs-to-release.md)Q11，不建立第二份需求清单，也不替代014实际制品、安装升级和发布核验。
+状态：TASK_DONE / PRODUCT_AND_WINDOWS_ARTIFACT_PASS；PROGRAM_DONE / RELEASED。独立最终结果见[016报告](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review016-overall-final-review.md)及[发布验收](../releases/0.1.0/verification.md)。唯一当前入口为[progress](progress.md)，本任务Q11及后续Q12均已完成。
 
 ## 验收口径
 

@@ -1,6 +1,6 @@
 # 014 正式数据位置、备份与 Windows 交付生命周期
 
-执行状态：ACTIVE / RELEASE_PREPARATION。整体功能与Windows制品验收已由独立016最终签结PASS（review016-overall-final-review.md，SHA9A3878D77652DE0698B9268557A554732679F202AB227B2E0CF84D1B4C526261）。48领域行及Q1–Q11按原发布范围结算，11项原始可选/远期边界保留；G09/Q12实际发布下载未执行。v7 setup112587919B/SHA8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58/NotSigned，源码867b401bdeeebe9a153b32d7a462376239a89bbd；EXE33F/ASAR7659与已验通知版本同字节。实际普通Explorer初装、同版覆盖旧Run退休/新On保留、18data/location/unknown保护、主67640首启同dataset9f/UI系统On均闭合；卸载同字节BEF与v6实际证据按独立裁决复用。用户v10物理冷点击及精确事项已PASS，详情需滚动，历史FAIL保留。root冻结最终证据提交后填正式说明与附件校验清单，交独立发布材料/精确plan审核，随后按持续授权创建新tag/Release、上传附件并匿名下载校验。当前已实核双main1493458ce1ee29ff3a2d6771729fd4ec6c138413；发布提交待本次证据结算，不能自引用未来SHA。合成测试登录设置由native owner收尾关闭并正常退出，不删数据。PROGRAM未完成，无用户待答。
+执行状态：PROGRAM_DONE / RELEASED。Mashiro v0.1.0 已实际发布：https://github.com/Molotov0cocktail/Mashiro/releases/tag/v0.1.0 。标签与发布提交6c72c007fc22bb17eb3173a919abc58de8153ffe固定；构建源码867b401bdeeebe9a153b32d7a462376239a89bbd。安装包112587919B，SHA256 8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58，实际NotSigned。整体功能/Windows制品/发布材料/公开下载均独立PASS；五附件匿名实际下载全部大小和hash匹配，17:05:14+08完成（release-v0.1.0-fc6fd512-606f-44ff-838d-55c2ffb41cea-014.json）。48领域行及Q1–Q12在原确认范围内闭合，11原始可选/远期边界保留，不冒称已接私人数据源或真实跨应用集成。通知实际冷启动并打开正确事项已验，详情需滚动。首次发布草稿URL缓存失败保留，复核同一公开Release后恢复下载，无重复上传/替换。发布时GitHub/Gitee main及v0.1.0均实核发布提交，收尾文档以main正常后继同步，标签不改。测试登录启动已Off且应用正常退出0进程，数据保留。最终说明与证据见doc/releases/0.1.0/verification.md；当前无继续开发队列或用户门槛，不声称后台继续。
 
 以下为此前阶段历史。
 

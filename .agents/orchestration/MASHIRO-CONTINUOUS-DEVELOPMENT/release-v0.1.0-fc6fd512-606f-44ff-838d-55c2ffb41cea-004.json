@@ -1,0 +1,27 @@
+{
+  "repository": "Molotov0cocktail/Mashiro",
+  "tag": "v0.1.0",
+  "commit": "6c72c007fc22bb17eb3173a919abc58de8153ffe",
+  "mode": "--execute",
+  "startedAt": "2026-09-08T09:04:55.507Z",
+  "assets": [
+    {
+      "id": 550187017,
+      "name": "Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112587919,
+      "sha256": "8f33c7e10fa663f52eabd9418b2b51979d1e191b1c3f5d28606068f95fcddb58",
+      "url": "https://github.com/Molotov0cocktail/Mashiro/releases/download/v0.1.0/Mashiro-0.1.0-win-x64-setup.exe"
+    },
+    {
+      "id": 550187194,
+      "name": "Mashiro-0.1.0-third-party-notices.zip",
+      "bytes": 2670275,
+      "sha256": "541450973fa7db5e7270d5daf6f0ad23065b0c36fecd2f83d5fd9e4446a95bac",
+      "url": "https://github.com/Molotov0cocktail/Mashiro/releases/download/v0.1.0/Mashiro-0.1.0-third-party-notices.zip"
+    }
+  ],
+  "stage": "ASSET_DIGEST_VERIFIED",
+  "observedAt": "2026-09-08T09:04:58.572Z",
+  "attempt": "fc6fd512-606f-44ff-838d-55c2ffb41cea",
+  "releaseId": 384579648
+}

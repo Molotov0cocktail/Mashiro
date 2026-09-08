@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-09-08T08:44:40.9548617Z",
+  "kind": "synthetic test setting cleanup through product UI",
+  "processId": 67640,
+  "windowHandle": 727528,
+  "loginBefore": "On",
+  "loginSelectedBeforeSave": "Off",
+  "saveInvoked": true,
+  "loginAfter": "Off",
+  "statusAfter": [
+    "已由系统确认关闭"
+  ],
+  "uninstallPerformed": false,
+  "dataDeleted": false,
+  "providerCalls": 0
+}

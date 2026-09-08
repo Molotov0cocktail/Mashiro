@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "kind": "MASHIRO_SYNTHETIC_TEST_SETTING_CLEANUP",
+  "observedAt": "2026-09-08T16:49:37.4472897+08:00",
+  "scope": {
+    "installation": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本",
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "productVersion": "0.1.0",
+    "releaseCandidate": "v7"
+  },
+  "historicalAcceptance": {
+    "result": "PRESERVED",
+    "statement": "The v7 UI On and exact current Run acceptance occurred before this explicit post-acceptance cleanup.",
+    "uiOnEvidence": {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v7-postoverlay-ui-on-01.json",
+      "sha256": "F538EC9F3E063D0B24391BEBB357BDF037932973F703377FF1B3A02A79C474FB"
+    },
+    "lifecycleManifest": {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v7-lifecycle-archive-manifest-01.json",
+      "sha256": "CD476D475A4EEFC7CD23433DD7BC2B82D411759027E09ED66DC8E83CC0960C32"
+    }
+  },
+  "cleanup": {
+    "loginStartup": {
+      "action": "Mashiro UI selected Off and saved",
+      "result": "SYSTEM_CONFIRMED_OFF",
+      "evidence": {
+        "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v7-login-cleanup-ui-01.json",
+        "sha256": "42DC3F36183B0FBBA24BDF14B90F8114BB93EFB8843398790656E28A81D24FAD"
+      }
+    },
+    "explorerRunView": {
+      "parentIsShellProcess": true,
+      "oldRunValueAbsent": true,
+      "currentRunValueAbsent": true,
+      "observerEvidence": {
+        "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v7-explorer-login-cleanup-01.json",
+        "sha256": "8E7F0E19415C86C1B2142C4743F0A32F2135AB3CD5833DFED039ED32CE3DED2B"
+      },
+      "wrapper": {
+        "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v7-explorer-login-cleanup-wrapper.ps1",
+        "sha256": "19A28FC355B8AB9B8F5B350726E044042A25AA6EAD3EB939B990D492D47D8D8E"
+      },
+      "wrapperFirstLaunchFailure": "The first launcher attempt failed before ShellExecute because its local FindWindowSW reference variable was uninitialized; no observer output was created. The corrected launcher initialized the variable and executed this same frozen read-only wrapper once."
+    },
+    "normalExit": {
+      "requestedAt": "2026-09-08T16:47:58+08:00",
+      "processId": 67640,
+      "windowHandle": 727528,
+      "method": "owned-foreground-pointer-and-same-process-uia-invoke",
+      "menuItem": "退出 Mashiro",
+      "exactInstalledProcessCountAfter": 0
+    },
+    "retained": {
+      "applicationInstalled": true,
+      "dataRootExists": true,
+      "uninstallPerformed": false,
+      "dataDeleted": false,
+      "otherSoftwareChanged": false,
+      "providerCalls": 0
+    }
+  },
+  "verdict": "CLEANUP_PASS"
+}

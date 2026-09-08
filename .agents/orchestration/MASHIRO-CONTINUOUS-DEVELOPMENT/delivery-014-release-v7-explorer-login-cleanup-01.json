@@ -1,0 +1,52 @@
+{
+    "observedAt":  "2026-09-08T16:47:18.2731347+08:00",
+    "wrapperProcessId":  67180,
+    "parentProcessId":  8252,
+    "shellProcessId":  8252,
+    "parentProcessName":  "explorer",
+    "parentIsShellProcess":  true,
+    "is64Bit":  true,
+    "program":  {
+                    "executableExists":  true,
+                    "asarExists":  true,
+                    "uninstallerExists":  true
+                },
+    "dataRootExists":  true,
+    "shortcutExists":  true,
+    "run":  {
+                "old":  {
+                            "keyExists":  true,
+                            "valueExists":  false,
+                            "kind":  null,
+                            "value":  null
+                        },
+                "current":  {
+                                "keyExists":  true,
+                                "valueExists":  false,
+                                "kind":  null,
+                                "value":  null
+                            }
+            },
+    "com":  {
+                "preOverlayClsid":  {
+                                        "keyExists":  false,
+                                        "valueExists":  false,
+                                        "kind":  null,
+                                        "value":  null
+                                    },
+                "postOverlayClsid":  {
+                                         "keyExists":  false,
+                                         "valueExists":  false,
+                                         "kind":  null,
+                                         "value":  null
+                                     }
+            },
+    "uninstallGuid":  {
+                          "keyExists":  true,
+                          "valueExists":  true,
+                          "kind":  "String",
+                          "value":  "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Uninstall Mashiro.exe\" /currentuser"
+                      },
+    "registryWrites":  false,
+    "comInvoked":  false
+}
