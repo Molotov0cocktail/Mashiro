@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-09-08T08:31:19.4274334Z",
+  "kind": "v7 same-version overlay after exact legacy Run seed",
+  "route": "SWC_DESKTOP Document.Application.ShellExecute",
+  "desktopHandle": 66000,
+  "setup": "D:\\Mashiro\\dist\\windows-candidate-release-v7\\Mashiro-0.1.0-win-x64-setup.exe",
+  "setupSha256": "8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58",
+  "observed": [
+    {
+      "ProcessId": 49064,
+      "ParentProcessId": 8252,
+      "Name": "Mashiro-0.1.0-win-x64-setup.exe",
+      "CreationDate": "2026-09-08T16:31:15.658761+08:00",
+      "CommandLine": "\"D:\\Mashiro\\dist\\windows-candidate-release-v7\\Mashiro-0.1.0-win-x64-setup.exe\" "
+    }
+  ]
+}

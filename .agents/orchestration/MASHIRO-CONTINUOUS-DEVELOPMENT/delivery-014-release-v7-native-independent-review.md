@@ -1,0 +1,34 @@
+# Release v7 native independent review
+
+Independent review_017_trusted, GPT-6 Astra / medium. Frozen evidence only; no scene/UI/registry operation. Source867b401bdeeebe9a153b32d7a462376239a89bbd, setup8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58. Overall lifecycle remains pending same-version migration evidence.
+
+## Initial installation and preservation — LIMITED PASS
+
+`delivery-014-release-v7-lifecycle-preinstall-01.json` SHA CFB327550B95D89FA6025EDF4E843080B8963DD70CFAA2B049DACF117840A731 and `delivery-014-release-v7-lifecycle-postinstall-prelaunch-01.json` SHA E22AB229EA1EF86CCE40870C2E2810F1B51952AFD2D3EA88598048FFB0DC000D independently have identical18 data.entries, complete location and unknownFile objects (a569bf). Post processes are empty. Actual EXE33F79…454D7 and ASAR7659…59F0E match the admitted artifact.
+
+`delivery-014-release-v7-explorer-initial-prelaunch-01.json` SHA576D4134ED4C556E34D3710C51588800534012E6FFAEE85997B036D26A38810C was independently checked (d7fb02/a569bf): direct Explorer child39796/parent8252,64-bit, program/shortcut/GUID present, both legacy/current Run values absent. This is the ordinary desktop view, not a reused tool-host registry observation. Initial cancelled default-directory attempt and subsequent explicit /D route are owner-reported launch history; no write to the cancelled destination is asserted here without its source record.
+
+## Uninstall evidence reuse
+
+The installed v7 uninstaller is138891 bytes, SHA BEF780A2FBE18C7DF8A784316B8836C844E621A6296FD443AB70B552F820592F: exactly the v6 uninstaller that completed the separately reviewed ordinary-Explorer uninstall. Git diff ea941→867b401 confirms the only generator changes are inside renderLoginMigrationNsis; cleanup functions/macros are unchanged. The actual ordinary v6 post-uninstall report BB0DE43B…F888 and matching18-file preservation snapshots therefore provide proportionate reuse for unchanged uninstall behavior. This is reuse of an actual same-byte uninstaller and unchanged cleanup, not a claim that v7 has already been uninstalled again. No duplicate uninstall matrix is needed solely because the installer migration changed.
+
+Still pending: explicitly labelled absent-only synthetic legacy seed and actual ordinary-Explorer same-v7 overlay must retire that legacy entry while preserving current command/choice and data. V6 real overlay REPAIR remains historical; v7 initial install alone does not close it. The same-byte application retains v6 real v10 cold-click/precise-target qualification; no new application code or repeated notification test is implied by the installer-only repair.
+## Synthetic precondition provenance — LIMITED PASS
+
+Independently read seed wrapper and immutable records (3fff79/70498d). Before-seed Explorer record SHA41BDC0E81F1FB40B0EA52659E7A17247958ED92DC50963E98AA5E1281B605A07 has new exact On and absent legacy. Seed record SHA888A576699F0801E147D12D58C54858DB78002D08E9648B1670071F83E1DA9B8 is direct Explorer child67228/8252,64-bit, exact33F7 EXE, dataset9f/location bound and no app processes. The wrapper checks legacy absence twice, checks current exact command, and contains only one registry SetValue: the authorized legacy name. It writes neither current Run nor StartupApproved. Before/after values show only absent legacy becoming the exact same-scene REG_SZ; current remains unchanged and both approvals remain absent. This is a labelled synthetic precondition, not a native Off-approval case or a manual migration repair.
+
+Overlay launch SHAFC599A3DFC9D8FE541C0EFDFFB18DBEEA05DF008842C33AB44161FFABE92E190 binds setup8F33…DB58, process49064 directly parented by Explorer8252. Preoverlay data snapshot SHA610A1674CD959C65E8F1483E4088EFE805F0B258679B7A948A8DBC86BAFD3486 is frozen for later comparison. Postoverlay result has not yet been reviewed; fixture provenance PASS does not assert migration success.
+## Real ordinary-Explorer same-version migration — LIMITED PASS
+
+Independent read/hash724304 verifies postoverlay Explorer record SHA93F96C367BC4DB4F8EFEB2EFE695CD880733956CE7E6F78E8DAD7076F64954E9: direct child51440/parent8252,64-bit; legacy absent, current exact quoted scene command with login argument retained. This follows the explicitly recorded synthetic duplicate precondition and actual v7 installer execution, not manual post-install cleanup.
+
+Preoverlay610A1674…3486 and postoverlay-prelaunch SHA9092A2399B3636B71409D5C4D95A7CE7D6AC52064EAC5F4CBB6D337E7E003E3F independently have identical18 data.entries, location and unknownFile objects. Post processIds empty; EXE33F7,ASAR7659 and uninstallerBEF780 match the admitted identities. The original v6 existing-owned migration REPAIR is now closed for this v7 native branch, while its original failure evidence remains unchanged. Off-approval/concurrency are independently tested NSIS cases, not claimed as extra native runs.
+
+Only final normal firstlaunch same-dataset/system-On confirmation is awaited for this native slice. The successful ordinary v6 uninstall is reused on exact same uninstaller bytes, and unchanged application cold-click/precise-item behavior is reused on identical EXE/ASAR. No repetitive lifecycle or business matrix is introduced.
+## Final native acceptance — PASS
+
+Final frozen launch C981525BF26E7D70BDB5703BF628321764A0BC068ED50092467845379491000A and UI F538EC9F3E063D0B24391BEBB357BDF037932973F703377FF1B3A02A79C474FB were independently read/hashed (7e61d3). Main67640 is directly parented by Explorer8252 on exact33F7 EXE. The same main/window727528 exposes retained dataset9f's E2E_NORMAL_USER marker before the observer switches to Reminders; login Toggle On and 已由系统确认开启 are present, with no setting changes and Provider0. Dataset identity is supported by the preserved locator/data snapshot chain plus this retained UI marker, not by treating the marker alone as a UUID proof.
+
+The v7 native slice is PASS: ordinary-context initial install/preservation, labelled synthetic precondition, actual same-version duplicate retirement preserving current On/data, and final normal launch with retained dataset/system On. Actual same-byte v6 ordinary uninstall and same-byte application v10 physical cold-click/exact-target evidence are proportionately reused. Historical v6 migration failure and earlier notification failures remain unchanged. No repeated Provider, full source matrix or new desktop operations were performed by this independent reviewer.
+
+This closes product/Windows-artifact acceptance, not actual publication. Release materials/plan final review, tag/Release/upload and real unauthenticated download checks remain to be completed under Q12/G08/G09. No published-release success is asserted.

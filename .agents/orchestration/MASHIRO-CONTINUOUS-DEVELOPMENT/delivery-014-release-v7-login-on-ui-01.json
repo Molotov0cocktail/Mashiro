@@ -1,0 +1,12 @@
+{
+  "observedAt": "2026-09-08T08:26:45.4186543Z",
+  "processId": 67732,
+  "windowHandle": 465136,
+  "initialState": "Off",
+  "toggleAction": "UIA TogglePattern; immediate Current cache remained Off, fresh read was On",
+  "saveInvoked": true,
+  "freshToggleAfterSave": "On",
+  "statusAfterSave": [
+    "已由系统确认开启"
+  ]
+}

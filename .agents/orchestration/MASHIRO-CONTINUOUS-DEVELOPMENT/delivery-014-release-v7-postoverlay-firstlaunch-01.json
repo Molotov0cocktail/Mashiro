@@ -1,0 +1,38 @@
+{
+  "observedAt": "2026-09-08T08:36:30.8716999Z",
+  "route": "SWC_DESKTOP Document.Application.ShellExecute",
+  "desktopHandle": 66000,
+  "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+  "processes": [
+    {
+      "ProcessId": 67640,
+      "ParentProcessId": 8252,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T16:36:26.234521+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    },
+    {
+      "ProcessId": 68796,
+      "ParentProcessId": 67640,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T16:36:26.63928+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    },
+    {
+      "ProcessId": 68812,
+      "ParentProcessId": 67640,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T16:36:26.72409+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    }
+  ],
+  "directExplorerMain": [
+    {
+      "ProcessId": 67640,
+      "ParentProcessId": 8252,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T16:36:26.234521+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    }
+  ]
+}

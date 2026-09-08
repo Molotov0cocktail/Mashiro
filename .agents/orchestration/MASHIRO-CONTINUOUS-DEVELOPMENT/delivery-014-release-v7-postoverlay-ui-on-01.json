@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-09-08T08:39:54.6114216Z",
+  "processId": 67640,
+  "windowHandle": 727528,
+  "directExplorerLaunch": true,
+  "syntheticDatasetEvidence": {
+    "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "uiaMarker": "E2E_NORMAL_USER",
+    "markerSeenBeforeTabSwitch": true
+  },
+  "login": {
+    "toggle": "On",
+    "status": [
+      "已由系统确认开启"
+    ]
+  },
+  "navigation": "selected Reminders tab only; no settings changed",
+  "providerCalls": 0
+}

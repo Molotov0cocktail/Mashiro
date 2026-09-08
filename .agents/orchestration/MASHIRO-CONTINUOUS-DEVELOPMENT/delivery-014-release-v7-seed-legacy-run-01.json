@@ -1,0 +1,68 @@
+{
+    "observedAt":  "2026-09-08T16:30:18.1091595+08:00",
+    "kind":  "synthetic exact legacy Run precondition for v7 same-version overlay",
+    "wrapperProcessId":  67228,
+    "parentProcessId":  8252,
+    "shellProcessId":  8252,
+    "parentIsShellProcess":  true,
+    "is64Bit":  true,
+    "exactMashiroProcessIds":  [
+
+                               ],
+    "executableSha256":  "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+    "dataPath":  "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+    "dataSetId":  "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+    "before":  {
+                   "legacy":  {
+                                  "exists":  false,
+                                  "kind":  null,
+                                  "value":  null
+                              },
+                   "current":  {
+                                   "exists":  true,
+                                   "kind":  "String",
+                                   "value":  "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login"
+                               },
+                   "legacyApproval":  {
+                                          "exists":  false,
+                                          "kind":  null,
+                                          "value":  null
+                                      },
+                   "currentApproval":  {
+                                           "exists":  false,
+                                           "kind":  null,
+                                           "value":  null
+                                       }
+               },
+    "after":  {
+                  "legacy":  {
+                                 "exists":  true,
+                                 "kind":  "String",
+                                 "value":  "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login"
+                             },
+                  "current":  {
+                                  "exists":  true,
+                                  "kind":  "String",
+                                  "value":  "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login"
+                              },
+                  "legacyApproval":  {
+                                         "exists":  false,
+                                         "kind":  null,
+                                         "value":  null
+                                     },
+                  "currentApproval":  {
+                                          "exists":  false,
+                                          "kind":  null,
+                                          "value":  null
+                                      }
+              },
+    "mutation":  {
+                     "hive":  "HKCU Registry64",
+                     "subkey":  "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+                     "name":  "Mashiro.Desktop",
+                     "operation":  "create absent REG_SZ with exact synthetic scene command"
+                 },
+    "currentRunModified":  false,
+    "startupApprovedModified":  false,
+    "unrelatedRegistryValuesRead":  false
+}

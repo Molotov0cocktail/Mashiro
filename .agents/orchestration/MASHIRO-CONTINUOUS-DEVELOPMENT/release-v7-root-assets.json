@@ -1,0 +1,23 @@
+{
+  "status": "PREPARED_NOT_PUBLISHED",
+  "directory": "dist/release-v7-assets",
+  "sourceBuildDirectory": "dist/windows-candidate-release-v7",
+  "assets": [
+    {
+      "name": "Mashiro-0.1.0-third-party-notices.zip",
+      "bytes": 2670275,
+      "sha256": "541450973FA7DB5E7270D5DAF6F0AD23065B0C36FECD2F83D5FD9E4446A95BAC"
+    },
+    {
+      "name": "Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112587919,
+      "sha256": "8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58"
+    }
+  ],
+  "noticesEvidence": "delivery-014-release-v7-notices-check-01.json",
+  "pending": [
+    "v7 artifact and native acceptance",
+    "final overall and materials review",
+    "new tag Release upload and public download verification"
+  ]
+}

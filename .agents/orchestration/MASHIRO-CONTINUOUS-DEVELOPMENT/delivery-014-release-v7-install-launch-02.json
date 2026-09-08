@@ -1,0 +1,23 @@
+{
+  "observedAt": "2026-09-08T08:16:13.8133563Z",
+  "route": "SWC_DESKTOP Document.Application.ShellExecute",
+  "desktopHandle": 66000,
+  "setup": "D:\\Mashiro\\dist\\windows-candidate-release-v7\\Mashiro-0.1.0-win-x64-setup.exe",
+  "setupSha256": "8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58",
+  "argumentKind": "NSIS /D exact authorized install directory as final argument",
+  "targetInstall": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本",
+  "observed": [
+    {
+      "ProcessId": 44736,
+      "ParentProcessId": 8252,
+      "Name": "Mashiro-0.1.0-win-x64-setup.exe",
+      "CreationDate": "2026-09-08T16:16:10.189974+08:00",
+      "CommandLine": "\"D:\\Mashiro\\dist\\windows-candidate-release-v7\\Mashiro-0.1.0-win-x64-setup.exe\" /D=C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本"
+    }
+  ],
+  "previousAttempt": {
+    "pid": 41884,
+    "defaultPath": "C:\\Users\\30910\\AppData\\Local\\Programs\\Mashiro",
+    "cancelledBeforeInstall": true
+  }
+}

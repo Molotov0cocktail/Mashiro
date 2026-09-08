@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "zipSha256": "541450973FA7DB5E7270D5DAF6F0AD23065B0C36FECD2F83D5FD9E4446A95BAC",
+  "zipBytes": 2670275,
+  "comparedTo": "dist/windows-candidate-release-v7/win-unpacked",
+  "comparison": "in-memory exact byte comparison; ZIP was not extracted",
+  "entrySetMatches": true,
+  "files": [
+    {
+      "path": "LICENSE.electron.txt",
+      "sha256": "5154E165BD6C2CC0CFBCD8916498C7ABAB0497923BAFCD5CB07673FE8480087D",
+      "bytes": 1096,
+      "matches": true
+    },
+    {
+      "path": "LICENSES.chromium.html",
+      "sha256": "F2310820377F4D8F2A5F6BC8744B985D6772CEF9EE7D8D197B01FDB330DB0BB8",
+      "bytes": 20472827,
+      "matches": true
+    },
+    {
+      "path": "resources/third-party-notices/react-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93",
+      "bytes": 1088,
+      "matches": true
+    },
+    {
+      "path": "resources/third-party-notices/react-dom-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93",
+      "bytes": 1088,
+      "matches": true
+    },
+    {
+      "path": "resources/third-party-notices/scheduler-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93",
+      "bytes": 1088,
+      "matches": true
+    },
+    {
+      "path": "resources/third-party-notices/zod-LICENSE.txt",
+      "sha256": "3F1189B28E3866E0D979968D466B78F813F76827CFDCA1FBB124CC0A5C8841F8",
+      "bytes": 1072,
+      "matches": true
+    },
+    {
+      "path": "resources/third-party-notices/index.json",
+      "sha256": "D875AF1AB8E8E070871D99AF32D75F24C4229E7C8E649380F6E79980215072FA",
+      "bytes": 1440,
+      "matches": true
+    }
+  ],
+  "allMatch": true,
+  "extracted": false
+}

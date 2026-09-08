@@ -1,0 +1,230 @@
+{
+  "createdAt": "2026-09-08T16:43:14.2631286+08:00",
+  "kind": "release-v7 same-value legacy Run migration native lifecycle archive",
+  "scope": "authorized synthetic scene only",
+  "scene": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp",
+  "datasetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "artifact": {
+    "setupSha256": "8F33C7E10FA663F52EABD9418B2B51979D1E191B1C3F5D28606068F95FCDDB58",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+    "asarSha256": "7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E",
+    "uninstallerSha256": "BEF780A2FBE18C7DF8A784316B8836C844E621A6296FD443AB70B552F820592F",
+    "signatureStatus": "NotSigned"
+  },
+  "outcomes": {
+    "initialInstallDataPreservation": "PASS",
+    "initialLoginDefault": "OFF",
+    "explicitProductLoginEnable": "PASS",
+    "syntheticLegacyRunPrecondition": "CREATED_WITH_GUARDS",
+    "sameVersionLegacyRunRemoval": "PASS",
+    "sameVersionCurrentRunPreservation": "PASS",
+    "sameVersionDataPreservation": "PASS",
+    "postOverlaySameDataset": "PASS",
+    "postOverlayLoginSystemConfirmation": "ON",
+    "v7Uninstall": "NOT_REPEATED_BYTE_IDENTICAL_V6_UNINSTALL_REUSED",
+    "v7NotificationClick": "NOT_REPEATED_BYTE_IDENTICAL_V6_EXE_ASAR_RESULT_REUSED"
+  },
+  "finalScene": {
+    "installed": true,
+    "observedMainProcessId": 67640,
+    "loginStartup": "ON"
+  },
+  "boundaries": [
+    "The first setup launch displayed the default Programs directory and was cancelled before any install action; launch 02 performed the actual initial installation at the authorized scene path.",
+    "Only the absent exact legacy Run value was seeded. The current Run and StartupApproved values were not modified by the seed.",
+    "No manual mutation occurred after the overlay; the installer produced the observed legacy-absent result.",
+    "Real desktop registry conclusions use direct-Explorer wrappers.",
+    "No Provider request, credential read, notification COM activation, Git staging, or global documentation edit occurred in this slice."
+  ],
+  "files": [
+    {
+      "path": "delivery-014-release-v7-packaged-hashes.json",
+      "link": "delivery-014-release-v7-packaged-hashes.json",
+      "bytes": 1251,
+      "sha256": "A01F61C14D35E425DC6CC7B5F704C72D8853C707FAEC639D732B0091F058C30F",
+      "purpose": "v7 setup, EXE, ASAR, and frozen output identities"
+    },
+    {
+      "path": "delivery-014-release-v7-artifact-identity.json",
+      "link": "delivery-014-release-v7-artifact-identity.json",
+      "bytes": 625,
+      "sha256": "E5CE822B865758A277520A3977D6E9676C88DE1F12604BA95F0BFEAA614D77BB",
+      "purpose": "v7 native file identity and actual signature status"
+    },
+    {
+      "path": "delivery-014-release-v7-artifact-review.md",
+      "link": "delivery-014-release-v7-artifact-review.md",
+      "bytes": 3824,
+      "sha256": "BAB0B45B33B1170D38C523CDCB1C17A2474833B97CB16BA993811D5B962D0EAE",
+      "purpose": "independent v7 static admission"
+    },
+    {
+      "path": "delivery-014-release-v6-user-click-v10-observed-01.json",
+      "link": "delivery-014-release-v6-user-click-v10-observed-01.json",
+      "bytes": 3843,
+      "sha256": "021E9DB20A5ADCDA5DDC13E8E8E7FBD5DE600468ADECFDFA846143BA1E27498C",
+      "purpose": "reused physical notification-click result for the byte-identical installed EXE and ASAR"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-lifecycle-result-01.md",
+      "link": "delivery-014-release-v6-sameversion-lifecycle-result-01.md",
+      "bytes": 2903,
+      "sha256": "B8F66ACB89AC8DD21393C263A680A76A5A0CD3F98CCCFFE5F9E104351397EFA1",
+      "purpose": "reused ordinary-uninstall result for the byte-identical v7 uninstaller"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-lifecycle-archive-manifest-01.json",
+      "link": "delivery-014-release-v6-sameversion-lifecycle-archive-manifest-01.json",
+      "bytes": 10084,
+      "sha256": "D495CB04CA9B5ED21D9C6EBBD5B413E4CFFE424ACEEC986DC0191BE1A4AA7A85",
+      "purpose": "exact reused v6 uninstall evidence inventory"
+    },
+    {
+      "path": "delivery-014-release-v7-lifecycle-snapshot.ps1",
+      "link": "delivery-014-release-v7-lifecycle-snapshot.ps1",
+      "bytes": 5540,
+      "sha256": "248DBA9EEC37ACF73C69CEDD69A3D4158BD6DDBBC116F0C47D83BA368B77A131",
+      "purpose": "non-overwriting file/data lifecycle snapshot helper"
+    },
+    {
+      "path": "delivery-014-release-v7-lifecycle-preinstall-01.json",
+      "link": "delivery-014-release-v7-lifecycle-preinstall-01.json",
+      "bytes": 6317,
+      "sha256": "CFB327550B95D89FA6025EDF4E843080B8963DD70CFAA2B049DACF117840A731",
+      "purpose": "uninstalled-scene file and data baseline"
+    },
+    {
+      "path": "delivery-014-release-v7-install-launch-01.json",
+      "link": "delivery-014-release-v7-install-launch-01.json",
+      "bytes": 635,
+      "sha256": "8AA250875B31900642BBD10E681FFD0D4A79330909CFD6C881E5032A8C5F90C1",
+      "purpose": "first Explorer setup launch; default directory attempt later cancelled before install"
+    },
+    {
+      "path": "delivery-014-release-v7-install-launch-02.json",
+      "link": "delivery-014-release-v7-install-launch-02.json",
+      "bytes": 1077,
+      "sha256": "371434E250D752F69E35F526C5C53E3D5F3D393B1ECE64AF26730027A90C4C1C",
+      "purpose": "Explorer setup relaunch with exact authorized NSIS /D directory"
+    },
+    {
+      "path": "delivery-014-release-v7-lifecycle-postinstall-prelaunch-01.json",
+      "link": "delivery-014-release-v7-lifecycle-postinstall-prelaunch-01.json",
+      "bytes": 6522,
+      "sha256": "E22AB229EA1EF86CCE40870C2E2810F1B51952AFD2D3EA88598048FFB0DC000D",
+      "purpose": "initial-install postinstall-prelaunch file and data state"
+    },
+    {
+      "path": "delivery-014-release-v7-explorer-initial-prelaunch-wrapper.ps1",
+      "link": "delivery-014-release-v7-explorer-initial-prelaunch-wrapper.ps1",
+      "bytes": 3783,
+      "sha256": "378398F1DC13C16CA622EA565E994CD374DEC19B2AE801DCDBE5ADAED595BC97",
+      "purpose": "direct-Explorer initial system-state observer"
+    },
+    {
+      "path": "delivery-014-release-v7-explorer-initial-prelaunch-01.json",
+      "link": "delivery-014-release-v7-explorer-initial-prelaunch-01.json",
+      "bytes": 2118,
+      "sha256": "576D4134ED4C556E34D3710C51588800534012E6FFAEE85997B036D26A38810C",
+      "purpose": "default-Off Run, shortcut, GUID, program, and data-root result"
+    },
+    {
+      "path": "delivery-014-release-v7-firstlaunch-01.json",
+      "link": "delivery-014-release-v7-firstlaunch-01.json",
+      "bytes": 1551,
+      "sha256": "A682CEA899D8D135D80AFFB986B7A1ED7D7CDD42C9902AA7414603467D5D6F55",
+      "purpose": "initial installed-app Explorer launch identity"
+    },
+    {
+      "path": "delivery-014-release-v7-login-on-ui-01.json",
+      "link": "delivery-014-release-v7-login-on-ui-01.json",
+      "bytes": 344,
+      "sha256": "632F63FD5B0A43A4E042EA3BBCD9A61229B95F5ADF7D6F6CD345724A3C4DF421",
+      "purpose": "explicit product UI Off-to-On save and system confirmation"
+    },
+    {
+      "path": "delivery-014-release-v7-explorer-run-before-seed-wrapper.ps1",
+      "link": "delivery-014-release-v7-explorer-run-before-seed-wrapper.ps1",
+      "bytes": 2256,
+      "sha256": "D36F2A06269DF4A30C9FA252234C730284E8F579A452E068F07905354D0201A3",
+      "purpose": "direct-Explorer pre-seed Run observer"
+    },
+    {
+      "path": "delivery-014-release-v7-explorer-run-before-seed-01.json",
+      "link": "delivery-014-release-v7-explorer-run-before-seed-01.json",
+      "bytes": 606,
+      "sha256": "41BDC0E81F1FB40B0EA52659E7A17247958ED92DC50963E98AA5E1281B605A07",
+      "purpose": "pre-seed current exact On and legacy absent result"
+    },
+    {
+      "path": "delivery-014-release-v7-seed-legacy-run-wrapper.ps1",
+      "link": "delivery-014-release-v7-seed-legacy-run-wrapper.ps1",
+      "bytes": 6317,
+      "sha256": "06DDF673988851D5059E4D1F56C10AB184EE531EA2124CE5D20AE07AC8A29DF4",
+      "purpose": "bounded direct-Explorer synthetic legacy Run seed"
+    },
+    {
+      "path": "delivery-014-release-v7-seed-legacy-run-01.json",
+      "link": "delivery-014-release-v7-seed-legacy-run-01.json",
+      "bytes": 3423,
+      "sha256": "888A576699F0801E147D12D58C54858DB78002D08E9648B1670071F83E1DA9B8",
+      "purpose": "seed before/after and mutation receipt"
+    },
+    {
+      "path": "delivery-014-release-v7-lifecycle-preoverlay-01.json",
+      "link": "delivery-014-release-v7-lifecycle-preoverlay-01.json",
+      "bytes": 6511,
+      "sha256": "610A1674CD959C65E8F1483E4088EFE805F0B258679B7A948A8DBC86BAFD3486",
+      "purpose": "immediate pre-overlay file and data state"
+    },
+    {
+      "path": "delivery-014-release-v7-overlay-launch-01.json",
+      "link": "delivery-014-release-v7-overlay-launch-01.json",
+      "bytes": 703,
+      "sha256": "FC599A3DFC9D8FE541C0EFDFFB18DBEEA05DF008842C33AB44161FFABE92E190",
+      "purpose": "same-version v7 Explorer overlay launch"
+    },
+    {
+      "path": "delivery-014-release-v7-lifecycle-postoverlay-prelaunch-01.json",
+      "link": "delivery-014-release-v7-lifecycle-postoverlay-prelaunch-01.json",
+      "bytes": 6522,
+      "sha256": "9092A2399B3636B71409D5C4D95A7CE7D6AC52064EAC5F4CBB6D337E7E003E3F",
+      "purpose": "post-overlay prelaunch file and data state"
+    },
+    {
+      "path": "delivery-014-release-v7-explorer-run-after-overlay-wrapper.ps1",
+      "link": "delivery-014-release-v7-explorer-run-after-overlay-wrapper.ps1",
+      "bytes": 2258,
+      "sha256": "063F1FEDF7255AA67196C836580890F3FC932A24FA6519DB6A94714EF930E0C3",
+      "purpose": "direct-Explorer post-overlay Run observer"
+    },
+    {
+      "path": "delivery-014-release-v7-explorer-run-after-overlay-01.json",
+      "link": "delivery-014-release-v7-explorer-run-after-overlay-01.json",
+      "bytes": 606,
+      "sha256": "93F96C367BC4DB4F8EFEB2EFE695CD880733956CE7E6F78E8DAD7076F64954E9",
+      "purpose": "authoritative legacy-removed/current-On-preserved result"
+    },
+    {
+      "path": "delivery-014-release-v7-postoverlay-firstlaunch-01.json",
+      "link": "delivery-014-release-v7-postoverlay-firstlaunch-01.json",
+      "bytes": 1442,
+      "sha256": "C981525BF26E7D70BDB5703BF628321764A0BC068ED50092467845379491000A",
+      "purpose": "post-overlay direct-Explorer app launch identity"
+    },
+    {
+      "path": "delivery-014-release-v7-postoverlay-ui-on-01.json",
+      "link": "delivery-014-release-v7-postoverlay-ui-on-01.json",
+      "bytes": 499,
+      "sha256": "F538EC9F3E063D0B24391BEBB357BDF037932973F703377FF1B3A02A79C474FB",
+      "purpose": "same-dataset marker and product UI system-confirmed On result"
+    },
+    {
+      "path": "delivery-014-release-v7-lifecycle-result-01.md",
+      "link": "delivery-014-release-v7-lifecycle-result-01.md",
+      "bytes": 3888,
+      "sha256": "937AAA3369B17270BD807D4805B1535BE06EEEC8FAFD8B445CAB02F793DE438E",
+      "purpose": "sanitized v7 lifecycle outcome and evidence boundary"
+    }
+  ]
+}
