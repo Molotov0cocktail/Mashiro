@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "candidate": "delivery-014-login-existing-owned-v1",
+  "generatedAtUtc": "2026-09-08T08:04:29.476Z",
+  "status": "AUTHOR_FROZEN_PENDING_ROOT_INTEGRATION_AND_PACKAGED_REINSTALL",
+  "productPaths": [
+    {
+      "path": "build/installer-login-cleanup.mjs",
+      "sha256": "D4218B26E72975CB626B932EA186F4C32B11E1F34207A6C6A7A1D210CA908DEE",
+      "size": 28126
+    }
+  ],
+  "authorTestPaths": [
+    {
+      "path": "tests/unit/installer-login-migration.test.ts",
+      "sha256": "797558F92FEC047146B877CD1B6184D493E8F61344561BED23A4A8303BF7E7E7",
+      "size": 7881
+    }
+  ],
+  "independentOraclePaths": [
+    {
+      "path": "tests/unit/review014-login-existing-owned.test.ts",
+      "sha256": "99BB3ECBB549C7D2F8F89E451E912A3CC0C41A28EB9BE8647BAEAE84BC3E485E",
+      "size": 6249
+    },
+    {
+      "path": "tests/unit/review014-login-migration-retry.test.ts",
+      "sha256": "A56B9E7AC8A55A5A6F4D5D8C1EA8314CEE45ACCD3E77612B465D21A3E72D3F58",
+      "size": 8397
+    }
+  ],
+  "evidencePaths": [
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-login-existing-owned-red-02.json",
+    ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review014-login-existing-owned-candidate-03.json"
+  ],
+  "checks": {
+    "focusedFinal": "3 files / 11 tests passed",
+    "authorAfterFormat": "1 file / 6 tests passed",
+    "nodeTypecheck": "passed",
+    "scopedLint": "passed",
+    "scopedFormat": "passed"
+  },
+  "boundaries": [
+    "An exact REG_SZ byte match for the current installation keeps the current Run value and current StartupApproved bytes unchanged while retiring the still-matching legacy name.",
+    "Foreign paths, non-REG_SZ data, embedded-NUL data and late current-value changes remain conservative no-ops.",
+    "The prior retry and late-Off compensation behavior remains covered.",
+    "No production registry key or installed application was touched by author validation; NSIS scenarios use isolated per-run HKCU scratch subkeys.",
+    "A packaged same-version reinstall and resulting real Run state remain required before release acceptance."
+  ]
+}

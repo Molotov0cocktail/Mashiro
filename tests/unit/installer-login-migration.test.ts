@@ -71,7 +71,8 @@ type Scenario = {
   name: string
   legacy: 'owned' | 'foreign' | 'unicode-lookalike'
   approval: boolean
-  current?: 'foreign'
+  current?: 'foreign' | 'owned'
+  currentApproval?: 'enabled' | 'disabled'
   expectedMigration: boolean
 }
 
@@ -122,7 +123,21 @@ SectionEnd
     if (scenario.approval)
       addRegistryValue(approvalKey, legacyName, 'REG_BINARY', '020000000000000000000000')
     if (scenario.current)
-      addRegistryValue(runKey, currentName, 'REG_SZ', '"C:\\Concurrent\\Mashiro.exe" --different')
+      addRegistryValue(
+        runKey,
+        currentName,
+        'REG_SZ',
+        scenario.current === 'owned' ? ownedCommand : '"C:\\Concurrent\\Mashiro.exe" --different'
+      )
+    if (scenario.currentApproval)
+      addRegistryValue(
+        approvalKey,
+        currentName,
+        'REG_BINARY',
+        scenario.currentApproval === 'enabled'
+          ? '020000000000000000000000'
+          : '030000000000000000000000'
+      )
     execFileSync(findMakensis(), ['/WX', '/V2', '/INPUTCHARSET', 'UTF8', script], hidden)
     execFileSync(setup, ['/S'], hidden)
     const legacyRun = registryValue(runKey, legacyName)
@@ -175,6 +190,14 @@ describe.skipIf(process.platform !== 'win32')('legacy login registration migrati
       approval: true,
       current: 'foreign',
       expectedMigration: false
+    },
+    {
+      name: 'existing owned current registration keeps its disabled choice',
+      legacy: 'owned',
+      approval: true,
+      current: 'owned',
+      currentApproval: 'disabled',
+      expectedMigration: true
     }
   ])('$name', (scenario) => {
     const result = runScenario(scenario)
@@ -183,7 +206,15 @@ describe.skipIf(process.platform !== 'win32')('legacy login registration migrati
       expect(result.legacyRun.status).not.toBe(0)
       expect(result.currentRun.status).toBe(0)
       expect(result.currentRun.stdout).toContain('" --mashiro-login')
-      if (scenario.approval) {
+      if (scenario.currentApproval) {
+        expect(result.legacyApproval.status).not.toBe(0)
+        expect(result.currentApproval.status).toBe(0)
+        expect(result.currentApproval.stdout).toContain(
+          scenario.currentApproval === 'enabled'
+            ? '020000000000000000000000'
+            : '030000000000000000000000'
+        )
+      } else if (scenario.approval) {
         expect(result.legacyApproval.status).not.toBe(0)
         expect(result.currentApproval.status).toBe(0)
         expect(result.currentApproval.stdout).toContain('020000000000000000000000')
