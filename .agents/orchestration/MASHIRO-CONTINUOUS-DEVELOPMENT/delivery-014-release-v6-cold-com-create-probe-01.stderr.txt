@@ -1,0 +1,5 @@
+Exception: D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\delivery-014-release-v6-cold-com-create-probe.ps1:434
+Line |
+ 434 |    throw 'COM_CREATE_DID_NOT_COMPLETE_WITH_S_OK'
+     |    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | COM_CREATE_DID_NOT_COMPLETE_WITH_S_OK

@@ -1,0 +1,36 @@
+{
+  "scope": "Mashiro-owned candidate log file metadata only",
+  "observedAt": "2026-09-08T05:52:48.5522557Z",
+  "roots": [
+    {
+      "root": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本",
+      "exists": true,
+      "candidateCount": 0,
+      "files": []
+    },
+    {
+      "root": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+      "exists": true,
+      "candidateCount": 2,
+      "files": [
+        {
+          "FullName": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\runtime\\sessionData\\Local Storage\\leveldb\\000003.log",
+          "Length": 657,
+          "LastWriteTimeUtc": "2026-09-08T04:55:24.1419815Z"
+        },
+        {
+          "FullName": "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\runtime\\sessionData\\Session Storage\\000003.log",
+          "Length": 657,
+          "LastWriteTimeUtc": "2026-09-08T05:14:08.2645949Z"
+        }
+      ]
+    },
+    {
+      "root": "C:\\Users\\30910\\AppData\\Local\\Mashiro",
+      "exists": false,
+      "candidateCount": 0,
+      "files": []
+    }
+  ],
+  "fileContentsRead": false
+}

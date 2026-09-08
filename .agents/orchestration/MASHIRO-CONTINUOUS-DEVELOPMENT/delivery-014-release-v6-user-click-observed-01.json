@@ -1,0 +1,111 @@
+{
+  "scope": "release-v6 physical notification click outcome and read-only diagnosis",
+  "verdict": "PHYSICAL_CLICK_FAIL",
+  "userObservation": {
+    "source": "user-provided screenshot and explicit report relayed by root",
+    "clickedNotification": "new Mashiro group, 13:07 reminder",
+    "clickTime": "NOT_RECORDED",
+    "result": "no response; no Mashiro window",
+    "screenshotCopiedToWorkspace": false
+  },
+  "application": {
+    "expectedExecutable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "rootExactProcessObservation": {
+      "observedAt": "2026-09-08T13:49:15+08:00",
+      "count": 0
+    },
+    "ownerExactProcessObservation": {
+      "observedAt": "2026-09-08T05:54:03.1756188Z",
+      "count": 0
+    }
+  },
+  "notification": {
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "version": 9,
+    "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+    "itemTitle": "E2E_ITEM_waiting",
+    "dueLocal": "2026-09-08T13:07:00+08:00",
+    "tag": "c6cd7a1fdeae2f59",
+    "group": "reminders",
+    "historyAfterClickCount": 1,
+    "historyStillContainsExactTag": true
+  },
+  "trustedState": {
+    "reminderState": "DISPLAY_OBSERVED",
+    "latestMemberGroupId": "ae99f9636a8a860879740f5cf6d1ed1dbb0a804f5bbce3120c0ead335116851b",
+    "expectedActivationIdentity": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:9",
+    "expectedActivationPresent": false,
+    "priorActivationIdentities": [
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:4",
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:6",
+      "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:8"
+    ]
+  },
+  "shellRegistration": {
+    "shortcutSha256": "A2944943436BC9913C0CAD1233AD553F2DBDD58B535A9DDFBB65F4EA9D188588",
+    "targetExactInstalledExecutable": true,
+    "arguments": "",
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "toastActivatorClsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}",
+    "localServer32": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "localServerReferencesExactExecutable": true
+  },
+  "diagnostics": {
+    "applicationErrorOrWerEventsMatchingMashiroExeSince1305": 0,
+    "systemOrApplicationDcomEventsMatchingExactClsidSince1345": 0,
+    "appOwnedCandidateLogFilesModifiedAfterClick": 0,
+    "appOwnedLogContentsRead": false,
+    "unrelatedEventMessagesSaved": false
+  },
+  "firstBadState": "The user physically clicked the exact v9 notification, but no v9 activation identity was recorded and no Mashiro process/window remained. The click did not reach the trusted reminder activation handler.",
+  "processHistoryBoundary": "No process-creation audit was available. Zero live processes, no matching crash/WER/DCOM event, and no Mashiro-owned log metadata change provide no evidence of a short-lived launch, but do not conclusively prove that no short-lived process ever started.",
+  "actionsNotTaken": [
+    "No COM activation for v9.",
+    "No taskbar or Notification Center automation.",
+    "No Mashiro launch, exit, registry write, Provider call, or notification mutation during diagnosis.",
+    "No unrelated application log or notification body was saved."
+  ],
+  "sources": [
+    {
+      "path": "delivery-014-release-v6-user-cold-click-ready-01.json",
+      "bytes": 2141,
+      "sha256": "6359B68B3B21A793201352497FCAA8F1B53FF5640C42E7BC3D935F5972D8C797"
+    },
+    {
+      "path": "delivery-014-release-v6-notification-history-v9-after-user-click.json",
+      "bytes": 374,
+      "sha256": "102D0383008CE38BB57C989C2545CF2EEC0A693DC63FC6C27AB9F38EB42FC969"
+    },
+    {
+      "path": "delivery-014-release-v6-notification-history-v9-after-user-click.stderr.txt",
+      "bytes": 0,
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "delivery-014-release-v6-shortcut-after-user-click-01.json",
+      "bytes": 850,
+      "sha256": "BCA51639469D79FB9067A299257CFB90F171C9ABFF25DB6150BD239E799AEA6E"
+    },
+    {
+      "path": "delivery-014-release-v6-reminder-v9-user-click-db-01.json",
+      "bytes": 2830,
+      "sha256": "E59D6DFB9022137BC067B16A58C73F3C97141DC6F314506D281AF406F2CF2413"
+    },
+    {
+      "path": "delivery-014-release-v6-user-click-event-metadata-01.json",
+      "bytes": 232,
+      "sha256": "54D16D530593A4839EABB6168B8D88DD38BCE086BB48D092F4A0545EC0225E59"
+    },
+    {
+      "path": "delivery-014-release-v6-user-click-dcom-event-metadata-01.json",
+      "bytes": 315,
+      "sha256": "15383651258F7E1431059685DE2AD2B40D5F4CBB04DC1219D8C17A9BDCF8FA92"
+    },
+    {
+      "path": "delivery-014-release-v6-user-click-app-log-metadata-01.json",
+      "bytes": 1125,
+      "sha256": "48B9667B52B7F0578FFE05B7D7B65B1BB4980FAE7A83CE2CC87EB7F4E965624D"
+    }
+  ]
+}

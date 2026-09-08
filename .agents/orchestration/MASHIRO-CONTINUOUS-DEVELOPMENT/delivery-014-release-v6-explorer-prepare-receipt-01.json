@@ -1,0 +1,20 @@
+{
+  "observedAt": "2026-09-08T14:40:13.9935487+08:00",
+  "wrapperProcessId": 51432,
+  "parentProcessId": 8252,
+  "shellProcessId": 8252,
+  "parentIsShellProcess": true,
+  "probeExitCode": 1,
+  "caughtErrorType": "System.Management.Automation.ItemNotFoundException",
+  "probeMode": null,
+  "probeExecuteRequested": null,
+  "probeCurrentProcessId": null,
+  "probeParentProcessId": null,
+  "probeParentIsShellProcess": null,
+  "probeResult": null,
+  "stdoutPath": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-release-v6-explorer-prepare-01.stdout.json",
+  "stdoutSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+  "stderrPath": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-release-v6-explorer-prepare-01.stderr.txt",
+  "stderrSha256": "07B184854BC344DECEEF9367A2DFAB50855FA8C9B8EC2893E2D1AC013051C506",
+  "comInvoked": false
+}

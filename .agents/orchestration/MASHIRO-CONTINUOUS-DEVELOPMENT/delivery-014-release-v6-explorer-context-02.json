@@ -1,0 +1,31 @@
+{
+  "observedAt": "2026-09-08T14:44:38.1433693+08:00",
+  "wrapperPath": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-release-v6-explorer-context-wrapper.ps1",
+  "current": {
+    "processId": 34624,
+    "shellProcessId": 8252,
+    "is64Bit": true,
+    "packageStatus": 15700,
+    "packageName": null,
+    "elevated": false,
+    "elevationType": 3,
+    "integrityRid": 8192
+  },
+  "parentProcessId": 8252,
+  "parentProcessName": "explorer.exe",
+  "parentIsShellProcess": true,
+  "sameUserSid": true,
+  "sidValuesSaved": false,
+  "userProfileMatchesExpected": true,
+  "hkcu64": {
+    "exists": false,
+    "errorType": "System.Management.Automation.ItemNotFoundException"
+  },
+  "hkcr64": {
+    "exists": false,
+    "errorType": "System.Management.Automation.ItemNotFoundException"
+  },
+  "comInvoked": false,
+  "probeInvoked": false,
+  "registryWrites": false
+}

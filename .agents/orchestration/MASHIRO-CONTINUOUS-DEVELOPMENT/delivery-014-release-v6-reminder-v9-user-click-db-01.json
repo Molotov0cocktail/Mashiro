@@ -1,0 +1,77 @@
+{
+  "scope": "release-v6 synthetic reminder version-9 state after user physical click failure",
+  "observedAt": "2026-09-08T05:51:21.207Z",
+  "scene": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp",
+  "install": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本",
+  "data": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+  "dataSetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "schemaVersion": 19,
+  "integrity": [
+    "ok"
+  ],
+  "foreignKeyViolations": 0,
+  "reminder": {
+    "id": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+    "version": 9,
+    "state": "DISPLAY_OBSERVED",
+    "dueAt": "2026-09-08T13:07:00+08:00",
+    "recordJsonSha256": "86BA87A2EBC40AD73A434659DE297A0D736E63E019229E8BA4A3759B5D7A7150"
+  },
+  "notificationMembers": [
+    {
+      "groupId": "10fa717e41952d07384a96b73f4c28d97cd5f6ba25d0790a615cf2158788886d",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 1
+    },
+    {
+      "groupId": "874912e2c89865d43229625ae824d65461cbf448d2b3aa63e75b3c2639b61eeb",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 2
+    },
+    {
+      "groupId": "8194dcda2191e2cd8a3be41407b9eb522f3e50906c41573d52fe3aa13eababe0",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 3
+    },
+    {
+      "groupId": "57be1aa92b5d659b43db7f4517dce92199f8374a989811a9d6da2248b84f8bb7",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 4
+    },
+    {
+      "groupId": "77e3287eeebc4af42e1835c44b8f82eff9b070461ea8b2b6636abe4319d6a56c",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 5
+    },
+    {
+      "groupId": "e900f87111086b4f9baead5d8d35f1b6a7a80ab05b5c31876c771eab6ef7f620",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 6
+    },
+    {
+      "groupId": "bb94790a82178a390dcd52a9a6f95f1c98b55a6584362d502551aaad169da183",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 7
+    },
+    {
+      "groupId": "ff2adc16ceedb891ea9077a831ebc510b0eff2df639bcd4da4b2df9e38ede0c8",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 8
+    },
+    {
+      "groupId": "ae99f9636a8a860879740f5cf6d1ed1dbb0a804f5bbce3120c0ead335116851b",
+      "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+      "version": 9
+    }
+  ],
+  "activations": [
+    "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:4",
+    "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:6",
+    "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:8"
+  ],
+  "expectedCurrentActivationIdentity": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6:9",
+  "currentActivationPresent": false,
+  "providerCalls": 0,
+  "recordBodySaved": false
+}

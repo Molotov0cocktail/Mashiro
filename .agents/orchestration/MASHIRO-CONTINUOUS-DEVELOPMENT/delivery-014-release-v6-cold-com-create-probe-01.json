@@ -1,0 +1,62 @@
+{
+  "scope": "single authorized release-v6 cold CoCreateInstance-only diagnosis",
+  "verdict": "COM_CREATE_FAILED_CLASS_NOT_REGISTERED",
+  "script": {
+    "path": "delivery-014-release-v6-cold-com-create-probe.ps1",
+    "sha256": "D9BA2AAB1C85173549C8BB0E6B7AA38B171280713C1B4036897DC95FF8CD9366"
+  },
+  "execution": {
+    "observedAt": "2026-09-08T14:07:50.4034229+08:00",
+    "hostBitness": 64,
+    "hostPackageIdentityStatus": 15700,
+    "hostPackageFullName": null,
+    "initialExactProcessIds": [],
+    "exitCode": 1,
+    "completed": true,
+    "timedOut": false,
+    "elapsedMilliseconds": 8,
+    "outcome": "FAILED",
+    "coInitializeHresultHex": "0x00000001",
+    "coCreateHresultHex": "0x80040154",
+    "errorType": null
+  },
+  "identity": {
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "clsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}",
+    "iid": "{53E31837-6600-4A81-9395-75CFFE746F94}",
+    "clsctx": "CLSCTX_LOCAL_SERVER",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+    "shortcutSha256": "A2944943436BC9913C0CAD1233AD553F2DBDD58B535A9DDFBB65F4EA9D188588",
+    "exactShortcutTarget": true,
+    "exactLocalServerRegistration": true
+  },
+  "processObservation": {
+    "sampleIntervalMilliseconds": 75,
+    "sampleCount": 1,
+    "identityReadErrors": 0,
+    "allObservedProcessIds": [],
+    "postProbeObservedAtUtc": "2026-09-08T06:08:48.2102345Z",
+    "postProbeExactProcessCount": 0
+  },
+  "boundaries": {
+    "activateInvoked": false,
+    "automaticRetry": false,
+    "applicationCloseRequested": false,
+    "underlyingCallCancellationProven": false,
+    "registryWritesDirectlyPerformedByProbe": false,
+    "physicalClickEvidence": false,
+    "sampling": "Only the exact installed executable was sampled; a process shorter than the 75 ms interval or an unreadable process identity may have been missed."
+  },
+  "rawEvidence": [
+    {
+      "path": "delivery-014-release-v6-cold-com-create-probe-01.stdout.json",
+      "bytes": 2348,
+      "sha256": "B50AA63CB213FB29B989693E22988B0B51B93EEAD4CB1433B41D876D18E81E45"
+    },
+    {
+      "path": "delivery-014-release-v6-cold-com-create-probe-01.stderr.txt",
+      "bytes": 298,
+      "sha256": "11291707054B56E654BFAF2A0B866296620B4D6155F304E02051D6D643AD2D1D"
+    }
+  ]
+}

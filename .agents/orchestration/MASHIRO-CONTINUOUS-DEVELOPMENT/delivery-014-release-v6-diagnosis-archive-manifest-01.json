@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-08T15:09:26.5940412+08:00",
+  "purpose": "Exact archival allowlist for the release-v6 v9 physical-click failure through the ordinary Explorer registration-context diagnosis.",
+  "status": "ARCHIVE_ALLOWLIST_ONLY",
+  "linkedDiagnosis": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-click-diagnosis.md",
+  "boundaries": [
+    "The v9 physical notification click remains a real failure; no successful trusted v9 activation was recorded.",
+    "The cold CoCreateInstance result remains REGDB_E_CLASSNOTREG; the receipt-less class-factory launch remains UNKNOWN and is not a COM result.",
+    "Explorer startup restored ordinary-context registration visibility, but this does not prove a physical notification click.",
+    "No v10, Run, UI capture, product, global progress, registry mutation, or unfinished evidence is included.",
+    "This manifest is an archival allowlist and is not a competing progress or acceptance record."
+  ],
+  "contentReview": {
+    "selectedFileCount": 38,
+    "missingFileCount": 0,
+    "highConfidenceSecretPatternMatchCount": 0,
+    "excludedV10RunUiFileCount": 0,
+    "diagnosisLinkedLocalFilesSelected": "6/6",
+    "review": "Selected text was limited to synthetic test identifiers and authorized repository, helper-runtime, shortcut, and isolated installation paths; no credentials, personal message bodies, or unrelated application data were found."
+  },
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-click-diagnosis.md",
+      "sha256": "5B2A08B65C62274F286040B722F2E1740E948CE19B83C8CD8339140DD7594CFE",
+      "bytes": 15434,
+      "category": "diagnosis",
+      "role": "independent bounded diagnosis and current conclusion"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-failure-01.md",
+      "sha256": "FCAD91C180683F281D642C671EBAFBC93A1795560D4B327564D937ACFB465214",
+      "bytes": 1909,
+      "category": "physical-click-failure",
+      "role": "initial user-observed failure record"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-observed-01.json",
+      "sha256": "9448E215F94F724ED89DEC839C1CC38289FF732403968EE8CE576C7D01296E92",
+      "bytes": 4944,
+      "category": "physical-click-failure",
+      "role": "sanitized aggregate with source hashes"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-cold-click-ready-01.json",
+      "sha256": "6359B68B3B21A793201352497FCAA8F1B53FF5640C42E7BC3D935F5972D8C797",
+      "bytes": 2141,
+      "category": "physical-click-failure",
+      "role": "cold-click precondition receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v9-after-user-click.json",
+      "sha256": "102D0383008CE38BB57C989C2545CF2EEC0A693DC63FC6C27AB9F38EB42FC969",
+      "bytes": 374,
+      "category": "physical-click-failure",
+      "role": "post-click notification-history receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v9-after-user-click.stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "bytes": 0,
+      "category": "physical-click-failure",
+      "role": "post-click notification-history stderr"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-shortcut-after-user-click-01.json",
+      "sha256": "BCA51639469D79FB9067A299257CFB90F171C9ABFF25DB6150BD239E799AEA6E",
+      "bytes": 850,
+      "category": "physical-click-failure",
+      "role": "post-click shortcut and registration receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-reminder-v9-user-click-db-01.json",
+      "sha256": "E59D6DFB9022137BC067B16A58C73F3C97141DC6F314506D281AF406F2CF2413",
+      "bytes": 2830,
+      "category": "physical-click-failure",
+      "role": "post-click trusted-state snapshot"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-event-metadata-01.json",
+      "sha256": "54D16D530593A4839EABB6168B8D88DD38BCE086BB48D092F4A0545EC0225E59",
+      "bytes": 232,
+      "category": "physical-click-failure",
+      "role": "bounded event metadata result"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-dcom-event-metadata-01.json",
+      "sha256": "15383651258F7E1431059685DE2AD2B40D5F4CBB04DC1219D8C17A9BDCF8FA92",
+      "bytes": 315,
+      "category": "physical-click-failure",
+      "role": "bounded DCOM metadata result"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-app-log-metadata-01.json",
+      "sha256": "48B9667B52B7F0578FFE05B7D7B65B1BB4980FAE7A83CE2CC87EB7F4E965624D",
+      "bytes": 1125,
+      "category": "physical-click-failure",
+      "role": "bounded application-log metadata result"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-reminder-v9-user-click-db-01.mjs",
+      "sha256": "B1809E8278C7D5F2587237FFCB7C9D692BD179CCD622E890A2622AFEC5492927",
+      "bytes": 3979,
+      "category": "evidence-helper",
+      "role": "bounded trusted-state snapshot helper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-read.ps1",
+      "sha256": "B4E451B2DC9D9192BE8E27247A390337D8E3E5ADBEC5C4975683618FAE05CC2B",
+      "bytes": 659,
+      "category": "evidence-helper",
+      "role": "bounded notification-history reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-shortcut-metadata.ps1",
+      "sha256": "3C68BA528E56BD7E43B7DB83E0A7E57E00E3C1BA307622150D031024BAB55496",
+      "bytes": 4721,
+      "category": "evidence-helper",
+      "role": "fixed shortcut and LocalServer metadata reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-normal-exit-v9-01.json",
+      "sha256": "820280A131C431141C59D2C26B9F4053D1018D9407ED8DBCC354BF5319CF26B4",
+      "bytes": 717,
+      "category": "physical-click-failure",
+      "role": "normal-exit receipt preceding cold click"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-normal-exit.ps1",
+      "sha256": "738AA6A78226C1362A8D296B32DBE604B3E2624272461790A2DC1721CAB9FA1A",
+      "bytes": 5319,
+      "category": "evidence-helper",
+      "role": "bounded normal-exit helper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-shortcut-after-exit-01.json",
+      "sha256": "9C2C7A6E7CA63AAEE6CC0BC8DFBF054E5223059CEB7CC39EB57AED66CE1D3E60",
+      "bytes": 850,
+      "category": "physical-click-failure",
+      "role": "post-exit shortcut and registration receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v9-after-exit.json",
+      "sha256": "102D0383008CE38BB57C989C2545CF2EEC0A693DC63FC6C27AB9F38EB42FC969",
+      "bytes": 374,
+      "category": "physical-click-failure",
+      "role": "post-exit notification-history receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v9-after-exit.stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "bytes": 0,
+      "category": "physical-click-failure",
+      "role": "post-exit notification-history stderr"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-com-create-probe.ps1",
+      "sha256": "D9BA2AAB1C85173549C8BB0E6B7AA38B171280713C1B4036897DC95FF8CD9366",
+      "bytes": 16043,
+      "category": "cold-com",
+      "role": "frozen CoCreateInstance-only probe"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-com-create-probe-01.stdout.json",
+      "sha256": "B50AA63CB213FB29B989693E22988B0B51B93EEAD4CB1433B41D876D18E81E45",
+      "bytes": 2348,
+      "category": "cold-com",
+      "role": "raw failed CoCreateInstance receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-com-create-probe-01.stderr.txt",
+      "sha256": "11291707054B56E654BFAF2A0B866296620B4D6155F304E02051D6D643AD2D1D",
+      "bytes": 298,
+      "category": "cold-com",
+      "role": "real failed CoCreateInstance stderr"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-com-create-probe-01.json",
+      "sha256": "AFFF806B681CF586085CA3A71ED9B1673594CBEEDEC89AA8D1B735A6A5D260D9",
+      "bytes": 2365,
+      "category": "cold-com",
+      "role": "sanitized CoCreateInstance failure aggregate"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-com-registry-matrix-01.json",
+      "sha256": "09CE99E318411105B6B316A28F0F4A8CE4B92FE7D786E9DEADD508C04C960B53",
+      "bytes": 2366,
+      "category": "cold-com",
+      "role": "exact CLSID registry-view matrix"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-com-token-context-03.json",
+      "sha256": "A30049624E2606CA3F0829FF303B4980FEC6594060372A6FC5F3061647594E74",
+      "bytes": 705,
+      "category": "cold-com",
+      "role": "helper and Explorer token comparison"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-class-factory-probe.ps1",
+      "sha256": "77108C92991891CDAFA76911196A647BA15643363AB12B56DAE3424BD7D49247",
+      "bytes": 25946,
+      "category": "cold-class-factory",
+      "role": "frozen CoGetClassObject-only probe"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-cold-class-factory-explorer-launch-attempt-01.json",
+      "sha256": "C804D6BE8ADA64C8BF4FC3B9FADD3746B8BA12C293B17160FA41F929E3EAB13A",
+      "bytes": 2059,
+      "category": "cold-class-factory",
+      "role": "receipt-less Explorer launch attempt record"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-prepare-wrapper.ps1",
+      "sha256": "CB2086F32727A98E97E9C8F0B3FD27F3B58457508D9B702E2C60FF4A081A5EAB",
+      "bytes": 3645,
+      "category": "explorer-prepare",
+      "role": "fixed Explorer PREPARE wrapper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-prepare-launch-01.json",
+      "sha256": "910225011D67BF2BA750085AD4EF8B5E4E1F5698A476907EF14F09F23B8B6D7E",
+      "bytes": 633,
+      "category": "explorer-prepare",
+      "role": "Explorer PREPARE launch receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-prepare-started-01.json",
+      "sha256": "B40EC9E76D0C0E816388EC106E28E9B3B00614917A6C2DAB258F1C530AFE5F31",
+      "bytes": 460,
+      "category": "explorer-prepare",
+      "role": "same-process Explorer child start receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-prepare-receipt-01.json",
+      "sha256": "03ED041229D339716B88E8FA1EEC96FA5E35B7C5A5EFA0C952C17AA9E2784E35",
+      "bytes": 947,
+      "category": "explorer-prepare",
+      "role": "failed PREPARE aggregate receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-prepare-01.stdout.json",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "bytes": 0,
+      "category": "explorer-prepare",
+      "role": "empty PREPARE stdout retained as evidence"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-prepare-01.stderr.txt",
+      "sha256": "07B184854BC344DECEEF9367A2DFAB50855FA8C9B8EC2893E2D1AC013051C506",
+      "bytes": 460,
+      "category": "explorer-prepare",
+      "role": "real PREPARE failure stderr"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-context-wrapper.ps1",
+      "sha256": "A4D7E165F7471CAE556360FB2B4F7FB324242193F4BB65B33F73F9B9427E9FD3",
+      "bytes": 5641,
+      "category": "explorer-context",
+      "role": "fixed same-process context reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-context-02.json",
+      "sha256": "7B84E072942745B4E38B181ED7A0E3FB6617896C2445355045E2813EC64B3C7F",
+      "bytes": 927,
+      "category": "explorer-context",
+      "role": "pre-launch ordinary Explorer context receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-app-launch-01.json",
+      "sha256": "E11104DC7D567892F15F15F92CC1D8F913A7A3453D8E7E57A4A20122FAD39B35",
+      "bytes": 1796,
+      "category": "explorer-app-launch",
+      "role": "unchanged installed application launch receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-shortcut-wrapper.ps1",
+      "sha256": "7651BF195ABC0B573799C7A9A7F3623FB019EAB19230C821E8A7936B68EA9960",
+      "bytes": 1982,
+      "category": "explorer-shortcut",
+      "role": "fixed post-launch shortcut wrapper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-shortcut-after-app-launch-01.json",
+      "sha256": "E537F3F325BF70F793372B1F935E798CD28263E562783F9FCE5763B0682A2897",
+      "bytes": 1224,
+      "category": "explorer-shortcut",
+      "role": "post-launch ordinary-context registration receipt"
+    }
+  ]
+}

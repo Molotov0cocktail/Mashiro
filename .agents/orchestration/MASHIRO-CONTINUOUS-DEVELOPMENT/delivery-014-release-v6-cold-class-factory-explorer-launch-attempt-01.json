@@ -1,0 +1,36 @@
+{
+  "scope": "single authorized Explorer ShellExecute attempt for release-v6 CoGetClassObject-only probe",
+  "verdict": "NO_RECEIPT_LAUNCH_OR_ARGUMENT_DELIVERY_NOT_PROVEN",
+  "probe": {
+    "path": "delivery-014-release-v6-cold-class-factory-probe.ps1",
+    "sha256": "77108C92991891CDAFA76911196A647BA15643363AB12B56DAE3424BD7D49247",
+    "dependencyPath": "delivery-014-release-v6-cold-com-create-probe.ps1",
+    "dependencySha256": "D9BA2AAB1C85173549C8BB0E6B7AA38B171280713C1B4036897DC95FF8CD9366"
+  },
+  "launch": {
+    "route": "SWC_DESKTOP FindWindowSW -> desktop.Document.Application.ShellExecute",
+    "executable": "C:\\Users\\30910\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "arguments": "-NoProfile -ExecutionPolicy Bypass -File \"D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-release-v6-cold-class-factory-probe.ps1\" -Execute -OutputPath \"D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-release-v6-cold-class-factory-probe-01.json\"",
+    "workingDirectory": "D:\\Mashiro",
+    "show": 0,
+    "desktopShellProcessNameGuardPassed": true,
+    "launchTimeUtc": "NOT_RECORDED",
+    "automaticRetry": false
+  },
+  "observation": {
+    "observedAtUtc": "2026-09-08T06:35:05.3588885Z",
+    "boundedWaitMilliseconds": "MORE_THAN_40000",
+    "receiptExists": false,
+    "matchingProbePwshProcessCount": 0,
+    "exactMashiroProcessCount": 0,
+    "classFactoryHresult": "NOT_OBSERVED",
+    "comInvocationByProbe": "NOT_PROVEN"
+  },
+  "outerWrapperLimitation": "The one-off caller contained StartStart-Sleep only in the post-receipt stabilization branch. Because no receipt ever existed, that typo did not cause the missing launch receipt, but it means the caller itself is not reusable and must not be rerun.",
+  "actionsNotTaken": [
+    "No automatic retry.",
+    "No direct app launch.",
+    "No CreateInstance or Activate by the owner.",
+    "No registry write or process termination."
+  ]
+}

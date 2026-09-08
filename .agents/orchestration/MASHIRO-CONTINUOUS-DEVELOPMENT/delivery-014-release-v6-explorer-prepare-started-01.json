@@ -1,0 +1,11 @@
+{
+  "observedAt": "2026-09-08T14:40:12.4150975+08:00",
+  "wrapperProcessId": 51432,
+  "parentProcessId": 8252,
+  "shellProcessId": 8252,
+  "parentProcessName": "explorer",
+  "parentIsShellProcess": true,
+  "probePath": "D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-release-v6-cold-class-factory-probe.ps1",
+  "probeSha256": "77108C92991891CDAFA76911196A647BA15643363AB12B56DAE3424BD7D49247",
+  "execute": false
+}

@@ -1,0 +1,49 @@
+{
+  "scope": "release-v6 exact installed app launch by actual desktop Explorer",
+  "requestedAt": "2026-09-08T14:46:07.7156129+08:00",
+  "observedAt": "2026-09-08T14:46:13.1354618+08:00",
+  "route": "SWC_DESKTOP -> Document.Application.ShellExecute",
+  "desktopHandle": 66000,
+  "shellProcessId": 8252,
+  "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+  "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+  "arguments": "",
+  "workingDirectory": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本",
+  "show": 1,
+  "beforeExactProcessCount": 0,
+  "mainProcess": {
+    "processId": 58276,
+    "windowHandle": 70968,
+    "windowTitle": "Mashiro",
+    "parentProcessId": 8252,
+    "directParentIsShell": true
+  },
+  "exactProcesses": [
+    {
+      "processId": 58276,
+      "parentProcessId": 8252,
+      "commandLineSha256": "66B5DB37E995541B58A01F8307BC9B0B856CE97D55D0CD788D96AF6EFAECE463",
+      "isDirectShellChild": true
+    },
+    {
+      "processId": 58112,
+      "parentProcessId": 58276,
+      "commandLineSha256": "8C44485DEFA1A00D9ECCEF6C1D0067D3A503D575A3FF55EE4FFBB124DB58D1D3",
+      "isDirectShellChild": false
+    },
+    {
+      "processId": 54592,
+      "parentProcessId": 58276,
+      "commandLineSha256": "C9467F9CE29D45337E9F91BAED206971202894D7C8B3734DC53E807A5311CA35",
+      "isDirectShellChild": false
+    },
+    {
+      "processId": 57856,
+      "parentProcessId": 58276,
+      "commandLineSha256": "F2AB45E6E8FF66B4EED39004D9D11E37598FE0448B3535B420CB534092453D95",
+      "isDirectShellChild": false
+    }
+  ],
+  "registryWritesByLauncher": false,
+  "comInvokedByLauncher": false
+}

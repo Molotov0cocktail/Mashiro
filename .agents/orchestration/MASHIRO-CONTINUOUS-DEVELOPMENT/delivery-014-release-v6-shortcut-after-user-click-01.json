@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-09-08T13:52:14.3305460+08:00",
+  "shortcut": {
+    "path": "C:\\Users\\30910\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Mashiro.lnk",
+    "sha256": "A2944943436BC9913C0CAD1233AD553F2DBDD58B535A9DDFBB65F4EA9D188588",
+    "target": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "arguments": "",
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "toastActivatorClsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}"
+  },
+  "registration": {
+    "scope": "current-user",
+    "path": "Software\\Classes\\CLSID\\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\\LocalServer32",
+    "value": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "referencesCurrentExecutable": true
+  }
+}

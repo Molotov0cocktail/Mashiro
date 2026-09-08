@@ -1,0 +1,7 @@
+Get-ItemPropertyValue: D:\Mashiro\.agents\orchestration\MASHIRO-CONTINUOUS-DEVELOPMENT\delivery-014-release-v6-shortcut-metadata.ps1:116
+Line |
+ 116 |  … calServer = Get-ItemPropertyValue -LiteralPath $serverKey -Name '(def …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Cannot find path 'HKCU:\Software\Classes\CLSID\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\LocalServer32' because it
+     | does not exist.
+

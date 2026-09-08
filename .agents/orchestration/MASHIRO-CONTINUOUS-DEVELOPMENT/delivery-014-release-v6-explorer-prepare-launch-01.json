@@ -1,0 +1,12 @@
+{
+  "observedAt": "2026-09-08T14:40:08.4763054+08:00",
+  "route": "SWC_DESKTOP -> Document.Application.ShellExecute",
+  "desktopHandle": 66000,
+  "shellProcessId": 8252,
+  "executable": "C:\\Users\\30910\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+  "arguments": "-NoProfile -File \"D:\\Mashiro\\.agents\\orchestration\\MASHIRO-CONTINUOUS-DEVELOPMENT\\delivery-014-release-v6-explorer-prepare-wrapper.ps1\"",
+  "workingDirectory": "D:\\Mashiro",
+  "show": 0,
+  "wrapperSha256": "CB2086F32727A98E97E9C8F0B3FD27F3B58457508D9B702E2C60FF4A081A5EAB",
+  "executeProbe": false
+}

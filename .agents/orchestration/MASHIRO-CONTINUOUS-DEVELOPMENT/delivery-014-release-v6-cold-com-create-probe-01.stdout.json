@@ -1,0 +1,67 @@
+{
+  "observedAt": "2026-09-08T14:07:50.4034229+08:00",
+  "mode": "COLD_COM_CREATE_ONLY",
+  "operation": "CoCreateInstance only",
+  "identity": {
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "clsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}",
+    "iid": "{53E31837-6600-4A81-9395-75CFFE746F94}",
+    "clsctx": "CLSCTX_LOCAL_SERVER",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+    "shortcutSha256": "A2944943436BC9913C0CAD1233AD553F2DBDD58B535A9DDFBB65F4EA9D188588",
+    "exactShortcutTarget": true,
+    "exactLocalServerRegistration": true
+  },
+  "host": {
+    "bitness": 64,
+    "packageIdentityStatus": 15700,
+    "packageFullName": null
+  },
+  "initialExactExecutableProcessIds": [],
+  "executeRequested": true,
+  "activateInvoked": false,
+  "registryWrites": false,
+  "automaticRetry": false,
+  "applicationCloseRequested": false,
+  "paidProviderCall": false,
+  "observation": {
+    "timeoutMilliseconds": 30000,
+    "elapsedMilliseconds": 8,
+    "completed": true,
+    "timedOut": false,
+    "result": "FAILED",
+    "coInitializeHresult": 1,
+    "coInitializeHresultHex": "0x00000001",
+    "coCreateHresult": -2147221164,
+    "coCreateHresultHex": "0x80040154",
+    "errorType": null,
+    "errorHresult": null,
+    "errorHresultHex": null,
+    "underlyingComCallCancellationProven": false,
+    "processSampling": {
+      "intervalMilliseconds": 75,
+      "sampleCount": 1,
+      "identityReadErrors": 0,
+      "samplerCompleted": true,
+      "firstSample": {
+        "elapsedMilliseconds": 8,
+        "processIds": []
+      },
+      "lastSample": {
+        "elapsedMilliseconds": 8,
+        "processIds": []
+      },
+      "firstNonEmptyObservation": {
+        "elapsedMilliseconds": null,
+        "processIds": []
+      },
+      "lastNonEmptyObservation": {
+        "elapsedMilliseconds": null,
+        "processIds": []
+      },
+      "allObservedProcessIds": [],
+      "boundary": "Only the exact installed executable was sampled; a process shorter than the 75 ms interval or an unreadable process identity may have been missed."
+    }
+  },
+  "boundary": "This helper calls only CoCreateInstance when -Execute is explicit. It never calls Activate and does not simulate or prove a user notification click."
+}

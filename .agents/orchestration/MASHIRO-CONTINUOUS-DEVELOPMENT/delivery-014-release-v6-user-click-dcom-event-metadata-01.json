@@ -1,0 +1,9 @@
+{
+  "scope": "System/Application event metadata matching exact Mashiro toast CLSID only",
+  "startTime": "2026-09-08T13:45:00.0000000+08:00",
+  "toastActivatorClsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}",
+  "matchedCount": 0,
+  "events": [],
+  "messagesSaved": false,
+  "unrelatedEventsSaved": false
+}

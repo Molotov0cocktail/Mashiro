@@ -1,0 +1,78 @@
+{
+  "scope": "exact release-v6 ToastActivator CLSID registry matrix only",
+  "observedAt": "2026-09-08T06:11:01.8851276Z",
+  "clsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}",
+  "host": {
+    "executable": "C:\\Users\\30910\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "is64BitProcess": true,
+    "packageIdentityStatus": 15700,
+    "packageFullName": null,
+    "psEdition": "Core",
+    "psVersion": "7.6.5"
+  },
+  "rows": [
+    {
+      "hive": "HKCU",
+      "view": "Registry64",
+      "path": "Software\\Classes\\CLSID\\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\\LocalServer32",
+      "result": {
+        "exists": true,
+        "value": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+        "valueKind": "String"
+      }
+    },
+    {
+      "hive": "HKCR",
+      "view": "Registry64",
+      "path": "CLSID\\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\\LocalServer32",
+      "result": {
+        "exists": true,
+        "value": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+        "valueKind": "String"
+      }
+    },
+    {
+      "hive": "HKLM",
+      "view": "Registry64",
+      "path": "Software\\Classes\\CLSID\\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\\LocalServer32",
+      "result": {
+        "exists": false,
+        "value": null,
+        "valueKind": null
+      }
+    },
+    {
+      "hive": "HKCU",
+      "view": "Registry32",
+      "path": "Software\\Classes\\CLSID\\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\\LocalServer32",
+      "result": {
+        "exists": false,
+        "value": null,
+        "valueKind": null
+      }
+    },
+    {
+      "hive": "HKCR",
+      "view": "Registry32",
+      "path": "CLSID\\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\\LocalServer32",
+      "result": {
+        "exists": false,
+        "value": null,
+        "valueKind": null
+      }
+    },
+    {
+      "hive": "HKLM",
+      "view": "Registry32",
+      "path": "Software\\Classes\\CLSID\\{145B11B4-27B4-4C65-8585-F689F4C2CBB9}\\LocalServer32",
+      "result": {
+        "exists": false,
+        "value": null,
+        "valueKind": null
+      }
+    }
+  ],
+  "registryWrites": false,
+  "comInvoked": false,
+  "unrelatedKeysEnumerated": false
+}
