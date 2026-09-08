@@ -1,0 +1,13 @@
+{
+    "observedAt":  "2026-09-08T15:08:24.0395022+08:00",
+    "appId":  "io.github.molotov0cocktail.mashiro",
+    "group":  "reminders",
+    "removedTag":  "c6cd7a1fdeae2f59",
+    "retainedTag":  "c15fc141f5c05243",
+    "beforeCount":  2,
+    "afterCount":  1,
+    "removedTagAfterCount":  0,
+    "retainedTagAfterCount":  1,
+    "globalClearInvoked":  false,
+    "unrelatedNotificationContentRead":  false
+}

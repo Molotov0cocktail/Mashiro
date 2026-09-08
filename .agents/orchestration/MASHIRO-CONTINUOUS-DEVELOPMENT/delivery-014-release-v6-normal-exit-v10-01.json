@@ -1,0 +1,21 @@
+{
+  "scope": "release-v6 normal exit before v10 physical cold click",
+  "observedAtUtc": "2026-09-08T07:09:31.9632431Z",
+  "application": {
+    "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "processId": 58276,
+    "windowHandle": 70968,
+    "exactProcessCountAfterExit": 0
+  },
+  "action": {
+    "button": "数据与备份",
+    "menuItem": "退出 Mashiro",
+    "foregroundWindow": 70968,
+    "pointerOwner": 58276,
+    "method": "owned-foreground-pointer-and-same-process-uia-invoke",
+    "result": "INVOKED"
+  },
+  "providerCallsMade": 0,
+  "comActivationInvoked": false,
+  "classFactoryProbeInvokedForV10": false
+}

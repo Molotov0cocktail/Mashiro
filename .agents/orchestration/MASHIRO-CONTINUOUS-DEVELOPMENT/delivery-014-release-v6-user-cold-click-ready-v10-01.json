@@ -1,0 +1,71 @@
+{
+  "scope": "release-v6 v10 physical cold-click readiness after real desktop self-registration",
+  "observedAt": "2026-09-08T15:11:56.8331777+08:00",
+  "application": {
+    "exactInstalledProcessCount": 0,
+    "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7"
+  },
+  "notification": {
+    "appUserModelId": "io.github.molotov0cocktail.mashiro",
+    "reminderId": "70a8cb12-b0e3-42f6-b261-b08e6febcfb6",
+    "version": 10,
+    "itemId": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+    "itemTitle": "E2E_ITEM_waiting",
+    "dueLocal": "2026-09-08T15:05:00+08:00",
+    "state": "DISPLAY_OBSERVED",
+    "tag": "c15fc141f5c05243",
+    "group": "reminders",
+    "historyCountAfterExit": 1,
+    "oldV9TagRemovedExactly": true
+  },
+  "realDesktopRegistration": {
+    "shortcutTargetExact": true,
+    "shortcutAumidExact": true,
+    "toastActivatorClsid": "{145B11B4-27B4-4C65-8585-F689F4C2CBB9}",
+    "localServerExactInstalledExecutable": true,
+    "newRunExactOn": true,
+    "legacyRunStillPresentAndSameScene": true
+  },
+  "physicalClick": "PENDING_USER_ACTION",
+  "v10ComActivationInvoked": false,
+  "v10ClassFactoryProbeInvoked": false,
+  "providerCallsMade": 0,
+  "sources": [
+    {
+      "path": "delivery-014-release-v6-reminder-v10-after-due-db-01.json",
+      "sha256": "5ED216048AC378395EEB5BECA60D47BB763803048C6A8CFB9CC50068A7CB1080",
+      "bytes": 3019
+    },
+    {
+      "path": "delivery-014-release-v6-notification-history-v10-before-exit.json",
+      "sha256": "D901A6EDA69B55C55108AF61D7F338D181F6A459ED34DC34F2E21B7B36CFAC8C",
+      "bytes": 622
+    },
+    {
+      "path": "delivery-014-release-v6-remove-v9-toast-01.json",
+      "sha256": "4C0BB85818BE8245F21DDD97CD2B8A6BDADE96490E6CBE5A9E212DE92E5E97AA",
+      "bytes": 422
+    },
+    {
+      "path": "delivery-014-release-v6-explorer-shortcut-v10-after-exit-01.json",
+      "sha256": "2292714F6BCDF51449C7512DB2BF8B9FCE8FFA3353204C08C553C5757BF0C388",
+      "bytes": 1225
+    },
+    {
+      "path": "delivery-014-release-v6-explorer-run-v10-after-exit-01.json",
+      "sha256": "DE4024FACC550243BFE7B4BA0EA45D5FD55C6D80AC51E0204829C835901C2867",
+      "bytes": 565
+    },
+    {
+      "path": "delivery-014-release-v6-explorer-app-launch-01.json",
+      "sha256": "E11104DC7D567892F15F15F92CC1D8F913A7A3453D8E7E57A4A20122FAD39B35",
+      "bytes": 1796
+    },
+    {
+      "path": "delivery-014-release-v6-explorer-context-02.json",
+      "sha256": "7B84E072942745B4E38B181ED7A0E3FB6617896C2445355045E2813EC64B3C7F",
+      "bytes": 927
+    }
+  ]
+}

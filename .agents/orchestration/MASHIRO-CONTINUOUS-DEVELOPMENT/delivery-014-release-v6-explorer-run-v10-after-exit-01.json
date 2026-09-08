@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-09-08T15:11:56.8331777+08:00",
+  "wrapperProcessId": 61732,
+  "parentProcessId": 8252,
+  "shellProcessId": 8252,
+  "parentProcessName": "explorer",
+  "parentIsShellProcess": true,
+  "is64Bit": true,
+  "newRunName": "io.github.molotov0cocktail.mashiro",
+  "newRunValue": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+  "newRunExact": true,
+  "oldRunName": "Mashiro.Desktop",
+  "oldRunAbsent": false,
+  "registryWrites": false,
+  "comInvoked": false
+}

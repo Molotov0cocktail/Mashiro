@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-08T15:18:43.8419717+08:00",
+  "purpose": "Exact archival allowlist for the frozen release-v6 v10 cold-click readiness scene, normal exit, and current/legacy Run ownership evidence.",
+  "status": "V10_READY_ARCHIVE_ALLOWLIST_ONLY",
+  "readyReceipt": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-cold-click-ready-v10-01.json",
+  "boundaries": [
+    "This manifest freezes the pre-click v10 readiness scene and does not include or interpret any after-click observation.",
+    "The ready receipt states physicalClick PENDING_USER_ACTION; the later user action and its result require separate frozen evidence.",
+    "Current and legacy Run entries are included only as exact-scene ownership observations; the archived helpers do not write the registry.",
+    "No v10 after-click, UI capture, product, global progress, old-key raw, backup, or unfinished file is included.",
+    "This manifest is an archival allowlist and is not a competing progress or acceptance record."
+  ],
+  "contentReview": {
+    "selectedFileCount": 26,
+    "missingFileCount": 0,
+    "highConfidenceSecretPatternMatchCount": 0,
+    "readySourceHashAndSizeVerification": "7/7",
+    "afterClickFileCount": 0,
+    "uiCaptureFileCount": 0,
+    "review": "Selected text contains synthetic reminder identifiers and authorized repository, helper-runtime, shortcut, isolated-installation, and exact Run-scene values; no credentials, personal message bodies, or unrelated application data were found."
+  },
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-cold-click-ready-v10-01.json",
+      "sha256": "6985AE4D5854632F27587EB095C363869519AED30529D6D671A53DFC7A36F536",
+      "bytes": 2737,
+      "category": "ready",
+      "role": "frozen v10 cold-click readiness aggregate"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-reminder-v10-after-due-db-01.json",
+      "sha256": "5ED216048AC378395EEB5BECA60D47BB763803048C6A8CFB9CC50068A7CB1080",
+      "bytes": 3019,
+      "category": "ready-source",
+      "role": "trusted v10 after-due snapshot"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-reminder-v10-after-due-snapshot.mjs",
+      "sha256": "A90358D5387DBE4FB0B9DF85CCA7F2AB2BDBA552F57C56A8A19DEB811D073EB3",
+      "bytes": 3996,
+      "category": "evidence-helper",
+      "role": "bounded trusted-state snapshot helper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v10-before-exit.json",
+      "sha256": "D901A6EDA69B55C55108AF61D7F338D181F6A459ED34DC34F2E21B7B36CFAC8C",
+      "bytes": 622,
+      "category": "ready-source",
+      "role": "v10 notification history before exit"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v10-before-exit.stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "bytes": 0,
+      "category": "ready-source",
+      "role": "v10 pre-exit history stderr"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v10-after-exit.json",
+      "sha256": "59EDA8B494C316A05CF26E99FEE5F2E9B0A4D634831EF8558E36768407482418",
+      "bytes": 374,
+      "category": "ready-support",
+      "role": "v10 notification history after exit"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-v10-after-exit.stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "bytes": 0,
+      "category": "ready-support",
+      "role": "v10 post-exit history stderr"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-notification-history-read.ps1",
+      "sha256": "B4E451B2DC9D9192BE8E27247A390337D8E3E5ADBEC5C4975683618FAE05CC2B",
+      "bytes": 659,
+      "category": "evidence-helper",
+      "role": "bounded notification-history reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-remove-v9-toast-01.json",
+      "sha256": "4C0BB85818BE8245F21DDD97CD2B8A6BDADE96490E6CBE5A9E212DE92E5E97AA",
+      "bytes": 422,
+      "category": "ready-source",
+      "role": "exact prior-v9 notification removal receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-remove-v9-toast-01.stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "bytes": 0,
+      "category": "ready-source",
+      "role": "prior-v9 removal stderr"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-remove-v9-toast.ps1",
+      "sha256": "56FA16BE40A0BC237F8202A70F258C5036044EF00794E55B4EFDD37B0F5D32EB",
+      "bytes": 1441,
+      "category": "evidence-helper",
+      "role": "exact prior-v9 notification removal helper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-shortcut-v10-after-exit-01.json",
+      "sha256": "2292714F6BCDF51449C7512DB2BF8B9FCE8FFA3353204C08C553C5757BF0C388",
+      "bytes": 1225,
+      "category": "ready-source",
+      "role": "post-exit ordinary-context shortcut receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-shortcut-after-exit-wrapper.ps1",
+      "sha256": "7F8C3336A9FC6B926F0C63CB6EABF8899C940F2963DC17E82DEDF6EB9C8B79E9",
+      "bytes": 1982,
+      "category": "evidence-helper",
+      "role": "fixed Explorer shortcut reader wrapper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-shortcut-metadata.ps1",
+      "sha256": "3C68BA528E56BD7E43B7DB83E0A7E57E00E3C1BA307622150D031024BAB55496",
+      "bytes": 4721,
+      "category": "evidence-helper",
+      "role": "fixed shortcut and LocalServer metadata reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-run-v10-after-exit-01.json",
+      "sha256": "DE4024FACC550243BFE7B4BA0EA45D5FD55C6D80AC51E0204829C835901C2867",
+      "bytes": 565,
+      "category": "ready-source",
+      "role": "post-exit current and legacy Run receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-run-after-exit-wrapper.ps1",
+      "sha256": "E2BF0093D52FFC064EBE1F3187A20665CC63658B04F1130F861B782274A45FAC",
+      "bytes": 2258,
+      "category": "evidence-helper",
+      "role": "fixed Explorer post-exit Run reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-app-launch-01.json",
+      "sha256": "E11104DC7D567892F15F15F92CC1D8F913A7A3453D8E7E57A4A20122FAD39B35",
+      "bytes": 1796,
+      "category": "ready-source",
+      "role": "unchanged installed application launch receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-context-02.json",
+      "sha256": "7B84E072942745B4E38B181ED7A0E3FB6617896C2445355045E2813EC64B3C7F",
+      "bytes": 927,
+      "category": "ready-source",
+      "role": "ordinary Explorer context receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-context-wrapper.ps1",
+      "sha256": "A4D7E165F7471CAE556360FB2B4F7FB324242193F4BB65B33F73F9B9427E9FD3",
+      "bytes": 5641,
+      "category": "evidence-helper",
+      "role": "fixed same-process Explorer context reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-normal-exit-v10-01.json",
+      "sha256": "2BD6C1FAADBAA07BDF4FF2A6023ED2E73BBCF6A67E498063881FC2675287EC87",
+      "bytes": 714,
+      "category": "normal-exit",
+      "role": "normal exit preceding physical v10 click"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-normal-exit.ps1",
+      "sha256": "738AA6A78226C1362A8D296B32DBE604B3E2624272461790A2DC1721CAB9FA1A",
+      "bytes": 5319,
+      "category": "evidence-helper",
+      "role": "bounded normal-exit helper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-old-run-01.json",
+      "sha256": "CD137A0068C308ABC05E96376545EDDF58A3A76BE080A4B273E0E151BF6B09CC",
+      "bytes": 650,
+      "category": "run-ownership",
+      "role": "legacy Run value exact-scene ownership receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-old-run-wrapper.ps1",
+      "sha256": "21CFCF1843BA583D50D69B934A507CFBF32B7519FEB50F663BB01C0347BA1F57",
+      "bytes": 2420,
+      "category": "evidence-helper",
+      "role": "fixed legacy Run ownership reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-run-after-login-01.json",
+      "sha256": "0EB30918EE4CAD25CD00CA97EC6D166BAE9276A01E23C3F6D7A62DB7CB6D2C50",
+      "bytes": 565,
+      "category": "run-ownership",
+      "role": "current and legacy Run post-login receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-run-wrapper.ps1",
+      "sha256": "06083909613262BBC001EF7138848B4C29543EC22588EAECF238A40B5F93D4D8",
+      "bytes": 2253,
+      "category": "evidence-helper",
+      "role": "fixed Explorer Run reader"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-confirm-reminder-reschedule.ps1",
+      "sha256": "BADA6E076AD297A73B9B6DFDF72EE677121E2521DF7AA0C2851763E4FF44014A",
+      "bytes": 1915,
+      "category": "evidence-helper",
+      "role": "bounded v10 reminder reschedule helper"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-09-08T15:05:21.2624285+08:00",
+  "wrapperProcessId": 59612,
+  "parentProcessId": 8252,
+  "shellProcessId": 8252,
+  "parentProcessName": "explorer",
+  "parentIsShellProcess": true,
+  "oldRunName": "Mashiro.Desktop",
+  "oldRunValueKind": "String",
+  "oldRunMatchesCurrentInstalledExecutable": true,
+  "oldRunValue": "\"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe\" --mashiro-login",
+  "oldRunValueSha256": "C535CC9728509D567AA4FBEA3AF9BF4FCD58E1B8DECB2BCEA58DDE3CA4B56A8B",
+  "nonCurrentValueSaved": false,
+  "registryWrites": false,
+  "comInvoked": false
+}
