@@ -1,0 +1,132 @@
+{
+  "scope": "read-only internal artifact static review; no executable runs",
+  "files": [
+    {
+      "path": "dist/windows-candidate-release-v6/Mashiro-0.1.0-win-x64-setup.exe",
+      "bytes": 112587804,
+      "sha256": "FABC9B560D27AFE5ECE3C8A62CD33A50E797A506D31B02A7E0E575A4208FB995"
+    },
+    {
+      "path": "dist/windows-candidate-release-v6/win-unpacked/Mashiro.exe",
+      "bytes": 245289984,
+      "sha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7"
+    },
+    {
+      "path": "dist/windows-candidate-release-v6/win-unpacked/resources/app.asar",
+      "bytes": 15514291,
+      "sha256": "7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E"
+    },
+    {
+      "path": "dist/windows-candidate-release-v6/Mashiro-0.1.0-win-x64-setup.exe.blockmap",
+      "bytes": 118868,
+      "sha256": "FDE645EE90E77D598B88525D229B76D3E95EFA74A8CB73FA12A80F55DBDDCA33"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "out/main/index.js",
+      "bytes": 927315,
+      "sha256": "176002B9D221C553F41C479DF27B12E692B34376E0914C58D1AA4F716BA18556"
+    },
+    {
+      "path": "out/preload/index.cjs",
+      "bytes": 12501,
+      "sha256": "6FA45BB4625584B2A471BC8B187793BE84BD7487BBE258F0215D10628726971D"
+    },
+    {
+      "path": "out/renderer/index.html",
+      "bytes": 625,
+      "sha256": "8ABE0E306A1FC8EE683602286FA27E961B6785F67C416E1BC75DB16A7DA7BA95"
+    },
+    {
+      "path": "out/renderer/assets/index-B1DhjySS.css",
+      "bytes": 29308,
+      "sha256": "E0576BDC96DE8B8CD57620237DDA4D778289E5B89D8F3A370C89FA98C10830FC"
+    },
+    {
+      "path": "out/renderer/assets/index-V2pEEo7A.js",
+      "bytes": 1340159,
+      "sha256": "D3C722D337CC388C8A8B2FF150288ACCFF70B993B761F8A7AC8FC7A44C4B9BEE"
+    }
+  ],
+  "notices": [
+    {
+      "component": "react",
+      "file": "react-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "react-dom",
+      "file": "react-dom-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "scheduler",
+      "file": "scheduler-LICENSE.txt",
+      "sha256": "DA6D3703ED11CBE42BD212C725957C98DA23CBFF1998C05FA4B3D976D1A58E93"
+    },
+    {
+      "component": "zod",
+      "file": "zod-LICENSE.txt",
+      "sha256": "3F1189B28E3866E0D979968D466B78F813F76827CFDCA1FBB124CC0A5C8841F8"
+    },
+    {
+      "component": "Electron/Chromium",
+      "file": "../../LICENSE.electron.txt",
+      "sha256": "5154E165BD6C2CC0CFBCD8916498C7ABAB0497923BAFCD5CB07673FE8480087D"
+    },
+    {
+      "component": "Electron/Chromium",
+      "file": "../../LICENSES.chromium.html",
+      "sha256": "F2310820377F4D8F2A5F6BC8744B985D6772CEF9EE7D8D197B01FDB330DB0BB8"
+    }
+  ],
+  "owned": {
+    "count": 79,
+    "actualCount": 79,
+    "generatedSha256": "F4FF2BA9626026AEF22A9756551EA175FCB734539F28440FAA59BA4322E2D049",
+    "generatedExactlyMatchesReviewedIdentityMigration": true
+  },
+  "runtime": [
+    {
+      "name": "react",
+      "version": "19.2.8"
+    },
+    {
+      "name": "react-dom",
+      "version": "19.2.8"
+    },
+    {
+      "name": "scheduler",
+      "version": "0.27.0"
+    },
+    {
+      "name": "zod",
+      "version": "4.5.4"
+    }
+  ],
+  "identity": {
+    "appId": "io.github.molotov0cocktail.mashiro",
+    "nsisGuid": "5555e988-f7b5-5fe3-b6bd-8df3b21f793e",
+    "candidateManifestSha256": "99FC2D11C4B586E978C65E5CCD486E84A86C835B181CD89F672AD806A7B85AEC",
+    "reviewedPaths": 21,
+    "migrationMacroExact": true
+  },
+  "packaged": {
+    "version": "0.1.0",
+    "main": "./out/main/index.js",
+    "dependencies": {
+      "react": "19.2.8",
+      "react-dom": "19.2.8",
+      "zod": "4.5.4"
+    },
+    "roots": [
+      "node_modules",
+      "out",
+      "package.json"
+    ],
+    "sourceCommit": "ea94184e3fb80943d333005d50372dacf1892ea3",
+    "schema19AndColdNavigationAndPolicyStatus": true
+  },
+  "verdict": "STATIC_PASS"
+}

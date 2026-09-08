@@ -1,0 +1,107 @@
+{
+  "scope": "all draft links; only current entry paragraphs for global documents",
+  "checked": 20,
+  "missing": [],
+  "rows": [
+    {
+      "file": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-user-guide-0.1.0-draft.md",
+      "target": "../../../doc/tasks/014-windows-data-and-delivery.md",
+      "exists": true
+    },
+    {
+      "file": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-user-guide-0.1.0-draft.md",
+      "target": "../../../doc/tasks/016-overall-product-acceptance.md",
+      "exists": true
+    },
+    {
+      "file": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-user-guide-0.1.0-draft.md",
+      "target": "release-notes-0.1.0-draft.md",
+      "exists": true
+    },
+    {
+      "file": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/release-notes-0.1.0-draft.md",
+      "target": "release-user-guide-0.1.0-draft.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "program-docs-to-release.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-artifact-review.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-identity-root-integration-final.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-root-integration-v5.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-build-02.raw.txt",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-packaged-hashes.json",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-artifact-review.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/progress.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-native-independent-review.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "progress.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-artifact-review.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-identity-root-integration-final.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/operations-013-root-integration-v5.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-build-02.raw.txt",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-packaged-hashes.json",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-artifact-review.md",
+      "exists": true
+    },
+    {
+      "file": "doc/tasks/program-docs-to-release.md",
+      "target": "../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v5-native-independent-review.md",
+      "exists": true
+    }
+  ]
+}

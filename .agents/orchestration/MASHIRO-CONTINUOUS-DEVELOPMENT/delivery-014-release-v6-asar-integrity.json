@@ -1,0 +1,16 @@
+{
+  "asarHeaderSha256": "4a14eb3bf7bc809481a171690ed8f05ea87d00bae70ea03feada6a6aadac7d79",
+  "entries": [
+    {
+      "file": "resources\\app.asar",
+      "alg": "SHA256",
+      "value": "4a14eb3bf7bc809481a171690ed8f05ea87d00bae70ea03feada6a6aadac7d79"
+    },
+    {
+      "file": "resources\\default_app.asar",
+      "alg": "SHA256",
+      "value": "553d6dd413d71a62ae1e67b1db59bd83fadf16ae529f015415dce85787ea437b"
+    }
+  ],
+  "mainMatches": true
+}
