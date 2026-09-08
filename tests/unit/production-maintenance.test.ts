@@ -116,6 +116,7 @@ it('can restore a compatible snapshot when the current schema is unsupported, pr
   database.close()
   const futureBytes = readFileSync(join(f.source, 'mashiro.sqlite'))
   f.dialogs.showMessageBox
+    .mockResolvedValueOnce({ response: 0 })
     .mockResolvedValueOnce({ response: 2 })
     .mockResolvedValueOnce({ response: 1 })
   f.dialogs.showOpenDialog
@@ -154,4 +155,27 @@ it('native backup produces a complete verified envelope and requests exit withou
   expect(readFileSync(join(f.config, 'location.json'))).toEqual(before)
   await f.session.release()
   await expect(f.session.backup(f.backups, () => {})).rejects.toThrow('PRODUCTION_SESSION_RELEASED')
+})
+
+it('creates a fresh empty data set only after explicit confirmation and preserves the previous data', async () => {
+  const f = await fixture()
+  const sourceIdentity = f.session.dataSetId
+  const sourceBytes = readFileSync(join(f.source, 'mashiro.sqlite'))
+  const plan = await prepareProductionMaintenance({
+    kind: 'create',
+    dialogs: f.dialogs,
+    backupParentDirectory: f.backups
+  })
+  expect(f.dialogs.showMessageBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      detail: expect.stringContaining('不会复制当前助手、历史、记忆、事项、连接、凭据或运行设置')
+    })
+  )
+  expect(await plan!.run(f.session, () => {})).toBe(true)
+  const selected = new ProductionLocationStore(f.config).inspect()
+  expect(selected).toMatchObject({ state: 'READY', locator: { dataPath: f.target } })
+  if (selected.state !== 'READY') throw Error('READY')
+  expect(selected.locator.dataSetId).not.toBe(sourceIdentity)
+  expect(readFileSync(join(f.source, 'mashiro.sqlite'))).toEqual(sourceBytes)
+  expect(existsSync(join(f.target, 'mashiro.sqlite'))).toBe(true)
 })

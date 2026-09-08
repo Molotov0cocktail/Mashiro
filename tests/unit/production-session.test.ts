@@ -16,6 +16,7 @@ import {
 } from '../../src/main/data/production-session.js'
 import { ProductionLocationStore } from '../../src/main/data/production-location.js'
 import { SqliteStore } from '../../src/main/data/sqlite.js'
+import { initializeProductionDataSet } from '../../src/main/data/production-initialize.js'
 
 const roots: string[] = []
 const sessions: ProductionSession[] = []
@@ -154,4 +155,85 @@ it('a different program configuration cannot open the same dataset while an exis
   ).rejects.toThrow('DATA_SET_IN_USE')
   expect(prepare).not.toHaveBeenCalled()
   expect(new ProductionLocationStore(other).inspect().state).toBe('UNCONFIGURED')
+})
+
+it('keeps the old locator and releases a fully initialized target when the final maintenance guard fails', async () => {
+  const f = fixture()
+  const target = join(f.root, 'fresh target')
+  mkdirSync(target)
+  const session = keep(
+    await openProductionSession({
+      configurationDirectory: f.config,
+      choose: async () => ({ action: 'create', directory: f.data }),
+      prepareExisting: async () => {},
+      onOwnershipLost: vi.fn()
+    })
+  )
+  const locatorBefore = readFileSync(f.locator)
+  const databaseBefore = readFileSync(session.databasePath)
+  let guards = 0
+  await expect(
+    session.createEmpty(target, () => {
+      guards += 1
+      if (guards === 2) throw Error('WRITERS_BECAME_ACTIVE')
+    })
+  ).rejects.toThrow('WRITERS_BECAME_ACTIVE')
+  expect(readFileSync(f.locator)).toEqual(locatorBefore)
+  expect(readFileSync(session.databasePath)).toEqual(databaseBefore)
+  expect(existsSync(join(target, '.mashiro-dataset.json'))).toBe(true)
+  expect(existsSync(join(target, 'mashiro.sqlite'))).toBe(true)
+  const lease = await (
+    await import('../../src/main/data/production-lease.js')
+  ).acquireProductionLease(target, vi.fn())
+  await lease.release()
+})
+it('rejects a concurrent maintenance operation and release while selection is preparing', async () => {
+  const f = fixture()
+  const firstTarget = join(f.root, 'first prepared target')
+  const secondTarget = join(f.root, 'second prepared target')
+  const createTarget = async (directory: string) => {
+    mkdirSync(directory)
+    const initialized = await initializeProductionDataSet(
+      directory,
+      (databasePath) => {
+        const store = new SqliteStore(databasePath)
+        store.close()
+      },
+      vi.fn()
+    )
+    await initialized.lease.release()
+  }
+  await createTarget(firstTarget)
+  await createTarget(secondTarget)
+
+  let markEntered!: () => void
+  let continuePreparation!: () => void
+  const entered = new Promise<void>((resolve) => {
+    markEntered = resolve
+  })
+  const paused = new Promise<void>((resolve) => {
+    continuePreparation = resolve
+  })
+  const session = keep(
+    await openProductionSession({
+      configurationDirectory: f.config,
+      choose: async () => ({ action: 'create', directory: f.data }),
+      prepareExisting: async (databasePath) => {
+        if (databasePath === join(firstTarget, 'mashiro.sqlite')) {
+          markEntered()
+          await paused
+        }
+      },
+      onOwnershipLost: vi.fn()
+    })
+  )
+
+  const selecting = session.select(firstTarget, () => {})
+  await entered
+  await expect(session.select(secondTarget, () => {})).rejects.toThrow(
+    'PRODUCTION_MAINTENANCE_IN_PROGRESS'
+  )
+  await expect(session.release()).rejects.toThrow('PRODUCTION_MAINTENANCE_IN_PROGRESS')
+  continuePreparation()
+  await selecting
 })

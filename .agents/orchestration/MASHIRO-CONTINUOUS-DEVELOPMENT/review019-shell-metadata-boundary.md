@@ -1,0 +1,11 @@
+# 019 ordinary-shell metadata evidence review
+
+Limited evidence review, not a startup root-cause or product PASS. Read-only source/receipt checks d95937 and 52909b; no current scene access, application launch, registry write or SQLite open by this reviewer.
+
+Frozen observer `post-release-shell-metadata-probe.ps1` SHA-256 A5B72117085368549587CA94A06653238847A994305E4001FD8BA6E3EA8E87DB uses GetShellWindow's owning PID rather than Explorer MainWindowHandle, verifies direct parent identity, explicitly reads metadata JSON as UTF-8, and writes unique started/result/failure receipts. Observed receipt `post-release-shell-metadata-observed-01.json` SHA-256 566994A796DB28D293D8DF7531C04643CA368E7D8FC71C788F3D537703FB6EFE records process 71984, parent and shell 8252, 64-bit, at 2026-09-08 18:48:25 +08:00.
+
+Supported conclusions: ordinary-shell location.json exists (243 bytes, hash 0855654037482B0FC5C2EA2920D7B0C2767D56818D52382EB49B696576D82FA8), refers to dataset 9f2cf384-daa4-4bb6-819a-33976e479c5a, and its target READY manifest has the same ID. The database file exists and its metadata was read, not its contents. The exact HKCU uninstall GUID test returned false, as did three specified shortcut locations and three specified executable locations. These are bounded current-view observations, not an exhaustive claim that no installation exists anywhere.
+
+Run and StartupApproved getters catch all errors and encode exists=false, so these entries mean no value was successfully read, not proven absence for every failure mode. They cannot authorize deletion. WindowsSandbox.exe's specified System32 path tested absent; this alone is not a complete Windows optional-feature availability diagnosis. A process query that suppresses errors also must not be treated as an audited historical start/stop trace.
+
+Earlier tool-view stale Run/GUID observations do not establish the ordinary desktop's state. This successful shell receipt supersedes that inference, while v1–v3 observer failures remain historical failures. No conclusion about the user's exact startup exception follows merely from the surviving locator or missing known executables. The database metadata last-write time is 18:09:31, after historical acceptance cleanup; do not infer its current contents are disposable synthetic data or exclude later user additions.

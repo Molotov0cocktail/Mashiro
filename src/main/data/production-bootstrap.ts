@@ -5,6 +5,10 @@ import { openProductionSession, type ProductionSession } from './production-sess
 import { chooseProductionData, type ProductionDialogs } from './production-selection.js'
 import { prepareProductionData } from './production-prepare.js'
 import { restoreProductionAtStartup } from './production-startup-restore.js'
+import {
+  acknowledgeProductionDataSelection,
+  isProductionDataSelectionAcknowledged
+} from './production-selection-awareness.js'
 
 interface RuntimeApp {
   getPath(name: 'appData'): string
@@ -15,6 +19,19 @@ export interface ProductionRuntimePaths {
   configurationDirectory: string
   defaultDataDirectory: string
   backupParentDirectory: string
+}
+
+export interface ProductionApplicationDataOptions {
+  paths: ProductionRuntimePaths
+  dialogs: ProductionDialogs
+  onOwnershipLost(error: Error): void
+  assertQuiescent(): void
+}
+
+class ProductionOwnershipLostError extends Error {
+  constructor(readonly original: unknown) {
+    super('PRODUCTION_OWNERSHIP_LOST')
+  }
 }
 
 function childDirectory(parent: string, name: string): string {
@@ -38,16 +55,14 @@ export function prepareProductionRuntimePaths(app: RuntimeApp): ProductionRuntim
   }
 }
 
-/** Invoke after app.whenReady(), before AssistantService or ProviderService opens a writer. */
-export async function openProductionApplicationData(options: {
-  paths: ProductionRuntimePaths
-  dialogs: ProductionDialogs
-  onOwnershipLost(error: Error): void
-  assertQuiescent(): void
-}): Promise<ProductionSession | null> {
+async function openProductionData(
+  options: ProductionApplicationDataOptions,
+  forceSelection = false,
+  restored?: string
+): Promise<ProductionSession | null> {
   let ownershipLost = false
-  const open = (forceSelection = false, restored?: string) =>
-    openProductionSession({
+  try {
+    return await openProductionSession({
       configurationDirectory: options.paths.configurationDirectory,
       forceSelection,
       choose: async (state) =>
@@ -70,34 +85,78 @@ export async function openProductionApplicationData(options: {
           authorizeReplacement
         })
       },
+      async confirmReady(state) {
+        if (
+          isProductionDataSelectionAcknowledged(
+            options.paths.configurationDirectory,
+            state.locator.dataSetId
+          )
+        )
+          return 'continue'
+        const selected = await options.dialogs.showMessageBox({
+          type: 'question',
+          title: '已找到现有 Mashiro 数据',
+          message: '继续使用现有数据，或打开数据管理？',
+          detail:
+            '数据位置：' +
+            state.locator.dataPath +
+            '\n数据集：' +
+            state.locator.dataSetId +
+            '\n程序安装包不包含这里的助手、历史或记忆。选择全新开始会保留现有数据，并在另一个空文件夹创建新数据集。',
+          buttons: ['继续使用现有数据', '数据管理', '退出'],
+          cancelId: 2,
+          defaultId: 0,
+          noLink: true
+        })
+        return selected.response === 0 ? 'continue' : selected.response === 1 ? 'manage' : 'cancel'
+      },
+      acknowledgeSelection(dataSetId, lease) {
+        acknowledgeProductionDataSelection(options.paths.configurationDirectory, dataSetId, lease)
+      },
       onOwnershipLost(error) {
         ownershipLost = true
         options.onOwnershipLost(error)
       }
     })
-  try {
-    return await open()
   } catch (error) {
-    if (ownershipLost) throw error
+    if (ownershipLost) throw new ProductionOwnershipLostError(error)
+    throw error
+  }
+}
+
+export async function recoverProductionApplicationData(
+  options: ProductionApplicationDataOptions,
+  action: 'manage' | 'restore'
+): Promise<ProductionSession | null> {
+  if (action === 'manage') return openProductionData(options, true)
+  const restored = await restoreProductionAtStartup(
+    options.dialogs,
+    options.paths.configurationDirectory
+  )
+  return restored ? openProductionData(options, true, restored) : null
+}
+
+/** Invoke after app.whenReady(), before AssistantService or ProviderService opens a writer. */
+export async function openProductionApplicationData(
+  options: ProductionApplicationDataOptions
+): Promise<ProductionSession | null> {
+  try {
+    return await openProductionData(options)
+  } catch (error) {
+    if (error instanceof ProductionOwnershipLostError) throw error
     const selected = await options.dialogs.showMessageBox({
       type: 'error',
       title: '数据启动准备未完成',
       message: '当前数据未能安全打开。',
       detail:
-        '原数据仍保留。可以退出检查位置，也可以显式重新选择数据或从完整备份还原到新空目录；恢复成功前不更改数据指向。',
-      buttons: ['退出', '重新选择数据', '从完整备份还原'],
+        '原数据仍保留。可以退出检查位置，也可以打开数据管理来选择已有数据或新建空数据集，或者从完整备份还原到新空目录；成功前不更改数据指向。',
+      buttons: ['退出', '数据管理', '从完整备份还原'],
       cancelId: 0,
       defaultId: 0,
       noLink: true
     })
-    if (selected.response === 1) return open(true)
-    if (selected.response === 2) {
-      const restored = await restoreProductionAtStartup(
-        options.dialogs,
-        options.paths.configurationDirectory
-      )
-      if (restored) return open(true, restored)
-    }
+    if (selected.response === 1) return recoverProductionApplicationData(options, 'manage')
+    if (selected.response === 2) return recoverProductionApplicationData(options, 'restore')
     return null
   }
 }

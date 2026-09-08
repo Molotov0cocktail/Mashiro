@@ -1,10 +1,19 @@
 import { app, BrowserWindow, dialog, ipcMain, safeStorage, type IpcMainInvokeEvent } from 'electron'
 import {
   openProductionApplicationData,
-  prepareProductionRuntimePaths
+  prepareProductionRuntimePaths,
+  recoverProductionApplicationData,
+  type ProductionRuntimePaths
 } from './data/production-bootstrap.js'
 import type { ProductionSession } from './data/production-session.js'
 import type { ProductionMaintenance } from './data/production-maintenance.js'
+import {
+  createStartupFailureDiagnostic,
+  persistStartupFailureDiagnostic,
+  startupFailureDetail,
+  type StartupCleanup,
+  type StartupStage
+} from './data/startup-diagnostics.js'
 import { installProductionMenu } from './app/production-menu.js'
 import { initializeWindowsAppIdentity } from './app/windows-app-identity.js'
 import { registerStewardIpc, emitStewardChanged } from './ipc/register-steward-ipc.js'
@@ -32,6 +41,10 @@ import {
 import { registerDailyIpc, emitDailyChanged } from './ipc/register-daily-ipc.js'
 import { registerOperationsIpc, emitOperationsChanged } from './ipc/register-operations-ipc.js'
 let productionSession: ProductionSession | undefined
+let productionPathsForFailure: ProductionRuntimePaths | undefined
+let mainWindow: BrowserWindow | undefined
+let startupStage: StartupStage = 'RUNTIME_PATHS'
+let startupCleanupInProgress = false
 let releasingProduction = false
 let productionOwnershipLost = false
 let plannedMaintenance: ProductionMaintenance | undefined
@@ -51,14 +64,17 @@ let unregisterRetentionIpc: (() => void) | undefined
 let unregisterItemIpc: (() => void) | undefined
 
 async function start(): Promise<void> {
+  startupStage = 'RUNTIME_PATHS'
   initializeWindowsAppIdentity()
   const productionPaths = app.isPackaged ? prepareProductionRuntimePaths(app) : undefined
+  productionPathsForFailure = productionPaths
   let dataRoot: DataRoot | undefined = productionPaths ? undefined : resolveDataRoot(app)
   if (!app.requestSingleInstanceLock()) {
     app.quit()
     return
   }
   await app.whenReady()
+  startupStage = 'SESSION_PREPARE'
   if (productionPaths) {
     const session = await openProductionApplicationData({
       paths: productionPaths,
@@ -88,13 +104,16 @@ async function start(): Promise<void> {
     }
   }
   if (!dataRoot) throw new Error('MASHIRO_DATA_NOT_READY')
+  startupStage = 'ASSISTANT_OPEN'
   assistantService = AssistantService.open(dataRoot.databasePath)
+  startupStage = 'PROVIDER_OPEN'
   providerService = ProviderService.open(
     dataRoot.databasePath,
     dataRoot.credentialDirectory,
     safeStorage,
     dataRoot.profile === 'test' ? e2eProviderTransport : undefined
   )
+  startupStage = 'IPC_REGISTER'
   unregisterAssistantIpc = registerAssistantIpc(ipcMain, assistantService, () =>
     providerService?.cancelArchivedRequests()
   )
@@ -178,10 +197,15 @@ async function start(): Promise<void> {
       for (const window of BrowserWindow.getAllWindows()) window.webContents.send(channel, value)
     }, event)
   )
+  startupStage = 'WINDOW_LOAD'
+  startupCleanupInProgress = true
   const window = await createWindow()
+  mainWindow = window
+  startupCleanupInProgress = false
   if (productionPaths)
     installProductionMenu({
       dataPath: dataRoot.root,
+      dataSetId: productionSession!.dataSetId,
       backupParentDirectory: productionPaths.backupParentDirectory,
       begin(plan) {
         if (releasingProduction || plannedMaintenance) return
@@ -189,6 +213,7 @@ async function start(): Promise<void> {
         app.quit()
       }
     })
+  startupStage = 'REMINDER_START'
   reminderRuntime = startReminderRuntime(
     providerService.reminders,
     window,
@@ -209,6 +234,154 @@ async function start(): Promise<void> {
     dataRoot,
     dataRoot.profile === 'test' ? reminderRuntime.restoreFromTrayForTest : undefined
   )
+}
+
+function unregisterFailedStartupIpc(): boolean {
+  let failed = false
+  const remove = (current: (() => void) | undefined, clear: () => void) => {
+    if (!current) return
+    try {
+      current()
+      clear()
+    } catch {
+      failed = true
+    }
+  }
+  remove(unregisterDailyIpc, () => (unregisterDailyIpc = undefined))
+  remove(unregisterOperationsIpc, () => (unregisterOperationsIpc = undefined))
+  remove(unregisterStewardIpc, () => (unregisterStewardIpc = undefined))
+  remove(unregisterBackgroundIpc, () => (unregisterBackgroundIpc = undefined))
+  remove(unregisterReminderIpc, () => (unregisterReminderIpc = undefined))
+  remove(unregisterItemIpc, () => (unregisterItemIpc = undefined))
+  remove(unregisterRetentionIpc, () => (unregisterRetentionIpc = undefined))
+  remove(unregisterMemoryIpc, () => (unregisterMemoryIpc = undefined))
+  remove(unregisterTimelineIpc, () => (unregisterTimelineIpc = undefined))
+  remove(unregisterProviderIpc, () => (unregisterProviderIpc = undefined))
+  remove(unregisterAssistantIpc, () => (unregisterAssistantIpc = undefined))
+  return failed
+}
+
+function startupCleanupWasIncomplete(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'startupCleanup' in error &&
+    error.startupCleanup === 'FAILED'
+  )
+}
+
+async function cleanupFailedStartup(startupError: unknown): Promise<StartupCleanup> {
+  startupCleanupInProgress = true
+  let failed = startupCleanupWasIncomplete(startupError)
+  reminderRuntime?.setQuitting(true)
+  if (mainWindow)
+    try {
+      mainWindow.destroy()
+      mainWindow = undefined
+    } catch {
+      failed = true
+    }
+  if (unregisterFailedStartupIpc()) failed = true
+  if (reminderRuntime)
+    try {
+      reminderRuntime.stop()
+      reminderRuntime = undefined
+    } catch {
+      failed = true
+    }
+  if (providerService)
+    try {
+      providerService.close()
+      providerService = undefined
+    } catch {
+      failed = true
+    }
+  if (assistantService)
+    try {
+      assistantService.close()
+      assistantService = undefined
+    } catch {
+      failed = true
+    }
+  if (failed || providerService || assistantService || reminderRuntime) return 'FAILED'
+  if (productionSession)
+    try {
+      await productionSession.release()
+      productionSession = undefined
+    } catch {
+      return 'FAILED'
+    }
+  return 'COMPLETE'
+}
+
+async function handleStartupFailure(error: unknown): Promise<void> {
+  const cleanup = await cleanupFailedStartup(error)
+  const diagnostic = createStartupFailureDiagnostic(startupStage, error, cleanup)
+  const persisted = persistStartupFailureDiagnostic(
+    productionPathsForFailure?.configurationDirectory,
+    diagnostic
+  )
+  console.error('MASHIRO_STARTUP_FAILURE', JSON.stringify({ ...diagnostic, persisted }))
+  if (!app.isReady()) {
+    dialog.showErrorBox('Mashiro 启动未完成', startupFailureDetail(diagnostic))
+    process.exitCode = 1
+    app.exit(1)
+    return
+  }
+  if (app.isReady()) {
+    const canRecover =
+      cleanup === 'COMPLETE' && !!productionPathsForFailure && !productionOwnershipLost
+    const selected = await dialog.showMessageBox({
+      type: 'error',
+      title: 'Mashiro 启动未完成',
+      message: canRecover
+        ? '现有数据未被替换。可以退出，或打开数据管理后在新进程中重试。'
+        : '现有数据未被替换，本进程将退出。',
+      detail: startupFailureDetail(diagnostic),
+      buttons: canRecover ? ['退出', '数据管理', '从完整备份还原'] : ['退出'],
+      cancelId: 0,
+      defaultId: 0,
+      noLink: true
+    })
+    if (canRecover && (selected.response === 1 || selected.response === 2)) {
+      try {
+        const session = await recoverProductionApplicationData(
+          {
+            paths: productionPathsForFailure!,
+            dialogs: dialog,
+            onOwnershipLost() {
+              productionOwnershipLost = true
+            },
+            assertQuiescent() {
+              if (assistantService || providerService || reminderRuntime)
+                throw new Error('PRODUCTION_WRITERS_ACTIVE')
+            }
+          },
+          selected.response === 1 ? 'manage' : 'restore'
+        )
+        if (session) {
+          await session.release()
+          app.relaunch()
+          app.exit(0)
+          return
+        }
+      } catch (recoveryError) {
+        const recoveryDiagnostic = createStartupFailureDiagnostic(
+          'SESSION_PREPARE',
+          recoveryError,
+          'NOT_STARTED'
+        )
+        persistStartupFailureDiagnostic(
+          productionPathsForFailure?.configurationDirectory,
+          recoveryDiagnostic
+        )
+        console.error('MASHIRO_STARTUP_RECOVERY_FAILURE', JSON.stringify(recoveryDiagnostic))
+        dialog.showErrorBox('数据恢复未完成', startupFailureDetail(recoveryDiagnostic))
+      }
+    }
+  }
+  process.exitCode = 1
+  app.exit(1)
 }
 
 app.on('before-quit', (event) => {
@@ -291,16 +464,12 @@ app.on('before-quit', (event) => {
 })
 
 app.on('window-all-closed', () => {
-  if (!reminderRuntime) app.quit()
+  if (!reminderRuntime && !startupCleanupInProgress) app.quit()
 })
 
-void start().catch(() => {
-  if (app.isReady())
-    dialog.showErrorBox(
-      'Mashiro 无法启动',
-      '数据位置、完整性或启动条件不满足。现有数据不会被替换为空数据。请检查数据目录和备份后重试。'
-    )
-  console.error('MASHIRO_STARTUP_FAILURE')
-  process.exitCode = 1
-  app.exit(1)
+void start().catch((error) => {
+  void handleStartupFailure(error).catch(() => {
+    console.error('MASHIRO_STARTUP_FAILURE_HANDLER_FAILED')
+    app.exit(1)
+  })
 })

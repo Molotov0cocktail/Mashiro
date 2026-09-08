@@ -1,0 +1,96 @@
+{
+    "schemaVersion":  1,
+    "kind":  "POST_RELEASE_INSTALL_RESIDUAL_EXPLORER_OBSERVATION",
+    "observedAt":  "2026-09-08T18:48:25.4875932+08:00",
+    "processId":  71984,
+    "parentProcessId":  8252,
+    "shellProcessId":  8252,
+    "parentIsShellProcess":  true,
+    "is64BitProcess":  true,
+    "windowsSandboxExecutableExists":  false,
+    "exactMashiroProcesses":  [
+
+                              ],
+    "locator":  {
+                    "exists":  true,
+                    "path":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro\\configuration\\location.json",
+                    "linkType":  null,
+                    "bytes":  243,
+                    "lastWriteTime":  "2026-09-08T05:10:43.6222814+08:00",
+                    "sha256":  "0855654037482B0FC5C2EA2920D7B0C2767D56818D52382EB49B696576D82FA8",
+                    "formatVersion":  1,
+                    "dataSetId":  "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+                    "dataPath":  "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\data",
+                    "revision":  "63512f06-5cfe-4e37-9c1e-36ba29a59816"
+                },
+    "target":  {
+                   "directoryExists":  true,
+                   "manifestExists":  true,
+                   "manifest":  {
+                                    "formatVersion":  1,
+                                    "dataSetId":  "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+                                    "state":  "READY",
+                                    "createdAt":  "2026-09-07T06:36:12.012Z",
+                                    "sha256":  "385C23AB9F29CD8B6C7A033805FBC3F62EBBB7BFF61707D994D3C8AB2EB0BB9F"
+                                },
+                   "databaseExists":  true,
+                   "databaseMetadata":  {
+                                            "bytes":  1490944,
+                                            "lastWriteTime":  "2026-09-08T18:09:31.2151577+08:00"
+                                        },
+                   "databaseOpened":  false
+               },
+    "uninstall":  {
+                      "exists":  false
+                  },
+    "run":  {
+                "io.github.molotov0cocktail.mashiro":  {
+                                                           "exists":  false
+                                                       },
+                "Mashiro.Desktop":  {
+                                        "exists":  false
+                                    }
+            },
+    "startupApproved":  {
+                            "io.github.molotov0cocktail.mashiro":  {
+                                                                       "exists":  false
+                                                                   },
+                            "Mashiro.Desktop":  {
+                                                    "exists":  false
+                                                }
+                        },
+    "shortcuts":  [
+                      {
+                          "kind":  "StartMenuUser",
+                          "path":  "C:\\Users\\30910\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Mashiro.lnk",
+                          "exists":  false
+                      },
+                      {
+                          "kind":  "DesktopUser",
+                          "path":  "C:\\Users\\30910\\Desktop\\Mashiro.lnk",
+                          "exists":  false
+                      },
+                      {
+                          "kind":  "DesktopPublic",
+                          "path":  "C:\\Users\\Public\\Desktop\\Mashiro.lnk",
+                          "exists":  false
+                      }
+                  ],
+    "knownExecutables":  [
+                             {
+                                 "path":  "C:\\Users\\30910\\AppData\\Local\\Programs\\Mashiro\\Mashiro.exe",
+                                 "exists":  false
+                             },
+                             {
+                                 "path":  "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+                                 "exists":  false
+                             },
+                             {
+                                 "path":  "C:\\Users\\30910\\AppData\\Local\\Mashiro\\Mashiro.exe",
+                                 "exists":  false
+                             }
+                         ],
+    "registryWrites":  false,
+    "applicationStarted":  false,
+    "databaseOpened":  false
+}

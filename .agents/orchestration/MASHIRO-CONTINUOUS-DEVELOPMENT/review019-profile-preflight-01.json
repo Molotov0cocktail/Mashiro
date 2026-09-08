@@ -1,0 +1,36 @@
+{
+    "kind":  "PROFILE_READ_ONLY_PREFLIGHT",
+    "observedAt":  "2026-09-08T19:05:05.0534622+08:00",
+    "processId":  81440,
+    "parentProcessId":  8252,
+    "shellProcessId":  8252,
+    "profilePath":  "C:\\Users\\30910\\AppData\\Roaming\\Mashiro",
+    "directoryIdentity":  "D4AE69AB:011C00000001C1FF",
+    "treeHash":  "BFA47C4C5514DE7E6183202465063DB767B65C2593BD0BDAC6A7B70419EAE103",
+    "fileCount":  92,
+    "totalBytes":  6078369,
+    "runCurrent":  {
+                       "keyExists":  true,
+                       "valueExists":  false
+                   },
+    "runLegacy":  {
+                      "keyExists":  true,
+                      "valueExists":  false
+                  },
+    "approvalCurrent":  {
+                            "keyExists":  true,
+                            "valueExists":  false
+                        },
+    "approvalLegacy":  {
+                           "keyExists":  true,
+                           "valueExists":  false
+                       },
+    "uninstall":  {
+                      "keyExists":  false,
+                      "valueExists":  false
+                  },
+    "profileMoved":  false,
+    "applicationStarted":  false,
+    "businessContentParsed":  false,
+    "registryWrites":  false
+}

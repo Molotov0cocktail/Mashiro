@@ -31,7 +31,7 @@ export async function chooseProductionData(
     default: '使用默认数据位置',
     relocate: '重新定位原数据',
     select: '选择已有数据集',
-    create: '选择新数据位置',
+    create: '新建空数据集',
     cancel: '退出'
   }
   const result = await dialogs.showMessageBox({
@@ -42,7 +42,9 @@ export async function chooseProductionData(
       : '选择用于保存助手、历史、记忆和事项的位置。',
     detail: recovering
       ? '原数据指向会保留，恢复成功前不会切换或创建替代数据。' +
-        (known ? '\n原位置：' + state.locator!.dataPath : '')
+        (known
+          ? '\n原位置：' + state.locator!.dataPath + '\n数据集：' + state.locator!.dataSetId
+          : '')
       : '默认位置：' +
         defaultDataDirectory +
         '\n程序位置和数据位置独立。自定义位置可包含中文、空格，或选择可写的安装目录 data。',
@@ -74,5 +76,20 @@ export async function chooseProductionData(
     defaultPath: recovering && known ? state.locator!.dataPath : defaultDataDirectory
   })
   if (selection.canceled || selection.filePaths.length !== 1) return { action: 'cancel' }
-  return { action, directory: canonicalProductionDirectory(selection.filePaths[0]!) }
+  const directory = canonicalProductionDirectory(selection.filePaths[0]!)
+  if (action === 'create') {
+    const confirmed = await dialogs.showMessageBox({
+      type: 'warning',
+      title: '新建空数据集',
+      message: '在所选空文件夹创建全新的 Mashiro 数据？',
+      detail:
+        '不会复制当前助手、历史、记忆、事项、连接、凭据或运行设置。原数据及其指向在新数据准备成功前保持不变。',
+      buttons: ['取消', '创建并使用'],
+      cancelId: 0,
+      defaultId: 0,
+      noLink: true
+    })
+    if (confirmed.response !== 1) return { action: 'cancel' }
+  }
+  return { action, directory }
 }

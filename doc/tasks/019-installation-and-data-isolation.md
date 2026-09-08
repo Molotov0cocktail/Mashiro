@@ -15,4 +15,8 @@
 
 root 维护唯一入口与任务；steward_013_ui 只读现场诊断；review_017_trusted 独立审查启动/隔离合同。产品实现分配在根因确认后记录，避免实现与审核混同。
 
-当前动作：已证实正式配置仍定位旧合成数据集 9f2cf384-daa4-4bb6-819a-33976e479c5a，当前安装登记指向不存在的旧测试程序；桌面首次启动异常因旧版丢弃错误细节尚无法还原。steward_013_ui（gpt-5.6-sol/high）独占 main/data、main/index、原生数据菜单/维护及对应测试实施；Astra 保留独立复核。新建空数据采用独立身份和治理状态、成功后 CAS 切换、保留旧数据；后续实际桌面安装必须验证。元数据证据见 post-release-install-residual-native-diagnosis-01，独立约束见 post-release-data-startup-independent-contract（均在程序编排目录）。
+当前动作：019可信侧已独立 SOURCE LIMITED PASS。作者冻结23路径（11产品、9作者测试、3独立反例）；作者12文件40项与独立7文件29项通过，三个原始失败反例均保留。证据见程序编排目录 `post-release-data-startup-author-candidate-01.json` 与 `review019-trusted-independent-review.md`。020仍在界面整理，联合修订版为0.1.1，制品及原生验收尚未完成。
+
+普通Explorer观测证实正式配置仍定位旧数据集9f；早期工具视图的旧安装登记不能代表普通桌面状态，已由 `post-release-install-observation-correction.md` 更正。旧版未保留足够错误细节，历史启动异常仍 NOT_REPRODUCED；用户已确认原安装目录是桌面下Mashiro或其他子文件夹，并非桌面根目录。
+
+用户已明确允许对 `C:\Users\30910\AppData\Roaming\Mashiro` 做完整字节校验、原样保全和恢复。实际只读预检通过，整目录保全helper已独立限定通过，但尚未执行移动。后续只在最终候选就绪后隔离正式profile进行安装验证；原树完整恢复，测试树另存，外部旧数据库不删除、不解析。新建空数据使用独立身份和治理状态、成功后CAS切换并保留旧数据；正常重装保留数据，界面明确告知并提供显式新建入口。

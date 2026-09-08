@@ -6,7 +6,7 @@ import { verifyProductionBackup, type ProductionBackupReceipt } from './producti
 import type { ProductionSession } from './production-session.js'
 import type { ProductionDialogs } from './production-selection.js'
 
-export type ProductionMaintenanceKind = 'backup' | 'select' | 'relocate' | 'restore'
+export type ProductionMaintenanceKind = 'backup' | 'create' | 'select' | 'relocate' | 'restore'
 export interface ProductionMaintenance {
   run(session: ProductionSession, assertQuiescent: () => void): Promise<boolean>
 }
@@ -45,9 +45,11 @@ export async function prepareProductionMaintenance(options: {
   const directory = await pick(
     kind === 'backup'
       ? '选择空的备份文件夹'
-      : kind === 'select'
-        ? '选择已有 Mashiro 数据集'
-        : '选择新的空数据文件夹',
+      : kind === 'create'
+        ? '选择用于新建空数据集的空文件夹'
+        : kind === 'select'
+          ? '选择已有 Mashiro 数据集'
+          : '选择新的空数据文件夹',
     kind !== 'select'
   )
   if (!directory) return null
@@ -61,11 +63,13 @@ export async function prepareProductionMaintenance(options: {
         : '停止当前工作，完成数据操作后重启？',
     detail:
       detail ||
-      (kind === 'relocate'
-        ? '先生成完整备份，再复制并校验新位置；成功后切换，原位置的数据仍保留。'
-        : kind === 'select'
-          ? '重启后将使用所选数据集。当前数据保留在原位置。'
-          : '完整备份包含历史、记忆正文、治理状态和受保护凭据；程序将退出以保证复制期间没有写入。'),
+      (kind === 'create'
+        ? '将创建全新的空数据集并切换。不会复制当前助手、历史、记忆、事项、连接、凭据或运行设置；当前数据完整保留在原位置。'
+        : kind === 'relocate'
+          ? '先生成完整备份，再复制并校验新位置；成功后切换，原位置的数据仍保留。'
+          : kind === 'select'
+            ? '重启后将使用所选数据集。当前数据保留在原位置。'
+            : '完整备份包含历史、记忆正文、治理状态和受保护凭据；程序将退出以保证复制期间没有写入。'),
     buttons: ['取消', '继续'],
     cancelId: 0,
     defaultId: 0,
@@ -91,6 +95,10 @@ export async function prepareProductionMaintenance(options: {
         backup = join(parent, 'mashiro-before-relocation-' + randomUUID())
         mkdirSync(backup)
         approvedReceipt = await session.backup(backup, assertQuiescent)
+      }
+      if (kind === 'create') {
+        await session.createEmpty(directory, assertQuiescent)
+        return true
       }
       if (backup) await session.restore(backup, directory, approvedReceipt, assertQuiescent)
       assertQuiescent()

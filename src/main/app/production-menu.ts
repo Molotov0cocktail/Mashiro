@@ -7,6 +7,7 @@ import {
 
 export function installProductionMenu(options: {
   dataPath: string
+  dataSetId: string
   backupParentDirectory: string
   begin(plan: ProductionMaintenance): void
 }): void {
@@ -44,7 +45,9 @@ export function installProductionMenu(options: {
                 title: '当前数据位置',
                 message: options.dataPath,
                 detail:
-                  '卸载程序会保留业务数据。完整备份包含治理状态和受保护凭据；跨Windows用户需要重新提供凭据。',
+                  '数据集：' +
+                  options.dataSetId +
+                  '\\n卸载程序会保留业务数据。完整备份包含治理状态和受保护凭据；跨Windows用户需要重新提供凭据。',
                 buttons: ['确定']
               })
             }
@@ -59,6 +62,12 @@ export function installProductionMenu(options: {
             label: '复制到新数据位置并重启…',
             click: () => {
               void maintenance('relocate')
+            }
+          },
+          {
+            label: '新建空数据集并重启…',
+            click: () => {
+              void maintenance('create')
             }
           },
           {

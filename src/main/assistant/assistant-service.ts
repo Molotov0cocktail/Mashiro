@@ -78,7 +78,12 @@ export class AssistantService {
 
   static open(databasePath: string): AssistantService {
     const store = new SqliteStore(databasePath)
-    return new AssistantService(store, new AssistantRepository(store))
+    try {
+      return new AssistantService(store, new AssistantRepository(store))
+    } catch (error) {
+      store.close()
+      throw error
+    }
   }
 
   list(input: unknown): AssistantResult {

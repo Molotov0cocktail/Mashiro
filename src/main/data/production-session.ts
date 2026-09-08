@@ -33,6 +33,8 @@ export interface ProductionSession {
   /** Trusted maintenance only; the caller must close every application writer first. */
   backup(directory: string, assertQuiescent: () => void): Promise<ProductionBackupReceipt>
   select(directory: string, assertQuiescent: () => void): Promise<void>
+  /** Create a fresh, empty data set and atomically select it. The previous data stays in place. */
+  createEmpty(directory: string, assertQuiescent: () => void): Promise<void>
   restore(
     backupDirectory: string,
     destinationDirectory: string,
@@ -57,6 +59,10 @@ export async function openProductionSession(options: {
     authorizeReplacement: (candidatePath: string) => void
   ): Promise<void>
   onOwnershipLost(error: Error): void
+  confirmReady?(
+    state: Extract<LocationInspection, { state: 'READY' }>
+  ): Promise<'continue' | 'manage' | 'cancel'>
+  acknowledgeSelection?(dataSetId: string, lease: ProductionLease): void
 }): Promise<ProductionSession | null> {
   const cancellation = new AbortController()
   const lost = (error: Error) => {
@@ -82,8 +88,15 @@ export async function openProductionSession(options: {
       configurationLease
     )
     const initial = locations.inspect()
+    let forceSelection = options.forceSelection ?? false
+    if (initial.state === 'READY' && !forceSelection && options.confirmReady) {
+      const choice = await options.confirmReady(initial)
+      assertHeld()
+      if (choice === 'cancel') return null
+      if (choice === 'manage') forceSelection = true
+    }
     let dataPath: string, dataSetId: string
-    if (initial.state === 'READY' && !options.forceSelection) {
+    if (initial.state === 'READY' && !forceSelection) {
       dataLease = await acquireProductionLease(initial.locator.dataPath, lost)
       assertHeld()
       const checked = inspectProductionDataSet(dataLease.dataPath, initial.locator.dataSetId)
@@ -178,6 +191,11 @@ export async function openProductionSession(options: {
       locations.bind(dataPath, initial.fingerprint, dataSetId)
     }
     assertHeld()
+    try {
+      options.acknowledgeSelection?.(dataSetId, configurationLease)
+    } catch {
+      console.error('MASHIRO_DATA_SELECTION_ACK_UNAVAILABLE')
+    }
     unregisterGovernance ??= registerPreparedProductionGovernance({
       index: governance,
       dataSetId,
@@ -188,12 +206,27 @@ export async function openProductionSession(options: {
     const heldData = dataLease
     const openedFingerprint = locations.inspect().fingerprint
     let selectedLease: ProductionLease | undefined
+    let maintenanceInProgress = false
     const assertMaintenance = (assertQuiescent: () => void) => {
       if (released) throw new Error('PRODUCTION_SESSION_RELEASED')
+      if (selectedLease) throw new Error('PRODUCTION_SELECTION_ALREADY_PENDING')
       assertHeld()
       assertQuiescent()
       if (locations.inspect().fingerprint !== openedFingerprint)
         throw new Error('LOCATION_CHANGED_DURING_MAINTENANCE')
+    }
+    const withMaintenance = async <T>(
+      assertQuiescent: () => void,
+      operation: (assertCurrent: () => void) => Promise<T>
+    ): Promise<T> => {
+      if (maintenanceInProgress) throw new Error('PRODUCTION_MAINTENANCE_IN_PROGRESS')
+      assertMaintenance(assertQuiescent)
+      maintenanceInProgress = true
+      try {
+        return await operation(() => assertMaintenance(assertQuiescent))
+      } finally {
+        maintenanceInProgress = false
+      }
     }
     returned = true
     return Object.freeze({
@@ -202,15 +235,16 @@ export async function openProductionSession(options: {
       databasePath: join(dataPath, 'mashiro.sqlite'),
       credentialDirectory: join(dataPath, 'credentials'),
       async backup(directory: string, assertQuiescent: () => void) {
-        assertMaintenance(assertQuiescent)
-        settleProductionGovernance(governance, dataSetId, dataPath)
-        writePortableGovernance(dataPath, governance.known(dataSetId)!)
-        return createProductionBackup({
-          sourceDirectory: dataPath,
-          destinationDirectory: directory,
-          sourceLease: heldData,
-          signal: cancellation.signal,
-          assertQuiescent: () => assertMaintenance(assertQuiescent)
+        return withMaintenance(assertQuiescent, async (assertCurrent) => {
+          settleProductionGovernance(governance, dataSetId, dataPath)
+          writePortableGovernance(dataPath, governance.known(dataSetId)!)
+          return createProductionBackup({
+            sourceDirectory: dataPath,
+            destinationDirectory: directory,
+            sourceLease: heldData,
+            signal: cancellation.signal,
+            assertQuiescent: assertCurrent
+          })
         })
       },
       async restore(
@@ -219,58 +253,97 @@ export async function openProductionSession(options: {
         expectedReceipt: ProductionBackupReceipt | undefined,
         assertQuiescent: () => void
       ) {
-        assertMaintenance(assertQuiescent)
-        settleProductionGovernance(governance, dataSetId, dataPath)
-        await restoreProductionBackup({
-          backupDirectory,
-          destinationDirectory,
-          expectedReceipt,
-          signal: cancellation.signal,
-          governCopy: (directory, receipt, check) =>
-            governRestoredProductionCopy(governance, receipt.dataSetId, directory, () => {
-              check()
-              assertMaintenance(assertQuiescent)
-            })
+        return withMaintenance(assertQuiescent, async (assertCurrent) => {
+          settleProductionGovernance(governance, dataSetId, dataPath)
+          await restoreProductionBackup({
+            backupDirectory,
+            destinationDirectory,
+            expectedReceipt,
+            signal: cancellation.signal,
+            governCopy: (directory, receipt, check) =>
+              governRestoredProductionCopy(governance, receipt.dataSetId, directory, () => {
+                check()
+                assertCurrent()
+              })
+          })
         })
       },
       async select(directory: string, assertQuiescent: () => void) {
-        assertMaintenance(assertQuiescent)
-        if (selectedLease) throw new Error('PRODUCTION_SELECTION_ALREADY_PENDING')
-        const target = await acquireProductionLease(directory, lost)
-        try {
-          const selected = inspectProductionDataSet(target.dataPath)
-          settleProductionGovernance(governance, selected.manifest.dataSetId, target.dataPath)
-          await options.prepareExisting(
-            join(target.dataPath, 'mashiro.sqlite'),
-            target.dataPath,
-            cancellation.signal,
-            target,
-            (candidate) =>
-              authorizeProductionGovernanceMigration(
-                governance,
-                selected.manifest.dataSetId,
-                target.dataPath,
-                candidate,
-                assertHeld
-              )
+        return withMaintenance(assertQuiescent, async (assertCurrent) => {
+          const target = await acquireProductionLease(directory, lost)
+          try {
+            const selected = inspectProductionDataSet(target.dataPath)
+            settleProductionGovernance(governance, selected.manifest.dataSetId, target.dataPath)
+            await options.prepareExisting(
+              join(target.dataPath, 'mashiro.sqlite'),
+              target.dataPath,
+              cancellation.signal,
+              target,
+              (candidate) =>
+                authorizeProductionGovernanceMigration(
+                  governance,
+                  selected.manifest.dataSetId,
+                  target.dataPath,
+                  candidate,
+                  assertHeld
+                )
+            )
+            assertCurrent()
+            const unregisterTarget = registerPreparedProductionGovernance({
+              index: governance,
+              dataSetId: selected.manifest.dataSetId,
+              dataDirectory: target.dataPath,
+              assertOwnership: assertHeld,
+              onUncertain: () => lost(new Error('GOVERNANCE_STATE_UNCERTAIN'))
+            })
+            unregisterTarget()
+            locations.bind(target.dataPath, openedFingerprint, selected.manifest.dataSetId)
+            selectedLease = target
+          } finally {
+            if (selectedLease !== target) await target.release()
+          }
+        })
+      },
+      async createEmpty(directory: string, assertQuiescent: () => void) {
+        return withMaintenance(assertQuiescent, async (assertCurrent) => {
+          const initialized = await initializeProductionDataSet(
+            directory,
+            (databasePath) => {
+              const store = new SqliteStore(databasePath)
+              try {
+                if (
+                  store.database.prepare('PRAGMA integrity_check').get()?.integrity_check !==
+                    'ok' ||
+                  store.database.prepare('PRAGMA foreign_key_check').all().length
+                )
+                  throw new Error('INITIALIZED_SCHEMA_INVALID')
+              } finally {
+                store.close()
+              }
+            },
+            lost
           )
-          assertMaintenance(assertQuiescent)
-          const unregisterTarget = registerPreparedProductionGovernance({
-            index: governance,
-            dataSetId: selected.manifest.dataSetId,
-            dataDirectory: target.dataPath,
-            assertOwnership: assertHeld,
-            onUncertain: () => lost(new Error('GOVERNANCE_STATE_UNCERTAIN'))
-          })
-          unregisterTarget()
-          locations.bind(target.dataPath, openedFingerprint, selected.manifest.dataSetId)
-          selectedLease = target
-        } finally {
-          if (selectedLease !== target) await target.release()
-        }
+          const target = initialized.lease
+          try {
+            assertCurrent()
+            const unregisterTarget = registerPreparedProductionGovernance({
+              index: governance,
+              dataSetId: initialized.manifest.dataSetId,
+              dataDirectory: initialized.dataPath,
+              assertOwnership: assertHeld,
+              onUncertain: () => lost(new Error('GOVERNANCE_STATE_UNCERTAIN'))
+            })
+            unregisterTarget()
+            locations.bind(initialized.dataPath, openedFingerprint, initialized.manifest.dataSetId)
+            selectedLease = target
+          } finally {
+            if (selectedLease !== target) await target.release()
+          }
+        })
       },
       async release() {
         if (released) return
+        if (maintenanceInProgress) throw new Error('PRODUCTION_MAINTENANCE_IN_PROGRESS')
         unregisterGovernance?.()
         released = true
         try {

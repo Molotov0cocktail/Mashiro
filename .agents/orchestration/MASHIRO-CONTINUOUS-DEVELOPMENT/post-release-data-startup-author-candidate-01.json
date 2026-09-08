@@ -1,0 +1,148 @@
+{
+  "formatVersion": 1,
+  "slice": "019-installation-and-data-isolation",
+  "status": "AUTHOR_CANDIDATE",
+  "observedAt": "2026-09-08T11:46:44.3297378Z",
+  "sourceBaseline": "d37711746ae33a22618c0da02b89f23fb9143ba9",
+  "observedHead": "bd9d95458597d053b552bf1bf71d155fb9ab082e",
+  "productFiles": [
+    {
+      "path": "src/main/app/create-window.ts",
+      "bytes": 1709,
+      "sha256": "06E78E8D95C57DDF1EE9CD98FBDAF10CF27797219DC1D0E29BBC477FCCBFAE68"
+    },
+    {
+      "path": "src/main/app/production-menu.ts",
+      "bytes": 2877,
+      "sha256": "7BDF1A47A581AB7CE3605842B9053378A04A5FAC037FCDCF04E0DAA3B7D70DD9"
+    },
+    {
+      "path": "src/main/assistant/assistant-service.ts",
+      "bytes": 4988,
+      "sha256": "0DB6EB9B98307777107D5132C74D2C0EC54E58218947B8336395CF904AFE8726"
+    },
+    {
+      "path": "src/main/data/production-bootstrap.ts",
+      "bytes": 6123,
+      "sha256": "F0A97C4FEC43B4A2463A6F2C053D6C435F21D6DF501E879ADD3F5921752068DD"
+    },
+    {
+      "path": "src/main/data/production-maintenance.ts",
+      "bytes": 4749,
+      "sha256": "EE929448909B8AB348F70ED50B1581E92DE7C09AB55973269CA8A69A3E90C122"
+    },
+    {
+      "path": "src/main/data/production-selection.ts",
+      "bytes": 4201,
+      "sha256": "8FD56A099386AD38BF55DDA7FAAC0A66FF85D92E8FB4A04BC73ABEE9C03FF1AB"
+    },
+    {
+      "path": "src/main/data/production-session.ts",
+      "bytes": 14362,
+      "sha256": "2A65B049A97EEBA0682FB948AFDAD9BF90226E71BBFE463F93181A1D78FE511E"
+    },
+    {
+      "path": "src/main/data/production-selection-awareness.ts",
+      "bytes": 2994,
+      "sha256": "131C8178FF784617B6177E3F090645E1B029942D0F7E3C0112B6A8F75C12BC2B"
+    },
+    {
+      "path": "src/main/data/startup-diagnostics.ts",
+      "bytes": 5777,
+      "sha256": "32A84BB1BDF1D24620F312DF8B0FA4818CB5D5020AA10973192AB6DC24657446"
+    },
+    {
+      "path": "src/main/index.ts",
+      "bytes": 17037,
+      "sha256": "B7B32CCE6454C7CD23476ABE9E9E04EF3552AEF726636CF54CC15E9673B82171"
+    },
+    {
+      "path": "src/main/reminder/reminder-runtime.ts",
+      "bytes": 5047,
+      "sha256": "E90FD623A1E403815CBBF47160C9BFEA47938D6E0B3380201CE4CACF0C997554"
+    }
+  ],
+  "authorTests": [
+    {
+      "path": "tests/unit/assistant-service-open-cleanup.test.ts",
+      "bytes": 1041,
+      "sha256": "34C7C0B09A35300369FC3B4169AD5310038BA5949662A1FBDF5DDCA8C3B742DA"
+    },
+    {
+      "path": "tests/unit/create-window-cleanup.test.ts",
+      "bytes": 1047,
+      "sha256": "826EF7103761297396992FA98F994D68040241D222C1EEFE8D3E78DCD593F6AC"
+    },
+    {
+      "path": "tests/unit/production-main-independent.test.ts",
+      "bytes": 6784,
+      "sha256": "5E48CBCD8E93B2B219C34045DE936774A7BD55240D37F41061173190ED867154"
+    },
+    {
+      "path": "tests/unit/production-maintenance.test.ts",
+      "bytes": 7517,
+      "sha256": "C3A8740614D89970888C80C7933C900880DFC2D635C85DEDEA2AF2B45AC08AE7"
+    },
+    {
+      "path": "tests/unit/production-selection.test.ts",
+      "bytes": 11524,
+      "sha256": "88ED28625FFF09CAB279BA3EC9DF1F8B0A84F2DA01651ECBB697E6CDF8A4C9E2"
+    },
+    {
+      "path": "tests/unit/production-session.test.ts",
+      "bytes": 8298,
+      "sha256": "1ECBC55F0D36F57D4654B497B159CC320C6BCB79FAC7B9CBB90783B017686C1A"
+    },
+    {
+      "path": "tests/unit/production-startup-rollback.test.ts",
+      "bytes": 9275,
+      "sha256": "F1DB3BE37A87A7EF5BDF7ACDE75848343D4C56997C598CBF897398B5DDDA05AE"
+    },
+    {
+      "path": "tests/unit/reminder-runtime-startup.test.ts",
+      "bytes": 5176,
+      "sha256": "A36973187E4B01934398D379253A51BF0CBB9CD10BEBDC7F0C7C5A6D92B83DA3"
+    },
+    {
+      "path": "tests/unit/startup-diagnostics.test.ts",
+      "bytes": 2530,
+      "sha256": "D946D57AA98E56742D83CCC34A01C2D3961598E9C5D2B5CFD11204C5B55AD13C"
+    }
+  ],
+  "independentOracleFiles": [
+    {
+      "path": "tests/unit/review019-early-startup.test.ts",
+      "bytes": 7113,
+      "sha256": "0AB43E5831A7C18C9853CA9FCEC70449B917E9D56EC12F492173B9A794A8CBB1"
+    },
+    {
+      "path": "tests/unit/review019-window-load-cleanup.test.ts",
+      "bytes": 1783,
+      "sha256": "0DADAF5EBCD29500D95ADFAE12B62916410F4134E93BEE6AAABA2D3799E50215"
+    },
+    {
+      "path": "tests/unit/review019-reminder-partial-cleanup.test.ts",
+      "bytes": 3423,
+      "sha256": "8C0FBD2830CA93DE35F244ACBE5F003E46046FC9A5AC64D2B29ACA5FC1C4A548"
+    }
+  ],
+  "validation": {
+    "focused": "12 files / 40 tests PASS",
+    "typecheck": "PASS",
+    "scopedLint": "PASS",
+    "scopedFormat": "PASS",
+    "diffCheck": "PASS (line-ending warnings only in recorder-owned docs)"
+  },
+  "findings": {
+    "packagedBusinessPayload": "Released app.asar inspection found no SQLite/database/locator/manifest/credential payload.",
+    "selectionReuse": "Existing valid production locator is preserved by design; one-time native notice now makes reuse explicit and offers data management.",
+    "desktopHistoricalFailure": "NOT_REPRODUCED; original generic startup exception had no durable stage diagnostic.",
+    "explorerMetadataCorrection": "Actual Explorer observer found no uninstall registration, Run value, known shortcut or known executable; earlier tool-view stale registration observation is not desktop evidence.",
+    "userInstallLocation": "User reported a Desktop subfolder (Mashiro or another folder), not the Desktop root."
+  },
+  "pending": [
+    "Independent candidate verdict.",
+    "Packaged 0.1.1 native validation in an isolated full Mashiro profile after artifact review.",
+    "Desktop subfolder launch reproduction and stage-diagnostic validation; do not claim the historical failure fixed until observed."
+  ]
+}

@@ -8,6 +8,14 @@ export const secureWebPreferences = {
   webSecurity: true
 } as const
 
+class WindowLoadCleanupError extends Error {
+  readonly startupCleanup = 'FAILED'
+
+  constructor(readonly original: unknown) {
+    super('WINDOW_LOAD_CLEANUP_FAILED')
+  }
+}
+
 function validatedDevelopmentUrl(value: string): string {
   const url = new URL(value)
   if (url.protocol !== 'http:' || !['127.0.0.1', 'localhost'].includes(url.hostname)) {
@@ -29,15 +37,23 @@ export async function createWindow(): Promise<BrowserWindow> {
     }
   })
 
-  window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
-  window.webContents.on('will-navigate', (event) => event.preventDefault())
-  window.webContents.session.setPermissionRequestHandler((_contents, _permission, callback) =>
-    callback(false)
-  )
-
-  const developmentUrl = app.isPackaged ? undefined : process.env.ELECTRON_RENDERER_URL
-  if (developmentUrl) await window.loadURL(validatedDevelopmentUrl(developmentUrl))
-  else await window.loadFile(join(__dirname, '../renderer/index.html'))
-  window.show()
-  return window
+  try {
+    window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
+    window.webContents.on('will-navigate', (event) => event.preventDefault())
+    window.webContents.session.setPermissionRequestHandler((_contents, _permission, callback) =>
+      callback(false)
+    )
+    const developmentUrl = app.isPackaged ? undefined : process.env.ELECTRON_RENDERER_URL
+    if (developmentUrl) await window.loadURL(validatedDevelopmentUrl(developmentUrl))
+    else await window.loadFile(join(__dirname, '../renderer/index.html'))
+    window.show()
+    return window
+  } catch (error) {
+    try {
+      if (!window.isDestroyed()) window.destroy()
+    } catch {
+      throw new WindowLoadCleanupError(error)
+    }
+    throw error
+  }
 }
