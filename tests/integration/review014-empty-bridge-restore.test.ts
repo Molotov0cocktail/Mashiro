@@ -61,8 +61,13 @@ it('an explicit empty dataset bridge restores the original backup with later ori
       dialogs: {
         async showMessageBox(options) {
           shown.push(options.title ?? '')
-          expect(options.title).toBe('恢复 Mashiro 数据位置')
-          const index = options.buttons!.indexOf('选择新数据位置')
+          if (options.title === '恢复 Mashiro 数据位置') {
+            const index = options.buttons!.indexOf('新建空数据集')
+            expect(index).toBeGreaterThanOrEqual(0)
+            return { response: index }
+          }
+          expect(options.title).toBe('新建空数据集')
+          const index = options.buttons!.indexOf('创建并使用')
           expect(index).toBeGreaterThanOrEqual(0)
           return { response: index }
         },
@@ -75,7 +80,7 @@ it('an explicit empty dataset bridge restores the original backup with later ori
     })
     if (!current) throw Error('BRIDGE_FIXTURE')
     sessions.push(current)
-    expect(shown).toEqual(['恢复 Mashiro 数据位置'])
+    expect(shown).toEqual(['恢复 Mashiro 数据位置', '新建空数据集'])
     expect(current.dataSetId).not.toBe(initial.dataSetId)
     expect(current.dataPath).toBe(bridge)
     await current.restore(backup, target, receipt, () => {})

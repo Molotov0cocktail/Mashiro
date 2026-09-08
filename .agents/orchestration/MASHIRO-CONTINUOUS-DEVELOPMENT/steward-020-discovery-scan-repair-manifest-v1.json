@@ -1,0 +1,38 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "020-follow-up",
+  "stage": "steward-discovery-scan-performance-repair-1",
+  "status": "AUTHOR_CANDIDATE_FROZEN",
+  "createdAt": "2026-09-08T12:55:42.2352494Z",
+  "trigger": {
+    "evidencePath": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/review019-steward-stage-01.raw.txt",
+    "evidenceSha256": "42F06A287B8CED7F1B1DD67FABE41BD255A1501C0DC18A71A6BD0C8882E084F2",
+    "observed": "72 suppressed plus one eligible; inclusive pump max 148.8ms and scanDiscovery max 140.3ms; 73 addJob calls used individual autocommits",
+    "limits": "inclusive measurements overlap and do not prove every filesystem tail stays below 500ms"
+  },
+  "paths": [
+    {
+      "path": "src/main/background/steward-service.ts",
+      "sha256": "76C21C54BBF24E01AC532E44C8ED4A9A0461C76EC7ABBDA74AC8F358289E57AB",
+      "size": 59372
+    },
+    {
+      "path": "tests/integration/steward-boundaries.test.ts",
+      "sha256": "3145E9135CED5297E1F7B40BEFBF240FFC1D96B2F1023FE46B5A7C8FE5343A46",
+      "size": 6563
+    }
+  ],
+  "implementation": [
+    "Read at most nine eligible discovery rows, use the ninth only to mark backlog, and process an ordered prefix of eight.",
+    "Compute round source digests before the write transaction, retaining an empty-digest queued blocker when source validation fails.",
+    "Insert the eight-job prefix inside one SQLite transaction; existing source_key uniqueness, execution-time source/permission rechecks, cancellation, budget, and idempotent receipts remain unchanged."
+  ],
+  "validation": {
+    "originalBoundary": "tests/integration/steward-boundaries.test.ts: 6 tests passed, including unchanged 72 suppressed plus eligible, send once, under 500ms/10s oracle",
+    "relatedRegression": "5 files / 27 tests passed: service, adversarial, discovery nature, recovery, source metadata",
+    "nodeTypecheck": "exit 0",
+    "scopedLint": "exit 0",
+    "scopedPrettier": "exit 0",
+    "optInPerformance": "not rerun by author; independent reviewer owns the 73-pump measurement"
+  }
+}

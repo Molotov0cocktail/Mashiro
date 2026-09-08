@@ -106,7 +106,7 @@ describe('App assistant configuration navigation', () => {
     installApis(assistantApi, itemApi)
 
     render(<App />)
-    fireEvent.click(screen.getByText('助手管理'))
+    fireEvent.click(screen.getByRole('button', { name: '设置' }))
     const beta = await screen.findByRole('listitem', { name: '助手配置：Beta' })
     fireEvent.click(within(beta).getByRole('button', { name: '设为当前并打开事项授权' }))
 
@@ -117,9 +117,9 @@ describe('App assistant configuration navigation', () => {
         expectedStateRevision: 2
       })
     )
-    expect(await screen.findByRole('tab', { name: '事项' })).toHaveAttribute(
-      'aria-selected',
-      'true'
+    expect(await screen.findByRole('button', { name: '事项' })).toHaveAttribute(
+      'aria-current',
+      'page'
     )
     expect(document.getElementById('item-permissions')).not.toHaveAttribute('open')
     expect(document.activeElement?.id).not.toBe('item-permissions')
@@ -155,19 +155,19 @@ describe('App assistant configuration navigation', () => {
     installApis(assistantApi)
 
     render(<App />)
-    fireEvent.click(screen.getByText('助手管理'))
+    fireEvent.click(screen.getByRole('button', { name: '设置' }))
     const beta = await screen.findByRole('listitem', { name: '助手配置：Beta' })
     const alpha = screen.getByRole('listitem', { name: '助手配置：Alpha' })
     fireEvent.click(within(beta).getByRole('button', { name: '设为当前并打开Provider 与模型' }))
     await waitFor(() => expect(assistantApi.switch).toHaveBeenCalledTimes(1))
     fireEvent.click(within(alpha).getByRole('button', { name: '打开记忆与个人事件授权' }))
-    expect(screen.getByRole('tab', { name: '记忆与事件' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '记忆' })).toHaveAttribute('aria-current', 'page')
 
     await act(async () => {
       rejectSwitch(new Error('late switch failure'))
       await Promise.resolve()
     })
-    expect(screen.getByRole('tab', { name: '记忆与事件' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '记忆' })).toHaveAttribute('aria-current', 'page')
     expect(screen.queryByText('无法切换到目标助手，当前页面状态已保留。')).not.toBeInTheDocument()
     expect(
       screen.queryByText('未能打开Provider 与模型，当前页面状态已保留。')
@@ -188,16 +188,20 @@ describe('App assistant configuration navigation', () => {
     installApis(assistantApi)
 
     render(<App />)
-    fireEvent.click(screen.getByText('助手管理'))
+    fireEvent.click(screen.getByRole('button', { name: '设置' }))
     const alpha = await screen.findByRole('listitem', { name: '助手配置：Alpha' })
     fireEvent.click(within(alpha).getByRole('button', { name: '打开对话历史授权' }))
     await waitFor(() => expect(document.activeElement?.id).toBe('history-permissions'))
+    expect(document.getElementById('history-permissions')).toBeVisible()
+    fireEvent.click(screen.getByRole('button', { name: '返回对话' }))
     fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
     expect(screen.getByRole('radio', { name: '严格临时（不自动保存）' })).toBeChecked()
 
+    fireEvent.click(screen.getByRole('button', { name: '设置' }))
     const beta = screen.getByRole('listitem', { name: '助手配置：Beta' })
     fireEvent.click(within(beta).getByRole('button', { name: '设为主要' }))
     await waitFor(() => expect(assistantApi.setPrimary).toHaveBeenCalledTimes(1))
+    fireEvent.click(screen.getByRole('button', { name: '对话' }))
     expect(screen.getByRole('radio', { name: '严格临时（不自动保存）' })).toBeChecked()
   })
 
@@ -217,19 +221,23 @@ describe('App assistant configuration navigation', () => {
     installApis(assistantApi)
 
     render(<App />)
-    fireEvent.click(screen.getByText('助手管理'))
+    fireEvent.click(screen.getByRole('button', { name: '设置' }))
     const alpha = await screen.findByRole('listitem', { name: '助手配置：Alpha' })
-    const beta = screen.getByRole('listitem', { name: '助手配置：Beta' })
     fireEvent.click(within(alpha).getByRole('button', { name: '打开对话历史授权' }))
     await waitFor(() => expect(document.activeElement?.id).toBe('history-permissions'))
+    expect(document.getElementById('history-permissions')).toBeVisible()
+    fireEvent.click(screen.getByRole('button', { name: '返回对话' }))
     fireEvent.click(screen.getByRole('radio', { name: '严格临时（不自动保存）' }))
 
-    fireEvent.click(within(beta).getByRole('button', { name: '设为当前' }))
+    fireEvent.click(screen.getByRole('button', { name: '设置' }))
+    const visibleBeta = screen.getByRole('listitem', { name: '助手配置：Beta' })
+    fireEvent.click(within(visibleBeta).getByRole('button', { name: '设为当前' }))
     await waitFor(() => expect(screen.getByText('当前助手：Beta')).toBeInTheDocument())
     const refreshedAlpha = screen.getByRole('listitem', { name: '助手配置：Alpha' })
     fireEvent.click(within(refreshedAlpha).getByRole('button', { name: '设为当前' }))
     await waitFor(() => expect(screen.getByText('当前助手：Alpha')).toBeInTheDocument())
 
+    fireEvent.click(screen.getByRole('button', { name: '对话' }))
     expect(screen.getByRole('radio', { name: '严格临时（不自动保存）' })).toBeChecked()
     expect(assistantApi.switch).toHaveBeenCalledTimes(2)
   })
@@ -256,11 +264,12 @@ describe('App assistant configuration navigation', () => {
       installApis(assistantApi)
 
       render(<App />)
-      fireEvent.click(screen.getByText('助手管理'))
+      fireEvent.click(screen.getByRole('button', { name: '设置' }))
       const beta = await screen.findByRole('listitem', { name: '助手配置：Beta' })
       fireEvent.click(within(beta).getByRole('button', { name: '设为当前并打开Provider 与模型' }))
       await waitFor(() => expect(assistantApi.switch).toHaveBeenCalledTimes(1))
-      fireEvent.click(screen.getByRole('tab', { name: '保留与清理' }))
+      fireEvent.click(screen.getByRole('button', { name: '设置' }))
+      fireEvent.click(screen.getByRole('button', { name: '数据与存储' }))
 
       await act(async () => {
         if (settlement === 'resolve') {
@@ -270,9 +279,9 @@ describe('App assistant configuration navigation', () => {
         }
         await Promise.resolve()
       })
-      expect(screen.getByRole('tab', { name: '保留与清理' })).toHaveAttribute(
-        'aria-selected',
-        'true'
+      expect(screen.getByRole('button', { name: '数据与存储' })).toHaveAttribute(
+        'aria-current',
+        'page'
       )
       expect(screen.queryByText('无法切换到目标助手，当前页面状态已保留。')).not.toBeInTheDocument()
       expect(

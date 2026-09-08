@@ -41,7 +41,9 @@ export async function runBackgroundE2e(window: BrowserWindow, dataRoot: DataRoot
     if(prior&&(prior.assistantId!==assistantId||prior.memoryId!==chapter.memoryId))throw Error('background-restored-identity');
     const accepted=checked(await api.background.chapter({...base,chapterId:chapter.id,expectedVersion:chapter.version}));
     if(!accepted.markdown.includes('E2E_BACKGROUND_ACCEPTED'))throw Error('background-markdown');
-    const tab=await waitFor(()=>[...document.querySelectorAll('[role="tab"]')].find(b=>b.textContent.trim()==='章节后台'));
+    const automation=await waitFor(()=>document.querySelector('button[aria-label="自动工作"]'));
+    automation.click();
+    const tab=await waitFor(()=>[...document.querySelectorAll('[aria-label="自动工作与运行"] button')].find(b=>b.textContent.trim()==='对话整理'));
     tab.click();
     const checkbox=await waitFor(()=>document.querySelector('input[aria-label="选择章节：E2E章节"]'));
     const card=checkbox.closest('article');

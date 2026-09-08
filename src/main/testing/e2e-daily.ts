@@ -45,20 +45,24 @@ export async function runDailyE2e(
           }
         ).daily
       : null
-  const result = (await window.webContents.executeJavaScript(
-    `(async()=>{
+  let result: DailyEvidence
+  try {
+    result = (await window.webContents.executeJavaScript(
+      `(async()=>{
     const checked=result=>{if(!result.ok)throw Error('daily-'+result.error.code);return result.data};
-    const waitFor=async(fn)=>{for(let n=0;n<600;n++){const value=await fn();if(value)return value;await new Promise(r=>setTimeout(r,25))}throw Error('daily-ui-timeout')};
+    const waitFor=async(stage,fn)=>{for(let n=0;n<600;n++){const value=await fn();if(value)return value;await new Promise(r=>setTimeout(r,25))}throw Error('daily-ui-timeout-'+stage)};
     const nextFrame=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
     const api=window.mashiro;
     const assistant=checked(await api.assistants.list());
     const assistantId=assistant.currentAssistantId;
     const base={protocolVersion:1,assistantId};
     const prior=${JSON.stringify(prior)};
-    const dailyTab=await waitFor(()=>[...document.querySelectorAll('[role="tab"]')].find(element=>element.textContent.trim()==='日常与运行'));
-    dailyTab.click();
-    const panel=await waitFor(()=>{const value=document.querySelector('.daily-panel');return value&&!value.closest('[hidden]')?value:null});
-    const observationTab=await waitFor(()=>[...panel.querySelectorAll('[aria-label="日常工作类别"] [role="tab"]')].find(element=>element.textContent.trim()==='观察'));
+    const dailyArea=await waitFor('daily-area',()=>document.querySelector('button[aria-label="自动工作"]'));
+    dailyArea.click();
+    const dailyPage=await waitFor('daily-page',()=>[...document.querySelectorAll('[aria-label="自动工作与运行"] button')].find(element=>element.textContent.trim()==='日常计划'));
+    dailyPage.click();
+    const panel=await waitFor('daily-panel',()=>{const value=document.querySelector('.daily-panel');return value&&!value.closest('[hidden]')?value:null});
+    const observationTab=await waitFor('observation-tab',()=>[...panel.querySelectorAll('[aria-label="日常工作类别"] [role="tab"]')].find(element=>element.textContent.trim()==='日常观察'));
     observationTab.click();
     await nextFrame();
     let sourceMemoryIds=[];
@@ -79,7 +83,7 @@ export async function runDailyE2e(
       }
       const binding=checked(await api.provider.list()).bindings.find(value=>value.assistantId===assistantId);
       if(!binding)throw Error('daily-binding');
-      const config=await waitFor(()=>panel.querySelector('details.daily-config'));
+      const config=await waitFor('configuration',()=>panel.querySelector('details.daily-config'));
       config.open=true;
       const label=text=>[...config.querySelectorAll('label')].find(element=>element.textContent.includes(text));
       const checkbox=async(text,value=true)=>{
@@ -115,17 +119,17 @@ export async function runDailyE2e(
       await setValue(recovery,'EXPLICIT');
       await checkbox('允许用户确认后保存观察');
       await checkbox('设置每日预算');
-      const save=await waitFor(()=>[...config.querySelectorAll('button')].find(button=>button.textContent.trim()==='保存配置'&&!button.disabled));
+      const save=await waitFor('save-button',()=>[...config.querySelectorAll('button')].find(button=>button.textContent.trim()==='保存配置'&&!button.disabled));
       save.click();
-      const configured=await waitFor(async()=>{
+      const configured=await waitFor('configuration-saved',async()=>{
         const value=checked(await api.daily.query({...base,view:'configurations',feature:'observation'})).configurations[0];
         return value.enabled&&value.authorizedRecipient&&value.dataScope.globalMemories&&value.dataScope.events&&value.schedule&&value.budget?value:null;
       });
       if(configured.connectionId!==binding.connectionId||configured.model!==binding.model||configured.allowSaveObservations!==true||configured.budget.calls!==5||configured.budget.maxOutputTokens!==1200)throw Error('daily-dom-configuration');
       configuredThroughDom=true;
-      const run=await waitFor(()=>[...panel.querySelectorAll('[aria-label="观察运行"] button')].find(button=>button.textContent.trim()==='立即运行'&&!button.disabled));
+      const run=await waitFor('run-button',()=>[...panel.querySelectorAll('[aria-label="日常观察运行"] button')].find(button=>button.textContent.trim()==='立即运行'&&!button.disabled));
       run.click();
-      await waitFor(async()=>{
+      await waitFor('job-settled',async()=>{
         const jobs=checked(await api.daily.query({...base,view:'jobs',feature:'observation'})).jobs;
         const value=jobs[0];
         if(value&&!['QUEUED','RUNNING'].includes(value.state)){
@@ -141,12 +145,12 @@ export async function runDailyE2e(
     if(job.budget.callsUsed!==1||job.budget.inputCharactersUsed<=0)throw Error('daily-budget-snapshot');
     let report=checked(await api.daily.query({...base,view:'reports',feature:'observation'})).reports.find(value=>value.id===job.reportId);
     if(!report||report.state!=='ACTIVE'||!report.bodyAvailable)throw Error('daily-report');
-    const reportSection=await waitFor(()=>panel.querySelector('[aria-label="观察报告"]'));
-    const reportCard=await waitFor(()=>[...reportSection.querySelectorAll('article')].find(card=>[...card.querySelectorAll('button')].some(button=>button.textContent.trim()==='查看报告')));
+    const reportSection=await waitFor('report-section',()=>panel.querySelector('[aria-label="日常观察报告"]'));
+    const reportCard=await waitFor('report-card',()=>[...reportSection.querySelectorAll('article')].find(card=>[...card.querySelectorAll('button')].some(button=>button.textContent.trim()==='查看报告')));
     const view=[...reportCard.querySelectorAll('button')].find(button=>button.textContent.trim()==='查看报告');
     if(!view||view.disabled)throw Error('daily-view-button');
     view.click();
-    let detailElement=await waitFor(()=>{const value=panel.querySelector('.daily-detail');return value?.textContent.includes('E2E_DAILY_REPORT')?value:null});
+    let detailElement=await waitFor('report-detail',()=>{const value=panel.querySelector('.daily-detail');return value?.textContent.includes('E2E_DAILY_REPORT')?value:null});
     const sourceDetails=[...detailElement.querySelectorAll('details')].find(value=>value.querySelector('summary')?.textContent.trim()==='来源与范围');
     if(!sourceDetails||sourceDetails.open)throw Error('daily-source-default');
     let detail=checked(await api.daily.inspect({...base,id:report.id,expectedVersion:report.version,governanceVersion:report.governanceVersion}));
@@ -157,7 +161,7 @@ export async function runDailyE2e(
       const accept=[...card.querySelectorAll('button')].find(button=>button.textContent.trim()==='接受并保存');
       if(!accept||accept.disabled)throw Error('daily-accept-button');
       accept.click();
-      await waitFor(()=>[...panel.querySelectorAll('[role="status"]')].some(value=>value.textContent.includes('观察已保存为真实接受记忆')));
+      await waitFor('observation-accepted',()=>[...panel.querySelectorAll('[role="status"]')].some(value=>value.textContent.includes('观察已保存为真实接受记忆')));
       report=checked(await api.daily.query({...base,view:'reports',feature:'observation'})).reports.find(value=>value.id===job.reportId);
       detail=checked(await api.daily.inspect({...base,id:report.id,expectedVersion:report.version,governanceVersion:report.governanceVersion}));
     }
@@ -166,11 +170,11 @@ export async function runDailyE2e(
     const memory=checked(await api.memory.inspect({...base,id:accepted.memoryId}));
     if(memory.record.state!=='active'||memory.record.objectVersion!==accepted.memoryVersion||memory.record.nature!=='inference'||!memory.changes.some(change=>change.actor==='user'))throw Error('daily-memory-receipt');
     if(prior&&(prior.assistantId!==assistantId||prior.configurationId!==configuration.id||prior.jobId!==job.id||prior.reportId!==report.id||prior.observationId!==accepted.id||prior.memoryId!==accepted.memoryId||prior.memoryVersion!==accepted.memoryVersion||JSON.stringify(prior.sourceMemoryIds)!==JSON.stringify(sourceMemoryIds)))throw Error('daily-restored-identity');
-    const currentReportCard=await waitFor(()=>[...panel.querySelectorAll('[aria-label="观察报告"] article')].find(card=>[...card.querySelectorAll('button')].some(button=>button.textContent.trim()==='查看报告')));
+    const currentReportCard=await waitFor('current-report-card',()=>[...panel.querySelectorAll('[aria-label="日常观察报告"] article')].find(card=>[...card.querySelectorAll('button')].some(button=>button.textContent.trim()==='查看报告')));
     const currentView=[...currentReportCard.querySelectorAll('button')].find(button=>button.textContent.trim()==='查看报告');
     if(!currentView||currentView.disabled)throw Error('daily-current-view-button');
     currentView.click();
-    detailElement=await waitFor(()=>{const value=panel.querySelector('.daily-detail');return value?.textContent.includes('E2E_DAILY_REPORT')&&value.textContent.includes(accepted.memoryId)?value:null});
+    detailElement=await waitFor('refreshed-detail',()=>{const value=panel.querySelector('.daily-detail');return value?.textContent.includes('E2E_DAILY_REPORT')&&value.textContent.includes(accepted.memoryId)?value:null});
     const refreshedSources=[...detailElement.querySelectorAll('details')].find(value=>value.querySelector('summary')?.textContent.trim()==='来源与范围');
     if(!refreshedSources||refreshedSources.open)throw Error('daily-refreshed-source-default');
     const usage=checked(await api.operations.usage({protocolVersion:1,assistantId,actor:'assistant',feature:'observation'}));
@@ -178,7 +182,7 @@ export async function runDailyE2e(
     const configurationDetails=panel.querySelector('details.daily-config');
     if(configurationDetails)configurationDetails.open=false;
     await nextFrame();
-    detailElement=await waitFor(()=>{const value=panel.querySelector('.daily-detail');return value&&!value.closest('[hidden]')&&value.textContent.includes(accepted.memoryId)?value:null});
+    detailElement=await waitFor('capture-detail',()=>{const value=panel.querySelector('.daily-detail');return value&&!value.closest('[hidden]')&&value.textContent.includes(accepted.memoryId)?value:null});
     const acceptedCardForCapture=[...detailElement.querySelectorAll('[aria-label="观察确认"] article')].find(value=>value.textContent.includes('E2E_DAILY_INFERENCE'));
     if(!acceptedCardForCapture)throw Error('daily-capture-card');
     const captureTitle=acceptedCardForCapture.querySelector('strong');
@@ -201,8 +205,70 @@ export async function runDailyE2e(
       bodyReadThroughDom:true,sourcesInitiallyCollapsed:true,inferenceAcceptedThroughDom:true,priorIdentityRestored:!!prior,capture
     };
   })()`,
-    true
-  )) as DailyEvidence
+      true
+    )) as DailyEvidence
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    const stage = message.match(/daily-ui-timeout-[a-z-]+/u)?.[0] ?? 'daily-script-error'
+    let controls: unknown
+    try {
+      controls = await window.webContents.executeJavaScript(
+        `(()=>{
+          const visible=(element)=>Boolean(element)&&!element.closest('[hidden]')&&getComputedStyle(element).display!=='none'&&getComputedStyle(element).visibility!=='hidden';
+          const dailyArea=document.querySelector('button[aria-label="自动工作"]');
+          const navigation=document.querySelector('[aria-label="自动工作与运行"]');
+          const dailyPage=navigation?[...navigation.querySelectorAll('button')].find(element=>element.textContent.trim()==='日常计划'):null;
+          const panel=document.querySelector('.daily-panel');
+          const categoryTabs=panel?[...panel.querySelectorAll('[aria-label="日常工作类别"] [role="tab"]')]:[];
+          const observationTab=categoryTabs.find(element=>element.textContent.trim()==='日常观察');
+          const configuration=panel?.querySelector('details.daily-config');
+          const runSection=panel?.querySelector('[aria-label="日常观察运行"]');
+          const reportSection=panel?.querySelector('[aria-label="日常观察报告"]');
+          const saveButton=configuration?[...configuration.querySelectorAll('button')].find(button=>button.textContent.trim()==='保存配置'):null;
+          const runButton=runSection?[...runSection.querySelectorAll('button')].find(button=>button.textContent.trim()==='立即运行'):null;
+          return {
+            diagnosticsAvailable:true,
+            dailyAreaPresent:Boolean(dailyArea),dailyAreaVisible:visible(dailyArea),
+            navigationPresent:Boolean(navigation),navigationVisible:visible(navigation),
+            dailyPagePresent:Boolean(dailyPage),dailyPageVisible:visible(dailyPage),
+            panelPresent:Boolean(panel),panelVisible:visible(panel),
+            categoryTabCount:categoryTabs.length,
+            observationTabPresent:Boolean(observationTab),observationTabVisible:visible(observationTab),
+            observationTabSelected:observationTab?.getAttribute('aria-selected')==='true',
+            configurationPresent:Boolean(configuration),configurationOpen:Boolean(configuration?.open),configurationVisible:visible(configuration),
+            saveButtonPresent:Boolean(saveButton),saveButtonDisabled:Boolean(saveButton?.disabled),
+            runSectionPresent:Boolean(runSection),runSectionVisible:visible(runSection),
+            runButtonPresent:Boolean(runButton),runButtonDisabled:Boolean(runButton?.disabled),
+            reportSectionPresent:Boolean(reportSection),reportSectionVisible:visible(reportSection),
+            activeElementInPanel:Boolean(panel&&panel.contains(document.activeElement))
+          };
+        })()`,
+        true
+      )
+    } catch {
+      controls = { diagnosticsAvailable: false }
+    }
+    const failureStem = `${dataRoot.phase}-daily-failure`
+    try {
+      writeFileSync(
+        join(dataRoot.resultsDirectory, `${failureStem}.json`),
+        `${JSON.stringify({ stage, controls }, null, 2)}\n`,
+        { encoding: 'utf8', flag: 'wx' }
+      )
+    } catch {
+      // Preserve the original UI failure when evidence capture itself is unavailable.
+    }
+    try {
+      writeFileSync(
+        join(dataRoot.resultsDirectory, `${failureStem}.png`),
+        (await window.webContents.capturePage()).toPNG(),
+        { flag: 'wx' }
+      )
+    } catch {
+      // Preserve the original UI failure when evidence capture itself is unavailable.
+    }
+    throw error
+  }
   writeFileSync(
     join(dataRoot.resultsDirectory, `${dataRoot.phase}-daily-ui.png`),
     (await window.webContents.capturePage()).toPNG(),

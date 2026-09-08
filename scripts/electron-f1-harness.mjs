@@ -51,25 +51,114 @@ async function runStartupFailureProbe() {
     env: environment,
     stdio: ['ignore', 'pipe', 'pipe']
   })
+  if (!child.pid) throw new Error('Electron startup-failure probe has no process identity')
   const stdout = []
   const stderr = []
   child.stdout.on('data', (chunk) => stdout.push(chunk.toString()))
   child.stderr.on('data', (chunk) => stderr.push(chunk.toString()))
-  const exitCode = await new Promise((resolveExit, reject) => {
+
+  await new Promise((resolveEvent, reject) => {
+    let settled = false
+    const finish = (action, value) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      child.stderr.off('data', inspect)
+      action(value)
+    }
+    const inspect = () => {
+      if (stderr.join('').includes('MASHIRO_STARTUP_FAILURE')) finish(resolveEvent)
+    }
     const timer = setTimeout(() => {
       spawnSync('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], { windowsHide: true })
-      reject(new Error('Electron startup-failure probe timed out'))
-    }, 45_000)
+      finish(reject, new Error('Electron startup-failure stable event timed out'))
+    }, 20_000)
+    child.stderr.on('data', inspect)
+    child.once('error', () =>
+      finish(reject, new Error('Electron startup-failure probe could not start'))
+    )
+    child.once('close', () =>
+      finish(reject, new Error('Electron exited before emitting the startup-failure event'))
+    )
+    inspect()
+  })
+
+  const closer = spawn(
+    join(
+      process.env.SystemRoot ?? 'C:/Windows',
+      'System32',
+      'WindowsPowerShell',
+      'v1.0',
+      'powershell.exe'
+    ),
+    [
+      '-NoLogo',
+      '-NoProfile',
+      '-NonInteractive',
+      '-File',
+      join(projectRoot, 'scripts', 'close-startup-failure-dialog.ps1'),
+      '-TargetProcessId',
+      String(child.pid)
+    ],
+    { cwd: projectRoot, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }
+  )
+  const closerStdout = []
+  const closerStderr = []
+  closer.stdout.on('data', (chunk) => closerStdout.push(chunk.toString()))
+  closer.stderr.on('data', (chunk) => closerStderr.push(chunk.toString()))
+
+  const childExit = new Promise((resolveExit, reject) => {
+    const timer = setTimeout(() => {
+      spawnSync('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], { windowsHide: true })
+      if (closer.pid)
+        spawnSync('taskkill.exe', ['/PID', String(closer.pid), '/T', '/F'], {
+          windowsHide: true
+        })
+      reject(new Error('Electron startup-failure probe timed out after stable event'))
+    }, 25_000)
     child.once('error', () => {
       clearTimeout(timer)
-      reject(new Error('Electron startup-failure probe could not start'))
+      reject(new Error('Electron startup-failure probe failed after stable event'))
     })
-    child.once('exit', (code) => {
+    child.once('close', (code) => {
       clearTimeout(timer)
       resolveExit(code)
     })
   })
-  if (exitCode === 0) throw new Error('Electron accepted an invalid trusted E2E root')
+  const closerExit = new Promise((resolveExit, reject) => {
+    closer.once('error', () => reject(new Error('Startup-failure dialog closer could not start')))
+    closer.once('close', (code) => {
+      if (code !== 0) {
+        spawnSync('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], { windowsHide: true })
+        reject(
+          new Error(
+            'Startup-failure dialog was not closed normally: ' + closerStderr.join('').trim()
+          )
+        )
+        return
+      }
+      resolveExit(code)
+    })
+  })
+
+  const [exitCode] = await Promise.all([childExit, closerExit])
+  let dialogEvidence
+  try {
+    dialogEvidence = JSON.parse(closerStdout.join('').trim())
+  } catch {
+    throw new Error('Startup-failure dialog closer returned invalid evidence')
+  }
+  if (
+    dialogEvidence.outcome !== 'EXACT_STARTUP_FAILURE_DIALOG_CLOSED' ||
+    dialogEvidence.targetProcessId !== child.pid ||
+    dialogEvidence.className !== '#32770' ||
+    dialogEvidence.captionIsError !== true ||
+    dialogEvidence.binding !== 'TARGET_PID_UNIQUE_VISIBLE_ERROR_DIALOG_AFTER_STABLE_EVENT' ||
+    dialogEvidence.closeMessage !== 'WM_CLOSE'
+  )
+    throw new Error('Startup-failure dialog evidence identity is invalid')
+  if (typeof exitCode !== 'number' || exitCode === 0)
+    throw new Error('Electron accepted an invalid trusted E2E root')
   const captured = `${stdout.join('')}\n${stderr.join('')}`
   if (!stderr.join('').includes('MASHIRO_STARTUP_FAILURE'))
     throw new Error('Electron startup failure did not emit the stable event')
@@ -83,7 +172,6 @@ async function runStartupFailureProbe() {
   if (forbidden.some((pattern) => pattern.test(captured)))
     throw new Error('Electron startup failure exposed internal details')
 }
-
 async function runPhase(phase) {
   const environment = {
     ...process.env,

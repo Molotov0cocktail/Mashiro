@@ -141,12 +141,13 @@ describe('App background navigation', () => {
         cursor: 0
       })
     )
-    fireEvent.click(screen.getByRole('tab', { name: '章节后台' }))
-    expect(screen.getByRole('tab', { name: '章节后台' })).toHaveAttribute('aria-selected', 'true')
+    fireEvent.click(screen.getByRole('button', { name: '自动工作' }))
+    fireEvent.click(screen.getByRole('button', { name: '对话整理' }))
+    expect(screen.getByRole('button', { name: '对话整理' })).toHaveAttribute('aria-current', 'page')
     fireEvent.click(await screen.findByRole('checkbox', { name: '选择章节：项目决策与后续' }))
     fireEvent.click(screen.getByRole('button', { name: '在对话中使用已选章节（1）' }))
 
-    expect(screen.getByRole('tab', { name: '对话' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '对话' })).toHaveAttribute('aria-current', 'page')
     expect(await screen.findByRole('region', { name: '当前章节上下文' })).toBeInTheDocument()
     fireEvent.change(screen.getByLabelText('正常消息'), { target: { value: '继续讨论' } })
     fireEvent.click(screen.getByRole('button', { name: '发送' }))

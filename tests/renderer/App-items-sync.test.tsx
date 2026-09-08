@@ -176,7 +176,7 @@ describe('App item and conversation integration', () => {
     })
 
     render(<App />)
-    fireEvent.click(await screen.findByRole('tab', { name: '事项' }))
+    fireEvent.click(await screen.findByRole('button', { name: '事项' }))
     fireEvent.click(screen.getByRole('tab', { name: '待确认' }))
     const proposal = await screen.findByRole('article', { name: '待确认提案：考虑预约牙医' })
     fireEvent.click(within(proposal).getByRole('button', { name: '恢复原助手并协商' }))
@@ -202,7 +202,7 @@ describe('App item and conversation integration', () => {
     )
 
     expect(await screen.findByText('当前助手：Beta')).toBeInTheDocument()
-    expect(screen.getByRole('tab', { name: '对话' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '对话' })).toHaveAttribute('aria-current', 'page')
     expect(screen.getByText(/正在协商提案/)).toHaveTextContent('版本 4')
     fireEvent.change(screen.getByLabelText('正常消息'), {
       target: { value: '把时间改成下周二下午三点。' }
@@ -327,11 +327,11 @@ describe('App item and conversation integration', () => {
     })
 
     render(<App />)
-    fireEvent.click(await screen.findByRole('tab', { name: '事项' }))
+    fireEvent.click(await screen.findByRole('button', { name: '事项' }))
     const item = await screen.findByRole('article', { name: '正式事项：周五交报告' })
     fireEvent.click(within(item).getByRole('button', { name: '在对话中处理' }))
 
-    expect(screen.getByRole('tab', { name: '对话' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '对话' })).toHaveAttribute('aria-current', 'page')
     expect(await screen.findByText(/正在处理事项/)).toHaveTextContent(
       '00000000-0000-4000-8000-000000000101 · 版本 2'
     )
@@ -354,7 +354,7 @@ describe('App item and conversation integration', () => {
       })
     )
 
-    fireEvent.click(screen.getByRole('tab', { name: '事项' }))
+    fireEvent.click(screen.getByRole('button', { name: '事项' }))
     fireEvent.click(await screen.findByText('事项权限与实际接收方'))
     fireEvent.click(screen.getByLabelText('允许当前实际 Provider 端点接收事项上下文'))
     fireEvent.click(screen.getByRole('button', { name: '保存事项权限' }))
@@ -363,7 +363,7 @@ describe('App item and conversation integration', () => {
         expect.objectContaining({ receive: false })
       )
     )
-    fireEvent.click(screen.getByRole('tab', { name: '对话' }))
+    fireEvent.click(screen.getByRole('button', { name: '对话' }))
     await waitFor(() => expect(screen.queryByText(/正在处理事项/)).not.toBeInTheDocument())
   })
 })

@@ -1,0 +1,27 @@
+[
+  {
+    "path": "out\\main\\index.js",
+    "size": 952356,
+    "sha256": "416E380EF39E0246A4454A108B469838DC20DAB8861ED457282B54B483E6F342"
+  },
+  {
+    "path": "out\\preload\\index.cjs",
+    "size": 12501,
+    "sha256": "6FA45BB4625584B2A471BC8B187793BE84BD7487BBE258F0215D10628726971D"
+  },
+  {
+    "path": "out\\renderer\\index.html",
+    "size": 625,
+    "sha256": "5B2349A38D7A9F3FB38127B6503B01FF31C3F3AEDEA6A90F8C0B925C5E1C19DB"
+  },
+  {
+    "path": "out\\renderer\\assets\\index-CwBx5tyj.js",
+    "size": 1365906,
+    "sha256": "A562438399420FF4F416A3E7204DD996B8FF1F90153281945990E0084E96B58E"
+  },
+  {
+    "path": "out\\renderer\\assets\\index-VFjBASvQ.css",
+    "size": 40281,
+    "sha256": "7000E72B35B9812FDF7E0B795E904894568979B89E41D6CC9440DA36E76EF3D4"
+  }
+]

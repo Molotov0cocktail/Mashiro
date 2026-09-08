@@ -149,6 +149,8 @@ export function MemoryPanel({
   const [permissionLoading, setPermissionLoading] = useState(false)
   const [permissionError, setPermissionError] = useState('')
 
+  const lastConfigurationFocusKey = useRef<string | null>(null)
+
   useEffect(() => {
     if (
       configurationFocusNonce == null ||
@@ -158,11 +160,17 @@ export function MemoryPanel({
     ) {
       return
     }
+    const focusKey = `${assistantId}:${configurationFocusNonce}`
+    if (lastConfigurationFocusKey.current === focusKey) return
     const element = document.getElementById('memory-permissions')
-    if (!element) return
-    element.focus()
+    if (!(element instanceof HTMLDetailsElement)) return
+    element.open = true
+    const focusTarget = element.querySelector('summary')
+    if (!(focusTarget instanceof HTMLElement)) return
+    lastConfigurationFocusKey.current = focusKey
+    focusTarget.focus()
     element.scrollIntoView?.({ block: 'start' })
-  }, [configurationFocusNonce, permissionLoading, permissions])
+  }, [assistantId, configurationFocusNonce, permissionLoading, permissions])
 
   const [action, setAction] = useState<'remember' | 'correct'>('remember')
   const [editTarget, setEditTarget] = useState<MemoryRecord | null>(null)
@@ -698,7 +706,7 @@ export function MemoryPanel({
       <div className="panel-heading">
         <div>
           <p className="eyebrow">可追溯的本地长期信息</p>
-          <h1 id="memory-heading">记忆与个人事件</h1>
+          <h2 id="memory-heading">记忆与个人事件</h2>
         </div>
         <p className="privacy-note">当前助手：{assistantName || '请先创建助手'}</p>
       </div>
@@ -708,16 +716,13 @@ export function MemoryPanel({
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
 
-      <section
+      <details
         id="memory-permissions"
-        className="memory-permissions"
+        className="memory-permissions configuration-disclosure"
         aria-label="记忆授权"
-        tabIndex={-1}
       >
-        <div>
-          <h2>助手与实际接收方授权</h2>
-          <p className="scope-note">全局用户记忆和本助手私有记忆分别授权；新授权默认关闭。</p>
-        </div>
+        <summary>助手与实际接收方授权</summary>
+        <p className="scope-note">全局用户记忆和本助手私有记忆分别授权；新授权默认关闭。</p>
         {permissionError ? <p role="alert">{permissionError}</p> : null}
         <div className="permission-grid">
           {(['global', 'assistant'] as const).map((permissionScope) => {
@@ -744,7 +749,7 @@ export function MemoryPanel({
             )
           })}
         </div>
-      </section>
+      </details>
 
       <div className="memory-grid">
         <section className="memory-browser" aria-label="浏览记忆与事件">

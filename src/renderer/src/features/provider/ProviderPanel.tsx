@@ -125,7 +125,9 @@ export function ProviderPanel({
   retentionChange,
   onPrepareRetention,
   configurationFocus,
-  chapterContextTarget
+  chapterContextTarget,
+  surface = 'combined',
+  onOpenSettings
 }: {
   assistantSnapshot: AssistantSnapshot | null
   api: ProviderApi
@@ -168,6 +170,8 @@ export function ProviderPanel({
     chapters: Array<{ id: string; expectedVersion: number }>
     nonce: number
   } | null
+  surface?: 'combined' | 'chat' | 'settings'
+  onOpenSettings?: (target: 'assistants' | 'provider' | 'chat') => void
 }): React.JSX.Element {
   const [snapshot, setSnapshot] = useState<ProviderSnapshot | null>(null)
   const [selectedId, setSelectedId] = useState('')
@@ -1174,17 +1178,64 @@ export function ProviderPanel({
   }
 
   return (
-    <section aria-labelledby="provider-heading" className="provider-panel">
-      <div className="panel-heading">
+    <section
+      aria-labelledby="provider-heading"
+      className={`provider-panel provider-surface-${surface}`}
+    >
+      <div className="panel-heading provider-page-heading">
         <div>
-          <p className="eyebrow">持续时间线与严格临时交流</p>
-          <h1 id="provider-heading">连接与文本交流</h1>
+          <p className="eyebrow">
+            {surface === 'settings' ? '连接、凭据与助手模型' : '持续对话与严格临时交流'}
+          </p>
+          <h2 id="provider-heading">
+            {surface === 'settings'
+              ? '模型连接'
+              : surface === 'chat'
+                ? currentAssistant
+                  ? `与${currentAssistant.displayName}对话`
+                  : '开始对话'
+                : '连接与文本交流'}
+          </h2>
         </div>
-        <p className="privacy-note">
-          正常模式自动记录在本机；严格临时模式只保留于本次运行，除非你明确保存
-        </p>
+        {surface === 'chat' && onOpenSettings ? (
+          <button
+            type="button"
+            className="secondary-action"
+            onClick={() => onOpenSettings('provider')}
+          >
+            模型连接设置
+          </button>
+        ) : surface === 'settings' && onOpenSettings ? (
+          <button type="button" className="secondary-action" onClick={() => onOpenSettings('chat')}>
+            返回对话
+          </button>
+        ) : (
+          <p className="privacy-note">
+            正常模式自动记录在本机；严格临时模式只保留于本次运行，除非你明确保存
+          </p>
+        )}
       </div>
       {settingsError ? <p role="alert">{settingsError}</p> : null}
+      {surface === 'chat' && (!currentAssistant || !receiver) ? (
+        <section className="onboarding-callout" aria-label="开始使用">
+          <div>
+            <strong>{currentAssistant ? '还差一步即可开始对话' : '先创建你的助手'}</strong>
+            <p>
+              {currentAssistant
+                ? '为当前助手选择模型连接后，就可以在这里开始正常或严格临时对话。'
+                : '创建助手并设置模型连接后，这里会成为你的日常对话页面。'}
+            </p>
+          </div>
+          {onOpenSettings ? (
+            <button
+              type="button"
+              onClick={() => onOpenSettings(currentAssistant ? 'provider' : 'assistants')}
+            >
+              {currentAssistant ? '设置模型连接' : '创建助手'}
+            </button>
+          ) : null}
+        </section>
+      ) : null}
 
       <div className="provider-grid">
         <details
@@ -1192,6 +1243,7 @@ export function ProviderPanel({
           className="provider-settings-shell"
           tabIndex={-1}
           open
+          hidden={surface === 'chat'}
         >
           <summary>连接设置</summary>
           <form
@@ -1311,131 +1363,158 @@ export function ProviderPanel({
         </details>
 
         <div className="temporary-chat">
-          <div className="chat-assistant-heading">
-            {currentAssistant ? (
-              <AssistantAvatar
-                avatarKey={currentAssistant.avatarKey}
-                size="large"
-                label={`${currentAssistant.displayName}的聊天形象：${avatarLabel(currentAssistant.avatarKey)}`}
-              />
-            ) : null}
-            <h2>{mode === 'normal' ? '正常时间线' : '本次运行的严格临时会话'}</h2>
-          </div>
-          <label>
-            当前助手
-            <select value={currentAssistantId} disabled>
-              <option value={currentAssistantId}>
-                {currentAssistant?.displayName ?? '请先创建助手'}
-              </option>
-            </select>
-          </label>
-          <p className="scope-note">
-            当前助手的名称和人设会随正常及严格临时请求发送给下方显示的实际接收方；人设不会授予历史、记忆、事项或工具权限。
-          </p>
-          <fieldset className="mode-switch">
-            <legend>交流模式</legend>
-            <label className="inline-check">
-              <input
-                type="radio"
-                name={'chat-mode-' + currentAssistantId}
-                value="normal"
-                checked={mode === 'normal'}
-                onChange={() =>
-                  setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
-                }
-              />
-              正常模式（自动保存）
-            </label>
-            <label className="inline-check">
-              <input
-                type="radio"
-                name={'chat-mode-' + currentAssistantId}
-                value="temporary"
-                checked={mode === 'temporary'}
-                onChange={() =>
-                  setModeByAssistant((values) => ({
-                    ...values,
-                    [currentAssistantId]: 'temporary'
-                  }))
-                }
-              />
-              严格临时（不自动保存）
-            </label>
-          </fieldset>
-          <label>
-            模型
-            <input
-              value={model}
-              maxLength={160}
-              onChange={(event) => {
-                const value = event.currentTarget.value
-                setModelDrafts((items) => ({ ...items, [currentAssistantId]: value }))
-              }}
-            />
-          </label>
-          <button
-            type="button"
-            disabled={!selectedId || !currentAssistantId || !model.trim()}
-            onClick={() =>
-              void apply(() =>
-                api.bindAssistant({
-                  protocolVersion,
-                  assistantId: currentAssistantId,
-                  connectionId: selectedId,
-                  model,
-                  expectedVersion: binding?.version ?? null
-                })
-              )
-            }
+          <section
+            className="assistant-binding-settings"
+            aria-label="当前助手的模型绑定"
+            hidden={surface === 'chat'}
           >
-            绑定“正在编辑”的连接
-          </button>
-          <p className="receiver">
-            {receiver ? '实际接收方：' + receiver : '请先保存连接并绑定当前助手'}
-          </p>
-          <p className="scope-note">
-            {mode === 'normal'
-              ? '你可以在下方选择近期历史、仅本次输入或已选轮次；近期模式最多最近 16 组已完成的正常对话，并且只有读取与实际接收方权限都允许时才会外发。'
-              : '只发送本次严格临时会话；不会读取正常历史，也不会自动保存到正常时间线。'}
-          </p>
-
-          {mode === 'normal' && itemContext ? (
-            <section className="item-context-banner" aria-label="当前事项协商上下文">
-              <p>
-                正在{itemContext.type === 'proposal' ? '协商提案' : '处理事项'} {itemContext.id} ·
-                版本 {itemContext.expectedVersion}
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setDismissedItemTargetNonce(itemTarget?.nonce ?? null)
-                  setItemContexts((values) => ({ ...values, [currentAssistantId]: undefined }))
+            <h2>当前助手使用的模型</h2>
+            <p className="scope-note">
+              先选择上方正在编辑的连接，再为当前助手填写该连接支持的模型名称。绑定不会自动授予历史、记忆、事项或工具权限。
+            </p>
+            <label>
+              绑定助手
+              <select value={currentAssistantId} disabled>
+                <option value={currentAssistantId}>
+                  {currentAssistant?.displayName ?? '请先创建助手'}
+                </option>
+              </select>
+            </label>
+            <label>
+              模型
+              <input
+                value={model}
+                maxLength={160}
+                onChange={(event) => {
+                  const value = event.currentTarget.value
+                  setModelDrafts((items) => ({ ...items, [currentAssistantId]: value }))
                 }}
-              >
-                结束事项上下文
-              </button>
-            </section>
-          ) : null}
+              />
+            </label>
+            <button
+              type="button"
+              disabled={!selectedId || !currentAssistantId || !model.trim()}
+              onClick={() =>
+                void apply(() =>
+                  api.bindAssistant({
+                    protocolVersion,
+                    assistantId: currentAssistantId,
+                    connectionId: selectedId,
+                    model,
+                    expectedVersion: binding?.version ?? null
+                  })
+                )
+              }
+            >
+              把当前助手连接到这个模型
+            </button>
+            <p className="receiver">
+              {receiver ? '当前绑定：' + receiver : '请先保存连接并绑定当前助手'}
+            </p>
+          </section>
 
-          {mode === 'normal' && contextIntent.kind === 'chapters' ? (
-            <section className="item-context-banner" aria-label="当前章节上下文">
-              <p>下一次正常对话将读取 {contextIntent.chapters.length} 个已接受章节及其精确版本。</p>
-              <button
-                type="button"
-                onClick={() =>
-                  setContextByAssistant((items) => ({
-                    ...items,
-                    [currentAssistantId]: { kind: 'recent' }
-                  }))
-                }
-              >
-                改用近期合格历史
-              </button>
-            </section>
-          ) : null}
+          <div className="provider-chat-workspace" hidden={surface === 'settings'}>
+            <div className="chat-assistant-heading">
+              {currentAssistant ? (
+                <AssistantAvatar
+                  avatarKey={currentAssistant.avatarKey}
+                  size="large"
+                  label={`${currentAssistant.displayName}的聊天形象：${avatarLabel(currentAssistant.avatarKey)}`}
+                />
+              ) : null}
+              <h2>{mode === 'normal' ? '正常时间线' : '本次运行的严格临时会话'}</h2>
+            </div>
+            <label>
+              当前助手
+              <select value={currentAssistantId} disabled>
+                <option value={currentAssistantId}>
+                  {currentAssistant?.displayName ?? '请先创建助手'}
+                </option>
+              </select>
+            </label>
+            <p className="scope-note">
+              当前助手的名称和人设会随正常及严格临时请求发送给下方显示的实际接收方；人设不会授予历史、记忆、事项或工具权限。
+            </p>
+            <fieldset className="mode-switch">
+              <legend>交流模式</legend>
+              <label className="inline-check">
+                <input
+                  type="radio"
+                  name={'chat-mode-' + currentAssistantId}
+                  value="normal"
+                  checked={mode === 'normal'}
+                  onChange={() =>
+                    setModeByAssistant((values) => ({ ...values, [currentAssistantId]: 'normal' }))
+                  }
+                />
+                正常模式（自动保存）
+              </label>
+              <label className="inline-check">
+                <input
+                  type="radio"
+                  name={'chat-mode-' + currentAssistantId}
+                  value="temporary"
+                  checked={mode === 'temporary'}
+                  onChange={() =>
+                    setModeByAssistant((values) => ({
+                      ...values,
+                      [currentAssistantId]: 'temporary'
+                    }))
+                  }
+                />
+                严格临时（不自动保存）
+              </label>
+            </fieldset>
+            <p className="receiver">
+              {receiver ? '实际接收方：' + receiver : '请先保存连接并绑定当前助手'}
+            </p>
+            <p className="scope-note">
+              {mode === 'normal'
+                ? '你可以在下方选择近期历史、仅本次输入或已选轮次；近期模式最多最近 16 组已完成的正常对话，并且只有读取与实际接收方权限都允许时才会外发。'
+                : '只发送本次严格临时会话；不会读取正常历史，也不会自动保存到正常时间线。'}
+            </p>
+
+            {mode === 'normal' && itemContext ? (
+              <section className="item-context-banner" aria-label="当前事项协商上下文">
+                <p>
+                  正在{itemContext.type === 'proposal' ? '协商提案' : '处理事项'} {itemContext.id} ·
+                  版本 {itemContext.expectedVersion}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDismissedItemTargetNonce(itemTarget?.nonce ?? null)
+                    setItemContexts((values) => ({ ...values, [currentAssistantId]: undefined }))
+                  }}
+                >
+                  结束事项上下文
+                </button>
+              </section>
+            ) : null}
+
+            {mode === 'normal' && contextIntent.kind === 'chapters' ? (
+              <section className="item-context-banner" aria-label="当前章节上下文">
+                <p>
+                  下一次正常对话将读取 {contextIntent.chapters.length} 个已接受章节及其精确版本。
+                </p>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setContextByAssistant((items) => ({
+                      ...items,
+                      [currentAssistantId]: { kind: 'recent' }
+                    }))
+                  }
+                >
+                  改用近期合格历史
+                </button>
+              </section>
+            ) : null}
+          </div>
 
           <HistoryContextPanel
             assistantId={currentAssistantId}
+            surface={surface}
             mode={mode}
             bindingKey={historyBindingKey}
             timelineApi={timelineApi}
@@ -1492,238 +1571,249 @@ export function ProviderPanel({
             }}
           />
 
-          <ToolExecutionPanel
-            assistantId={currentAssistantId}
-            mode={mode}
-            contextIntent={contextIntent}
-            memoryApi={memoryApi}
-            itemApi={itemApi}
-            reminderApi={reminderApi}
-            capability={currentCapability}
-            capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
-            capabilityError={capabilityErrors[currentAssistantId] ?? ''}
-            scope={toolScope}
-            operations={currentOperations}
-            operationLoading={operationLoading[currentKey] ?? false}
-            operationError={operationErrors[currentKey] ?? ''}
-            onScopeChange={(value) => setToolScopes((items) => ({ ...items, [currentKey]: value }))}
-            onRefreshOperation={(requestId) => {
-              autoOperationReadVersions.current[currentKey] =
-                (autoOperationReadVersions.current[currentKey] ?? 0) + 1
-              void loadOperations(currentAssistantId, mode, requestId)
-            }}
-            onMemoryChanged={() => {
-              setRoundMemoryRefresh((value) => value + 1)
-              onMemoryChanged?.()
-            }}
-            onItemChanged={onItemChanged}
-            onReminderChanged={onReminderChanged}
-            onOpenItems={onOpenItems}
-            onLocateMemorySource={onLocateMemorySource}
-            retentionChange={retentionChange}
-            onPrepareRetention={(prepared) =>
-              onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
-            }
-            onLocateCitation={(citation: HistoryCitation) =>
-              setHistoryFocus((items) => ({
-                ...items,
-                [currentAssistantId]: {
-                  requestId: citation.requestId,
-                  nonce: (items[currentAssistantId]?.nonce ?? 0) + 1
-                }
-              }))
-            }
-          />
+          <div className="provider-chat-workspace" hidden={surface === 'settings'}>
+            <ToolExecutionPanel
+              assistantId={currentAssistantId}
+              mode={mode}
+              contextIntent={contextIntent}
+              memoryApi={memoryApi}
+              itemApi={itemApi}
+              reminderApi={reminderApi}
+              capability={currentCapability}
+              capabilityLoading={capabilityLoading[currentAssistantId] ?? false}
+              capabilityError={capabilityErrors[currentAssistantId] ?? ''}
+              scope={toolScope}
+              operations={currentOperations}
+              operationLoading={operationLoading[currentKey] ?? false}
+              operationError={operationErrors[currentKey] ?? ''}
+              onScopeChange={(value) =>
+                setToolScopes((items) => ({ ...items, [currentKey]: value }))
+              }
+              onRefreshOperation={(requestId) => {
+                autoOperationReadVersions.current[currentKey] =
+                  (autoOperationReadVersions.current[currentKey] ?? 0) + 1
+                void loadOperations(currentAssistantId, mode, requestId)
+              }}
+              onMemoryChanged={() => {
+                setRoundMemoryRefresh((value) => value + 1)
+                onMemoryChanged?.()
+              }}
+              onItemChanged={onItemChanged}
+              onReminderChanged={onReminderChanged}
+              onOpenItems={onOpenItems}
+              onLocateMemorySource={onLocateMemorySource}
+              retentionChange={retentionChange}
+              onPrepareRetention={(prepared) =>
+                onPrepareRetention?.(prepared.assistantId, prepared.target, prepared.intent)
+              }
+              onLocateCitation={(citation: HistoryCitation) =>
+                setHistoryFocus((items) => ({
+                  ...items,
+                  [currentAssistantId]: {
+                    requestId: citation.requestId,
+                    nonce: (items[currentAssistantId]?.nonce ?? 0) + 1
+                  }
+                }))
+              }
+            />
 
-          {timelineErrors[currentKey] ? <p role="alert">{timelineErrors[currentKey]}</p> : null}
-          {notices[currentKey] ? <p role="status">{notices[currentKey]}</p> : null}
-          {loading[currentKey] && transcript.length === 0 ? <p>正在读取…</p> : null}
-          {hasMore[currentKey] ? (
-            <p className="scope-note">这里只显示最近 100 条消息，更早内容仍保留在本机。</p>
-          ) : null}
-          {currentRejectedDrafts.length > 0 ? (
-            <section aria-label="未发送草稿" className="rejected-drafts">
-              {currentRejectedDrafts.map((draft) => (
-                <article key={draft.requestId}>
-                  <strong>未发送草稿</strong>
-                  <p>{draft.content}</p>
-                  <small>
-                    {mode === 'temporary'
-                      ? '未发送 · 未保存 · 未进入可保存的临时时间线'
-                      : '未发送 · 未保存 · 未进入正常时间线'}
-                  </small>
-                  <button
-                    type="button"
-                    disabled={Boolean(text.trim())}
-                    onClick={() => {
-                      setTextDrafts((values) => ({ ...values, [currentKey]: draft.content }))
-                      setRejectedDrafts((values) => ({
-                        ...values,
-                        [currentKey]: (values[currentKey] ?? []).filter(
-                          (item) => item.requestId !== draft.requestId
-                        )
-                      }))
-                    }}
-                  >
-                    重新编辑此草稿
-                  </button>
-                </article>
-              ))}
-            </section>
-          ) : null}
-          {mode === 'normal' && onPrepareRetention ? (
-            <div className="retention-timeline-actions">
-              <button
-                type="button"
-                onClick={() => onPrepareRetention(currentAssistantId, { type: 'timeline' })}
-              >
-                预览清理整条时间线
-              </button>
-              {cleanupAnchors.length === 2 ? (
+            {timelineErrors[currentKey] ? <p role="alert">{timelineErrors[currentKey]}</p> : null}
+            {notices[currentKey] ? <p role="status">{notices[currentKey]}</p> : null}
+            {loading[currentKey] && transcript.length === 0 ? <p>正在读取…</p> : null}
+            {hasMore[currentKey] ? (
+              <p className="scope-note">这里只显示最近 100 条消息，更早内容仍保留在本机。</p>
+            ) : null}
+            {currentRejectedDrafts.length > 0 ? (
+              <section aria-label="未发送草稿" className="rejected-drafts">
+                {currentRejectedDrafts.map((draft) => (
+                  <article key={draft.requestId}>
+                    <strong>未发送草稿</strong>
+                    <p>{draft.content}</p>
+                    <small>
+                      {mode === 'temporary'
+                        ? '未发送 · 未保存 · 未进入可保存的临时时间线'
+                        : '未发送 · 未保存 · 未进入正常时间线'}
+                    </small>
+                    <button
+                      type="button"
+                      disabled={Boolean(text.trim())}
+                      onClick={() => {
+                        setTextDrafts((values) => ({ ...values, [currentKey]: draft.content }))
+                        setRejectedDrafts((values) => ({
+                          ...values,
+                          [currentKey]: (values[currentKey] ?? []).filter(
+                            (item) => item.requestId !== draft.requestId
+                          )
+                        }))
+                      }}
+                    >
+                      重新编辑此草稿
+                    </button>
+                  </article>
+                ))}
+              </section>
+            ) : null}
+            {mode === 'normal' && onPrepareRetention ? (
+              <div className="retention-timeline-actions">
                 <button
                   type="button"
+                  onClick={() => onPrepareRetention(currentAssistantId, { type: 'timeline' })}
+                >
+                  预览清理整条时间线
+                </button>
+                {cleanupAnchors.length === 2 ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onPrepareRetention(currentAssistantId, {
+                        type: 'range',
+                        firstMessageId: cleanupAnchors[0]!,
+                        lastMessageId: cleanupAnchors[1]!
+                      })
+                    }
+                  >
+                    预览清理所选区段
+                  </button>
+                ) : null}
+                <small>
+                  按时间顺序选择两个消息作为区段端点；可信预览会说明是否扩大到完整轮次。
+                </small>
+              </div>
+            ) : null}
+            <div className="transcript" aria-live="polite" aria-label="消息时间线">
+              {transcript.map((item) => (
+                <article key={item.id} className={item.role + ' status-' + item.status}>
+                  <strong>{item.role === 'user' ? '你' : '助手'}</strong>
+                  <p>
+                    {item.content || (item.status === 'pending' ? '尚未返回正文' : '未返回正文')}
+                  </p>
+                  <small>
+                    {uncertainRequests[item.requestId] || statusText(item.status)}
+                    {mode === 'temporary' ? ' · ' + (item.saved ? '已保存' : '未保存') : ''}
+                  </small>
+                  {item.role === 'assistant' ? (
+                    <RoundMemoryPanel
+                      assistantId={currentAssistantId}
+                      requestId={item.requestId}
+                      mode={mode}
+                      api={memoryApi}
+                      refreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
+                      onOpenMemory={onOpenMemory}
+                    />
+                  ) : null}
+                  {mode === 'normal' && onPrepareRetention ? (
+                    <div className="message-retention-actions">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onPrepareRetention(currentAssistantId, {
+                            type: 'message',
+                            messageId: item.id
+                          })
+                        }
+                      >
+                        预览清理此消息
+                      </button>
+                      <label className="inline-check">
+                        <input
+                          type="checkbox"
+                          checked={cleanupAnchors.includes(item.id)}
+                          disabled={!cleanupAnchors.includes(item.id) && cleanupAnchors.length >= 2}
+                          onChange={(event) => {
+                            const checked = event.currentTarget.checked
+                            setCleanupAnchorsByAssistant((values) => ({
+                              ...values,
+                              [currentAssistantId]: checked
+                                ? [...cleanupAnchors, item.id]
+                                : cleanupAnchors.filter((id) => id !== item.id)
+                            }))
+                          }}
+                        />
+                        作为区段端点
+                      </label>
+                    </div>
+                  ) : null}
+                </article>
+              ))}
+            </div>
+
+            {mode === 'temporary' ? (
+              <div className="temporary-actions">
+                <p className="scope-note">
+                  保存目标：“{currentAssistant?.displayName ?? '此助手'}
+                  ”的正常时间线。范围：当前临时会话中尚未保存的用户可见消息及其真实状态。
+                </p>
+                {activeRequest ? (
+                  <p className="scope-note">请等待当前请求完成或取消后再保存。</p>
+                ) : null}
+                <div className="button-row">
+                  <button
+                    type="button"
+                    disabled={!currentAssistantId || Boolean(activeRequest) || saving[currentKey]}
+                    onClick={() => void saveTemporary(currentAssistantId)}
+                  >
+                    {saving[currentKey] ? '正在保存…' : '保存到此助手时间线'}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!currentAssistantId || Boolean(activeRequest)}
+                    onClick={() => void clearTemporaryChat(currentAssistantId)}
+                  >
+                    清空本助手的临时会话
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            <form
+              onSubmit={(event) => {
+                event.preventDefault()
+                void send()
+              }}
+            >
+              <label>
+                {mode === 'normal' ? '正常消息' : '临时消息'}
+                <textarea
+                  value={text}
+                  maxLength={16000}
+                  onChange={(event) => {
+                    const value = event.currentTarget.value
+                    setTextDrafts((items) => ({ ...items, [currentKey]: value }))
+                  }}
+                />
+              </label>
+              <label className="inline-check">
+                <input
+                  type="checkbox"
+                  checked={stream}
+                  onChange={(event) => setStream(event.currentTarget.checked)}
+                />
+                流式显示
+              </label>
+              <div className="button-row">
+                <button
+                  type="submit"
+                  disabled={!receiver || !text.trim() || Boolean(activeRequest)}
+                >
+                  发送
+                </button>
+                <button
+                  type="button"
+                  disabled={!activeRequest}
                   onClick={() =>
-                    onPrepareRetention(currentAssistantId, {
-                      type: 'range',
-                      firstMessageId: cleanupAnchors[0]!,
-                      lastMessageId: cleanupAnchors[1]!
+                    activeRequest &&
+                    void api.cancelChat({
+                      protocolVersion,
+                      requestId: activeRequest.requestId,
+                      assistantId: currentAssistantId
                     })
                   }
                 >
-                  预览清理所选区段
-                </button>
-              ) : null}
-              <small>按时间顺序选择两个消息作为区段端点；可信预览会说明是否扩大到完整轮次。</small>
-            </div>
-          ) : null}
-          <div className="transcript" aria-live="polite" aria-label="消息时间线">
-            {transcript.map((item) => (
-              <article key={item.id} className={item.role + ' status-' + item.status}>
-                <strong>{item.role === 'user' ? '你' : '助手'}</strong>
-                <p>{item.content || (item.status === 'pending' ? '尚未返回正文' : '未返回正文')}</p>
-                <small>
-                  {uncertainRequests[item.requestId] || statusText(item.status)}
-                  {mode === 'temporary' ? ' · ' + (item.saved ? '已保存' : '未保存') : ''}
-                </small>
-                {item.role === 'assistant' ? (
-                  <RoundMemoryPanel
-                    assistantId={currentAssistantId}
-                    requestId={item.requestId}
-                    mode={mode}
-                    api={memoryApi}
-                    refreshKey={`${historyBindingKey}:${roundMemoryRefresh}:${memoryEvidenceRefreshKey ?? ''}:${retentionChange?.epoch ?? ''}`}
-                    onOpenMemory={onOpenMemory}
-                  />
-                ) : null}
-                {mode === 'normal' && onPrepareRetention ? (
-                  <div className="message-retention-actions">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        onPrepareRetention(currentAssistantId, {
-                          type: 'message',
-                          messageId: item.id
-                        })
-                      }
-                    >
-                      预览清理此消息
-                    </button>
-                    <label className="inline-check">
-                      <input
-                        type="checkbox"
-                        checked={cleanupAnchors.includes(item.id)}
-                        disabled={!cleanupAnchors.includes(item.id) && cleanupAnchors.length >= 2}
-                        onChange={(event) => {
-                          const checked = event.currentTarget.checked
-                          setCleanupAnchorsByAssistant((values) => ({
-                            ...values,
-                            [currentAssistantId]: checked
-                              ? [...cleanupAnchors, item.id]
-                              : cleanupAnchors.filter((id) => id !== item.id)
-                          }))
-                        }}
-                      />
-                      作为区段端点
-                    </label>
-                  </div>
-                ) : null}
-              </article>
-            ))}
-          </div>
-
-          {mode === 'temporary' ? (
-            <div className="temporary-actions">
-              <p className="scope-note">
-                保存目标：“{currentAssistant?.displayName ?? '此助手'}
-                ”的正常时间线。范围：当前临时会话中尚未保存的用户可见消息及其真实状态。
-              </p>
-              {activeRequest ? (
-                <p className="scope-note">请等待当前请求完成或取消后再保存。</p>
-              ) : null}
-              <div className="button-row">
-                <button
-                  type="button"
-                  disabled={!currentAssistantId || Boolean(activeRequest) || saving[currentKey]}
-                  onClick={() => void saveTemporary(currentAssistantId)}
-                >
-                  {saving[currentKey] ? '正在保存…' : '保存到此助手时间线'}
-                </button>
-                <button
-                  type="button"
-                  disabled={!currentAssistantId || Boolean(activeRequest)}
-                  onClick={() => void clearTemporaryChat(currentAssistantId)}
-                >
-                  清空本助手的临时会话
+                  取消
                 </button>
               </div>
-            </div>
-          ) : null}
-
-          <form
-            onSubmit={(event) => {
-              event.preventDefault()
-              void send()
-            }}
-          >
-            <label>
-              {mode === 'normal' ? '正常消息' : '临时消息'}
-              <textarea
-                value={text}
-                maxLength={16000}
-                onChange={(event) => {
-                  const value = event.currentTarget.value
-                  setTextDrafts((items) => ({ ...items, [currentKey]: value }))
-                }}
-              />
-            </label>
-            <label className="inline-check">
-              <input
-                type="checkbox"
-                checked={stream}
-                onChange={(event) => setStream(event.currentTarget.checked)}
-              />
-              流式显示
-            </label>
-            <div className="button-row">
-              <button type="submit" disabled={!receiver || !text.trim() || Boolean(activeRequest)}>
-                发送
-              </button>
-              <button
-                type="button"
-                disabled={!activeRequest}
-                onClick={() =>
-                  activeRequest &&
-                  void api.cancelChat({
-                    protocolVersion,
-                    requestId: activeRequest.requestId,
-                    assistantId: currentAssistantId
-                  })
-                }
-              >
-                取消
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </section>

@@ -123,7 +123,7 @@ describe('App retention command registry', () => {
     })
 
     render(<App />)
-    fireEvent.click(await screen.findByRole('tab', { name: '记忆与事件' }))
+    fireEvent.click(await screen.findByRole('button', { name: '记忆' }))
     const fillAndSubmit = (): void => {
       fireEvent.change(screen.getByLabelText('标题'), { target: { value: '私密注册表标题' } })
       fireEvent.change(screen.getByLabelText('Markdown 正文'), {

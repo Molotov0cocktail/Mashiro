@@ -11,7 +11,7 @@ import {
 } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, onTestFinished } from 'vitest'
 import { AssistantRepository } from '../../src/main/assistant/assistant-repository.js'
 import { SqliteStore } from '../../src/main/data/sqlite.js'
 import { MemoryService } from '../../src/main/memory/memory-service.js'
@@ -665,22 +665,47 @@ it('refuses a managed directory replaced by a junction and preserves its target 
   renameSync(relocated, f.directory)
 })
 
-it('yields to unrelated local work while planning and draining a multi-batch cleanup', async () => {
-  const f = fixture()
-  const records = Array.from({ length: 52 }, () => f.remember(f.ids[0]!, 'assistant'))
-  let plannedYield = false
-  setImmediate(() => {
-    plannedYield = true
+describe('multi-batch cleanup responsiveness', () => {
+  let f: ReturnType<typeof fixture>
+  let records: MemoryRecord[]
+  beforeEach(() => {
+    f = fixture()
+    records = Array.from({ length: 52 }, () => f.remember(f.ids[0]!, 'assistant'))
   })
-  const preview = await f.preview('delete-representation', {
-    type: 'memories',
-    objects: records.map((record) => ({ id: record.id, version: 1 }))
+  it('yields to unrelated local work while planning and draining a multi-batch cleanup', async () => {
+    let plannedYield = false
+    setImmediate(() => {
+      plannedYield = true
+    })
+    const preview = await f.preview('delete-representation', {
+      type: 'memories',
+      objects: records.map((record) => ({ id: record.id, version: 1 }))
+    })
+    expect(plannedYield).toBe(true)
+    const receipt = await f.confirm(preview)
+    if (!receipt.ok) throw Error('confirm')
+    const jobs = await f.retention.jobs({ protocolVersion: 1 })
+    expect(jobs.ok && jobs.data.jobs[0]?.state).not.toBe('COMPLETED')
+    expect(f.repo.snapshot().assistants).toHaveLength(3)
+    let unsubscribe = () => {}
+    try {
+      const terminal = await new Promise<string>((resolve, reject) => {
+        const inspect = async () => {
+          const result = await f.retention.jobs({ protocolVersion: 1 })
+          if (!result.ok) throw Error('jobs')
+          const job = result.data.jobs.find((value) => value.id === receipt.data.jobId)
+          if (job?.state === 'COMPLETED' || job?.state === 'FAILED_RETRYABLE') resolve(job.state)
+        }
+        // Subscribe before the initial read so a completion between reads cannot be lost.
+        unsubscribe = f.retention.onChanged(() => {
+          void inspect().catch(reject)
+        })
+        onTestFinished(() => unsubscribe())
+        void inspect().catch(reject)
+      })
+      expect(terminal).toBe('COMPLETED')
+    } finally {
+      unsubscribe()
+    }
   })
-  expect(plannedYield).toBe(true)
-  const receipt = await f.confirm(preview)
-  if (!receipt.ok) throw Error('confirm')
-  const jobs = await f.retention.jobs({ protocolVersion: 1 })
-  expect(jobs.ok && jobs.data.jobs[0]?.state).not.toBe('COMPLETED')
-  expect(f.repo.snapshot().assistants).toHaveLength(3)
-  expect((await settled(f.retention, receipt.data.jobId!)).state).toBe('COMPLETED')
 })

@@ -1,0 +1,71 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "020-daily-electron-ui-repair",
+  "status": "FROZEN_FOR_HARNESS",
+  "rootCause": {
+    "priorRun": "60f70fb0-2fe3-4289-a730-6ac460eac4fa",
+    "earliestDeterministicStaleWait": "observation-tab",
+    "finding": "The synthetic UI fixture queried 观察, 观察运行, and 观察报告 after the product renamed the visible feature to 日常观察."
+  },
+  "files": [
+    {
+      "path": "src/main/testing/e2e-daily.ts",
+      "size": 18802,
+      "sha256": "EA074BDCBD00FA4F80D6CB53D838208D2F22F9478ACFBC25ADDE6615308F134C"
+    }
+  ],
+  "inputEvidence": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/post-release-019-020-root-electron-05.raw.txt",
+      "size": 557,
+      "sha256": "FC99F0A2C58F05B9446D7B856CEC983A2ED06AC6857EAE97AB659E8758EAD525"
+    }
+  ],
+  "changes": [
+    "Use the current visible 日常观察 tab and matching 日常观察运行/日常观察报告 regions.",
+    "Label all 16 bounded 15-second waits with stable stage codes without extending their timeout.",
+    "On failure, write a CreateNew JSON receipt containing only stage and control presence/visibility/selected/open/disabled booleans, plus a synthetic-profile screenshot.",
+    "Keep configuration details explicitly opened before interaction and preserve all existing API receipts, budget, memory, restart, and visible-detail assertions."
+  ],
+  "waitStages": [
+    "daily-area",
+    "daily-page",
+    "daily-panel",
+    "observation-tab",
+    "configuration",
+    "save-button",
+    "configuration-saved",
+    "run-button",
+    "job-settled",
+    "report-section",
+    "report-card",
+    "report-detail",
+    "observation-accepted",
+    "current-report-card",
+    "refreshed-detail",
+    "capture-detail"
+  ],
+  "validations": [
+    {
+      "command": "npm exec tsc -- -p tsconfig.node.json --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm exec eslint -- src/main/testing/e2e-daily.ts --max-warnings=0",
+      "exitCode": 0
+    },
+    {
+      "command": "npm exec prettier -- --check src/main/testing/e2e-daily.ts",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check -- src/main/testing/e2e-daily.ts",
+      "exitCode": 0
+    }
+  ],
+  "notRunByAuthor": [
+    "Electron build",
+    "Electron lifecycle harness"
+  ],
+  "nextEvidence": "Root will build and run the isolated two-phase Electron harness; a failure will identify the exact stage and fixed control-state receipt."
+}

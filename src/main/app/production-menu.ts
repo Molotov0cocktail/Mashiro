@@ -47,7 +47,7 @@ export function installProductionMenu(options: {
                 detail:
                   '数据集：' +
                   options.dataSetId +
-                  '\\n卸载程序会保留业务数据。完整备份包含治理状态和受保护凭据；跨Windows用户需要重新提供凭据。',
+                  '\n卸载程序会保留业务数据。完整备份包含治理状态和受保护凭据；跨Windows用户需要重新提供凭据。',
                 buttons: ['确定']
               })
             }

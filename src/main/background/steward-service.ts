@@ -65,6 +65,7 @@ type StoredJob = {
 }
 type Result<T> =
   { ok: true; data: T } | { ok: false; error: { code: BackgroundError['code']; message: string } }
+const discoveryScanBatchSize = 8
 const commonDefaults = {
   enabled: false,
   connectionId: null,
@@ -708,27 +709,33 @@ export class StewardService {
     if (!config.enabled || !config.allowOwnCompletedRounds) return
     const rows = this.store.database
       .prepare(
-        "SELECT request_id FROM timeline_messages WHERE assistant_id=? AND role='assistant' AND status='completed' AND source_session_id IS NULL AND NOT EXISTS(SELECT 1 FROM steward_jobs WHERE source_key='discovery:'||timeline_messages.assistant_id||':'||timeline_messages.request_id) ORDER BY sequence LIMIT 32"
+        "SELECT request_id FROM timeline_messages WHERE assistant_id=? AND role='assistant' AND status='completed' AND source_session_id IS NULL AND NOT EXISTS(SELECT 1 FROM steward_jobs WHERE source_key='discovery:'||timeline_messages.assistant_id||':'||timeline_messages.request_id) ORDER BY sequence LIMIT ?"
       )
-      .all(config.assistantId)
-    if (rows.length === 32) this.backlog = true
-    for (const row of rows) {
+      .all(config.assistantId, discoveryScanBatchSize + 1) as unknown as { request_id: string }[]
+    if (rows.length > discoveryScanBatchSize) this.backlog = true
+    const additions = rows.slice(0, discoveryScanBatchSize).map((row) => {
+      const requestId = String(row.request_id)
       let hash = ''
       try {
-        hash = roundSource(this.store, config.assistantId, String(row.request_id)).hash
+        hash = roundSource(this.store, config.assistantId, requestId).hash
       } catch {
         /* queued blocker preserves fairness */
       }
-      this.addJob(
-        'assistant',
-        config.assistantId,
-        String(row.request_id),
-        1,
-        'discovery:' + config.assistantId + ':' + row.request_id,
-        hash,
-        config.version
-      )
-    }
+      return { requestId, hash }
+    })
+    if (additions.length === 0) return
+    this.store.transaction(() => {
+      for (const addition of additions)
+        this.addJob(
+          'assistant',
+          config.assistantId,
+          addition.requestId,
+          1,
+          'discovery:' + config.assistantId + ':' + addition.requestId,
+          addition.hash,
+          config.version
+        )
+    })
   }
   private anchor(row: PendingRow, config: dto.StewardConfiguration): string {
     try {

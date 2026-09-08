@@ -524,8 +524,29 @@ it('keeps none-policy inflight calls independent from unrelated history revocati
 })
 it('paginates all old messages stably while new messages arrive and searches literal Chinese text', async () => {
   const item = fixture()
-  for (let index = 0; index < 61; index++)
-    await item.send(index === 0 ? "中文 %_ 引号' space" : 'row-' + index)
+  // Populate historical pairs in one repository transaction; the new arrival below
+  // still exercises the real send path while the page-size boundary stays unchanged.
+  const seedStore = new SqliteStore(item.path)
+  try {
+    new TimelineRepository(seedStore).insert(
+      item.assistantId,
+      Array.from({ length: 61 }, (_, index) => {
+        const requestId = crypto.randomUUID()
+        return (['user', 'assistant'] as const).map((role) => ({
+          id: crypto.randomUUID(),
+          requestId,
+          role,
+          content:
+            role === 'assistant' ? 'reply' : index === 0 ? "中文 %_ 引号' space" : 'row-' + index,
+          status: 'completed' as const,
+          saved: true,
+          createdAt: new Date(Date.UTC(2026, 8, 6) + index).toISOString()
+        }))
+      }).flat()
+    )
+  } finally {
+    seedStore.close()
+  }
   const first = item.service.queryTimeline({ protocolVersion: 1, assistantId: item.assistantId })
   if (!first.ok) throw Error('query')
   expect(first.data.messages).toHaveLength(100)

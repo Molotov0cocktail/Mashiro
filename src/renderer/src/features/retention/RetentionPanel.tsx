@@ -640,7 +640,7 @@ export function RetentionPanel({
       <div className="panel-heading">
         <div>
           <p className="eyebrow">本机数据治理</p>
-          <h1 id="retention-heading">保留、恢复与清理</h1>
+          <h2 id="retention-heading">数据、备份与清理</h2>
         </div>
         <p className="privacy-note">先看完整影响，再由你在本机确认执行。</p>
       </div>
@@ -648,6 +648,12 @@ export function RetentionPanel({
         持久区容量按当前接受版本 Markdown 的 UTF-8
         字节全局计量；暂存到期只会转入可恢复的垃圾区。垃圾区永不自动永久清空。
       </p>
+      <section className="data-location-note" aria-label="数据位置与完整备份">
+        <strong>数据位置与完整备份</strong>
+        <p>
+          请使用应用菜单中的“查看当前数据位置”“完整备份并退出…”和“从完整备份还原并重启…”。这里管理记忆保留规则，不会直接读取文件路径。
+        </p>
+      </section>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
 
@@ -701,7 +707,16 @@ export function RetentionPanel({
       ) : null}
 
       {policy && policyDraft ? (
-        <section aria-label="自动保留策略" className="retention-policy">
+        <details aria-label="自动保留策略" className="retention-policy configuration-disclosure">
+          <summary>
+            容量与暂存期限设置（
+            {policy.audit.state === 'RUNNING'
+              ? '核查中 ' + policy.audit.checkedObjects + '/' + policy.audit.totalObjects
+              : policy.audit.state === 'PENDING'
+                ? '等待核查'
+                : '核查完成'}
+            ）
+          </summary>
           <div>
             <h2>自动保留策略</h2>
             <p className="scope-note">
@@ -907,7 +922,7 @@ export function RetentionPanel({
           <p className="scope-note">
             自动策略只会把到期暂存对象移入可恢复垃圾区；用户新操作会优先，垃圾区内容只能经单独完整影响预览和本机确认后永久清理。
           </p>
-        </section>
+        </details>
       ) : null}
 
       <section aria-label="三区记忆浏览" className="retention-browser">
@@ -963,7 +978,8 @@ export function RetentionPanel({
         ) : null}
       </section>
 
-      <section aria-label="清理预览" className="retention-preview-builder">
+      <details aria-label="清理预览" className="retention-preview-builder configuration-disclosure">
+        <summary>清理与永久删除</summary>
         <h2>清理与永久删除</h2>
         <label>
           操作意图
@@ -1070,7 +1086,7 @@ export function RetentionPanel({
         >
           查看完整影响
         </button>
-      </section>
+      </details>
 
       {preview ? (
         <section className="retention-confirmation" aria-label="可信清理确认">

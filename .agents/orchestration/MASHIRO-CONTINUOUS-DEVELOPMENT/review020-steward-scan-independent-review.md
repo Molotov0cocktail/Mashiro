@@ -1,0 +1,13 @@
+# Steward discovery scan independent review
+
+Verdict: SOURCE LIMITED PASS for the frozen two-path performance repair. This does not turn the historical full-suite failures into passes or complete native 019/020 acceptance.
+
+Manifest: `steward-020-discovery-scan-repair-manifest-v1.json`, SHA256 `E07D24B4E618A0B606612474BC08ED37AA6EF512C95C915BB300D17A145CEA68`. Independently checked source SHA256 `76C21C54BBF24E01AC532E44C8ED4A9A0461C76EC7ABBDA74AC8F358289E57AB` and author boundary test `3145E9135CED5297E1F7B40BEFBF240FFC1D96B2F1023FE46B5A7C8FE5343A46` against the manifest.
+
+The diff reads nine ordered rows to detect backlog and processes the first eight. Source validation occurs before one synchronous insert transaction, without an await between validation and insertion. Invalid sources still receive the empty-digest queued blocker; they cannot starve later eligible work. INSERT OR IGNORE/source-key uniqueness and execution-time configuration, recipient, source, governance and cancellation checks remain unchanged. A failed insert transaction rolls back its prefix through the existing store transaction contract. Pump scheduling still yields between batches. No source access or Provider authority is added.
+
+Independent focused run: original boundary, adversarial and recovery files, 19/19 PASS, exit 0. Original 72 suppressed plus eligible, exactly-one-send and 500ms heartbeat assertion remain unchanged. Receipt: `review020-steward-scan-focused-01.json`, SHA256 `9A3D61B6A8396112BB829AE5CA5F83DA20EFC8E8B18061C5E109E1364C6599EE`.
+
+The unchanged opt-in stage probe also passed its original assertion and runner deadline. Its single-sample scanDiscovery maximum fell from 140.30ms to 10.70ms; heartbeat maximum from 161.44ms to 104.11ms; pump maximum from 148.81ms to 93.88ms. The 73 addJob calls fell from 229.54ms aggregate to 10.63ms. The remaining update maximum was 90.88ms. Inclusive nested measurements overlap and must not be summed; synchronous-prefix measurements do not measure an entire async operation. These samples establish improvement, not a universal latency bound.
+
+Current probe raw: `review020-steward-batched-stage-01.raw.txt`, SHA256 `B75B70BA332323D298BF31E6CF89ED08E812CFB71B2ECA423DD8E8B00578DF74`. Prior raw: `review019-steward-stage-01.raw.txt`, SHA256 `42F06A287B8CED7F1B1DD67FABE41BD255A1501C0DC18A71A6BD0C8882E084F2`. Probes remain explicitly opt-in and outside default test collection. The original full03 557.21ms heartbeat failure is preserved; root owns subsequent integrated validation. No full suite, real profile, installation, desktop or actual Provider operation was run by this review.

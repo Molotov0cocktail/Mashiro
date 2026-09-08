@@ -15,7 +15,9 @@ const electron = vi.hoisted(() => {
     webContents,
     loadURL: vi.fn().mockResolvedValue(undefined),
     loadFile: vi.fn().mockResolvedValue(undefined),
-    show: vi.fn()
+    show: vi.fn(),
+    isDestroyed: vi.fn(() => false),
+    destroy: vi.fn()
   }
   const BrowserWindow = vi.fn(function FakeBrowserWindow(options: unknown) {
     void options

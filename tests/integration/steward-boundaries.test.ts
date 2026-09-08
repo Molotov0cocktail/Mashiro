@@ -130,6 +130,20 @@ it('has strict dedicated IPC sender and request validation without granting assi
   release()
   expect(handlers.size).toBe(0)
 })
+it('queues one bounded discovery prefix in a single transaction', () => {
+  const f = stewardFixture()
+  for (let index = 0; index < 10; index++) f.round()
+  f.discovery()
+  const transaction = vi.spyOn(f.store, 'transaction')
+  const result = f.service.run({ ...f.base, role: 'assistant' })
+  expect(result).toMatchObject({ ok: true })
+  expect(
+    f.store.database.prepare('SELECT COUNT(*) AS count FROM steward_jobs').get() as {
+      count: number
+    }
+  ).toEqual({ count: 8 })
+  expect(transaction).toHaveBeenCalledTimes(1)
+})
 it('keeps an inaccessible prefix from starving later ordinary source recognition', async () => {
   const f = stewardFixture()
   for (let i = 0; i < 72; i++) {

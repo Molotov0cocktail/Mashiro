@@ -406,7 +406,7 @@ describe('ProviderPanel trusted tools and capability UI', () => {
         timelineApi={timeline()}
       />
     )
-    await screen.findByText('Beta')
+    await waitFor(() => expect(screen.getByLabelText('当前助手')).toHaveValue(assistantB))
     act(() =>
       listener?.({
         type: 'operation',

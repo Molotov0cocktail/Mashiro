@@ -311,7 +311,7 @@ export function AssistantPanel({
   if (!snapshot) {
     return (
       <section aria-labelledby="assistant-heading">
-        <h1 id="assistant-heading">助手</h1>
+        <h2 id="assistant-heading">助手</h2>
         {error ? <p role="alert">{error}</p> : <p role="status">正在读取助手…</p>}
       </section>
     )
@@ -322,7 +322,7 @@ export function AssistantPanel({
       <div className="panel-heading">
         <div>
           <p className="eyebrow">本地身份</p>
-          <h1 id="assistant-heading">助手</h1>
+          <h2 id="assistant-heading">助手</h2>
         </div>
         <p>{snapshot.assistants.filter((assistant) => !assistant.isArchived).length} 个可用</p>
       </div>

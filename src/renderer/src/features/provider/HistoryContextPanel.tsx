@@ -99,6 +99,7 @@ function selectionLabel(content: string): string {
 
 export function HistoryContextPanel({
   assistantId,
+  surface = 'combined',
   mode,
   bindingKey,
   timelineApi,
@@ -123,6 +124,7 @@ export function HistoryContextPanel({
   onSelectedRequestIdsChange
 }: {
   assistantId: string
+  surface?: 'combined' | 'chat' | 'settings'
   mode: ChatMode
   bindingKey: string
   timelineApi: TimelineApi
@@ -477,221 +479,229 @@ export function HistoryContextPanel({
   if (mode !== 'normal' || !assistantId) return null
 
   return (
-    <section className="history-context" aria-label="浏览正常历史">
-      <div className="history-heading">
-        <div>
-          <h3>完整正常历史</h3>
-          <p className="scope-note">
-            这里是本机浏览结果，与上方实时消息时间线分开；浏览不会把历史发给模型。
-          </p>
-        </div>
-        <form
-          className="history-search"
-          onSubmit={(event) => {
-            event.preventDefault()
-            void loadHistory(assistantId, view.draft)
-          }}
-        >
-          <label>
-            搜索本助手历史
-            <input
-              value={view.draft}
-              maxLength={200}
-              onChange={(event) => {
-                const draft = event.currentTarget.value
-                setViews((values) => ({
-                  ...values,
-                  [assistantId]: { ...(values[assistantId] ?? emptyView), draft }
-                }))
-              }}
-            />
-          </label>
-          <div className="button-row">
-            <button type="submit" disabled={view.loading}>
-              搜索
-            </button>
-            <button
-              type="button"
-              disabled={view.loading || (!view.query && !view.draft)}
-              onClick={() => {
-                setViews((values) => ({
-                  ...values,
-                  [assistantId]: { ...(values[assistantId] ?? emptyView), draft: '' }
-                }))
-                void loadHistory(assistantId, '')
-              }}
-            >
-              清除搜索
-            </button>
+    <section
+      className="history-context"
+      aria-label={surface === 'settings' ? '历史读取与发送权限' : '浏览正常历史'}
+    >
+      <div hidden={surface === 'settings'}>
+        <div className="history-heading">
+          <div>
+            <h3>完整正常历史</h3>
+            <p className="scope-note">
+              这里是本机浏览结果，与上方实时消息时间线分开；浏览不会把历史发给模型。
+            </p>
           </div>
-        </form>
-      </div>
+          <form
+            className="history-search"
+            onSubmit={(event) => {
+              event.preventDefault()
+              void loadHistory(assistantId, view.draft)
+            }}
+          >
+            <label>
+              搜索本助手历史
+              <input
+                value={view.draft}
+                maxLength={200}
+                onChange={(event) => {
+                  const draft = event.currentTarget.value
+                  setViews((values) => ({
+                    ...values,
+                    [assistantId]: { ...(values[assistantId] ?? emptyView), draft }
+                  }))
+                }}
+              />
+            </label>
+            <div className="button-row">
+              <button type="submit" disabled={view.loading}>
+                搜索
+              </button>
+              <button
+                type="button"
+                disabled={view.loading || (!view.query && !view.draft)}
+                onClick={() => {
+                  setViews((values) => ({
+                    ...values,
+                    [assistantId]: { ...(values[assistantId] ?? emptyView), draft: '' }
+                  }))
+                  void loadHistory(assistantId, '')
+                }}
+              >
+                清除搜索
+              </button>
+            </div>
+          </form>
+        </div>
 
-      {view.error ? <p role="alert">{view.error}</p> : null}
-      {focusNotices[assistantId] ? <p role="status">{focusNotices[assistantId]}</p> : null}
-      {view.loading && view.messages.length === 0 ? <p>正在读取历史…</p> : null}
-      {!view.loading && view.messages.length === 0 ? (
-        <p className="scope-note">
-          {view.query ? '没有找到匹配的正常历史。' : '此助手还没有正常历史。'}
-        </p>
-      ) : null}
-      <div className="history-results">
-        {turns.map((turn) => {
-          const selectable =
-            turn.user?.status === 'completed' && turn.assistant?.status === 'completed'
-          const timestamp = turn.user?.createdAt ?? turn.assistant?.createdAt
-          return (
-            <article
-              key={turn.requestId}
-              className={
-                'history-turn' +
-                (focusedByAssistant[assistantId] === turn.requestId ? ' history-turn-focused' : '')
-              }
-            >
-              {selectable && turn.user ? (
-                <label className="inline-check">
-                  <input
-                    type="checkbox"
-                    checked={selected.has(turn.requestId)}
-                    disabled={!selected.has(turn.requestId) && selectedRequestIds.length >= 16}
-                    onChange={() => toggleRequest(turn.requestId)}
+        {view.error ? <p role="alert">{view.error}</p> : null}
+        {focusNotices[assistantId] ? <p role="status">{focusNotices[assistantId]}</p> : null}
+        {view.loading && view.messages.length === 0 ? <p>正在读取历史…</p> : null}
+        {!view.loading && view.messages.length === 0 ? (
+          <p className="scope-note">
+            {view.query ? '没有找到匹配的正常历史。' : '此助手还没有正常历史。'}
+          </p>
+        ) : null}
+        <div className="history-results">
+          {turns.map((turn) => {
+            const selectable =
+              turn.user?.status === 'completed' && turn.assistant?.status === 'completed'
+            const timestamp = turn.user?.createdAt ?? turn.assistant?.createdAt
+            return (
+              <article
+                key={turn.requestId}
+                className={
+                  'history-turn' +
+                  (focusedByAssistant[assistantId] === turn.requestId
+                    ? ' history-turn-focused'
+                    : '')
+                }
+              >
+                {selectable && turn.user ? (
+                  <label className="inline-check">
+                    <input
+                      type="checkbox"
+                      checked={selected.has(turn.requestId)}
+                      disabled={!selected.has(turn.requestId) && selectedRequestIds.length >= 16}
+                      onChange={() => toggleRequest(turn.requestId)}
+                    />
+                    {'选择此轮：' + selectionLabel(turn.user.content)}
+                  </label>
+                ) : (
+                  <p className="scope-note">此条记录尚未形成可选的完整完成轮次。</p>
+                )}
+                {turn.user ? (
+                  <p>
+                    <strong>你：</strong>
+                    {turn.user.content}
+                  </p>
+                ) : null}
+                {turn.assistant ? (
+                  <p>
+                    <strong>助手：</strong>
+                    {turn.assistant.content || '未返回正文'}
+                  </p>
+                ) : null}
+                <small>
+                  {timestamp ? new Date(timestamp).toLocaleString('zh-CN') + ' · ' : ''}
+                  {turn.user ? '你：' + historyStatusText(turn.user.status) : ''}
+                  {turn.user && turn.assistant ? ' · ' : ''}
+                  {turn.assistant ? '助手：' + historyStatusText(turn.assistant.status) : ''}
+                </small>
+                {turn.assistant ? (
+                  <RoundMemoryPanel
+                    assistantId={assistantId}
+                    requestId={turn.requestId}
+                    mode={mode}
+                    api={memoryApi}
+                    refreshKey={roundMemoryRefreshKey}
+                    onOpenMemory={onOpenMemory}
                   />
-                  {'选择此轮：' + selectionLabel(turn.user.content)}
-                </label>
-              ) : (
-                <p className="scope-note">此条记录尚未形成可选的完整完成轮次。</p>
-              )}
-              {turn.user ? (
-                <p>
-                  <strong>你：</strong>
-                  {turn.user.content}
-                </p>
-              ) : null}
-              {turn.assistant ? (
-                <p>
-                  <strong>助手：</strong>
-                  {turn.assistant.content || '未返回正文'}
-                </p>
-              ) : null}
-              <small>
-                {timestamp ? new Date(timestamp).toLocaleString('zh-CN') + ' · ' : ''}
-                {turn.user ? '你：' + historyStatusText(turn.user.status) : ''}
-                {turn.user && turn.assistant ? ' · ' : ''}
-                {turn.assistant ? '助手：' + historyStatusText(turn.assistant.status) : ''}
-              </small>
-              {turn.assistant ? (
-                <RoundMemoryPanel
-                  assistantId={assistantId}
-                  requestId={turn.requestId}
-                  mode={mode}
-                  api={memoryApi}
-                  refreshKey={roundMemoryRefreshKey}
-                  onOpenMemory={onOpenMemory}
-                />
-              ) : null}
-              {providerApi ? (
-                <OldRoundReceiptPanel
-                  key={`${assistantId}:${turn.requestId}:${receiptRouteKey ?? ''}`}
-                  assistantId={assistantId}
-                  requestId={turn.requestId}
-                  roundLabel={selectionLabel(
-                    turn.user?.content ?? turn.assistant?.content ?? '无正文'
-                  )}
-                  api={providerApi}
-                  memoryApi={memoryApi}
-                  reminderApi={reminderApi}
-                  retentionChange={retentionChange}
-                  onMemoryChanged={onMemoryChanged}
-                  onItemChanged={onItemChanged}
-                  onReminderChanged={onReminderChanged}
-                  onOpenItems={onOpenItems}
-                  onLocateMemorySource={onLocateMemorySource}
-                  onPrepareRetention={onPrepareRetention}
-                  onLocateCitation={(citation: HistoryCitation) =>
-                    void loadCitation(assistantId, citation.requestId)
-                  }
-                />
-              ) : null}
-              {view.query && focusedByAssistant[assistantId] !== turn.requestId ? (
-                <button
-                  type="button"
-                  onClick={() => void loadCitation(assistantId, turn.requestId)}
-                >
-                  定位此搜索结果的完整原轮次
-                </button>
-              ) : null}
-            </article>
-          )
-        })}
-      </div>
-      {view.nextCursor !== null ? (
-        <button
-          type="button"
-          disabled={view.loading}
-          onClick={() =>
-            void loadHistory(assistantId, view.query, view.nextCursor ?? undefined, true)
-          }
-        >
-          {view.loading ? '正在加载…' : '加载更早'}
-        </button>
-      ) : null}
-
-      <fieldset className="context-choice">
-        <legend>发送上下文</legend>
-        <label className="inline-check">
-          <input
-            type="radio"
-            name={'context-' + assistantId}
-            checked={contextIntent.kind === 'recent'}
-            onChange={() => onContextIntentChange({ kind: 'recent' })}
-          />
-          近期合格历史（最多 16 轮）
-        </label>
-        <label className="inline-check">
-          <input
-            type="radio"
-            name={'context-' + assistantId}
-            checked={contextIntent.kind === 'none'}
-            onChange={() => onContextIntentChange({ kind: 'none' })}
-          />
-          仅本次输入
-        </label>
-        <label className="inline-check">
-          <input
-            type="radio"
-            name={'context-' + assistantId}
-            checked={contextIntent.kind === 'selected'}
-            disabled={selectedRequestIds.length === 0}
-            onChange={() =>
-              onContextIntentChange({ kind: 'selected', requestIds: selectedRequestIds })
+                ) : null}
+                {providerApi ? (
+                  <OldRoundReceiptPanel
+                    key={`${assistantId}:${turn.requestId}:${receiptRouteKey ?? ''}`}
+                    assistantId={assistantId}
+                    requestId={turn.requestId}
+                    roundLabel={selectionLabel(
+                      turn.user?.content ?? turn.assistant?.content ?? '无正文'
+                    )}
+                    api={providerApi}
+                    memoryApi={memoryApi}
+                    reminderApi={reminderApi}
+                    retentionChange={retentionChange}
+                    onMemoryChanged={onMemoryChanged}
+                    onItemChanged={onItemChanged}
+                    onReminderChanged={onReminderChanged}
+                    onOpenItems={onOpenItems}
+                    onLocateMemorySource={onLocateMemorySource}
+                    onPrepareRetention={onPrepareRetention}
+                    onLocateCitation={(citation: HistoryCitation) =>
+                      void loadCitation(assistantId, citation.requestId)
+                    }
+                  />
+                ) : null}
+                {view.query && focusedByAssistant[assistantId] !== turn.requestId ? (
+                  <button
+                    type="button"
+                    onClick={() => void loadCitation(assistantId, turn.requestId)}
+                  >
+                    定位此搜索结果的完整原轮次
+                  </button>
+                ) : null}
+              </article>
+            )
+          })}
+        </div>
+        {view.nextCursor !== null ? (
+          <button
+            type="button"
+            disabled={view.loading}
+            onClick={() =>
+              void loadHistory(assistantId, view.query, view.nextCursor ?? undefined, true)
             }
-          />
-          已选轮次（最多 16 轮）
-        </label>
-        {contextIntent.kind === 'chapters' ? (
+          >
+            {view.loading ? '正在加载…' : '加载更早'}
+          </button>
+        ) : null}
+
+        <fieldset className="context-choice">
+          <legend>发送上下文</legend>
           <label className="inline-check">
             <input
               type="radio"
               name={'context-' + assistantId}
-              checked
-              onChange={() => undefined}
+              checked={contextIntent.kind === 'recent'}
+              onChange={() => onContextIntentChange({ kind: 'recent' })}
             />
-            已选章节（{contextIntent.chapters.length} 章）
+            近期合格历史（最多 16 轮）
           </label>
-        ) : null}
-        <p className="scope-note">
-          已选 {selectedRequestIds.length} 轮。近期历史与已选轮次都受 64,000 UTF-16
-          字符总输入预算限制；服务不会静默删掉显式选择。
-        </p>
-      </fieldset>
+          <label className="inline-check">
+            <input
+              type="radio"
+              name={'context-' + assistantId}
+              checked={contextIntent.kind === 'none'}
+              onChange={() => onContextIntentChange({ kind: 'none' })}
+            />
+            仅本次输入
+          </label>
+          <label className="inline-check">
+            <input
+              type="radio"
+              name={'context-' + assistantId}
+              checked={contextIntent.kind === 'selected'}
+              disabled={selectedRequestIds.length === 0}
+              onChange={() =>
+                onContextIntentChange({ kind: 'selected', requestIds: selectedRequestIds })
+              }
+            />
+            已选轮次（最多 16 轮）
+          </label>
+          {contextIntent.kind === 'chapters' ? (
+            <label className="inline-check">
+              <input
+                type="radio"
+                name={'context-' + assistantId}
+                checked
+                onChange={() => undefined}
+              />
+              已选章节（{contextIntent.chapters.length} 章）
+            </label>
+          ) : null}
+          <p className="scope-note">
+            已选 {selectedRequestIds.length} 轮。近期历史与已选轮次都受 64,000 UTF-16
+            字符总输入预算限制；服务不会静默删掉显式选择。
+          </p>
+        </fieldset>
+      </div>
 
       <section
         id="history-permissions"
         className="history-permissions"
         aria-label="历史权限"
         tabIndex={-1}
+        hidden={surface === 'chat'}
       >
-        <h3>历史权限</h3>
+        <h3>历史读取与发送权限</h3>
         <p className="scope-note">
           助手读取自己的正常历史，与向实际 Provider 地址发送历史，是两个独立权限。
         </p>

@@ -165,7 +165,7 @@ export function BackgroundPanel({
         acceptSnapshot(result.data, cursor > 0)
       } catch {
         if (version === readVersion.current && routeRef.current === route) {
-          setError('章节后台暂时无法读取，已保留当前页面内容。')
+          setError('对话整理暂时无法读取，已保留当前页面内容。')
         }
       } finally {
         if (version === readVersion.current && routeRef.current === route) setLoading(false)
@@ -214,7 +214,7 @@ export function BackgroundPanel({
         })
         .catch(() => {
           if (active && routeRef.current === assistantId) {
-            setError('Provider 连接列表暂时无法读取；后台配置尚未更改。')
+            setError('模型连接列表暂时无法读取；整理设置尚未更改。')
           }
         })
     })
@@ -295,7 +295,7 @@ export function BackgroundPanel({
         return
       }
       acceptSnapshot(result.data, false, true)
-      setNotice('章节后台配置已保存。')
+      setNotice('对话整理配置已保存。')
     } catch {
       if (version !== operationVersion.current || routeRef.current !== targetAssistantId) return
       setError('保存回执未确认，可能已经生效；请核对刷新结果，不会自动重复提交。')
@@ -474,173 +474,179 @@ export function BackgroundPanel({
     [selectedChapters, snapshot?.chapters]
   )
 
-  if (!assistantId) return <p className="panel">请先创建并选择助手，再配置章节后台。</p>
+  if (!assistantId) return <p className="panel">请先创建并选择助手，再配置对话整理。</p>
 
   return (
-    <section className="panel background-panel" aria-label="章节后台">
+    <section className="panel background-panel" aria-label="对话整理">
       <header>
         <p className="eyebrow">当前助手 · {assistantName || '未命名助手'}</p>
-        <h2>章节后台</h2>
+        <h2>对话整理</h2>
         <p>把已完成的正常对话整理成可核查章节。默认关闭、未授权或未设预算时不会外发。</p>
       </header>
 
-      <section className="background-configuration" aria-label="后台配置">
-        <h3>执行与接收配置</h3>
-        <label className="inline-check">
-          <input
-            type="checkbox"
-            checked={enabled}
-            onChange={(event) => {
-              setEnabled(event.currentTarget.checked)
-              markDirty()
-            }}
-          />
-          启用本助手的章节后台
-        </label>
-        <label>
-          后台执行连接
-          <select
-            value={connectionId}
-            onChange={(event) => {
-              setConnectionId(event.currentTarget.value)
-              setGrantSelectedRecipient(false)
-              markDirty()
-            }}
-          >
-            <option value="">未选择（零外发）</option>
-            {connections.map((connection) => (
-              <option key={connection.id} value={connection.id} disabled={!connection.enabled}>
-                {connection.displayName}
-                {connection.enabled ? '' : '（已停用）'}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          后台执行模型
-          <input
-            aria-label="后台执行模型"
-            maxLength={160}
-            value={model}
-            onChange={(event) => {
-              setModel(event.currentTarget.value)
-              markDirty()
-            }}
-          />
-        </label>
-        <label className="inline-check">
-          <input
-            type="checkbox"
-            checked={allowOwnCompletedRounds}
-            onChange={(event) => {
-              setAllowOwnCompletedRounds(event.currentTarget.checked)
-              markDirty()
-            }}
-          />
-          允许读取本助手已完成的正常对话轮次
-        </label>
-        <label className="inline-check">
-          <input
-            type="checkbox"
-            checked={hasBudget}
-            onChange={(event) => {
-              setHasBudget(event.currentTarget.checked)
-              markDirty()
-            }}
-          />
-          设置 UTC 日硬预算
-        </label>
-        {hasBudget ? (
-          <div className="background-budget-grid">
-            <label>
-              每 UTC 日最多调用次数
-              <input
-                aria-label="每 UTC 日最多调用次数"
-                inputMode="numeric"
-                value={calls}
-                onChange={(event) => {
-                  setCalls(event.currentTarget.value)
-                  markDirty()
-                }}
-              />
-            </label>
-            <label>
-              每 UTC 日最多输入字符数
-              <input
-                aria-label="每 UTC 日最多输入字符数"
-                inputMode="numeric"
-                value={inputCharacters}
-                onChange={(event) => {
-                  setInputCharacters(event.currentTarget.value)
-                  markDirty()
-                }}
-              />
-            </label>
+      <details className="configuration-disclosure">
+        <summary>
+          设置对话整理（
+          {dirty ? '有未保存修改' : snapshot?.configuration.enabled ? '已开启' : '已关闭'}）
+        </summary>
+        <section className="background-configuration" aria-label="整理设置">
+          <h3>整理使用的连接、模型与权限</h3>
+          <label className="inline-check">
+            <input
+              type="checkbox"
+              checked={enabled}
+              onChange={(event) => {
+                setEnabled(event.currentTarget.checked)
+                markDirty()
+              }}
+            />
+            启用当前助手的自动对话整理
+          </label>
+          <label>
+            整理使用的连接
+            <select
+              value={connectionId}
+              onChange={(event) => {
+                setConnectionId(event.currentTarget.value)
+                setGrantSelectedRecipient(false)
+                markDirty()
+              }}
+            >
+              <option value="">未选择（零外发）</option>
+              {connections.map((connection) => (
+                <option key={connection.id} value={connection.id} disabled={!connection.enabled}>
+                  {connection.displayName}
+                  {connection.enabled ? '' : '（已停用）'}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            整理使用的模型
+            <input
+              aria-label="整理使用的模型"
+              maxLength={160}
+              value={model}
+              onChange={(event) => {
+                setModel(event.currentTarget.value)
+                markDirty()
+              }}
+            />
+          </label>
+          <label className="inline-check">
+            <input
+              type="checkbox"
+              checked={allowOwnCompletedRounds}
+              onChange={(event) => {
+                setAllowOwnCompletedRounds(event.currentTarget.checked)
+                markDirty()
+              }}
+            />
+            允许读取本助手已完成的正常对话轮次
+          </label>
+          <label className="inline-check">
+            <input
+              type="checkbox"
+              checked={hasBudget}
+              onChange={(event) => {
+                setHasBudget(event.currentTarget.checked)
+                markDirty()
+              }}
+            />
+            设置 UTC 日硬预算
+          </label>
+          {hasBudget ? (
+            <div className="background-budget-grid">
+              <label>
+                每 UTC 日最多调用次数
+                <input
+                  aria-label="每 UTC 日最多调用次数"
+                  inputMode="numeric"
+                  value={calls}
+                  onChange={(event) => {
+                    setCalls(event.currentTarget.value)
+                    markDirty()
+                  }}
+                />
+              </label>
+              <label>
+                每 UTC 日最多输入字符数
+                <input
+                  aria-label="每 UTC 日最多输入字符数"
+                  inputMode="numeric"
+                  value={inputCharacters}
+                  onChange={(event) => {
+                    setInputCharacters(event.currentTarget.value)
+                    markDirty()
+                  }}
+                />
+              </label>
+            </div>
+          ) : null}
+          <p className="scope-note">
+            硬上限按 UTC 自然日计算调用次数和实际输入字符数；下方 token 仅为 Provider
+            返回的用量统计，不是本功能的硬预算。
+          </p>
+          <label className="inline-check recipient-grant">
+            <input
+              type="checkbox"
+              checked={grantSelectedRecipient}
+              disabled={!enabled || !connectionId}
+              onChange={(event) => {
+                setGrantSelectedRecipient(event.currentTarget.checked)
+                markDirty()
+              }}
+            />
+            允许所选连接接收本助手历史与私有记忆
+          </label>
+          <p className="scope-note">
+            {recipientAuthorized
+              ? '当前所选连接已获得接收授权。连接地址变化后必须重新明确授权。'
+              : '当前所选连接尚无有效接收授权。此勾选只授权本次保存所选的实际接收方接收本助手历史与私有记忆，不会改变聊天绑定，也不会自动打开记忆读写权限；本轮章节整理仍只读取已完成的正常对话轮次。'}
+          </p>
+          {!validBudget ? (
+            <p role="alert">预算必须是范围内的整数：调用 1–1000 次，输入 1–10,000,000 字符。</p>
+          ) : null}
+          {enabled && !configurationReady ? (
+            <p role="alert">启用前请明确选择连接、模型、读取范围和 UTC 日硬预算。</p>
+          ) : null}
+          <div className="button-row">
+            <button
+              type="button"
+              disabled={!dirty || !snapshot || !configurationReady || !validBudget || busy}
+              onClick={() => void saveConfiguration()}
+            >
+              {busy ? '处理中…' : '保存整理设置'}
+            </button>
+            <button
+              type="button"
+              disabled={!dirty || !snapshot || busy}
+              onClick={() => {
+                if (!snapshotRef.current) return
+                syncDraft(snapshotRef.current)
+                setError('')
+                setNotice('已重新载入已保存配置，未保存草稿已放弃。')
+              }}
+            >
+              重新载入已保存配置
+            </button>
+            <button type="button" disabled={loading || busy} onClick={() => void load(assistantId)}>
+              刷新
+            </button>
+            <button
+              type="button"
+              disabled={!snapshot?.configuration.enabled || busy}
+              onClick={() => void runNow()}
+            >
+              立即检查并整理
+            </button>
           </div>
-        ) : null}
-        <p className="scope-note">
-          硬上限按 UTC 自然日计算调用次数和实际输入字符数；下方 token 仅为 Provider
-          返回的用量统计，不是本功能的硬预算。
-        </p>
-        <label className="inline-check recipient-grant">
-          <input
-            type="checkbox"
-            checked={grantSelectedRecipient}
-            disabled={!enabled || !connectionId}
-            onChange={(event) => {
-              setGrantSelectedRecipient(event.currentTarget.checked)
-              markDirty()
-            }}
-          />
-          允许所选连接接收本助手历史与私有记忆
-        </label>
-        <p className="scope-note">
-          {recipientAuthorized
-            ? '当前所选连接已获得接收授权。连接地址变化后必须重新明确授权。'
-            : '当前所选连接尚无有效接收授权。此勾选只授权本次保存所选的实际接收方接收本助手历史与私有记忆，不会改变聊天绑定，也不会自动打开记忆读写权限；本轮章节整理仍只读取已完成的正常对话轮次。'}
-        </p>
-        {!validBudget ? (
-          <p role="alert">预算必须是范围内的整数：调用 1–1000 次，输入 1–10,000,000 字符。</p>
-        ) : null}
-        {enabled && !configurationReady ? (
-          <p role="alert">启用前请明确选择连接、模型、读取范围和 UTC 日硬预算。</p>
-        ) : null}
-        <div className="button-row">
-          <button
-            type="button"
-            disabled={!dirty || !snapshot || !configurationReady || !validBudget || busy}
-            onClick={() => void saveConfiguration()}
-          >
-            {busy ? '处理中…' : '保存后台配置'}
-          </button>
-          <button
-            type="button"
-            disabled={!dirty || !snapshot || busy}
-            onClick={() => {
-              if (!snapshotRef.current) return
-              syncDraft(snapshotRef.current)
-              setError('')
-              setNotice('已重新载入已保存配置，未保存草稿已放弃。')
-            }}
-          >
-            重新载入已保存配置
-          </button>
-          <button type="button" disabled={loading || busy} onClick={() => void load(assistantId)}>
-            刷新
-          </button>
-          <button
-            type="button"
-            disabled={!snapshot?.configuration.enabled || busy}
-            onClick={() => void runNow()}
-          >
-            立即检查并整理
-          </button>
-        </div>
-      </section>
+        </section>
+      </details>
 
       {notice ? <p role="status">{notice}</p> : null}
       {error ? <p role="alert">{error}</p> : null}
-      {loading && !snapshot ? <p>正在读取章节后台…</p> : null}
+      {loading && !snapshot ? <p>正在读取对话整理…</p> : null}
 
       {snapshot ? (
         <>
@@ -679,10 +685,10 @@ export function BackgroundPanel({
             </dl>
           </section>
 
-          <section aria-label="后台任务">
-            <h3>后台任务</h3>
+          <section aria-label="整理任务">
+            <h3>整理任务</h3>
             {snapshot.jobs.length === 0 ? (
-              <p>当前没有后台任务。</p>
+              <p>当前没有整理任务。</p>
             ) : (
               snapshot.jobs.map((job) => (
                 <article key={job.id} className={`background-job state-${job.state.toLowerCase()}`}>

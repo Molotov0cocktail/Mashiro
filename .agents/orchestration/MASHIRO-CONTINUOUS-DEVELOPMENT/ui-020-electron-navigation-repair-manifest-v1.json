@@ -1,0 +1,86 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "020",
+  "stage": "electron-navigation-repair-1",
+  "status": "AUTHOR_CANDIDATE_FROZEN",
+  "createdAt": "2026-09-08T12:32:26.9899866Z",
+  "trigger": {
+    "runId": "7dc3455b-c8b5-4f76-85a3-5b0b9888018d",
+    "syntheticRoot": "canonical isolated OS temp root recorded by root",
+    "failureStage": "seed-profile-ui-navigation-history-permissions-profile-ui-timeout",
+    "diagnosis": "history deep link opened chat while its permission section is only visible on the settings surface; desktop sidebar navigation also overflowed into the settings link at 944x616"
+  },
+  "paths": [
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "CA231478C0CD2EF1986F683E21B5E191AE65DDD1F719E74C536959E0C25C4C0C",
+      "size": 43030
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "7000E72B35B9812FDF7E0B795E904894568979B89E41D6CC9440DA36E76EF3D4",
+      "size": 40281
+    },
+    {
+      "path": "tests/renderer/App-assistant-navigation.test.tsx",
+      "sha256": "302900E12E42F348577474B132B3EE177C5EAAC0ECEEAA43E6710DC06BE485F7",
+      "size": 12283
+    },
+    {
+      "path": "src/main/testing/e2e-profile-scripts.ts",
+      "sha256": "B42EC7505E2CD138C07BB84D62850BC6C1B1A989E16AD47A051DFFC19DEA3F45",
+      "size": 5080
+    },
+    {
+      "path": "src/main/testing/e2e-background.ts",
+      "sha256": "0C586806D4015B200E406DFEAF31AA32F9DA7FA412B88528EA3560C6F6AFA93A",
+      "size": 6269
+    },
+    {
+      "path": "src/main/testing/e2e-steward.ts",
+      "sha256": "EDA24DDFCBF1CC64BFD65FD8CE9BD3A9B3365F2981DA420BD23F04FC321C652C",
+      "size": 7806
+    },
+    {
+      "path": "src/main/testing/e2e-daily.ts",
+      "sha256": "F0D1A3DBE44E4536FEB9543333834CECBD4A7AF915B71B2C730912F523A623BF",
+      "size": 14584
+    },
+    {
+      "path": "src/main/testing/e2e-reminder.ts",
+      "sha256": "24568BE72EE7601C53B05DCE2F9AB0BD3BAE80172AD74FAABF25B34E097CF3D9",
+      "size": 6596
+    },
+    {
+      "path": "src/main/testing/e2e-item-scripts.ts",
+      "sha256": "5BCB6D673A5DC943F08139D777F508396EF9F3D0B3CB681320A0BA49BE3EA1AA",
+      "size": 3519
+    },
+    {
+      "path": "src/main/testing/e2e-controller.ts",
+      "sha256": "C674C5C46EDA883F44C4A3218E0313AD9B90FA63EA1EF30CB3A0401B5C7A18DD",
+      "size": 44530
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/ui-020-seed-profile-failure-run-01.png",
+      "sha256": "33E2775D970E96F62FAB10DD04E945480FDCC9FA0BC5357E19841733AA9B2377",
+      "size": 81174,
+      "kind": "copied synthetic failure screenshot; no personal profile"
+    }
+  ],
+  "changeSummary": [
+    "Route provider and history assistant configuration targets to the visible model-settings surface; keep explicit return-to-chat flow and existing assistant/governance generations.",
+    "Make desktop shell navigation the bounded scroll area so the fixed settings action cannot overlap at short heights.",
+    "Update marker-validated isolated E2E navigation to use the reviewed sidebar and contextual navigation; permission targets must be visible and contain focus, with details open.",
+    "Preserve the internal Daily category tab semantics and all original trusted state, permission, receipt, and restart assertions."
+  ],
+  "validation": {
+    "focused": "5 renderer files / 12 tests passed, including both independent review020 oracles unchanged",
+    "typecheck": "npm run typecheck: exit 0",
+    "scopedLint": "TypeScript paths only: exit 0",
+    "scopedPrettier": "all 10 paths: exit 0",
+    "electron": "not rerun by author; root owns rebuild and isolated two-PID rerun"
+  }
+}

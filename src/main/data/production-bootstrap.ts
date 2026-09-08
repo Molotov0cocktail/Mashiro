@@ -9,6 +9,11 @@ import {
   acknowledgeProductionDataSelection,
   isProductionDataSelectionAcknowledged
 } from './production-selection-awareness.js'
+import {
+  createStartupFailureDiagnostic,
+  persistStartupFailureDiagnostic,
+  startupFailureDetail
+} from './startup-diagnostics.js'
 
 interface RuntimeApp {
   getPath(name: 'appData'): string
@@ -144,12 +149,15 @@ export async function openProductionApplicationData(
     return await openProductionData(options)
   } catch (error) {
     if (error instanceof ProductionOwnershipLostError) throw error
+    const diagnostic = createStartupFailureDiagnostic('SESSION_PREPARE', error, 'NOT_STARTED')
+    persistStartupFailureDiagnostic(options.paths.configurationDirectory, diagnostic)
     const selected = await options.dialogs.showMessageBox({
       type: 'error',
       title: '数据启动准备未完成',
       message: '当前数据未能安全打开。',
       detail:
-        '原数据仍保留。可以退出检查位置，也可以打开数据管理来选择已有数据或新建空数据集，或者从完整备份还原到新空目录；成功前不更改数据指向。',
+        startupFailureDetail(diagnostic) +
+        '\n原数据仍保留。可以退出检查位置，也可以打开数据管理来选择已有数据或新建空数据集，或者从完整备份还原到新空目录；成功前不更改数据指向。',
       buttons: ['退出', '数据管理', '从完整备份还原'],
       cancelId: 0,
       defaultId: 0,

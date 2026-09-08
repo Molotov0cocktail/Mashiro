@@ -583,7 +583,7 @@ const verifyMemoryUiScript = `
   const memory=window.mashiro.memory
   const before=await memory.query({protocolVersion:1,assistantId})
   if(!before.ok)throw new Error('memory-ui-before')
-  const tab=Array.from(document.querySelectorAll('[role="tab"]')).find(element=>element.textContent.includes('记忆与事件'))
+  const tab=document.querySelector('button[aria-label="记忆"]')
   if(!tab)throw new Error('memory-ui-tab')
   tab.click()
   const form=await waitFor(()=>{const value=document.querySelector('.memory-editor form');return value&&!value.closest('[hidden]')?value:null})
@@ -761,11 +761,11 @@ export async function runE2ePhase(
       await execute(
         window,
         `(async()=>{
-        const tab=[...document.querySelectorAll('[role="tab"]')].find(el=>el.textContent.trim()==='事项')
+        const tab=document.querySelector('button[aria-label="事项"]')
         if(!tab)throw Error('item-capture-tab');tab.click()
         for(let i=0;i<400;i++){
           const panel=document.querySelector('.item-panel')
-          if(tab.getAttribute('aria-selected')==='true' && panel && !panel.closest('[hidden]') && [...panel.querySelectorAll('article')].some(el=>el.textContent.includes('E2E_ITEM_UI_'))){
+          if(tab.getAttribute('aria-current')==='page' && panel && !panel.closest('[hidden]') && [...panel.querySelectorAll('article')].some(el=>el.textContent.includes('E2E_ITEM_UI_'))){
             panel.querySelectorAll('details').forEach(details=>{details.open=false});panel.scrollIntoView({block:'start'});await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);return true
           }
           await new Promise(r=>setTimeout(r,25))
@@ -826,7 +826,7 @@ export async function runE2ePhase(
         flag: 'wx'
       })
       await window.webContents.executeJavaScript(
-        `Array.from(document.querySelectorAll('[role="tab"]')).find(element=>element.textContent.trim()==='对话')?.click()`,
+        `document.querySelector('button[aria-label="对话"]')?.click()`,
         false
       )
       await new Promise((resolve) => setTimeout(resolve, 100))
@@ -840,7 +840,7 @@ export async function runE2ePhase(
         flag: 'wx'
       })
       await window.webContents.executeJavaScript(
-        `Array.from(document.querySelectorAll('[role="tab"]')).find(element=>element.textContent.includes('保留与清理'))?.click()`,
+        `(async()=>{document.querySelector('button[aria-label="设置"]')?.click();for(let n=0;n<80;n++){const target=[...document.querySelectorAll('[aria-label="设置类别"] button')].find(element=>element.textContent.trim()==='数据与存储');if(target){target.click();return true}await new Promise(resolve=>setTimeout(resolve,25))}throw Error('retention-navigation-timeout')})()`,
         false
       )
       await new Promise((resolve) => setTimeout(resolve, 500))

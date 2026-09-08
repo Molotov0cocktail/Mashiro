@@ -84,7 +84,9 @@ describe('DailyPanel', () => {
       />
     )
 
-    expect(await screen.findByText('Alpha · 自动工作、结果确认与用量都可在这里核对')).toBeVisible()
+    expect(
+      await screen.findByText('Alpha · 自动观察、回顾、结果确认与运行记录都可在这里核对')
+    ).toBeVisible()
     const config = screen.getByText('自动运行配置').closest('details')!
     await waitFor(() => expect(within(config).getByLabelText('启用此类自动运行')).toBeChecked())
     fireEvent.click(within(config).getByText('自动运行配置'))

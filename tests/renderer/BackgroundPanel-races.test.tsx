@@ -46,10 +46,10 @@ it('switching assistants during a pending configure does not leave the new assis
       onUseChapters: () => undefined
     })
   const view = render(element(A))
-  await screen.findByText('当前没有后台任务。')
-  await user.type(screen.getByLabelText('后台执行模型'), 'synthetic')
-  await waitFor(() => expect(screen.getByRole('button', { name: '保存后台配置' })).toBeEnabled())
-  await user.click(screen.getByRole('button', { name: '保存后台配置' }))
+  await screen.findByText('当前没有整理任务。')
+  await user.type(screen.getByLabelText('整理使用的模型'), 'synthetic')
+  await waitFor(() => expect(screen.getByRole('button', { name: '保存整理设置' })).toBeEnabled())
+  await user.click(screen.getByRole('button', { name: '保存整理设置' }))
   expect(api.configure).toHaveBeenCalledTimes(1)
   view.rerender(element(B))
   await waitFor(() =>
@@ -57,8 +57,8 @@ it('switching assistants during a pending configure does not leave the new assis
   )
   await act(async () => pending.resolve({ ok: true, data: backgroundSnapshot(A) }))
   expect(screen.queryByRole('button', { name: '处理中…' })).not.toBeInTheDocument()
-  await user.type(screen.getByLabelText('后台执行模型'), 'another')
-  expect(screen.getByRole('button', { name: '保存后台配置' })).toBeEnabled()
+  await user.type(screen.getByLabelText('整理使用的模型'), 'another')
+  expect(screen.getByRole('button', { name: '保存整理设置' })).toBeEnabled()
 })
 
 it('does not redisplay a deferred chapter body after its chapter becomes unavailable', async () => {
@@ -195,15 +195,15 @@ it('does not silently rebase an edited configuration over a concurrently changed
     })
   )
   await screen.findByDisplayValue('original')
-  await user.clear(screen.getByLabelText('后台执行模型'))
-  await user.type(screen.getByLabelText('后台执行模型'), 'local draft')
+  await user.clear(screen.getByLabelText('整理使用的模型'))
+  await user.type(screen.getByLabelText('整理使用的模型'), 'local draft')
   current = {
     ...current,
     configuration: { ...current.configuration, version: 2, model: 'concurrent change' }
   }
   await user.click(screen.getByRole('button', { name: '刷新' }))
   await waitFor(() => expect(api.query).toHaveBeenCalledTimes(2))
-  const save = screen.getByRole('button', { name: '保存后台配置' })
+  const save = screen.getByRole('button', { name: '保存整理设置' })
   if (!save.hasAttribute('disabled')) await user.click(save)
   const sent = vi.mocked(api.configure).mock.calls[0]?.[0]
   expect(sent?.expectedVersion === 2 && sent?.settings.model === 'local draft').not.toBe(true)
@@ -236,21 +236,21 @@ it('uses a fresh base only after explicitly reloading a conflicted configuration
     })
   )
   await screen.findByDisplayValue('original')
-  await user.clear(screen.getByLabelText('后台执行模型'))
-  await user.type(screen.getByLabelText('后台执行模型'), 'local draft')
+  await user.clear(screen.getByLabelText('整理使用的模型'))
+  await user.type(screen.getByLabelText('整理使用的模型'), 'local draft')
   current = {
     ...current,
     configuration: { ...current.configuration, version: 2, model: 'concurrent change' }
   }
   await user.click(screen.getByRole('button', { name: '刷新' }))
-  await user.click(screen.getByRole('button', { name: '保存后台配置' }))
+  await user.click(screen.getByRole('button', { name: '保存整理设置' }))
   expect(vi.mocked(api.configure).mock.calls[0]?.[0].expectedVersion).toBe(1)
-  expect(screen.getByLabelText('后台执行模型')).toHaveValue('local draft')
+  expect(screen.getByLabelText('整理使用的模型')).toHaveValue('local draft')
   await user.click(screen.getByRole('button', { name: '重新载入已保存配置' }))
-  expect(screen.getByLabelText('后台执行模型')).toHaveValue('concurrent change')
-  await user.clear(screen.getByLabelText('后台执行模型'))
-  await user.type(screen.getByLabelText('后台执行模型'), 'resolved draft')
-  await user.click(screen.getByRole('button', { name: '保存后台配置' }))
+  expect(screen.getByLabelText('整理使用的模型')).toHaveValue('concurrent change')
+  await user.clear(screen.getByLabelText('整理使用的模型'))
+  await user.type(screen.getByLabelText('整理使用的模型'), 'resolved draft')
+  await user.click(screen.getByRole('button', { name: '保存整理设置' }))
   expect(vi.mocked(api.configure).mock.calls[1]?.[0]).toMatchObject({
     expectedVersion: 2,
     settings: { model: 'resolved draft' }

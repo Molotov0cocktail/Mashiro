@@ -101,7 +101,7 @@ describe('App reminder navigation', () => {
         deliveryId: '00000000-0000-4000-8000-000000000099'
       })
     )
-    expect(screen.getByRole('tab', { name: '对话' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '对话' })).toHaveAttribute('aria-current', 'page')
 
     await act(async () =>
       changed({
@@ -112,8 +112,9 @@ describe('App reminder navigation', () => {
         assistantRevision: 1
       })
     )
-    expect(screen.getByRole('tab', { name: '提醒' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '提醒' })).toHaveAttribute('aria-current', 'page')
     expect(await screen.findByRole('region', { name: '提醒' })).toBeInTheDocument()
+    await waitFor(() => expect(document.activeElement?.id).toBe('reminders-page'))
 
     await act(async () =>
       changed({
@@ -124,7 +125,7 @@ describe('App reminder navigation', () => {
         assistantRevision: 1
       })
     )
-    expect(screen.getByRole('tab', { name: '事项' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('button', { name: '事项' })).toHaveAttribute('aria-current', 'page')
     await waitFor(() =>
       expect(items.inspect).toHaveBeenCalledWith({
         protocolVersion: 1,
@@ -134,6 +135,7 @@ describe('App reminder navigation', () => {
       })
     )
     expect(await screen.findByRole('region', { name: '事项详情' })).toHaveTextContent('周五交报告')
+    await waitFor(() => expect(document.activeElement?.id).toBe('item-detail'))
     expect(items.permissions).toHaveBeenCalledWith({
       protocolVersion: 1,
       assistantId: itemAssistantA

@@ -418,7 +418,7 @@ export function StewardPanel({
         return result.data
       } catch {
         if (version === readVersion.current && routeRef.current === route)
-          setError('资料整理暂时无法读取，当前草稿仍保留。')
+          setError('记忆整理暂时无法读取，当前草稿仍保留。')
         return null
       } finally {
         if (version === readVersion.current && routeRef.current === route) setLoading(false)
@@ -468,7 +468,7 @@ export function StewardPanel({
         })
         .catch(() => {
           if (active && routeRef.current === assistantId)
-            setError('Provider 连接列表暂时无法读取；配置尚未更改。')
+            setError('模型连接列表暂时无法读取；配置尚未更改。')
         })
     })
     return () => {
@@ -568,7 +568,7 @@ export function StewardPanel({
       }
       acceptSnapshot(result.data, false, role)
       setNotice(
-        role === 'assistant' ? '当前助手的共享增量识别配置已保存。' : '全局仓储员配置已保存。'
+        role === 'assistant' ? '当前助手的共享增量识别配置已保存。' : '全局记忆整理设置已保存。'
       )
     } catch {
       if (op === operationVersion.current && routeRef.current === route) {
@@ -593,7 +593,9 @@ export function StewardPanel({
         return
       }
       acceptSnapshot(result.data)
-      setNotice(role === 'assistant' ? '已检查当前助手的新完整轮次。' : '仓储员已检查待整理区。')
+      setNotice(
+        role === 'assistant' ? '已检查当前助手的新完整轮次。' : '全局记忆整理已检查待整理区。'
+      )
     } catch {
       if (op === operationVersion.current && routeRef.current === route)
         setError('启动回执未确认，可能已入队；不会自动重复启动。')
@@ -1175,342 +1177,363 @@ export function StewardPanel({
     }
   }
 
-  if (!assistantId) return <p className="panel">请先创建并选择助手，再配置资料整理。</p>
+  if (!assistantId) return <p className="panel">请先创建并选择助手，再设置记忆整理。</p>
 
   return (
-    <section className="panel steward-panel" aria-label="资料整理与仓储员">
+    <section className="panel steward-panel" aria-label="记忆整理">
       <header>
-        <p className="eyebrow">资料整理</p>
-        <h2>仓储员</h2>
+        <p className="eyebrow">自动工作</p>
+        <h2>记忆整理</h2>
         <p>
-          当前助手可识别适合共享的增量；独立仓储员在你明确的来源、接收授权和预算内整理全局资料。两项功能默认关闭。
+          从当前助手的新对话发现待整理内容，或在你明确选择来源、接收权限和预算后整理跨助手记忆。两项功能默认关闭。
         </p>
       </header>
 
-      <div className="steward-config-grid">
-        <section className="steward-configuration" aria-label="当前助手共享增量识别">
-          <h3>
-            {assistantSnapshot?.assistants.find((value) => value.id === assistantId)?.displayName ??
-              '当前助手'}{' '}
-            · 共享增量识别
-          </h3>
-          <p className="scope-note">
-            只检查本助手新完成的正常对话。候选先进入待整理区，不会冒充已接受记忆。
-          </p>
-          {discovery ? (
-            <>
-              <label className="inline-check">
-                <input
-                  type="checkbox"
-                  checked={discovery.enabled}
-                  onChange={(event) => {
-                    setDiscovery({ ...discovery, enabled: event.currentTarget.checked })
+      <details className="configuration-disclosure">
+        <summary>
+          自动整理设置（
+          {discoveryDirty || stewardDirty
+            ? '有未保存修改'
+            : '新内容发现' +
+              (snapshot?.discovery.enabled ? '已开' : '已关') +
+              ' · 全局整理' +
+              (snapshot?.configuration.enabled ? '已开' : '已关')}
+          ）
+        </summary>
+        <div className="steward-config-grid">
+          <section className="steward-configuration" aria-label="当前助手的新内容发现">
+            <h3>
+              {assistantSnapshot?.assistants.find((value) => value.id === assistantId)
+                ?.displayName ?? '当前助手'}{' '}
+              · 新内容发现
+            </h3>
+            <p className="scope-note">
+              只检查本助手新完成的正常对话。候选先进入待整理区，不会冒充已接受记忆。
+            </p>
+            {discovery ? (
+              <>
+                <label className="inline-check">
+                  <input
+                    type="checkbox"
+                    checked={discovery.enabled}
+                    onChange={(event) => {
+                      setDiscovery({ ...discovery, enabled: event.currentTarget.checked })
+                      markDiscoveryDirty()
+                    }}
+                  />
+                  启用新内容发现
+                </label>
+                <label>
+                  发现内容使用的连接
+                  <select
+                    value={discovery.connectionId}
+                    onChange={(event) => {
+                      setDiscovery({
+                        ...discovery,
+                        connectionId: event.currentTarget.value,
+                        grantSelectedRecipient: false
+                      })
+                      markDiscoveryDirty()
+                    }}
+                  >
+                    <option value="">未选择</option>
+                    {connections
+                      .filter((value) => value.enabled)
+                      .map((value) => (
+                        <option key={value.id} value={value.id}>
+                          {value.displayName}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+                <label>
+                  发现内容使用的模型
+                  <input
+                    value={discovery.model}
+                    onChange={(event) => {
+                      setDiscovery({ ...discovery, model: event.currentTarget.value })
+                      markDiscoveryDirty()
+                    }}
+                  />
+                </label>
+                <label className="inline-check">
+                  <input
+                    type="checkbox"
+                    checked={discovery.allowOwnCompletedRounds}
+                    onChange={(event) => {
+                      setDiscovery({
+                        ...discovery,
+                        allowOwnCompletedRounds: event.currentTarget.checked
+                      })
+                      markDiscoveryDirty()
+                    }}
+                  />
+                  允许读取本助手已完成的正常轮次
+                </label>
+                <BudgetFields
+                  value={discovery.budget}
+                  onChange={(budget) => {
+                    setDiscovery({ ...discovery, budget })
                     markDiscoveryDirty()
                   }}
                 />
-                启用共享增量识别
-              </label>
-              <label>
-                识别连接
-                <select
-                  value={discovery.connectionId}
-                  onChange={(event) => {
-                    setDiscovery({
-                      ...discovery,
-                      connectionId: event.currentTarget.value,
-                      grantSelectedRecipient: false
-                    })
-                    markDiscoveryDirty()
-                  }}
-                >
-                  <option value="">未选择</option>
-                  {connections
-                    .filter((value) => value.enabled)
-                    .map((value) => (
-                      <option key={value.id} value={value.id}>
-                        {value.displayName}
-                      </option>
-                    ))}
-                </select>
-              </label>
-              <label>
-                识别模型
-                <input
-                  value={discovery.model}
-                  onChange={(event) => {
-                    setDiscovery({ ...discovery, model: event.currentTarget.value })
-                    markDiscoveryDirty()
-                  }}
-                />
-              </label>
-              <label className="inline-check">
-                <input
-                  type="checkbox"
-                  checked={discovery.allowOwnCompletedRounds}
-                  onChange={(event) => {
-                    setDiscovery({
-                      ...discovery,
-                      allowOwnCompletedRounds: event.currentTarget.checked
-                    })
-                    markDiscoveryDirty()
-                  }}
-                />
-                允许读取本助手已完成的正常轮次
-              </label>
-              <BudgetFields
-                value={discovery.budget}
-                onChange={(budget) => {
-                  setDiscovery({ ...discovery, budget })
-                  markDiscoveryDirty()
-                }}
-              />
-              <label className="inline-check recipient-grant">
-                <input
-                  type="checkbox"
-                  disabled={!discovery.enabled || !discovery.connectionId}
-                  checked={discovery.grantSelectedRecipient}
-                  onChange={(event) => {
-                    setDiscovery({
-                      ...discovery,
-                      grantSelectedRecipient: event.currentTarget.checked
-                    })
-                    markDiscoveryDirty()
-                  }}
-                />
-                本次保存时授权所选识别接收方
-              </label>
-              <p className="scope-note">
-                连接变化会清除此勾选；不会沿用旧连接的接收授权，也不会自动打开记忆读写或推测权限。
-              </p>
-              {!validBudget(discovery.budget) ? (
-                <p role="alert">预算必须是范围内整数：调用 1–1000 次，输入 1–10,000,000 字符。</p>
-              ) : null}
-              {discovery.enabled && !discoveryReady ? (
-                <p role="alert">启用前请明确连接、模型、轮次范围和 UTC 日硬预算。</p>
-              ) : null}
-              <div className="button-row">
-                <button
-                  type="button"
-                  disabled={!discoveryDirty || !discoveryReady || Boolean(busy)}
-                  onClick={() => void saveConfiguration('assistant')}
-                >
-                  {busy === 'save:assistant' ? '保存中…' : '保存识别配置'}
-                </button>
-                <button
-                  type="button"
-                  disabled={!discoveryDirty || Boolean(busy)}
-                  onClick={() => {
-                    if (snapshotRef.current) syncDiscovery(snapshotRef.current.discovery)
-                    setNotice('已明确放弃识别配置草稿，重新载入已保存版本。')
-                  }}
-                >
-                  重新载入已保存配置
-                </button>
-                <button
-                  type="button"
-                  disabled={!snapshot?.discovery.enabled || Boolean(busy)}
-                  onClick={() => void run('assistant')}
-                >
-                  立即识别新轮次
-                </button>
-              </div>
-            </>
-          ) : (
-            <p>正在读取识别配置…</p>
-          )}
-        </section>
+                <label className="inline-check recipient-grant">
+                  <input
+                    type="checkbox"
+                    disabled={!discovery.enabled || !discovery.connectionId}
+                    checked={discovery.grantSelectedRecipient}
+                    onChange={(event) => {
+                      setDiscovery({
+                        ...discovery,
+                        grantSelectedRecipient: event.currentTarget.checked
+                      })
+                      markDiscoveryDirty()
+                    }}
+                  />
+                  本次保存时授权所选识别接收方
+                </label>
+                <p className="scope-note">
+                  连接变化会清除此勾选；不会沿用旧连接的接收授权，也不会自动打开记忆读写或推测权限。
+                </p>
+                {!validBudget(discovery.budget) ? (
+                  <p role="alert">预算必须是范围内整数：调用 1–1000 次，输入 1–10,000,000 字符。</p>
+                ) : null}
+                {discovery.enabled && !discoveryReady ? (
+                  <p role="alert">启用前请明确连接、模型、轮次范围和 UTC 日硬预算。</p>
+                ) : null}
+                <div className="button-row">
+                  <button
+                    type="button"
+                    disabled={!discoveryDirty || !discoveryReady || Boolean(busy)}
+                    onClick={() => void saveConfiguration('assistant')}
+                  >
+                    {busy === 'save:assistant' ? '保存中…' : '保存发现设置'}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!discoveryDirty || Boolean(busy)}
+                    onClick={() => {
+                      if (snapshotRef.current) syncDiscovery(snapshotRef.current.discovery)
+                      setNotice('已明确放弃识别配置草稿，重新载入已保存版本。')
+                    }}
+                  >
+                    重新载入已保存配置
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!snapshot?.discovery.enabled || Boolean(busy)}
+                    onClick={() => void run('assistant')}
+                  >
+                    立即识别新轮次
+                  </button>
+                </div>
+              </>
+            ) : (
+              <p>正在读取识别配置…</p>
+            )}
+          </section>
 
-        <section className="steward-configuration" aria-label="全局仓储员配置">
-          <h3>全局仓储员 · 独立配置</h3>
-          <p className="scope-note">
-            仓储员使用独立连接、模型和预算。读取、写入与推测都必须由你明确选择。
-          </p>
-          {steward ? (
-            <>
-              <label className="inline-check">
-                <input
-                  type="checkbox"
-                  checked={steward.enabled}
-                  onChange={(event) => {
-                    setSteward({ ...steward, enabled: event.currentTarget.checked })
-                    markStewardDirty()
-                  }}
-                />
-                启用仓储员
-              </label>
-              <label>
-                仓储连接
-                <select
-                  value={steward.connectionId}
-                  onChange={(event) => {
-                    setSteward({
-                      ...steward,
-                      connectionId: event.currentTarget.value,
-                      grantSelectedRecipient: false
-                    })
-                    markStewardDirty()
-                  }}
-                >
-                  <option value="">未选择</option>
-                  {connections
-                    .filter((value) => value.enabled)
-                    .map((value) => (
-                      <option key={value.id} value={value.id}>
-                        {value.displayName}
-                      </option>
-                    ))}
-                </select>
-              </label>
-              <label>
-                仓储模型
-                <input
-                  value={steward.model}
-                  onChange={(event) => {
-                    setSteward({ ...steward, model: event.currentTarget.value })
-                    markStewardDirty()
-                  }}
-                />
-              </label>
-              <fieldset>
-                <legend>允许作为来源的助手</legend>
-                {assistants.map((assistant) => (
-                  <label className="inline-check" key={assistant.id}>
+          <section className="steward-configuration" aria-label="全局记忆整理设置">
+            <h3>跨助手记忆整理 · 独立设置</h3>
+            <p className="scope-note">
+              跨助手整理使用独立连接、模型和预算。读取、写入与推测都必须由你明确选择。
+            </p>
+            {steward ? (
+              <>
+                <label className="inline-check">
+                  <input
+                    type="checkbox"
+                    checked={steward.enabled}
+                    onChange={(event) => {
+                      setSteward({ ...steward, enabled: event.currentTarget.checked })
+                      markStewardDirty()
+                    }}
+                  />
+                  启用全局记忆整理
+                </label>
+                <label>
+                  全局整理使用的连接
+                  <select
+                    value={steward.connectionId}
+                    onChange={(event) => {
+                      setSteward({
+                        ...steward,
+                        connectionId: event.currentTarget.value,
+                        grantSelectedRecipient: false
+                      })
+                      markStewardDirty()
+                    }}
+                  >
+                    <option value="">未选择</option>
+                    {connections
+                      .filter((value) => value.enabled)
+                      .map((value) => (
+                        <option key={value.id} value={value.id}>
+                          {value.displayName}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+                <label>
+                  全局整理使用的模型
+                  <input
+                    value={steward.model}
+                    onChange={(event) => {
+                      setSteward({ ...steward, model: event.currentTarget.value })
+                      markStewardDirty()
+                    }}
+                  />
+                </label>
+                <fieldset>
+                  <legend>允许作为来源的助手</legend>
+                  {assistants.map((assistant) => (
+                    <label className="inline-check" key={assistant.id}>
+                      <input
+                        type="checkbox"
+                        checked={steward.assistantIds.includes(assistant.id)}
+                        onChange={(event) => {
+                          setSteward({
+                            ...steward,
+                            assistantIds: event.currentTarget.checked
+                              ? [...new Set([...steward.assistantIds, assistant.id])]
+                              : steward.assistantIds.filter((id) => id !== assistant.id)
+                          })
+                          markStewardDirty()
+                        }}
+                      />
+                      {assistant.displayName}
+                    </label>
+                  ))}
+                </fieldset>
+                <fieldset>
+                  <legend>本次整理允许的范围</legend>
+                  <label className="inline-check">
                     <input
                       type="checkbox"
-                      checked={steward.assistantIds.includes(assistant.id)}
+                      checked={steward.allowSharedCandidates}
                       onChange={(event) => {
                         setSteward({
                           ...steward,
-                          assistantIds: event.currentTarget.checked
-                            ? [...new Set([...steward.assistantIds, assistant.id])]
-                            : steward.assistantIds.filter((id) => id !== assistant.id)
+                          allowSharedCandidates: event.currentTarget.checked
                         })
                         markStewardDirty()
                       }}
                     />
-                    {assistant.displayName}
+                    读取待整理共享候选
                   </label>
-                ))}
-              </fieldset>
-              <fieldset>
-                <legend>本次整理允许的范围</legend>
-                <label className="inline-check">
+                  <label className="inline-check">
+                    <input
+                      type="checkbox"
+                      checked={steward.allowAcceptedMemories}
+                      onChange={(event) => {
+                        setSteward({
+                          ...steward,
+                          allowAcceptedMemories: event.currentTarget.checked
+                        })
+                        markStewardDirty()
+                      }}
+                    />
+                    读取已接受的全局记忆
+                  </label>
+                  <label className="inline-check">
+                    <input
+                      type="checkbox"
+                      checked={steward.allowWrite}
+                      onChange={(event) => {
+                        setSteward({
+                          ...steward,
+                          allowWrite: event.currentTarget.checked,
+                          allowInferences: event.currentTarget.checked
+                            ? steward.allowInferences
+                            : false
+                        })
+                        markStewardDirty()
+                      }}
+                    />
+                    允许写入忠实归纳和组织关系
+                  </label>
+                  <label className="inline-check">
+                    <input
+                      type="checkbox"
+                      disabled={!steward.allowWrite}
+                      checked={steward.allowInferences}
+                      onChange={(event) => {
+                        setSteward({ ...steward, allowInferences: event.currentTarget.checked })
+                        markStewardDirty()
+                      }}
+                    />
+                    允许写入待核验推测
+                  </label>
+                </fieldset>
+                <BudgetFields
+                  value={steward.budget}
+                  onChange={(budget) => {
+                    setSteward({ ...steward, budget })
+                    markStewardDirty()
+                  }}
+                />
+                <label className="inline-check recipient-grant">
                   <input
                     type="checkbox"
-                    checked={steward.allowSharedCandidates}
-                    onChange={(event) => {
-                      setSteward({ ...steward, allowSharedCandidates: event.currentTarget.checked })
-                      markStewardDirty()
-                    }}
-                  />
-                  读取待整理共享候选
-                </label>
-                <label className="inline-check">
-                  <input
-                    type="checkbox"
-                    checked={steward.allowAcceptedMemories}
-                    onChange={(event) => {
-                      setSteward({ ...steward, allowAcceptedMemories: event.currentTarget.checked })
-                      markStewardDirty()
-                    }}
-                  />
-                  读取已接受的全局记忆
-                </label>
-                <label className="inline-check">
-                  <input
-                    type="checkbox"
-                    checked={steward.allowWrite}
+                    disabled={
+                      !steward.enabled || !steward.connectionId || steward.assistantIds.length === 0
+                    }
+                    checked={steward.grantSelectedRecipient}
                     onChange={(event) => {
                       setSteward({
                         ...steward,
-                        allowWrite: event.currentTarget.checked,
-                        allowInferences: event.currentTarget.checked
-                          ? steward.allowInferences
-                          : false
+                        grantSelectedRecipient: event.currentTarget.checked
                       })
                       markStewardDirty()
                     }}
                   />
-                  允许写入忠实归纳和组织关系
+                  本次保存同时授权所选全局整理接收方读取这些已选来源
                 </label>
-                <label className="inline-check">
-                  <input
-                    type="checkbox"
-                    disabled={!steward.allowWrite}
-                    checked={steward.allowInferences}
-                    onChange={(event) => {
-                      setSteward({ ...steward, allowInferences: event.currentTarget.checked })
-                      markStewardDirty()
-                    }}
-                  />
-                  允许写入待核验推测
-                </label>
-              </fieldset>
-              <BudgetFields
-                value={steward.budget}
-                onChange={(budget) => {
-                  setSteward({ ...steward, budget })
-                  markStewardDirty()
-                }}
-              />
-              <label className="inline-check recipient-grant">
-                <input
-                  type="checkbox"
-                  disabled={
-                    !steward.enabled || !steward.connectionId || steward.assistantIds.length === 0
-                  }
-                  checked={steward.grantSelectedRecipient}
-                  onChange={(event) => {
-                    setSteward({ ...steward, grantSelectedRecipient: event.currentTarget.checked })
-                    markStewardDirty()
-                  }}
-                />
-                本次保存同时授权所选仓储接收方读取这些已选来源
-              </label>
-              <p className="scope-note">
-                此动作只写入所选范围所需的接收授权；不会批量授权其他助手，也不会把 read、write 或
-                inference 从关闭改为开启。连接身份变化后必须再次明确授权。
-              </p>
-              {!validBudget(steward.budget) ? (
-                <p role="alert">预算必须是范围内整数：调用 1–1000 次，输入 1–10,000,000 字符。</p>
-              ) : null}
-              {steward.enabled && !stewardReady ? (
-                <p role="alert">
-                  启用前请明确连接、模型、至少一个来源助手、读取范围和 UTC 日硬预算。
+                <p className="scope-note">
+                  此动作只写入所选范围所需的接收授权；不会批量授权其他助手，也不会把 read、write 或
+                  inference 从关闭改为开启。连接身份变化后必须再次明确授权。
                 </p>
-              ) : null}
-              <div className="button-row">
-                <button
-                  type="button"
-                  disabled={!stewardDirty || !stewardReady || Boolean(busy)}
-                  onClick={() => void saveConfiguration('steward')}
-                >
-                  {busy === 'save:steward' ? '保存中…' : '保存仓储配置'}
-                </button>
-                <button
-                  type="button"
-                  disabled={!stewardDirty || Boolean(busy)}
-                  onClick={() => {
-                    if (snapshotRef.current) syncSteward(snapshotRef.current.configuration)
-                    setNotice('已明确放弃仓储配置草稿，重新载入已保存版本。')
-                  }}
-                >
-                  重新载入已保存配置
-                </button>
-                <button
-                  type="button"
-                  disabled={!snapshot?.configuration.enabled || Boolean(busy)}
-                  onClick={() => void run('steward')}
-                >
-                  立即整理待处理资料
-                </button>
-              </div>
-            </>
-          ) : (
-            <p>正在读取仓储配置…</p>
-          )}
-        </section>
-      </div>
+                {!validBudget(steward.budget) ? (
+                  <p role="alert">预算必须是范围内整数：调用 1–1000 次，输入 1–10,000,000 字符。</p>
+                ) : null}
+                {steward.enabled && !stewardReady ? (
+                  <p role="alert">
+                    启用前请明确连接、模型、至少一个来源助手、读取范围和 UTC 日硬预算。
+                  </p>
+                ) : null}
+                <div className="button-row">
+                  <button
+                    type="button"
+                    disabled={!stewardDirty || !stewardReady || Boolean(busy)}
+                    onClick={() => void saveConfiguration('steward')}
+                  >
+                    {busy === 'save:steward' ? '保存中…' : '保存全局整理设置'}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!stewardDirty || Boolean(busy)}
+                    onClick={() => {
+                      if (snapshotRef.current) syncSteward(snapshotRef.current.configuration)
+                      setNotice('已明确放弃全局整理设置草稿，重新载入已保存版本。')
+                    }}
+                  >
+                    重新载入已保存配置
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!snapshot?.configuration.enabled || Boolean(busy)}
+                    onClick={() => void run('steward')}
+                  >
+                    立即整理待处理资料
+                  </button>
+                </div>
+              </>
+            ) : (
+              <p>正在读取全局整理设置…</p>
+            )}
+          </section>
+        </div>
+      </details>
 
       <div className="button-row">
         <button
@@ -1523,13 +1546,13 @@ export function StewardPanel({
       </div>
       {notice ? <p role="status">{notice}</p> : null}
       {error ? <p role="alert">{error}</p> : null}
-      {loading && !snapshot ? <p>正在读取资料整理状态…</p> : null}
+      {loading && !snapshot ? <p>正在读取记忆整理状态…</p> : null}
 
       {snapshot ? (
         <>
           <div className="steward-usage-grid">
-            {usageView('共享增量识别用量', snapshot.discoveryUsage, snapshot.discovery.budget)}
-            {usageView('仓储员用量', snapshot.usage, snapshot.configuration.budget)}
+            {usageView('新内容发现用量', snapshot.discoveryUsage, snapshot.discovery.budget)}
+            {usageView('全局记忆整理用量', snapshot.usage, snapshot.configuration.budget)}
           </div>
 
           <section aria-label="全局待整理">
@@ -1967,7 +1990,7 @@ export function StewardPanel({
 
           <section aria-label="资料冲突">
             <h3>资料冲突</h3>
-            <p>关闭冲突前必须先即时纠正一侧记忆；仓储员不能任选旧版本覆盖你的决定。</p>
+            <p>关闭冲突前必须先即时纠正一侧记忆；自动整理不能任选旧版本覆盖你的决定。</p>
             {snapshot.conflicts.length === 0 ? (
               <p>当前没有资料冲突。</p>
             ) : (

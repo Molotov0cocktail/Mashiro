@@ -14,7 +14,7 @@ import { timelineApi006Defaults } from './timeline-api-fixture'
 afterEach(cleanup)
 
 describe('App steward navigation', () => {
-  it('opens the first-class 资料整理 entry for the current assistant and global steward', async () => {
+  it('opens the memory organizer for the current assistant and cross-assistant work', async () => {
     const snapshot: AssistantSnapshot = {
       assistants: [
         {
@@ -78,10 +78,11 @@ describe('App steward navigation', () => {
         cursor: 0
       })
     )
-    fireEvent.click(screen.getByRole('tab', { name: '资料整理' }))
-    expect(screen.getByRole('tab', { name: '资料整理' })).toHaveAttribute('aria-selected', 'true')
-    expect(screen.getByRole('region', { name: '资料整理与仓储员' })).toBeVisible()
-    expect(screen.getByRole('region', { name: '当前助手共享增量识别' })).toBeInTheDocument()
-    expect(screen.getByRole('region', { name: '全局仓储员配置' })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: '自动工作' }))
+    fireEvent.click(screen.getByRole('button', { name: '记忆整理' }))
+    expect(screen.getByRole('button', { name: '记忆整理' })).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('region', { name: '记忆整理' })).toBeVisible()
+    expect(screen.getByRole('region', { name: '当前助手的新内容发现' })).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: '全局记忆整理设置' })).toBeInTheDocument()
   })
 })

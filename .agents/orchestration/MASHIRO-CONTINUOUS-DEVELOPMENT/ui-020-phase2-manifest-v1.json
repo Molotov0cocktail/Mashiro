@@ -1,0 +1,158 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "020",
+  "stage": "renderer-phase-2",
+  "status": "AUTHOR_CANDIDATE_FROZEN",
+  "createdAt": "2026-09-08T12:02:54.0683388Z",
+  "rendererBaseline": "d377117",
+  "workspaceHeadAtFreeze": "3aeb3c7deaa75faa2997af083423ae803a252d00",
+  "productPathCount": 13,
+  "testPathCount": 13,
+  "paths": [
+    {
+      "path": "src/renderer/src/App.tsx",
+      "sha256": "F8D54D9BBCA71FECDEFDC1C30199C7F5FD145FFCB96BDC1C6464A407C536D4D8",
+      "size": 43006
+    },
+    {
+      "path": "src/renderer/src/features/shell/AppShell.tsx",
+      "sha256": "65DE6345FA2715631DB202FAF67B1C1F21DACC910C2E187E157783B818FFAA18",
+      "size": 4184
+    },
+    {
+      "path": "src/renderer/src/features/assistants/AssistantPanel.tsx",
+      "sha256": "FA93E7B93E7B70214E59E089CA1DE5432765034442CAD03B162A4C70EAF8625F",
+      "size": 19266
+    },
+    {
+      "path": "src/renderer/src/features/background/BackgroundPanel.tsx",
+      "sha256": "D8A48F13803F88E1A4B5A7B124434FDBC57BF03A582DC690C78AAF1310D419E9",
+      "size": 33158
+    },
+    {
+      "path": "src/renderer/src/features/daily/DailyPanel.tsx",
+      "sha256": "DE5A80F8044A49C3978446C47E0C63285A2FD692FA11F0227C379BE1BACE64BB",
+      "size": 67565
+    },
+    {
+      "path": "src/renderer/src/features/items/ItemPanel.tsx",
+      "sha256": "9B61A4DBBBBC190F822B76541D93161A04D02246ADE9653715B9244B070AC3CB",
+      "size": 58932
+    },
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "07ACE3C03C2D8E32E39867CA30ACD02702F31446B6888AD26D12BB9DC58178F7",
+      "size": 45799
+    },
+    {
+      "path": "src/renderer/src/features/provider/HistoryContextPanel.tsx",
+      "sha256": "EED56C88AE475E0287995E62827FD3CA421B364A4DD4D2B73D4593216469FC1C",
+      "size": 26885
+    },
+    {
+      "path": "src/renderer/src/features/provider/ProviderPanel.tsx",
+      "sha256": "A3F20B7A86D8EF74C119E0FD1342A72DBE2513FCD5BE21CA33B812A2D709A386",
+      "size": 77680
+    },
+    {
+      "path": "src/renderer/src/features/reminders/ReminderPanel.tsx",
+      "sha256": "3CC823A0225E8BCEC9B3FE5E0E427868F2B0DA0C656026D0D3358485F4F5C64A",
+      "size": 33924
+    },
+    {
+      "path": "src/renderer/src/features/retention/RetentionPanel.tsx",
+      "sha256": "26C56A23DB9C87FFD9A5860A16C7EB4C6FDB098EA0A9BC797069C90C55DE83A6",
+      "size": 49321
+    },
+    {
+      "path": "src/renderer/src/features/steward/StewardPanel.tsx",
+      "sha256": "7F3E7DCB4F7DD8D2D569ED6A3C3CCD4903C621EACC386E9C47E4A63E33B1FCD3",
+      "size": 82594
+    },
+    {
+      "path": "src/renderer/src/styles.css",
+      "sha256": "CA807FD7067A143FDDFA3422E6EC3AAEFB763CC6000D15F1D1B2426F4BCB36ED",
+      "size": 40143
+    },
+    {
+      "path": "tests/renderer/AppShell.test.tsx",
+      "sha256": "ED1D56F78D281EFA5F7189965BCE799542BE167DB389DB1FCFFFD7C8869E5E71",
+      "size": 2855
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-layout.test.tsx",
+      "sha256": "F3DEC4EF77F6764E3F80FD905A1D726B7983F4A4E094A00EE754F4BA6CDC9A9E",
+      "size": 4848
+    },
+    {
+      "path": "tests/renderer/App-assistant-navigation.test.tsx",
+      "sha256": "007F2F4E351EA5468A5281C2494DD72D57454DDC5B907F81B2CE7AC031FDED73",
+      "size": 11989
+    },
+    {
+      "path": "tests/renderer/App-background.test.tsx",
+      "sha256": "A4BB3228E9DF7AA4442845C6B52B3228FE6904F3A4FC27E6D2971B7555732D65",
+      "size": 5515
+    },
+    {
+      "path": "tests/renderer/App-daily.test.tsx",
+      "sha256": "9C6DD93E1640965F5864CFC30E3C56C93809154F7EE6AA658E90A4F4AFE63B40",
+      "size": 3448
+    },
+    {
+      "path": "tests/renderer/App-items-sync.test.tsx",
+      "sha256": "75E4E54B584435EF8E043610B679DCC3C43854256A7F84F3B0DDA21B058110D9",
+      "size": 12652
+    },
+    {
+      "path": "tests/renderer/App-provider-sync.test.tsx",
+      "sha256": "A23F87CFB43888EA19CD35D812AC3C026FED598FDCC4F9B68BA3A9DA93EF4E35",
+      "size": 11613
+    },
+    {
+      "path": "tests/renderer/App-reminders.test.tsx",
+      "sha256": "9470725370FA11435CBCE18C5C9BC438EB89D4BB1A6D53FAD831A02C413DA6F0",
+      "size": 4808
+    },
+    {
+      "path": "tests/renderer/App-retention-registry.test.tsx",
+      "sha256": "D5274C12398EF970CE4A3BB340CFEA7EC7B473CC5618AE30A541805DED7A826C",
+      "size": 5225
+    },
+    {
+      "path": "tests/renderer/App-steward.test.tsx",
+      "sha256": "B00D6CD84636D3BF4B207C47F390CC0CC98FD255446A0924C45B59E42CE20B67",
+      "size": 3349
+    },
+    {
+      "path": "tests/renderer/BackgroundPanel.test.tsx",
+      "sha256": "AD761CA76B9247DBBD0C541466345FF03F21058D8E2BDB9EA9E69D8252138DDD",
+      "size": 13737
+    },
+    {
+      "path": "tests/renderer/DailyPanel.test.tsx",
+      "sha256": "5F1E0E1DFDC3C41D9A017C2C147077CBCF2E8CCF805B5D72F746E68445A650FA",
+      "size": 16878
+    },
+    {
+      "path": "tests/renderer/StewardPanel.test.tsx",
+      "sha256": "6664B441D958CEFD1ABA1F19958389F7BB0609A597AD1DB370654F0E381FF6FF",
+      "size": 17717
+    }
+  ],
+  "independentEvidence": [
+    {
+      "path": "tests/renderer/review020-switch-navigation.test.tsx",
+      "sha256": "BAFCBFD37E7D810E9FACB398D46AE74B70FD3B88F156377697538FA4F1556C99",
+      "ownership": "review_017_trusted; excluded from author candidate path count",
+      "result": "included unchanged in focused run"
+    }
+  ],
+  "validation": {
+    "focused": "17 files / 73 tests passed",
+    "webTypecheck": "npm exec tsc -- -p tsconfig.web.json --noEmit: exit 0",
+    "scopedLint": "npm exec eslint on 12 TSX product files and 13 author test files: exit 0",
+    "scopedPrettier": "npm exec prettier -- --check on 13 product files and 13 author test files: exit 0",
+    "build": "not run by author; root owns final integrated build and visual/native review"
+  }
+}

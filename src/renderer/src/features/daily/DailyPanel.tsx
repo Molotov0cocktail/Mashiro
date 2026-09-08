@@ -24,11 +24,11 @@ import type { ProviderApi, ProviderSnapshot } from '../../../../shared/provider-
 const protocolVersion = 1 as const
 
 const featureLabels: Record<DailyFeature, string> = {
-  observation: '观察',
+  observation: '日常观察',
   'daily-brief': '每日简报',
-  'evening-review': '晚间复盘',
+  'evening-review': '晚间回顾',
   'weekly-plan': '周规划',
-  'deadline-change': '期限与变更'
+  'deadline-change': '期限变化检查'
 }
 
 const featureOrder = Object.keys(featureLabels) as DailyFeature[]
@@ -70,7 +70,7 @@ function usageFeatureLabel(value: UsageFeature): string {
         'connection-test': '连接测试',
         chapter: '章节',
         'shared-candidates': '共享候选',
-        steward: '资料整理'
+        steward: '记忆整理'
       } as Record<string, string>
     )[value] ??
     value
@@ -78,15 +78,15 @@ function usageFeatureLabel(value: UsageFeature): string {
 }
 
 function actorLabel(value: 'assistant' | 'steward' | 'system'): string {
-  return value === 'assistant' ? '助手' : value === 'steward' ? '仓储员' : '系统'
+  return value === 'assistant' ? '助手' : value === 'steward' ? '全局记忆整理' : '系统'
 }
 
 function ownerLabel(value: OperationRow['owner']): string {
   return (
     {
       daily: '日常工作',
-      background: '章节后台',
-      steward: '资料整理',
+      background: '对话整理',
+      steward: '记忆整理',
       item: '事项',
       reminder: '提醒',
       provider: '对话与连接'
@@ -330,7 +330,7 @@ function ConfigEditor({
   )
   return (
     <details className="daily-config" open={!configuration}>
-      <summary>自动运行配置</summary>
+      <summary>自动运行配置{dirty ? '（有未保存修改）' : ''}</summary>
       <p className="scope-note">默认关闭。模型接收授权与资料范围均需在此明确选择。</p>
       <div className="daily-config-grid">
         <label className="inline-check">
@@ -919,7 +919,7 @@ function OperationsView({
             >
               <option value="">全部角色</option>
               <option value="assistant">助手</option>
-              <option value="steward">仓储员</option>
+              <option value="steward">全局记忆整理</option>
               <option value="system">系统</option>
             </select>
           </label>
@@ -970,7 +970,7 @@ function OperationsView({
           </label>
         </div>
         <p className="scope-note">
-          筛选变更会重新读取第一页；“全部助手与内部角色”包含仓储员和系统任务。
+          筛选变更会重新读取第一页；“全部助手与内部角色”包含全局记忆整理和系统任务。
         </p>
       </details>
       <nav className="daily-subtabs" role="tablist" aria-label="运行状态分类">
@@ -1135,7 +1135,9 @@ export function DailyPanel({
   onOpenItem,
   onOpenMemory,
   onOpenOperationOwner,
-  onAttentionChange
+  onAttentionChange,
+  navigationTarget,
+  onSectionChange
 }: {
   assistantSnapshot: AssistantSnapshot | null
   api: DailyApi
@@ -1146,6 +1148,8 @@ export function DailyPanel({
   onOpenMemory?: (value: { assistantId: string; memoryId: string; version: number }) => void
   onOpenOperationOwner?: (row: OperationRow) => void
   onAttentionChange?: (value: { unread: number; currentFailures: number }) => void
+  navigationTarget?: { section: 'automation' | 'operations'; nonce: number }
+  onSectionChange?: (section: 'automation' | 'operations') => void
 }): React.JSX.Element {
   const assistantId = assistantSnapshot?.currentAssistantId ?? ''
   const assistantName =
@@ -1171,6 +1175,22 @@ export function DailyPanel({
     inspectGeneration = useRef(0),
     commandRegistry = useRef(new Map<string, string>())
   const selectedFeature = feature === 'operations' ? null : feature
+
+  useEffect(() => {
+    if (!navigationTarget) return
+    let active = true
+    queueMicrotask(() => {
+      if (!active) return
+      if (navigationTarget.section === 'operations') {
+        setFeature('operations')
+        return
+      }
+      setFeature((current) => (current === 'operations' ? 'observation' : current))
+    })
+    return () => {
+      active = false
+    }
+  }, [navigationTarget])
 
   const getCommand = useCallback((action: string, parts: unknown) => {
     const key = commandKey(action, parts)
@@ -1455,16 +1475,18 @@ export function DailyPanel({
   }
   if (!assistantId)
     return (
-      <section className="daily-panel" aria-label="日常与运行">
+      <section className="daily-panel" aria-label="日常计划与运行记录">
         <p>请先选择一个助手。</p>
       </section>
     )
   return (
-    <section className="daily-panel" aria-label="日常与运行">
+    <section className="daily-panel" aria-label="日常计划与运行记录">
       <div className="daily-heading">
         <div>
-          <h2>日常与运行</h2>
-          <p className="scope-note">{assistantName} · 自动工作、结果确认与用量都可在这里核对</p>
+          <h2>日常计划</h2>
+          <p className="scope-note">
+            {assistantName} · 自动观察、回顾、结果确认与运行记录都可在这里核对
+          </p>
         </div>
         <button type="button" onClick={refresh}>
           刷新
@@ -1477,7 +1499,10 @@ export function DailyPanel({
             type="button"
             role="tab"
             aria-selected={feature === value}
-            onClick={() => setFeature(value)}
+            onClick={() => {
+              setFeature(value)
+              onSectionChange?.('automation')
+            }}
           >
             {featureLabels[value]}
           </button>
@@ -1486,7 +1511,10 @@ export function DailyPanel({
           type="button"
           role="tab"
           aria-selected={feature === 'operations'}
-          onClick={() => setFeature('operations')}
+          onClick={() => {
+            setFeature('operations')
+            onSectionChange?.('operations')
+          }}
         >
           运行与用量
         </button>
@@ -1503,6 +1531,7 @@ export function DailyPanel({
               featureOrder.includes(row.feature as DailyFeature)
             ) {
               setFeature(row.feature as DailyFeature)
+              onSectionChange?.('automation')
               return
             }
             onOpenOperationOwner?.(row)

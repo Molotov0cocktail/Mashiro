@@ -141,17 +141,17 @@ describe('StewardPanel', () => {
     api.configure = configure
     render(panel(api))
 
-    const discovery = await screen.findByRole('region', { name: '当前助手共享增量识别' })
-    const warehouse = screen.getByRole('region', { name: '全局仓储员配置' })
-    expect(within(discovery).getByRole('checkbox', { name: '启用共享增量识别' })).not.toBeChecked()
-    expect(within(warehouse).getByRole('checkbox', { name: '启用仓储员' })).not.toBeChecked()
+    const discovery = await screen.findByRole('region', { name: '当前助手的新内容发现' })
+    const warehouse = screen.getByRole('region', { name: '全局记忆整理设置' })
+    expect(within(discovery).getByRole('checkbox', { name: '启用新内容发现' })).not.toBeChecked()
+    expect(within(warehouse).getByRole('checkbox', { name: '启用全局记忆整理' })).not.toBeChecked()
     expect(within(warehouse).getByRole('checkbox', { name: '允许写入待核验推测' })).toBeDisabled()
 
-    fireEvent.click(within(discovery).getByRole('checkbox', { name: '启用共享增量识别' }))
-    fireEvent.change(within(discovery).getByLabelText('识别连接'), {
+    fireEvent.click(within(discovery).getByRole('checkbox', { name: '启用新内容发现' }))
+    fireEvent.change(within(discovery).getByLabelText('发现内容使用的连接'), {
       target: { value: stewardConnectionA }
     })
-    fireEvent.change(within(discovery).getByLabelText('识别模型'), {
+    fireEvent.change(within(discovery).getByLabelText('发现内容使用的模型'), {
       target: { value: 'discover-model' }
     })
     fireEvent.click(
@@ -167,7 +167,7 @@ describe('StewardPanel', () => {
     fireEvent.click(
       within(discovery).getByRole('checkbox', { name: '本次保存时授权所选识别接收方' })
     )
-    fireEvent.click(within(discovery).getByRole('button', { name: '保存识别配置' }))
+    fireEvent.click(within(discovery).getByRole('button', { name: '保存发现设置' }))
     await waitFor(() => expect(configure).toHaveBeenCalledTimes(1))
     expect(configure.mock.calls[0]![0]).toEqual({
       protocolVersion: 1,
@@ -184,11 +184,11 @@ describe('StewardPanel', () => {
       grantSelectedRecipient: true
     })
 
-    fireEvent.click(within(warehouse).getByRole('checkbox', { name: '启用仓储员' }))
-    fireEvent.change(within(warehouse).getByLabelText('仓储连接'), {
+    fireEvent.click(within(warehouse).getByRole('checkbox', { name: '启用全局记忆整理' }))
+    fireEvent.change(within(warehouse).getByLabelText('全局整理使用的连接'), {
       target: { value: stewardConnectionA }
     })
-    fireEvent.change(within(warehouse).getByLabelText('仓储模型'), {
+    fireEvent.change(within(warehouse).getByLabelText('全局整理使用的模型'), {
       target: { value: 'steward-model' }
     })
     fireEvent.click(within(warehouse).getByRole('checkbox', { name: 'Alpha' }))
@@ -204,10 +204,10 @@ describe('StewardPanel', () => {
     })
     fireEvent.click(
       within(warehouse).getByRole('checkbox', {
-        name: '本次保存同时授权所选仓储接收方读取这些已选来源'
+        name: '本次保存同时授权所选全局整理接收方读取这些已选来源'
       })
     )
-    fireEvent.click(within(warehouse).getByRole('button', { name: '保存仓储配置' }))
+    fireEvent.click(within(warehouse).getByRole('button', { name: '保存全局整理设置' }))
     await waitFor(() => expect(configure).toHaveBeenCalledTimes(2))
     expect(configure.mock.calls[1]![0]).toMatchObject({
       role: 'steward',
@@ -410,8 +410,8 @@ describe('StewardPanel', () => {
       })
       await Promise.resolve()
     })
-    expect(screen.getByLabelText('识别模型')).toHaveValue('current-a')
-    expect(screen.getByLabelText('识别模型')).not.toHaveValue('late-b')
+    expect(screen.getByLabelText('发现内容使用的模型')).toHaveValue('current-a')
+    expect(screen.getByLabelText('发现内容使用的模型')).not.toHaveValue('late-b')
     expect(screen.getByRole('button', { name: '刷新全部' })).toBeEnabled()
   })
 

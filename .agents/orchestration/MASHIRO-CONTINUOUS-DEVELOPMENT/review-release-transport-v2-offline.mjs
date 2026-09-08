@@ -1,3 +1,5 @@
+import { URL } from 'node:url'
+import console from 'node:console'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'

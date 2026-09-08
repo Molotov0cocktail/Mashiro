@@ -622,8 +622,19 @@ export function ReminderPanel({
       </div>
 
       {!item && runtime ? (
-        <section className="reminder-runtime" aria-label="提醒运行与补发设置">
-          <h3>运行与补发</h3>
+        <details
+          className="reminder-runtime configuration-disclosure"
+          aria-label="提醒运行与补发设置"
+        >
+          <summary>
+            运行、托盘与补发设置（
+            {settingsDirty
+              ? '有未保存修改'
+              : runtime.loginStartup
+                ? '登录启动已开启'
+                : '登录启动已关闭'}
+            ）
+          </summary>
           <p>
             关闭主窗口后 Mashiro
             会驻留托盘并继续检查已保存提醒；这表示运行承诺，不表示窗口此刻已隐藏。明确退出 Mashiro
@@ -728,7 +739,7 @@ export function ReminderPanel({
           >
             保存运行设置
           </button>
-        </section>
+        </details>
       ) : null}
 
       {item && canCreate ? (

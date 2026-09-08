@@ -43,14 +43,17 @@ function profileUiScript(edit: boolean): string {
    profilePhase='navigation-'+id;
    const button=await waitFor(()=>[...card.querySelectorAll('button')].find(b=>b.textContent.trim()===text&&!b.disabled))
    button.click()
-   const target=await waitFor(()=>{const t=document.getElementById(id);return t&&!t.closest('[hidden]')&&document.activeElement===t?t:null})
+   const target=await waitFor(()=>{const t=document.getElementById(id);if(!t||t.closest('[hidden]'))return null;const focused=document.activeElement===t||t.contains(document.activeElement);const expanded=!(t instanceof HTMLDetailsElement)||t.open;return focused&&expanded?t:null})
    if(id==='provider-connection-settings' && (!document.querySelector('.provider-panel').textContent.includes('GLM-5.3-FLASH')||!document.querySelector('.provider-panel').textContent.includes('open.bigmodel.cn')))throw Error('profile-recipient')
    navigationTargets.push(id)
  }
  profilePhase='chat-avatar';
  const providerButton=await waitFor(()=>[...card.querySelectorAll('button')].find(b=>b.textContent.trim()==='打开Provider 与模型'&&!b.disabled))
  providerButton.click()
- await waitFor(()=>label('雪的聊天形象：月光'))
+ await waitFor(()=>{const target=document.getElementById('provider-connection-settings');return target&&!target.closest('[hidden]')?target:null})
+ const chatButton=await waitFor(()=>document.querySelector('button[aria-label="对话"]'))
+ chatButton.click()
+ await waitFor(()=>{const avatar=label('雪的聊天形象：月光');return avatar&&!avatar.closest('[hidden]')?avatar:null})
  return {assistant:snapshot.data,profileUi:{editedViaDom:${edit},restoredViaDom:!${edit},navigationTargets,persona:current.persona,avatarKey:current.avatarKey}}
  } catch(error) {
    const code=error instanceof Error && /^profile-[a-z-]+$/.test(error.message)?error.message:'profile-script-error';

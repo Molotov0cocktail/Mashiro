@@ -1,0 +1,2 @@
+{"runId":"ddf02832-8aa5-4325-b995-6438275706c7","syntheticRoot":"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-Blmtwb"}
+{"outcome":"E2E_SUCCESS_RETAINED","runId":"ddf02832-8aa5-4325-b995-6438275706c7","syntheticRoot":"C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-f1-e2e-Blmtwb"}

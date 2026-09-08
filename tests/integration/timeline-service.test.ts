@@ -1,3 +1,5 @@
+import { SqliteStore } from '../../src/main/data/sqlite.js'
+import { TimelineRepository } from '../../src/main/provider/timeline-repository.js'
 import { DatabaseSync } from 'node:sqlite'
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -392,8 +394,30 @@ describe('persistent timeline trusted boundary', () => {
     const id = item.ids[0]!
     await send(item.service, item.ids[1]!, 'OTHER_ASSISTANT')
     await send(item.service, id, 'UNSAVED_TEMP', 'temporary')
-    for (let index = 0; index < 20; index++)
-      await send(item.service, id, ('normal-' + index).padEnd(2000, 'x'))
+    // Seed the preceding 19 complete pairs atomically; retain the twentieth real
+    // request so context selection, permission and transport remain under test.
+    const seedStore = new SqliteStore(item.path)
+    try {
+      new TimelineRepository(seedStore).insert(
+        id,
+        Array.from({ length: 19 }, (_, index) => {
+          const requestId = crypto.randomUUID()
+          return (['user', 'assistant'] as const).map((role) => ({
+            id: crypto.randomUUID(),
+            requestId,
+            role,
+            content:
+              role === 'assistant' ? 'r'.repeat(2000) : ('normal-' + index).padEnd(2000, 'x'),
+            status: 'completed' as const,
+            saved: true,
+            createdAt: new Date(Date.UTC(2026, 8, 6) + index).toISOString()
+          }))
+        }).flat()
+      )
+    } finally {
+      seedStore.close()
+    }
+    await send(item.service, id, 'normal-19'.padEnd(2000, 'x'))
     const request = requests.at(-1)!
     expect(request.messages.length).toBe(32)
     expect(

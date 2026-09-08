@@ -71,11 +71,18 @@ describe('App daily navigation', () => {
     })
 
     render(<App />)
-    fireEvent.click(await screen.findByRole('tab', { name: '日常与运行' }))
-    expect(screen.getByRole('tab', { name: '日常与运行' })).toHaveAttribute('aria-selected', 'true')
-    const panel = screen.getByRole('region', { name: '日常与运行' })
+    fireEvent.click(await screen.findByRole('button', { name: '自动工作' }))
+    expect(screen.getByRole('button', { name: '自动工作' })).toHaveAttribute('aria-current', 'page')
+    const panel = screen.getByRole('region', { name: '日常计划与运行记录' })
     expect(panel).toBeVisible()
-    for (const name of ['观察', '每日简报', '晚间复盘', '周规划', '期限与变更', '运行与用量']) {
+    for (const name of [
+      '日常观察',
+      '每日简报',
+      '晚间回顾',
+      '周规划',
+      '期限变化检查',
+      '运行与用量'
+    ]) {
       expect(screen.getByRole('tab', { name })).toBeInTheDocument()
     }
     await waitFor(() =>

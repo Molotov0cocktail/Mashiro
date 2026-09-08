@@ -1,0 +1,44 @@
+{
+  "programId": "MASHIRO-CONTINUOUS-DEVELOPMENT",
+  "task": "020",
+  "stage": "renderer-phase-2-repair-1",
+  "status": "AUTHOR_REPAIR_CANDIDATE_FROZEN",
+  "createdAt": "2026-09-08T12:13:50.9243237Z",
+  "supersedesProductHashesFrom": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/ui-020-phase2-manifest-v1.json",
+  "paths": [
+    {
+      "path": "src/renderer/src/features/memory/MemoryPanel.tsx",
+      "sha256": "BD3AA673064962BE5B2FF66551C0AA3D450B493855E54A679464CB8A2CBDC40C",
+      "size": 46225
+    },
+    {
+      "path": "tests/renderer/BackgroundPanel-races.test.tsx",
+      "sha256": "C988AB4E6BE4A06FAFA340AA57AE79FD07B6A58C7EA1D53770D05C1D52BA27D0",
+      "size": 10681
+    },
+    {
+      "path": "tests/renderer/ProviderPanel-tools.test.tsx",
+      "sha256": "457CFDF68342448CF08E3CCDB3C3139DEEA012229E969D7089C3BF10A12F40CD",
+      "size": 44272
+    }
+  ],
+  "changeSummary": [
+    "Open the memory permission disclosure and focus its summary only after current permission data is ready for a new assistantId/nonce key.",
+    "Update BackgroundPanel race fixtures to the reviewed plain-Chinese labels without changing race assertions.",
+    "Replace an ambiguous Beta text lookup with the active-assistant select value while preserving the late-operation rejection assertion."
+  ],
+  "independentEvidence": [
+    {
+      "path": "tests/renderer/review020-memory-permission-focus.test.tsx",
+      "sha256": "FC54DEE4FC136ED5472AD243886F6A36080E7EC0BF91F392CAB90C92097CB483",
+      "ownership": "review_017_trusted; unchanged by author",
+      "result": "original RED now passes"
+    }
+  ],
+  "validation": {
+    "focused": "6 files / 39 tests passed",
+    "webTypecheck": "exit 0",
+    "scopedLint": "exit 0",
+    "scopedPrettier": "exit 0"
+  }
+}

@@ -21,6 +21,7 @@ import { MemoryPanel } from './features/memory/MemoryPanel'
 import { ProviderPanel } from './features/provider/ProviderPanel'
 import { ReminderPanel } from './features/reminders/ReminderPanel'
 import { RetentionPanel } from './features/retention/RetentionPanel'
+import { AppShell, type ShellArea } from './features/shell/AppShell'
 import { StewardPanel } from './features/steward/StewardPanel'
 
 type RetentionTarget = RetentionIntent['target']
@@ -38,6 +39,20 @@ type ConfigurationFocus = {
   nonce: number
 }
 
+type ActiveView =
+  | 'chat'
+  | 'items'
+  | 'reminders'
+  | 'memory'
+  | 'background'
+  | 'steward'
+  | 'daily'
+  | 'retention'
+  | 'settings-assistants'
+  | 'settings-provider'
+
+type DailyShellSection = 'automation' | 'operations'
+
 export function App(): React.JSX.Element {
   const [assistantSnapshot, setAssistantSnapshot] = useState<AssistantSnapshot | null>(null)
   const [historyTarget, setHistoryTarget] = useState<{
@@ -46,9 +61,7 @@ export function App(): React.JSX.Element {
     nonce: number
   } | null>(null)
   const [navigationError, setNavigationError] = useState('')
-  const [activeView, setActiveView] = useState<
-    'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'daily' | 'retention'
-  >('chat')
+  const [activeView, setActiveView] = useState<ActiveView>('chat')
   const [configurationFocus, setConfigurationFocus] = useState<ConfigurationFocus | null>(null)
   const [chapterContextTarget, setChapterContextTarget] = useState<{
     assistantId: string
@@ -92,10 +105,18 @@ export function App(): React.JSX.Element {
   const [retentionChange, setRetentionChange] = useState<RetentionChanged | null>(null)
   const [retentionTarget, setRetentionTarget] = useState<PreparedRetention | null>(null)
   const [lastGovernanceAssistantId, setLastGovernanceAssistantId] = useState('')
+  const [switchingAssistant, setSwitchingAssistant] = useState(false)
+  const [dailyShellSection, setDailyShellSection] = useState<DailyShellSection>('automation')
+  const [dailyNavigationTarget, setDailyNavigationTarget] = useState<{
+    section: DailyShellSection
+    nonce: number
+  }>({ section: 'automation', nonce: 0 })
   const governanceEpoch = useRef(0)
   const assistantRequestVersion = useRef(0)
+  const navigationRequestVersion = useRef(0)
   const reminderListenerVersion = useRef(0)
   const deliveredReminderNavigationIds = useRef(new Set<string>())
+  const focusedReminderNavigationIds = useRef(new Set<string>())
 
   const receiveAssistantSnapshot = useCallback((value: AssistantSnapshot) => {
     assistantRequestVersion.current += 1
@@ -105,12 +126,55 @@ export function App(): React.JSX.Element {
     if (value.currentAssistantId) setLastGovernanceAssistantId(value.currentAssistantId)
   }, [])
 
+  const switchCurrentAssistant = useCallback(
+    async (assistantId: string): Promise<void> => {
+      const current = assistantSnapshot
+      if (!current || !assistantId || current.currentAssistantId === assistantId) return
+      setNavigationError('')
+      setSwitchingAssistant(true)
+      const governance = governanceEpoch.current
+      const requestVersion = ++assistantRequestVersion.current
+      try {
+        const result = await window.mashiro.assistants.switch({
+          protocolVersion: 1,
+          assistantId,
+          expectedStateRevision: current.stateRevision
+        })
+        if (
+          governance !== governanceEpoch.current ||
+          requestVersion !== assistantRequestVersion.current
+        )
+          return
+        if (!result.ok) {
+          setNavigationError(result.error.message)
+          return
+        }
+        setAssistantSnapshot(result.data)
+        setConfigurationFocus(null)
+        if (result.data.currentAssistantId) {
+          setLastGovernanceAssistantId(result.data.currentAssistantId)
+        }
+      } catch {
+        if (
+          governance === governanceEpoch.current &&
+          requestVersion === assistantRequestVersion.current
+        ) {
+          setNavigationError('无法切换助手，当前页面状态已保留。')
+        }
+      } finally {
+        setSwitchingAssistant(false)
+      }
+    },
+    [assistantSnapshot]
+  )
+
   const locateMemorySource = useCallback(
     async (source: { assistantId: string; id: string }): Promise<void> => {
       if (!assistantSnapshot) return
       setNavigationError('')
       const governance = governanceEpoch.current
       const requestVersion = ++assistantRequestVersion.current
+      const navigationVersion = ++navigationRequestVersion.current
       let nextSnapshot = assistantSnapshot
       if (source.assistantId !== assistantSnapshot.currentAssistantId) {
         try {
@@ -121,7 +185,8 @@ export function App(): React.JSX.Element {
           })
           if (
             governance !== governanceEpoch.current ||
-            requestVersion !== assistantRequestVersion.current
+            requestVersion !== assistantRequestVersion.current ||
+            navigationVersion !== navigationRequestVersion.current
           )
             return
           if (!result.ok) {
@@ -131,6 +196,12 @@ export function App(): React.JSX.Element {
           nextSnapshot = result.data
           setAssistantSnapshot(result.data)
         } catch {
+          if (
+            governance !== governanceEpoch.current ||
+            requestVersion !== assistantRequestVersion.current ||
+            navigationVersion !== navigationRequestVersion.current
+          )
+            return
           setNavigationError('无法切换到来源助手，当前页面状态已保留')
           return
         }
@@ -222,6 +293,7 @@ export function App(): React.JSX.Element {
       setNavigationError('')
       const governance = governanceEpoch.current
       const requestVersion = ++assistantRequestVersion.current
+      const navigationVersion = ++navigationRequestVersion.current
       let nextSnapshot = assistantSnapshot
       if (assistantSnapshot.currentAssistantId !== assistantId) {
         try {
@@ -232,7 +304,8 @@ export function App(): React.JSX.Element {
           })
           if (
             governance !== governanceEpoch.current ||
-            requestVersion !== assistantRequestVersion.current
+            requestVersion !== assistantRequestVersion.current ||
+            navigationVersion !== navigationRequestVersion.current
           ) {
             return true
           }
@@ -248,7 +321,8 @@ export function App(): React.JSX.Element {
         } catch {
           if (
             governance !== governanceEpoch.current ||
-            requestVersion !== assistantRequestVersion.current
+            requestVersion !== assistantRequestVersion.current ||
+            navigationVersion !== navigationRequestVersion.current
           ) {
             return true
           }
@@ -267,6 +341,8 @@ export function App(): React.JSX.Element {
       } else if (target === 'items') {
         setItemRefreshKey((value) => value + 1)
         setActiveView('items')
+      } else if (target === 'provider' || target === 'history') {
+        setActiveView('settings-provider')
       } else {
         setActiveView('chat')
       }
@@ -331,6 +407,7 @@ export function App(): React.JSX.Element {
       setNavigationError('')
       const governance = governanceEpoch.current
       const requestVersion = ++assistantRequestVersion.current
+      const navigationVersion = ++navigationRequestVersion.current
       const origin = assistantSnapshot.assistants.find(
         (assistant) => assistant.id === value.originAssistantId
       )
@@ -349,7 +426,8 @@ export function App(): React.JSX.Element {
           })
           if (
             governance !== governanceEpoch.current ||
-            requestVersion !== assistantRequestVersion.current
+            requestVersion !== assistantRequestVersion.current ||
+            navigationVersion !== navigationRequestVersion.current
           )
             return null
           if (!result.ok) {
@@ -384,14 +462,16 @@ export function App(): React.JSX.Element {
       } catch {
         if (
           governance === governanceEpoch.current &&
-          requestVersion === assistantRequestVersion.current
+          requestVersion === assistantRequestVersion.current &&
+          navigationVersion === navigationRequestVersion.current
         )
           setNavigationError('协商操作回执未确认；再次点击会先核查同一操作。')
         return null
       }
       if (
         governance !== governanceEpoch.current ||
-        requestVersion !== assistantRequestVersion.current
+        requestVersion !== assistantRequestVersion.current ||
+        navigationVersion !== navigationRequestVersion.current
       )
         return null
       if (!actionResult.ok) {
@@ -443,6 +523,7 @@ export function App(): React.JSX.Element {
       if (event.reason === 'job-status' || event.reason === 'policy-status') return
       governanceEpoch.current = event.epoch
       assistantRequestVersion.current += 1
+      navigationRequestVersion.current += 1
       setMemoryRefreshKey((value) => value + 1)
       setItemRefreshKey((value) => value + 1)
       setLastGovernanceAssistantId((value) => event.assistantIds.at(-1) ?? value)
@@ -577,6 +658,7 @@ export function App(): React.JSX.Element {
     if (!delivery || !assistantId || assistantRevision === undefined) return
     if (delivery.assistantId !== assistantId || delivery.assistantRevision !== assistantRevision) {
       deliveredReminderNavigationIds.current.delete(delivery.deliveryId)
+      focusedReminderNavigationIds.current.delete(delivery.deliveryId)
       queueMicrotask(() =>
         setReminderNavigationAck((current) =>
           current?.deliveryId === delivery.deliveryId ? null : current
@@ -591,6 +673,17 @@ export function App(): React.JSX.Element {
           itemOpenTarget?.assistantId === assistantId &&
           itemOpenTarget.id === delivery.itemId
     if (!routeReady) return
+    if (
+      delivery.kind === 'open-reminders' &&
+      !focusedReminderNavigationIds.current.has(delivery.deliveryId)
+    ) {
+      const element = document.getElementById('reminders-page')
+      if (element) {
+        focusedReminderNavigationIds.current.add(delivery.deliveryId)
+        element.focus()
+        element.scrollIntoView?.({ block: 'start' })
+      }
+    }
     let active = true
     void window.mashiro.reminders
       .ackNavigation({
@@ -608,6 +701,7 @@ export function App(): React.JSX.Element {
           return
         }
         deliveredReminderNavigationIds.current.delete(delivery.deliveryId)
+        focusedReminderNavigationIds.current.delete(delivery.deliveryId)
         setReminderNavigationAck((current) =>
           current?.deliveryId === delivery.deliveryId ? null : current
         )
@@ -655,111 +749,170 @@ export function App(): React.JSX.Element {
     setActiveView('chat')
   }, [])
 
-  const selectPrimaryView = useCallback(
-    (
-      view:
-        'chat' | 'items' | 'reminders' | 'memory' | 'background' | 'steward' | 'daily' | 'retention'
-    ): void => {
-      assistantRequestVersion.current += 1
-      setConfigurationFocus(null)
-      setNavigationError('')
-      if (view === 'items') setItemRefreshKey((value) => value + 1)
-      if (view === 'reminders') setReminderRefreshKey((value) => value + 1)
-      if (view === 'memory') setMemoryRefreshKey((value) => value + 1)
-      setActiveView(view)
+  const selectPrimaryView = useCallback((view: ActiveView): void => {
+    navigationRequestVersion.current += 1
+    setConfigurationFocus(null)
+    setNavigationError('')
+    if (view === 'items') setItemRefreshKey((value) => value + 1)
+    if (view === 'reminders') setReminderRefreshKey((value) => value + 1)
+    if (view === 'memory') setMemoryRefreshKey((value) => value + 1)
+    setActiveView(view)
+  }, [])
+
+  const openDailySection = useCallback((section: DailyShellSection): void => {
+    setDailyShellSection(section)
+    setDailyNavigationTarget((current) => ({ section, nonce: current.nonce + 1 }))
+    setActiveView('daily')
+    setNavigationError('')
+  }, [])
+
+  const activeArea: ShellArea =
+    activeView === 'background' || activeView === 'steward'
+      ? 'automation'
+      : activeView === 'daily'
+        ? dailyShellSection
+        : activeView === 'settings-assistants' ||
+            activeView === 'settings-provider' ||
+            activeView === 'retention'
+          ? 'settings'
+          : activeView
+
+  const shellCopy: Record<ShellArea, { title: string; description: string }> = {
+    chat: { title: '对话', description: '围绕当前助手持续交流，或切换到严格临时模式。' },
+    items: { title: '事项', description: '处理计划、承诺和需要你确认的建议。' },
+    reminders: { title: '提醒', description: '查看时间安排、改期和待处理提醒。' },
+    memory: { title: '记忆', description: '查看、纠正和管理长期信息与个人事件。' },
+    automation: { title: '自动工作', description: '按你的授权整理对话、记忆并生成日常回顾。' },
+    operations: { title: '运行记录', description: '核对当前运行、真实故障、恢复记录和分类用量。' },
+    settings: { title: '设置', description: '管理助手、模型连接、资料范围与本机数据。' }
+  }
+
+  const contextNavigation =
+    activeArea === 'automation' || activeArea === 'operations' ? (
+      <nav className="workspace-subnav" aria-label="自动工作与运行">
+        <button
+          type="button"
+          aria-current={activeView === 'background' ? 'page' : undefined}
+          onClick={() => selectPrimaryView('background')}
+        >
+          对话整理
+        </button>
+        <button
+          type="button"
+          aria-current={activeView === 'steward' ? 'page' : undefined}
+          onClick={() => selectPrimaryView('steward')}
+        >
+          记忆整理
+        </button>
+        <button
+          type="button"
+          aria-current={
+            activeView === 'daily' && dailyShellSection === 'automation' ? 'page' : undefined
+          }
+          onClick={() => openDailySection('automation')}
+        >
+          日常计划
+        </button>
+        <button
+          type="button"
+          aria-current={
+            activeView === 'daily' && dailyShellSection === 'operations' ? 'page' : undefined
+          }
+          onClick={() => openDailySection('operations')}
+        >
+          运行记录
+        </button>
+      </nav>
+    ) : activeArea === 'settings' ? (
+      <nav className="workspace-subnav" aria-label="设置类别">
+        <button
+          type="button"
+          aria-current={activeView === 'settings-assistants' ? 'page' : undefined}
+          onClick={() => selectPrimaryView('settings-assistants')}
+        >
+          助手与人设
+        </button>
+        <button
+          type="button"
+          aria-current={activeView === 'settings-provider' ? 'page' : undefined}
+          onClick={() => selectPrimaryView('settings-provider')}
+        >
+          模型连接
+        </button>
+        <button
+          type="button"
+          aria-current={activeView === 'retention' ? 'page' : undefined}
+          onClick={() => selectPrimaryView('retention')}
+        >
+          数据与存储
+        </button>
+      </nav>
+    ) : null
+
+  const navigateShell = useCallback(
+    (area: ShellArea): void => {
+      if (area === 'automation') {
+        if (activeView === 'background' || activeView === 'steward') return
+        openDailySection('automation')
+        return
+      }
+      if (area === 'operations') {
+        openDailySection('operations')
+        return
+      }
+      if (area === 'settings') {
+        if (
+          activeView === 'settings-assistants' ||
+          activeView === 'settings-provider' ||
+          activeView === 'retention'
+        )
+          return
+        selectPrimaryView('settings-assistants')
+        return
+      }
+      selectPrimaryView(area)
     },
-    []
+    [activeView, openDailySection, selectPrimaryView]
   )
 
   return (
-    <main>
-      <header>
-        <p className="eyebrow">本机优先 · 你的日常助手</p>
-        <h1>Mashiro</h1>
-        <p>在持续对话中处理当下，也可以随时查看和纠正长期记忆。</p>
-      </header>
-
-      <nav className="primary-nav" aria-label="主要功能" role="tablist">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'chat'}
-          onClick={() => selectPrimaryView('chat')}
-        >
-          对话
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'items'}
-          onClick={() => selectPrimaryView('items')}
-        >
-          事项
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'reminders'}
-          onClick={() => selectPrimaryView('reminders')}
-        >
-          提醒
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'memory'}
-          onClick={() => selectPrimaryView('memory')}
-        >
-          记忆与事件
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'background'}
-          onClick={() => selectPrimaryView('background')}
-        >
-          章节后台
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'steward'}
-          onClick={() => selectPrimaryView('steward')}
-        >
-          资料整理
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'daily'}
-          onClick={() => selectPrimaryView('daily')}
-        >
-          日常与运行
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeView === 'retention'}
-          onClick={() => selectPrimaryView('retention')}
-        >
-          保留与清理
-        </button>
-      </nav>
-
-      <details className="assistant-settings">
-        <summary>助手管理</summary>
+    <AppShell
+      activeArea={activeArea}
+      title={shellCopy[activeArea].title}
+      description={shellCopy[activeArea].description}
+      assistants={assistantSnapshot?.assistants ?? []}
+      currentAssistantId={assistantSnapshot?.currentAssistantId ?? ''}
+      switchingAssistant={switchingAssistant}
+      onSwitchAssistant={(assistantId) => void switchCurrentAssistant(assistantId)}
+      onNavigate={navigateShell}
+      contextNavigation={contextNavigation}
+    >
+      <section hidden={activeView !== 'settings-assistants'} aria-label="助手与人设设置">
         <AssistantPanel
           api={window.mashiro.assistants}
           onSnapshot={receiveAssistantSnapshot}
           externalSnapshot={assistantSnapshot}
           onOpenConfiguration={openAssistantConfiguration}
         />
-      </details>
+      </section>
       {navigationError ? <p role="alert">{navigationError}</p> : null}
 
-      <section hidden={activeView !== 'chat'} aria-label="对话页面">
+      <section
+        hidden={activeView !== 'chat' && activeView !== 'settings-provider'}
+        aria-label="对话与模型连接页面"
+      >
         <ProviderPanel
           assistantSnapshot={assistantSnapshot}
+          surface={activeView === 'settings-provider' ? 'settings' : 'chat'}
+          onOpenSettings={(target) =>
+            selectPrimaryView(
+              target === 'assistants'
+                ? 'settings-assistants'
+                : target === 'provider'
+                  ? 'settings-provider'
+                  : 'chat'
+            )
+          }
           api={window.mashiro.provider}
           timelineApi={window.mashiro.timeline}
           memoryApi={window.mashiro.memory}
@@ -821,7 +974,12 @@ export function App(): React.JSX.Element {
           openItemTarget={itemOpenTarget}
         />
       </section>
-      <section hidden={activeView !== 'reminders'} aria-label="提醒页面">
+      <section
+        id="reminders-page"
+        hidden={activeView !== 'reminders'}
+        aria-label="提醒页面"
+        tabIndex={-1}
+      >
         {window.mashiro.reminders ? (
           <ReminderPanel
             key={assistantSnapshot?.currentAssistantId ?? ''}
@@ -870,7 +1028,7 @@ export function App(): React.JSX.Element {
           }
         />
       </section>
-      <section hidden={activeView !== 'background'} aria-label="章节后台页面">
+      <section hidden={activeView !== 'background'} aria-label="对话整理页面">
         {window.mashiro.background ? (
           <BackgroundPanel
             assistantId={assistantSnapshot?.currentAssistantId ?? ''}
@@ -884,10 +1042,10 @@ export function App(): React.JSX.Element {
             onUseChapters={useChapterContext}
           />
         ) : (
-          <p role="alert">本机章节后台尚未就绪。</p>
+          <p role="alert">本机对话整理服务尚未就绪。</p>
         )}
       </section>
-      <section hidden={activeView !== 'steward'} aria-label="资料整理页面">
+      <section hidden={activeView !== 'steward'} aria-label="记忆整理页面">
         {window.mashiro.steward ? (
           <StewardPanel
             assistantSnapshot={assistantSnapshot}
@@ -897,16 +1055,18 @@ export function App(): React.JSX.Element {
             onMemoryChanged={receiveMemoryChange}
           />
         ) : (
-          <p role="alert">本机资料整理服务尚未就绪。</p>
+          <p role="alert">本机记忆整理服务尚未就绪。</p>
         )}
       </section>
-      <section hidden={activeView !== 'daily'} aria-label="日常与运行页面">
+      <section hidden={activeView !== 'daily'} aria-label="日常计划与运行记录页面">
         {window.mashiro.daily && window.mashiro.operations ? (
           <DailyPanel
             assistantSnapshot={assistantSnapshot}
             api={window.mashiro.daily}
             operationsApi={window.mashiro.operations}
             providerApi={window.mashiro.provider}
+            navigationTarget={dailyNavigationTarget}
+            onSectionChange={setDailyShellSection}
             onOpenProposal={({ assistantId, proposalId }) => {
               setItemOpenTarget((current) => ({
                 assistantId,
@@ -991,6 +1151,6 @@ export function App(): React.JSX.Element {
           <p role="alert">本机保留与清理服务尚未就绪。</p>
         )}
       </section>
-    </main>
+    </AppShell>
   )
 }

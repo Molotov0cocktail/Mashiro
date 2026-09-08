@@ -53,7 +53,9 @@ export async function runStewardE2e(window: BrowserWindow, dataRoot: DataRoot) {
     if(!detail.markdown.includes('E2E_STEWARD_ACCEPTED')||detail.members.length!==1||detail.members[0].id!==slot.memoryId)throw Error('steward-markdown');
     const inspect=checked(await api.memory.inspect({...base,id:slot.memoryId}));
     if(!inspect.changes.some(c=>c.actor==='steward'))throw Error('steward-provenance');
-    const tab=await waitFor(()=>[...document.querySelectorAll('[role="tab"]')].find(b=>b.textContent.trim()==='资料整理'));
+    const automation=await waitFor(()=>document.querySelector('button[aria-label="自动工作"]'));
+    automation.click();
+    const tab=await waitFor(()=>[...document.querySelectorAll('[aria-label="自动工作与运行"] button')].find(b=>b.textContent.trim()==='记忆整理'));
     tab.click();
     const card=await waitFor(()=>[...document.querySelectorAll('[aria-label="资料分支"] article')].find(a=>a.textContent.includes('E2E仓储分支')));
     const read=[...card.querySelectorAll('button')].find(b=>b.textContent.trim()==='读取分支');

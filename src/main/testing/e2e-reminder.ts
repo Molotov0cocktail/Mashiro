@@ -95,7 +95,7 @@ export async function runReminderE2e(
   if (!window.isVisible()) throw Error('reminder-e2e-tray-handler')
   await window.webContents.executeJavaScript(
     `(async () => {
-      const tab = Array.from(document.querySelectorAll('[role="tab"]')).find(element => element.textContent.trim() === '提醒');
+      const tab = document.querySelector('button[aria-label="提醒"]');
       if (!tab) throw Error('reminder-e2e-tab');
       tab.click();
       const dueAt = ${JSON.stringify(result.dueAt)};

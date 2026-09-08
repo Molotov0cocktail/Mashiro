@@ -366,6 +366,7 @@ export function ItemPanel({
   const [draft, setDraft] = useState<ItemContent>(blankContent)
   const [permissions, setPermissions] = useState<ItemPermissions | null>(null)
   const [permissionsBusy, setPermissionsBusy] = useState(false)
+  const [verifiedOpenTargetKey, setVerifiedOpenTargetKey] = useState('')
 
   useEffect(() => {
     if (configurationFocusNonce == null || permissionsBusy || !permissions) return
@@ -680,6 +681,7 @@ export function ItemPanel({
   useEffect(() => {
     if (!openItemTarget || openItemTarget.assistantId !== assistantId) return
     const openVersion = ++reminderOpenVersion.current
+    const targetKey = `${assistantId}:${openItemTarget.type}:${openItemTarget.id}:${openItemTarget.nonce}`
     // The new notification target also supersedes an older manual detail request.
     inspectVersion.current += 1
     const requestAssistantId = assistantId
@@ -724,6 +726,7 @@ export function ItemPanel({
             ? inspectResult.data.item!.content
             : inspectResult.data.proposal!.candidate
         )
+        setVerifiedOpenTargetKey(targetKey)
       })
       .catch(() => {
         if (openVersion === reminderOpenVersion.current && requestAssistantId === assistantId)
@@ -733,6 +736,16 @@ export function ItemPanel({
       reminderOpenVersion.current += 1
     }
   }, [api, assistantId, openItemTarget])
+
+  useEffect(() => {
+    if (!verifiedOpenTargetKey || !openItemTarget) return
+    const currentKey = `${assistantId}:${openItemTarget.type}:${openItemTarget.id}:${openItemTarget.nonce}`
+    if (verifiedOpenTargetKey !== currentKey) return
+    const element = document.getElementById('item-detail')
+    if (!element) return
+    element.focus()
+    element.scrollIntoView?.({ block: 'start' })
+  }, [assistantId, openItemTarget, verifiedOpenTargetKey])
 
   useEffect(() => {
     if (!recoveryTarget || recoveryTarget.assistantId !== assistantId) return
@@ -1430,7 +1443,7 @@ export function ItemPanel({
         </div>
       </section>
       {selectedItem || selectedProposal ? (
-        <section className="item-detail" aria-label="事项详情">
+        <section id="item-detail" className="item-detail" aria-label="事项详情" tabIndex={-1}>
           <div className="item-heading">
             <div>
               <h3>{selectedItem ? '编辑正式事项' : '修改待确认建议'}</h3>

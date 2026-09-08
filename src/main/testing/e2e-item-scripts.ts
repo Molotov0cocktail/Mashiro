@@ -38,7 +38,7 @@ export const verifyItemsUiScript = `
   let stage='input'; try {
   const waitFor=async(fn)=>{for(let i=0;i<400;i++){const result=await fn();if(result)return result;await new Promise(r=>setTimeout(r,25))}throw Error('item-ui-timeout')}
   const snapshot=await window.mashiro.assistants.list(),assistantId=snapshot.data.currentAssistantId
-  const tab=[...document.querySelectorAll('[role="tab"]')].find(el=>el.textContent.trim()==='事项')
+  const tab=document.querySelector('button[aria-label="事项"]')
   if(!tab)throw Error('item-tab');tab.click()
   const input=await waitFor(()=>document.querySelector('.item-panel [aria-label="事项标题"]'))
   input.closest('details').open=true
