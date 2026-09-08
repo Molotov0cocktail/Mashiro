@@ -1,0 +1,17 @@
+{
+  "launchedAt": "2026-09-08T07:34:46.8246338Z",
+  "desktopHandle": 66000,
+  "route": "SWC_DESKTOP Document.Application.ShellExecute",
+  "setup": "D:\\Mashiro\\dist\\windows-candidate-release-v6\\Mashiro-0.1.0-win-x64-setup.exe",
+  "setupSha256": "FABC9B560D27AFE5ECE3C8A62CD33A50E797A506D31B02A7E0E575A4208FB995",
+  "preExactMashiroCount": 0,
+  "observedInstallerProcesses": [
+    {
+      "ProcessId": 61596,
+      "ParentProcessId": 8252,
+      "Name": "Mashiro-0.1.0-win-x64-setup.exe",
+      "ExecutablePath": "D:\\Mashiro\\dist\\windows-candidate-release-v6\\Mashiro-0.1.0-win-x64-setup.exe",
+      "CreationDate": "2026-09-08T15:34:46.845492+08:00"
+    }
+  ]
+}

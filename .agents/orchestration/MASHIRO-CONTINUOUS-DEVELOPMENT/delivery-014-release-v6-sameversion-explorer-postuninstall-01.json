@@ -1,0 +1,52 @@
+{
+    "observedAt":  "2026-09-08T15:53:18.5108420+08:00",
+    "wrapperProcessId":  33124,
+    "parentProcessId":  8252,
+    "shellProcessId":  8252,
+    "parentProcessName":  "explorer",
+    "parentIsShellProcess":  true,
+    "is64Bit":  true,
+    "program":  {
+                    "executableExists":  false,
+                    "asarExists":  false,
+                    "uninstallerExists":  false
+                },
+    "dataRootExists":  true,
+    "shortcutExists":  false,
+    "run":  {
+                "old":  {
+                            "keyExists":  true,
+                            "valueExists":  false,
+                            "kind":  null,
+                            "value":  null
+                        },
+                "current":  {
+                                "keyExists":  true,
+                                "valueExists":  false,
+                                "kind":  null,
+                                "value":  null
+                            }
+            },
+    "com":  {
+                "preOverlayClsid":  {
+                                        "keyExists":  false,
+                                        "valueExists":  false,
+                                        "kind":  null,
+                                        "value":  null
+                                    },
+                "postOverlayClsid":  {
+                                         "keyExists":  false,
+                                         "valueExists":  false,
+                                         "kind":  null,
+                                         "value":  null
+                                     }
+            },
+    "uninstallGuid":  {
+                          "keyExists":  false,
+                          "valueExists":  false,
+                          "kind":  null,
+                          "value":  null
+                      },
+    "registryWrites":  false,
+    "comInvoked":  false
+}

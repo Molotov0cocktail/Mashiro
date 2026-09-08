@@ -1,0 +1,30 @@
+{
+    "observedAt":  "2026-09-08T15:45:58.4414473+08:00",
+    "wrapperProcessId":  58072,
+    "parentProcessId":  8252,
+    "shellProcessId":  8252,
+    "parentProcessName":  "explorer",
+    "parentIsShellProcess":  true,
+    "is64Bit":  true,
+    "metadata":  {
+                     "observedAt":  "2026-09-08T15:45:58.2959884+08:00",
+                     "shortcut":  {
+                                      "path":  "C:\\Users\\30910\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Mashiro.lnk",
+                                      "sha256":  "7A7DCEABE4ADD86230F887DD6B1378B1B167EAAAC81E3C96C541D6C8260AE27E",
+                                      "target":  "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+                                      "arguments":  "",
+                                      "appUserModelId":  "io.github.molotov0cocktail.mashiro",
+                                      "toastActivatorClsid":  "{88058F74-4FE1-4431-8581-09F8762BDEBC}"
+                                  },
+                     "registration":  {
+                                          "scope":  "current-user",
+                                          "path":  "Software\\Classes\\CLSID\\{88058F74-4FE1-4431-8581-09F8762BDEBC}\\LocalServer32",
+                                          "value":  "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+                                          "referencesCurrentExecutable":  true
+                                      }
+                 },
+    "errorType":  null,
+    "errorText":  null,
+    "comInvoked":  false,
+    "registryWrites":  false
+}

@@ -1,0 +1,194 @@
+{
+  "createdAt": "2026-09-08T15:56:43.8976183+08:00",
+  "kind": "release-v6 same-version overlay and ordinary uninstall archive",
+  "scope": "authorized synthetic scene only",
+  "scene": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp",
+  "datasetId": "9f2cf384-daa4-4bb6-819a-33976e479c5a",
+  "artifact": {
+    "setupSha256": "FABC9B560D27AFE5ECE3C8A62CD33A50E797A506D31B02A7E0E575A4208FB995",
+    "executableSha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+    "asarSha256": "7659DE497E76AD04CABDBF6956F9BC519ED8E0B3AF1E1FCC4F423B22DC459F0E"
+  },
+  "outcomes": {
+    "overlayDataPreservation": "PASS",
+    "overlayLegacyRunMigration": "REPAIR",
+    "ordinaryUninstallOwnedCleanup": "PASS",
+    "ordinaryUninstallDataPreservation": "PASS",
+    "finalInstalledState": "UNINSTALLED",
+    "finalExactMashiroProcessCount": 0
+  },
+  "evidenceBoundary": [
+    "The pre-overlay snapshot filename contains preuninstall because it reused the reviewed helper phase vocabulary.",
+    "Real Explorer wrappers are authoritative for desktop Run, shortcut, COM, and uninstall registration state.",
+    "Tool-host snapshots are authoritative for shared file hashes but observed a different registry view.",
+    "No Provider call, credential read, manual registry cleanup, COM activation, reinstallation, Git staging, or global documentation update occurred in this slice."
+  ],
+  "excluded": [
+    "credential files and backup copies",
+    "unrelated app state",
+    "unfinished exploratory wrapper attempts except the single retained UTF-8 observer result needed to explain the corrected oracle"
+  ],
+  "files": [
+    {
+      "path": "delivery-014-release-v6-artifact-identity.json",
+      "link": "delivery-014-release-v6-artifact-identity.json",
+      "bytes": 528,
+      "sha256": "F72D65FDFCA7496AF5D18D7793C26F2DF337E764BF57FDBE4EF0E9113D373EB1",
+      "purpose": "reviewed v6 installer, EXE, and ASAR identity"
+    },
+    {
+      "path": "delivery-014-release-v6-artifact-review.md",
+      "link": "delivery-014-release-v6-artifact-review.md",
+      "bytes": 2631,
+      "sha256": "CAF6011FC9C1A6E10BFBEB7FC23ED962ED132EC6BC70B0DDD06E2AC365B11C64",
+      "purpose": "independent v6 artifact admission report"
+    },
+    {
+      "path": "delivery-014-release-v6-explorer-old-run-01.json",
+      "link": "delivery-014-release-v6-explorer-old-run-01.json",
+      "bytes": 650,
+      "sha256": "CD137A0068C308ABC05E96376545EDDF58A3A76BE080A4B273E0E151BF6B09CC",
+      "purpose": "real Explorer proof that the legacy Run entry was the exact same-scene command"
+    },
+    {
+      "path": "delivery-014-release-v6-explorer-run-v10-after-exit-01.json",
+      "link": "delivery-014-release-v6-explorer-run-v10-after-exit-01.json",
+      "bytes": 565,
+      "sha256": "DE4024FACC550243BFE7B4BA0EA45D5FD55C6D80AC51E0204829C835901C2867",
+      "purpose": "real Explorer pre-overlay current and legacy Run state"
+    },
+    {
+      "path": "delivery-014-release-v6-explorer-shortcut-v10-after-exit-01.json",
+      "link": "delivery-014-release-v6-explorer-shortcut-v10-after-exit-01.json",
+      "bytes": 1225,
+      "sha256": "2292714F6BCDF51449C7512DB2BF8B9FCE8FFA3353204C08C553C5757BF0C388",
+      "purpose": "real Explorer pre-overlay shortcut and COM identity"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-snapshot.ps1",
+      "link": "delivery-014-release-v6-sameversion-snapshot.ps1",
+      "bytes": 5544,
+      "sha256": "BCB6C1C54D5D400847886A35F3A1B872E3454E4C4F4411D148F68749477FF682",
+      "purpose": "non-overwriting copy of the reviewed lifecycle snapshot helper for overlay checkpoints"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-preuninstall-02.json",
+      "link": "delivery-014-release-v6-sameversion-preuninstall-02.json",
+      "bytes": 6501,
+      "sha256": "A42572E829618EA0AADDB3C1C09E44F04CBC74B9260603924550416F6382921D",
+      "purpose": "actual pre-overlay file/data/locator/Run/GUID snapshot; phase label reused from helper vocabulary"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-overlay-launch-01.json",
+      "link": "delivery-014-release-v6-sameversion-overlay-launch-01.json",
+      "bytes": 683,
+      "sha256": "625F413D3D0F8A8F00E249C074F4576E08628B8027E4AA1D66DFB4A252A0C8FF",
+      "purpose": "real Explorer setup launch and direct-parent evidence"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-postinstall-prelaunch-02.json",
+      "link": "delivery-014-release-v6-sameversion-postinstall-prelaunch-02.json",
+      "bytes": 6510,
+      "sha256": "5DED3FF10BD8719C411A4976060A571FD6AB9842CB28158FDCED673B28A158F8",
+      "purpose": "post-overlay prelaunch identity and preservation snapshot"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-explorer-run-postinstall-prelaunch-01.json",
+      "link": "delivery-014-release-v6-sameversion-explorer-run-postinstall-prelaunch-01.json",
+      "bytes": 608,
+      "sha256": "4587D9DB20A2A130B64C54F7DA5971103F74749EF88066272FEC9ACBD6CCD037",
+      "purpose": "retained first PS5 observer result with UTF-8 path-comparison limitation"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-explorer-run-postinstall-wrapper-v2.ps1",
+      "link": "delivery-014-release-v6-sameversion-explorer-run-postinstall-wrapper-v2.ps1",
+      "bytes": 2278,
+      "sha256": "861237B0089B7EE60EEF5347139157CE4D11393DD8DDB0E6799826167DE90E86",
+      "purpose": "UTF-8 BOM corrected direct-Explorer Run observer"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-explorer-run-postinstall-prelaunch-02.json",
+      "link": "delivery-014-release-v6-sameversion-explorer-run-postinstall-prelaunch-02.json",
+      "bytes": 607,
+      "sha256": "1ABA5EC0EAE66F9679CBD990DE817027397D804F3C2C1C1F15534F463E9C2973",
+      "purpose": "authoritative direct-Explorer overlay Run result: new exact and legacy still present"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-postoverlay-app-launch-01.json",
+      "link": "delivery-014-release-v6-sameversion-postoverlay-app-launch-01.json",
+      "bytes": 2019,
+      "sha256": "28F37CECEF157E0EB8213726FD17115D5A39704735102763F7C7EAE9A68E7BDC",
+      "purpose": "exact installed v6 launch through Explorer before uninstall"
+    },
+    {
+      "path": "delivery-014-release-v6-shortcut-metadata-v3.ps1",
+      "link": "delivery-014-release-v6-shortcut-metadata-v3.ps1",
+      "bytes": 4729,
+      "sha256": "1CCEF596F56295B25A864A28F74A305BC21C19C9F745CF01D9058557130AB19C",
+      "purpose": "PS5-compatible read-only shortcut and LocalServer observer"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-explorer-shortcut-firstlaunch-wrapper-v2.ps1",
+      "link": "delivery-014-release-v6-sameversion-explorer-shortcut-firstlaunch-wrapper-v2.ps1",
+      "bytes": 1995,
+      "sha256": "08AEF1F47769C3A0AE42B60A61410F2CBC1DF79C3E39B4575C49319661892F56",
+      "purpose": "direct-Explorer wrapper for post-overlay shortcut and COM observation"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-explorer-shortcut-firstlaunch-02.json",
+      "link": "delivery-014-release-v6-sameversion-explorer-shortcut-firstlaunch-02.json",
+      "bytes": 1740,
+      "sha256": "A843CE74060A9B0734E2F77AA0C5D1964B8DAF115126BDB8C36770A73B5AD762",
+      "purpose": "authoritative post-overlay shortcut and COM registration result"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-snapshot-v3.ps1",
+      "link": "delivery-014-release-v6-sameversion-snapshot-v3.ps1",
+      "bytes": 5544,
+      "sha256": "AB6026A4E0EFB5F32FA3B2BF972526DDB686F5410493268778626CE31FD36F3B",
+      "purpose": "non-overwriting reviewed snapshot copy for immediate uninstall comparison"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-preuninstall-03.json",
+      "link": "delivery-014-release-v6-sameversion-preuninstall-03.json",
+      "bytes": 6501,
+      "sha256": "9B48B9F719B86C87D7ACDF435153BFC9F810A2F3E0A7232A6B0B3DBC4CCA2B07",
+      "purpose": "immediate pre-uninstall file/data/locator/Run/GUID snapshot"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-uninstall-launch-01.json",
+      "link": "delivery-014-release-v6-sameversion-uninstall-launch-01.json",
+      "bytes": 370,
+      "sha256": "1FE61BC5A39A098F0C9A60D7CFD97DA420799C96E2B19178372BAC43F1146247",
+      "purpose": "real Explorer ordinary-uninstaller launch receipt"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-postuninstall-03.json",
+      "link": "delivery-014-release-v6-sameversion-postuninstall-03.json",
+      "bytes": 6308,
+      "sha256": "5F8227CE6E8C1DBF156C8545073AB47FE96FA38566D00AF7D5AAF6C005B31E76",
+      "purpose": "immediate post-uninstall file and data preservation snapshot"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-explorer-postuninstall-wrapper.ps1",
+      "link": "delivery-014-release-v6-sameversion-explorer-postuninstall-wrapper.ps1",
+      "bytes": 3791,
+      "sha256": "4F0065ED9E4267CFB074B1DCAA1D65D1F765399B17B9C4146245E75B9DEA6394",
+      "purpose": "direct-Explorer read-only Mashiro-only cleanup verifier"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-explorer-postuninstall-01.json",
+      "link": "delivery-014-release-v6-sameversion-explorer-postuninstall-01.json",
+      "bytes": 1997,
+      "sha256": "BB0DE43BF54F0EB06724F21FAD0B97D6B4CAF43FC2D21BF2F59764D9BC78F888",
+      "purpose": "authoritative direct-Explorer post-uninstall Run/COM/shortcut/GUID/program result"
+    },
+    {
+      "path": "delivery-014-release-v6-sameversion-lifecycle-result-01.md",
+      "link": "delivery-014-release-v6-sameversion-lifecycle-result-01.md",
+      "bytes": 2903,
+      "sha256": "B8F66ACB89AC8DD21393C263A680A76A5A0CD3F98CCCFFE5F9E104351397EFA1",
+      "purpose": "sanitized result and evidence-boundary summary"
+    }
+  ]
+}

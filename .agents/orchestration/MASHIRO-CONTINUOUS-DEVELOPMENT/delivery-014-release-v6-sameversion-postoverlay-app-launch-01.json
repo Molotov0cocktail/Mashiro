@@ -1,0 +1,47 @@
+{
+  "observedAt": "2026-09-08T07:43:38.9182875Z",
+  "route": "SWC_DESKTOP Document.Application.ShellExecute; launch succeeded before evidence-write typo",
+  "launchAttemptOutputFailure": "PowerShell typo Test-Path-LiteralPath$out after ShellExecute; did not affect launched process",
+  "desktopShellPid": 8252,
+  "executable": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe",
+  "sha256": "33F79D190010A5A6E0C3B9AFDC4D3E14020BCEA272BEDBD209508CFA684454D7",
+  "processes": [
+    {
+      "ProcessId": 63104,
+      "ParentProcessId": 8252,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T15:43:04.443057+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    },
+    {
+      "ProcessId": 63876,
+      "ParentProcessId": 63104,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T15:43:04.859843+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    },
+    {
+      "ProcessId": 62972,
+      "ParentProcessId": 63104,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T15:43:04.950969+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    },
+    {
+      "ProcessId": 65288,
+      "ParentProcessId": 63104,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T15:43:05.216786+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    }
+  ],
+  "directExplorerMain": [
+    {
+      "ProcessId": 63104,
+      "ParentProcessId": 8252,
+      "Name": "Mashiro.exe",
+      "CreationDate": "2026-09-08T15:43:04.443057+08:00",
+      "ExecutablePath": "C:\\Users\\30910\\AppData\\Local\\Temp\\mashiro-install-full-Zbzmgp\\安装 旧版本\\Mashiro.exe"
+    }
+  ]
+}
