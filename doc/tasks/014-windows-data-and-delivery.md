@@ -1,5 +1,9 @@
 # 014 正式数据位置、备份与 Windows 交付生命周期
 
+执行状态：ACTIVE / PACKAGED_VERIFICATION。用户实际点击15:05 v10后，已由退出0进程→新主PID48312（15:13:44，父svchost1780）→可信激活精确新增:10→现页面仅滚动显示事项a35ff4f3-2096-477f-8dc2-2ca3d8af355f/E2E_ITEM_waiting的分层证据核实真实冷启动与正确事项；没有补选事项或COM。详情需向下滚动，未冒称自动滚动。证据为编排目录delivery-014-release-v6-user-click-v10-process-01.json、reminder-v10-user-click-db-01.json与user-click-v10-item-visible-01.json，独立审核正在签结。原v9 FAIL与工具/普通Explorer登记视图差异保留。native owner steward_013_ui接续普通Explorer来源的同版覆盖迁移→登录On卸载系统项清理/合成数据保护→原路径重装；旧Mashiro.Desktop Run已证属于该合成scene，不能手动删除来制造安装器通过。真实桌面系统项与旧工具视图分开验收，已有数据治理/业务证据按差异保留。当前db6d308cae71db00d428854af5f7117d81f49ee9已实核双main；运行源码ea94184e及v6 setup FABC9B560D27AFE5ECE3C8A62CD33A50E797A506D31B02A7E0E575A4208FB995不变。完成剩余制品验收后继续016最终签结、实际Release和下载校验；PROGRAM未完成，当前无待答用户问题。
+
+以下为此前阶段历史。
+
 2026-09-08 最新实际结果：用户点击v9后无可见反应，截图已正确显示Mashiro分组；13:49:15+08精确安装进程为0。[本次FAIL](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-failure-01.md)已冻结，当前恢复ACTIVE / NOTIFICATION_REPAIR，原用户点击等待已解除。先只读保全现场并区分未启动、短命退出及激活未传入；之后依据可甄别实验修复，禁止将前述准备或身份限定通过当作冷点击通过。以下为此前阶段记录。
 
 2026-09-08 v6 当前收束：升级、原生新身份 Shell、卸载数据保护及重装默认 Off 已[独立限定通过](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-native-independent-review.md)。[真实冷点击准备](../../.agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-cold-click-ready-01.json)冻结0进程、新Run显式On、当前CLSID145B11B4及新AUMID下唯一v9通知（13:07，E2E_ITEM_waiting）。用户已被请求点击，保持现场不启动/不COM；只读核对真实启动和正确事项后补016与最终发布下载。卸载系统清理已按分层证据结清，当时stdout未独立留存的限制保留；不能倒推或以准备代替点击通过。以下保留阶段历史。

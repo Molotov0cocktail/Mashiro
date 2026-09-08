@@ -1,0 +1,120 @@
+{
+  "observedAt": "2026-09-08T07:25:59.9004402Z",
+  "kind": "v10-user-click-current-item-visible-read-only",
+  "processId": 48312,
+  "windowHandle": 201994,
+  "action": "set current page scroll percent to 67 only",
+  "navigationPerformed": false,
+  "selectionChanged": false,
+  "verticalScrollPercent": 67.0126019273536,
+  "matches": [
+    {
+      "name": "事项详情",
+      "type": "ControlType.Group",
+      "offscreen": false,
+      "bounds": {
+        "x": 803.0,
+        "y": 364.0,
+        "width": 831.0,
+        "height": 1238.0
+      },
+      "value": null
+    },
+    {
+      "name": "编辑正式事项",
+      "type": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 820.0,
+        "y": 381.0,
+        "width": 332.0,
+        "height": 26.0
+      },
+      "value": null
+    },
+    {
+      "name": "a35ff4f3-2096-477f-8dc2-2ca3d8af355f",
+      "type": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 851.0,
+        "y": 409.0,
+        "width": 252.0,
+        "height": 18.0
+      },
+      "value": null
+    },
+    {
+      "name": "编辑标题",
+      "type": "ControlType.Text",
+      "offscreen": false,
+      "bounds": {
+        "x": 1224.0,
+        "y": 439.0,
+        "width": 65.0,
+        "height": 22.0
+      },
+      "value": null
+    },
+    {
+      "name": "编辑标题",
+      "type": "ControlType.Edit",
+      "offscreen": false,
+      "bounds": {
+        "x": 1224.0,
+        "y": 467.0,
+        "width": 393.0,
+        "height": 38.0
+      },
+      "value": "E2E_ITEM_waiting"
+    },
+    {
+      "name": "事项说明",
+      "type": "ControlType.Edit",
+      "offscreen": false,
+      "bounds": {
+        "x": 820.0,
+        "y": 544.0,
+        "width": 797.0,
+        "height": 93.0
+      },
+      "value": "合成事项"
+    },
+    {
+      "name": "事项状态",
+      "type": "ControlType.ComboBox",
+      "offscreen": false,
+      "bounds": {
+        "x": 820.0,
+        "y": 685.0,
+        "width": 393.0,
+        "height": 29.0
+      },
+      "value": "待回应"
+    },
+    {
+      "name": "当前事项提醒",
+      "type": "ControlType.Group",
+      "offscreen": true,
+      "bounds": {
+        "x": 820.0,
+        "y": 1082.0,
+        "width": 797.0,
+        "height": 458.0
+      },
+      "value": null
+    },
+    {
+      "name": "仅管理正式事项“E2E_ITEM_waiting”的提醒；事项期限不会自动成为提醒。",
+      "type": "ControlType.Text",
+      "offscreen": true,
+      "bounds": {
+        "x": 837.0,
+        "y": 1131.0,
+        "width": 521.0,
+        "height": 47.0
+      },
+      "value": null
+    }
+  ]
+}

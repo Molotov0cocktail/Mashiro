@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-08T15:35:03.1576909+08:00",
+  "purpose": "Exact archival allowlist for the completed release-v6 v10 physical-click observation and its eight frozen sources.",
+  "status": "V10_PHYSICAL_CLICK_EVIDENCE_ARCHIVE_ALLOWLIST_ONLY",
+  "observedReceipt": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-v10-observed-01.json",
+  "observedReceiptSha256": "021E9DB20A5ADCDA5DDC13E8E8E7FBD5DE600468ADECFDFA846143BA1E27498C",
+  "boundaries": [
+    "The aggregate records the completed synthetic v10 physical-click observation; it does not close any later lifecycle work.",
+    "All eight evidence entries embedded in the aggregate are included with matching SHA-256 and byte size.",
+    "The item receipts record read-only observation after scrolling the already-open current page; no navigation or selection change is inferred.",
+    "No independent report, later lifecycle file, product file, global progress file, old-key raw file, or backup is included.",
+    "This manifest is an archival allowlist and is not a competing progress or acceptance record."
+  ],
+  "helperCoverage": {
+    "trustedSnapshotHelper": "delivery-014-release-v6-reminder-v10-user-click-snapshot.mjs",
+    "legacyRunSnapshotHelper": "delivery-014-release-v6-explorer-old-run-wrapper.ps1",
+    "separatelyReferencedScrollHelper": null,
+    "scrollEvidence": [
+      "delivery-014-release-v6-user-click-v10-item-current-01.json",
+      "delivery-014-release-v6-user-click-v10-item-visible-01.json"
+    ]
+  },
+  "contentReview": {
+    "selectedFileCount": 11,
+    "missingFileCount": 0,
+    "observedSourceHashAndSizeVerification": "8/8",
+    "highConfidenceSecretPatternMatchCount": 0,
+    "independentReportFileCount": 0,
+    "lifecycleFileCount": 0,
+    "review": "Selected text contains only the authorized synthetic item/reminder scene and its repository, isolated-installation, process, UI Automation, and exact Run observations; no credentials, personal message bodies, or unrelated application data were found."
+  },
+  "files": [
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-v10-observed-01.json",
+      "sha256": "021E9DB20A5ADCDA5DDC13E8E8E7FBD5DE600468ADECFDFA846143BA1E27498C",
+      "bytes": 3843,
+      "category": "observed",
+      "role": "frozen physical v10 click aggregate"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-cold-click-ready-v10-01.json",
+      "sha256": "6985AE4D5854632F27587EB095C363869519AED30529D6D671A53DFC7A36F536",
+      "bytes": 2737,
+      "category": "source",
+      "role": "frozen pre-click readiness receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-normal-exit-v10-01.json",
+      "sha256": "2BD6C1FAADBAA07BDF4FF2A6023ED2E73BBCF6A67E498063881FC2675287EC87",
+      "bytes": 714,
+      "category": "source",
+      "role": "normal-exit receipt preceding the click"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-v10-process-01.json",
+      "sha256": "E4EEC7D2706D4CCA3DD54817D8EDE2B0247F5F93180EF959E2837992E25C9EDD",
+      "bytes": 2566,
+      "category": "source",
+      "role": "exact installed-process observation after click"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-reminder-v10-user-click-db-01.json",
+      "sha256": "04DC0EF7B6201E7EE8002ACF904A89563F4558F088433D8A577AA98C8069E6C1",
+      "bytes": 3057,
+      "category": "source",
+      "role": "read-only trusted activation snapshot"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-v10-uia-02.json",
+      "sha256": "A3B70DCECBDDD12E60C6FF5D219298C7467F88DA619D4CC78C9B37F99248305A",
+      "bytes": 52906,
+      "category": "source",
+      "role": "exact-window UI Automation observation"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-v10-item-current-01.json",
+      "sha256": "36CE192060892FA332A010EC6A7DB9FB70002F3C7D88B7B4D3D971FD35E3596A",
+      "bytes": 4157,
+      "category": "source",
+      "role": "read-only current-item observation after bounded scroll"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-user-click-v10-item-visible-01.json",
+      "sha256": "0DC5762E0397873322FF03DFF7444AA5810C404BBD2980B21E10145A1CC65496",
+      "bytes": 2751,
+      "category": "source",
+      "role": "read-only visible item-field observation"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-old-run-01.json",
+      "sha256": "CD137A0068C308ABC05E96376545EDDF58A3A76BE080A4B273E0E151BF6B09CC",
+      "bytes": 650,
+      "category": "source",
+      "role": "read-only legacy Run exact-scene ownership receipt"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-reminder-v10-user-click-snapshot.mjs",
+      "sha256": "6B23AB7F57C9AF3D9A2F4450DB3A337C94F730FEF6DA4D8A6656BEFDACBF9FEF",
+      "bytes": 3991,
+      "category": "evidence-helper",
+      "role": "read-only trusted activation snapshot helper"
+    },
+    {
+      "path": ".agents/orchestration/MASHIRO-CONTINUOUS-DEVELOPMENT/delivery-014-release-v6-explorer-old-run-wrapper.ps1",
+      "sha256": "21CFCF1843BA583D50D69B934A507CFBF32B7519FEB50F663BB01C0347BA1F57",
+      "bytes": 2420,
+      "category": "evidence-helper",
+      "role": "read-only Explorer-context legacy Run snapshot helper"
+    }
+  ]
+}
